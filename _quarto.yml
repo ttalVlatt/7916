@@ -1,0 +1,53 @@
+project:
+  type: website
+  # resources:
+  #   - CNAME
+    
+website:
+  title: "UF EDH 7916 Spring '24"
+  description: "Course website for EDH 7916 Spring 2024 at the University of Florida"
+  image: "apple-touch-icon.png"
+  favicon: "apple-touch-icon.png"
+  twitter-card: true
+  open-graph: true
+  navbar:
+    logo: "site-attachments/Logo.png"
+    # left:
+    #   - href: transport-to-college.qmd
+    #     text: "{{< fa bus >}} Transport to College"
+    #   - href: data-viz-examples.qmd
+    #     text: "{{< fa chart-line >}} Data Viz Examples"
+    #   - href: cv.qmd
+    #     text: "{{< fa file-lines >}} C.V."
+    right:
+      - text: "{{< fa paper-plane >}} Email Me"
+        href: mailto:m.capaldi@ufl.edu
+        aria-label: "Email Me"
+  sidebar:
+    style: "docked"
+    search: true
+    contents:
+      - index.qmd 
+      - section: "Getting Started"
+        contents:
+          - "01-Installing-R.qmd" 
+
+  page-footer:
+    right: 
+      - text: "Built with Quarto"
+        href: https://quarto.org/docs/websites
+      - icon: github
+        aria-label: Website Code Available Here
+        href: https://github.com/ttalVlatt/ttalVlatt.github.io
+    left: "© M J Capaldi 2023"
+
+      
+format:
+  html:
+    theme: lux
+    css: styles.css
+    toc: false
+    email-obfuscation: references
+
+editor: source
+
