@@ -1,6 +1,9 @@
 project:
   type: website
-  #post-render: docx-to-pdf.py
+  pre-render: site-attachments/Purl-R-Scripts.R
+  post-render: 
+    - site-attachments/Move-R-Scripts.R
+  #  - site-attachments/docx2pdf.R
   # resources:
   #   - CNAME
     
@@ -11,35 +14,25 @@ website:
   favicon: "apple-touch-icon.png"
   twitter-card: true
   open-graph: true
-  navbar:
-    logo: "site-attachments/Logo.png"
-    # left:
-    #   - href: transport-to-college.qmd
-    #     text: "{{< fa bus >}} Transport to College"
-    #   - href: data-viz-examples.qmd
-    #     text: "{{< fa chart-line >}} Data Viz Examples"
-    #   - href: cv.qmd
-    #     text: "{{< fa file-lines >}} C.V."
-    right:
-      - text: "{{< fa paper-plane >}} Email Matt"
-        href: mailto:m.capaldi@ufl.edu
-        aria-label: "Email Matt"
+  navbar: false
   sidebar:
     style: "docked"
     search: true
     contents:
       - index.qmd
       - text: "Syllabus"
-        file: syllabus.qmd
+        file: "00-Syllabus.qmd"
       - section: "Getting Started"
-        contents:
-          - "01-Installing-R.qmd"
+        contents: "*Setup*" # glob search for files with Setup
       - section: "Data Wrangling"
-        contents:
-          - "03-Data-Wrangling-I.qmd"
+        contents: "*Wrangling*"
       - section: "Data Visualization"
-      - section: "Reproducable Reports with Quarto"
-      - section: "Functional Programming"
+        contents: "*Viz*"
+      - section: "Quarto"
+        contents: "*Quarto*"
+      - section: "Programming"
+        contents: "*Program*"
+    collapse-level: 1
       
 
   page-footer:
@@ -49,13 +42,15 @@ website:
       - icon: github
         aria-label: Website Code Available Here
         href: https://github.com/ttalVlatt/ttalVlatt.github.io
-    left: "© M J Capaldi 2023"
+    left:
+      - text: "M.J. Capaldi"
+        href: https://capaldi.info
 
       
 format:
   html:
     theme: lux
-    css: styles.css
+    css: site-attachments/styles.css
     toc: false
     email-obfuscation: references
     anchor-sections: false

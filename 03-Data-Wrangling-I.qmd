@@ -1,31 +1,9 @@
 ---
-title: "Data Wrangling I: Enter the tidyverse"
+title: "I: Enter the tidyverse"
 image: apple-touch-icon.png
 ---
 
-```{r, include = FALSE, purl = FALSE}
-
-## Runs purl on this .qmd to extract raw R script
-knitr::purl(this.path::this.path(),
-            documentation = 0) # this prevents chunk info printing
-
-# Moves purl-ed R script from wd to R-scripts folder
-file.rename("03-Data-Wrangling-I.R", "R-scripts/03-Data-Wrangling-I.R")
-
-# Bug: moves knitr wd to R-scripts for no reason, above way works fine
-# path <- this.path::this.path() # Get full file name
-# qmd_file <- stringr::str_extract(path, "([^/]+$)") # Extract file name after final /
-# r_file <- stringr::str_replace(qmd_file, ".qmd", ".R") # Replace .qmd with .R
-# r_file_dest <- file.path("R-scripts", r_file)
-# 
-# file.rename(r_file, r_file_dest) 
-
-# identical(r_file,"03-Data-Wrangling-I.R")
-# identical(r_file_dest, "R-scripts/03-Data-Wrangling-I.R")
-
-```
-
-
+[{{< fa code >}} R Code](/R-Scripts/03-Data-Wrangling-I.R)
 
 We take our first full dive into R in this lesson. Though every data
 wrangling / analysis is unique, the best way to learn and practice R
