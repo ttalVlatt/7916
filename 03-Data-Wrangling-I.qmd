@@ -3,6 +3,10 @@ title: "I: Enter the tidyverse"
 image: apple-touch-icon.png
 ---
 
+:::{.panel-tabset}
+
+# Lesson
+
 [{{< fa code >}} R Code](/R-Scripts/03-Data-Wrangling-I.R)
 
 We take our first full dive into R in this lesson. Though every data
@@ -14,7 +18,7 @@ will have practiced translating a research question into data analysis
 steps, which is a skill every bit as important as technical
 sophistication with a statistical language like R.
 
-# Core processes in a data analysis
+## Core processes in a data analysis
 
 Large or small, a typical data analysis will involve most --- if not
 all --- of the following steps:
@@ -40,7 +44,7 @@ your friend here!). But I call these processes "core processes" for a
 reason --- they will be at the center of most of your data analytic
 work.
 
-# Tidyverse
+## Tidyverse
 
 The tidyverse is shorthand for a [number of
 packages](https://www.tidyverse.org/packages/) that are built to work
@@ -87,7 +91,7 @@ libraries. We'll also use some common base R functions as necessary.
 library(tidyverse)
 ```
 
-# Check working directory
+## Check working directory
 
 This script --- like the one from the [organizing
 lesson](/edh7916/lessons/organizing.html) --- assumes that the
@@ -124,7 +128,7 @@ let you get there, and then rely on relative paths afterwards.
 # dat_dir <- file.path("..", "data")
 ```
 
-# Example data analysis task
+## Example data analysis task
 
 Let's imagine we've been given the following data analysis task with
 the HSLS09 data: 
@@ -156,7 +160,7 @@ What we need to do is some combination of the following:
 
 Let's do it!
 
-# **Read** in data
+## **Read** in data
 
 For this lesson, we'll use a subset of the [High School Longitudinal
 Study of 2009 (HSLS09)](https://nces.ed.gov/surveys/hsls09/), an IES /
@@ -222,7 +226,7 @@ to parse the columns), we might see other column types like:
 > out, re-read in the data using `read_delim()`, being sure to set the
 > `delim` argument to the correct character.
 
-# **Select** variables (columns)
+## **Select** variables (columns)
 
 ```{r, include = FALSE, purl = TRUE}
 ## ---------------------------
@@ -258,7 +262,7 @@ df_tmp <- select(df, stu_id, x1stuedexpct, x1paredexpct, x1region)
 df_tmp
 ```
 
-# **Mutate** data into new forms
+## **Mutate** data into new forms
 
 To add variables and change existing ones, use the `mutate()` function.
 
@@ -274,7 +278,7 @@ mutate(< df object >, column_1_name = function(...))
 In this case, the `function(...)` (or, _stuff we want to do_) is add a
 new column that is the larger of `x1stuedexpct` and `x1paredexpct`.
 
-## Understanding our data
+### Understanding our data
 
 First things first, however, we need to check the [code
 book](https://nces.ed.gov/OnlineCodebook/) to see what the numerical
@@ -524,7 +528,7 @@ seldom an single _correct way_.
 > either a value or `NA`? Does our `ifelse()` statement account for
 > those situations? If so, how?
 
-# **Filter** observations (rows)
+## **Filter** observations (rows)
 
 Let's check the counts of our new variable:
 
@@ -571,7 +575,7 @@ support what we expected (in other words, if the number were
 different, we'd definitely want to go back and investigate).
 
 
-# **Summarize** data
+## **Summarize** data
 
 Now we're ready to get the average of expectations that we need. The
 `summarize()` command will allow us to apply a summary measure, like
@@ -638,7 +642,7 @@ the order of operations matters. If you select columns, then columns
 you didn't selection won't be available later; if you summarize your
 data, then you only have access to the summary.
 
-# **Arrange** data
+## **Arrange** data
 
 As our final step, we'll arrange our data frame from highest to lowest
 (descending). For this, we'll use `arrange()` and a special operator,
@@ -659,7 +663,7 @@ df_tmp
 > #### Quick exercise 
 > What happens when you don't include `desc()` around `high_expct_mean`?
 
-# **Write** out updated data
+## **Write** out updated data
 
 ```{r, include = FALSE, purl = TRUE}
 ## ---------------------------
@@ -686,7 +690,7 @@ kept our original data as is (we didn't overwrite it) for future
 analyses while saving the results of this analysis for quick
 reference.
 
-# Pipes (`%>%`)
+## Pipes (`%>%`)
 
 Above, we've performed each step of our analysis piecemeal, saving new
 objects or overwriting along the way. This is fine, but a huge
@@ -847,7 +851,7 @@ identical(df_tmp, df_tmp_chained)
 
 Success!
 
-# Final notes
+## Final notes
 
 In this lesson, you've converted a research question into a data
 analysis that started with reading in raw data and ended with your
@@ -874,3 +878,7 @@ better translator: question --> data/coding --> answer.
 ## end script
 ## -----------------------------------------------------------------------------
 ```
+
+# Assignment
+
+:::
