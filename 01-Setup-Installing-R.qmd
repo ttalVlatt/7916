@@ -7,8 +7,613 @@ image: apple-touch-icon.png
 
 # Lesson
 
-You can download R [{{< fa code >}}](https://cran.r-project.org) [here](https://cran.r-project.org).
+
+## Getting started
+
+This course requires you to install a few bits of software on your
+computer. Specifically, you need:
+
+- R
+- RStudio
+- git
+- LaTeX
+
+These instructions should help you find and download what you
+need. You do not need to use this guide, but it may help, particularly
+if you aren't used to downloading and installing open source software.
+
+I've done my best to include screenshots of each step or provide links
+to external sites that already have excellent instructions (_e.g._,
+git). One snag, however, is that while some in the class may use
+Windows/PC, others use Apple/MacOS (I'm making the assumption that no
+one is using Linux --- if you are, you probably don't need these
+instructions!). I personally use MacOS. This means that some of the
+screenshots are based on what I see as a Mac user on the software
+websites. But where I can, I show sections for MacOS and Windows
+downloads.
+
+I also can't walk you through each step of the installation once
+you've downloaded the correct files, again, because operating systems
+differ. That said, he good news is that with only one exception (sorry
+Windows users!), you should be able to install all software using the
+default process like you do with most other software.
+
+## Installing R
+
+First things first, we'll get R, which you can find at
+[https://cran.r-project.org](https://cran.r-project.org). Depending on
+your operating system (OS), you'll click one of the following links at
+the top of the home page.
+
+![CRAN homepage]({{ site.baseurl }}/{{ site.img }}/cran_home.png)
+
+### R for MacOS
+
+When downloading R for MacOS, you'll want to click the link for the
+latest version of R: `R-<#>.<#>.<#>.pkg` where `<#>.<#>.<#>` represent
+the major, minor, and patch numbers. As of the writing of this
+document (May 2020), the latest version of R is R 4.0.0 --- it may be
+different (higher) when you download. Just grab the one inside the red
+box.
+
+You may be asked if you want to allow the download. If so, say yes and
+pay attention to where you save it (typically your Downloads
+folder). Once it has finished downloading, double click on the package
+icon and follow the default directions to install.
+
+![Page to download R for MacOS]({{ site.baseurl }}/{{ site.img }}/cran_mac_install.png)
+
+### R for Windows
+
+When downloading R for Windows, you'll first be taken to an
+intermediate screen. Just click the indicated link to go to the next
+page.
+
+![Intermediate page to download R for Windows]({{ site.baseurl }}/{{ site.img }}/cran_windows_intermediate_screen.png)
+
+
+On the next screen, click the link to "Download `R-<#>.<#>.<#>` for
+Windows" where `<#>.<#>.<#>` represent the major, minor, and patch
+numbers. As of the writing of this document (May 2020), the latest
+version of R is R 4.0.0 --- it may be different (higher) when you
+download. Just grab the one inside the red box.
+
+You may be asked if you want to allow the download. If so, say yes and
+pay attention to where you save it (typically your Downloads
+folder). Once it has finished downloading, double click on the
+installation icon and follow the default directions to install.
+
+Depending on the level of control you have on your computer and how
+you typically install software, you may want to install R as an
+administrator. I would recommend that to head off issues down the
+road, but if you don't have administrator privileges then go ahead an
+install as a user.
+
+![Page to download R for Windows]({{ site.baseurl }}/{{ site.img }}/cran_windows_install.png)
+
+## Installing RStudio
+
+Now that you've installed R, it's time to get RStudio, the program
+we'll use to work with R. Start by going to the RStudio home page:
+[https://rstudio.com](https://rstudio.com). 
+
+At the very top, you'll see a link to "Downloads": click that.
+
+![Rstudio homepage]({{ site.baseurl }}/{{ site.img }}/rstudio_home.png)
+
+You'll be presented with a number of versions of RStudio to
+install. We'll choose the free desktop version (naturally!).
+
+![RStudio version selection]({{ site.baseurl }}/{{ site.img }}/rstudio_version.png)
+
+You'll now see a button to download RStudio. Step (1) is to download
+R, but we've already done that so we're good. 
+
+One thing: the RStudio website is smart and tries to guess your OS so
+that it can present you with a big button to download the correct
+version. As you can see, it worked for me: I'm shown a button to
+download RStudio for MacOS. If you go to the website on a computer
+using Windows, the button should instead be a link to install RStudio
+for Windows. If all works, then you can click the button either way
+(yours just may look different), download, and install as normal. If
+the button doesn't have your correct OS, then go to the next step.
+
+![RStudio install button]({{ site.baseurl }}/{{ site.img }}/rstudio_install.png)
+
+Just below the big button, you'll see the full list of RStudio
+versions. You can also pick your correct version here. Same as before,
+just click the link, download, and install as normal.
+
+![RStudio install options]({{ site.baseurl }}/{{ site.img }}/rstudio_install_opt.png)
+
+## Installing git
+
+There are two things you need to do to use git/GitHub in our course:
+(1) have an installation of git and (2) have a GitHub account. Rather
+than reinventing the wheel, I suggest following the instructions from
+Jenny Bryan.
+
+1. [Get a GitHub account](https://happygitwithr.com/github-acct.html)
+1. [Install git on your
+   computer](https://happygitwithr.com/install-git.html)
+
+**NOTE** As part of registering an account with GitHub, I recommend
+requesting an [Education Discount so you can get free private
+repositories for future work](https://happygitwithr.com/github-acct.html#free-private-repos).
+
+## Installing LaTeX
+
+LaTeX is a document typesetting system/language. While it's probably
+best known for its ability to nicely typeset mathematical equations,
+LaTeX works really well quantitative research workflows. That said, it
+can be difficult to install and work with.
+
+We'll use LaTeX later in the semester so that you can make nice PDF
+reports. The good news is that you won't really need to interact with
+LaTeX at all to do so --- other than to install it now. 
+
+Since you don't need a full TeX distribution on your computer, you can
+most likely get by using the [TinyTeX](https://yihui.org/tinytex/)
+distribution that we can install directly from R. If you want a full
+version of TeX on your computer (**NOTE:** It's very large), then skip
+to the full installation for your computer.
+
+### TinyTex
+
+Once you've installed R and RStudio, open RStudio and type the
+following in the Console:
+
+```r
+install.packages("tinytex")
+tinytex::install_tinytex()
+```
+
+This will install the `tinytex` R package and then install the TinyTeX
+distribution (it may take a minute or two).
+
+### OPTIONAL: Full installation
+
+If you want the full installation, first go the LaTeX home page at
+[https://www.latex-project.org](https://www.latex-project.org).
+
+![]({{ site.baseurl }}/{{ site.img }}/latex_home.png)
+
+If you scroll down slightly, you'll see options for MacOS (MacTeX) and
+Windows (MiKTeX) installations. Click the link that applies to your OS
+and follow the instructions below.
+
+![]({{ site.baseurl }}/{{ site.img }}/latex_install.png)
+
+#### LaTeX for MacOS (MacTeX)
+
+On the MacTeX home page, first click the link for the MacTeX Download.
+
+![]({{ site.baseurl }}/{{ site.img }}/mactex_first.png)
+
+On the next page, click the link for MacTeX.pkg, agree to download,
+and then double click on the downloaded file to install. Note that
+this package is very big (~ 4GB) because you are downloading just
+about everything TeX-related, including some software. It's what I
+use, but I use TeX all the time. Just know this in case your storage
+space is limited on your computer.
+
+![]({{ site.baseurl }}/{{ site.img }}/mactex_download.png)
+
+
+#### LaTeX for Windows (MiKTeX)
+
+Once you reach the Windows (MiKTeX) homepage, click the Downloads link
+at the top of the page.
+
+![]({{ site.baseurl }}/{{ site.img }}/miktex_home.png)
+
+
+On the next screen, you'll want to click on the blue "Download"
+button, agree to the download, and then install.
+
+![]({{ site.baseurl }}/{{ site.img }}/miktex_download.png)
+
+**ONE NOTE** MiKTeX is much smaller than MacTeX, but that's because it
+doesn't download everything. Instead, it opts to only install packages
+as you need them. Cool, expect that doesn't always work well with
+RStudio. 
+
+The fix is this: when going through the installation, on the
+"Settings" screen, be sure to change the default selection for
+"Install missing packages on-the-fly" from `"Ask me first"` to
+`"Always"`. Continue the installation with the other default options.
+
+![]({{ site.baseurl }}/{{ site.img }}/miktex_settings.png)
+
+
+
+```{r, include = FALSE, purl = TRUE}
+################################################################################
+##
+## [ PROJ ] EDH7916: Introduction
+## [ FILE ] intro_r.R 
+## [ INIT ] 6 January 2020
+## [ REVN ] 4 January 2022
+## [ AUTH ] Benjamin Skinner (GitHub/Twitter: @btskinner)
+##
+################################################################################
+
+```
+```{r, include = FALSE, purl = TRUE}
+## ---------------------------------------------------------
+## Welcome!
+## ---------------------------------------------------------
+```
+
+```{r}
+print('Hello, World!')
+```
+R is a port of the [S
+language](https://en.wikipedia.org/wiki/S_(programming_language)),
+which was developed at Bell Labs. As a [GNU
+project](https://www.gnu.org), R is open source and free to use and
+distribute. It can be installed and used on most major operating
+systems.
+
+R is best thought of as an integrated [language and
+environment](https://www.r-project.org/about.html) that was designed
+with statistical computing and data analysis in mind. To that end, its
+structure is a balance between powerful mathematical computation and
+high-level functionality that can be used interactively (unlike
+compiled code). In other words, it's a great tool for quantitative
+data analysis since it both allows you to investigate your data easily
+and, when the time comes, write robust programs.
+
+Originally, R was probably best known for its graphing
+capabilities. As it has matured, it has [grown in popularity among
+data
+scientists](http://blog.revolutionanalytics.com/2018/01/tiobe-2017.html),
+who have increasingly [extended its functionality through
+user-contributed
+packages](http://blog.revolutionanalytics.com/2017/01/cran-10000.html).
+We will use a number of packages during this course.
+
+## RStudio: an integrated development environment (IDE) for R
+
+To work with the R language, it helps to have an application. While R
+ships with one (you may have seen it on your computer after you
+installed R), it's pretty plain. [RStudio](https://www.rstudio.com),
+on the other hand, is a powerful integrated design environment (IDE)
+that does most everything R-related very well and with little fuss:
+run commands, write scripts, view output, interact with other
+languages and remote site, _etc_. There are other options for working
+with R, but RStudio is a great all-around program that we will use in
+this course.
+
+![](/edh7916/assets/img/rstudio_script.png)
+
+RStudio has 3-4 main frames:
+
+1. Console
+1. Script window (will be closed at first if you don't have any
+   scripts open)
+1. Environment / History / Connections
+1. Files / Plots / Packages / Help / Viewer
+
+Each has a useful purpose, but for today, we'll mostly focus on the
+console itself.
+
+> #### Quick exercise
+> If you haven't already, try entering an equation in the console
+> (like `1 + 1`). Next, open the script associated with this module
+> and run the first line. Welcome to R!
+
+## Assignment
+
+```{r, include = FALSE, purl = TRUE}
+## ---------------------------------------------------------
+## Assignment
+## ---------------------------------------------------------
+```
+
+R is a type of [object-oriented
+programming](https://en.wikipedia.org/wiki/Object-oriented_programming)
+environment. This means that R thinks of things in its world as
+objects, which are like virtual boxes in which we can put things:
+data, functions, and even other objects.
+
+Before discussing data types and structures, the first lesson in R is
+how to assign values to objects. In R ([for quirky
+reasons](http://blog.revolutionanalytics.com/2008/12/use-equals-or-arrow-for-assignment.html)),
+the primary means of assignment is the arrow, `<-`, which is a less
+than symbol, `<`, followed by a hyphen, `-`.
+
+```{r}
+## assign value to object x using <-
+x <- 1
+```
+
+**NOTE**: You can also use a single equals sign, `=`, to assign a
+value to an object: `x = 1`. Keep in mind, however, that since `=`
+sometimes has other meanings in R and can be confused with `==`, which
+is different, it's generally clearer to use `<-`.
+
+### But's where's the output?
+
+R does _exactly_ what you ask it to do --- no more, no less. If you
+don't ask it to return something, either explicitly from a function or
+implicitly by printing to the console, it won't. This can be _huge_
+source of frustration to new users.
+
+The good-ish news is that by default, R will print an object's
+contents to the console if it's the only thing you type in. Many
+functions similarly print to the console if you don't assign the
+output to an object. You can see this when simply type a number or
+character into the console.
+
+```{r}
+## when you input a number or character, R returns it back to you
+1
+"a"
+```
+
+Basically, you've just told R "Here's a `1`" and R said "The content
+of `1` is `1`". Same for `"a"`. The initial number in the square
+brackets (`[1]`) is telling you the index (place within the object) of
+the first item. Since we only have one item, it's just `[1]`.
+
+When you store something in an object, you can type the object's name
+into the console to see what's in it.
+
+```{r}
+## what's in x?
+x
+```
+
+A neat trick if you want to both assign a value _and_ see the results
+printed to the output is to to wrap the entire line in `()`.
+
+```{r}
+## wrap in () to print after assignment
+(x <- 5)
+```
+
+> #### Quick exercise
+> Using the arrow, assign the output of `1 + 1` to `x`. Next subtract 1
+> from `x` and reassign the result to `x`. Show the value in `x`.
+
+**A NOTE ON "GOOD-ISH"** Keep in mind how much data your object has /
+might have when printing it to the console. For a small amount,
+printing is just fine. But if you have, for example, a matrix with
+1,000 columns and 1 million rows, printing might not be a useful
+exercise. There are other ways, such as the function `head()` that
+might be more useful in these situations.
+
+## Comments
+
+You may have noticed already, but comments in R are set off using the
+hash or pound character at the beginning of the line: `#`. The comment
+character tells R to ignore the line, that is, do not try to interpret
+it as code you the user want run.
+
+> #### Quick exercise 
+> Type the phrase "This is a comment" directly into the R console both
+> with and without a leading "#". What happens each time?
+
+You may notice that I use two hashes. This is a stylistic tick that
+has more to do with the editor I use than an R requirement. You can
+use only a single `#` for your comments if you like.
+
+## Data types and structures
+
+R uses variety of data types and structures to represent and work with
+data. There are many, but the major ones that you'll use most often are:
+
+- `logical`
+- `numeric` (`integer` & `double`)
+- `character`
+- `vector`
+- `matrix`
+- `list`
+- `dataframe`
+
+Understanding the nuanced differences between data types is not
+important right now. Just know that they exist and that you'll gain an
+intuitive understanding of them as you become better aquainted with
+R.
+
+## Packages
+
+User-submitted packages are a huge part of what makes R great. You may
+hear me use the phrases "base R" during class. What I mean by this is
+the R that comes as you download it with no packages loaded (sometimes
+also called "vanilla R"). While it's powerful in and of itself --- you
+can do everything you need with base R --- most of your scripts will
+make use of one of more contributed packages. These will make your
+data analytic life _much_ nicer. We'll lean heavily on the
+[tidyverse](https://www.tidyverse.org) suite of packages this
+semester.
+
+### Installing packages from CRAN
+
+Many contributed packages are hosted on the [CRAN package
+repository](https://cran.r-project.org/web/packages/available_packages_by_name.html). What's
+really nice about CRAN is that packages have to go through quite a few
+checks in order for CRAN to approve and host them. Checks include
+making sure the package has documentation, works on a variety of
+systems, and doesn't try to do odd things to your computer. The upshot
+is that you should feel okay downloading these packages from CRAN.
+
+To download a package from CRAN, use:
+
+```{r, eval = FALSE, purl = FALSE}
+install.packages("<package name>")
+```
+**NOTE** Throughout this course, if you see something in triangle
+brackets (`<...>`), that means it's a placeholder for you to change
+accordingly. 
+
+Many packages rely on other packages to function properly. When you
+use `install.packages()`, the default option is to install all
+dependencies. By default, R will check how you installed R and
+download the right operating system file type.
+
+> #### Quick exercise 
+> Install the
+> [`tidyverse`](https://CRAN.R-project.org/package=tidyverse)
+> package, which is really a suite of packages that we'll use
+> throughout the semester. Don't forget to use double quotation marks
+> around the package name: `install.packages("tidyverse")`
+
+### Loading package libraries
+
+Package libraries can loaded in a number of ways, but the easiest
+it to write:
+
+```{r, eval = FALSE, purl = FALSE}
+library("<library name>")
+```
+
+where `"<library name>"` is the name of the package/library. You will
+need to load these before you can use their functions in your
+scripts. Typically, they are placed at the top of the script file.
+
+For example, let's load the `tidyverse` library we just installed:
+
+```{r}
+## load library (note quirk that you don't need quotes here)
+library(tidyverse)
+```
+
+Notice that when you load the tidyverse (which, again, is actually
+loading a number of other libraries), you see a lot of output. Not all
+packages are this noisy, but the information is useful here because it
+shows all the libraries that are now loaded and ready for you to use.
+
+## Help
+```{r, echo = FALSE, purl = TRUE}
+## ---------------------------------------------------------
+## Help
+## ---------------------------------------------------------
+```
+
+I don't have every R function and nuance memorized, so I certainly
+don't expect that you will. With all the user-written packages, it
+would be difficult to keep up if I tried!  When stuck, there are a few
+ways to get help.
+
+### Help files
+
+In the console, typing a function name immediately after a question
+mark will bring up that function's help file (in RStudio, you should
+see in the bottom right facet):
+
+```{r}
+## get help file for function
+?median
+```
+
+Two question marks will search for the command name in CRAN packages
+(again, in the bottom right facet):
+
+```{r}
+## search for function in CRAN
+??median
+```
+
+At first, using help files may feel like trying to use a dictionary to
+see how to spell a word --- if you knew how to spell it, you wouldn't
+need the dictionary! Similarly, if you knew what you needed, you
+wouldn't need the help file. But over time, they will become more
+useful, particularly when you want to figure out an obscure option
+that will give you _exactly_ what you need.
+
+### Google it!
+
+Google is a coder's best friend. If you are having a problem, odds are
+a 1,000+ other people have too and at least one of them has been brave
+enough to ask about it in a forum like
+[StackOverflow](https://stackoverflow.com),
+[CrossValidated](https://stackoverflow.com), or [R-help mailing
+list](https://stat.ethz.ch/mailman/listinfo/r-help).
+
+If you are lucky, you'll find the _exact_ answer to your
+question. More likely, you'll find a partial answer that you'll need
+to modify for your needs. Sometimes, you'll find multiple partial
+answers that, in combination, help you figure out a solution. It can
+feel overwhelming at first, particularly if it's a way of
+problem-solving that's different from what you're used to. But it does
+become easier with practice.
+
+Google it! 
+
+### Asking for help: order of operations
+
+When needing help for this class, your order of operations should be:
+
+1. Try a lot on your own (perhaps using [rubber duck debugging](https://en.wikipedia.org/wiki/Rubber_duck_debugging))
+1. R help files
+1. Google
+1. Class peers (directly or through our
+   [Issues](https://github.com/edquant/edh7916/issues?q=is%3Aissue+is%3Aopen)
+   page)
+1. Me
+
+This is not because I don't want to help. My concern is the opposite:
+that I'm likely to just show you. Data analysis is tricky because no
+two problems are alike. But over time, they do rhyme. The time you put
+in now learning to figure things out on your own will be well paid in
+the future. 
+
+## Useful packages
+
+We're going to use a number of packages this semester. While we may
+need more than this list --- and you almost certainly will in your own
+future work --- let's install these to get us started.
+
+> #### Quick exercise
+> Install the following packages using the `install.packages()`
+> function:
+> - `devtools` 
+> - `here`
+> - `usethis`
+> - `gitcreds`
 
 # Assignment
+
+## Software installation
+
+If you weren't able to get everything set up and working prior to or
+during our first class meeting, please take time to finish installing
+all the software required for the course. Please set up a time to meet
+with me ASAP if you are having issues.
+
+## Practice creating an R (`*.R`) script
+
+1. Open RStudio
+1. Initialize a _New File_ > _R Script_ in RStudio. Save it as
+   `<lastname>_assignment_1.R` in the `assignments` folder in your
+   personal repo, replacing `<lastname>` with your last name. For
+   example, I would call my assignment `skinner_assignment_1.R` and it
+   would be located in the following location:
+   ```
+   student_skinner/
+   |
+   |__assignments/
+       |
+	   |__skinner_assignment_1.R
+   
+   ```
+   **NOTE** that you can complete these steps using either the drop
+   down menus or the icons.
+   
+   Also, don't forget to add `.R` to the end of your file. You will
+   know you've done it correctly if the tab with your file name
+   changes to include an icon that looks like a sheet of paper with an
+   "R" superimposed on it.
+1. Copy the following code snippet into your file and save the file:
+   ```r
+   ## install rmarkdown package
+   install.packages("rmarkdown")
+   ```
+1. Run the code to install the RMarkdown package either by
+   1. Highlighting the code and pushing the _Run_ button
+   1. Putting your cursor on the line of code and using the key combo
+      of Command-Enter (Mac) or Control-Enter (Windows) to run  
 
 :::

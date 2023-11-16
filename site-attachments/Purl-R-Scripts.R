@@ -1,7 +1,7 @@
 ## -----------------------------------------------------------------------------
 ##
 ##' [PROJ: EDH 7916]
-##' [FILE: Purl .qmd Scripts to Extract .R Files]
+##' [FILE: Purl .R Scripts from .qmd files]
 ##' [INIT: 2023-11-01]
 ##' [AUTH: Matt Capaldi] @ttalVlatt
 ##
@@ -10,17 +10,24 @@
 ## Pre and post render scripts are run with the main project directory.
 ## https://quarto.org/docs/projects/scripts.html
 
-input <- Sys.getenv("QUARTO_PROJECT_INPUT_FILES")
+qmd_files <- list.files(pattern = ".qmd$")
 
-input_list <- stringr::str_split(input, "\n") |>
-  unlist() # Flattens list to atomic vector for str_subset
-
-input_qmd <- stringr::str_subset(input_list, ".qmd")
-
-for(i in input_qmd) {
+for(i in qmd_files) {
   
   knitr::purl(i, documentation = 0)
+  
+}
 
+output <- Sys.getenv("QUARTO_PROJECT_OUTPUT_DIR")
+
+dir.create(file.path(output, "R-scripts"))
+
+r_files <- list.files(pattern = ".R$")
+
+for(i in r_files) {
+  
+  file.rename(i, file.path(output, "R-scripts", i))
+  
 }
 
 ## -----------------------------------------------------------------------------
