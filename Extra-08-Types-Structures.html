@@ -1,0 +1,985 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.433">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>EDH 7916 - Extra: Data Types &amp; Structures</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./apple-touch-icon.png" rel="icon" type="image/png">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="site-attachments/styles.css">
+<meta property="og:title" content="EDH 7916 - Extra: Data Types &amp; Structures">
+<meta property="og:image" content="https://capaldi.info/7916/apple-touch-icon.png">
+<meta property="og:site-name" content="EDH 7916">
+<meta property="og:image:height" content="180">
+<meta property="og:image:width" content="180">
+<meta name="twitter:title" content="EDH 7916 - Extra: Data Types &amp; Structures">
+<meta name="twitter:image" content="https://capaldi.info/7916/apple-touch-icon.png">
+<meta name="twitter:image-height" content="180">
+<meta name="twitter:image-width" content="180">
+<meta name="twitter:card" content="summary_large_image">
+</head>
+
+<body class="nav-sidebar docked fullcontent">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">
+      EDH 7916
+      </li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">EDH 7916</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Homepage</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./00-Syllabus.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Syllabus</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="false">
+ <span class="menu-text">Getting Started</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01-Setup-Installing-R.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">I: Installing R &amp; RStudio</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02-Setup-Reading-Data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">II: Reading Data &amp; IPEDS</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Extra-01-Setup-GitHub.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Extra: Git &amp; GitHub</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="false">
+ <span class="menu-text">Data Wrangling</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03-Data-Wrangling-I.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">I: Enter the tidyverse</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04-Data-Wrangling-II.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">II: Appending, joining, &amp; reshaping data</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08-Data-Wrangling-III.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">III: Working with strings &amp; dates</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./09-Data-Wrangling-IV.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">IV: Tidyverse Tricks &amp; SQL</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="false">
+ <span class="menu-text">Data Visualization</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05-Data-Viz-I.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">I: Basics</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06-Data-Viz-II.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">II: Customization</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./10-Data-Viz-III.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">III: Maps &amp; Spatial Data (Feat. APIs)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./11-Data-Viz-IV.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">IV: Interactive Graphics</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="false">
+ <span class="menu-text">Quarto</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07-Quarto.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Reproducable Reports with Quarto</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="false">
+ <span class="menu-text">Programming</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./12-Program-Stats.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">I: Basic Statistical Models</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./13-Program-Functional.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">II: Functions &amp; Loops</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Extra-02-Program-Vanilla.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Extra: Vanilla R (Data Wrangling I Redux)</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-expanded="false">
+ <span class="menu-text">Philosophy of Data Wrangling</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./14-Bens-Philosophy.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Dr.&nbsp;Skinner’s Philosophy</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./99-Final-Project.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Final Project</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<!-- margin-sidebar -->
+    
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Extra: Data Types &amp; Structures</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" aria-current="page">Lesson</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">Assignment</a></li></ul>
+<div class="tab-content">
+<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
+<p>R has a number of <a href="https://en.wikipedia.org/wiki/Data_type">data types</a> and structures. I do not expect you to memorize the technical differences between them all. As you become more familiar with R, however, you’ll gain a working knowledge of their uses and differences well enough to meet your data analysis needs. Use this resource as reference in the meantime.</p>
+<section id="types" class="level3">
+<h3 data-anchor-id="types">Types</h3>
+<p>Broadly, <strong>type</strong> refers to the way the data will be used — is it a number? a character? a Boolean (true/false)? While we don’t give a second thought to understanding that <code>3</code> and <code>"3"</code> represent the same underlying construct, a computer will understand <code>3</code> and <code>"3"</code> as two very distinct things. We can add <code>3</code> and <code>"3"</code> to get <code>6</code>, but a computer will balk as if you had tried to add <code>3</code> and <code>"a"</code>. The good news is that R is only <a href="https://en.wikipedia.org/wiki/Strong_and_weak_typing">weakly or loosely typed</a>, meaning that it will try to convert data types as necessary to guess what you mean and make your life easier. The price is slightly slower run times.</p>
+<p>There are three primary data types in R that you will regularly use:<br>
+- <code>logical</code><br>
+- <code>numeric</code> (<code>integer</code> &amp; <code>double</code>)<br>
+- <code>character</code></p>
+</section>
+<section id="logical" class="level3">
+<h3 data-anchor-id="logical">Logical</h3>
+<p>Logical vectors can be <code>TRUE</code>, <code>FALSE</code>, or <code>NA</code>. They can be assigned to objects or returned by logical operators (<em>e.g.</em>, <code>==</code>, <code>!=</code>, <code>&lt;</code>, <code>&gt;</code>, etc), which makes them useful for control flow in loops and functions.</p>
+<p><strong>NB</strong> In R, you can shorten <code>TRUE</code> to <code>T</code> and <code>FALSE</code> to <code>F</code>, but both the short and long versions must be capitalized.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="do">## assignment</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="cn">TRUE</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>x</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] TRUE</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="do">## ! == NOT</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="sc">!</span>x</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] FALSE</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="do">## check: is it a logical type?</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">is.logical</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] TRUE</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="do">## evaluate (notice the double `==`)</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span> <span class="sc">+</span> <span class="dv">1</span> <span class="sc">==</span> <span class="dv">2</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] TRUE</code></pre>
+</div>
+</div>
+</section>
+<section id="numeric-integer-and-double" class="level3">
+<h3 data-anchor-id="numeric-integer-and-double">Numeric: Integer and Double</h3>
+<p>Numeric values can be both <strong>integers</strong> and double precision floating point values, or just <strong>doubles</strong>. R automatically converts between the two data types for you, so knowing the difference between the two isn’t really important for most analyses.</p>
+<p>If you want to use an integer, place a capital <code>L</code> after the number like <code>1L</code>. If a number is stored as an integer, some R output will place an <code>L</code> behind the digits to let you know that. Mostly, R defaults to using doubles, but if you see a number with an <code>L</code> behind it, know that it’s still a number.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="do">## use 'L' after digit to store as integer</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> 1L</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="fu">is.integer</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] TRUE</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="do">## R stores as double by default</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="fu">is.double</span>(y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] TRUE</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="do">## both are numeric</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">is.numeric</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] TRUE</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">is.numeric</span>(y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] TRUE</code></pre>
+</div>
+</div>
+</section>
+<section id="character" class="level3">
+<h3 data-anchor-id="character">Character</h3>
+<p>Character values are stored as strings, which means you need to place either single <code>'</code> or double <code>"</code> quotes around them (stylistically, double quotes are usually preferred). Numeric values can also be stored as strings (sometimes useful if you must store leading zeroes), but they have to be converted back to numbers before you can perform numeric operations on them (like adding or subtracting) or use them in a statistical model.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="do">## store a string using quotation marks</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="st">"The quick brown fox jumps over the lazy dog."</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>x</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "The quick brown fox jumps over the lazy dog."</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="do">## store a number with leading zeros</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="st">"00001"</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>x</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "00001"</code></pre>
+</div>
+</div>
+<blockquote class="blockquote">
+<h4 id="quick-exercise">Quick exercise</h4>
+<p>Try to add a string digit to a numeric value. What happens? Can you convert the string version on the fly so that the equation works? (HINT: in R, you can change a vector type using <code>as.&lt;type&gt;()</code>, where <code>&lt;type&gt;</code> is the name of what you want.)</p>
+</blockquote>
+</section>
+<section id="structures" class="level3">
+<h3 data-anchor-id="structures">Structures</h3>
+<p>Building on these data types, R relies on four primary data structures:</p>
+<ul>
+<li><code>vector</code></li>
+<li><code>matrix</code></li>
+<li><code>list</code></li>
+<li><code>dataframe</code></li>
+</ul>
+</section>
+<section id="vector" class="level3">
+<h3 data-anchor-id="vector">Vector</h3>
+<p>A vector in R is just a collection of the data types discussed. In fact, a single value is a vector of one. Vectors do not have dimensions (<code>dim()</code>), but do have <code>length()</code>, which is good to remember when inspecting your data or writing loops and functions.</p>
+<p>You combine multiple values using the concatenate, <code>c()</code>, function. We will use <code>c()</code> a lot.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="do">## create vector</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="do">## check</span></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a><span class="fu">is.vector</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] TRUE</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="do">## add to vector</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="do">## NB: can do so recursively meaning old x can help make new x</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(x, <span class="dv">5</span>, <span class="dv">8</span>)</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>x</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1 5 8</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="do">## no dim...</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>NULL</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="do">## ...but length</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 3</code></pre>
+</div>
+</div>
+<section id="subsetting-using-indices" class="level4">
+<h4 data-anchor-id="subsetting-using-indices">Subsetting using indices: <code>[]</code></h4>
+<p>You can access the elements of a vector using brackets, <code>[]</code>, after the object name. If you think of each element in the vector as having an address, that is, a way to access it specifically, then its address is its position number in the vector. This position number is called its index, and in R, the index always starts with <code>1</code>.</p>
+<p>In our current vector, we have three items, <code>1</code>, <code>5</code>, and <code>8</code>, which in turn have indices of <code>1</code>, <code>2</code>, and <code>3</code>. To access <code>5</code> specifically, we can call it using the brackets and its index: <code>x[2]</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="do">## get the second element</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>x[<span class="dv">2</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 5</code></pre>
+</div>
+</div>
+<blockquote class="blockquote">
+<h4 id="quick-exercise-1">Quick exercise</h4>
+<p>Since you know how to access a specific element in a vector and how to assign new values, try to change the 3rd element of the <code>x</code> vector to 4.</p>
+</blockquote>
+<p>All values in a vector must be of the same type. If you concatenate values of different data types, R will automatically promote all values to least ambiguous type. We can check this with <code>class()</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="do">## check class of x</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "numeric"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="do">## add character</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(x, <span class="st">"a"</span>)</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>x</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "1" "5" "8" "a"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="do">## check class</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "character"</code></pre>
+</div>
+</div>
+<p>Notice how R converted everything to a character? That’s because R’s internal rules say that for users, it makes more sense to convert a number to a string version of itself (<code>1</code> to <code>"1"</code>) than to figure out a number for a string that would make as much sense (<code>"a"</code> to <code>1</code> since it’s the first letter in the alphabet? But what would <code>"A"</code> be then?).</p>
+</section>
+</section>
+<section id="matrix" class="level3">
+<h3 data-anchor-id="matrix">Matrix</h3>
+<p>A matrix is a 2D arrangement of data types. Instead of length, it has dimensions. Like vectors, all data elements must be of the same type.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="do">## create 3 x 3 matrix that is the sequence of numbers between 1 and 9</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>, <span class="at">nrow =</span> <span class="dv">3</span>, <span class="at">ncol =</span> <span class="dv">3</span>)</span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>x</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     [,1] [,2] [,3]
+[1,]    1    4    7
+[2,]    2    5    8
+[3,]    3    6    9</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="do">## ...fill by row this time</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>, <span class="at">nrow =</span> <span class="dv">3</span>, <span class="at">ncol =</span> <span class="dv">3</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>y</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     [,1] [,2] [,3]
+[1,]    1    2    3
+[2,]    4    5    6
+[3,]    7    8    9</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="do">## a matrix has two dimensions</span></span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 3 3</code></pre>
+</div>
+</div>
+<p>Use <code>nrow()</code> and <code>ncol()</code> to get the number of rows and columns, respectively.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="do">## # of rows</span></span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 3</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="do">## # of columns</span></span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ncol</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 3</code></pre>
+</div>
+</div>
+<p>Like a vector, you can access parts of a matrix. Since it has two dimensions, use a comma in the bracket to separate row indices from column indices.</p>
+<p>When using brackets with objects that have two dimensions, a good rule of thumb is to add your comma first: <code>x[ , ]</code>. Numbers or objects you put between the first bracket and the comma will affect the rows; numbers between the comma and the closing bracket will affect the columns.</p>
+<p>If you don’t put anything in either of those spaces (a blank space doesn’t count), R will assume you want all rows or columns, depending on which side of the comma is blank.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="do">## show the values in the first row</span></span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>x[<span class="dv">1</span>, ]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1 4 7</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="do">## show the values in the third column</span></span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>x[ ,<span class="dv">3</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 7 8 9</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="do">## this is the same as just calling x by itself</span></span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>x[ , ]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     [,1] [,2] [,3]
+[1,]    1    4    7
+[2,]    2    5    8
+[3,]    3    6    9</code></pre>
+</div>
+</div>
+<blockquote class="blockquote">
+<h4 id="quick-exercise-2">Quick exercise</h4>
+<p>Return the middle value of the <code>x</code> matrix. Next assign the middle value the character value ‘a’. What happens to the rest of the values in the matrix?</p>
+</blockquote>
+</section>
+<section id="list" class="level3">
+<h3 data-anchor-id="list">List</h3>
+<p>Lists are a catch all objects that can hold an assortment of other objects of different data types. They can be flat, meaning that all values are at the same level, or nested, with lists holding other lists.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="do">## create single-level list</span></span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="dv">1</span>, <span class="st">"a"</span>, <span class="cn">TRUE</span>)</span>
+<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-4"><a href="#cb53-4" aria-hidden="true" tabindex="-1"></a><span class="do">## show</span></span>
+<span id="cb53-5"><a href="#cb53-5" aria-hidden="true" tabindex="-1"></a>x</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[[1]]
+[1] 1
+
+[[2]]
+[1] "a"
+
+[[3]]
+[1] TRUE</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="do">## check</span></span>
+<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a><span class="fu">is.list</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] TRUE</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="do">## create blank list</span></span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-4"><a href="#cb57-4" aria-hidden="true" tabindex="-1"></a><span class="do">## add to first list, creating nested list</span></span>
+<span id="cb57-5"><a href="#cb57-5" aria-hidden="true" tabindex="-1"></a>z <span class="ot">&lt;-</span> <span class="fu">list</span>(x, y)</span>
+<span id="cb57-6"><a href="#cb57-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-7"><a href="#cb57-7" aria-hidden="true" tabindex="-1"></a><span class="do">## show</span></span>
+<span id="cb57-8"><a href="#cb57-8" aria-hidden="true" tabindex="-1"></a>z</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[[1]]
+[[1]][[1]]
+[1] 1
+
+[[1]][[2]]
+[1] "a"
+
+[[1]][[3]]
+[1] TRUE
+
+
+[[2]]
+list()</code></pre>
+</div>
+</div>
+<p>You access items in lists like you do vectors and matrices. You may, however, need to use double brackets, <code>[[]]</code>, and multiple pairs, <code>[[]][[]]</code>, to reach the item you need.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a><span class="do">## the first item in list z is list x</span></span>
+<span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a>z[[<span class="dv">1</span>]]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[[1]]
+[1] 1
+
+[[2]]
+[1] "a"
+
+[[3]]
+[1] TRUE</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb61"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a><span class="do">## to get to "a" in list x, need to add more brackets</span></span>
+<span id="cb61-2"><a href="#cb61-2" aria-hidden="true" tabindex="-1"></a>z[[<span class="dv">1</span>]][[<span class="dv">2</span>]]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "a"</code></pre>
+</div>
+</div>
+<p>Lists can get pretty complex pretty quickly. Sometimes, the best approach to finding what you want is just trial and error!</p>
+</section>
+<section id="data-frame" class="level3">
+<h3 data-anchor-id="data-frame">Data frame</h3>
+<p>Data frames are really just an organized collection of lists / vectors that are the same length. That quick description, however, belies the importance of data frames: you will use them all the time in your data work.</p>
+<p>Most of the time, you will be reading in data frames, but you can also create them.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb63"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a><span class="do">## create data frame where col_* are the column (variable) names</span></span>
+<span id="cb63-2"><a href="#cb63-2" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">col_a =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>),</span>
+<span id="cb63-3"><a href="#cb63-3" aria-hidden="true" tabindex="-1"></a>                 <span class="at">col_b =</span> <span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">6</span>),</span>
+<span id="cb63-4"><a href="#cb63-4" aria-hidden="true" tabindex="-1"></a>                 <span class="at">col_c =</span> <span class="fu">c</span>(<span class="dv">7</span>,<span class="dv">8</span>,<span class="dv">9</span>))</span>
+<span id="cb63-5"><a href="#cb63-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb63-6"><a href="#cb63-6" aria-hidden="true" tabindex="-1"></a><span class="do">## show</span></span>
+<span id="cb63-7"><a href="#cb63-7" aria-hidden="true" tabindex="-1"></a>df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  col_a col_b col_c
+1     1     4     7
+2     2     5     8
+3     3     6     9</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb65"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="do">## check</span></span>
+<span id="cb65-2"><a href="#cb65-2" aria-hidden="true" tabindex="-1"></a><span class="fu">is.data.frame</span>(df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] TRUE</code></pre>
+</div>
+</div>
+<p>Like matrices, data frames have a <code>dim()</code> and the number of rows and columns can be recovered using <code>nrow()</code> and <code>ncol()</code>. The column names, which are needed when estimating models and making graphics, are accessed using <code>names()</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb67"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a><span class="do">## get column names</span></span>
+<span id="cb67-2"><a href="#cb67-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "col_a" "col_b" "col_c"</code></pre>
+</div>
+</div>
+<p>To access a column, you need to give R the data frame’s name followed by a <code>$</code> and then the variable name.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb69"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a><span class="do">## get col_a</span></span>
+<span id="cb69-2"><a href="#cb69-2" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>col_a</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1 2 3</code></pre>
+</div>
+</div>
+<p>You can also use the <code>df[["&lt;var name&gt;"]]</code> construction, which comes in handy in loops and functions.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb71"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a><span class="do">## get col_a (note the quotation marks this time)</span></span>
+<span id="cb71-2"><a href="#cb71-2" aria-hidden="true" tabindex="-1"></a>df[[<span class="st">"col_a"</span>]]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1 2 3</code></pre>
+</div>
+</div>
+</section>
+</div>
+<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
+<p>Using the <code>hsls_small.csv</code> data set and the online code book, answer the following questions. You <strong>do not</strong> need to save the final output as a data file: just having the final result print to the console is fine. For each question, <strong>you must answer using base R commands (no tidyverse)</strong>. You can account for missing values by dropping them.</p>
+<p>For each question, show your data work and then answer the question in a short (1-2 sentence(s)) comment. (<strong>NOTE:</strong> If you also completed assignment 3, your written answers can be similar to what you wrote before.)</p>
+<section id="questions" class="level2">
+<h2 data-anchor-id="questions">Questions</h2>
+<blockquote class="blockquote">
+<h4 id="quick-exercise-3">Quick exercise</h4>
+<p>Create two or three equal length vectors. Next, combine to create a data frame. Finally, change one value in the data frame (HINT: think about how you changed vector and matrix values before).</p>
+</blockquote>
+</section>
+</div>
+</div>
+</div>
+
+
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item">
+    <a class="nav-link" href="https://capaldi.info">M.J. Capaldi</a>
+  </li>  
+</ul>
+    </div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item">
+    <a class="nav-link" href="https://quarto.org/docs/websites">Built with Quarto</a>
+  </li>  
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/ttalVlatt/EDH-7916">
+      <i class="bi bi-github" role="img" aria-label="Website Code Available Here">
+</i> 
+    </a>
+  </li>  
+</ul>
+    </div>
+  </div>
+</footer>
+
+
+
+</body></html>

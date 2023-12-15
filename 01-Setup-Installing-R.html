@@ -1,0 +1,965 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.433">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>EDH 7916 - I: Installing R &amp; RStudio</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./apple-touch-icon.png" rel="icon" type="image/png">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="site-attachments/styles.css">
+<meta property="og:title" content="EDH 7916 - I: Installing R &amp; RStudio">
+<meta property="og:image" content="https://capaldi.info/7916/apple-touch-icon.png">
+<meta property="og:site-name" content="EDH 7916">
+<meta property="og:image:height" content="180">
+<meta property="og:image:width" content="180">
+<meta name="twitter:title" content="EDH 7916 - I: Installing R &amp; RStudio">
+<meta name="twitter:image" content="https://capaldi.info/7916/apple-touch-icon.png">
+<meta name="twitter:image-height" content="180">
+<meta name="twitter:image-width" content="180">
+<meta name="twitter:card" content="summary_large_image">
+</head>
+
+<body class="nav-sidebar docked fullcontent">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./01-Setup-Installing-R.html">Getting Started</a></li><li class="breadcrumb-item"><a href="./01-Setup-Installing-R.html">I: Installing R &amp; RStudio</a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">EDH 7916</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Homepage</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./00-Syllabus.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Syllabus</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+ <span class="menu-text">Getting Started</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01-Setup-Installing-R.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">I: Installing R &amp; RStudio</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02-Setup-Reading-Data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">II: Reading Data &amp; IPEDS</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Extra-01-Setup-GitHub.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Extra: Git &amp; GitHub</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="false">
+ <span class="menu-text">Data Wrangling</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03-Data-Wrangling-I.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">I: Enter the tidyverse</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04-Data-Wrangling-II.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">II: Appending, joining, &amp; reshaping data</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08-Data-Wrangling-III.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">III: Working with strings &amp; dates</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./09-Data-Wrangling-IV.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">IV: Tidyverse Tricks &amp; SQL</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="false">
+ <span class="menu-text">Data Visualization</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05-Data-Viz-I.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">I: Basics</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06-Data-Viz-II.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">II: Customization</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./10-Data-Viz-III.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">III: Maps &amp; Spatial Data (Feat. APIs)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./11-Data-Viz-IV.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">IV: Interactive Graphics</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="false">
+ <span class="menu-text">Quarto</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07-Quarto.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Reproducable Reports with Quarto</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="false">
+ <span class="menu-text">Programming</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./12-Program-Stats.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">I: Basic Statistical Models</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./13-Program-Functional.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">II: Functions &amp; Loops</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Extra-02-Program-Vanilla.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Extra: Vanilla R (Data Wrangling I Redux)</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-expanded="false">
+ <span class="menu-text">Philosophy of Data Wrangling</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./14-Bens-Philosophy.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Dr.&nbsp;Skinner’s Philosophy</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./99-Final-Project.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Final Project</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<!-- margin-sidebar -->
+    
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">I: Installing R &amp; RStudio</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" aria-current="page">Lesson</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">Assignment</a></li></ul>
+<div class="tab-content">
+<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
+<section id="getting-started" class="level2">
+<h2 data-anchor-id="getting-started">Getting started</h2>
+<p>This course requires you to install a few bits of software on your computer. Specifically, you need:</p>
+<ul>
+<li>R</li>
+<li>RStudio</li>
+<li>git</li>
+<li>LaTeX</li>
+</ul>
+<p>These instructions should help you find and download what you need. You do not need to use this guide, but it may help, particularly if you aren’t used to downloading and installing open source software.</p>
+<p>I’ve done my best to include screenshots of each step or provide links to external sites that already have excellent instructions (<em>e.g.</em>, git). One snag, however, is that while some in the class may use Windows/PC, others use Apple/MacOS (I’m making the assumption that no one is using Linux — if you are, you probably don’t need these instructions!). I personally use MacOS. This means that some of the screenshots are based on what I see as a Mac user on the software websites. But where I can, I show sections for MacOS and Windows downloads.</p>
+<p>I also can’t walk you through each step of the installation once you’ve downloaded the correct files, again, because operating systems differ. That said, he good news is that with only one exception (sorry Windows users!), you should be able to install all software using the default process like you do with most other software.</p>
+</section>
+<section id="installing-r" class="level2">
+<h2 data-anchor-id="installing-r">Installing R</h2>
+<p>First things first, we’ll get R, which you can find at <a href="https://cran.r-project.org">https://cran.r-project.org</a>. Depending on your operating system (OS), you’ll click one of the following links at the top of the home page.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="{{ site.baseurl }}/{{ site.img }}/cran_home.png" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">CRAN homepage</figcaption>
+</figure>
+</div>
+<section id="r-for-macos" class="level3">
+<h3 data-anchor-id="r-for-macos">R for MacOS</h3>
+<p>When downloading R for MacOS, you’ll want to click the link for the latest version of R: <code>R-&lt;#&gt;.&lt;#&gt;.&lt;#&gt;.pkg</code> where <code>&lt;#&gt;.&lt;#&gt;.&lt;#&gt;</code> represent the major, minor, and patch numbers. As of the writing of this document (May 2020), the latest version of R is R 4.0.0 — it may be different (higher) when you download. Just grab the one inside the red box.</p>
+<p>You may be asked if you want to allow the download. If so, say yes and pay attention to where you save it (typically your Downloads folder). Once it has finished downloading, double click on the package icon and follow the default directions to install.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="{{ site.baseurl }}/{{ site.img }}/cran_mac_install.png" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">Page to download R for MacOS</figcaption>
+</figure>
+</div>
+</section>
+<section id="r-for-windows" class="level3">
+<h3 data-anchor-id="r-for-windows">R for Windows</h3>
+<p>When downloading R for Windows, you’ll first be taken to an intermediate screen. Just click the indicated link to go to the next page.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="{{ site.baseurl }}/{{ site.img }}/cran_windows_intermediate_screen.png" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">Intermediate page to download R for Windows</figcaption>
+</figure>
+</div>
+<p>On the next screen, click the link to “Download <code>R-&lt;#&gt;.&lt;#&gt;.&lt;#&gt;</code> for Windows” where <code>&lt;#&gt;.&lt;#&gt;.&lt;#&gt;</code> represent the major, minor, and patch numbers. As of the writing of this document (May 2020), the latest version of R is R 4.0.0 — it may be different (higher) when you download. Just grab the one inside the red box.</p>
+<p>You may be asked if you want to allow the download. If so, say yes and pay attention to where you save it (typically your Downloads folder). Once it has finished downloading, double click on the installation icon and follow the default directions to install.</p>
+<p>Depending on the level of control you have on your computer and how you typically install software, you may want to install R as an administrator. I would recommend that to head off issues down the road, but if you don’t have administrator privileges then go ahead an install as a user.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="{{ site.baseurl }}/{{ site.img }}/cran_windows_install.png" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">Page to download R for Windows</figcaption>
+</figure>
+</div>
+</section>
+</section>
+<section id="installing-rstudio" class="level2">
+<h2 data-anchor-id="installing-rstudio">Installing RStudio</h2>
+<p>Now that you’ve installed R, it’s time to get RStudio, the program we’ll use to work with R. Start by going to the RStudio home page: <a href="https://rstudio.com">https://rstudio.com</a>.</p>
+<p>At the very top, you’ll see a link to “Downloads”: click that.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="{{ site.baseurl }}/{{ site.img }}/rstudio_home.png" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">Rstudio homepage</figcaption>
+</figure>
+</div>
+<p>You’ll be presented with a number of versions of RStudio to install. We’ll choose the free desktop version (naturally!).</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="{{ site.baseurl }}/{{ site.img }}/rstudio_version.png" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">RStudio version selection</figcaption>
+</figure>
+</div>
+<p>You’ll now see a button to download RStudio. Step (1) is to download R, but we’ve already done that so we’re good.</p>
+<p>One thing: the RStudio website is smart and tries to guess your OS so that it can present you with a big button to download the correct version. As you can see, it worked for me: I’m shown a button to download RStudio for MacOS. If you go to the website on a computer using Windows, the button should instead be a link to install RStudio for Windows. If all works, then you can click the button either way (yours just may look different), download, and install as normal. If the button doesn’t have your correct OS, then go to the next step.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="{{ site.baseurl }}/{{ site.img }}/rstudio_install.png" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">RStudio install button</figcaption>
+</figure>
+</div>
+<p>Just below the big button, you’ll see the full list of RStudio versions. You can also pick your correct version here. Same as before, just click the link, download, and install as normal.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="{{ site.baseurl }}/{{ site.img }}/rstudio_install_opt.png" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">RStudio install options</figcaption>
+</figure>
+</div>
+</section>
+<section id="installing-git" class="level2">
+<h2 data-anchor-id="installing-git">Installing git</h2>
+<p>There are two things you need to do to use git/GitHub in our course: (1) have an installation of git and (2) have a GitHub account. Rather than reinventing the wheel, I suggest following the instructions from Jenny Bryan.</p>
+<ol type="1">
+<li><a href="https://happygitwithr.com/github-acct.html">Get a GitHub account</a></li>
+<li><a href="https://happygitwithr.com/install-git.html">Install git on your computer</a></li>
+</ol>
+<p><strong>NOTE</strong> As part of registering an account with GitHub, I recommend requesting an <a href="https://happygitwithr.com/github-acct.html#free-private-repos">Education Discount so you can get free private repositories for future work</a>.</p>
+</section>
+<section id="installing-latex" class="level2">
+<h2 data-anchor-id="installing-latex">Installing LaTeX</h2>
+<p>LaTeX is a document typesetting system/language. While it’s probably best known for its ability to nicely typeset mathematical equations, LaTeX works really well quantitative research workflows. That said, it can be difficult to install and work with.</p>
+<p>We’ll use LaTeX later in the semester so that you can make nice PDF reports. The good news is that you won’t really need to interact with LaTeX at all to do so — other than to install it now.</p>
+<p>Since you don’t need a full TeX distribution on your computer, you can most likely get by using the <a href="https://yihui.org/tinytex/">TinyTeX</a> distribution that we can install directly from R. If you want a full version of TeX on your computer (<strong>NOTE:</strong> It’s very large), then skip to the full installation for your computer.</p>
+<section id="tinytex" class="level3">
+<h3 data-anchor-id="tinytex">TinyTex</h3>
+<p>Once you’ve installed R and RStudio, open RStudio and type the following in the Console:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"tinytex"</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>tinytex<span class="sc">::</span><span class="fu">install_tinytex</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This will install the <code>tinytex</code> R package and then install the TinyTeX distribution (it may take a minute or two).</p>
+</section>
+<section id="optional-full-installation" class="level3">
+<h3 data-anchor-id="optional-full-installation">OPTIONAL: Full installation</h3>
+<p>If you want the full installation, first go the LaTeX home page at <a href="https://www.latex-project.org">https://www.latex-project.org</a>.</p>
+<p><img src="{{ site.baseurl }}/{{ site.img }}/latex_home.png" class="img-fluid"></p>
+<p>If you scroll down slightly, you’ll see options for MacOS (MacTeX) and Windows (MiKTeX) installations. Click the link that applies to your OS and follow the instructions below.</p>
+<p><img src="{{ site.baseurl }}/{{ site.img }}/latex_install.png" class="img-fluid"></p>
+<section id="latex-for-macos-mactex" class="level4">
+<h4 data-anchor-id="latex-for-macos-mactex">LaTeX for MacOS (MacTeX)</h4>
+<p>On the MacTeX home page, first click the link for the MacTeX Download.</p>
+<p><img src="{{ site.baseurl }}/{{ site.img }}/mactex_first.png" class="img-fluid"></p>
+<p>On the next page, click the link for MacTeX.pkg, agree to download, and then double click on the downloaded file to install. Note that this package is very big (~ 4GB) because you are downloading just about everything TeX-related, including some software. It’s what I use, but I use TeX all the time. Just know this in case your storage space is limited on your computer.</p>
+<p><img src="{{ site.baseurl }}/{{ site.img }}/mactex_download.png" class="img-fluid"></p>
+</section>
+<section id="latex-for-windows-miktex" class="level4">
+<h4 data-anchor-id="latex-for-windows-miktex">LaTeX for Windows (MiKTeX)</h4>
+<p>Once you reach the Windows (MiKTeX) homepage, click the Downloads link at the top of the page.</p>
+<p><img src="{{ site.baseurl }}/{{ site.img }}/miktex_home.png" class="img-fluid"></p>
+<p>On the next screen, you’ll want to click on the blue “Download” button, agree to the download, and then install.</p>
+<p><img src="{{ site.baseurl }}/{{ site.img }}/miktex_download.png" class="img-fluid"></p>
+<p><strong>ONE NOTE</strong> MiKTeX is much smaller than MacTeX, but that’s because it doesn’t download everything. Instead, it opts to only install packages as you need them. Cool, expect that doesn’t always work well with RStudio.</p>
+<p>The fix is this: when going through the installation, on the “Settings” screen, be sure to change the default selection for “Install missing packages on-the-fly” from <code>"Ask me first"</code> to <code>"Always"</code>. Continue the installation with the other default options.</p>
+<p><img src="{{ site.baseurl }}/{{ site.img }}/miktex_settings.png" class="img-fluid"></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="st">'Hello, World!'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Hello, World!"</code></pre>
+</div>
+</div>
+<p>R is a port of the <a href="https://en.wikipedia.org/wiki/S_(programming_language)">S language</a>, which was developed at Bell Labs. As a <a href="https://www.gnu.org">GNU project</a>, R is open source and free to use and distribute. It can be installed and used on most major operating systems.</p>
+<p>R is best thought of as an integrated <a href="https://www.r-project.org/about.html">language and environment</a> that was designed with statistical computing and data analysis in mind. To that end, its structure is a balance between powerful mathematical computation and high-level functionality that can be used interactively (unlike compiled code). In other words, it’s a great tool for quantitative data analysis since it both allows you to investigate your data easily and, when the time comes, write robust programs.</p>
+<p>Originally, R was probably best known for its graphing capabilities. As it has matured, it has <a href="http://blog.revolutionanalytics.com/2018/01/tiobe-2017.html">grown in popularity among data scientists</a>, who have increasingly <a href="http://blog.revolutionanalytics.com/2017/01/cran-10000.html">extended its functionality through user-contributed packages</a>. We will use a number of packages during this course.</p>
+</section>
+</section>
+</section>
+<section id="rstudio-an-integrated-development-environment-ide-for-r" class="level2">
+<h2 data-anchor-id="rstudio-an-integrated-development-environment-ide-for-r">RStudio: an integrated development environment (IDE) for R</h2>
+<p>To work with the R language, it helps to have an application. While R ships with one (you may have seen it on your computer after you installed R), it’s pretty plain. <a href="https://www.rstudio.com">RStudio</a>, on the other hand, is a powerful integrated design environment (IDE) that does most everything R-related very well and with little fuss: run commands, write scripts, view output, interact with other languages and remote site, <em>etc</em>. There are other options for working with R, but RStudio is a great all-around program that we will use in this course.</p>
+<p><img src="./edh7916/assets/img/rstudio_script.png" class="img-fluid"></p>
+<p>RStudio has 3-4 main frames:</p>
+<ol type="1">
+<li>Console</li>
+<li>Script window (will be closed at first if you don’t have any scripts open)</li>
+<li>Environment / History / Connections</li>
+<li>Files / Plots / Packages / Help / Viewer</li>
+</ol>
+<p>Each has a useful purpose, but for today, we’ll mostly focus on the console itself.</p>
+<blockquote class="blockquote">
+<h4 id="quick-exercise">Quick exercise</h4>
+<p>If you haven’t already, try entering an equation in the console (like <code>1 + 1</code>). Next, open the script associated with this module and run the first line. Welcome to R!</p>
+</blockquote>
+</section>
+<section id="assignment" class="level2">
+<h2 data-anchor-id="assignment">Assignment</h2>
+<p>R is a type of <a href="https://en.wikipedia.org/wiki/Object-oriented_programming">object-oriented programming</a> environment. This means that R thinks of things in its world as objects, which are like virtual boxes in which we can put things: data, functions, and even other objects.</p>
+<p>Before discussing data types and structures, the first lesson in R is how to assign values to objects. In R (<a href="http://blog.revolutionanalytics.com/2008/12/use-equals-or-arrow-for-assignment.html">for quirky reasons</a>), the primary means of assignment is the arrow, <code>&lt;-</code>, which is a less than symbol, <code>&lt;</code>, followed by a hyphen, <code>-</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="do">## assign value to object x using &lt;-</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><strong>NOTE</strong>: You can also use a single equals sign, <code>=</code>, to assign a value to an object: <code>x = 1</code>. Keep in mind, however, that since <code>=</code> sometimes has other meanings in R and can be confused with <code>==</code>, which is different, it’s generally clearer to use <code>&lt;-</code>.</p>
+<section id="buts-wheres-the-output" class="level3">
+<h3 data-anchor-id="buts-wheres-the-output">But’s where’s the output?</h3>
+<p>R does <em>exactly</em> what you ask it to do — no more, no less. If you don’t ask it to return something, either explicitly from a function or implicitly by printing to the console, it won’t. This can be <em>huge</em> source of frustration to new users.</p>
+<p>The good-ish news is that by default, R will print an object’s contents to the console if it’s the only thing you type in. Many functions similarly print to the console if you don’t assign the output to an object. You can see this when simply type a number or character into the console.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="do">## when you input a number or character, R returns it back to you</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="st">"a"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "a"</code></pre>
+</div>
+</div>
+<p>Basically, you’ve just told R “Here’s a <code>1</code>” and R said “The content of <code>1</code> is <code>1</code>”. Same for <code>"a"</code>. The initial number in the square brackets (<code>[1]</code>) is telling you the index (place within the object) of the first item. Since we only have one item, it’s just <code>[1]</code>.</p>
+<p>When you store something in an object, you can type the object’s name into the console to see what’s in it.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="do">## what's in x?</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>x</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1</code></pre>
+</div>
+</div>
+<p>A neat trick if you want to both assign a value <em>and</em> see the results printed to the output is to to wrap the entire line in <code>()</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="do">## wrap in () to print after assignment</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>(x <span class="ot">&lt;-</span> <span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 5</code></pre>
+</div>
+</div>
+<blockquote class="blockquote">
+<h4 id="quick-exercise-1">Quick exercise</h4>
+<p>Using the arrow, assign the output of <code>1 + 1</code> to <code>x</code>. Next subtract 1 from <code>x</code> and reassign the result to <code>x</code>. Show the value in <code>x</code>.</p>
+</blockquote>
+<p><strong>A NOTE ON “GOOD-ISH”</strong> Keep in mind how much data your object has / might have when printing it to the console. For a small amount, printing is just fine. But if you have, for example, a matrix with 1,000 columns and 1 million rows, printing might not be a useful exercise. There are other ways, such as the function <code>head()</code> that might be more useful in these situations.</p>
+</section>
+</section>
+<section id="comments" class="level2">
+<h2 data-anchor-id="comments">Comments</h2>
+<p>You may have noticed already, but comments in R are set off using the hash or pound character at the beginning of the line: <code>#</code>. The comment character tells R to ignore the line, that is, do not try to interpret it as code you the user want run.</p>
+<blockquote class="blockquote">
+<h4 id="quick-exercise-2">Quick exercise</h4>
+<p>Type the phrase “This is a comment” directly into the R console both with and without a leading “#”. What happens each time?</p>
+</blockquote>
+<p>You may notice that I use two hashes. This is a stylistic tick that has more to do with the editor I use than an R requirement. You can use only a single <code>#</code> for your comments if you like.</p>
+</section>
+<section id="data-types-and-structures" class="level2">
+<h2 data-anchor-id="data-types-and-structures">Data types and structures</h2>
+<p>R uses variety of data types and structures to represent and work with data. There are many, but the major ones that you’ll use most often are:</p>
+<ul>
+<li><code>logical</code></li>
+<li><code>numeric</code> (<code>integer</code> &amp; <code>double</code>)</li>
+<li><code>character</code></li>
+<li><code>vector</code></li>
+<li><code>matrix</code></li>
+<li><code>list</code></li>
+<li><code>dataframe</code></li>
+</ul>
+<p>Understanding the nuanced differences between data types is not important right now. Just know that they exist and that you’ll gain an intuitive understanding of them as you become better aquainted with R.</p>
+</section>
+<section id="packages" class="level2">
+<h2 data-anchor-id="packages">Packages</h2>
+<p>User-submitted packages are a huge part of what makes R great. You may hear me use the phrases “base R” during class. What I mean by this is the R that comes as you download it with no packages loaded (sometimes also called “vanilla R”). While it’s powerful in and of itself — you can do everything you need with base R — most of your scripts will make use of one of more contributed packages. These will make your data analytic life <em>much</em> nicer. We’ll lean heavily on the <a href="https://www.tidyverse.org">tidyverse</a> suite of packages this semester.</p>
+<section id="installing-packages-from-cran" class="level3">
+<h3 data-anchor-id="installing-packages-from-cran">Installing packages from CRAN</h3>
+<p>Many contributed packages are hosted on the <a href="https://cran.r-project.org/web/packages/available_packages_by_name.html">CRAN package repository</a>. What’s really nice about CRAN is that packages have to go through quite a few checks in order for CRAN to approve and host them. Checks include making sure the package has documentation, works on a variety of systems, and doesn’t try to do odd things to your computer. The upshot is that you should feel okay downloading these packages from CRAN.</p>
+<p>To download a package from CRAN, use:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"&lt;package name&gt;"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><strong>NOTE</strong> Throughout this course, if you see something in triangle brackets (<code>&lt;...&gt;</code>), that means it’s a placeholder for you to change accordingly.</p>
+<p>Many packages rely on other packages to function properly. When you use <code>install.packages()</code>, the default option is to install all dependencies. By default, R will check how you installed R and download the right operating system file type.</p>
+<blockquote class="blockquote">
+<h4 id="quick-exercise-3">Quick exercise</h4>
+<p>Install the <a href="https://CRAN.R-project.org/package=tidyverse"><code>tidyverse</code></a> package, which is really a suite of packages that we’ll use throughout the semester. Don’t forget to use double quotation marks around the package name: <code>install.packages("tidyverse")</code></p>
+</blockquote>
+</section>
+<section id="loading-package-libraries" class="level3">
+<h3 data-anchor-id="loading-package-libraries">Loading package libraries</h3>
+<p>Package libraries can loaded in a number of ways, but the easiest it to write:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"&lt;library name&gt;"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>where <code>"&lt;library name&gt;"</code> is the name of the package/library. You will need to load these before you can use their functions in your scripts. Typically, they are placed at the top of the script file.</p>
+<p>For example, let’s load the <code>tidyverse</code> library we just installed:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="do">## load library (note quirk that you don't need quotes here)</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+✔ dplyr     1.1.0     ✔ readr     2.1.4
+✔ forcats   1.0.0     ✔ stringr   1.5.0
+✔ ggplot2   3.4.2     ✔ tibble    3.1.8
+✔ lubridate 1.9.2     ✔ tidyr     1.3.0
+✔ purrr     1.0.2     
+── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+✖ dplyr::filter() masks stats::filter()
+✖ dplyr::lag()    masks stats::lag()
+ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
+</div>
+</div>
+<p>Notice that when you load the tidyverse (which, again, is actually loading a number of other libraries), you see a lot of output. Not all packages are this noisy, but the information is useful here because it shows all the libraries that are now loaded and ready for you to use.</p>
+</section>
+</section>
+<section id="help" class="level2">
+<h2 data-anchor-id="help">Help</h2>
+<p>I don’t have every R function and nuance memorized, so I certainly don’t expect that you will. With all the user-written packages, it would be difficult to keep up if I tried! When stuck, there are a few ways to get help.</p>
+<section id="help-files" class="level3">
+<h3 data-anchor-id="help-files">Help files</h3>
+<p>In the console, typing a function name immediately after a question mark will bring up that function’s help file (in RStudio, you should see in the bottom right facet):</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="do">## get help file for function</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>?median</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Two question marks will search for the command name in CRAN packages (again, in the bottom right facet):</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="do">## search for function in CRAN</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>??median</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>At first, using help files may feel like trying to use a dictionary to see how to spell a word — if you knew how to spell it, you wouldn’t need the dictionary! Similarly, if you knew what you needed, you wouldn’t need the help file. But over time, they will become more useful, particularly when you want to figure out an obscure option that will give you <em>exactly</em> what you need.</p>
+</section>
+<section id="google-it" class="level3">
+<h3 data-anchor-id="google-it">Google it!</h3>
+<p>Google is a coder’s best friend. If you are having a problem, odds are a 1,000+ other people have too and at least one of them has been brave enough to ask about it in a forum like <a href="https://stackoverflow.com">StackOverflow</a>, <a href="https://stackoverflow.com">CrossValidated</a>, or <a href="https://stat.ethz.ch/mailman/listinfo/r-help">R-help mailing list</a>.</p>
+<p>If you are lucky, you’ll find the <em>exact</em> answer to your question. More likely, you’ll find a partial answer that you’ll need to modify for your needs. Sometimes, you’ll find multiple partial answers that, in combination, help you figure out a solution. It can feel overwhelming at first, particularly if it’s a way of problem-solving that’s different from what you’re used to. But it does become easier with practice.</p>
+<p>Google it!</p>
+</section>
+<section id="asking-for-help-order-of-operations" class="level3">
+<h3 data-anchor-id="asking-for-help-order-of-operations">Asking for help: order of operations</h3>
+<p>When needing help for this class, your order of operations should be:</p>
+<ol type="1">
+<li>Try a lot on your own (perhaps using <a href="https://en.wikipedia.org/wiki/Rubber_duck_debugging">rubber duck debugging</a>)</li>
+<li>R help files</li>
+<li>Google</li>
+<li>Class peers (directly or through our <a href="https://github.com/edquant/edh7916/issues?q=is%3Aissue+is%3Aopen">Issues</a> page)</li>
+<li>Me</li>
+</ol>
+<p>This is not because I don’t want to help. My concern is the opposite: that I’m likely to just show you. Data analysis is tricky because no two problems are alike. But over time, they do rhyme. The time you put in now learning to figure things out on your own will be well paid in the future.</p>
+</section>
+</section>
+<section id="useful-packages" class="level2">
+<h2 data-anchor-id="useful-packages">Useful packages</h2>
+<p>We’re going to use a number of packages this semester. While we may need more than this list — and you almost certainly will in your own future work — let’s install these to get us started.</p>
+<blockquote class="blockquote">
+<h4 id="quick-exercise-4">Quick exercise</h4>
+<p>Install the following packages using the <code>install.packages()</code> function: - <code>devtools</code> - <code>here</code> - <code>usethis</code> - <code>gitcreds</code></p>
+</blockquote>
+</section>
+</div>
+<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
+<section id="software-installation" class="level2">
+<h2 data-anchor-id="software-installation">Software installation</h2>
+<p>If you weren’t able to get everything set up and working prior to or during our first class meeting, please take time to finish installing all the software required for the course. Please set up a time to meet with me ASAP if you are having issues.</p>
+</section>
+<section id="practice-creating-an-r-.r-script" class="level2">
+<h2 data-anchor-id="practice-creating-an-r-.r-script">Practice creating an R (<code>*.R</code>) script</h2>
+<ol type="1">
+<li><p>Open RStudio</p></li>
+<li><p>Initialize a <em>New File</em> &gt; <em>R Script</em> in RStudio. Save it as <code>&lt;lastname&gt;_assignment_1.R</code> in the <code>assignments</code> folder in your personal repo, replacing <code>&lt;lastname&gt;</code> with your last name. For example, I would call my assignment <code>skinner_assignment_1.R</code> and it would be located in the following location:</p>
+<pre><code>student_skinner/
+|
+|__assignments/
+    |
+    |__skinner_assignment_1.R
+</code></pre>
+<p><strong>NOTE</strong> that you can complete these steps using either the drop down menus or the icons.</p>
+<p>Also, don’t forget to add <code>.R</code> to the end of your file. You will know you’ve done it correctly if the tab with your file name changes to include an icon that looks like a sheet of paper with an “R” superimposed on it.</p></li>
+<li><p>Copy the following code snippet into your file and save the file:</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="do">## install rmarkdown package</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"rmarkdown"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<li><p>Run the code to install the RMarkdown package either by</p>
+<ol type="1">
+<li>Highlighting the code and pushing the <em>Run</em> button</li>
+<li>Putting your cursor on the line of code and using the key combo of Command-Enter (Mac) or Control-Enter (Windows) to run</li>
+</ol></li>
+</ol>
+</section>
+</div>
+</div>
+</div>
+
+
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item">
+    <a class="nav-link" href="https://capaldi.info">M.J. Capaldi</a>
+  </li>  
+</ul>
+    </div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item">
+    <a class="nav-link" href="https://quarto.org/docs/websites">Built with Quarto</a>
+  </li>  
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/ttalVlatt/EDH-7916">
+      <i class="bi bi-github" role="img" aria-label="Website Code Available Here">
+</i> 
+    </a>
+  </li>  
+</ul>
+    </div>
+  </div>
+</footer>
+
+
+
+</body></html>
