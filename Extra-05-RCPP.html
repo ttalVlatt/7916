@@ -860,9 +860,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>tm_single</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Unit: microseconds
-   expr   min    lq     mean median     uq      max neval cld
- base_R 3.641 3.773 5.459456  3.907 6.2055  166.983  1000   a
-   Rcpp 1.910 2.126 5.117498  2.350 4.2775 1767.141  1000   a</code></pre>
+   expr   min    lq     mean median    uq      max neval cld
+ base_R 3.651 3.750 4.010598 3.8520 4.029   20.679  1000   a
+   Rcpp 1.906 2.141 4.500577 2.3035 4.185 1378.462  1000   a</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="do">## plot</span></span>
 <span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="fu">autoplot</span>(tm_single)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -881,7 +881,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a>                      df_col<span class="sc">$</span>unitid))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   user  system elapsed 
-  6.219   0.178   9.616 </code></pre>
+  5.532   0.044   6.306 </code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="do">## ...and now Rcpp version</span></span>
 <span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="fu">system.time</span>(<span class="fu">dist_mtom_rcpp</span>(df_cbg<span class="sc">$</span>lon[<span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>],</span>
@@ -892,7 +892,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a>                           df_col<span class="sc">$</span>unitid))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   user  system elapsed 
-  0.049   0.001   0.054 </code></pre>
+  0.062   0.002   0.068 </code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="do">## compare just 10 many to many</span></span>
 <span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>tm_mtom <span class="ot">&lt;-</span> <span class="fu">microbenchmark</span>(<span class="at">base_R =</span> <span class="fu">dist_mtom</span>(df_cbg<span class="sc">$</span>lon[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>],</span>
@@ -913,9 +913,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb42-17"><a href="#cb42-17" aria-hidden="true" tabindex="-1"></a>tm_mtom</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Unit: milliseconds
-   expr       min         lq       mean    median        uq        max neval
- base_R 465.67615 531.113232 618.809726 571.22601 640.00712 1389.35848   100
-   Rcpp   4.05232   4.454401   5.879125   5.09426   6.33448   17.54123   100
+   expr        min        lq       mean     median         uq        max neval
+ base_R 409.045492 446.55024 506.787092 494.631705 554.894677 774.337767   100
+   Rcpp   4.031125   4.10577   5.087788   4.911738   5.869729   9.618541   100
  cld
   a 
    b</code></pre>
@@ -937,7 +937,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb45-7"><a href="#cb45-7" aria-hidden="true" tabindex="-1"></a>                     df_col<span class="sc">$</span>unitid))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   user  system elapsed 
-  6.195   0.185   8.500 </code></pre>
+  5.308   0.026   5.446 </code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="do">## ...and now Rcpp version</span></span>
 <span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a><span class="fu">system.time</span>(<span class="fu">dist_min_rcpp</span>(df_cbg<span class="sc">$</span>lon[<span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>],</span>
@@ -948,7 +948,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb47-7"><a href="#cb47-7" aria-hidden="true" tabindex="-1"></a>                          df_col<span class="sc">$</span>unitid))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   user  system elapsed 
-  0.051   0.002   0.055 </code></pre>
+  0.049   0.000   0.050 </code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="do">## compare just 10 min</span></span>
 <span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>tm_min <span class="ot">&lt;-</span> <span class="fu">microbenchmark</span>(<span class="at">base_R =</span> <span class="fu">dist_min</span>(df_cbg<span class="sc">$</span>lon[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>],</span>
@@ -968,9 +968,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb49-16"><a href="#cb49-16" aria-hidden="true" tabindex="-1"></a>tm_min</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Unit: milliseconds
-   expr        min         lq       mean     median         uq        max neval
- base_R 467.321977 531.190761 630.356619 587.816613 684.943421 1053.74633   100
-   Rcpp   4.736012   5.379869   7.804081   5.804102   7.544159   42.02126   100
+   expr        min         lq       mean     median         uq       max neval
+ base_R 394.187697 450.627588 521.500527 498.440708 587.912705 812.49850   100
+   Rcpp   4.602717   4.807334   5.925393   5.584605   6.413875  16.53974   100
  cld
   a 
    b</code></pre>
@@ -997,7 +997,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb52-7"><a href="#cb52-7" aria-hidden="true" tabindex="-1"></a>                                      df_col<span class="sc">$</span>unitid))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   user  system elapsed 
-109.324   2.435 129.454 </code></pre>
+110.133   0.401 112.701 </code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="do">## show</span></span>
 <span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a>full_min <span class="sc">%&gt;%</span> <span class="fu">tibble</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>

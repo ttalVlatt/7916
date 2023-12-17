@@ -506,10 +506,10 @@ The following object is masked from 'package:graphics':
 <span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="do">## show</span></span>
 <span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>means</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>             x         y
-[1,] -1.932475 35.192844
-[2,] 18.015296  3.260647
-[3,] -5.252591 13.377107</code></pre>
+<pre><code>            x        y
+[1,]  2.37508 20.79650
+[2,] 31.31455 23.20679
+[3,] 54.76006 59.01664</code></pre>
 </div>
 </div>
 <p>Next, we need to keep track of how we assign each point. To that end, we will first initialize an empty numeric vector with a spot for each point, <code>assign_vec</code>. After that, we’ll loop through each point, compute the distance between that point and each mean, and put the index of the closest mean (effectively the label) in the point’s spot in <code>assign_vec</code>. For example, if the first point is closest to the first mean, <code>assign_vec[1] == 1</code>; if the 10th point is closest to the third mean, <code>assign_vec[10] == 3</code>, and so on.</p>
@@ -533,7 +533,7 @@ The following object is masked from 'package:graphics':
 <span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a><span class="do">## show first few</span></span>
 <span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>assign_vec[<span class="dv">1</span><span class="sc">:</span><span class="dv">20</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code> [1] 2 3 1 1 3 3 2 1 3 3 1 1 1 1 1 2 1 2 2 2</code></pre>
+<pre><code> [1] 2 1 3 1 1 1 2 1 1 1 1 3 3 3 1 2 1 2 1 3</code></pre>
 </div>
 </div>
 <blockquote class="blockquote">
@@ -817,18 +817,18 @@ The following object is masked from 'package:graphics':
 <span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="do">## check centers and wcss</span></span>
 <span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>km_3d<span class="sc">$</span>assignments[<span class="dv">1</span><span class="sc">:</span><span class="dv">20</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code> [1] 3 2 1 2 2 2 3 2 2 2 2 1 1 1 2 3 2 3 3 1</code></pre>
+<pre><code> [1] 3 1 2 1 1 1 3 1 1 1 1 2 2 2 1 3 1 3 3 2</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>km_3d<span class="sc">$</span>centers</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>           [,1]     [,2]      [,3]
-[1,] 54.8865406 54.97876 105.13575
-[2,]  0.8928973 25.51276  25.58783
+[1,]  0.8928973 25.51276  25.58783
+[2,] 54.8865406 54.97876 105.13575
 [3,] 25.2858908 10.26503 -24.21246</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>km_3d<span class="sc">$</span>wcss</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 159247.5 153343.3 167007.1</code></pre>
+<pre><code>[1] 153343.3 159247.5 167007.1</code></pre>
 </div>
 </div>
 </section>
