@@ -365,10 +365,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
-✔ dplyr     1.1.0     ✔ readr     2.1.4
-✔ forcats   1.0.0     ✔ stringr   1.5.0
-✔ ggplot2   3.4.2     ✔ tibble    3.1.8
-✔ lubridate 1.9.2     ✔ tidyr     1.3.0
+✔ dplyr     1.1.4     ✔ readr     2.1.4
+✔ forcats   1.0.0     ✔ stringr   1.5.1
+✔ ggplot2   3.4.4     ✔ tibble    3.2.1
+✔ lubridate 1.9.3     ✔ tidyr     1.3.0
 ✔ purrr     1.0.2     
 ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
 ✖ dplyr::filter() masks stats::filter()
@@ -624,7 +624,7 @@ The following object is masked from 'package:readr':
  8 1967-01-01  2525
  9 1968-01-01  2606
 10 1969-01-01  2842
-# … with 47 more rows</code></pre>
+# ℹ 47 more rows</code></pre>
 </div>
 </div>
 <p>You can see that the date format adds a month and day (January 1st by default). While these particular dates probably aren’t right, we won’t use them later when graphing so they can stay.</p>
@@ -760,25 +760,25 @@ The following object is masked from 'package:readr':
 <span id="cb34-25"><a href="#cb34-25" aria-hidden="true" tabindex="-1"></a>tab</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 57 × 25
-    year hs_co…¹ hs_co…² hs_co…³ hs_co…⁴ hs_co…⁵ hs_co…⁶ enr_pct enr_p…⁷ enr_p…⁸
-   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;
- 1  1960    1679    44.5     756    32.3     923    30.1    45.1    2.16      NA
- 2  1961    1763    46.7     790    33.7     973    31.8    48      2.12      NA
- 3  1962    1838    44.3     872    32       966    30.4    49      2.08      NA
- 4  1963    1741    44.9     794    32.6     947    30.5    45      2.12      NA
- 5  1964    2145    43.6     997    32.3    1148    28.9    48.3    1.92      NA
- 6  1965    2659    48.5    1254    35.7    1405    32.5    50.9    1.73      NA
- 7  1966    2612    45.7    1207    34.4    1405    29.5    50.1    1.74      NA
- 8  1967    2525    38.5    1142    28.9    1383    24.7    51.9    1.44      NA
- 9  1968    2606    38      1184    28.7    1422    24.2    55.4    1.41      NA
-10  1969    2842    36.6    1352    27.3    1490    24.2    53.3    1.36      NA
-# … with 47 more rows, 15 more variables: enr_pct_2_se &lt;dbl&gt;, enr_pct_4 &lt;dbl&gt;,
-#   enr_pct_4_se &lt;dbl&gt;, enr_pct_m &lt;dbl&gt;, enr_pct_m_se &lt;dbl&gt;, enr_pct_2_m &lt;dbl&gt;,
+    year hs_comp_tot hs_comp_tot_se hs_comp_m hs_comp_m_se hs_comp_f
+   &lt;dbl&gt;       &lt;dbl&gt;          &lt;dbl&gt;     &lt;dbl&gt;        &lt;dbl&gt;     &lt;dbl&gt;
+ 1  1960        1679           44.5       756         32.3       923
+ 2  1961        1763           46.7       790         33.7       973
+ 3  1962        1838           44.3       872         32         966
+ 4  1963        1741           44.9       794         32.6       947
+ 5  1964        2145           43.6       997         32.3      1148
+ 6  1965        2659           48.5      1254         35.7      1405
+ 7  1966        2612           45.7      1207         34.4      1405
+ 8  1967        2525           38.5      1142         28.9      1383
+ 9  1968        2606           38        1184         28.7      1422
+10  1969        2842           36.6      1352         27.3      1490
+# ℹ 47 more rows
+# ℹ 19 more variables: hs_comp_f_se &lt;dbl&gt;, enr_pct &lt;dbl&gt;, enr_pct_se &lt;dbl&gt;,
+#   enr_pct_2 &lt;dbl&gt;, enr_pct_2_se &lt;dbl&gt;, enr_pct_4 &lt;dbl&gt;, enr_pct_4_se &lt;dbl&gt;,
+#   enr_pct_m &lt;dbl&gt;, enr_pct_m_se &lt;dbl&gt;, enr_pct_2_m &lt;dbl&gt;,
 #   enr_pct_2_m_se &lt;dbl&gt;, enr_pct_4_m &lt;dbl&gt;, enr_pct_4_m_se &lt;dbl&gt;,
 #   enr_pct_f &lt;dbl&gt;, enr_pct_f_se &lt;dbl&gt;, enr_pct_2_f &lt;dbl&gt;,
-#   enr_pct_2_f_se &lt;dbl&gt;, enr_pct_4_f &lt;dbl&gt;, enr_pct_4_f_se &lt;dbl&gt;, and
-#   abbreviated variable names ¹​hs_comp_tot, ²​hs_comp_tot_se, ³​hs_comp_m,
-#   ⁴​hs_comp_m_se, ⁵​hs_comp_f, ⁶​hs_comp_f_se, ⁷​enr_pct_se, ⁸​enr_pct_2</code></pre>
+#   enr_pct_2_f_se &lt;dbl&gt;, enr_pct_4_f &lt;dbl&gt;, enr_pct_4_f_se &lt;dbl&gt;</code></pre>
 </div>
 </div>
 <p>Got it!</p>
@@ -824,7 +824,7 @@ The following object is masked from 'package:readr':
  8  1960 enr_pct_2_m     NA   NA   
  9  1960 enr_pct_4_m     NA   NA   
 10  1960 enr_pct_f       37.9  2.85
-# … with 674 more rows</code></pre>
+# ℹ 674 more rows</code></pre>
 </div>
 </div>
 </section>
@@ -857,7 +857,7 @@ The following object is masked from 'package:readr':
  8 1962-01-01 Men       55    3     60.9  49.1
  9 1962-01-01 Women     43.5  2.84  49.1  37.9
 10 1963-01-01 All       45    2.12  49.2  40.8
-# … with 161 more rows</code></pre>
+# ℹ 161 more rows</code></pre>
 </div>
 </div>
 <p>First, let’s plot the overall average. Notice that we use the <code>filter()</code> function in the <code>ggplot()</code> function to remove the subgroup estimates for men and women.</p>

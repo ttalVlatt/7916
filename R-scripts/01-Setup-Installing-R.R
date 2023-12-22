@@ -12,7 +12,9 @@
 ## Welcome!
 ## ---------------------------------------------------------
 
-print('Hello, World!')
+print("Hello, World!")
+
+1 + 1
 
 ## ---------------------------------------------------------
 ## Assignment
@@ -21,15 +23,17 @@ print('Hello, World!')
 ## assign value to object x using <-
 x <- 1
 
-## when you input a number or character, R returns it back to you
-1
-"a"
-
 ## what's in x?
 x
 
-## wrap in () to print after assignment
-(x <- 5)
+##' @Matt needs to work on this  
+##' Matt needs to work on [this]
+##' Matt *needs* to work on this
+##' [Matt: needs to work on this]
+
+## Try commenting/uncommenting the below line
+
+# Matt <- "Hi"
 
 
 

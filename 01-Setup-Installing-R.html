@@ -281,12 +281,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./12-Program-Stats.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">I: Basic Statistical Models</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="./13-Program-Functional.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">II: Functions &amp; Loops</span></a>
   </div>
@@ -354,218 +348,225 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
 <section id="getting-started" class="level2">
 <h2 data-anchor-id="getting-started">Getting started</h2>
-<p>This course requires you to install a few bits of software on your computer. Specifically, you need:</p>
+<p>The primary pieces of software you are going to need for this class are</p>
 <ul>
 <li>R</li>
 <li>RStudio</li>
-<li>git</li>
-<li>LaTeX</li>
+<li>Microsoft Office
+<ul>
+<li>I am going to assume you already have this, but we can meet to install it if not, it is free for UF students</li>
+</ul></li>
 </ul>
-<p>These instructions should help you find and download what you need. You do not need to use this guide, but it may help, particularly if you aren’t used to downloading and installing open source software.</p>
-<p>I’ve done my best to include screenshots of each step or provide links to external sites that already have excellent instructions (<em>e.g.</em>, git). One snag, however, is that while some in the class may use Windows/PC, others use Apple/MacOS (I’m making the assumption that no one is using Linux — if you are, you probably don’t need these instructions!). I personally use MacOS. This means that some of the screenshots are based on what I see as a Mac user on the software websites. But where I can, I show sections for MacOS and Windows downloads.</p>
-<p>I also can’t walk you through each step of the installation once you’ve downloaded the correct files, again, because operating systems differ. That said, he good news is that with only one exception (sorry Windows users!), you should be able to install all software using the default process like you do with most other software.</p>
+<p>There are also a few optional pieces of software you’ll need for extra credit lessons, but we will cover when needed.</p>
 </section>
 <section id="installing-r" class="level2">
 <h2 data-anchor-id="installing-r">Installing R</h2>
-<p>First things first, we’ll get R, which you can find at <a href="https://cran.r-project.org">https://cran.r-project.org</a>. Depending on your operating system (OS), you’ll click one of the following links at the top of the home page.</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="{{ site.baseurl }}/{{ site.img }}/cran_home.png" class="img-fluid figure-img"></p>
-<figcaption class="figure-caption">CRAN homepage</figcaption>
-</figure>
-</div>
-<section id="r-for-macos" class="level3">
-<h3 data-anchor-id="r-for-macos">R for MacOS</h3>
-<p>When downloading R for MacOS, you’ll want to click the link for the latest version of R: <code>R-&lt;#&gt;.&lt;#&gt;.&lt;#&gt;.pkg</code> where <code>&lt;#&gt;.&lt;#&gt;.&lt;#&gt;</code> represent the major, minor, and patch numbers. As of the writing of this document (May 2020), the latest version of R is R 4.0.0 — it may be different (higher) when you download. Just grab the one inside the red box.</p>
-<p>You may be asked if you want to allow the download. If so, say yes and pay attention to where you save it (typically your Downloads folder). Once it has finished downloading, double click on the package icon and follow the default directions to install.</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="{{ site.baseurl }}/{{ site.img }}/cran_mac_install.png" class="img-fluid figure-img"></p>
-<figcaption class="figure-caption">Page to download R for MacOS</figcaption>
-</figure>
-</div>
-</section>
-<section id="r-for-windows" class="level3">
-<h3 data-anchor-id="r-for-windows">R for Windows</h3>
-<p>When downloading R for Windows, you’ll first be taken to an intermediate screen. Just click the indicated link to go to the next page.</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="{{ site.baseurl }}/{{ site.img }}/cran_windows_intermediate_screen.png" class="img-fluid figure-img"></p>
-<figcaption class="figure-caption">Intermediate page to download R for Windows</figcaption>
-</figure>
-</div>
-<p>On the next screen, click the link to “Download <code>R-&lt;#&gt;.&lt;#&gt;.&lt;#&gt;</code> for Windows” where <code>&lt;#&gt;.&lt;#&gt;.&lt;#&gt;</code> represent the major, minor, and patch numbers. As of the writing of this document (May 2020), the latest version of R is R 4.0.0 — it may be different (higher) when you download. Just grab the one inside the red box.</p>
-<p>You may be asked if you want to allow the download. If so, say yes and pay attention to where you save it (typically your Downloads folder). Once it has finished downloading, double click on the installation icon and follow the default directions to install.</p>
-<p>Depending on the level of control you have on your computer and how you typically install software, you may want to install R as an administrator. I would recommend that to head off issues down the road, but if you don’t have administrator privileges then go ahead an install as a user.</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="{{ site.baseurl }}/{{ site.img }}/cran_windows_install.png" class="img-fluid figure-img"></p>
-<figcaption class="figure-caption">Page to download R for Windows</figcaption>
-</figure>
-</div>
-</section>
+<ul>
+<li>R is fantastic (hopefully you will see that throughout the course), but sometimes it can make things seem more complicated than they need to
+<ul>
+<li>The first time it does this is when trying to install it, there’s a bunch of options called “mirrors”
+<ul>
+<li>These are basically to reduce strain on the servers that you download from by using the closest location</li>
+</ul></li>
+<li>The good news, however, is that a <a href="https://cloud.r-project.org">URL</a> that automates this whole process for you came out recently</li>
+<li>The even better news is that I’ve set up a little portal to that URL here, so you can download it without leaving this page</li>
+</ul></li>
+</ul>
+<iframe width="900" height="600" src="https://cloud.r-project.org"></iframe>
+<ol type="1">
+<li>Click the option for the OS you have (Windows/Mac/Linux)</li>
+<li>Then under the “latest release”</li>
+</ol>
+<ol type="i">
+<li>For windows users, select “base” then “Download R…” (the top options)</li>
+<li>For mac users, select either apple silicon or intel options depending on how new your mac is - If you need to check which kind your mac is, hit the apple logo in the top left of your screen, then “About This Mac” then under “Processor” it will either intel or silicon. I can also help you with this in class if needed.</li>
+</ol>
+<ol start="3" type="1">
+<li>R will then download, double click on the download when it’s finished and then follow the on-screen prompts</li>
+<li>R is now (hopefully) installed!</li>
+</ol>
+<ul>
+<li>Note: If you’re using a work computer you may run into issues with administrator privileges, we can work on this individually</li>
+</ul>
 </section>
 <section id="installing-rstudio" class="level2">
 <h2 data-anchor-id="installing-rstudio">Installing RStudio</h2>
-<p>Now that you’ve installed R, it’s time to get RStudio, the program we’ll use to work with R. Start by going to the RStudio home page: <a href="https://rstudio.com">https://rstudio.com</a>.</p>
-<p>At the very top, you’ll see a link to “Downloads”: click that.</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="{{ site.baseurl }}/{{ site.img }}/rstudio_home.png" class="img-fluid figure-img"></p>
-<figcaption class="figure-caption">Rstudio homepage</figcaption>
-</figure>
-</div>
-<p>You’ll be presented with a number of versions of RStudio to install. We’ll choose the free desktop version (naturally!).</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="{{ site.baseurl }}/{{ site.img }}/rstudio_version.png" class="img-fluid figure-img"></p>
-<figcaption class="figure-caption">RStudio version selection</figcaption>
-</figure>
-</div>
-<p>You’ll now see a button to download RStudio. Step (1) is to download R, but we’ve already done that so we’re good.</p>
-<p>One thing: the RStudio website is smart and tries to guess your OS so that it can present you with a big button to download the correct version. As you can see, it worked for me: I’m shown a button to download RStudio for MacOS. If you go to the website on a computer using Windows, the button should instead be a link to install RStudio for Windows. If all works, then you can click the button either way (yours just may look different), download, and install as normal. If the button doesn’t have your correct OS, then go to the next step.</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="{{ site.baseurl }}/{{ site.img }}/rstudio_install.png" class="img-fluid figure-img"></p>
-<figcaption class="figure-caption">RStudio install button</figcaption>
-</figure>
-</div>
-<p>Just below the big button, you’ll see the full list of RStudio versions. You can also pick your correct version here. Same as before, just click the link, download, and install as normal.</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="{{ site.baseurl }}/{{ site.img }}/rstudio_install_opt.png" class="img-fluid figure-img"></p>
-<figcaption class="figure-caption">RStudio install options</figcaption>
-</figure>
-</div>
-</section>
-<section id="installing-git" class="level2">
-<h2 data-anchor-id="installing-git">Installing git</h2>
-<p>There are two things you need to do to use git/GitHub in our course: (1) have an installation of git and (2) have a GitHub account. Rather than reinventing the wheel, I suggest following the instructions from Jenny Bryan.</p>
+<ul>
+<li><em>Technically</em>, R is all you need to do all of our analyses. However, to make it accessible and usable, we also need a “development environment”
+<ul>
+<li>The reason of this, unlike a computer program like Stata or SAS, R is a programming language (same as Python, C++, etc.), that’s what we just installed</li>
+<li>The easiest way to use programming languages is through a “development environment”
+<ul>
+<li>There are multiple “development environments” you can use for R. VSCode is a great option by Microsoft for using a variety of languages, but, the best option for R is RStudio and it is purpose built for the language (it also works with Python too)</li>
+</ul></li>
+</ul></li>
+<li>I did try to create another little portal below, but, sadly Posit (the company who created RStudio) have disabled the way I do that. Instead…</li>
+</ul>
 <ol type="1">
-<li><a href="https://happygitwithr.com/github-acct.html">Get a GitHub account</a></li>
-<li><a href="https://happygitwithr.com/install-git.html">Install git on your computer</a></li>
+<li>Go to <a href="https://posit.co/download/rstudio-desktop/">this site</a> and click the “Download RStudio Desktop for…” button underneath “2: Install RStudio” (we already did step 1)</li>
 </ol>
-<p><strong>NOTE</strong> As part of registering an account with GitHub, I recommend requesting an <a href="https://happygitwithr.com/github-acct.html#free-private-repos">Education Discount so you can get free private repositories for future work</a>.</p>
+<ul>
+<li>This is simpler than installing R, Posit have a more sophisticated website which will automatically download the right version for your computer</li>
+</ul>
+<ol start="2" type="1">
+<li>RStudio will then download, double click on the download when it’s finished and then follow the on-screen prompts</li>
+</ol>
+<ul>
+<li>For mac users, this will just be drag n’ drop RStudio into your Applications folder</li>
+</ul>
+<ol start="3" type="1">
+<li>RStudio is now (hopefully) installed!</li>
+</ol>
+<ul>
+<li>Note: If you’re using a work computer you may run into issues with administrator privileges, we can work on this individually</li>
+</ul>
+<!--
+
+
+
+```{=html}
+<iframe width="900" height="600" sandbox="allow-same-origin allow-scripts allow-popups allow-forms allow-top-navigation allow-pointer-lock"
+src="https://posit.co/download/rstudio-desktop/"></iframe>
+```
+
+
+
+-->
 </section>
-<section id="installing-latex" class="level2">
-<h2 data-anchor-id="installing-latex">Installing LaTeX</h2>
-<p>LaTeX is a document typesetting system/language. While it’s probably best known for its ability to nicely typeset mathematical equations, LaTeX works really well quantitative research workflows. That said, it can be difficult to install and work with.</p>
-<p>We’ll use LaTeX later in the semester so that you can make nice PDF reports. The good news is that you won’t really need to interact with LaTeX at all to do so — other than to install it now.</p>
-<p>Since you don’t need a full TeX distribution on your computer, you can most likely get by using the <a href="https://yihui.org/tinytex/">TinyTeX</a> distribution that we can install directly from R. If you want a full version of TeX on your computer (<strong>NOTE:</strong> It’s very large), then skip to the full installation for your computer.</p>
-<section id="tinytex" class="level3">
-<h3 data-anchor-id="tinytex">TinyTex</h3>
-<p>Once you’ve installed R and RStudio, open RStudio and type the following in the Console:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"tinytex"</span>)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>tinytex<span class="sc">::</span><span class="fu">install_tinytex</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>This will install the <code>tinytex</code> R package and then install the TinyTeX distribution (it may take a minute or two).</p>
+<section id="lets-see-what-we-just-installed" class="level2">
+<h2 data-anchor-id="lets-see-what-we-just-installed">Let’s See What We Just Installed</h2>
+<ul>
+<li>Hopefully, you should now be able to open RStudio on your computer (it should be the same place all your software is kept)
+<ul>
+<li>Go ahead and open it up!</li>
+</ul></li>
+</ul>
+<p>By default, RStudio has 3-4 main frames:</p>
+<ol type="1">
+<li>Top left: Script window (will be closed at first if you don’t have any scripts open)</li>
+<li>Bottom left: Console</li>
+<li>Top right: Environment / History / Connections</li>
+<li>Bottom right: Files / Plots / Packages / Help / Viewer</li>
+</ol>
+<p>Let’s go ahead and open up our first R script <code>01-Setup-Installing-R.R</code></p>
 </section>
-<section id="optional-full-installation" class="level3">
-<h3 data-anchor-id="optional-full-installation">OPTIONAL: Full installation</h3>
-<p>If you want the full installation, first go the LaTeX home page at <a href="https://www.latex-project.org">https://www.latex-project.org</a>.</p>
-<p><img src="{{ site.baseurl }}/{{ site.img }}/latex_home.png" class="img-fluid"></p>
-<p>If you scroll down slightly, you’ll see options for MacOS (MacTeX) and Windows (MiKTeX) installations. Click the link that applies to your OS and follow the instructions below.</p>
-<p><img src="{{ site.baseurl }}/{{ site.img }}/latex_install.png" class="img-fluid"></p>
-<section id="latex-for-macos-mactex" class="level4">
-<h4 data-anchor-id="latex-for-macos-mactex">LaTeX for MacOS (MacTeX)</h4>
-<p>On the MacTeX home page, first click the link for the MacTeX Download.</p>
-<p><img src="{{ site.baseurl }}/{{ site.img }}/mactex_first.png" class="img-fluid"></p>
-<p>On the next page, click the link for MacTeX.pkg, agree to download, and then double click on the downloaded file to install. Note that this package is very big (~ 4GB) because you are downloading just about everything TeX-related, including some software. It’s what I use, but I use TeX all the time. Just know this in case your storage space is limited on your computer.</p>
-<p><img src="{{ site.baseurl }}/{{ site.img }}/mactex_download.png" class="img-fluid"></p>
-</section>
-<section id="latex-for-windows-miktex" class="level4">
-<h4 data-anchor-id="latex-for-windows-miktex">LaTeX for Windows (MiKTeX)</h4>
-<p>Once you reach the Windows (MiKTeX) homepage, click the Downloads link at the top of the page.</p>
-<p><img src="{{ site.baseurl }}/{{ site.img }}/miktex_home.png" class="img-fluid"></p>
-<p>On the next screen, you’ll want to click on the blue “Download” button, agree to the download, and then install.</p>
-<p><img src="{{ site.baseurl }}/{{ site.img }}/miktex_download.png" class="img-fluid"></p>
-<p><strong>ONE NOTE</strong> MiKTeX is much smaller than MacTeX, but that’s because it doesn’t download everything. Instead, it opts to only install packages as you need them. Cool, expect that doesn’t always work well with RStudio.</p>
-<p>The fix is this: when going through the installation, on the “Settings” screen, be sure to change the default selection for “Install missing packages on-the-fly” from <code>"Ask me first"</code> to <code>"Always"</code>. Continue the installation with the other default options.</p>
-<p><img src="{{ site.baseurl }}/{{ site.img }}/miktex_settings.png" class="img-fluid"></p>
+<section id="basic-r-commands" class="level2">
+<h2 data-anchor-id="basic-r-commands">Basic R Commands</h2>
+<p>First, let’s try the traditional first command!</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="st">'Hello, World!'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="st">"Hello, World!"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "Hello, World!"</code></pre>
 </div>
 </div>
-<p>R is a port of the <a href="https://en.wikipedia.org/wiki/S_(programming_language)">S language</a>, which was developed at Bell Labs. As a <a href="https://www.gnu.org">GNU project</a>, R is open source and free to use and distribute. It can be installed and used on most major operating systems.</p>
-<p>R is best thought of as an integrated <a href="https://www.r-project.org/about.html">language and environment</a> that was designed with statistical computing and data analysis in mind. To that end, its structure is a balance between powerful mathematical computation and high-level functionality that can be used interactively (unlike compiled code). In other words, it’s a great tool for quantitative data analysis since it both allows you to investigate your data easily and, when the time comes, write robust programs.</p>
-<p>Originally, R was probably best known for its graphing capabilities. As it has matured, it has <a href="http://blog.revolutionanalytics.com/2018/01/tiobe-2017.html">grown in popularity among data scientists</a>, who have increasingly <a href="http://blog.revolutionanalytics.com/2017/01/cran-10000.html">extended its functionality through user-contributed packages</a>. We will use a number of packages during this course.</p>
-</section>
-</section>
-</section>
-<section id="rstudio-an-integrated-development-environment-ide-for-r" class="level2">
-<h2 data-anchor-id="rstudio-an-integrated-development-environment-ide-for-r">RStudio: an integrated development environment (IDE) for R</h2>
-<p>To work with the R language, it helps to have an application. While R ships with one (you may have seen it on your computer after you installed R), it’s pretty plain. <a href="https://www.rstudio.com">RStudio</a>, on the other hand, is a powerful integrated design environment (IDE) that does most everything R-related very well and with little fuss: run commands, write scripts, view output, interact with other languages and remote site, <em>etc</em>. There are other options for working with R, but RStudio is a great all-around program that we will use in this course.</p>
-<p><img src="./edh7916/assets/img/rstudio_script.png" class="img-fluid"></p>
-<p>RStudio has 3-4 main frames:</p>
-<ol type="1">
-<li>Console</li>
-<li>Script window (will be closed at first if you don’t have any scripts open)</li>
-<li>Environment / History / Connections</li>
-<li>Files / Plots / Packages / Help / Viewer</li>
-</ol>
-<p>Each has a useful purpose, but for today, we’ll mostly focus on the console itself.</p>
-<blockquote class="blockquote">
-<h4 id="quick-exercise">Quick exercise</h4>
-<p>If you haven’t already, try entering an equation in the console (like <code>1 + 1</code>). Next, open the script associated with this module and run the first line. Welcome to R!</p>
-</blockquote>
+<p>We can also use R like a basic calculator</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span> <span class="sc">+</span> <span class="dv">1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 2</code></pre>
+</div>
+</div>
+<ul>
+<li>If we want to, we could actually put these commands directly into the console (try copying <code>1 + 1</code> into the console)
+<ul>
+<li>This is actually all running a script does
+<ul>
+<li>We use scripts to save a record of what we did</li>
+</ul></li>
+</ul></li>
+</ul>
 </section>
 <section id="assignment" class="level2">
 <h2 data-anchor-id="assignment">Assignment</h2>
+<ul>
+<li><p>The first two commands we ran simply spat the output out in the console</p>
+<ul>
+<li>This can be useful if you want to check something quickly or if we have our final output</li>
+</ul></li>
+<li><p>More often, though, we want to save the output to our R Environment (top right panel)</p></li>
+<li><p>To do this, we need to <em>assign</em> the output to an <em>object”</em></p></li>
+</ul>
 <p>R is a type of <a href="https://en.wikipedia.org/wiki/Object-oriented_programming">object-oriented programming</a> environment. This means that R thinks of things in its world as objects, which are like virtual boxes in which we can put things: data, functions, and even other objects.</p>
-<p>Before discussing data types and structures, the first lesson in R is how to assign values to objects. In R (<a href="http://blog.revolutionanalytics.com/2008/12/use-equals-or-arrow-for-assignment.html">for quirky reasons</a>), the primary means of assignment is the arrow, <code>&lt;-</code>, which is a less than symbol, <code>&lt;</code>, followed by a hyphen, <code>-</code>.</p>
+<ul>
+<li>In R (<a href="http://blog.revolutionanalytics.com/2008/12/use-equals-or-arrow-for-assignment.html">for quirky reasons</a>), the primary means of assignment is the arrow, <code>&lt;-</code>, which is a less than symbol, <code>&lt;</code>, followed by a hyphen, <code>-</code>.
+<ul>
+<li>You can use <code>=</code> (which is more common across other programming languages), and you may see this “in the wild”</li>
+<li>But R traditionalists prefer <code>&lt;-</code> for clarity and readability</li>
+<li>Which you use is up to you! (I generally use <code>&lt;-</code>)</li>
+</ul></li>
+</ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="do">## assign value to object x using &lt;-</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="do">## assign value to object x using &lt;-</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p><strong>NOTE</strong>: You can also use a single equals sign, <code>=</code>, to assign a value to an object: <code>x = 1</code>. Keep in mind, however, that since <code>=</code> sometimes has other meanings in R and can be confused with <code>==</code>, which is different, it’s generally clearer to use <code>&lt;-</code>.</p>
 <section id="buts-wheres-the-output" class="level3">
 <h3 data-anchor-id="buts-wheres-the-output">But’s where’s the output?</h3>
-<p>R does <em>exactly</em> what you ask it to do — no more, no less. If you don’t ask it to return something, either explicitly from a function or implicitly by printing to the console, it won’t. This can be <em>huge</em> source of frustration to new users.</p>
-<p>The good-ish news is that by default, R will print an object’s contents to the console if it’s the only thing you type in. Many functions similarly print to the console if you don’t assign the output to an object. You can see this when simply type a number or character into the console.</p>
+<ul>
+<li>Check out the “Environment” tab on the top left panel
+<ul>
+<li>We see something called <code>x</code> has a value of <code>1</code>
+<ul>
+<li>Now let’s call that object</li>
+</ul></li>
+</ul></li>
+</ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="do">## when you input a number or character, R returns it back to you</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 1</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="st">"a"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] "a"</code></pre>
-</div>
-</div>
-<p>Basically, you’ve just told R “Here’s a <code>1</code>” and R said “The content of <code>1</code> is <code>1</code>”. Same for <code>"a"</code>. The initial number in the square brackets (<code>[1]</code>) is telling you the index (place within the object) of the first item. Since we only have one item, it’s just <code>[1]</code>.</p>
-<p>When you store something in an object, you can type the object’s name into the console to see what’s in it.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="do">## what's in x?</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>x</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="do">## what's in x?</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>x</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 1</code></pre>
 </div>
 </div>
-<p>A neat trick if you want to both assign a value <em>and</em> see the results printed to the output is to to wrap the entire line in <code>()</code>.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="do">## wrap in () to print after assignment</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>(x <span class="ot">&lt;-</span> <span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 5</code></pre>
-</div>
-</div>
+<p>Note: the <code>[1]</code> is just the index (order) number, if we had more than 1 thing in our object, that would be more useful</p>
 <blockquote class="blockquote">
-<h4 id="quick-exercise-1">Quick exercise</h4>
+<h4 id="quick-exercise">Quick exercise</h4>
 <p>Using the arrow, assign the output of <code>1 + 1</code> to <code>x</code>. Next subtract 1 from <code>x</code> and reassign the result to <code>x</code>. Show the value in <code>x</code>.</p>
 </blockquote>
-<p><strong>A NOTE ON “GOOD-ISH”</strong> Keep in mind how much data your object has / might have when printing it to the console. For a small amount, printing is just fine. But if you have, for example, a matrix with 1,000 columns and 1 million rows, printing might not be a useful exercise. There are other ways, such as the function <code>head()</code> that might be more useful in these situations.</p>
 </section>
 </section>
 <section id="comments" class="level2">
 <h2 data-anchor-id="comments">Comments</h2>
-<p>You may have noticed already, but comments in R are set off using the hash or pound character at the beginning of the line: <code>#</code>. The comment character tells R to ignore the line, that is, do not try to interpret it as code you the user want run.</p>
+<ul>
+<li>You may have noticed already, but comments in R are set off using the hash or pound character at the beginning of the line: <code>#</code></li>
+<li>The comment character tells R to ignore the line</li>
+</ul>
 <blockquote class="blockquote">
-<h4 id="quick-exercise-2">Quick exercise</h4>
+<h4 id="quick-exercise-1">Quick exercise</h4>
 <p>Type the phrase “This is a comment” directly into the R console both with and without a leading “#”. What happens each time?</p>
 </blockquote>
-<p>You may notice that I use two hashes. This is a stylistic tick that has more to do with the editor I use than an R requirement. You can use only a single <code>#</code> for your comments if you like.</p>
+<ul>
+<li>You may notice <del>I</del> (Ben, and therefore, now me) use two hashes
+<ul>
+<li>You can use only a single <code>#</code> for your comments if you like, R treats them all the same</li>
+<li>If you’re typing longer comments <code>##'</code> (two hashes and an apostrophe) is really useful in RStudio, as it automatically comments the next line (although this can be annoying at times too)</li>
+<li>If you want to take your comments to the next level <code>##'</code> RStudio also enables some fun color coding options with <code>@</code>, <code>[]</code>, <code>**</code>, and <code>:</code>
+<ul>
+<li>These can be useful in longer scripts to draw attention to specific points</li>
+<li>Note: these only show up in RStudio</li>
+</ul></li>
+</ul></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="do">##' @Matt needs to work on this  </span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="do">##' Matt needs to work on [this]</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="do">##' Matt *needs* to work on this</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="do">##' [Matt: needs to work on this]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li>Lastly, RStudio can comment/uncomment multiple lines of code you’ve already written
+<ul>
+<li>On the top menu bar select “Code” then “Commment/Uncomment Lines”
+<ul>
+<li>Also see the keyboard shortcut next to that option!</li>
+</ul></li>
+</ul></li>
+<li>This is a big time saver!</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Try commenting/uncommenting the below line</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Matt &lt;- "Hi"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 </section>
 <section id="data-types-and-structures" class="level2">
 <h2 data-anchor-id="data-types-and-structures">Data types and structures</h2>
@@ -583,18 +584,33 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="packages" class="level2">
 <h2 data-anchor-id="packages">Packages</h2>
-<p>User-submitted packages are a huge part of what makes R great. You may hear me use the phrases “base R” during class. What I mean by this is the R that comes as you download it with no packages loaded (sometimes also called “vanilla R”). While it’s powerful in and of itself — you can do everything you need with base R — most of your scripts will make use of one of more contributed packages. These will make your data analytic life <em>much</em> nicer. We’ll lean heavily on the <a href="https://www.tidyverse.org">tidyverse</a> suite of packages this semester.</p>
+<ul>
+<li>User-submitted packages are a huge part of what makes R great</li>
+<li>You may hear me use the phrases “base R” during class
+<ul>
+<li>What I mean by this is the R that comes as you download it with no packages loaded (sometimes also called “vanilla R”)</li>
+<li>While it’s powerful in and of itself — you can do everything you need with base R — most of your scripts will make use of one of more contributed packages = These will make your data analytic life <em>much</em> nicer. We’ll lean heavily on the <a href="https://www.tidyverse.org">tidyverse</a> suite of packages this semester.</li>
+</ul></li>
+</ul>
 <section id="installing-packages-from-cran" class="level3">
 <h3 data-anchor-id="installing-packages-from-cran">Installing packages from CRAN</h3>
-<p>Many contributed packages are hosted on the <a href="https://cran.r-project.org/web/packages/available_packages_by_name.html">CRAN package repository</a>. What’s really nice about CRAN is that packages have to go through quite a few checks in order for CRAN to approve and host them. Checks include making sure the package has documentation, works on a variety of systems, and doesn’t try to do odd things to your computer. The upshot is that you should feel okay downloading these packages from CRAN.</p>
+<ul>
+<li>Many contributed packages are hosted on the <a href="https://cran.r-project.org/web/packages/available_packages_by_name.html">CRAN package repository</a>. - What’s really nice about CRAN is that packages have to go through quite a few checks in order for CRAN to approve and host them. Checks include;
+<ul>
+<li>Making sure the package has documentation</li>
+<li>Works on a variety of systems</li>
+<li>Doesn’t try to do odd things to your computer</li>
+</ul></li>
+<li>The upshot is that you should feel okay downloading these packages from CRAN</li>
+</ul>
 <p>To download a package from CRAN, use:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"&lt;package name&gt;"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"&lt;package name&gt;"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><strong>NOTE</strong> Throughout this course, if you see something in triangle brackets (<code>&lt;...&gt;</code>), that means it’s a placeholder for you to change accordingly.</p>
 <p>Many packages rely on other packages to function properly. When you use <code>install.packages()</code>, the default option is to install all dependencies. By default, R will check how you installed R and download the right operating system file type.</p>
 <blockquote class="blockquote">
-<h4 id="quick-exercise-3">Quick exercise</h4>
+<h4 id="quick-exercise-2">Quick exercise</h4>
 <p>Install the <a href="https://CRAN.R-project.org/package=tidyverse"><code>tidyverse</code></a> package, which is really a suite of packages that we’ll use throughout the semester. Don’t forget to use double quotation marks around the package name: <code>install.packages("tidyverse")</code></p>
 </blockquote>
 </section>
@@ -602,19 +618,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 data-anchor-id="loading-package-libraries">Loading package libraries</h3>
 <p>Package libraries can loaded in a number of ways, but the easiest it to write:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"&lt;library name&gt;"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"&lt;library name&gt;"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>where <code>"&lt;library name&gt;"</code> is the name of the package/library. You will need to load these before you can use their functions in your scripts. Typically, they are placed at the top of the script file.</p>
 <p>For example, let’s load the <code>tidyverse</code> library we just installed:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="do">## load library (note quirk that you don't need quotes here)</span></span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="do">## load library (note quirk that you don't need quotes here)</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
-✔ dplyr     1.1.0     ✔ readr     2.1.4
-✔ forcats   1.0.0     ✔ stringr   1.5.0
-✔ ggplot2   3.4.2     ✔ tibble    3.1.8
-✔ lubridate 1.9.2     ✔ tidyr     1.3.0
+✔ dplyr     1.1.4     ✔ readr     2.1.4
+✔ forcats   1.0.0     ✔ stringr   1.5.1
+✔ ggplot2   3.4.4     ✔ tibble    3.2.1
+✔ lubridate 1.9.3     ✔ tidyr     1.3.0
 ✔ purrr     1.0.2     
 ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
 ✖ dplyr::filter() masks stats::filter()
@@ -630,74 +646,56 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>I don’t have every R function and nuance memorized, so I certainly don’t expect that you will. With all the user-written packages, it would be difficult to keep up if I tried! When stuck, there are a few ways to get help.</p>
 <section id="help-files" class="level3">
 <h3 data-anchor-id="help-files">Help files</h3>
-<p>In the console, typing a function name immediately after a question mark will bring up that function’s help file (in RStudio, you should see in the bottom right facet):</p>
+<p>In the console, typing a function name immediately after a question mark will bring up that function’s help file (in RStudio, you should see in the bottom right panel):</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="do">## get help file for function</span></span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>?median</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="do">## get help file for function</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>?median</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Two question marks will search for the command name in CRAN packages (again, in the bottom right facet):</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="do">## search for function in CRAN</span></span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>??median</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="do">## search for function in CRAN</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>??median</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>At first, using help files may feel like trying to use a dictionary to see how to spell a word — if you knew how to spell it, you wouldn’t need the dictionary! Similarly, if you knew what you needed, you wouldn’t need the help file. But over time, they will become more useful, particularly when you want to figure out an obscure option that will give you <em>exactly</em> what you need.</p>
 </section>
+<section id="package-website" class="level3">
+<h3 data-anchor-id="package-website">Package Website</h3>
+<ul>
+<li>While all R packages have to have help files, not all R packages have nice webpages. However, a lot of the main ones do
+<ul>
+<li>I find them much nicer than the CRAN helpfiles</li>
+</ul></li>
+</ul>
+<p>For example, here’s another magic portal to the <code>tidyverse</code>’s <code>dplyr</code> website (you may spent a good amount of time here this semester)</p>
+<iframe width="900" height="600" src="https://dplyr.tidyverse.org"></iframe>
+<p>Usually I Google something like “<package name=""> R” and the website comes up</package></p>
+<p>You can find links to all the <code>tidyverse</code> packages <a href="https://www.tidyverse.org/packages/">here</a></p>
+</section>
 <section id="google-it" class="level3">
 <h3 data-anchor-id="google-it">Google it!</h3>
-<p>Google is a coder’s best friend. If you are having a problem, odds are a 1,000+ other people have too and at least one of them has been brave enough to ask about it in a forum like <a href="https://stackoverflow.com">StackOverflow</a>, <a href="https://stackoverflow.com">CrossValidated</a>, or <a href="https://stat.ethz.ch/mailman/listinfo/r-help">R-help mailing list</a>.</p>
+<p>Google is a coder’s best friend. If you are having a problem, odds are a 1,000+ other people have too and at least one of them has been brave enough (people can be mean on the internet) to ask about it in a forum like <a href="https://stackoverflow.com">StackOverflow</a>, <a href="https://stackoverflow.com">CrossValidated</a>, or <a href="https://stat.ethz.ch/mailman/listinfo/r-help">R-help mailing list</a>.</p>
 <p>If you are lucky, you’ll find the <em>exact</em> answer to your question. More likely, you’ll find a partial answer that you’ll need to modify for your needs. Sometimes, you’ll find multiple partial answers that, in combination, help you figure out a solution. It can feel overwhelming at first, particularly if it’s a way of problem-solving that’s different from what you’re used to. But it does become easier with practice.</p>
-<p>Google it!</p>
-</section>
-<section id="asking-for-help-order-of-operations" class="level3">
-<h3 data-anchor-id="asking-for-help-order-of-operations">Asking for help: order of operations</h3>
-<p>When needing help for this class, your order of operations should be:</p>
-<ol type="1">
-<li>Try a lot on your own (perhaps using <a href="https://en.wikipedia.org/wiki/Rubber_duck_debugging">rubber duck debugging</a>)</li>
-<li>R help files</li>
-<li>Google</li>
-<li>Class peers (directly or through our <a href="https://github.com/edquant/edh7916/issues?q=is%3Aissue+is%3Aopen">Issues</a> page)</li>
-<li>Me</li>
-</ol>
-<p>This is not because I don’t want to help. My concern is the opposite: that I’m likely to just show you. Data analysis is tricky because no two problems are alike. But over time, they do rhyme. The time you put in now learning to figure things out on your own will be well paid in the future.</p>
 </section>
 </section>
 <section id="useful-packages" class="level2">
 <h2 data-anchor-id="useful-packages">Useful packages</h2>
 <p>We’re going to use a number of packages this semester. While we may need more than this list — and you almost certainly will in your own future work — let’s install these to get us started.</p>
 <blockquote class="blockquote">
-<h4 id="quick-exercise-4">Quick exercise</h4>
-<p>Install the following packages using the <code>install.packages()</code> function: - <code>devtools</code> - <code>here</code> - <code>usethis</code> - <code>gitcreds</code></p>
+<h4 id="quick-exercise-3">Quick exercise</h4>
+<p>Install the following packages using the <code>install.packages()</code> function:</p>
+</blockquote>
+<blockquote class="blockquote">
+<ul>
+<li><code>devtools</code></li>
+<li><code>knitr</code></li>
+<li><code>quarto</code></li>
+</ul>
 </blockquote>
 </section>
 </div>
 <div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
-<section id="software-installation" class="level2">
-<h2 data-anchor-id="software-installation">Software installation</h2>
-<p>If you weren’t able to get everything set up and working prior to or during our first class meeting, please take time to finish installing all the software required for the course. Please set up a time to meet with me ASAP if you are having issues.</p>
-</section>
-<section id="practice-creating-an-r-.r-script" class="level2">
-<h2 data-anchor-id="practice-creating-an-r-.r-script">Practice creating an R (<code>*.R</code>) script</h2>
-<ol type="1">
-<li><p>Open RStudio</p></li>
-<li><p>Initialize a <em>New File</em> &gt; <em>R Script</em> in RStudio. Save it as <code>&lt;lastname&gt;_assignment_1.R</code> in the <code>assignments</code> folder in your personal repo, replacing <code>&lt;lastname&gt;</code> with your last name. For example, I would call my assignment <code>skinner_assignment_1.R</code> and it would be located in the following location:</p>
-<pre><code>student_skinner/
-|
-|__assignments/
-    |
-    |__skinner_assignment_1.R
-</code></pre>
-<p><strong>NOTE</strong> that you can complete these steps using either the drop down menus or the icons.</p>
-<p>Also, don’t forget to add <code>.R</code> to the end of your file. You will know you’ve done it correctly if the tab with your file name changes to include an icon that looks like a sheet of paper with an “R” superimposed on it.</p></li>
-<li><p>Copy the following code snippet into your file and save the file:</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="do">## install rmarkdown package</span></span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"rmarkdown"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
-<li><p>Run the code to install the RMarkdown package either by</p>
-<ol type="1">
-<li>Highlighting the code and pushing the <em>Run</em> button</li>
-<li>Putting your cursor on the line of code and using the key combo of Command-Enter (Mac) or Control-Enter (Windows) to run</li>
-</ol></li>
-</ol>
-</section>
+<p>There’s no official assignment this week, just make sure you have been able to install everything covered in this lesson. If you haven’t, please set up a meeting with me ASAP!</p>
+<p>If you really want something to do, start thinking about ideas for your <a href="./99-Final-Project.html">final project</a>!</p>
 </div>
 </div>
 </div>

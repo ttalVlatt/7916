@@ -281,12 +281,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./12-Program-Stats.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">I: Basic Statistical Models</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="./13-Program-Functional.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">II: Functions &amp; Loops</span></a>
   </div>
@@ -393,10 +387,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
-✔ dplyr     1.1.0     ✔ readr     2.1.4
-✔ forcats   1.0.0     ✔ stringr   1.5.0
-✔ ggplot2   3.4.2     ✔ tibble    3.1.8
-✔ lubridate 1.9.2     ✔ tidyr     1.3.0
+✔ dplyr     1.1.4     ✔ readr     2.1.4
+✔ forcats   1.0.0     ✔ stringr   1.5.1
+✔ ggplot2   3.4.4     ✔ tibble    3.2.1
+✔ lubridate 1.9.3     ✔ tidyr     1.3.0
 ✔ purrr     1.0.2     
 ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
 ✖ dplyr::filter() masks stats::filter()
@@ -448,25 +442,25 @@ dbl (43): UNITID, FIPS, OBEREG, GENTELE, OPEFLAG, SECTOR, ICLEVEL, CONTROL, ...
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(stabbr <span class="sc">==</span> <span class="st">"FL"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 316 × 59
-   unitid instnm     addr  city  stabbr zip    fips obereg chfnm chfti…¹ gentele
-    &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;     &lt;dbl&gt;
- 1 132268 Wyotech-D… 470 … Ormo… FL     32174    12      5 Stev… Presid… 3.86e12
- 2 132338 The Art I… 1799… Fort… FL     3331…    12      5 Char… Presid… 9.54e13
- 3 132374 Atlantic … 4700… Coco… FL     3306…    12      5 Robe… Direct… 7.54e 9
- 4 132408 The Bapti… 5400… Grac… FL     32440    12      5 Thom… Presid… 8.50e 9
- 5 132471 Barry Uni… 1130… Miami FL     3316…    12      5 Sist… Presid… 8.01e 9
- 6 132523 Gooding I… 615 … Pana… FL     32401    12      5 Dr. … CRNA P… 8.51e 9
- 7 132602 Bethune-C… 640 … Dayt… FL     3211…    12      5 Dr T… Presid… 3.86e 9
- 8 132657 Lynn Univ… 3601… Boca… FL     3343…    12      5 Kevi… Presid… 5.61e 9
- 9 132666 Bradenton… 5505… Brad… FL     34209    12      5 A. P… CEO     9.42e 9
-10 132675 Bradford-… 609 … Star… FL     32091    12      5 Rand… Direct… 9.05e 9
-# … with 306 more rows, 48 more variables: ein &lt;chr&gt;, opeid &lt;chr&gt;,
-#   opeflag &lt;dbl&gt;, webaddr &lt;chr&gt;, adminurl &lt;chr&gt;, faidurl &lt;chr&gt;, applurl &lt;chr&gt;,
-#   sector &lt;dbl&gt;, iclevel &lt;dbl&gt;, control &lt;dbl&gt;, hloffer &lt;dbl&gt;, ugoffer &lt;dbl&gt;,
-#   groffer &lt;dbl&gt;, fpoffer &lt;dbl&gt;, hdegoffr &lt;dbl&gt;, deggrant &lt;dbl&gt;, hbcu &lt;dbl&gt;,
-#   hospital &lt;dbl&gt;, medical &lt;dbl&gt;, tribal &lt;dbl&gt;, locale &lt;dbl&gt;, openpubl &lt;dbl&gt;,
-#   act &lt;chr&gt;, newid &lt;dbl&gt;, deathyr &lt;dbl&gt;, closedat &lt;chr&gt;, cyactive &lt;dbl&gt;,
-#   postsec &lt;dbl&gt;, pseflag &lt;dbl&gt;, pset4flg &lt;dbl&gt;, rptmth &lt;dbl&gt;, ialias &lt;chr&gt;, …</code></pre>
+   unitid instnm    addr  city  stabbr zip    fips obereg chfnm chftitle gentele
+    &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;      &lt;dbl&gt;
+ 1 132268 Wyotech-… 470 … Ormo… FL     32174    12      5 Stev… Preside… 3.86e12
+ 2 132338 The Art … 1799… Fort… FL     3331…    12      5 Char… Preside… 9.54e13
+ 3 132374 Atlantic… 4700… Coco… FL     3306…    12      5 Robe… Director 7.54e 9
+ 4 132408 The Bapt… 5400… Grac… FL     32440    12      5 Thom… Preside… 8.50e 9
+ 5 132471 Barry Un… 1130… Miami FL     3316…    12      5 Sist… Preside… 8.01e 9
+ 6 132523 Gooding … 615 … Pana… FL     32401    12      5 Dr. … CRNA Ph… 8.51e 9
+ 7 132602 Bethune-… 640 … Dayt… FL     3211…    12      5 Dr T… Preside… 3.86e 9
+ 8 132657 Lynn Uni… 3601… Boca… FL     3343…    12      5 Kevi… Preside… 5.61e 9
+ 9 132666 Bradento… 5505… Brad… FL     34209    12      5 A. P… CEO      9.42e 9
+10 132675 Bradford… 609 … Star… FL     32091    12      5 Rand… Director 9.05e 9
+# ℹ 306 more rows
+# ℹ 48 more variables: ein &lt;chr&gt;, opeid &lt;chr&gt;, opeflag &lt;dbl&gt;, webaddr &lt;chr&gt;,
+#   adminurl &lt;chr&gt;, faidurl &lt;chr&gt;, applurl &lt;chr&gt;, sector &lt;dbl&gt;, iclevel &lt;dbl&gt;,
+#   control &lt;dbl&gt;, hloffer &lt;dbl&gt;, ugoffer &lt;dbl&gt;, groffer &lt;dbl&gt;, fpoffer &lt;dbl&gt;,
+#   hdegoffr &lt;dbl&gt;, deggrant &lt;dbl&gt;, hbcu &lt;dbl&gt;, hospital &lt;dbl&gt;, medical &lt;dbl&gt;,
+#   tribal &lt;dbl&gt;, locale &lt;dbl&gt;, openpubl &lt;dbl&gt;, act &lt;chr&gt;, newid &lt;dbl&gt;,
+#   deathyr &lt;dbl&gt;, closedat &lt;chr&gt;, cyactive &lt;dbl&gt;, postsec &lt;dbl&gt;, …</code></pre>
 </div>
 </div>
 <p>This works well because the <code>stabbr</code> column, even though it uses strings, is regular. But what happens when the strings aren’t so regular? For example, let’s look the different titles chief college administrators take.</p>
@@ -488,7 +482,7 @@ dbl (43): UNITID, FIPS, OBEREG, GENTELE, OPEFLAG, SECTOR, ICLEVEL, CONTROL, ...
  8 President/CEO     
  9 Interim Chancellor
 10 President/COO     
-# … with 546 more rows</code></pre>
+# ℹ 546 more rows</code></pre>
 </div>
 </div>
 <p>We find over 500 unique titles. Just looking at the first 10 rows, we see that some titles are pretty similar — <em>President</em> vs.&nbsp;<em>CEO</em> vs.&nbsp;<em>President/CEO</em> — but not exactly the same. Let’s look again, but this time get counts of each distinct title and arrange from most common to least.</p>
@@ -513,7 +507,7 @@ dbl (43): UNITID, FIPS, OBEREG, GENTELE, OPEFLAG, SECTOR, ICLEVEL, CONTROL, ...
  8 CEO                   90
  9 &lt;NA&gt;                  85
 10 Interim President     75
-# … with 546 more rows</code></pre>
+# ℹ 546 more rows</code></pre>
 </div>
 </div>
 <blockquote class="blockquote">
@@ -559,7 +553,7 @@ dbl (43): UNITID, FIPS, OBEREG, GENTELE, OPEFLAG, SECTOR, ICLEVEL, CONTROL, ...
  8 President and CEO    17
  9 College President    15
 10 President &amp; CEO      14
-# … with 163 more rows</code></pre>
+# ℹ 163 more rows</code></pre>
 </div>
 </div>
 <p>Now we’re seeing many more versions. We can even more clearly see a few titles that are almost certainly the same title, but were just inputted differently — <em>President/CEO</em> vs.&nbsp;<em>President and CEO</em> vs.&nbsp;<em>President &amp; CEO</em>.</p>
@@ -599,7 +593,7 @@ dbl (43): UNITID, FIPS, OBEREG, GENTELE, OPEFLAG, SECTOR, ICLEVEL, CONTROL, ...
  8 President and CEO    17
  9 College President    15
 10 President &amp; CEO      14
-# … with 165 more rows</code></pre>
+# ℹ 165 more rows</code></pre>
 </div>
 </div>
 <p>Though we don’t see the new observations in the abbreviated output, we note that the number of rows has increased by two. This means that there are at least two title formats in which <code>"president"</code> is lowercase and that we weren’t picking up when we only used the uppercase version of <code>"President"</code> before.</p>
@@ -628,7 +622,7 @@ dbl (43): UNITID, FIPS, OBEREG, GENTELE, OPEFLAG, SECTOR, ICLEVEL, CONTROL, ...
  8 President and CEO    17
  9 College President    15
 10 President &amp; CEO      14
-# … with 167 more rows</code></pre>
+# ℹ 167 more rows</code></pre>
 </div>
 </div>
 <p>We recover another two titles when using this second solution. Clearly, our first solution didn’t account for other cases (perhaps “<code>PRESIDENT"</code>?).</p>
@@ -659,7 +653,7 @@ dbl (43): UNITID, FIPS, OBEREG, GENTELE, OPEFLAG, SECTOR, ICLEVEL, CONTROL, ...
  8 100751 35487-0166
  9 100760 35010     
 10 100812 35611     
-# … with 7,042 more rows</code></pre>
+# ℹ 7,042 more rows</code></pre>
 </div>
 </div>
 <p>We can see that we have both regular 5 digit zip codes as well as those that include the extra 4 digits (ZIP+4). Let’s say we don’t need those last four digits for our analysis (particularly because not every school uses them anyway). Our task is to create a new column that pulls out only the main part of the zip code. It is has to work both for <code>zip</code> values that include the additional hyphen and 4 digits as well as those that only have the primary 5 digits to begin with.</p>
@@ -687,7 +681,7 @@ dbl (43): UNITID, FIPS, OBEREG, GENTELE, OPEFLAG, SECTOR, ICLEVEL, CONTROL, ...
  8 100751 35487-0166 35487
  9 100760 35010      35010
 10 100812 35611      35611
-# … with 7,042 more rows</code></pre>
+# ℹ 7,042 more rows</code></pre>
 </div>
 </div>
 <p>A quick visual inspection of the first few rows shows that our <code>str_sub()</code> function performed as expected (for a real analysis, you’ll want to do more formal checks).</p>
@@ -735,7 +729,7 @@ dbl (43): UNITID, FIPS, OBEREG, GENTELE, OPEFLAG, SECTOR, ICLEVEL, CONTROL, ...
  8 100751 35487-0166 35487 35487  
  9 100760 35010      35010 35010  
 10 100812 35611      35611 35611  
-# … with 7,042 more rows</code></pre>
+# ℹ 7,042 more rows</code></pre>
 </div>
 </div>
 <blockquote class="blockquote">
@@ -803,7 +797,7 @@ dbl (43): UNITID, FIPS, OBEREG, GENTELE, OPEFLAG, SECTOR, ICLEVEL, CONTROL, ...
  8 141583 Hawaii Business College                                 Sep-07  
  9 150127 Ball Memorial Hospital School of Radiologic Technology  May-07  
 10 160144 Pat Goins Shreveport Beauty School                      3/1/08  
-# … with 73 more rows</code></pre>
+# ℹ 73 more rows</code></pre>
 </div>
 </div>
 <p>We can see that <code>closedat</code> is stored as a string. Based on our domain knowledge and context clues, we know that the dates are generally in a <code>MM/DD/YYYY</code> (American) format.</p>
@@ -834,7 +828,7 @@ Caused by warning:
  8 Sep-07   NA         
  9 May-07   NA         
 10 3/1/08   2008-03-01 
-# … with 73 more rows</code></pre>
+# ℹ 73 more rows</code></pre>
 </div>
 </div>
 <p>Well, we are part of the way there. It seems that <code>mdy()</code> didn’t really work with dates like <code>Sep-2007</code>. What can we do?</p>
@@ -866,7 +860,7 @@ Caused by warning:
  8 Sep-07   NA          Sep-01-07    2007-09-01     
  9 May-07   NA          May-01-07    2007-05-01     
 10 3/1/08   2008-03-01  3/1/08       2008-03-01     
-# … with 73 more rows</code></pre>
+# ℹ 73 more rows</code></pre>
 </div>
 </div>
 <blockquote class="blockquote">
@@ -908,7 +902,7 @@ Caused by warning:
  8 2007-09-01            2007           9         1 Sat      
  9 2007-05-01            2007           5         1 Tue      
 10 2008-03-01            2008           3         1 Sat      
-# … with 73 more rows</code></pre>
+# ℹ 73 more rows</code></pre>
 </div>
 </div>
 <blockquote class="blockquote">
@@ -930,17 +924,17 @@ Caused by warning:
 <pre><code># A tibble: 83 × 2
    time_since_close_jan time_since_close_now
    &lt;drtn&gt;               &lt;drtn&gt;              
- 1 4569 days            6015 days           
- 2 4295 days            5741 days           
- 3 4505 days            5951 days           
- 4 4659 days            6105 days           
- 5 4383 days            5829 days           
- 6 4537 days            5983 days           
- 7 4232 days            5678 days           
- 8 4505 days            5951 days           
- 9 4628 days            6074 days           
-10 4323 days            5769 days           
-# … with 73 more rows</code></pre>
+ 1 4569 days            6020 days           
+ 2 4295 days            5746 days           
+ 3 4505 days            5956 days           
+ 4 4659 days            6110 days           
+ 5 4383 days            5834 days           
+ 6 4537 days            5988 days           
+ 7 4232 days            5683 days           
+ 8 4505 days            5956 days           
+ 9 4628 days            6079 days           
+10 4323 days            5774 days           
+# ℹ 73 more rows</code></pre>
 </div>
 </div>
 <p>As with strings and regular expressions, we’ve only scratched the surface of working with dates in R. For example, you can also work with times (hours, minutes, seconds, <em>etc</em>). Now that you’ve been introduced, however, you should have a starting point for working with panel and administrative data that includes strings and dates that you need to process before conducting your analyses.</p>
