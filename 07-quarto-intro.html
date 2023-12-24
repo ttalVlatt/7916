@@ -1,0 +1,1115 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.433">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>EDH 7916 - Reproducable Reports with Quarto</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./apple-touch-icon.png" rel="icon" type="image/png">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="site-attachments/styles.css">
+<meta property="og:title" content="EDH 7916 - Reproducable Reports with Quarto">
+<meta property="og:image" content="https://capaldi.info/7916/apple-touch-icon.png">
+<meta property="og:site-name" content="EDH 7916">
+<meta property="og:image:height" content="180">
+<meta property="og:image:width" content="180">
+<meta name="twitter:title" content="EDH 7916 - Reproducable Reports with Quarto">
+<meta name="twitter:image" content="https://capaldi.info/7916/apple-touch-icon.png">
+<meta name="twitter:image-height" content="180">
+<meta name="twitter:image-width" content="180">
+<meta name="twitter:card" content="summary_large_image">
+</head>
+
+<body class="nav-sidebar docked fullcontent">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./07-quarto-intro.html">Quarto</a></li><li class="breadcrumb-item"><a href="./07-quarto-intro.html">Reproducable Reports with Quarto</a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">EDH 7916</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Homepage</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./00-syllabus.qmd" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Syllabus</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="false">
+ <span class="menu-text">Getting Started</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01-set-install.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">I: Installing R &amp; RStudio</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02-set-data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">II: Reading Data &amp; IPEDS</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./x-01-set-git.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Extra: Git &amp; GitHub</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="false">
+ <span class="menu-text">Data Wrangling</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03-wrangle-i.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">I: Enter the tidyverse</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04-wrangle-ii.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">II: Appending, joining, &amp; reshaping data</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08-wrangle-iii.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">III: Working with strings &amp; dates</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./09-wrangle-iv.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">IV: Tidyverse Tricks &amp; SQL</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="false">
+ <span class="menu-text">Data Visualization</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05-viz-i.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">I: Basics</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06-viz-ii.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">II: Customization</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./10-viz-iii.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">III: Maps &amp; Spatial Data (Feat. APIs)</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true">
+ <span class="menu-text">Quarto</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07-quarto-intro.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Reproducable Reports with Quarto</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./x-03-quarto-zotero.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Extra: Vanilla R (Data Wrangling I Redux)</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="false">
+ <span class="menu-text">Programming</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./11-pro-function.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">II: Functions &amp; Loops</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./12-pro-model.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">II: Modeling Basics</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./x-02-pro-vanilla.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Extra: Vanilla R (Data Wrangling I Redux)</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-expanded="false">
+ <span class="menu-text">Philosophy of Data Wrangling</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./14-phil-bts.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Dr.&nbsp;Skinner’s Philosophy</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./99-final.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Final Project</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<!-- margin-sidebar -->
+    
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Reproducable Reports with Quarto</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" aria-current="page">Lesson</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">Assignment</a></li></ul>
+<div class="tab-content">
+<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
+<p>In addition to using R in this course, you will also learn to use <a href="https://daringfireball.net/projects/markdown/">Markdown, a plain text markup language created by John Gruber in 2004</a>. If you’re thinking, no, not <em>another</em> language — rest assured that Markdown is very easy to learn and use. In fact, it’s possible you’ve already used Markdown (or a version of it) if you’ve ever used Slack or a lightweight writing tool like iAWriter.</p>
+<section id="but-why-not-just-use-ms-word" class="level3">
+<h3 data-anchor-id="but-why-not-just-use-ms-word"><em>But why not just use MS Word?</em></h3>
+<p>Most people who do any writing on a computer are familiar with MS Word. Even people who don’t use MS Word likely write with a MS Word-like program. Since we’re all on the same page, why introduce a new way to write — why Markdown?</p>
+<p>The primary reason to bother is that Markdown files are easier to share and better support replicability in a quantitative research workflow. Understanding why this it the case requires first understanding the difference in how each of these writing tools handles a document’s content and formatting.</p>
+</section>
+<section id="wysiwyg-vs-wysiwym" class="level2">
+<h2 data-anchor-id="wysiwyg-vs-wysiwym">WYSIWYG vs WYSIWYM</h2>
+<section id="what-you-see-is-what-you-get" class="level3">
+<h3 data-anchor-id="what-you-see-is-what-you-get">“What you see is what you <em>get</em>”</h3>
+<p><em>WYSIWYG</em> (pronounced how you might guess - “whizzy-whig”) stands for <em>what you see is what you get</em>. MS Word and similar programs are WYSIWYG writing tools. Want some text bolded? You highlight the text, click on the bold text button (or hit Control/Command-B) and the text becomes <strong>bold</strong>. Want 1.05” margins to increase the page count (teachers <em>always</em> know, by the way…), then you adjust the margins and watch the text squeeze a little and the page count increase.</p>
+<p>The point is that as you write, you control the <em>content</em> and how it’s <em>formatted</em> at the same time. This is really powerful. You can see your document (literally) taking shape and when you’re done writing, you’re mostly done formatting, too.</p>
+<p>But one problem from a research perspective is that WYSIWYG document preparation programs don’t always share well, meaning that the formatting isn’t always preserved across computers or operating systems. Sometimes equations don’t open correctly; the font you selected doesn’t exist on another computer. While programs may be able to open each other’s files (<em>e.g.</em> OpenOffice can open a <code>.docx</code> file), that’s not always the case. They open different-program files with many errors or even not at all.</p>
+<p>The second problem is they don’t work well with reproducible workflows. Let’s say you’ve done some data analysis and make 10 tables and 10 figures. You’ve carefully placed and formatted in your MS Word report. Perfect! But before giving to your supervisor or submitting to a journal, you get some new data and need to rerun everything…ah! You’ll have to go through the whole transfer and formatting process again, increasing the likelihood of introducing errors.</p>
+</section>
+<section id="what-you-see-is-what-you-mean" class="level3">
+<h3 data-anchor-id="what-you-see-is-what-you-mean">“What you see is what you <em>mean</em>”</h3>
+<p><em>WYSIWIM</em> (“whizzy-whim”), on the other hand, separates formatting from content. Rather than making bold text bold, you instead add a bit of markup — some special syntax — to the text you want to be bold. Only when the document is finally <em>compiled</em> into the final form will the <strong>text be bold</strong>.</p>
+<p>Markdown syntax uses plain text characters to indicate formatting. This lesson was written in Markdown, so to show you an example, here’s the prior paragraph, in plain Markdown syntax:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>_WYSIWIM_ ("whizzy-whim"), on the other hand, separates formatting</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>from content. Rather than making bold text bold, you instead add a bit</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>of markup --- some special syntax --- to the text you want to be</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>bold. Only when the document is finally _compiled_ into the final</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>form will the **text be bold**. </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Markdown solves the two problems noted above. First, it’s written in plain text, which means that it can be opened on any computer running any operating system. Even if the end user doesn’t have a way to compile the raw Markdown syntax into the nice-looking final form, the text is still very legible. In fact, this feature — ability to read uncompiled — was a motivating force behind the development of Markdown:</p>
+<blockquote class="blockquote">
+<p>The idea is that a Markdown-formatted document should be publishable as-is, as plain text, without looking like it’s been marked up with tags or formatting instructions. <a href="https://daringfireball.net/projects/markdown/"><em>(John Gruber, Markdown website)</em></a></p>
+</blockquote>
+<p>Second, because it’s plain text, it integrates well with scripting languages like R. Remember our example from before? If your final report was in Markdown instead of MS Word, you could rerun your analyses with the updated data and then recompile your final report — tables and figures updated automatically!</p>
+<p>In fact, R and Markdown work so well together that you can combine them in a single — appropriately named — RMarkdown document that takes a combined file ending:</p>
+<ol type="1">
+<li>R script: <code>analysis.R</code></li>
+<li>Markdown script: <code>write_up.md</code></li>
+<li>RMarkdown script: <code>report.Rmd</code></li>
+</ol>
+<p>or</p>
+<p><code>analysis.R</code> + <code>write_up.md</code> = <code>report.Rmd</code></p>
+<p>We’ll keep our R and Markdown scripts separate at first, but know that you’ll submit an RMarkdown file for your final project.</p>
+</section>
+</section>
+<section id="markdown-syntax" class="level2">
+<h2 data-anchor-id="markdown-syntax">Markdown syntax</h2>
+<p>Rather than list Markdown syntax here, I’ll direct you to an excellent resource: <a href="https://www.markdownguide.org"><em>The Markdown Guide</em></a>. On this site, you find example of both <a href="https://www.markdownguide.org/basic-syntax/">basic syntax (headers, italics, bold, links)</a> and <a href="https://www.markdownguide.org/extended-syntax/">more advanced syntax (tables and footnotes)</a>.</p>
+<p>Here’s an example from the <a href="https://www.markdownguide.org/basic-syntax/">Markdown Guide basic syntax page for making headers</a>:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="site-attachments/btskinner-imgs/markdown_guide_example.png" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">Markdown Guide</figcaption>
+</figure>
+</div>
+<p>On the left you have the Markdown syntax. To make a header, just put a pound sign / hash (<code>#</code>) in front of the line. As you want smaller headers, just keep adding pound signs. The middle column shows you the underlying <a href="https://en.wikipedia.org/wiki/HTML">HTML (web markup language)</a> code. This isn’t that important for us. The last column, however, shows the text as it will render in your final document.</p>
+<p>The site is also nice in that it shows you a few different ways, when they exist, of doing the same thing. Take some time to go through the site — it won’t take long — and keep it in mind as a reference for the future.</p>
+</section>
+<section id="other-references" class="level2">
+<h2 data-anchor-id="other-references">Other references</h2>
+<ul>
+<li><a href="https://plain-text.co">The Plain Person’s Guide to Plain Text Social Science</a>, by Kieran Healy (very short, but the first chapters make a strong case for using plain text when doing quantitative social science)</li>
+</ul>
+<p>In this lesson, we’ll combine many of the pieces we’ve already covered — reading in data, cleaning data, making figures — into a single RMarkdown document. We’ll purposefully keep it simple at first by reusing some code we’ve seen before.</p>
+</section>
+<section id="getting-started" class="level2">
+<h2 data-anchor-id="getting-started">Getting started</h2>
+<p>To properly compile a PDF documents from Markdown, you’ll need some version of <a href="https://www.latex-project.org/get/">LaTeX</a>, a typesetting system best known for being able to nicely render mathematical notation but that is really useful for making reproducible documents. You should have already downloaded this at the start of the course. If you didn’t, visit the <a href="../software/index.html">software page</a> for information on how to get it.</p>
+<p>If you are unable to get LaTeX to install properly or cannot get the document to compile as PDF, you should be able to compile to HTML instead.</p>
+<p>You will also need the R <strong>knitr</strong> and <strong>rmarkdown</strong> libraries. You should have <strong>rmarkdown</strong> already, but if you haven’t already installed either, type</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="fu">c</span>(<span class="st">"knitr"</span>,<span class="st">"rmarkdown"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>into your R console. <strong>NOTE</strong> that even if you’ve already installed rmarkdown, <code>install.packages()</code> will just quickly reinstall it.</p>
+</section>
+<section id="what-is-rmarkdown" class="level2">
+<h2 data-anchor-id="what-is-rmarkdown">What is RMarkdown?</h2>
+<p><a href="https://rmarkdown.rstudio.com/articles_intro.html">From the RStudio website</a>:</p>
+<blockquote class="blockquote">
+<p>R Markdown is a file format for making dynamic documents with R. An R Markdown document is written in markdown (an easy-to-write plain text format) and contains chunks of embedded R code…</p>
+</blockquote>
+<p>In other words, an RMarkdown (hereafter <em>RMD</em>) document has two basic components:</p>
+<ul>
+<li>R code (in <strong>code chunks</strong>)</li>
+<li>Markdown text (most everything else outside of the code chunks)</li>
+</ul>
+<p>RMD documents use the file ending, <code>*.Rmd</code>, which makes sense as they combine <code>R</code> code with <code>md</code> text. To <em>compile</em> an RMD file, meaning to</p>
+<ol type="1">
+<li>convert the plain Markdown text into formatted text</li>
+<li>run R code, producing all output along the way</li>
+<li>combine the Markdown text plus R output into a finished document</li>
+</ol>
+<p>You will use the <strong>rmarkdown</strong> <code>render()</code> function, which in turn uses the <strong>knitr</strong> <code>knit()</code> function under the hood. <a href="https://stackoverflow.com/a/40563480">It can be a bit confusing how all the pieces work together</a>, but luckily, you can use RStudio’s point-and-click interface to knit your documents.</p>
+</section>
+<section id="starting-a-new-document" class="level2">
+<h2 data-anchor-id="starting-a-new-document">Starting a new document</h2>
+<p>When you open a blank RMarkdown document, RStudio will by default fill it with some example text that looks like this. You can change this in RStudio’s settings, but I think it’s helpful to see the skeleton of an RMarkdown document (plus, it’s not a big deal to just erase the parts you don’t need).</p>
+<section id="example-text-in-new-file-started-via-rstudio-default" class="level4">
+<h4 data-anchor-id="example-text-in-new-file-started-via-rstudio-default">Example text in new file started via RStudio (default)</h4>
+<pre><code>---
+title: "Document Title"
+author: "Benjamin Skinner"
+date: "1/30/21"
+output: pdf_document
+---</code></pre>
+</section>
+<section id="r-markdown" class="level3">
+<h3 data-anchor-id="r-markdown">R Markdown</h3>
+<p>This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <a href="http://rmarkdown.rstudio.com" class="uri">http://rmarkdown.rstudio.com</a>.</p>
+<p>When you click the <strong>Knit</strong> button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(cars)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     speed           dist       
+ Min.   : 4.0   Min.   :  2.00  
+ 1st Qu.:12.0   1st Qu.: 26.00  
+ Median :15.0   Median : 36.00  
+ Mean   :15.4   Mean   : 42.98  
+ 3rd Qu.:19.0   3rd Qu.: 56.00  
+ Max.   :25.0   Max.   :120.00  </code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="including-plots" class="level2">
+<h2 data-anchor-id="including-plots">Including Plots</h2>
+<p>You can also embed plots, for example:</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="07-quarto-intro_files/figure-html/pressure-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Note that the <code>echo = FALSE</code> parameter was added to the code chunk to prevent printing of the R code that generated the plot.</p>
+<p>Rather than going through this example text to learn about RMarkdown, we’ll use our own example document, <code>test_scores.Rmd</code>, which is linked above.</p>
+</section>
+<section id="compile-an-rmarkdown-document" class="level2">
+<h2 data-anchor-id="compile-an-rmarkdown-document">Compile an RMarkdown document</h2>
+<p>We’ll go through the main sections our example RMD document below. So you can follow along better, you should compile <code>test_scores.Rmd</code> as your first step.</p>
+<p>Once you’ve downloaded the file and data (if you don’t have it already), place the RMD file in the <code>scripts</code> directory and the unzipped data in the <code>data</code> directory.</p>
+<p>When you open <code>test_scores.Rmd</code> in RStudio, you should see a button in the upper left facet that says <strong>Knit</strong> with a ball of string icon.</p>
+<p><img src="site-attachments/btskinner-imgs/rstudio_rmarkdown.png" class="img-fluid"></p>
+<p>If you have the working directory correctly set to <code>scripts</code> and have placed the <code>sch_test/</code> data folder inside <code>data</code>, you should be able to click <strong>Knit</strong> and have the document compile into a PDF. By default, RStudio will open a PDF viewer window or show you the file in the lower right facet in the <strong>Viewer</strong> tab.</p>
+<p><strong>NOTE</strong> that if you’ve had trouble with LaTeX, you should be able to compile into an HTML file, which you can open in your browser.</p>
+</section>
+<section id="sections-of-our-document" class="level2">
+<h2 data-anchor-id="sections-of-our-document">Sections of our document</h2>
+</section>
+<section id="yaml-header" class="level2">
+<h2 data-anchor-id="yaml-header">YAML header</h2>
+<p>YAML, which stands for <a href="https://yaml.org">“YAML Ain’t a Markup Language”</a>, is a common way to configure dynamic documents like RMD documents. It’s the first thing you see at the top of an RMarkdown file. The YAML header is this piece of code:</p>
+<p>Notice the opening and closing three hyphens (<code>---</code>). This is how R knows that this section of code is special. The YAML can become complex, as you add document options, but for now we keep it simple:</p>
+<ul>
+<li><strong>title</strong>: the document title (printed)</li>
+<li><strong>author</strong>: the document author (printed)</li>
+<li><strong>date</strong>: manually set date (printed)
+<ul>
+<li>leave <strong>date</strong> out of YAML and the date on which the document is compiled will be added automatically, or you can use the LaTeX macro <code>\today</code>, which will also print today’s date</li>
+<li>set <strong>date</strong> to <code>""</code> (empty string) for no printed date</li>
+</ul></li>
+<li><strong>output</strong>: document output
+<ul>
+<li><code>pdf_output</code>: for PDF (uses LaTeX)</li>
+<li><code>html_output</code>: for web page output (open in browser)</li>
+<li><code>word_output</code>: for MSWord output (uses MSWord)</li>
+</ul></li>
+</ul>
+<p>We’re using <code>pdf_output</code> but you can either change this setting or override it when compiling the final document.</p>
+<p><strong>NOTE</strong> that the colon (<code>:</code>) is a special character in YAML. Notice that I don’t necessarily have to use quotation marks for strings with spaces — I do for the title, but not for my name. That said, if your title includes a colon, you need to wrap the entire title string in double quotation marks (<code>"</code>) — otherwise the document won’t compile.</p>
+</section>
+<section id="code-chunks" class="level2">
+<h2 data-anchor-id="code-chunks">Code chunks</h2>
+<p>In general, an RMD code chunk looks like a markdown code chunk. The key difference between the two is that while a plain markdown code chunk is purely about formatting, the RMD code chunk will by default try to run the code and print any output:</p>
+<section id="markdown-code-chunk" class="level4">
+<h4 data-anchor-id="markdown-code-chunk">Markdown code chunk</h4>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="do">## this is just a representation </span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="do">## when compiled: nothing happens, only code is printed</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">1000</span>)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>x</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="rmarkdown-code-chunk" class="level4">
+<h4 data-anchor-id="rmarkdown-code-chunk">RMarkdown code chunk</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="do">## this is active R code</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="do">## when compiled: the R code is run, and both code and results are printed</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">1000</span>)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>x</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   [1]  0.1175009504  1.4410750324  0.1573414516 -0.0968117437 -0.1869078087
+   [6]  0.6416687488 -0.2325185483  0.2415906209 -0.0680449878 -0.4209325411
+  [11] -0.0659377670  1.0200810815 -0.1760636132  0.7419205600  0.8125764796
+  [16] -0.9506131499 -0.3941483500  1.6718248985 -0.1053580394  0.3040214768
+  [21] -0.5351369731  0.6819619964  0.2217659004 -0.2614003827  1.0886720945
+  [26] -0.8965003063 -0.9273036025 -0.3478603721  0.5122244715  1.5251655947
+  [31] -0.0645454269 -0.3474361927 -1.4604789561  0.9090284657 -0.5853224684
+  [36] -0.2082245081 -0.0882587425 -2.7203463978  0.5661879067  0.3452905143
+  [41] -1.5977079291  0.3755554582 -0.2547164463 -0.2796752298  1.5430278801
+  [46] -0.4971838455 -0.6607706652 -0.2645064628  0.7126901806 -0.1256349329
+  [51] -0.7001592417  0.5039902423 -0.5729019408  1.3477313072 -0.5992735346
+  [56]  0.4984452048 -0.3193444111 -0.1468844737 -0.8530002940  0.3185756296
+  [61] -1.4436553972  1.1049128908 -1.6484996278 -0.0840669068  0.0144313053
+  [66] -0.1489771734  0.1742137825  0.7120315587 -0.5229307841 -0.0727510885
+  [71] -0.6297456171  0.6942006004 -1.5562185337  1.0326589418 -0.4597229704
+  [76] -0.4722329984  0.0556437497  0.2344925052  0.8578607422  0.5529402926
+  [81]  1.2635218326 -0.2753640747  1.5658945519  0.3517827045  0.7998172638
+  [86]  0.5494836082 -0.0308318753 -0.3468065646 -1.5329702104 -1.0501880060
+  [91]  1.9793352677  0.0548677557  1.6886190224  0.3733844009 -0.6060192458
+  [96] -0.7702641417 -1.1163393068  1.1273141332  0.9972159202 -0.9941251392
+ [101] -1.4302966631  0.4599954449 -1.9707678225  1.3456953362 -1.3496493570
+ [106]  0.9212498098  0.3599545884 -0.2303950318  0.1045603523 -1.2431693874
+ [111] -0.1803237592 -0.4952135877  0.4081585409 -0.0264439888  0.1516012464
+ [116]  1.4273826882 -0.4707446632  0.3998828856 -0.4226326978  0.0155082439
+ [121]  0.6176065533  0.1762710760  0.0665832708 -0.7746916250 -0.5086862780
+ [126]  0.8487351021  0.3449341630 -0.4733822989 -1.4139078050 -0.2036508019
+ [131] -0.5203406939  1.4477227555  2.9023632545 -0.0499500518  0.6554487899
+ [136] -0.3548815850  1.0852389386  0.9775927382  2.0190359113 -0.3152862022
+ [141]  1.1799870933 -0.5092532396  2.0278021830 -0.6691368858  0.2175983771
+ [146] -1.3414901725  1.7134390164 -0.0955014655 -0.7470437437  0.6613540548
+ [151]  1.5017287983  0.4656662915  2.0657069263 -1.8288283114 -0.3655623633
+ [156] -0.5732318167 -1.2177597321 -0.8622126435  0.6694579034 -1.5307043063
+ [161]  0.3840429068 -0.0478141818  0.4353614202 -1.1266582090  0.0579258245
+ [166] -0.5308495692 -2.5500054770 -1.5927895799  0.9409961031  1.2886685874
+ [171] -0.2312353425 -1.2094261581 -2.1399758799 -1.5858177451 -0.8818373407
+ [176]  0.6609639574 -0.7290309654 -0.0982106205 -1.2656241128 -0.4713430559
+ [181] -0.5761571253  1.2609523387  1.9102444463 -1.3043316095  0.0354900643
+ [186]  0.7002471362  0.3949944957 -2.5268047205  0.1419855209  0.0780127167
+ [191]  0.8074445169 -1.2947196963 -0.3547242811 -0.6018764317  2.1604733522
+ [196]  0.7256589706  1.9811510918  0.9370914683  0.2520710343 -0.7915752703
+ [201] -1.3536719260  0.3918632422 -0.5115937642  1.7814641692  1.1471234460
+ [206] -0.1914002171  1.4317720251  2.0036092885 -1.9778235796  0.1589671015
+ [211] -1.1412193459  0.4648903093  0.4391550240 -0.9930332434 -0.4307099729
+ [216] -0.4904451391  0.7048547617  0.7125157487 -0.5031686505 -0.4708554886
+ [221] -1.4556849819 -0.3425824894  1.3178318374  0.0032328804  1.7095565351
+ [226]  0.7638403911 -1.2624633456  0.0379607968  0.8741755704 -1.2344841267
+ [231]  0.0101457926 -0.7062654452  0.7320709188 -0.9363027532 -0.0001200032
+ [236] -0.0070686367 -0.5503059807  0.2387080874  1.1526150758 -1.2204709712
+ [241]  1.0165440501  1.3104985461  0.9736151548  0.9870726486  0.5973580937
+ [246]  0.6461350376  0.6035740617 -2.0077559877 -0.5715109870  0.0995488859
+ [251] -1.1368944876 -1.1083268858  0.0090754610 -0.2159998746 -1.5907219360
+ [256]  0.7730533725 -0.6905564237 -0.5509928745 -0.4005705621  1.0693044452
+ [261] -0.8840071977 -1.7907674807 -1.7441863194  0.9133230621  0.8045598713
+ [266]  0.8607578843 -1.5310237820 -0.5714072411 -1.2937313195 -0.6935529642
+ [271] -1.7029232785 -0.9986978932 -1.0217744783  0.1528215440  1.0670712726
+ [276] -0.7229768460 -1.2726962817 -0.2268462877 -0.1322591952  1.1043297889
+ [281] -0.6179772053 -0.0195844630  0.4350577877 -0.0423245217 -0.0694885288
+ [286]  1.0153486691  0.8656318382  0.4866910757 -1.0279245996  1.1003553480
+ [291]  1.0999036867 -0.0232255665  0.5153048361  1.7145605469  0.5310134762
+ [296] -0.3327824785 -0.0503598563  1.4201662745  0.7717536172 -1.0189432598
+ [301]  0.6714032252  0.7045655456  0.9206768901  1.3388648362  0.2057518912
+ [306] -0.4085289247 -1.5734609634 -0.8233205043 -0.9112679200 -1.0951697664
+ [311]  1.5407821580 -1.7549378263  1.0577936198  0.6142255981  1.7969256702
+ [316]  0.5760261147  1.2716772568  0.7372076807 -0.0694263455 -0.8301171852
+ [321] -1.1860220450 -0.9420647640 -0.9406704356  0.1935374106  1.4862851225
+ [326] -0.5546529079 -1.1713424387 -1.8445805190 -0.8607006851 -0.6212280330
+ [331] -0.1607075081  0.5159508189  0.0658635705 -1.3105037305 -0.5549451912
+ [336] -0.7969258696 -0.2838467451 -0.2504042754  0.2485186495 -0.7413516678
+ [341] -1.1648241011  0.4725061034  1.0017611195  0.3150149243 -0.3489121537
+ [346]  0.3772012248  0.9995115645 -1.0610103061 -1.9621921877  0.5384432134
+ [351]  1.1962397308  0.2477095178  0.5425611303 -0.3361790444  0.8543633639
+ [356]  0.0704745450  0.7667907979 -1.4378468368  1.5131481744  0.8043297193
+ [361] -0.0899735203  1.4219355828  2.8830639984 -0.0473434347 -1.5184609685
+ [366]  0.8872178354 -0.2846427909  0.4332030026 -0.6164775005  0.0539225514
+ [371] -0.1324572147  1.5876632338  1.6480660650 -0.5228070024  0.7813700008
+ [376] -2.0219967227  0.5554774392 -1.9339174448 -0.8509523779 -0.9610599015
+ [381] -0.4093714203 -0.1075669678 -1.0592394636  0.2127152400  0.3849973796
+ [386] -0.3872201040 -0.2836147621  1.1289662254  0.3499298648 -0.4415779642
+ [391]  1.6077060662  0.7291491106  1.8223018203  0.0272618393 -0.0721634628
+ [396] -0.5321167792 -0.8117382168 -0.5777525397 -2.1041348679  1.4374780438
+ [401] -0.9510638640  2.2806334894 -1.2874107907 -0.1504244794 -0.6008710293
+ [406] -1.0675966710 -1.6385576419  0.7248068204 -0.3673040198  0.2836268215
+ [411] -0.8337512491  0.6219558193 -0.0389189709 -0.9089629937 -0.0177208930
+ [416]  0.4249923644 -0.9888416340 -1.5037680535  0.0756229665 -0.3691758686
+ [421]  0.0532482672  0.1392535869 -0.7019237339 -0.7386604209 -0.7855178842
+ [426]  0.4198297369 -0.8699492857 -0.4362427374  0.4928938812  1.6013750748
+ [431] -0.0548831338  0.0368258276  0.2669962035  1.4271733590  0.2285288228
+ [436]  0.3598872771  1.0759665567  1.0521250568  1.8560718752  0.7494936756
+ [441]  1.4736713339 -0.5891787315 -0.2732344672  0.2205708000  1.4239815633
+ [446] -1.1714458128 -0.6072914557 -0.2076547938 -0.4568895364 -0.0663703026
+ [451]  1.4451123538 -0.4351099165  0.2153713489  1.3804622133  0.5472244474
+ [456]  0.2418189298  0.6943436395 -0.4962542644 -1.7422962587  1.7178361020
+ [461] -0.1318781230  1.1149374726  0.1402109264 -0.3618614885 -0.2208394828
+ [466]  0.7595073383  0.6884052433  0.8685893973 -0.5146576212  0.5132554548
+ [471]  0.4939483145  0.6247893890  0.1061785662 -0.0172416857  0.9584760811
+ [476] -0.2332891868 -0.4728122373  1.7383327880  1.3573243420  0.4484395514
+ [481] -1.4679786456  0.3128217134  0.1214466760 -0.4738067835  1.4982844957
+ [486]  2.0073844471  0.4464386746 -0.2401602176 -1.4636126675  0.4061582032
+ [491] -0.0540904908 -0.8218550733 -0.8290161025 -0.2521962751  2.4588786071
+ [496] -0.0748032921 -0.0354879287  0.3888836662 -0.1689493081  1.6359805240
+ [501] -0.4310523224  0.7450162408  0.0646817316  0.3836359292  0.1478331931
+ [506]  1.3784942858 -0.1357019150 -2.6720045009 -1.2356547073  0.9698161791
+ [511] -0.9069718405 -0.5761501618  0.8543324361  0.4318794235  0.5283317955
+ [516] -0.9098891788 -1.6121754388  0.0954216594  0.1618050577  1.0592777370
+ [521] -1.1329299859  0.5987690552 -0.3553821489 -1.8470698633 -0.7635540430
+ [526] -0.4729064563 -1.0889732518 -0.3324133324  0.4374367018 -0.7470716527
+ [531]  0.1483103650  0.0703131648 -1.1015931218 -0.4312873277 -1.0059256854
+ [536] -1.3130004867  2.2735339700 -1.4116873670  0.4356365075  1.7038579320
+ [541]  0.1119826951 -1.1612441678 -0.6064913180 -0.6870277784  0.3853420180
+ [546] -0.5472504964  1.4404022501  1.8273395263 -0.6546321571  1.3277203692
+ [551]  0.5606816134 -1.4577064940  0.6895097723  0.4941411535  0.2908877719
+ [556]  0.8808894097 -0.9737456269 -0.2465621658 -0.4178573201  0.3902510947
+ [561] -0.0561370298 -1.5399054772  0.6395496230 -0.2761662264  0.0773163039
+ [566]  1.3563990304 -0.4541656323  0.2180896733 -0.3288871507 -0.0880012016
+ [571] -0.2905827094  0.2163134380  1.0668372473 -0.7732998144 -1.1345718366
+ [576]  1.5025669918 -0.5123457293  0.7492906179 -0.0651732814 -0.5171795137
+ [581]  1.0652363453  1.0792588097  0.3329258194 -1.1184721728 -0.1711442704
+ [586]  0.2149347954  1.5257272647 -1.0496382614 -2.2127605566  0.5656319301
+ [591]  1.5538837554  0.5242465082  1.2111717269 -0.3676289998  0.1887586859
+ [596] -0.1610676198 -1.0508179657  0.4749954054 -1.1227715763 -0.1294893379
+ [601] -0.0403906499 -0.8538264308 -0.0925754162 -0.7652339737  0.8369762488
+ [606] -0.9838568238 -0.0945805855 -0.4792042439  1.1307365000 -1.1585184035
+ [611] -0.4137169151  0.6458820757  0.6497949734 -1.1647239945 -0.5995691018
+ [616] -0.0791656405  0.1246911586 -0.2454164376 -0.0657137667  1.0714600208
+ [621] -1.3000340706 -1.2020316783 -1.4454269808 -0.3392460934  0.5489155396
+ [626]  1.1633181209  0.7624744868  1.6404957616  0.1932348365 -2.1341838662
+ [631] -0.1487316721  1.4158670214  0.4741131236 -1.3454666701 -0.7297716460
+ [636] -0.8221579552  0.9318297540 -1.3654446201  0.1936238344  0.5376475622
+ [641] -0.2046119333 -0.3753781755  0.1704481874  0.0995755803 -1.2444755995
+ [646]  0.9733530756 -2.2970713906  1.4656509135  1.1900954683  0.7009728455
+ [651]  2.1224112013  0.8688081932  0.0518937447  0.2272387276  0.6163366128
+ [656] -1.6645748984 -0.1773410646 -0.2196010919  1.5276139798 -0.6297475736
+ [661]  1.6683646577 -0.0587332183 -1.0426018543 -1.4855564223 -0.4799426869
+ [666] -0.1703805017  0.0294215336  0.6304235706 -0.5814174638 -1.0911843116
+ [671] -0.1407659272  0.4623373431 -0.0989115177  0.7699341312  1.3757792301
+ [676]  0.1432453040 -0.8839813903 -0.5756688726  0.1670469721  0.8358117221
+ [681]  1.2082436171  0.5833879665 -1.7459240567  1.8328785938 -0.7523764059
+ [686]  0.7181189201  1.6415060462  0.2278578517 -0.1549634413 -0.1058449807
+ [691]  1.5470953845  0.2398595585 -1.1062410631  0.3471966861 -1.0140436581
+ [696]  0.1828461486 -0.3638728697  0.0057056241  0.0080519600  0.3667493680
+ [701]  0.1333672650  0.7823741470 -1.0680332784  0.4976248822  0.3879266096
+ [706] -0.9533661346 -1.2763632001  0.7196432359  0.4350750207  0.2077548677
+ [711]  0.0560680081 -0.9840190638  0.2109662109 -0.2372951690  0.3110079396
+ [716] -1.7023642159 -0.0754604147  0.5059178260  0.1856804984  0.2060464561
+ [721]  0.9623421622 -0.7013741467 -0.2416064137  0.1552265450  0.0372491543
+ [726]  0.9547784303  0.8795499774  1.8589244780 -1.7040839203 -0.2336257350
+ [731] -0.7793670065 -0.3661640379 -0.2926256073 -1.3787836308  0.0874702717
+ [736]  0.8709439619 -0.0976822103 -0.1853505799 -1.6986147974 -0.4352071365
+ [741] -0.6260750671 -0.4419656847  0.1074076920  0.8046210737 -0.5921691382
+ [746]  0.0471931349 -0.1619329350 -0.8816019399  1.1002193665  0.4575874948
+ [751]  2.9972763370  1.4233563690  1.0080757674  0.7478612807 -1.3937909344
+ [756] -0.9300707661  1.0520196180 -0.2828264352  0.8184472572 -1.0833849655
+ [761]  0.6968192048 -0.8019616286  0.8462515284 -0.4688869495  1.1731825436
+ [766] -1.6173695376 -0.3345297373 -1.0888831177 -0.3059032322  0.4226143082
+ [771]  1.1888065225 -0.0959128245 -1.7025779783  2.3039863301 -0.4152111105
+ [776] -1.7321422060 -0.5717768233  0.7029242672 -2.2931055432  0.2052473728
+ [781] -1.1899130068  1.2680455523  1.7982458397  0.7137421317  0.0515400238
+ [786] -0.0882416430  0.1225702170 -0.2153269888  0.0151713014  1.5552368490
+ [791]  0.5296533582  0.1345174777  0.2092127372  0.1808782402 -1.2864790712
+ [796] -0.7848103712  0.0346082050 -1.9936204818  0.0933708734 -0.5194530128
+ [801] -0.1945779318  0.4116718661 -0.2783557729 -0.9087433541 -1.6326295974
+ [806]  0.8487504404 -0.7396423411 -1.4777059999 -1.0061792364 -0.2390616508
+ [811] -0.6626075943  0.1959167962 -0.8250243958  1.3850036584  1.9169432311
+ [816]  0.6353215693  0.9752961536  0.2409017037 -0.8333467219 -0.3920632061
+ [821]  0.8278327587 -0.9550311989 -0.1328244626 -0.2593084658 -1.4151623930
+ [826] -1.4818324321 -0.3495878561 -0.4981349274 -0.4803058586 -1.4045972526
+ [831] -0.0121761815 -1.4827235879  0.8667604573  0.2886420521  0.0211654778
+ [836] -1.7000125316  0.4778758096 -0.7134781491 -0.0513336151  0.4445495440
+ [841] -0.2236802936 -1.8941890614  0.0393897900  0.1886288199  1.0040393090
+ [846]  0.5778028159 -0.3614257240 -1.4481262878  0.2774625067 -0.2566294128
+ [851] -1.3604575308 -0.9480902836  0.2444341818 -2.2876190478 -0.4075207207
+ [856]  0.7149721564  0.3201459905 -0.8269480192  1.6912990909 -0.6486705053
+ [861]  0.8824723182 -0.3520383749  0.7970176187  0.2239034734  2.1565953389
+ [866] -0.3538327920  0.1828116288  0.9560734075  1.4874240006 -0.0715385230
+ [871]  1.5649251029 -1.0336933558  2.2225566796  0.7276407610  0.4466051652
+ [876] -0.5638723892  1.3427539163  0.7920424571 -0.6137632782 -1.2698376690
+ [881]  0.0014403241 -0.9387553768 -1.7443528004 -0.3968823163  0.9478478034
+ [886]  2.2539816586  1.1139970708 -0.5647531810 -0.7852227747 -1.8235914963
+ [891]  0.2613694824  0.4155116968 -0.8612029225  0.3958090092  0.4027523205
+ [896]  1.1887549626 -1.1841600175 -0.2890839455 -0.0719014352  0.5537073845
+ [901] -0.1729476560  1.2252171830  0.7361520983 -0.5372013803 -1.2433524390
+ [906]  0.4463769662  0.9900220838 -0.0817338042  1.7914753352  0.6499809434
+ [911]  0.5454006602 -0.5455062596 -0.5389758715  0.2390592332 -1.0600502030
+ [916] -0.4517405360 -0.4665636052  0.0129465055 -0.1280225235  1.4420026360
+ [921] -2.5533394951 -1.7509229820  0.5408242041  0.0187276509 -0.2032191774
+ [926]  1.4183440427  0.5599670760 -1.2230817429  1.1235868130  0.1140353312
+ [931] -0.1527109040  1.0349671291  0.9582870121 -0.4980328812  0.6266915530
+ [936]  0.6065231813  1.0261767417  1.5135980956 -0.7710120799  1.0328081201
+ [941] -1.5579403361  0.4679463460 -0.3732054161  1.6277869755  1.8278284516
+ [946]  1.1695700403 -1.2680115004 -0.0537640874 -1.3040565935  0.4293425430
+ [951]  0.7628154235 -1.0720306072  0.1213027114 -0.0342034380  0.4361677583
+ [956]  0.2218876582  1.0709521040 -0.0200864447 -2.5378356127 -1.9002017739
+ [961] -0.4557025339 -0.1389040783  0.9983329310  0.3192455533  0.2468863019
+ [966]  0.1570922410  0.6269110040  0.6650926952 -0.1140766782 -0.5740252381
+ [971]  0.1353443014  0.0518704604 -0.2314954043  1.5176882968  0.2925214364
+ [976]  0.5749308191 -0.8899644719  0.0255327246 -0.5519955048  1.2932066975
+ [981] -0.6291095833  0.4375318722 -0.9564564333 -0.4972724160  0.7380572095
+ [986]  1.3023116487 -1.1230538630  0.2353099187 -0.6144167383 -1.0048165463
+ [991] -0.5218207679 -0.1705317668 -0.2244042688 -0.2438492408  0.3256731675
+ [996] -0.3579754436  1.4929211506  0.4280901742 -0.4005358628  0.3141143371</code></pre>
+</div>
+</div>
+<p>See the difference? It’s subtle, but notice that the RMD chunk places braces around the <strong>r</strong> after the tick marks: <code>{r}</code>. In a normal markdown document, the braces won’t mean anything. But in an RMD document, it’s the difference between just printing the code and running the code before printing the code and its output.</p>
+</section>
+<section id="code-chunk-options" class="level3">
+<h3 data-anchor-id="code-chunk-options">Code chunk options</h3>
+<p>In our first code chunk, notice how we still load our libraries and set our file paths. For the libraries, we need to load knitr with <code>library(knitr)</code> in addition to whichever libraries we need for our analysis. As usual, we also load the tidyverse.</p>
+<p>In addition to our normal analysis setup, notice that we add knitr-specific options in two places.</p>
+<section id="local-code-chunk-options-only-affect-this-code-chunk" class="level4">
+<h4 data-anchor-id="local-code-chunk-options-only-affect-this-code-chunk">Local code chunk options (only affect <em>this</em> code chunk)</h4>
+<p>First, we can set <em>local code chunk options</em> within the braces that start the code chunk. These options will only affect this particular code chunk.</p>
+<p>After <code>r</code>, the first word is the name of the chunk. I’ve called it <code>setup</code>, since that’s what this chunk is doing, but you can name it anything you want. It’s not strictly necessary to name your chunks, but it can come in handy as your documents become more complex: if you get an error, it’s much easier to find <code>data_input</code> chunk than <code>unnamed_chunk_38</code>. <strong>NOTE</strong> that all named chunks need to be unique or your document will not compile. If really like a particular chunk and want to reuse it, you can always add a number at the end: <code>data_input_1</code>, <code>data_input_2</code>, <code>data_input_3</code>, <em>etc</em>.</p>
+<p>There are a lot of <a href="https://yihui.org/knitr/options/">options you can set</a> for your chunks. Here we set the following:</p>
+<ul>
+<li><code>echo=F</code> (FALSE): don’t repeat this code in output</li>
+<li><code>include=F</code> (FALSE): run code, but don’t include output (unless a plot)</li>
+<li><code>message=F</code> (FALSE): don’t output any messages</li>
+<li><code>warning=F</code> (FALSE): don’t output any warnings</li>
+<li><code>error=F</code> (FALSE): don’t output any errors</li>
+</ul>
+<p>As of <a href="https://github.com/yihui/knitr/releases/tag/v1.35">knitr 1.35</a>, you can also include chunk options in rows below the opening line using the <code>#|</code> symbol pair. We could rewrite our example options using:</p>
+<p>However you choose to include them, these options keep our chunk from echoing the input code into our document and prevents any output. Basically, silence. Sometimes we want our code to echo; sometimes we want output. But since we are making a report, we generally want the underlying code to remain hidden. Readers of our report should only see the write up and any relevant tables and figures — but not all the hard coding we did to make them!</p>
+</section>
+<section id="global-code-chunk-options-affect-all-code-chunks" class="level4">
+<h4 data-anchor-id="global-code-chunk-options-affect-all-code-chunks">Global code chunk options (affect <em>all</em> code chunks)</h4>
+<p>After this first chunk, we can save some typing by setting these options for the rest of the document using <code>knitr::opt_chunks$set()</code>. Notice that we include the same settings as above plus a few more:</p>
+<ul>
+<li><code>fig.path</code>: path + prefix for all figures (put them in our <code>/figures</code> folder and add <code>"ts-"</code> to the name)</li>
+<li><code>dpi</code> (dots per inch): the print quality of our figures; 300 dpi is a nice standard for print (72dpi is sufficient for most web output)</li>
+<li><code>out.width</code>: our figures should fill the line width; if it’s an 8.5 by 11 inch page with 1 inch margins, then a width of 7.5 inches</li>
+<li><code>comment</code>: if we return code output, don’t prepend with <code>#</code> or anything — just the output.</li>
+</ul>
+<p><a href="https://yihui.org/knitr/options/">There are other options we can use</a>. We can also override these setting as necessary for individual code chunks using local settings like we did in the first chunk (as you’ll see below). The main idea with the set up code chunk is to get our document settings as close as possible to the way we generally want them.</p>
+</section>
+</section>
+<section id="chunk-to-chunk" class="level3">
+<h3 data-anchor-id="chunk-to-chunk">Chunk to chunk</h3>
+<p>Below, you see two code chunks with some Markdown text in the middle.</p>
+<p>An important thing to remember is that your coding environment carries from chunk to chunk, meaning that if you read in data in the code chunk (named <code>input</code>) as <code>df</code>, then <code>df</code> will still be available to you in the next chunk (named <code>table_all</code>) after writing some Markdown text. This means that you can still organize your RMD scripts like your R scripts (no need to do everything at once in a single huge chunk).</p>
+</section>
+<section id="make-a-nicer-table-with-kable" class="level3">
+<h3 data-anchor-id="make-a-nicer-table-with-kable">Make a nice(r) table with <code>kable()</code></h3>
+<p>Since we want to show all of our data (which isn’t very big in this case) and because the data frame <code>df</code> already is organized in the way we want to show the data (school by year with different columns for each test), we can just print out the data frame. To be clear, often our data will be too big to do this, but in this instance, we are okay.</p>
+<p>We could just print the data frame by calling <code>df</code> in a chunk. But to make it look nicer with a better format, we use <a href="https://bookdown.org/yihui/rmarkdown-cookbook/kable.html"><code>kable()</code> which is part of knitr</a>.</p>
+<p>Even using mostly default options, <code>kable()</code> will make a nice looking table for us. We add <code>digits = 0</code> to make sure that we only show whole numbers and we change our column names to something nicer (leaving a blank <code>""</code> for the school name column, which is obvious). Notice that in the chunk braces we add <code>include = T</code> so that the output — our table — for just this one code chunk will be printed. This is an example of using local code chunk options to override global chunk options.</p>
+</section>
+<section id="inline-code" class="level3">
+<h3 data-anchor-id="inline-code">Inline code</h3>
+<p>You can also call R code <em>inline</em>, that is, R code that sits outside of code chunks proper and instead is mixed in with your Markdown text.</p>
+<p>Inside the code chunk called <code>table_averages</code> we do three things:</p>
+<ol type="1">
+<li>Use <strong>dplyr</strong> to munge our data to get averages</li>
+<li>Store names and scores for high test scores in distinct well named objects:
+<ul>
+<li><code>hi_&lt;test&gt;_sch</code>: school name with highest average math/read/science score</li>
+<li><code>hi_&lt;test&gt;_scr</code>: highest average math/read/science score</li>
+</ul></li>
+<li>Make/print table using <code>kable()</code></li>
+</ol>
+<p>In the Markdown text below this code chunk, we call the values using the inline code method</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="in">`r `</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>that is, single back tick, an <code>r</code>, the code we want, then closing back tick. We also pipe the object value to the <code>round()</code> function so that we don’t return averages with extra and unnecessary decimal points. We could have simply run all the code inline (included what we did in step 2 of the code chunk above), but that would have made for extra messy code.</p>
+<p>Why do this? One reason is that being able to incorporate data-driven values directly in your test is very powerful. Imagine you need to reproduce the same report on a monthly or quarterly basis when data are updated. Part of the written report includes values directly taken or calculated from the data. Rather than update these <a href="https://en.wikipedia.org/wiki/Magic_number_(programming)">“magic numbers”</a> each time (potentially missing some), you can use inline R code like we’ve done here. All you need to do then is update the data and recompile the report. Voila! Everything is properly updated.</p>
+<p>Taking it a step further, you can include all kinds of <code>ifelse()</code> logic to make complex dynamic documents. <em>If</em> the value of <em>X</em> is equal to or greater than the value of <em>Y</em>, then print “equals or exceeds”; <em>else</em> print “remains less than”. Be aware, however, that your document text still needs to make sense. It can be difficult enough writing one clear sentence; having to write a sentence that will remain coherent despite variable inputs can be <em>very tough</em>!</p>
+</section>
+<section id="figures" class="level3">
+<h3 data-anchor-id="figures">Figures</h3>
+<p>Finally, making figures is pretty much the same as making tables:</p>
+<p>Having reshaped our original data frame long (<code>df_long</code>), we make a figure just as we’ve done in the past — with some formatting improvements to make it nicer looking. While it’s not strictly necessary to store the figure in an object (<code>p</code>) that we then call, it works just fine.</p>
+<p>Notice that again added <code>include = T</code> to the chunk brace. Because we added figure options to <code>opt_chunks$set()</code> in the setup code chunk, this figure (as well as the next one) is sized so that it fills up the page width (with height determined as a ratio of that width) and printed at 300 dpi quality. If you look in the <code>figures</code> folder, you’ll see the figure named <code>ts-fig_unadjusted</code>, which is the prefix we set above with the name of the code chunk.</p>
+</section>
+</section>
+<section id="text" class="level2">
+<h2 data-anchor-id="text">Text</h2>
+<p>Throughout our RMD file, we’ve include Markdown text. This text lives outside of the code chunks and is always printed in the final document. It follows normal Markdown text rules, but can have R code placed inline, as we saw above.</p>
+</section>
+<section id="writing-an-rmd-document" class="level2">
+<h2 data-anchor-id="writing-an-rmd-document">Writing an RMD document</h2>
+<p>Just as when you write a plain R script, your progress from initial RMD draft to final product will be iterative. While you can run R code from inside code chunks just as you’ve been all semester, you may find it useful to start your analyses in plain R files first and only add them to an RMD document later.</p>
+<p>For big projects, such as dissertation, it also doesn’t make much sense to put <em>everything</em> — data reading, cleaning, analysis, table/figure making — inside a single RMD document. You have to redo your entire workflow each time you compile! For large projects, it might make sense to do all the heavy lifting in separate R scripts — saving cleaned up data sets, tables, and figures along the way — and putting all the pre-establish pieces together at the end. But for small projects, such a descriptive policy report, a single RMD document might suffice.</p>
+</section>
+<section id="installing-latex" class="level2">
+<h2 data-anchor-id="installing-latex">Installing LaTeX</h2>
+<p>LaTeX is a document typesetting system/language. While it’s probably best known for its ability to nicely typeset mathematical equations, LaTeX works really well quantitative research workflows. That said, it can be difficult to install and work with.</p>
+<p>We’ll use LaTeX later in the semester so that you can make nice PDF reports. The good news is that you won’t really need to interact with LaTeX at all to do so — other than to install it now.</p>
+<p>Since you don’t need a full TeX distribution on your computer, you can most likely get by using the <a href="https://yihui.org/tinytex/">TinyTeX</a> distribution that we can install directly from R. If you want a full version of TeX on your computer (<strong>NOTE:</strong> It’s very large), then skip to the full installation for your computer.</p>
+<section id="tinytex" class="level3">
+<h3 data-anchor-id="tinytex">TinyTex</h3>
+<p>Once you’ve installed R and RStudio, open RStudio and type the following in the Console:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"tinytex"</span>)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>tinytex<span class="sc">::</span><span class="fu">install_tinytex</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This will install the <code>tinytex</code> R package and then install the TinyTeX distribution (it may take a minute or two).</p>
+</section>
+</section>
+</div>
+<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
+<p>For this assignment, I want you to create a 1-2 page RMD document that uses <code>hsls_small.dta</code> to answer the following questions:</p>
+<blockquote class="blockquote">
+<p>Do educational expectations between a student and their parents generally differ? If so, which group tends to have higher expectations? Do differences vary by the parents’ own educational attainment?</p>
+</blockquote>
+<p>Your final file should include at least one figure and at least one table of summary statistics. The figure and table should be formatted nicely, with good axis labels and column names. You should explain your findings in the document text using Markdown syntax. You do not need to use or cite outside sources — just describe what you find. You also do not need to perform inferential tests (<em>e.g.</em> t-test of differences), though you can if you wish. I should not see input code in the final document — only the final clean output. In other words, it should look like a product you would give to a boss or would want given to you.</p>
+<p>I recommend using <code>test_score.Rmd</code> as a template for how you should:</p>
+<ol type="1">
+<li>Read in the data</li>
+<li>Wrangle the data as necessary to generate your analysis</li>
+<li>Create any tables you may have</li>
+<li>Create any figures you may have</li>
+</ol>
+<p>Feel free to repurpose any code you’ve seen in prior lessons, but make sure you answer the question to the best of your ability.</p>
+<section id="submission-details" class="level4">
+<h4 data-anchor-id="submission-details">Submission details</h4>
+<ul>
+<li>Save both your code file (<code>&lt;lastname&gt;_assignment_7.Rmd</code>) and compiled document (<code>&lt;lastname&gt;_assignment_7.pdf</code>) in your scripts directory.</li>
+<li>Push changes to your repo (the new script and new folder) to GitHub prior to the next class session.</li>
+</ul>
+</section>
+</div>
+</div>
+</div>
+
+
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item">
+    <a class="nav-link" href="https://capaldi.info">M.J. Capaldi</a>
+  </li>  
+</ul>
+    </div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item">
+    <a class="nav-link" href="https://quarto.org/docs/websites">Built with Quarto</a>
+  </li>  
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/ttalVlatt/EDH-7916">
+      <i class="bi bi-github" role="img" aria-label="Website Code Available Here">
+</i> 
+    </a>
+  </li>  
+</ul>
+    </div>
+  </div>
+</footer>
+
+
+
+</body></html>
