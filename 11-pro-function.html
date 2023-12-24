@@ -150,8 +150,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./01-set-install.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">I: Installing R &amp; RStudio</span></a>
+  <a href="./00-Syllabus.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Syllabus</span></a>
   </div>
 </li>
         <li class="sidebar-item sidebar-item-section">
@@ -256,6 +256,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           </a> 
       </div>
       <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07-Quarto.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Reproducable Reports with Quarto</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./x-03-quarto-zotero.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Extra: Vanilla R (Data Wrangling I Redux)</span></a>
+  </div>
+</li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
@@ -733,16 +745,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code># A tibble: 100 × 4
       id   age sibage parage
    &lt;int&gt; &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;
- 1     1    17      7     48
- 2     2    12     10     54
- 3     3    13      9    -99
- 4     4    17      6     54
- 5     5    19     11     54
- 6     6    20      6     53
- 7     7    17      6     45
- 8     8    19     10     55
- 9     9    12     10     48
-10    10    13      6    -99
+ 1     1   -97      5     51
+ 2     2   -97      7     55
+ 3     3    11    -98     53
+ 4     4    15      8     47
+ 5     5    12      5     49
+ 6     6    20      8     49
+ 7     7    18     12     55
+ 8     8    11      5     46
+ 9     9    18      9     46
+10    10    18      5    -99
 # ℹ 90 more rows</code></pre>
 </div>
 </div>
@@ -767,17 +779,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code># A tibble: 11 × 2
      age     n
    &lt;dbl&gt; &lt;int&gt;
- 1   -97     8
- 2    11    11
- 3    12    12
- 4    13    10
- 5    14     8
- 6    15    13
- 7    16    10
- 8    17     9
- 9    18     9
-10    19     5
-11    20     5</code></pre>
+ 1   -97    10
+ 2    11    13
+ 3    12     6
+ 4    13     9
+ 5    14    12
+ 6    15     5
+ 7    16    11
+ 8    17     6
+ 9    18     8
+10    19     8
+11    20    12</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="do">## missing values in age are coded as -97</span></span>
 <span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> df <span class="sc">|&gt;</span></span>
@@ -790,17 +802,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code># A tibble: 11 × 2
      age     n
    &lt;dbl&gt; &lt;int&gt;
- 1    11    11
- 2    12    12
- 3    13    10
- 4    14     8
- 5    15    13
- 6    16    10
- 7    17     9
- 8    18     9
- 9    19     5
-10    20     5
-11    NA     8</code></pre>
+ 1    11    13
+ 2    12     6
+ 3    13     9
+ 4    14    12
+ 5    15     5
+ 6    16    11
+ 7    17     6
+ 8    18     8
+ 9    19     8
+10    20    12
+11    NA    10</code></pre>
 </div>
 </div>
 <p>It worked! All the values that were -97 before, are now in the <code>NA</code> table column. Importantly, none of the other values changed.</p>
