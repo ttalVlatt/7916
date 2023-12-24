@@ -147,9 +147,9 @@ from the `by_school` directory.
 ## ---------------------------
 
 ## read in data, storing in df_*, where * is a unique number
-df_1 <- read_csv(file.path("data", "sch_test", "by_school", "bend_gate_1980.csv"))
-df_2 <- read_csv(file.path("data", "sch_test", "by_school", "bend_gate_1981.csv"))
-df_3 <- read_csv(file.path("data", "sch_test", "by_school", "bend_gate_1982.csv"))
+df_1 <- read_csv(file.path("data", "sch-test", "by-school", "bend-gate-1980.csv"))
+df_2 <- read_csv(file.path("data", "sch-test", "by-school", "bend-gate-1981.csv"))
+df_3 <- read_csv(file.path("data", "sch-test", "by-school", "bend-gate-1982.csv"))
 ```
 
 Looking at each, we can see that they are similarly structured, with
@@ -251,7 +251,7 @@ school-by-year observation.
 ## ---------------------------
 
 ## read in all_schools data
-df <- read_csv(file.path("data", "sch_test", "all_schools.csv"))
+df <- read_csv(file.path("data", "sch-test", "all-schools.csv"))
 ```
 
 Looking at the data, we see that it's similar to what we've seen
@@ -277,9 +277,9 @@ Our task is two-fold:
 ## ---------------------------
 
 ## get test score summary 
-df_sum <- df %>%
+df_sum <- df |>
     ## grouping by year so average within each year
-    group_by(year) %>%
+    group_by(year) |>
     ## get mean(<score>) for each test
     summarize(math_m = mean(math),
               read_m = mean(read),
@@ -355,7 +355,7 @@ picked) if you don't supply one, but we'll specify one to be clear.
 
 ```{r}
 ## start with data frame...
-df_joined <- df %>%
+df_joined <- df |>
     ## pipe into left_join to join with df_sum using "year" as key
     left_join(df_sum, by = "year")
 
@@ -438,7 +438,7 @@ To start, we'll go back to the `all_schools.csv` file.
 ## ---------------------------
 
 ## reading again just to be sure we have the original data
-df <- read_csv(file.path("data", "sch_test", "all_schools.csv"))
+df <- read_csv(file.path("data", "sch-test", "all-schools.csv"))
 ```
 
 Notice how the data are wide in **test**: each school has one row per
@@ -452,9 +452,9 @@ a single _school_, _year_, _test_, _score_:
 
 | school    | year | test | score                                                            |
 |:----------|:----:|:-----|:----------------------------------------------------------------:|
-| Bend Gate | 1980 | math | `r dplyr::filter(df, school == "Bend Gate", year == 1980) %>% dplyr::pull(math)` |
-| Bend Gate | 1980 | read | `r dplyr::filter(df, school == "Bend Gate", year == 1980) %>% dplyr::pull(read)` |
-| Bend Gate | 1980 | science | `r dplyr::filter(df, school == "Bend Gate", year == 1980) %>% dplyr::pull(science)` |
+| Bend Gate | 1980 | math | `r dplyr::filter(df, school == "Bend Gate", year == 1980) |> dplyr::pull(math)` |
+| Bend Gate | 1980 | read | `r dplyr::filter(df, school == "Bend Gate", year == 1980) |> dplyr::pull(read)` |
+| Bend Gate | 1980 | science | `r dplyr::filter(df, school == "Bend Gate", year == 1980) |> dplyr::pull(science)` |
 | ... |...|...|...|
 
 
@@ -470,7 +470,7 @@ The `pivot_longer()` function can take a number of arguments, but the
 core things it needs to know are:
 
 - `data`: the name of the data frame you're reshaping (we can use
-  `%>%` to pipe in the data name)
+  `|>` to pipe in the data name)
 - `cols`: the names of the columns that you want to pivot into values
   of a single new column (thereby making the data frame "longer")
 - `names_to`: the name of the new column that will contain the names
@@ -488,7 +488,7 @@ In our current situation, our `cols` to pivot are `"math"`, `"read"`, and
 ## ---------------------------
 
 ## wide to long
-df_long <- df %>%
+df_long <- df |>
     ## cols: current test columns
     ## names_to: where "math", "read", and "science" will go
     ## values_to: where the values in cols will go
@@ -515,7 +515,7 @@ using `pivot_wider()`. In this case, we're doing just the opposite
 from before --- here are the main arguments you need to attend to:
 
 - `data`: the name of the data frame you're reshaping (we can use
-  `%>%` to pipe in the data name)
+  `|>` to pipe in the data name)
 - `names_from`: the name of the column that contains the values which
   will become new column names
 - `values_from`: the name of the column that contains the values
@@ -528,7 +528,7 @@ from before --- here are the main arguments you need to attend to:
 ## ---------------------------
 
 ## long to wide
-df_wide <- df_long %>%
+df_wide <- df_long |>
     ## names_from: values in this column will become new column names
     ## values_from: values in this column will become values in new cols
     pivot_wider(names_from = "test",
@@ -559,7 +559,7 @@ column in the form `<test>_<year>`.
 ## ---------------------------
 
 ## read in very wide test score data
-df <- read_csv(file.path("data", "sch_test", "all_schools_wide.csv"))
+df <- read_csv(file.path("data", "sch-test", "all-schools-wide.csv"))
 
 ## show
 df
@@ -568,7 +568,7 @@ df
 Second, we can `pivot_longer()` as we did before using the following
 values for our key arguments:
 
-- `data` : `df` (but piped in using `%>%`)
+- `data` : `df` (but piped in using `|>`)
 - `cols` : use special [tidyselect helper
   function](https://www.rdocumentation.org/packages/tidyselect/versions/1.0.0/topics/select_helpers)
   `contains()` to select all test by year columns
@@ -581,7 +581,7 @@ values for our key arguments:
 ## ---------------------------
 
 ## wide to long
-df_long <- df %>%
+df_long <- df |>
     ## NB: contains() looks for "19" in name: if there, it adds it to cols
     pivot_longer(cols = contains("19"),
                  names_to = "test_year",
@@ -602,7 +602,7 @@ for the year and one for the test type. We can fix this using [tidyr
 `separate()`](https://tidyr.tidyverse.org/reference/separate.html)
 function with the following arguments:
 
-- `data`: our `df_long` object, piped in using `%>%`
+- `data`: our `df_long` object, piped in using `|>`
 - `col`: the column we want to split (`test_year`)
 - `into`: the names of the new columns to create from `col` (`test`
 and `year`)
@@ -611,7 +611,7 @@ and `year`)
   
 ```{r}
 ## separate test_year into two columns, filling appropriately
-df_long_fix <- df_long %>%
+df_long_fix <- df_long |>
     ## col: the column to split
     ## into: names of resulting splits
     ## sep: the split point --> left to "test", right to "year"
@@ -647,7 +647,7 @@ and patience are your friends here!
 
 # Assignment
 
-Using the `hsls_small.csv` data set and the online codebook, answer
+Using the `hsls-small.csv` data set and the online codebook, answer
 the following questions. You **do not** need to save the final output
 as a data file: just having the final result print to the console is
 fine. For each question, I would like you to try to pipe all the

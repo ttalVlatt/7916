@@ -238,7 +238,7 @@ a new object.
 
 ```{r}
 ## view data frame without geometry data (not assigning, just viewing)
-df_census %>%
+df_census |>
   st_drop_geometry()
 ```
 
@@ -376,7 +376,7 @@ That isn't our simple flat ESPG 4326, so we are going to
 
 ```{r}
 ## transform the CRS to 4326
-df_census <- df_census %>%
+df_census <- df_census |>
   st_transform(crs = 4326)
 ```
 
@@ -463,7 +463,7 @@ cleaned and merged earlier.
 ## ---------------------------
 
 ## read in IPEDS data
-df_ipeds <- read_csv(file.path("data", "mapping_api_data.csv"))
+df_ipeds <- read_csv(file.path("data", "mapping-api-data.csv"))
 ```
 
 Let's take a look at our data
@@ -482,7 +482,7 @@ they're not quite _spatial data_ like R knows. Let's change that!
 ## convert coordinates columns into a true geometry column; this is
 ## much more reliable than simply plotting them as geom_points as it
 ## ensures the CRS matches etc.
-df_ipeds <- df_ipeds %>% 
+df_ipeds <- df_ipeds |> 
   st_as_sf(coords = c("LONGITUD", "LATITUDE"))
 ```
 
@@ -519,7 +519,7 @@ earlier map.
 
 ```{r}
 ## add CRS to our IPEDS data
-df_ipeds <- df_ipeds %>% 
+df_ipeds <- df_ipeds |> 
   st_set_crs(4326) # When you first add coordinates to geometry, it doesn't know
                    # what CRS to use, so we set to 4326 to match our base map data
 ```
@@ -539,7 +539,7 @@ a new object `point_map`:
 
 ```{r}
 point_map <- base_map +
-  geom_sf(data = df_ipeds %>% filter(FIPS == 12), # Only want to plot colleges in FL
+  geom_sf(data = df_ipeds |> filter(FIPS == 12), # Only want to plot colleges in FL
           aes(size = LPBOOKS),
           alpha = 0.8,
           shape = 23, # Get the diamond shape which stands out nicely on the map
@@ -551,7 +551,7 @@ point_map <- base_map +
 As we have done all lesson, we can take a quick look through our
 second `geom_sf()` function line by line:
 
-- `data = df_ipeds %>% filter(FIPS == 12)`: for this layer we are
+- `data = df_ipeds |> filter(FIPS == 12)`: for this layer we are
   using our `df_ipeds` data, which covers the country, but since our
   base map is Florida, we only want colleges located in the Sunshine
   State (which is FIPS code 12).
@@ -615,7 +615,7 @@ Let's take a quick look at the 50 states.
 ## ---------------------------
 ## get states geometries
 ## ---------------------------
-df_st <- states() %>%
+df_st <- states() |>
   filter(STATEFP <= 56) # keeping only the 50 states plus D.C.
 ```
 
@@ -651,7 +651,7 @@ make it easier to read. Tigris offers an easy way of doing this:
 
 ```{r}
 ## shift position of Hawaii and Alaska
-df_st <- df_st %>%
+df_st <- df_st |>
   shift_geometry(position = "below")
 ```
 
@@ -678,7 +678,7 @@ Peters Projection referenced in the video clip at the start of class.
 
 ```{r us_map_crs_change}
 ## change CRS to what we used for earlier map
-df_st <- df_st %>%
+df_st <- df_st |>
   st_transform(crs = 4326)
 
 ## make make
@@ -704,7 +704,7 @@ doing.
 ## change CRS to requirements for Peters projection
 ## h/t https://gis.stackexchange.com/questions/194295/getting-borders-as-svg-using-peters-projection
 pp_crs <- "+proj=cea +lon_0=0 +x_0=0 +y_0=0 +lat_ts=45 +ellps=WGS84 +datum=WGS84 +units=m +no_defs"
-df_st <- df_st %>%
+df_st <- df_st |>
   st_transform(crs = pp_crs)
 
 ## make mape

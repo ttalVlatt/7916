@@ -150,7 +150,7 @@ covers institutional characteristics for one year:
 ## ---------------------------
 
 ## read in data and lower all names using rename_all(tolower)
-df <- read_csv(file.path("data", "hd2007.csv")) %>%
+df <- read_csv(file.path("data", "hd2007.csv")) |>
     rename_all(tolower)
 ```
 
@@ -170,7 +170,7 @@ Florida, we could filter using the `stabbr` column:
 
 ```{r}
 ## filter using state abbreviation (not saving, just viewing)
-df %>%
+df |>
     filter(stabbr == "FL")
 ```
 
@@ -181,7 +181,7 @@ administrators take.
 
 ```{r}
 ## see first few rows of distinct chief titles
-df %>%
+df |>
     distinct(chftitle)
 ```
 
@@ -193,9 +193,9 @@ common to least.
 
 ```{r}
 ## return the most common titles
-df %>%
+df |>
     ## get counts of each type
-    count(chftitle) %>%
+    count(chftitle) |>
     ## arrange in descending order so we see most popular at top
     arrange(desc(n))
 ```
@@ -244,11 +244,11 @@ _anywhere_ in the title, we'll get that row back.
 
 ```{r}
 ## how many use some form of the title president?
-df %>%
+df |>
     ## still starting with our count
-    count(chftitle) %>%
+    count(chftitle) |>
     ## ...but keeping only those titles that contain "President"
-    filter(str_detect(chftitle, "President")) %>%
+    filter(str_detect(chftitle, "President")) |>
     ## arranging as before
     arrange(desc(n))
 ```
@@ -305,9 +305,9 @@ match either `"President"` or `"president"`.
 
 ```{r}
 ## solution 1: look for either P or p
-df %>%
-    count(chftitle) %>%
-    filter(str_detect(chftitle, "[Pp]resident")) %>%
+df |>
+    count(chftitle) |>
+    filter(str_detect(chftitle, "[Pp]resident")) |>
     arrange(desc(n))
 
 ```
@@ -333,9 +333,9 @@ lowercase `"president"`.
 
 ```{r}
 ## solution 2: make everything lowercase so that case doesn't matter
-df %>%
-    count(chftitle) %>%
-    filter(str_detect(str_to_lower(chftitle), "president")) %>%
+df |>
+    count(chftitle) |>
+    filter(str_detect(str_to_lower(chftitle), "president")) |>
     arrange(desc(n))
 
 ```
@@ -363,7 +363,7 @@ the zip code values that are included in the file.
 
 ```{r}
 ## show first few zip code values
-df %>%
+df |>
     select(unitid, zip)
 ```
 
@@ -387,11 +387,11 @@ In our case, we want the first 5 digits so we should `start == 1` and
 
 ```{r}
 ## pull out first 5 digits of zip code
-df <- df %>%
+df <- df |>
     mutate(zip5 = str_sub(zip, start = 1, end = 5))
 
 ## show (use select() to subset so we can set new columns)
-df %>%
+df |>
     select(unitid, zip, zip5)
 ```
 
@@ -439,11 +439,11 @@ Let's try it on the data.
 
 ```{r}
 ## drop last four digits of extended zip code if they exist
-df <- df %>%
+df <- df |>
     mutate(zip5_v2 = str_replace(zip, "([0-9]+)(-[0-9]+)?", "\\1"))
 
 ## show (use select() to subset so we can set new columns)
-df %>%
+df |>
     select(unitid, zip, zip5, zip5_v2)
 ```
 
@@ -458,15 +458,15 @@ Let's compare our two versions: do we get the same results?
 
 ```{r}
 ## check if both versions of new zip column are equal
-identical(df %>% select(zip5), df %>% select(zip5_v2))
+identical(df |> select(zip5), df |> select(zip5_v2))
 ```
 
 No! Let's see where they are different:
 
 ```{r}
 ## filter to rows where zip5 != zip5_v2 (not storing...just looking)
-df %>%
-    filter(zip5 != zip5_v2) %>%
+df |>
+    filter(zip5 != zip5_v2) |>
     select(unitid, zip, zip5, zip5_v2)
 
 ```
@@ -524,11 +524,11 @@ and 2008. We'll limit our next analyses to these institutions.
 
 ```{r}
 ## subset to schools who closed during this period
-df <- df %>%
+df <- df |>
     filter(closedat != -2)
 
 ## show first few rows
-df %>% select(unitid, instnm, closedat)
+df |> select(unitid, instnm, closedat)
 ```
 
 We can see that `closedat` is stored as a string. Based on our domain
@@ -542,11 +542,11 @@ date.
 ```{r}
 
 ## create a new close date column 
-df <- df %>%
+df <- df |>
     mutate(closedat_dt = mdy(closedat))
 
 ## show
-df %>% select(starts_with("close"))
+df |> select(starts_with("close"))
 ```
 
 Well, we are part of the way there. It seems that `mdy()` didn't
@@ -558,12 +558,12 @@ and then convert using `mdy()`. We'll use regular expressions with an
 
 ```{r}
 ## convert MON-YYYY to MON-01-YYYY
-df <- df %>%
+df <- df |>
     mutate(closedat_fix = str_replace(closedat, "-", "-01-"),
            closedat_fix_dt = mdy(closedat_fix))
 
 ## show
-df %>% select(starts_with("close"))                                
+df |> select(starts_with("close"))                                
 ```
 
 > #### Quick exercise
@@ -586,13 +586,13 @@ date type, it's easy to pull out the pieces of that date, including:
 ## - month
 ## - day
 ## - day of week (dow)
-df <- df %>%
+df <- df |>
     mutate(close_year = year(closedat_fix_dt),
            close_month = month(closedat_fix_dt),
            close_day = day(closedat_fix_dt),
            close_dow = wday(closedat_fix_dt, label = TRUE))
 ## show
-df %>%
+df |>
     select(closedat_fix_dt, close_year, close_month, close_day, close_dow)
 ```
 
@@ -608,12 +608,12 @@ month, leap years, _etc_).
 ## how long since the institution closed
 ## - as of 1 January 2020
 ## - as of today
-df <- df %>%
+df <- df |>
     mutate(time_since_close_jan = ymd("2020-01-01") - closedat_fix_dt,
            time_since_close_now = today() - closedat_fix_dt)
 
 ## show
-df %>% select(starts_with("time_since_close"))
+df |> select(starts_with("time_since_close"))
 ```
 
 As with strings and regular expressions, we've only scratched the

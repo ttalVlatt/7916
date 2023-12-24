@@ -11,7 +11,7 @@ Well-constructed figures can make a huge difference in how your work
 is received. First, they look nice! But more importantly, a
 well-constructed figure, just like a well-constructed sentence, can
 more accurately and more succinctly convey key information to the
-reader. We've already learned the basics of plotting in the [first data visualization lesson](05-Data-Viz-I.qmd), but we
+reader. We've already learned the basics of plotting in the [first data visualization lesson](05-viz-i.qmd), but we
 didn't spend much time making our figures look as nice as we could
 have. The sky is limit with graphics in R, but with just a little bit
 of extra effort, you can make very nice figures.
@@ -48,7 +48,7 @@ library(patchwork)
 
 We'll need to convert and then replace some missing values in the
 lesson, so we'll include our user-written function, `fix_missing()`,
-that we first used in the [programming lesson](13-Program-Functional.qmd).
+that we first used in the [programming lesson](11-pro-function.qmd).
 
 ```{r}
 ## ---------------------------
@@ -73,7 +73,7 @@ data file.
 ## input data
 ## ---------------------------
 
-df <- read_csv(file.path("data", "hsls_small.csv"), show_col_types = FALSE)
+df <- read_csv(file.path("data", "hsls-small.csv"), show_col_types = FALSE)
 ```
 
 ## Initial plot with no formatting
@@ -95,8 +95,8 @@ be converted to `NA` values and, for our plotting purposes, dropped.
 ## -----------------------------------------------------------------------------
 
 ## fix missing values for text score and then drop missing
-df <- df %>%
-  mutate(math_test = fix_missing(x1txmtscor, -8)) %>%
+df <- df |>
+  mutate(math_test = fix_missing(x1txmtscor, -8)) |>
   drop_na(math_test)
 ```
 
@@ -293,7 +293,7 @@ lesson](/edh7916/lessons/plotting.html).
 ## -----------------------------------------------------------------------------
 
 ## add indicator that == 1 if either parent has any college
-df <- df %>%
+df <- df |>
   mutate(pared_coll = ifelse(x1paredu >= 3, 1, 0))
 ```
 
@@ -687,8 +687,8 @@ values.
 ## -----------------------------------------------------------------------------
 
 ## remove missing values
-df <- df %>%
-  mutate(pov185 = fix_missing(x1poverty185, c(-8,-9))) %>%
+df <- df |>
+  mutate(pov185 = fix_missing(x1poverty185, c(-8,-9))) |>
   drop_na(pov185)
 
 ## make histogram
@@ -759,8 +759,8 @@ status. After cleaning up that variable, we make a new plot.
 ## ---------------------------
 
 ## drop missing SES values
-df <- df %>%
-  mutate(ses = fix_missing(x1ses, -8)) %>%
+df <- df |>
+  mutate(ses = fix_missing(x1ses, -8)) |>
   drop_na(ses)
 
 ## create third histogram of just SES

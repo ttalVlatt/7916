@@ -556,15 +556,15 @@ can change it each time we call the function. Let's try it out.
 
 ```{r}
 ## check
-df %>%
+df |>
     count(age)
 
 ## missing values in age are coded as -97
-df <- df %>%
+df <- df |>
     mutate(age = fix_missing(age, -97))
 
 ## recheck
-df %>%
+df |>
     count(age)
 ```
 
@@ -592,12 +592,12 @@ individually and then appended them.
 
 ```{r}
 ## read in all Bend Gate test score files
-df_1 <- read_csv(file.path("data", "sch_test", "by_school", "bend_gate_1980.csv"))
-df_2 <- read_csv(file.path("data", "sch_test", "by_school", "bend_gate_1981.csv"))
-df_3 <- read_csv(file.path("data", "sch_test", "by_school", "bend_gate_1982.csv"))
-df_4 <- read_csv(file.path("data", "sch_test", "by_school", "bend_gate_1983.csv"))
-df_5 <- read_csv(file.path("data", "sch_test", "by_school", "bend_gate_1984.csv"))
-df_6 <- read_csv(file.path("data", "sch_test", "by_school", "bend_gate_1985.csv"))
+df_1 <- read_csv(file.path("data", "sch-test", "by-school", "bend-gate-1980.csv"))
+df_2 <- read_csv(file.path("data", "sch-test", "by-school", "bend-gate-1981.csv"))
+df_3 <- read_csv(file.path("data", "sch-test", "by-school", "bend-gate-1982.csv"))
+df_4 <- read_csv(file.path("data", "sch-test", "by-school", "bend-gate-1983.csv"))
+df_5 <- read_csv(file.path("data", "sch-test", "by-school", "bend-gate-1984.csv"))
+df_6 <- read_csv(file.path("data", "sch-test", "by-school", "bend-gate-1985.csv"))
 
 ## append
 df <- bind_rows(df_1, df_2, df_3, df_4, df_5, df_6)
@@ -626,7 +626,7 @@ put it to good use.
 ```{r}
 ## get names (with full path) of all school test score files
 
-files <- list.files(file.path("data", "sch_test", "by_school"), full.names = TRUE)
+files <- list.files(file.path("data", "sch-test", "by-school"), full.names = TRUE)
 
 ## show
 files
@@ -671,7 +671,7 @@ objects.
 
 ```{r}
 ## bind our list to single data frame
-df <- df_list %>%
+df <- df_list |>
     bind_rows()
 
 ## show
@@ -711,7 +711,7 @@ leave it out. But if we want to filter which files are stored in
 
 ```{r}
 ## filter files to be read in using pattern
-files_sp <- list.files(file.path("data", "sch_test", "by_school"), pattern = "spottsville", full.names = TRUE)
+files_sp <- list.files(file.path("data", "sch-test", "by-school"), pattern = "spottsville", full.names = TRUE)
 
 ## check
 files_sp
@@ -736,7 +736,7 @@ for (i in 1:length(files_sp)) {
 }
 
 ## bind our list to single data frame
-df_sp <- df_sp_list %>%
+df_sp <- df_sp_list |>
     bind_rows()
 
 ## show
@@ -779,13 +779,13 @@ thing we want to do (function):
 - **function** := `read_csv()`
 
 What's nice about purrr functions is that they work directly with
-other tidyverse functions via pipes, `%>%`. This bit of code
+other tidyverse functions via pipes, `|>`. This bit of code
 reproduces what the first loop did to read in and bind all files:
 
 ```{r, message = FALSE}
 ## use purrr::map() to read in all files; then pipe into bind rows
 df <- map(files,
-          ~ read_csv(.x, show_col_types = FALSE)) %>%
+          ~ read_csv(.x, show_col_types = FALSE)) |>
     bind_rows()
 
 ## show
@@ -800,7 +800,7 @@ function is coming next). Since the items in `files` are paths,
 `read_csv()` works as it always does.
 
 The output of `map()` is a list. Before, we had to initialize a blank
-list, `df_list()`. But this time we can just use a `%>%` to send the
+list, `df_list()`. But this time we can just use a `|>` to send the
 output of `map()` (a list), to `bind_rows()` and assign the **final**
 result to `df`: our full data frame!
 
@@ -856,8 +856,8 @@ best of your ability by dropping them.
          the test scores into a vector using the
          following code:   
 		 ```r
-		 test_scr <- df %>% 
-			filter(row_number() <= 50) %>% 
+		 test_scr <- df |> 
+			filter(row_number() <= 50) |> 
 			pull(x1txmtscor)
 		 ```
 	 iii. Using a `for()` loop, print out the index of the missing

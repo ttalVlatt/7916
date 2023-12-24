@@ -1,7 +1,11 @@
 project:
   type: website
   post-render: 
-    - site-attachments/Purl-R-Scripts.R
+    - site-attachments/purl-r-scripts.R
+    - site-attachments/create-example-folder.R
+  render: 
+    - "*.qmd"
+    - "!ignored-dir/"
   #  - site-attachments/docx2pdf.R
   # resources:
   #   - CNAME
@@ -21,21 +25,21 @@ website:
     contents:
       - index.qmd
       - text: "Syllabus"
-        file: "00-Syllabus.qmd"
+        file: "00-syllabus.qmd"
       - section: "Getting Started"
-        contents: "*Setup*" # glob search for files with Setup
+        contents: "*set*" # glob search for files with Setup
       - section: "Data Wrangling"
-        contents: "*Wrangling*"
+        contents: "*wrangle*"
       - section: "Data Visualization"
-        contents: "*Viz*"
+        contents: "*viz*"
       - section: "Quarto"
-        contents: "*Quarto*"
+        contents: "*quarto*"
       - section: "Programming"
-        contents: "*Program*"
+        contents: "*pro*"
       - section: "Philosophy of Data Wrangling"
-        contents: "*Philosophy*"
+        contents: "*phil*"
       - text: "Final Project"
-        file: "99-Final-Project.qmd"
+        file: "99-final.qmd"
     collapse-level: 1
 
   page-footer:

@@ -77,8 +77,8 @@ them unique names instead of the normal `df`:
 
 ## read_dta() ==> read in Stata (*.dta) files
 ## read_csv() ==> read in comma separated value (*.csv) files
-df_hs <- read_dta(file.path("data", "hsls_small.dta"))
-df_ts <- read_csv(file.path("data", "sch_test", "all_schools.csv"))
+df_hs <- read_dta(file.path("data", "hsls-small.dta"))
+df_ts <- read_csv(file.path("data", "sch-test", "all-schools.csv"))
 ```
 
 ## Plots using base R
@@ -319,13 +319,13 @@ p
 As you can see, the code to make a ggplot2 figure looks a lot like
 what we've seen with other tidyverse libraries, _e.g._ dplyr. The key
 difference between ggplot2 and dplyr, however, is that while dplyr
-uses the pipe (`%>%`) to connect different functions, ggplot2 uses a
+uses the pipe (`|>`) to connect different functions, ggplot2 uses a
 plus sign (`+`).
 
 It may help you remember the difference:
 
 - dplyr _moves_ output from left to the input in the right and so
-  needs a **pipe** (`%>%`)
+  needs a **pipe** (`|>`)
 - ggplot2 _adds_ layer upon layer to build up the final figure and
   so needs a **plus sign** (`+`)
 
@@ -423,7 +423,7 @@ labels when we use `count()`
 
 ```{r}
 ## see the counts for each group
-df_hs %>% count(x1paredu)
+df_hs |> count(x1paredu)
 ```
 
 We can see that all values of `x1paredu` greater than 2 represent
@@ -445,13 +445,13 @@ make a new temporary data object that only has the data we need.
 
 ```{r}
 ## need to set up data
-plot_df <- df_hs %>%
+plot_df <- df_hs |>
     ## select the columns we need
-    select(x1paredu, x1txmtscor) %>%
+    select(x1paredu, x1txmtscor) |>
     ## can't plot NA so will drop
-    drop_na() %>%
+    drop_na() |>
     ## create new variable that == 1 if parents have any college
-    mutate(pared_coll = ifelse(x1paredu >= 3, 1, 0)) %>%
+    mutate(pared_coll = ifelse(x1paredu >= 3, 1, 0)) |>
     ## drop (using negative sign) the original variable we don't need now
     select(-x1paredu) 
 
@@ -538,9 +538,9 @@ aren't missing information about student education expectations
 
 ```{r eda_plot_scatter_1, warning = F, message = F}
 ## sample 10% to make figure clearer
-df_hs_10 <- df_hs %>%
+df_hs_10 <- df_hs |>
     ## drop observations with missing values for x1stuedexpct
-    drop_na(x1stuedexpct) %>%
+    drop_na(x1stuedexpct) |>
     ## sample
     sample_frac(0.1)
 
@@ -561,7 +561,7 @@ We can look at the student base year expectations with `count()`:
 
 ```{r}
 ## see student base year plans
-df_hs %>%
+df_hs |>
     count(x1stuedexpct)
 ```
 
@@ -574,7 +574,7 @@ new variable.
 
 ```{r}
 ## create variable for students who plan to graduate from college
-df_hs_10 <- df_hs_10 %>%
+df_hs_10 <- df_hs_10 |>
     mutate(plan_col_grad = ifelse(x1stuedexpct >= 6 & x1stuedexpct < 11,
                                   1,        # if T: 1
                                   0))       # if F: 0
@@ -696,7 +696,7 @@ now, `math` to the `y` axis. To see a line graph, we add
 
 ```{r, warning = F, message = F}
 ## line graph
-p <- ggplot(data = df_ts %>% filter(school == "Spottsville"),
+p <- ggplot(data = df_ts |> filter(school == "Spottsville"),
             mapping = aes(x = year, y = math)) +
     geom_line()
 p
@@ -774,7 +774,7 @@ with the `score` next to it.
 
 ```{r}
 ## reshape data long
-df_ts_long <- df_ts %>%
+df_ts_long <- df_ts |>
     pivot_longer(cols = c("math","read","science"), # cols to pivot long
                  names_to = "test",                 # where col names go
                  values_to = "score")               # where col values go
@@ -867,10 +867,10 @@ a new variable `score_std`. Because we `group_by()` `test`,
 
 ```{r}
 ## rescale test scores
-df_ts_long <- df_ts_long %>%
-    group_by(test) %>%
-    mutate(score_std = (score - mean(score)) / sd(score)) %>%
-    ungroup
+df_ts_long <- df_ts_long |>
+    group_by(test) |>
+    mutate(score_std = (score - mean(score)) / sd(score)) |>
+    ungroup()
 ```
 
 We'll repeat the same code as before, but this time substitute `y =
@@ -930,13 +930,13 @@ make our new variable, `score_std_sch`.
 
 ```{r}
 ## standardize test scores within school to first year
-df_ts_long <- df_ts_long %>%
-    group_by(test, school) %>%
-    arrange(year) %>% 
+df_ts_long <- df_ts_long |>
+    group_by(test, school) |>
+    arrange(year) |> 
     mutate(score_year_one = first(score),
            ## note that we're using score_year_one instead of mean(score)
-           score_std_sch = (score - score_year_one) / sd(score)) %>%
-    ungroup
+           score_std_sch = (score - score_year_one) / sd(score)) |>
+    ungroup()
 ```
 
 Now we'll plot using our new variable `score_std_sch`.

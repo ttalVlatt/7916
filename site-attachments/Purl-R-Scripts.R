@@ -20,13 +20,13 @@ for(i in qmd_files) {
 
 output <- Sys.getenv("QUARTO_PROJECT_OUTPUT_DIR")
 
-dir.create(file.path(output, "R-scripts"))
+dir.create(file.path(output, "r-scripts"))
 
 r_files <- list.files(pattern = ".R$")
 
 for(i in r_files) {
   
-  file.rename(i, file.path(output, "R-scripts", i))
+  file.rename(i, file.path(output, "r-scripts", i))
   
 }
 
