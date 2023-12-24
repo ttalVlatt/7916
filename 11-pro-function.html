@@ -150,7 +150,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./00-syllabus.qmd" class="sidebar-item-text sidebar-link">
+  <a href="./00-Syllabus.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Syllabus</span></a>
   </div>
 </li>
@@ -173,6 +173,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <div class="sidebar-item-container"> 
   <a href="./02-set-data.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">II: Reading Data &amp; IPEDS</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./x-01-set-git.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Extra: Git &amp; GitHub</span></a>
   </div>
 </li>
       </ul>
@@ -242,8 +248,27 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
-      <span class="sidebar-item-text sidebar-link text-start">
- <span class="menu-text">Quarto</span></span>
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="false">
+ <span class="menu-text">Quarto</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07-Quarto.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Reproducable Reports with Quarto</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./x-03-quarto-zotero.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Extra: Vanilla R (Data Wrangling I Redux)</span></a>
+  </div>
+</li>
+      </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
@@ -720,16 +745,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code># A tibble: 100 × 4
       id   age sibage parage
    &lt;int&gt; &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;
- 1     1    13      9     52
- 2     2    12      5     52
- 3     3    15      6     45
- 4     4    14     11     53
- 5     5    17     10     46
- 6     6   -97      9     46
- 7     7    11      9     49
- 8     8    19      5     51
- 9     9    12      9     48
-10    10    19      8     49
+ 1     1    14      6     55
+ 2     2    11     11     51
+ 3     3    13      7     52
+ 4     4    18      8     47
+ 5     5    20      8     45
+ 6     6    11     12     51
+ 7     7    11      6     55
+ 8     8    12      7     53
+ 9     9   -97     10    -98
+10    10    15     10    -99
 # ℹ 90 more rows</code></pre>
 </div>
 </div>
@@ -754,17 +779,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code># A tibble: 11 × 2
      age     n
    &lt;dbl&gt; &lt;int&gt;
- 1   -97     9
- 2    11     9
- 3    12    12
- 4    13    11
- 5    14    13
- 6    15    10
- 7    16     8
- 8    17    12
+ 1   -97    15
+ 2    11    10
+ 3    12     4
+ 4    13     9
+ 5    14    12
+ 6    15     6
+ 7    16     7
+ 8    17     7
  9    18     6
-10    19     6
-11    20     4</code></pre>
+10    19    12
+11    20    12</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="do">## missing values in age are coded as -97</span></span>
 <span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> df <span class="sc">|&gt;</span></span>
@@ -777,17 +802,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code># A tibble: 11 × 2
      age     n
    &lt;dbl&gt; &lt;int&gt;
- 1    11     9
- 2    12    12
- 3    13    11
- 4    14    13
- 5    15    10
- 6    16     8
- 7    17    12
+ 1    11    10
+ 2    12     4
+ 3    13     9
+ 4    14    12
+ 5    15     6
+ 6    16     7
+ 7    17     7
  8    18     6
- 9    19     6
-10    20     4
-11    NA     9</code></pre>
+ 9    19    12
+10    20    12
+11    NA    15</code></pre>
 </div>
 </div>
 <p>It worked! All the values that were -97 before, are now in the <code>NA</code> table column. Importantly, none of the other values changed.</p>
