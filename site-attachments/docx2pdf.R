@@ -14,8 +14,8 @@ library(doconv)
 
 output <- Sys.getenv("QUARTO_PROJECT_OUTPUT_DIR")
 
-doc_docx <- file.path(output, "00-Syllabus.docx")
-doc_pdf <- file.path(output, "00-Syllabus.pdf")
+doc_docx <- file.path(output, "syllabus.docx")
+doc_pdf <- file.path(output, "syllabus.pdf")
 
 docx2pdf(input = doc_docx, output = doc_pdf)
 

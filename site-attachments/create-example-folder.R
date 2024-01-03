@@ -25,11 +25,12 @@ r_scripts <- list.files(file.path(output, "r-scripts"))
 r_scripts <- r_scripts |>
   discard(~str_detect(.x, "^_.*")) |>
   discard(~str_detect(.x, "index")) |>
-  discard(~str_detect(.x, "00")) |>
+  discard(~str_detect(.x, "syllabus")) |>
   discard(~str_detect(.x, "99")) |>
   discard(~str_detect(.x, "07")) |>
   discard(~str_detect(.x, "14")) |>
-  discard(~str_detect(.x, "x-01"))
+  discard(~str_detect(.x, "x-01")) |>
+  discard(~str_detect(.x, "x-03"))
 
 ##'[Add lesn- to all lesson scripts for grouping]
 
