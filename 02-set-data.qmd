@@ -3,50 +3,270 @@ title: "II: Reading Data & IPEDS"
 image: apple-touch-icon.png
 ---
 
-:::{.panel-tabset}
+::: panel-tabset
 
 # Lesson
 
-- Now we have shown why Excel can be a problem, in this shorter lesson, we'll discuss how to set up a project directory and read in data.
-  - There is no "incorrect" way of doing this as long as it works, however, the principles we use in this lesson will help you avoid issues in the future 
+-   Now we have shown why Excel can be a problem, in this shorter
+    lesson, we'll discuss how to set up a project directory and read in
+    some data from IPEDS
+    - Note: There is no "incorrect" way of doing this as long (as long as it works), however, the principles we use in this lesson will help you avoid issues in the future
 
-## Organizing a project directory
+## Organizing a Project Folder
 
 We'll begin with how to organize your course and project files.
 
-### A place for everything and everything in its place
+- We are now arriving at one of the first small differences from previous versions of the course; how the sub-folders are organized.
 
-Every data analysis project should have its own set of organized
+#### Ben's kitchen example
+
+"Every data analysis project should have its own set of organized
 folders. Just like you might organize a kitchen so that ingredients,
 cookbooks, and prepared food all have a specific cabinet or shelf, so
 too should you organize your project. We'll organize our course
-directory in a similar fashion.
+directory in a similar fashion."
+
+- In this world, think of pristine kitchen where **NOTHING** sits out on the counter.
+- However, we are going to have kitchen where some things are stored away in cupboards, but what we actually work with (the scripts) sits out on the counter
+  - The kitchen metaphor also works to explain why you might take these approaches
+    - It's definitely tidier to keep everything in your kitchen stored away, but, it adds an extra step whenever you want to cook a meal. The same is true here. 
+    - Why? We will get to that later...
+
+### EDH 7916 Folder Setup
+
+- With this kitchen metaphor in mind, let's set up our folder for the class
+
+1. First, download the [R-Class-Scripts bundle](.) (also linked on the class homepage)
+  - Use this as your main folder for the class (this will be our counter top)
+  - Save it wherever you usually keep your work (I use my desktop, documents is another common location)
+    - You can rename the folder if you like (see files naming guidelines below first)
+
+2. Next, download the [data bundle](.) and drop that folder inside the class scripts folder we just downloaded (this is your kitchen pantry)
+    - Don't rename this one (it will mess up all the scripts I've given you)!
+3. Finally, create a new sub-folder called `final-project`
+    - Add a blank `data` folder inside your `final-project` folder
+    
+Your class folder should now look like (please stop me here if it doesn't)
+
+`r-class`
+    -- `01-set-install.R`
+    ...
+    -- `12-pro-model.R`
+    -- `data`
+    -- `final-project`
+        -- `data`
+
+- Throughout the class (and especially in your final project) you may feel the need for other sub-folders for other items (such as one to keep graphs in), but this should be fine for now
+
+### R Project Setup
+
+- RStudio has some really helpful features, one of which is creating R Projects easily
+  - At their very simplest, these can be ways of keeping your RStudio environment saved (especially helpful switching between projects), but also enable more feature like using git (see extra credit lesson)
+  
+- It's pretty easy to set up a project now we have our class folder set up
+  1. In the top right corner of RStudio you'll see a blue cube with "none" next to it
+  2. Click there, then "new project"
+  3. Then click "from existing directory"
+  4. Find the class folder we just created, select it, and we're done!
+- This is really useful for keeping track of multiple projects, but if this is all you use it for, it will be helpful to keep working directory correct!
+
+### Naming Guidelines
+
+- Your class scripts and data files are already named, but there will be numerous files you need to create through the class (assignment scripts, everything for your file report, etc.). So it's best we get on the same page
+
+- Always name your files something logical
+  - The file name should always tell something about the purpose of that file or folder
+  
+- Posit-style script numbering
+ - I am personally a big fan of [Posit-style script numbering]()
+    - Basically start all your script names with the number that they should be run in
+      - `01-data-reading`
+      - `02-data-cleaning`
+      - `03-data-analysis`
+    - I think this is especially helpful if you're keeping scripts in the top level of the project directory to keep things organized
+
+- Generally, a good programming tip is to avoid spaces at all costs, use dashes or underscores instead
+    - I prefer dashes as they format better on macs, so you will see all the files I give you will have dashes
+- It's also good to be consistent with capitalization, most traditional programmers will avoid it completely, but if you do it, do it consistently throughout that project
+    - I used no capitalization through this class, but I often will use title case for aesthetic reasons in other situations
+      - Whatever you do, never (ever, ever) have different versions of files with the same name but different capitalization
+        - Most modern computers won't let you have both at the same time, but even changing it can cause problems with case sensitive systems like git (I found this out the hard way...)
+                
+- Lastly, try to keep files names as short as possible
+  - Later on we will be be in situations where we have to type out file names, so if you go too long, it can become frustrating
+
+- You may think the names of your class scripts are a little odd, so let me explain those as an example
+    1. The `l-` is just to group all lesson scripts together
+      - Ideally you should use `a-` before all your assignment scripts if you want to keep things neat 
+    2. The [posit-style numbering]() corresponding to the order of the lessons
+      - This would usually be first, this is just a unique where we need to group lessons and assignments separately
+    3. `set`, `wrangle`, `viz`, `quarto`, or `pro` indicate which group of lessons it belongs to (it helps me automatically create the groups on the website sidebar) 
+    4. Anything else is just descriptive, roman numerals for the lesson series, or a descriptive word
+    
+- With our class folder now set up, it's time to go over some other key organization principles
+
+### File Paths
+
+- When we are working with R, we (most of the time) need to bring in
+    other items, such as data
+  - In order to do that, our computer has to find these items, and there are two ways it can do that
+
+#### Absolute Paths
+
+- Absolute paths are directions to what you're looking for starting from the root of your computer, and list out exactly where a file is. For example, as I'm writing this lesson, the absolute path of this Quarto script is
+
+`"/Users/Matt/Desktop/7916/02-set-data.qmd"`
+
+- This is perfectly fine, assuming two things
+  1. I don't move the project directory
+  2. It only needs to run on my computer
+- Oftentimes, we cannot rely on both these assumptions being true
+  - Plus, if we start with these absolute paths and then need to change, it will then become a real pain to update everything
+    - So, we should **ALWAYS** use relative paths instead (this one of the only strict rules for assignments)
+
+#### Relative Paths
+
+- Imagine I am giving you directions to a College of Education cookout, but, I give you directions from my house. That's only any use if you know where my house is...
+  - Instead, you really want directions from somewhere we all know, like Norman Hall
+      - That is (basically) how relative paths work, we give directions to to our data from a common point
+- Relative paths are directions to what you're looking for from where you are right now (a.k.a your "working directory")
+
+#### The `file.path()` Function
+
+- One last thing, you see how file paths are typically written with `/` or `\`? (which depends on your computer)
+  - R has a nice function that means we don't have to
+    - a) worry about which way around the slash should be
+    - b) avoid issues with different computers expecting different slashes
+  - `file.path()`
+    - Inside that, we just type the name of each folder/file in "quotes"
+      - `"Users/Matt/Desktop/7916"`
+      into
+      - `file.path("Users", "Matt", "Desktop", "7916")`
+      - This may look longer, but, it's more compatible and easier to remember"
+      
+#### What If I Need to Go Back a Level?
+
+- Sometimes we are in a folder, but want to go back a level
+  - This is very common if with we were using the "pristine kitchen" approach
+- To do so is easy, we just add a `".."` to our `file.path()`
+  - So, if we are in my class folder on my desktop, and we want to go to another folder on the desktop
+    - `file.path("..", "<folder we want>")`
+
+### Working Directory
+
+- The working directory is almost certainly the most common cause of issues in this class, and continues to be something I get tripped up by from time to time, so this may take a minute to get your head around
+
+- As a general rule, no matter how you have your folders organized in the future, you usually want your working directory set to where your script is
+  - That way, you're always giving directions from the common point of "where we are we are right now"
+      - This will then be the same if I move the project folder on my computer, or run it on someone else's computer
+- By default, when we open a project in RStudio, RStudio helpfully sets our working directory to the project folder
+  - This is why we are keeping our scripts out on the counter top so to speak, the default working directory *should* be the correct one
+- That said, there will be times when you need to change your working directory, so, let's go over the basics of that quickly
+  - For instance, if you forget to open a project, RStudio will often the leave working directory as your root folder
+    - You can see the currently working directory path next to the little R icon and version at the top of your console panel
+    - If it's wrong, there are a few ways to change it
+      1. Find "session" on the top drop-down menu
+        - Then "set working directory"
+        - Then "To source file location"
+          - This should be the same as "To project directory" as our scripts are stored at the top level of the project folder
+      2. Install the `this.path` package (recall how to do that from last
+        week)
+        - With that installed, call `this.path::here() |> setwd()` at the top of the script
+          - Note 1: We will cover what `|>` means next week, but effectively we took the output of `this.path::here()` and passed it into `setwd()`
+          - Note 2: `this.path::here()` is the same as doing `library(this.path)` followed by `here()` but is more efficient if you only want one thing from a package
+          - Assuming you want the working directory to be the script location, this never hurts to always leave at the top
+      3. Navigate to the desired folder in the files pane (bottom right)
+        - Select the cog symbol
+            - Select "Set as working directory"
+                - Note: "Go to working directory" can be useful to see what's in the folder if you navigate away
+      4. The old school vanilla R way `setwd("<path to your script>")`
+        - But, this really isn't usually the most efficient
+        - Note: `getwd()` is sometimes still useful to check what your current working directory is set to
+
+- As I say, if we organize our folder as outlined in this lesson, and use an R project, we shouldn't need to change this much, but it's inevitable you will every now and then
+
+## Reading in Data
+
+- Next, let's apply some of this thrilling knowledge about file paths and working directories to read in some data from IPEDS
+
+- To do this, open `02-set-data.R` from your class folder
+
+```{r, include = FALSE, purl = TRUE}
+################################################################################
+##
+## <PROJ> EDH 7916
+## <FILE> Setup II: Organizing and Reading Data 
+## <INIT> 04 January 2024
+## <AUTH> Matt Capaldi (credit to B.T. Skinner)
+##
+################################################################################
+
+```
+
+- First up, check your working directory by either
+  - Looking at the top of your console 
+  or
+  - Typing `getwd()` into the console
+- This should be your class folder, but if not, we need to set it there
+  - On the top drop-down menu, select "Session", "Set Working Directory, "To Source File Location"
+  - Quick Question: Without scrolling up, who can remember the other ways of doing this?
+
+- Okay, with this set, it's time to read in our first dataset!
+  - Quick Question 1: Where is our data?
+  - Quick Question 2: Who remembers how we assign something in R?
+    - With those questions answered, we have everything we need
+
+
+```{r}
+
+library(tidyverse)
+
+df_ipeds <- read_csv(file.path("data", "hd2007.csv"))
+
+```
+
+Success!
+
+We will cover other ways of reading in data over the course of the class (we can download data directly to R somtimes), but this is most common way, so we are ready for some analysis next week!
+
+That's it for R today, phew!
+
+Now let's go and explore IPEDS Data Center and see where a lot of contemporary higher education research data comes from!
+
+
+
+
+
+
+
+
+A place for everything and everything in its place
 
 But computers are pretty good at finding files, you say: you can use
 your machine's search feature to look for what you need. If you don't
 have that many files to look through, you might not be too bad at
-quickly scanning to find what you want either. If this is the case,
-then why bother organizing a project directory?  Why not just dump
-everything --- scripts, data, figures, tables, notes, _etc_ --- into a
-single folder (_My downloads folder works just fine, thank you..._)? If
-you need something, the computer can definitely find it.
+quickly scanning to find what you want either. If this is the case, then
+why bother organizing a project directory? Why not just dump everything
+--- scripts, data, figures, tables, notes, *etc* --- into a single
+folder (*My downloads folder works just fine, thank you...*)? If you
+need something, the computer can definitely find it.
 
 So what's the big deal?
 
 The big deal is that you are thinking from your computer's perspective
 when you should be thinking from the perspective of you, your
-collaborators (which includes your future self), and future
-replicators (which also includes yourself). Search features are nice,
-but there's no substitute for being able to look through a project's
-files _just by looking through the project folders_. When a project is
-well organized, it's much easier to understand how everything --- each
-input, process, and output --- fits together.
+collaborators (which includes your future self), and future replicators
+(which also includes yourself). Search features are nice, but there's no
+substitute for being able to look through a project's files *just by
+looking through the project folders*. When a project is well organized,
+it's much easier to understand how everything --- each input, process,
+and output --- fits together.
 
 ### A common directory structure
 
 As a reminder, here's basic directory structure for this class:
 
-```
+```         
 student_skinner/
 |
 |__ assignments/
@@ -58,26 +278,26 @@ student_skinner/
 |__ working/
 ```
 
-As you can see, we have a main directory (or folder --- same thing)
-for the course called `student_skinner`. Your directory has a similar
-name, but with your last name: `student_<last name>`. That said, it
-could be named anything useful. This can live on your computer
-wherever you want to put it: on your Desktop, in your home directory,
-in another folder where you store materials for your other classes ---
-wherever makes sense for you.
+As you can see, we have a main directory (or folder --- same thing) for
+the course called `student_skinner`. Your directory has a similar name,
+but with your last name: `student_<last name>`. That said, it could be
+named anything useful. This can live on your computer wherever you want
+to put it: on your Desktop, in your home directory, in another folder
+where you store materials for your other classes --- wherever makes
+sense for you.
 
 Inside the main course directory, there are subdirectories (or
 subfolders --- again, same thing) for the different types of files
 you'll collect or create this term. These subdirectories have
-self-explanatory names: PDFs for assignments go into `assignments`,
-PDFs for lessons into `lessons` and so on.
+self-explanatory names: PDFs for assignments go into `assignments`, PDFs
+for lessons into `lessons` and so on.
 
 Note that this type of structure works well with research projects. Of
 course, you're unlike to have `assignments` or `lessons` subfolders
-within a research project directory, but you almost certainly will
-have subfolders for your `scripts`, `data`, and `figures` as well as a
-`working` folder (which some people call `scratch`, like a scratch
-pad) where you can store odds and ends or practice new ideas.
+within a research project directory, but you almost certainly will have
+subfolders for your `scripts`, `data`, and `figures` as well as a
+`working` folder (which some people call `scratch`, like a scratch pad)
+where you can store odds and ends or practice new ideas.
 
 You may ask: why these folders in particular or, why should I have
 separate `data`, `scripts`, and `figures` in my project directory?
@@ -85,12 +305,12 @@ separate `data`, `scripts`, and `figures` in my project directory?
 Think about it this way. Following our kitchen analogy from before, we
 have:
 
-- **Ingredients (Inputs)** - `data`
-- **Cookbooks (Processes)** - `scripts`
-- **Prepared food (Outputs)** - `figures`
+-   **Ingredients (Inputs)** - `data`
+-   **Cookbooks (Processes)** - `scripts`
+-   **Prepared food (Outputs)** - `figures`
 
-Particular projects may require particular folders (for example, you
-may find it useful to have a special subfolder for `tables` or one for
+Particular projects may require particular folders (for example, you may
+find it useful to have a special subfolder for `tables` or one for
 regression output called `estimates`). But in almost all cases, your
 project directory should have separate subfolders for your data, your
 analysis scripts, and any output you produce.
@@ -100,18 +320,17 @@ analysis scripts, and any output you produce.
 You can create new directories using your operating system. For both
 MacOS and Windows, one of the easiest ways to make a new folder is to
 right-click on your Desktop and choose to create a new folder. You can
-then open this folder and continue right-click creating subfolders
-until you have what you need.
+then open this folder and continue right-click creating subfolders until
+you have what you need.
 
-You can also use the RStudio **Files** tab (lower right facet) to
-create new folders. Even though we already have our course directory
-from GitHub, let's practice creating a directory structure from
-scratch, so you can make your own in the future.
+You can also use the RStudio **Files** tab (lower right facet) to create
+new folders. Even though we already have our course directory from
+GitHub, let's practice creating a directory structure from scratch, so
+you can make your own in the future.
 
-Let's say I want to create a directory on my Desktop. 
+Let's say I want to create a directory on my Desktop.
 
 ![](site-attachments/btskinner-imgs/rstudio_file_home.png)
-
 
 # Getting Data
 
@@ -125,7 +344,7 @@ complete, but should give you a general idea of what's available.
 The [National Center for Education Statistics
 (NCES)](https://nces.ed.gov) is part of the Department of Education's
 Institute of Education Sciences (IES). NCES offers a large number of
-resources for researchers interested in higher education. 
+resources for researchers interested in higher education.
 
 ![](site-attachments/btskinner-imgs/nces_homepage.png)
 
@@ -135,18 +354,13 @@ students from high school through college and beyond.
 ![](site-attachments/btskinner-imgs/nces_long_survey.png)
 
 Specifically, we'll go through the steps to download the [Education
-Longitudinal Study of 2002
-(ELS)](https://nces.ed.gov/surveys/els2002/). The good news is that
-the process is the same for the other surveys.
+Longitudinal Study of 2002 (ELS)](https://nces.ed.gov/surveys/els2002/).
+The good news is that the process is the same for the other surveys.
 
 To get to the online code book you'll use to download the raw data
-files, head to the NCES homepage
-([nces.ed.gov](https://nces.ed.gov)) and click in the
-following order:
-1. _Menu_
-1. _Data & Tools_
-1. _Downloads Microdata/Raw Data_
-1. _EDAT_
+files, head to the NCES homepage ([nces.ed.gov](https://nces.ed.gov))
+and click in the following order: 1. *Menu* 1. *Data & Tools* 1.
+*Downloads Microdata/Raw Data* 1. *EDAT*
 
 ![](site-attachments/btskinner-imgs/nces_data_menu.png)
 
@@ -160,33 +374,33 @@ code book homepage if you'd rather use that data.
 
 When you choose ELS, you'll see the online code book. You can (and
 should) use this to learn about variables --- their definitions, how
-they're constructed, missing values, _etc_. You can also use this tool
+they're constructed, missing values, *etc*. You can also use this tool
 to only select a few variables for download. Don't do that! You should
-plan to download the full data set and do any filtering or subsetting
-in your analytic code.
+plan to download the full data set and do any filtering or subsetting in
+your analytic code.
 
-Click the _Downloads_ button to get the data.
+Click the *Downloads* button to get the data.
 
 ![](site-attachments/btskinner-imgs/nces_els.png)
 
 You'll be presented with a number of file types. Because you are using
 R, you could read in all these data types --- either with standard
 functions or functions from the tidyverse
-[**haven**](https://haven.tidyverse.org) package. 
+[**haven**](https://haven.tidyverse.org) package.
 
 My recommendation:
 
-- **If you don't care about labels**: Download the CSV version for
-  maximum portability
-- **If you'd like labeled data**: Download the STATA version and use
-  `haven::read_dta()` to input the data
-  
+-   **If you don't care about labels**: Download the CSV version for
+    maximum portability
+-   **If you'd like labeled data**: Download the STATA version and use
+    `haven::read_dta()` to input the data
+
 I generally like labels, so we'll choose the STATA version
 
 ![](site-attachments/btskinner-imgs/nces_els_file_type.png)
 
-After choosing your file version, you can finally download the
-files. Go ahead and click each box to download all the files.
+After choosing your file version, you can finally download the files. Go
+ahead and click each box to download all the files.
 
 ![](site-attachments/btskinner-imgs/nces_els_download.png)
 
@@ -194,26 +408,26 @@ files. Go ahead and click each box to download all the files.
 
 The Bureau of Labor Statistics (aside from a lot of other useful
 information) has a number of [National Longitudinal
-Surveys](https://www.bls.gov/nls/). These are similar to those from
-the NCES, but much more expansive. They include:
+Surveys](https://www.bls.gov/nls/). These are similar to those from the
+NCES, but much more expansive. They include:
 
-- National Longitudinal Survey of Youth 1997 (NLSY97)
-- National Longitudinal Survey of Youth 1979 (NLSY79)
-- NLSY79 Children and Young Adults (NLSCYA) 
-- National Longitudinal Surveys of Young Women and Mature Women (NLSW)
-- National Longitudinal Surveys of Young Men and Older Men (NLSM)
+-   National Longitudinal Survey of Youth 1997 (NLSY97)
+-   National Longitudinal Survey of Youth 1979 (NLSY79)
+-   NLSY79 Children and Young Adults (NLSCYA)
+-   National Longitudinal Surveys of Young Women and Mature Women (NLSW)
+-   National Longitudinal Surveys of Young Men and Older Men (NLSM)
 
-If you decide to use one of these surveys in your work, it will
-probably be the NLSY97, which began following a cohort of high schools
-students in 1997. 
+If you decide to use one of these surveys in your work, it will probably
+be the NLSY97, which began following a cohort of high schools students
+in 1997.
 
 ![](site-attachments/btskinner-imgs/nlsy_home.png)
 
 ### Investigator
 
-Scrolling down on the NLS97 page, you'll see a section for
-**Accessing** the data via the _Investigator_. Because the NLSY is so
-large, you may choose to go this route.
+Scrolling down on the NLS97 page, you'll see a section for **Accessing**
+the data via the *Investigator*. Because the NLSY is so large, you may
+choose to go this route.
 
 ![](site-attachments/btskinner-imgs/nlsy_accessing.png)
 
@@ -222,49 +436,48 @@ investigator.
 
 ![](site-attachments/btskinner-imgs/nlsy_investigator_0.png)
 
-You can create a log in, which is nice if you come back often since
-you can save tag sets (variable groups you want to download), or just
-log in as a guest.
+You can create a log in, which is nice if you come back often since you
+can save tag sets (variable groups you want to download), or just log in
+as a guest.
 
 ![](site-attachments/btskinner-imgs/nlsy_investigator_1.png)
 
 Once inside, the investigator will allow you to choose which NLS data
 you want to access. So even though we got here via the NLSY97 page, we
-can still look at NLSY79 data if we want. Whichever you choose, go
-ahead a choose to look at all data rounds.
+can still look at NLSY79 data if we want. Whichever you choose, go ahead
+a choose to look at all data rounds.
 
 ![](site-attachments/btskinner-imgs/nlsy_investigator_2.png)
 
 Now you can explore the data via the menu tree on the left side of the
-page. When you find a variable or set of variables you want to
-download, be sure to click the box next to the variable name. When you
-are finished, click the _Save/Download_ tab.
+page. When you find a variable or set of variables you want to download,
+be sure to click the box next to the variable name. When you are
+finished, click the *Save/Download* tab.
 
 ![](site-attachments/btskinner-imgs/nlsy_investigator_3.png)
 
 On the next screen, you'll be able to save your tag set (meaning, not
-download the data, but name and keep the variable list you've chosen
-for a later date) or download. 
+download the data, but name and keep the variable list you've chosen for
+a later date) or download.
 
-Choose the _Advanced Download_ tab. Within that tab, choose which file
-type you want to download (I've chosen just plain CSV here) and what
-you want to call the download. When you're ready, click the _download_
+Choose the *Advanced Download* tab. Within that tab, choose which file
+type you want to download (I've chosen just plain CSV here) and what you
+want to call the download. When you're ready, click the *download*
 button.
 
 ![](site-attachments/btskinner-imgs/nlsy_investigator_4.png)
 
-After your data set is prepared, you can download it to your
-computer.
+After your data set is prepared, you can download it to your computer.
 
 ![](site-attachments/btskinner-imgs/nlsy_investigator_5.png)
 
 ### Direct download of full NLS data sets
 
 Alternately, you can directly download the full NLS data files at
-[www.nlsinfo.org/accessing-data-cohorts](https://www.nlsinfo.org/accessing-data-cohorts). I
-would recommend this approach if you think you're going to want a
-large number of variables. Also, you'll eventually find it easier to
-do your variable selection in R rather than via the Investigator.
+[www.nlsinfo.org/accessing-data-cohorts](https://www.nlsinfo.org/accessing-data-cohorts).
+I would recommend this approach if you think you're going to want a
+large number of variables. Also, you'll eventually find it easier to do
+your variable selection in R rather than via the Investigator.
 
 ![](site-attachments/btskinner-imgs/nlsy_direct.png)
 
@@ -275,15 +488,15 @@ Education Data System (IPEDS)](https://nces.ed.gov/ipeds/) will likely
 be your first stop. While the IPEDS site
 ([nces.ed.gov/ipeds](https://nces.ed.gov/ipeds/)) will let you explore
 individual institutions or use a portal to select particular variables
-(like the BLS investigator), you'll want to just download the raw
-files. Begin by selecting _Use the Data_.
+(like the BLS investigator), you'll want to just download the raw files.
+Begin by selecting *Use the Data*.
 
 ![](site-attachments/btskinner-imgs/ipeds_home.png)
 
-On the next page, look in the right column for the section _Survey
-Data_. From the drop down menu, choose _Complete data files_.
+On the next page, look in the right column for the section *Survey
+Data*. From the drop down menu, choose *Complete data files*.
 
-**NB:** If you know how to work with databases, the _Access databases_
+**NB:** If you know how to work with databases, the *Access databases*
 may be useful for you. But to use these, you either need a Microsoft
 Access license or a program to convert them to another format (like
 SQLite).
@@ -292,29 +505,29 @@ SQLite).
 
 You may see a popup window --- if so, just agree. You'll now see a
 pretty lonely page. If you have a specific file or year you know you
-want, use the two drop down menus to filter your search. Otherwise,
-just click the _Continue_ button to see your options.
+want, use the two drop down menus to filter your search. Otherwise, just
+click the *Continue* button to see your options.
 
 ![](site-attachments/btskinner-imgs/ipeds_data_1.png)
 
-Click the links in the _Data File_ column to get zipped versions of
-the CSV files. If you want a Stata data file instead, choose the link
-from the _Stata Data File_ column. You will probably want to grab the
-_Dictionary_ file while you're at it.
+Click the links in the *Data File* column to get zipped versions of the
+CSV files. If you want a Stata data file instead, choose the link from
+the *Stata Data File* column. You will probably want to grab the
+*Dictionary* file while you're at it.
 
-_How do I know which file I need?_, you might be asking. If you are
-unsure, you may want to download the dictionary file first and check
-for the data element(s) you think you need. After a while, you'll get
-better at knowing (or reasonably guessing) which file is the one you
-need based on the names.
+*How do I know which file I need?*, you might be asking. If you are
+unsure, you may want to download the dictionary file first and check for
+the data element(s) you think you need. After a while, you'll get better
+at knowing (or reasonably guessing) which file is the one you need based
+on the names.
 
 ![](site-attachments/btskinner-imgs/ipeds_data_2.png)
 
 ### Download all of IPEDS via R
 
 If you don't want to bother with the portal, I've written an R script
-that will download the entirety of IPEDS to your computer (a little
-over 1 GB if you only want one type of data file). See
+that will download the entirety of IPEDS to your computer (a little over
+1 GB if you only want one type of data file). See
 [github.com/btskinner/downloadipeds](https://github.com/btskinner/downloadipeds)
 for the script and information on how to use it.
 
@@ -329,20 +542,20 @@ schools and programs that you can't find anywhere else.
 ### Direct
 
 If you go to the College Scorecard homepage
-([collegescorecard.ed.gov](https://collegescorecard.ed.gov)), you'll
-see the portal that students use. Scroll to the bottom of the page.
+([collegescorecard.ed.gov](https://collegescorecard.ed.gov)), you'll see
+the portal that students use. Scroll to the bottom of the page.
 
 ![](site-attachments/btskinner-imgs/scorecard_home.png)
 
-At the bottom of the page, you'll see a link to download the data
-files that power the Scorecard. 
+At the bottom of the page, you'll see a link to download the data files
+that power the Scorecard.
 
 ![](site-attachments/btskinner-imgs/scorecard_home_footer.png)
 
 On the data page, you can download the full set of files or just the
 latest data. Unless you have a good reason to do otherwise, I would
 recommend getting all the data. You may also want to follow the
-_Documentation_ tab to get the data documentation.
+*Documentation* tab to get the data documentation.
 
 ![](site-attachments/btskinner-imgs/scorecard_data.png)
 
@@ -350,27 +563,27 @@ _Documentation_ tab to get the data documentation.
 
 You can also download College Scorecard data directly from R using the
 **rscorecard** package, which accesses Scorecard data via an API. See
-[btskinner.io/rscorecard](https://www.btskinner.io/rscorecard/)
-for more information and examples.
+[btskinner.io/rscorecard](https://www.btskinner.io/rscorecard/) for more
+information and examples.
 
 ## American Community Survey (ACS)
 
 The [American Community Survey
-(ACS)](https://www.census.gov/programs-surveys/acs) is part of the
-U.S. Census that, unlike the decennial census, collects data each
-year. While it has information on education that you may want to use
-directly, the ACS is also a great source for place-based data that you
-can merge with other data sets (student-level data, for example, if
-you know where they live). The ACS homepage is here:
-[census.gov/programs-surveys/acs](https://www.census.gov/programs-surveys/acs). 
+(ACS)](https://www.census.gov/programs-surveys/acs) is part of the U.S.
+Census that, unlike the decennial census, collects data each year. While
+it has information on education that you may want to use directly, the
+ACS is also a great source for place-based data that you can merge with
+other data sets (student-level data, for example, if you know where they
+live). The ACS homepage is here:
+[census.gov/programs-surveys/acs](https://www.census.gov/programs-surveys/acs).
 
-There are a few ways to access ACS data. I will show you how to get
-the public use micro sample (PUMS) data. From the ACS home page, click
-on the _Data_ link on the left.
+There are a few ways to access ACS data. I will show you how to get the
+public use micro sample (PUMS) data. From the ACS home page, click on
+the *Data* link on the left.
 
 ![](site-attachments/btskinner-imgs/acs_home.png)
 
-On the next screen, click on the _PUMS_ link which again is on the left.
+On the next screen, click on the *PUMS* link which again is on the left.
 
 ![](site-attachments/btskinner-imgs/acs_data.png)
 
@@ -388,15 +601,15 @@ whether you want 1-, 3-, or 5-year estimates, check out this page:
 
 ![](site-attachments/btskinner-imgs/acs_pums_files_1.png)
 
-On the final page, you can choose data at the state level. There are
-two basic types of files, each pertaining to sections of the survey:
+On the final page, you can choose data at the state level. There are two
+basic types of files, each pertaining to sections of the survey:
 
-- **Housing:** These files start with _h_ after the underscore
-- **Person:** These files start with _p_ after the underscore
+-   **Housing:** These files start with *h* after the underscore
+-   **Person:** These files start with *p* after the underscore
 
 For more information about which file to use or PUMS more generally,
 visit
-[census.gov/programs-surveys/acs/technical-documentation/pums/about.html](https://www.census.gov/programs-surveys/acs/technical-documentation/pums/about.html). 
+[census.gov/programs-surveys/acs/technical-documentation/pums/about.html](https://www.census.gov/programs-surveys/acs/technical-documentation/pums/about.html).
 
 ![](site-attachments/btskinner-imgs/acs_pums_files_2.png)
 
@@ -405,70 +618,76 @@ visit
 Below are some other data sources you may find useful, either on their
 own or joined with the data sets above.
 
-- [Current Population
-  Survey (www.census.gov/programs-surveys/cps.html)](https://www.census.gov/programs-surveys/cps.html)
-- [TIGER/Line
-  Shapefiles (www.census.gov/geographies/mapping-files/time-series/geo/tiger-line-file.html)](https://www.census.gov/geographies/mapping-files/time-series/geo/tiger-line-file.html) 
-- [Bureau of Labor Statistics (www.bls.gov/data/)](https://www.bls.gov/data/)
-- [Delta Cost Project (deltacostproject.org/delta-cost-data)](https://deltacostproject.org/delta-cost-data) 
-- [Urban Institute Data
-  Explorer (educationdata.urban.org/data-explorer/)](https://educationdata.urban.org/data-explorer/)
-- [PISA (www.oecd.org/pisa/data/)](https://www.oecd.org/pisa/data/)  
+-   [Current Population Survey
+    (www.census.gov/programs-surveys/cps.html)](https://www.census.gov/programs-surveys/cps.html)
+-   [TIGER/Line Shapefiles
+    (www.census.gov/geographies/mapping-files/time-series/geo/tiger-line-file.html)](https://www.census.gov/geographies/mapping-files/time-series/geo/tiger-line-file.html)
+-   [Bureau of Labor Statistics
+    (www.bls.gov/data/)](https://www.bls.gov/data/)
+-   [Delta Cost Project
+    (deltacostproject.org/delta-cost-data)](https://deltacostproject.org/delta-cost-data)
+-   [Urban Institute Data Explorer
+    (educationdata.urban.org/data-explorer/)](https://educationdata.urban.org/data-explorer/)
+-   [PISA (www.oecd.org/pisa/data/)](https://www.oecd.org/pisa/data/)
 
 # Assignment
 
 ## Creating a new directory
 
-1. Create a new top-level subdirectory in your course directory
-   (_i.e._, the same level as `scripts`, `data`, and `figures`) called
-   `tables`.
-1. Create a Markdown file called `README.md` and place it in your new
-   `tables` directory. In the `tables/README.md` file, 
-   add a header line that looks like the following, and save.
-   ```markdown
-   # Tables
-   
-   ```
-<!-- 1. Take a screenshot of your RStudio application that shows this new -->
-<!--    folder in the **Files** facet and name it -->
-<!--    `<lastname>_assignment_2_screenshot.*` (where `*` is whatever file -->
-<!--    type your screenshot is in: `png`, `jpg`, _etc_). -->
+1.  Create a new top-level subdirectory in your course directory
+    (*i.e.*, the same level as `scripts`, `data`, and `figures`) called
+    `tables`.
+
+2.  Create a Markdown file called `README.md` and place it in your new
+    `tables` directory. In the `tables/README.md` file, add a header
+    line that looks like the following, and save.
+
+    ``` markdown
+    # Tables
+    ```
+
+    <!-- 1. Take a screenshot of your RStudio application that shows this new -->
+
+    <!--    folder in the **Files** facet and name it -->
+
+    <!--    `<lastname>_assignment_2_screenshot.*` (where `*` is whatever file -->
+
+    <!--    type your screenshot is in: `png`, `jpg`, _etc_). -->
 
 ## Creating your first script
 
 Using `template.R` (and `organizing.R` for help), create a script that
 does the following tasks --- be sure your script is well organized:
 
-1. Make a copy of `template.R` and rename it to
-   `<lastname>_assignment_2.R`. Make sure it is in your `scripts`
-   folder if its not already there.
-1. Fill in all relevant header information about the script.
-1. Load the **tidyverse** library
-1. Create objects/macros with the paths to the following directories:
-   - data
-   - figures
-   - tables
-1. Include the `old_to_new_score_ratio` macro, but change it to a new
-   value.
-1. Include the `old_to_new_score()` function from class as is (just
-   cut and paste).
-1. Read in the data set, `test_scores.RDS`.
-1. Create a new column called `test_scores_new_2` that converts the
-   original test scores to updated values using your new ratio and the
-   `old_to_new_score()` function.
-1. Save the updated data file in your `data` directory with a
-   new name. You should now have three files: the original, the
-   updated one from the `organizing` lesson, and the one you just made.
+1.  Make a copy of `template.R` and rename it to
+    `<lastname>_assignment_2.R`. Make sure it is in your `scripts`
+    folder if its not already there.
+2.  Fill in all relevant header information about the script.
+3.  Load the **tidyverse** library
+4.  Create objects/macros with the paths to the following directories:
+    -   data
+    -   figures
+    -   tables
+5.  Include the `old_to_new_score_ratio` macro, but change it to a new
+    value.
+6.  Include the `old_to_new_score()` function from class as is (just cut
+    and paste).
+7.  Read in the data set, `test_scores.RDS`.
+8.  Create a new column called `test_scores_new_2` that converts the
+    original test scores to updated values using your new ratio and the
+    `old_to_new_score()` function.
+9.  Save the updated data file in your `data` directory with a new name.
+    You should now have three files: the original, the updated one from
+    the `organizing` lesson, and the one you just made.
 
 **NOTE** When all is said and done, your new script should look much
 like the `organizing.R` script, but with your changes.
-  
+
 #### Submission details
 
-- Save your script (`<lastname>_assignment_2.R`) in your `scripts`
-  directory (**NOTE the different location**) and your new `README.md`
-  file in your new `tables/` directory.
-- Push changes to your repo (the new script and new folder) to GitHub
-  prior to the next class session.
-
+-   Save your script (`<lastname>_assignment_2.R`) in your `scripts`
+    directory (**NOTE the different location**) and your new `README.md`
+    file in your new `tables/` directory.
+-   Push changes to your repo (the new script and new folder) to GitHub
+    prior to the next class session.
 :::
