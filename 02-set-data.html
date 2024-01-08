@@ -397,32 +397,25 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="edh-7916-folder-setup" class="level3">
 <h3 data-anchor-id="edh-7916-folder-setup">EDH 7916 Folder Setup</h3>
 <ul>
-<li>With this kitchen metaphor in mind, let’s set up our folder for the class</li>
-</ul>
-<ol type="1">
-<li>First, download the <a href=".">R-Class-Scripts bundle</a> (also linked on the class homepage)</li>
-</ol>
+<li><p>With this kitchen metaphor in mind, let’s set up our folder for the class</p></li>
+<li><p>I’ve made an <a href="./example-folder.zip">EDH-7916 example folder you can download here</a> which is also available on the class homepage.</p>
 <ul>
-<li>Use this as your main folder for the class (this will be our counter top)</li>
-<li>Save it wherever you usually keep your work (I use my desktop, documents is another common location)
+<li>In here, you will see
 <ul>
-<li>You can rename the folder if you like (see files naming guidelines below first)</li>
+<li>A set of numbered .R scripts (these are our lesson scripts)</li>
+<li>A data folder</li>
+<li>A reproducible-report (with it’s own data sub-folder)</li>
 </ul></li>
-</ul>
-<ol start="2" type="1">
-<li>Next, download the <a href=".">data bundle</a> and drop that folder inside the class scripts folder we just downloaded (this is your kitchen pantry)
-<ul>
-<li>Don’t rename this one (it will mess up all the scripts I’ve given you)!</li>
 </ul></li>
-<li>Finally, create a new sub-folder called <code>final-project</code>
+<li><p>Download and save this folder wherever you usually keep class folders</p>
 <ul>
-<li>Add a blank <code>data</code> folder inside your <code>final-project</code> folder</li>
+<li>I personally use my Desktop, but you can use your Documents etc. if you wish</li>
+<li>You can rename the folder if you’d like (please don’t rename the internal folders)
+<ul>
+<li>See naming guidelines below on how best to name files</li>
 </ul></li>
-</ol>
-<p>Your class folder should now look like (please stop me here if it doesn’t)</p>
-<p><code>r-class</code> – <code>01-set-install.R</code> … – <code>12-pro-model.R</code> – <code>data</code> – <code>final-project</code> – <code>data</code></p>
-<ul>
-<li>Throughout the class (and especially in your final project) you may feel the need for other sub-folders for other items (such as one to keep graphs in), but this should be fine for now</li>
+</ul></li>
+<li><p>Throughout the class (and especially in your final project) you may feel the need for other sub-folders for other items (such as one to keep graphs in), but this should be fine for now</p></li>
 </ul>
 </section>
 <section id="r-project-setup" class="level3">
@@ -479,9 +472,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <ul>
 <li>Later on we will be be in situations where we have to type out file names, so if you go too long, it can become frustrating</li>
 </ul></li>
-<li><p>You may think the names of your class scripts are a little odd, so let me explain those as an example</p>
-<ol type="1">
-<li>The <code>l-</code> is just to group all lesson scripts together - Ideally you should use <code>a-</code> before all your assignment scripts if you want to keep things neat 2.<a href="http://adv-r.had.co.nz/Style.html">Hadley Wickham’s script numbering</a> corresponding to the order of the lessons - This would usually be first, this is just a unique where we need to group lessons and assignments separately</li>
+<li><p>You may think the names of your class scripts are a little odd, so let me explain those as an example 1.<a href="http://adv-r.had.co.nz/Style.html">Hadley Wickham’s script numbering</a> corresponding to the order of the lessons</p>
+<ol start="2" type="1">
 <li><code>set</code>, <code>wrangle</code>, <code>viz</code>, <code>quarto</code>, or <code>pro</code> indicate which group of lessons it belongs to (it helps me automatically create the groups on the website sidebar)</li>
 <li>Anything else is just descriptive, roman numerals for the lesson series, or a descriptive word</li>
 </ol></li>
@@ -778,10 +770,6 @@ dbl (43): UNITID, FIPS, OBEREG, GENTELE, OPEFLAG, SECTOR, ICLEVEL, CONTROL, ...
 </ul></li>
 <li>Many, many more, have fun exploring!</li>
 </ul>
-<section id="download-all-of-ipeds-via-r" class="level3">
-<h3 data-anchor-id="download-all-of-ipeds-via-r">Download all of IPEDS via R</h3>
-<p>If you don’t want to bother with the portal, <sub>I’ve</sub> Ben has written an R script that will download the entirety of IPEDS to your computer (a little over 1 GB if you only want one type of data file). See <a href="https://github.com/btskinner/downloadipeds">github.com/btskinner/downloadipeds</a> for the script and information on how to use it.</p>
-</section>
 </section>
 </div>
 <div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
@@ -791,7 +779,10 @@ dbl (43): UNITID, FIPS, OBEREG, GENTELE, OPEFLAG, SECTOR, ICLEVEL, CONTROL, ...
 <ul>
 <li>To keep things organized, I’d suggest naming it something like
 <ul>
-<li><code>a-01-reading-data.R</code></li>
+<li><code>a-01-reading-data.R</code>
+<ul>
+<li>I suggest adding the <code>a-</code> just to keep your assignments grouped away from the lessons</li>
+</ul></li>
 </ul></li>
 </ul>
 <ol start="2" type="1">
@@ -806,7 +797,7 @@ dbl (43): UNITID, FIPS, OBEREG, GENTELE, OPEFLAG, SECTOR, ICLEVEL, CONTROL, ...
 <ul>
 <li>Hint: again, you’ll need the use a package to read in .dta files, but I trust you can work out which one</li>
 </ul>
-<p>Once complete, turn in the script (no data etc.) to Canvas by the due date (Sunday 11:59pm following the lesson). Assignments will be graded on the following Monday (time permitting) in line with the grading policy outlined in the syllabus.</p>
+<p>Once complete, turn in the .R script (no data etc.) to Canvas by the due date (Sunday 11:59pm following the lesson). Assignments will be graded on the following Monday (time permitting) in line with the grading policy outlined in the syllabus.</p>
 </div>
 </div>
 </div>
