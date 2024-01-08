@@ -29,6 +29,21 @@ for(i in r_files) {
   file.rename(i, file.path(output, "r-scripts", i))
   
 }
+# 
+# ## Copy Across Data Folder
+# fs::dir_copy("data", file.path(output, "data"), overwrite = T)
+# 
+# ## Zip R-Scripts and Data folders
+# 
+# files_to_zip <- dir(file.path(output, "r-scripts"))
+# 
+# zip(file.path(output, "r-class-scripts.zip"),
+#     files = files_to_zip)
+# 
+# files_to_zip <- dir(file.path(output, "data"))
+# 
+# zip(file.path(output, "data.zip"),
+#     files = files_to_zip)
 
 ## -----------------------------------------------------------------------------
 ##' *END SCRIPT*

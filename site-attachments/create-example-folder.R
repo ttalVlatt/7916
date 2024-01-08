@@ -5,14 +5,13 @@
 ##' [INIT: 2023-12-22]
 ##' [AUTH: Matt Capaldi] @ttalVlatt
 ##
-## -----------------------------------------------------------------------------
-
+## ----------------------------------------------------------------------------
 library(tidyverse)
 
 output <- Sys.getenv("QUARTO_PROJECT_OUTPUT_DIR")
 
+## Attempt to create multi-level zipped example folder, moved to simple zips of each separate
 example <- file.path(output, "example-folder")
-
 dir.create(example)
 
 ##'[Create data sub-folder]
@@ -30,37 +29,45 @@ r_scripts <- r_scripts |>
   discard(~str_detect(.x, "07")) |>
   discard(~str_detect(.x, "14")) |>
   discard(~str_detect(.x, "x-01")) |>
-  discard(~str_detect(.x, "x-03"))
+  discard(~str_detect(.x, "x-03")) |>
+  discard(~str_detect(.x, "x-04"))
 
 ##'[Add lesn- to all lesson scripts for grouping]
 
 for(i in r_scripts) {
   
-  new_name <- paste0("lesn-", i)
-  
+  # new_name <- paste0("l-", i)
   file.copy(from = file.path(output, "r-scripts", i),
-            to = file.path(example, new_name))
+            to = file.path(example, i))
   
 }
-
 
 ##'[Create Final Project Sub-Folder]
 
 final <- file.path(example, "reproducible-report")
-
 dir.create(final)
-
+# Copy .gitignore both for function and for placeholder
+file.copy(from = ".gitignore", to = file.path(final, ".gitignore"))
 dir.create(file.path(final, "data"))
+# Copy hd2007 as placeholder to ensure folder is made in zipping
+file.copy(from = file.path("data", "hd2007.csv"),
+          to = file.path(final, "data", "placeholder.csv"))
 
 ##'[ZIP Example Folder]
 
-files <- list.files(example, full.names = T, recursive = T)
-
-zip::zip(file.path(output, "example-folder.zip"),
+## To avoid empty files, setwd to the example
+setwd(example)
+## Then list files from the newly set wd
+files <- list.files(full.names = T, recursive = T)
+## Then zip from this new wd (the default root)
+## Can't just set the root here, as the files need to be listed from the same wd
+zip::zip(file.path("..", "EDH-7916.zip"),
          files = files,
-         mode = "mirror",
-         root = output)      
-           
+         mode = "mirror")
+## Reset working directory back to project folder
+setwd(file.path("..", ".."))
+
+## Delete unzipped example folder
 unlink(example, recursive = T)
 
 ## -----------------------------------------------------------------------------
