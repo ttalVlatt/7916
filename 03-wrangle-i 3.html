@@ -1,0 +1,1590 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.4.533">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>EDH 7916 - I: Enter the tidyverse</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./apple-touch-icon.png" rel="icon" type="image/png">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/quarto-contrib/fontawesome6-0.1.0/all.css" rel="stylesheet">
+<link href="site_libs/quarto-contrib/fontawesome6-0.1.0/latex-fontsize.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="site-attachments/styles.css">
+<meta property="og:title" content="EDH 7916 - I: Enter the tidyverse">
+<meta property="og:image" content="https://capaldi.info/7916/apple-touch-icon.png">
+<meta property="og:site_name" content="EDH 7916">
+<meta property="og:image:height" content="180">
+<meta property="og:image:width" content="180">
+<meta name="twitter:title" content="EDH 7916 - I: Enter the tidyverse">
+<meta name="twitter:image" content="https://capaldi.info/7916/apple-touch-icon.png">
+<meta name="twitter:image-height" content="180">
+<meta name="twitter:image-width" content="180">
+<meta name="twitter:card" content="summary_large_image">
+</head>
+
+<body class="nav-sidebar docked fullcontent">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./03-wrangle-i.html">Data Wrangling</a></li><li class="breadcrumb-item"><a href="./03-wrangle-i.html">I: Enter the tidyverse</a></li></ol></nav>
+        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">EDH 7916</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Homepage</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./syllabus.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Syllabus</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="false">
+ <span class="menu-text">Getting Started</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01-set-install.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">I: Installing R &amp; RStudio</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02-set-data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">II: Reading Data &amp; IPEDS</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./x-01-set-git.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Extra: Git &amp; GitHub</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+ <span class="menu-text">Data Wrangling</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03-wrangle-i.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">I: Enter the tidyverse</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04-wrangle-ii.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">II: Appending, joining, &amp; reshaping data</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08-wrangle-iii.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">III: Working with strings &amp; dates</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./09-wrangle-iv.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">IV: Tidyverse Tricks &amp; SQL</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="false">
+ <span class="menu-text">Data Visualization</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05-viz-i.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">I: Basics</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06-viz-ii.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">II: Customization</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./10-viz-iii.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">III: Maps &amp; Spatial Data (Feat. APIs)</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="false">
+ <span class="menu-text">Programming</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./11-pro-function.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">II: Functions &amp; Loops</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./12-pro-model.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">II: Modeling Basics</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./x-02-pro-vanilla.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Extra: Vanilla R (Data Wrangling I Redux)</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./99-final.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Final Project</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./03-wrangle-i.html">Data Wrangling</a></li><li class="breadcrumb-item"><a href="./03-wrangle-i.html">I: Enter the tidyverse</a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title">I: Enter the tidyverse</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" aria-current="page">Lesson</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">Assignment</a></li></ul>
+<div class="tab-content">
+<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
+<p><a href="./R-Scripts/03-Data-Wrangling-I.R"><i class="fa-solid fa-code" aria-label="code"></i> R Code</a></p>
+<p>We take our first full dive into R in this lesson. Though every data wrangling / analysis is unique, the best way to learn and practice R is to answer a question using data. By the end of this lesson, you will have read in a data set, lightly cleaned it, produced results, and saved your findings in a new file. As part of this process, you will have practiced translating a research question into data analysis steps, which is a skill every bit as important as technical sophistication with a statistical language like R.</p>
+<section id="core-processes-in-a-data-analysis" class="level2">
+<h2 data-anchor-id="core-processes-in-a-data-analysis">Core processes in a data analysis</h2>
+<p>Large or small, a typical data analysis will involve most — if not all — of the following steps:</p>
+<ol type="1">
+<li><strong>Read</strong> in data</li>
+<li><strong>Select</strong> variables (columns)</li>
+<li><strong>Mutate</strong> data into new forms</li>
+<li><strong>Filter</strong> observations (rows)</li>
+<li><strong>Summarize</strong> data</li>
+<li><strong>Arrange</strong> data</li>
+<li><strong>Write</strong> out updated data</li>
+</ol>
+<p>Returning to our cooking metaphor from the <a href="./edh7916/lessons/organizing.html">organizing lesson</a>: if the first and last steps represent our raw ingredients and finished dish, respectively, then the middle steps are the core processes we use to prepare the meal.</p>
+<p>As you can see, there aren’t that many core processes to use. Their power comes from the infinite ways they can be ordered and combined. There are, of course, many specialized tools for specialized data wrangling tasks — too many to cover in this course (Google is your friend here!). But I call these processes “core processes” for a reason — they will be at the center of most of your data analytic work.</p>
+</section>
+<section id="tidyverse" class="level2">
+<h2 data-anchor-id="tidyverse">Tidyverse</h2>
+<p>The tidyverse is shorthand for a <a href="https://www.tidyverse.org/packages/">number of packages</a> that are built to work well together and can be used in place of base R functions. A few of the tidyverse packages that you will often use are:</p>
+<ul>
+<li><a href="https://dplyr.tidyverse.org">dplyr</a> for data manipulation<br>
+</li>
+<li><a href="https://tidyr.tidyverse.org">tidyr</a> for making data <a href="https://vita.had.co.nz/papers/tidy-data.html">tidy</a><br>
+</li>
+<li><a href="https://readr.tidyverse.org">readr</a> for flat file I/O<br>
+</li>
+<li><a href="https://readxl.tidyverse.org">readxl</a> for Excel file I/O<br>
+</li>
+<li><a href="https://haven.tidyverse.org">haven</a> for other file format I/O<br>
+</li>
+<li><a href="https://ggplot2.tidyverse.org">ggplot2</a> for making graphics<br>
+</li>
+<li><a href="https://stringr.tidyverse.org">stringr</a> for working with strings<br>
+</li>
+<li><a href="https://lubridate.tidyverse.org">lubridate</a> for working with dates<br>
+</li>
+<li><a href="http://purrr.tidyverse.org">purrr</a> for working with functions</li>
+</ul>
+<p>Many R users find functions from these libraries to be more intuitive than base R functions. In some cases, tidyverse functions are faster than base R, which is an added benefit when working with large data sets.</p>
+<p>Today we will primarily use functions from the <strong>dplyr</strong> and <strong>readr</strong> libraries. We’ll also use some common base R functions as necessary.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="do">## ---------------------------</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="do">## libraries</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="do">## ---------------------------</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+✔ dplyr     1.1.4     ✔ readr     2.1.4
+✔ forcats   1.0.0     ✔ stringr   1.5.1
+✔ ggplot2   3.4.4     ✔ tibble    3.2.1
+✔ lubridate 1.9.3     ✔ tidyr     1.3.0
+✔ purrr     1.0.2     
+── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+✖ dplyr::filter() masks stats::filter()
+✖ dplyr::lag()    masks stats::lag()
+ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
+</div>
+</div>
+</section>
+<section id="check-working-directory" class="level2">
+<h2 data-anchor-id="check-working-directory">Check working directory</h2>
+<p>This script — like the one from the <a href="./edh7916/lessons/organizing.html">organizing lesson</a> — assumes that the <code>scripts</code> subdirectory is the working directory, that the required data file is in the <code>data</code> subdirectory, and that both subdirectories are at the same level in the course directory. Like this:</p>
+<pre><code>student_skinner/         &lt;--- Top-level
+|
+|__/data                 &lt;--- Sub-level 1
+|    |--+ hsls_small.csv
+|
+|__/scripts              &lt;--- Sub-level 1 (Working directory)
+     |--+ dw_one.R</code></pre>
+<p>If you need a refresher on setting the working directory, see the <a href="./edh7916/lessons/organizing.html">prior lesson</a>.</p>
+<p><strong>Notice</strong> that I’m not setting (<em>i.e.</em> hard coding) the working directory in the script. That would not work well for sharing the code. Instead, I tell you where you need to be (a common landmark), let you get there, and then rely on relative paths afterwards.</p>
+</section>
+<section id="example-data-analysis-task" class="level2">
+<h2 data-anchor-id="example-data-analysis-task">Example data analysis task</h2>
+<p>Let’s imagine we’ve been given the following data analysis task with the HSLS09 data:</p>
+<blockquote class="blockquote">
+<p><em>Figure out average differences in college degree expectations across census regions; for a first pass, ignore missing values and use the higher of student and parental expectations if an observation has both</em>.</p>
+</blockquote>
+<p>A primary skill (often unremarked upon) in data analytic work is translation. Your advisor, IR director, funding agency director — even collaborator — won’t speak to you in the language of R. Instead, it’s up to you to (1) translate a research question into the discrete steps coding steps necessary to provide an answer, and then (2) translate the answer such that everyone understands what you’ve found.</p>
+<p>What we need to do is some combination of the following:</p>
+<ol type="1">
+<li><strong>Read</strong> in the data</li>
+<li><strong>Select</strong> the variables we need</li>
+<li><strong>Mutate</strong> a new value that’s the higher of student and parental degree expectations</li>
+<li><strong>Filter</strong> out observations with missing degree expectation values</li>
+<li><strong>Summarize</strong> the data within region to get average degree expectation values</li>
+<li><strong>Arrange</strong> in order so it’s easier to rank and share</li>
+<li><strong>Write</strong> out the results to a file so we have it for later</li>
+</ol>
+<p>Let’s do it!</p>
+</section>
+<section id="read-in-data" class="level2">
+<h2 data-anchor-id="read-in-data"><strong>Read</strong> in data</h2>
+<p>For this lesson, we’ll use a subset of the <a href="https://nces.ed.gov/surveys/hsls09/">High School Longitudinal Study of 2009 (HSLS09)</a>, an IES / NCES data set that features:</p>
+<blockquote class="blockquote">
+<ul>
+<li>Nationally representative, longitudinal study of 23,000+ 9th graders from 944 schools in 2009, with a first follow-up in 2012 and a second follow-up in 2016<br>
+</li>
+<li>Students followed throughout secondary and postsecondary years<br>
+</li>
+<li>Surveys of students, their parents, math and science teachers, school administrators, and school counselors<br>
+</li>
+<li>A new student assessment in algebraic skills, reasoning, and problem solving for 9th and 11th grades<br>
+</li>
+<li>10 state representative data sets</li>
+</ul>
+</blockquote>
+<p>If you are interested in using HSLS09 for future projects, <strong>DO NOT</strong> rely on this subset. Be sure to download the full data set with all relevant variables and weights if that’s the case. But for our purposes in this lesson, it will work just fine.</p>
+<p>Throughout, we’ll need to consult the code book. An <a href="https://nces.ed.gov/OnlineCodebook/">online version can be found at this link (after a little navigation)</a>.</p>
+<blockquote class="blockquote">
+<h4 id="quick-exercise">Quick exercise</h4>
+<p>Follow the code book link above in your browser and navigate to the HSLS09 code book.</p>
+</blockquote>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="do">## ---------------------------</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="do">## input</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="do">## ---------------------------</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="do">## data are CSV, so we use read_csv() from the readr library</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="fu">file.path</span>(<span class="st">"data"</span>, <span class="st">"hsls-small.csv"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 23503 Columns: 16
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+dbl (16): stu_id, x1sex, x1race, x1stdob, x1txmtscor, x1paredu, x1hhnumber, ...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+</div>
+<p>Unlike the <code>readRDS()</code> function we’ve used before, <code>read_csv()</code> prints out information about the data just read in. Nothing is wrong! The <code>read_csv()</code> function, like many other functions in the tidyverse, assumes you’d rather have more rather than less information and acts accordingly. We can see that all the columns were read in as doubles (<code>dbl(16)</code>), which is just a type of number that the computer understands in a special way (a distinction that’s not important for us in this case). For other data (or if we had told <code>read_csv()</code> how to parse the columns), we might see other column types like:</p>
+<ul>
+<li><code>int()</code>: another type of number (again, an important distinction for the computer, but not usually for us)</li>
+<li><code>chr()</code>: strings (<em>e.g.</em>, <code>"Ben"</code> or <code>"1"</code> [notice the quotes])</li>
+<li><code>lgl()</code>: Boolean values of <code>TRUE</code> or <code>FALSE</code></li>
+</ul>
+<blockquote class="blockquote">
+<h4 id="quick-exercise-1">Quick exercise</h4>
+<p><code>read_csv()</code> is special version of <code>read_delim()</code>, which can read various <em>delimited</em> file types, that is, tabular data in which data cells are separated by a special character. What’s the special character used to separate <em>CSV</em> files? Once you figure it out, re-read in the data using <code>read_delim()</code>, being sure to set the <code>delim</code> argument to the correct character.</p>
+</blockquote>
+</section>
+<section id="select-variables-columns" class="level2">
+<h2 data-anchor-id="select-variables-columns"><strong>Select</strong> variables (columns)</h2>
+<p>To choose variables, either when making a new data frame or dropping them, use <code>select()</code>. Like the other <strong>dplyr</strong> functions we’ll use, the first argument <code>select()</code> takes is the data frame (or tibble) object. After that, we list the column names we want to keep.</p>
+<p>Some <a href="https://en.wikipedia.org/wiki/Pseudocode">pseudocode</a> for using <code>select()</code> is:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="do">## pseudocode (not to be run)</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">select</span>(<span class="sc">&lt;</span> df object <span class="sc">&gt;</span>, column_1_name, column_2_name)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Because we don’t want to overwrite our original data in memory, we’ll assign (<code>&lt;-</code>) the output to a new object called <code>df_tmp</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="do">## -----------------</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="do">## select</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="do">## -----------------</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="do">## select columns we need and assign to new object</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>df_tmp <span class="ot">&lt;-</span> <span class="fu">select</span>(df, stu_id, x1stuedexpct, x1paredexpct, x1region)</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="do">## show</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>df_tmp</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 23,503 × 4
+   stu_id x1stuedexpct x1paredexpct x1region
+    &lt;dbl&gt;        &lt;dbl&gt;        &lt;dbl&gt;    &lt;dbl&gt;
+ 1  10001            8            6        2
+ 2  10002           11            6        1
+ 3  10003           10           10        4
+ 4  10004           10           10        3
+ 5  10005            6           10        3
+ 6  10006           10            8        3
+ 7  10007            8           11        1
+ 8  10008            8            6        1
+ 9  10009           11           11        3
+10  10010            8            6        1
+# ℹ 23,493 more rows</code></pre>
+</div>
+</div>
+</section>
+<section id="mutate-data-into-new-forms" class="level2">
+<h2 data-anchor-id="mutate-data-into-new-forms"><strong>Mutate</strong> data into new forms</h2>
+<p>To add variables and change existing ones, use the <code>mutate()</code> function.</p>
+<p>Just like <code>select()</code>, the <code>mutate()</code> function takes the data frame as the first argument, followed by variable name, new or old, that is created/modified by some function:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="do">## pseudocode (not to be run)</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mutate</span>(<span class="sc">&lt;</span> df object <span class="sc">&gt;</span>, <span class="at">column_1_name =</span> <span class="cf">function</span>(...))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>In this case, the <code>function(...)</code> (or, <em>stuff we want to do</em>) is add a new column that is the larger of <code>x1stuedexpct</code> and <code>x1paredexpct</code>.</p>
+<section id="understanding-our-data" class="level3">
+<h3 data-anchor-id="understanding-our-data">Understanding our data</h3>
+<p>First things first, however, we need to check the <a href="https://nces.ed.gov/OnlineCodebook/">code book</a> to see what the numerical values for our two education expectation variables represent. To save time, I’ve copied them here:</p>
+<section id="x1stuedexpct" class="level4">
+<h4 data-anchor-id="x1stuedexpct"><code>x1stuedexpct</code></h4>
+<p><em>How far in school 9th grader thinks he/she will get</em></p>
+<table class="table">
+<thead>
+<tr class="header">
+<th style="text-align: center;">value</th>
+<th style="text-align: left;">label</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">1</td>
+<td style="text-align: left;">Less than high school</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">2</td>
+<td style="text-align: left;">High school diploma or GED</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">3</td>
+<td style="text-align: left;">Start an Associate’s degree</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">4</td>
+<td style="text-align: left;">Complete an Associate’s degree</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">5</td>
+<td style="text-align: left;">Start a Bachelor’s degree</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">6</td>
+<td style="text-align: left;">Complete a Bachelor’s degree</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">7</td>
+<td style="text-align: left;">Start a Master’s degree</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">8</td>
+<td style="text-align: left;">Complete a Master’s degree</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">9</td>
+<td style="text-align: left;">Start Ph.D/M.D/Law/other prof degree</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">10</td>
+<td style="text-align: left;">Complete Ph.D/M.D/Law/other prof degree</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">11</td>
+<td style="text-align: left;">Don’t know</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">-8</td>
+<td style="text-align: left;">Unit non-response</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="x1paredexpct" class="level4">
+<h4 data-anchor-id="x1paredexpct"><code>x1paredexpct</code></h4>
+<p><em>How far in school parent thinks 9th grader will go</em></p>
+<table class="table">
+<thead>
+<tr class="header">
+<th style="text-align: center;">value</th>
+<th style="text-align: left;">label</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">1</td>
+<td style="text-align: left;">Less than high school</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">2</td>
+<td style="text-align: left;">High school diploma or GED</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">3</td>
+<td style="text-align: left;">Start an Associate’s degree</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">4</td>
+<td style="text-align: left;">Complete an Associate’s degree</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">5</td>
+<td style="text-align: left;">Start a Bachelor’s degree</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">6</td>
+<td style="text-align: left;">Complete a Bachelor’s degree</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">7</td>
+<td style="text-align: left;">Start a Master’s degree</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">8</td>
+<td style="text-align: left;">Complete a Master’s degree</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">9</td>
+<td style="text-align: left;">Start Ph.D/M.D/Law/other prof degree</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">10</td>
+<td style="text-align: left;">Complete Ph.D/M.D/Law/other prof degree</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">11</td>
+<td style="text-align: left;">Don’t know</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">-8</td>
+<td style="text-align: left;">Unit non-response</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">-9</td>
+<td style="text-align: left;">Missing</td>
+</tr>
+</tbody>
+</table>
+<p>The good news is that the categorical values are the same for both variables (meaning we can make an easy comparison) and move in a logical progression. The bad news is that we have three values — <code>-8</code>, <code>-9</code>, and <code>11</code> — that we need to deal with so that the averages we compute later represent what we mean.</p>
+<p>Let’s see how many observations are affected by these values using <code>count()</code> (notice that we don’t assign to a new object; this means we’ll see the result in the console, but nothing in our data or object will change):</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="do">## -----------------</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="do">## mutate</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="do">## -----------------</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="do">## see unique values for student expectation</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="fu">count</span>(df_tmp, x1stuedexpct)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 12 × 2
+   x1stuedexpct     n
+          &lt;dbl&gt; &lt;int&gt;
+ 1           -8  2059
+ 2            1    93
+ 3            2  2619
+ 4            3   140
+ 5            4  1195
+ 6            5   115
+ 7            6  3505
+ 8            7   231
+ 9            8  4278
+10            9   176
+11           10  4461
+12           11  4631</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="do">## see unique values for parental expectation</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">count</span>(df_tmp, x1paredexpct)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 13 × 2
+   x1paredexpct     n
+          &lt;dbl&gt; &lt;int&gt;
+ 1           -9    32
+ 2           -8  6715
+ 3            1    55
+ 4            2  1293
+ 5            3   149
+ 6            4  1199
+ 7            5   133
+ 8            6  4952
+ 9            7    76
+10            8  3355
+11            9    37
+12           10  3782
+13           11  1725</code></pre>
+</div>
+</div>
+<p>Dealing with <code>-8</code> and <code>-9</code> is straightforward — we’ll convert it missing. In R, missing values are technically stored as <code>NA</code>. Not all statistical software uses the same values to represent missing values (for example, Stata uses a dot <code>.</code>). Likely because they want to be software agnostic, NCES has decided to represent missing values as a limited number of negative values. In this case, <code>-8</code> and <code>-9</code> represent missing values.</p>
+<p>How to handle missing values is a <strong>very</strong> important topic, one we could spend all semester discussing. For now, we are just going to drop observations with missing values; but be forewarned that how you handle missing values can have real ramifications for the quality of your final results.</p>
+<p>Deciding what to do with <code>11</code> is a little trickier. While it’s not a missing value <em>per se</em>, it also doesn’t make much sense in its current ordering, that is, to be “higher” than completing a professional degree. We’ll make a decision to convert these to <code>NA</code> as well, effectively deciding that an answer of “I don’t know” is the same as missing an answer.</p>
+</section>
+</section>
+</section>
+<section id="changing-existing-variables-columns" class="level2">
+<h2 data-anchor-id="changing-existing-variables-columns">Changing existing variables (columns)</h2>
+<p>So first step: convert <code>-8</code>, <code>-9</code>, and <code>11</code> in both variables to <code>NA</code>. We can do this by overwriting cells in each variable with <code>NA</code> when they equal one of these two values. For this, we’ll use the <code>ifelse()</code> function, which has three parts:</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="do">## pseudo code (not to be run)</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ifelse</span>(<span class="sc">&lt;</span> test <span class="sc">&gt;</span>, <span class="sc">&lt;</span> return this <span class="cf">if</span> <span class="cn">TRUE</span> <span class="sc">&gt;</span>, <span class="sc">&lt;</span> return this <span class="cf">if</span> <span class="cn">FALSE</span> <span class="sc">&gt;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><code>ifelse()</code> works by asking: <code>if</code> the <code>&lt; test &gt;</code> is <code>TRUE</code> do <strong>this</strong> <code>else</code> (<em>i.e.</em> the <code>&lt; test &gt;</code> is <code>FALSE</code>) do <strong>that</strong>. By <em>test</em>, I mean a code statement that evaluates to either <code>TRUE</code> or <code>FALSE</code>. For example:</p>
+<ul>
+<li><code>1 == 1</code> (<code>TRUE</code>)</li>
+<li><code>1 == 2</code> (<code>FALSE</code>)</li>
+<li><code>1 + 1 == 2</code> (<code>TRUE</code>)</li>
+</ul>
+<p><strong>NOTE</strong> When checking whether something equals something else, use a double equals sign (<code>==</code>); a single equals sign typically means assignment <code>=</code> or the same thing as the arrow, <code>&lt;-</code>.</p>
+<p>What we want is to go row by row (that is, observation by observation) through both <code>x1stuedexpct</code> and <code>x1paredexpct</code> and test whether the value is either <code>-8</code>, <code>-9</code>, or <code>11</code> — if it is, then replace with <code>NA</code>, otherwise, just replace it with the value it found (<em>i.e.</em> leave it alone).</p>
+<p>We could develop a sophisticated test that looked for any of these conditions, but we can also just do it with multiple <code>ifelse()</code> functions. Notice, however, that we can test for both <code>-8</code> and <code>-9</code> in the same test since all the categories we want are positive.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="do">## use case_when to overwrite -8 and 11 with NA in our two expectation variables</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>df_tmp <span class="ot">&lt;-</span> <span class="fu">mutate</span>(df_tmp,</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>                 <span class="do">## correct student expectations </span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>                 <span class="at">x1stuedexpct =</span> <span class="fu">ifelse</span>(x1stuedexpct <span class="sc">&lt;</span> <span class="dv">0</span>,   <span class="co"># is value &lt; 0?</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>                                       <span class="cn">NA</span>,                 <span class="co"># T: replace with NA</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>                                       x1stuedexpct),      <span class="co"># F: replace with self</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>                 <span class="at">x1stuedexpct =</span> <span class="fu">ifelse</span>(x1stuedexpct <span class="sc">==</span> <span class="dv">11</span>, <span class="co"># is value == 11?</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>                                       <span class="cn">NA</span>,                 <span class="co"># T: replace with NA</span></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>                                       x1stuedexpct),      <span class="co"># F: replace with self</span></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>                 <span class="do">## correct parental expectations</span></span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>                 <span class="at">x1paredexpct =</span> <span class="fu">ifelse</span>(x1paredexpct <span class="sc">&lt;</span> <span class="dv">0</span>,   <span class="co"># (same as above...)</span></span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>                                       <span class="cn">NA</span>,                 </span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>                                       x1paredexpct),       </span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>                 <span class="at">x1paredexpct =</span> <span class="fu">ifelse</span>(x1paredexpct <span class="sc">==</span> <span class="dv">11</span>,</span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>                                       <span class="cn">NA</span>,</span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>                                       x1paredexpct))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Notice that we used <code>df_tmp</code> rather than <code>df</code>. That’s because we want to carry through the work we did with <code>select()</code> before. If we used <code>df</code> instead, then we’d be back to the original data object — not what we want.</p>
+<p>Let’s confirm that our code worked as we planned by using <code>count()</code> again.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="do">## again see unique values for student expectation</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">count</span>(df_tmp, x1stuedexpct)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 11 × 2
+   x1stuedexpct     n
+          &lt;dbl&gt; &lt;int&gt;
+ 1            1    93
+ 2            2  2619
+ 3            3   140
+ 4            4  1195
+ 5            5   115
+ 6            6  3505
+ 7            7   231
+ 8            8  4278
+ 9            9   176
+10           10  4461
+11           NA  6690</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="do">## again see unique values for parental expectation</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">count</span>(df_tmp, x1paredexpct)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 11 × 2
+   x1paredexpct     n
+          &lt;dbl&gt; &lt;int&gt;
+ 1            1    55
+ 2            2  1293
+ 3            3   149
+ 4            4  1199
+ 5            5   133
+ 6            6  4952
+ 7            7    76
+ 8            8  3355
+ 9            9    37
+10           10  3782
+11           NA  8472</code></pre>
+</div>
+</div>
+</section>
+<section id="adding-new-variables-columns" class="level2">
+<h2 data-anchor-id="adding-new-variables-columns">Adding new variables (columns)</h2>
+<p>Adding a new variable to our data frame is just like modifying an existing column. The only difference is that instead of putting an existing column name on the LHS of the <code>=</code> sign in <code>mutate()</code>, we’ll make up a new name. This tells R to make a new column in our data frame that contains the results from the the RHS function(s).</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="do">## pseudocode (not to be run)</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mutate</span>(<span class="sc">&lt;</span> df object <span class="sc">&gt;</span>, <span class="at">new_column_name =</span> <span class="cf">function</span>(...))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Now that we’ve corrected our expectation variables, we create a new variable that is the higher of the two (per our initial instructions to choose the higher of the two if both existed).</p>
+<p>Using <code>ifelse()</code> again, we can test whether each student’s degree expectation is higher than that of their parent; if true, we’ll put the student’s value into the new variable — if false, we’ll put the parent’s value into the new variable.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="do">## mutate (notice that we use df_tmp now)</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>df_tmp <span class="ot">&lt;-</span> <span class="fu">mutate</span>(df_tmp,</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>                 <span class="at">high_expct =</span> <span class="fu">ifelse</span>(x1stuedexpct <span class="sc">&gt;</span> x1paredexpct, <span class="co"># test</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>                                     x1stuedexpct,                <span class="co"># if TRUE</span></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>                                     x1paredexpct))               <span class="co"># if FALSE</span></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a><span class="do">## show</span></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>df_tmp</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 23,503 × 5
+   stu_id x1stuedexpct x1paredexpct x1region high_expct
+    &lt;dbl&gt;        &lt;dbl&gt;        &lt;dbl&gt;    &lt;dbl&gt;      &lt;dbl&gt;
+ 1  10001            8            6        2          8
+ 2  10002           NA            6        1         NA
+ 3  10003           10           10        4         10
+ 4  10004           10           10        3         10
+ 5  10005            6           10        3         10
+ 6  10006           10            8        3         10
+ 7  10007            8           NA        1         NA
+ 8  10008            8            6        1          8
+ 9  10009           NA           NA        3         NA
+10  10010            8            6        1          8
+# ℹ 23,493 more rows</code></pre>
+</div>
+</div>
+<p>Doing a quick “ocular test” of our first few rows, it seems like our new variable is correct…<strong>EXCEPT</strong>…it doesn’t look like we handled <code>NA</code> values correctly. Look at student <code>10002</code> in the second row: while the student doesn’t have an expectation (or said “I don’t know”), the parent does. However, our new variable records <code>NA</code>. Let’s fix it with this test:</p>
+<blockquote class="blockquote">
+<p>If <code>high_expct</code> <strong>is missing</strong> <strong>and</strong> <code>x1stuedexpct</code> <strong>is not missing</strong>, replace with that; otherwise replace with itself (leave alone). Repeat, but for <code>x1paredexpct</code>. If still <code>NA</code>, then we can assume both student and parent expectations were missing.</p>
+</blockquote>
+<p>Translating the bold words to R code:</p>
+<ul>
+<li><strong>is missing</strong>: <code>is.na()</code></li>
+<li><strong>and</strong>: <code>&amp;</code></li>
+<li><strong>is not missing</strong>: <code>!is.na()</code> (<code>!</code> means <strong>NOT</strong>)</li>
+</ul>
+<p>we get:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="do">## correct for NA values</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>df_tmp <span class="ot">&lt;-</span> <span class="fu">mutate</span>(df_tmp,</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>                 <span class="do">## step 1: compare with student's expectations</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>                 <span class="at">high_expct =</span> <span class="fu">ifelse</span>(<span class="fu">is.na</span>(high_expct) <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(x1stuedexpct), </span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>                                     x1stuedexpct,                </span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>                                     high_expct),</span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>                 <span class="do">## step 2: compare with parent's expectations</span></span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>                 <span class="at">high_expct =</span> <span class="fu">ifelse</span>(<span class="fu">is.na</span>(high_expct) <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(x1paredexpct), </span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>                                     x1paredexpct,                </span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>                                     high_expct))               </span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a><span class="do">## show</span></span>
+<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a>df_tmp</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 23,503 × 5
+   stu_id x1stuedexpct x1paredexpct x1region high_expct
+    &lt;dbl&gt;        &lt;dbl&gt;        &lt;dbl&gt;    &lt;dbl&gt;      &lt;dbl&gt;
+ 1  10001            8            6        2          8
+ 2  10002           NA            6        1          6
+ 3  10003           10           10        4         10
+ 4  10004           10           10        3         10
+ 5  10005            6           10        3         10
+ 6  10006           10            8        3         10
+ 7  10007            8           NA        1          8
+ 8  10008            8            6        1          8
+ 9  10009           NA           NA        3         NA
+10  10010            8            6        1          8
+# ℹ 23,493 more rows</code></pre>
+</div>
+</div>
+<p>Looking at the second observation again, it looks like we’ve fixed our <code>NA</code> issue. Looking at rows 7 and 9, it seems like those situations are correctly handled as well.</p>
+<p>To be clear, there were other ways we could have handled fixing our missing values and creating our new variable. For example, we could have left our missing values as negative numbers (and converting 11 to a negative value) so that our comparison would have worked the first time. We could have used more sophisticated tests in our <code>ifelse()</code> statements. However, these paths weren’t clear until we’d already worked a bit. The point to keep in mind that the process is often iterative (two steps forward, one step back…) and that there’s seldom an single <em>correct way</em>.</p>
+<blockquote class="blockquote">
+<h4 id="quick-exercise-2">Quick exercise</h4>
+<p>What happens when the student and parent expectations are the same, either a value or <code>NA</code>? Does our <code>ifelse()</code> statement account for those situations? If so, how?</p>
+</blockquote>
+</section>
+<section id="filter-observations-rows" class="level2">
+<h2 data-anchor-id="filter-observations-rows"><strong>Filter</strong> observations (rows)</h2>
+<p>Let’s check the counts of our new variable:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="do">## -----------------</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="do">## filter</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="do">## -----------------</span></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a><span class="do">## get summary of our new variable</span></span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a><span class="fu">count</span>(df_tmp, high_expct)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 11 × 2
+   high_expct     n
+        &lt;dbl&gt; &lt;int&gt;
+ 1          1    71
+ 2          2  2034
+ 3          3   163
+ 4          4  1282
+ 5          5   132
+ 6          6  4334
+ 7          7   191
+ 8          8  5087
+ 9          9   168
+10         10  6578
+11         NA  3463</code></pre>
+</div>
+</div>
+<p>Since we’re not going to use the missing values (we really can’t, even if we wanted to do so), we’ll drop those observations from our data frame using <code>filter()</code>.</p>
+<p>An important point about <code>filter()</code> that often trips people up at first: use it to <em>filter in what you <em>want</em></em>. This is the opposite of the more common usage of filters, which are about removing things (<em>e.g.</em>, air filters, water filters, <em>etc</em>).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="do">## filter out missing values</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>df_tmp <span class="ot">&lt;-</span> <span class="fu">filter</span>(df_tmp, <span class="sc">!</span><span class="fu">is.na</span>(high_expct))</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a><span class="do">## show</span></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>df_tmp</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 20,040 × 5
+   stu_id x1stuedexpct x1paredexpct x1region high_expct
+    &lt;dbl&gt;        &lt;dbl&gt;        &lt;dbl&gt;    &lt;dbl&gt;      &lt;dbl&gt;
+ 1  10001            8            6        2          8
+ 2  10002           NA            6        1          6
+ 3  10003           10           10        4         10
+ 4  10004           10           10        3         10
+ 5  10005            6           10        3         10
+ 6  10006           10            8        3         10
+ 7  10007            8           NA        1          8
+ 8  10008            8            6        1          8
+ 9  10010            8            6        1          8
+10  10011            8            6        3          8
+# ℹ 20,030 more rows</code></pre>
+</div>
+</div>
+<p>It looks like we’ve dropped the rows with missing values in our new variable (or, more technically, <em>kept</em> those without missing values). Since we haven’t removed rows until now, we can compare the number of rows in the original data frame, <code>df</code>, to what we have now.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="do">## is the original # of rows - current # or rows == NA in count?</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(df) <span class="sc">-</span> <span class="fu">nrow</span>(df_tmp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 3463</code></pre>
+</div>
+</div>
+<p>Comparing the difference, we can see it’s the same as the number of missing values in our new column. While not a formal test, it does support what we expected (in other words, if the number were different, we’d definitely want to go back and investigate).</p>
+</section>
+<section id="summarize-data" class="level2">
+<h2 data-anchor-id="summarize-data"><strong>Summarize</strong> data</h2>
+<p>Now we’re ready to get the average of expectations that we need. The <code>summarize()</code> command will allow us to apply a summary measure, like <code>mean()</code>, to a column of our data. (<strong>NOTE</strong> that if we wanted another summary measure, like the median or standard deviation, there are other functions like <code>median()</code> and <code>sd()</code>…if you need a particular stat, there’s likely a function for it!).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="do">## -----------------</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="do">## summarize</span></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a><span class="do">## -----------------</span></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a><span class="do">## get average (without storing)</span></span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a><span class="fu">summarize</span>(df_tmp, <span class="at">high_expct_mean =</span> <span class="fu">mean</span>(high_expct))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 1
+  high_expct_mean
+            &lt;dbl&gt;
+1            7.27</code></pre>
+</div>
+</div>
+<p>Overall, we can see that students and parents have high postsecondary expectations on average: to earn some graduate credential beyond a bachelor’s degree. However, this isn’t what we want. We want the values across census regions.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="do">## check our census regions</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="fu">count</span>(df_tmp, x1region)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 4 × 2
+  x1region     n
+     &lt;dbl&gt; &lt;int&gt;
+1        1  3128
+2        2  5312
+3        3  8177
+4        4  3423</code></pre>
+</div>
+</div>
+<p>We’re not missing any census data, which is good. To calculate our average expectations, we need to use the <code>group_by()</code> function. This function allows to set groups and perform other <strong>dplyr</strong> operations <em>within</em> those groups. Right now, we’ll use it to get our summary.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="do">## get expectations average within region</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>df_tmp <span class="ot">&lt;-</span> <span class="fu">group_by</span>(df_tmp, x1region)</span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a><span class="do">## show grouping</span></span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>df_tmp</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 20,040 × 5
+# Groups:   x1region [4]
+   stu_id x1stuedexpct x1paredexpct x1region high_expct
+    &lt;dbl&gt;        &lt;dbl&gt;        &lt;dbl&gt;    &lt;dbl&gt;      &lt;dbl&gt;
+ 1  10001            8            6        2          8
+ 2  10002           NA            6        1          6
+ 3  10003           10           10        4         10
+ 4  10004           10           10        3         10
+ 5  10005            6           10        3         10
+ 6  10006           10            8        3         10
+ 7  10007            8           NA        1          8
+ 8  10008            8            6        1          8
+ 9  10010            8            6        1          8
+10  10011            8            6        3          8
+# ℹ 20,030 more rows</code></pre>
+</div>
+</div>
+<p>Notice the extra row at the second line now? <code>Groups:  x1region [4]</code> tells us that our data set is now grouped.</p>
+<blockquote class="blockquote">
+<h4 id="quick-exercise-3">Quick exercise</h4>
+<p>What does the <code>[4]</code> mean?</p>
+</blockquote>
+<p>Now that our groups are set, we can get the summary we really wanted</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="do">## get average (assigning this time)</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>df_tmp <span class="ot">&lt;-</span> <span class="fu">summarize</span>(df_tmp, <span class="at">high_expct_mean =</span> <span class="fu">mean</span>(high_expct))</span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a><span class="do">## show</span></span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>df_tmp</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 4 × 2
+  x1region high_expct_mean
+     &lt;dbl&gt;           &lt;dbl&gt;
+1        1            7.39
+2        2            7.17
+3        3            7.36
+4        4            7.13</code></pre>
+</div>
+</div>
+<p>Success! Expectations are similar across the country, but not the same by region.</p>
+<p><strong>NB</strong>: The reason we didn’t assign the first ungrouped <code>summarize()</code> function back to <code>df_tmp</code> is that <code>summarize()</code> fundamentally changes our data frame, from one of many observations to one that represents their summary (as we asked!). Keep this in mind for your own analyses: the order of operations matters. If you select columns, then columns you didn’t selection won’t be available later; if you summarize your data, then you only have access to the summary.</p>
+</section>
+<section id="arrange-data" class="level2">
+<h2 data-anchor-id="arrange-data"><strong>Arrange</strong> data</h2>
+<p>As our final step, we’ll arrange our data frame from highest to lowest (descending). For this, we’ll use <code>arrange()</code> and a special operator, <code>desc()</code> which is short for <em>descending</em>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="do">## -----------------</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="do">## arrange</span></span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a><span class="do">## -----------------</span></span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a><span class="do">## arrange from highest expectations (first row) to lowest</span></span>
+<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a>df_tmp <span class="ot">&lt;-</span> <span class="fu">arrange</span>(df_tmp, <span class="fu">desc</span>(high_expct_mean))</span>
+<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-8"><a href="#cb39-8" aria-hidden="true" tabindex="-1"></a><span class="do">## show</span></span>
+<span id="cb39-9"><a href="#cb39-9" aria-hidden="true" tabindex="-1"></a>df_tmp</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 4 × 2
+  x1region high_expct_mean
+     &lt;dbl&gt;           &lt;dbl&gt;
+1        1            7.39
+2        3            7.36
+3        2            7.17
+4        4            7.13</code></pre>
+</div>
+</div>
+<blockquote class="blockquote">
+<h4 id="quick-exercise-4">Quick exercise</h4>
+<p>What happens when you don’t include <code>desc()</code> around <code>high_expct_mean</code>?</p>
+</blockquote>
+</section>
+<section id="write-out-updated-data" class="level2">
+<h2 data-anchor-id="write-out-updated-data"><strong>Write</strong> out updated data</h2>
+<p>We can use this new data frame as a table in its own right or to make a figure. For now, however, we’ll simply save it using the opposite of <code>read_csv()</code> — <code>write_csv()</code> — which works like <code>writeRDS()</code> we’ve used before.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="do">## write with useful name</span></span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a><span class="fu">write_csv</span>(df_tmp, <span class="fu">file.path</span>(<span class="st">"data"</span>, <span class="st">"high_expct_mean_region.csv"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>And with that, we’ve met our task: we can show average educational expectations by region. To be very precise, we can show the higher of student and parental educational expectations among those who answered the question by region. This caveat doesn’t necessarily make our analysis less useful, but rather sets its scope. Furthermore, we’ve kept our original data as is (we didn’t overwrite it) for future analyses while saving the results of this analysis for quick reference.</p>
+</section>
+<section id="pipes" class="level2">
+<h2 data-anchor-id="pipes">Pipes (<code>|&gt;</code>)</h2>
+<p>Above, we’ve performed each step of our analysis piecemeal, saving new objects or overwriting along the way. This is fine, but a huge benefit of the <strong>tidyverse</strong> is that it allows users to chain commands together using pipes.</p>
+<p>Tidyverse pipes, <code>|&gt;</code>, come from the <a href="http://magrittr.tidyverse.org">magrittr package</a>.</p>
+<p><span style="display:block;text-align:center"> <a href="https://www.fine-arts-museum.be/uploads/exhibitions/images/magritte_la_trahison_des_images_large@2x.jpg"><img src="https://raw.githubusercontent.com/tidyverse/magrittr/main/man/figures/logo.png" class="img-fluid" alt="badge"></a> </span></p>
+<p>Pipes take output from the left side and pipe it to the input of the right side. So <code>mean(x)</code> can be rewritten as <code>x |&gt; mean</code>: <code>x</code> outputs itself and the pipe, <code>|&gt;</code>, makes it the input for <code>mean()</code>.</p>
+<blockquote class="blockquote">
+<h4 id="quick-exercise-5">Quick exercise</h4>
+<p>Store 1,000 random values in <code>x</code>: <code>x &lt;- rnorm(1000)</code>. Now run <code>mean(x)</code> and <code>x |&gt; mean</code>. Do you get the same thing?</p>
+</blockquote>
+<p>This may be a silly example (why would you do that?), but pipes are powerful because they allow data wrangling processes to be chained together.</p>
+<p>Normally, functions (like <code>select()</code>, <code>mutate()</code>, <em>etc</em>), can be nested in R, but after too many, the code becomes difficult to parse since it has to be read from the inside out. For this reason, many analysts run one discrete function after another, saving output along the way. This is what we did above.</p>
+<p>Pipes allow functions to come one after another in the order of the work being done, which is more legible. As a bonus, chaining functions together is sometimes faster due to behind-the-scenes processing.</p>
+<p>Let’s use <a href="https://twitter.com/_inundata/status/557980236130689024">Hadley’s canonical example</a> to make the readability comparison between nested functions and piped functions clearer:</p>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="do">## foo_foo is an instance of a little bunny function</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>foo_foo <span class="ot">&lt;-</span> <span class="fu">little_bunny</span>()</span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a><span class="do">## adventures in base R must be read from the middle up and backwards</span></span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a><span class="fu">bop_on</span>(</span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scoop_up</span>(</span>
+<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a>        <span class="fu">hop_through</span>(foo_foo, forest),</span>
+<span id="cb42-8"><a href="#cb42-8" aria-hidden="true" tabindex="-1"></a>        field_mouse</span>
+<span id="cb42-9"><a href="#cb42-9" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb42-10"><a href="#cb42-10" aria-hidden="true" tabindex="-1"></a>    head</span>
+<span id="cb42-11"><a href="#cb42-11" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb42-12"><a href="#cb42-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-13"><a href="#cb42-13" aria-hidden="true" tabindex="-1"></a><span class="do">## adventures w/ pipes start at the top and work down</span></span>
+<span id="cb42-14"><a href="#cb42-14" aria-hidden="true" tabindex="-1"></a>foo_foo <span class="sc">|&gt;</span></span>
+<span id="cb42-15"><a href="#cb42-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">hop_through</span>(forest) <span class="sc">|&gt;</span></span>
+<span id="cb42-16"><a href="#cb42-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scoop_up</span>(field_mouse) <span class="sc">|&gt;</span></span>
+<span id="cb42-17"><a href="#cb42-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">bop_on</span>(head)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>In the first set, we have to read the story of little bunny foo foo from the inside out: “Little bunny foo_foo bopped on the head a field mouse that was scooped up while hopping through the forest.”</p>
+<p>With pipes, we can read it more like the original rhyme: “Little bunny foo foo hopped through the forest, scooped up a field mouse, and bopped it on the head.”</p>
+<p>The main thing to remember is with pipes and tidyverse is that because the output of the function goes into the next function, you don’t need to include the first argument, that is, the data frame object name.</p>
+<p>This:</p>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>df_example <span class="ot">&lt;-</span> <span class="fu">select</span>(df, col1, col2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>becomes this:</p>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>df_example <span class="ot">&lt;-</span> df <span class="sc">|&gt;</span> <span class="fu">select</span>(col1, cols2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>In the second example, the object <code>df</code> was piped into the first argument spot in <code>select()</code>. Since that’s already accounted for, we were able to just start with the column names we want.</p>
+</section>
+<section id="rewriting-our-analysis-using-pipes" class="level2">
+<h2 data-anchor-id="rewriting-our-analysis-using-pipes">Rewriting our analysis using pipes</h2>
+<p>Returning to our analysis above, let’s rewrite all our of our steps in on piped chain of commands.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="do">## start with the original data frame...</span></span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>df_tmp_chained <span class="ot">&lt;-</span> df <span class="sc">|&gt;</span></span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>    <span class="do">## (df is piped in): select the columns we want</span></span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(stu_id, x1stuedexpct, x1paredexpct, x1region) <span class="sc">|&gt;</span></span>
+<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a>    <span class="do">## (selected df is piped in): mutate our data, starting with missing</span></span>
+<span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">x1stuedexpct =</span> <span class="fu">ifelse</span>(x1stuedexpct <span class="sc">&lt;</span> <span class="dv">0</span>,   </span>
+<span id="cb45-7"><a href="#cb45-7" aria-hidden="true" tabindex="-1"></a>                                 <span class="cn">NA</span>,                 </span>
+<span id="cb45-8"><a href="#cb45-8" aria-hidden="true" tabindex="-1"></a>                                 x1stuedexpct),      </span>
+<span id="cb45-9"><a href="#cb45-9" aria-hidden="true" tabindex="-1"></a>           <span class="at">x1stuedexpct =</span> <span class="fu">ifelse</span>(x1stuedexpct <span class="sc">==</span> <span class="dv">11</span>, </span>
+<span id="cb45-10"><a href="#cb45-10" aria-hidden="true" tabindex="-1"></a>                                 <span class="cn">NA</span>,                 </span>
+<span id="cb45-11"><a href="#cb45-11" aria-hidden="true" tabindex="-1"></a>                                 x1stuedexpct),      </span>
+<span id="cb45-12"><a href="#cb45-12" aria-hidden="true" tabindex="-1"></a>           <span class="at">x1paredexpct =</span> <span class="fu">ifelse</span>(x1paredexpct <span class="sc">&lt;</span> <span class="dv">0</span>,   </span>
+<span id="cb45-13"><a href="#cb45-13" aria-hidden="true" tabindex="-1"></a>                                 <span class="cn">NA</span>,                 </span>
+<span id="cb45-14"><a href="#cb45-14" aria-hidden="true" tabindex="-1"></a>                                 x1paredexpct),       </span>
+<span id="cb45-15"><a href="#cb45-15" aria-hidden="true" tabindex="-1"></a>           <span class="at">x1paredexpct =</span> <span class="fu">ifelse</span>(x1paredexpct <span class="sc">==</span> <span class="dv">11</span>,</span>
+<span id="cb45-16"><a href="#cb45-16" aria-hidden="true" tabindex="-1"></a>                                 <span class="cn">NA</span>,</span>
+<span id="cb45-17"><a href="#cb45-17" aria-hidden="true" tabindex="-1"></a>                                 x1paredexpct),</span>
+<span id="cb45-18"><a href="#cb45-18" aria-hidden="true" tabindex="-1"></a>           <span class="do">## create new column</span></span>
+<span id="cb45-19"><a href="#cb45-19" aria-hidden="true" tabindex="-1"></a>           <span class="at">high_expct =</span> <span class="fu">ifelse</span>(x1stuedexpct <span class="sc">&gt;</span> x1paredexpct, </span>
+<span id="cb45-20"><a href="#cb45-20" aria-hidden="true" tabindex="-1"></a>                               x1stuedexpct,                </span>
+<span id="cb45-21"><a href="#cb45-21" aria-hidden="true" tabindex="-1"></a>                               x1paredexpct),</span>
+<span id="cb45-22"><a href="#cb45-22" aria-hidden="true" tabindex="-1"></a>           <span class="do">## fix new column NAs</span></span>
+<span id="cb45-23"><a href="#cb45-23" aria-hidden="true" tabindex="-1"></a>           <span class="at">high_expct =</span> <span class="fu">ifelse</span>(<span class="fu">is.na</span>(high_expct) <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(x1stuedexpct), </span>
+<span id="cb45-24"><a href="#cb45-24" aria-hidden="true" tabindex="-1"></a>                               x1stuedexpct,                </span>
+<span id="cb45-25"><a href="#cb45-25" aria-hidden="true" tabindex="-1"></a>                               high_expct),</span>
+<span id="cb45-26"><a href="#cb45-26" aria-hidden="true" tabindex="-1"></a>           <span class="at">high_expct =</span> <span class="fu">ifelse</span>(<span class="fu">is.na</span>(high_expct) <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(x1paredexpct), </span>
+<span id="cb45-27"><a href="#cb45-27" aria-hidden="true" tabindex="-1"></a>                               x1paredexpct,                </span>
+<span id="cb45-28"><a href="#cb45-28" aria-hidden="true" tabindex="-1"></a>                               high_expct)) <span class="sc">|&gt;</span></span>
+<span id="cb45-29"><a href="#cb45-29" aria-hidden="true" tabindex="-1"></a>    <span class="do">## (mutated df is piped in): filter in non-missing rows</span></span>
+<span id="cb45-30"><a href="#cb45-30" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(high_expct)) <span class="sc">|&gt;</span></span>
+<span id="cb45-31"><a href="#cb45-31" aria-hidden="true" tabindex="-1"></a>    <span class="do">## (filtered df is piped in): group by region</span></span>
+<span id="cb45-32"><a href="#cb45-32" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(x1region) <span class="sc">|&gt;</span></span>
+<span id="cb45-33"><a href="#cb45-33" aria-hidden="true" tabindex="-1"></a>    <span class="do">## (grouped df is piped in): summarize mean expectations</span></span>
+<span id="cb45-34"><a href="#cb45-34" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(<span class="at">high_expct_mean =</span> <span class="fu">mean</span>(high_expct)) <span class="sc">|&gt;</span></span>
+<span id="cb45-35"><a href="#cb45-35" aria-hidden="true" tabindex="-1"></a>    <span class="do">## (summarized df is piped in): arrange average expectations hi --&gt; lo</span></span>
+<span id="cb45-36"><a href="#cb45-36" aria-hidden="true" tabindex="-1"></a>    <span class="fu">arrange</span>(<span class="fu">desc</span>(high_expct_mean))         </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Notice how I included comments along the way? Since R ignores commented lines (it’s as if they don’t exist), you can include within your piped chain of commands. This is a good habit that collaborators and future you will appreciate.</p>
+<p>To be sure, let’s check: is the result the same as before?</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="do">## show</span></span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>df_tmp_chained</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 4 × 2
+  x1region high_expct_mean
+     &lt;dbl&gt;           &lt;dbl&gt;
+1        1            7.39
+2        3            7.36
+3        2            7.17
+4        4            7.13</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="do">## test using identical()</span></span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a><span class="fu">identical</span>(df_tmp, df_tmp_chained)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] TRUE</code></pre>
+</div>
+</div>
+<p>Success!</p>
+</section>
+<section id="final-notes" class="level2">
+<h2 data-anchor-id="final-notes">Final notes</h2>
+<p>In this lesson, you’ve converted a research question into a data analysis that started with reading in raw data and ended with your summary table. You’ve seen how to wrangle your data in multiple discrete steps as well as chained together using pipes.</p>
+<p>As you start to apply these tools to your own analyses, the first questions should always be:</p>
+<ol type="1">
+<li>What I am trying to do?</li>
+<li>What would my data or results need to look like in order to do that?</li>
+<li>What are the discrete steps I need to get from what I have (raw data) to what I need (wrangled data)?</li>
+</ol>
+<p>Remember, these are iterative questions, meaning you will almost certainly need to revisit and adjust during your analysis. But becoming a better quantitative researcher mostly means becoming a better translator: question –&gt; data/coding –&gt; answer.</p>
+</section>
+</div>
+<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
+<p>Using the <code>hsls_small.csv</code> data set and the online code book, answer the following questions. You <strong>do not</strong> need to save the final output as a data file: just having the final result print to the console is fine. For each question, I would like you to try to pipe all the commands together. You can account for missing values by dropping them.</p>
+<p>For each question, show your data work and then answer the question in a short (1-2 sentence(s)) comment.</p>
+<section id="questions" class="level2">
+<h2 data-anchor-id="questions">Questions</h2>
+<ol type="1">
+<li><p>What is the average standardized math test score?</p></li>
+<li><p>What is the average standardized math test score by gender?</p></li>
+<li><p>In what year and month were the oldest students in the data set born? The youngest?</p></li>
+<li><p>Among those students who are under 185% of the federal poverty line in the base year of the survey, what is the median household income (give the category and what that category reprents).</p></li>
+<li><p>Of the students who earned a high school credential (diploma or GED), what percentage earned a GED or equivalency? How does this differ by region?</p></li>
+<li><p>What percentage of students ever attended a postsecondary institution by February 2016? Give the cross tabulations for:</p>
+<ul>
+<li>family incomes less than or equal to $35,000 and greater than $35,000<br>
+</li>
+<li>region</li>
+</ul>
+<p>This means you should have percentages for 8 groups: above/below $35k within each region.</p>
+<p><strong>HINT</strong> You can <code>group_by()</code> on more than one group.</p></li>
+</ol>
+<section id="submission-details" class="level4">
+<h4 data-anchor-id="submission-details">Submission details</h4>
+<ul>
+<li>Save your script (<code>&lt;lastname&gt;_assignment_3.R</code>) in your <code>scripts</code> directory.</li>
+<li>Push changes to your repo (the new script and new folder) to GitHub prior to the next class session.</li>
+</ul>
+</section>
+</section>
+</div>
+</div>
+</div>
+
+
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      return note.innerHTML;
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item">
+    <a class="nav-link" href="https://capaldi.info">
+<p>M.J. Capaldi</p>
+</a>
+  </li>  
+</ul>
+    </div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item">
+    <a class="nav-link" href="https://quarto.org/docs/websites">
+<p>Built with Quarto</p>
+</a>
+  </li>  
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/ttalVlatt/EDH-7916">
+      <i class="bi bi-github" role="img" aria-label="Website Code Available Here">
+</i> 
+    </a>
+  </li>  
+</ul>
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>
