@@ -10,7 +10,7 @@ library(tidyverse)
 
 output <- Sys.getenv("QUARTO_PROJECT_OUTPUT_DIR")
 
-##'[Remove duplicates created by Quarto glitch]
+##'[Remove duplicates in output created by Quarto glitch]
 dup_files <- list.files(output, pattern = "\\s\\d\\.[a-zA-Z0-9]+$")
 dup_folders <- list.files(output, pattern = "\\s\\d$")
 
@@ -20,6 +20,18 @@ for(i in dup_files) {
 
 for(i in dup_folders) {
   fs::dir_delete(file.path(output, i))
+}
+
+##'[Remove duplicates in main created by Quarto glitch]
+dup_files <- list.files(pattern = "\\s\\d\\.[a-zA-Z0-9]+$")
+dup_folders <- list.files(pattern = "\\s\\d$")
+
+for(i in dup_files) {
+  unlink(i)
+}
+
+for(i in dup_folders) {
+  fs::dir_delete(i)
 }
 
 ##'[Create example folder]
