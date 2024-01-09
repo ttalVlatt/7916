@@ -364,10 +364,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
 <section id="bens-kitchen-example" class="level4">
 <h4 data-anchor-id="bens-kitchen-example">Ben’s kitchen example</h4>
+<blockquote class="blockquote">
 <p>“Every data analysis project should have its own set of organized folders. Just like you might organize a kitchen so that ingredients, cookbooks, and prepared food all have a specific cabinet or shelf, so too should you organize your project. We’ll organize our course directory in a similar fashion.”</p>
+</blockquote>
 <ul>
 <li>In this world, think of pristine kitchen where <strong>NOTHING</strong> sits out on the counter.</li>
-<li>However, we are going to have kitchen where some things are stored away in cupboards, but what we actually work with (the scripts) sits out on the counter
+<li>However, we are going to have kitchen where some things are stored away in cupboards, but what we regularly work with (the scripts) sits out on the counter
 <ul>
 <li>The kitchen metaphor also works to explain why you might take these approaches
 <ul>
@@ -381,14 +383,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 data-anchor-id="edh-7916-folder-setup">EDH 7916 Folder Setup</h3>
 <ul>
 <li><p>With this kitchen metaphor in mind, let’s set up our folder for the class</p></li>
-<li><p>I’ve made an <a href="./example-folder.zip">EDH-7916 example folder you can download here</a> which is also available on the class homepage.</p>
+<li><p>I’ve made an <a href="./EDH-7916.zip">EDH-7916 example folder you can download here</a> which is also available on the class homepage.</p>
 <ul>
 <li>In here, you will see
 <ul>
 <li>An <code>.R</code> script template</li>
 <li>A set of numbered .R scripts (these are our lesson scripts)</li>
 <li>A data folder</li>
-<li>A reproducible-report fo (with it’s own data sub-folder)</li>
+<li>A reproducible-report folder (with it’s own data sub-folder)</li>
+<li>A <code>.pdf</code> copy of the syllabus</li>
 </ul></li>
 </ul></li>
 <li><p>Download and save this folder wherever you usually keep class folders</p>
@@ -464,96 +467,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><p>With our class folder now set up, it’s time to go over some other key organization principles</p></li>
 </ul>
 </section>
-<section id="file-paths" class="level3">
-<h3 data-anchor-id="file-paths">File Paths</h3>
-<ul>
-<li>When we are working with R, we (most of the time) need to bring in other items, such as data
-<ul>
-<li>In order to do that, our computer has to find these items, and there are two ways it can do that</li>
-</ul></li>
-</ul>
-<section id="absolute-paths" class="level4">
-<h4 data-anchor-id="absolute-paths">Absolute Paths</h4>
-<ul>
-<li>Absolute paths are directions to what you’re looking for starting from the root of your computer, and list out exactly where a file is. For example, as I’m writing this lesson, the absolute path of this Quarto script is</li>
-</ul>
-<p><code>"/Users/Matt/Desktop/7916/02-set-data.qmd"</code></p>
-<ul>
-<li>This is perfectly fine, assuming two things
-<ol type="1">
-<li>I don’t move the project directory</li>
-<li>It only needs to run on my computer</li>
-</ol></li>
-<li>Oftentimes, we cannot rely on both these assumptions being true
-<ul>
-<li>Plus, if we start with these absolute paths and then need to change, it will then become a real pain to update everything
-<ul>
-<li>So, we should <strong>ALWAYS</strong> use relative paths instead (this one of the only strict rules for assignments)</li>
-</ul></li>
-</ul></li>
-</ul>
-</section>
-<section id="relative-paths" class="level4">
-<h4 data-anchor-id="relative-paths">Relative Paths</h4>
-<ul>
-<li>Imagine I am giving you directions to a College of Education cookout, but, I give you directions from my house. That’s only any use if you know where my house is…
-<ul>
-<li>Instead, you really want directions from somewhere we all know, like Norman Hall
-<ul>
-<li>That is (basically) how relative paths work, we give directions to to our data from a common point</li>
-</ul></li>
-</ul></li>
-<li>Relative paths are directions to what you’re looking for from where you are right now (a.k.a your “working directory”)</li>
-</ul>
-</section>
-<section id="the-file.path-function" class="level4">
-<h4 data-anchor-id="the-file.path-function">The <code>file.path()</code> Function</h4>
-<ul>
-<li>One last thing, you see how file paths are typically written with <code>/</code> or <code>\</code>? (which depends on your computer)
-<ul>
-<li>R has a nice function that means we don’t have to
-<ul>
-<li><ol type="a">
-<li>worry about which way around the slash should be</li>
-</ol></li>
-<li><ol start="2" type="a">
-<li>avoid issues with different computers expecting different slashes</li>
-</ol></li>
-</ul></li>
-<li><code>file.path()</code>
-<ul>
-<li>Inside that, we just type the name of each folder/file in “quotes”
-<ul>
-<li><code>"Users/Matt/Desktop/7916"</code> into</li>
-<li><code>file.path("Users", "Matt", "Desktop", "7916")</code></li>
-<li>This may look longer, but, it’s more compatible and easier to remember”</li>
-</ul></li>
-</ul></li>
-</ul></li>
-</ul>
-</section>
-<section id="what-if-i-need-to-go-back-a-level" class="level4">
-<h4 data-anchor-id="what-if-i-need-to-go-back-a-level">What If I Need to Go Back a Level?</h4>
-<ul>
-<li>Sometimes we are in a folder, but want to go back a level, i.e.&nbsp;not the folder our current folder is in
-<ul>
-<li>This is very common if with we were using the “pristine kitchen” approach</li>
-</ul></li>
-<li>To do so is easy, we just add a <code>".."</code> to our <code>file.path()</code>
-<ul>
-<li>So, if we are in my class folder on my desktop, and we want to go to another folder on the desktop
-<ul>
-<li><code>file.path("..", "&lt;folder we want&gt;")</code></li>
-</ul></li>
-</ul></li>
-</ul>
-</section>
-</section>
 <section id="working-directory" class="level3">
 <h3 data-anchor-id="working-directory">Working Directory</h3>
 <ul>
 <li><p>The working directory is almost certainly the most common cause of issues in this class, and continues to be something I get tripped up by from time to time, so this may take a minute to get your head around</p></li>
-<li><p>As a general rule, no matter how you have your folders organized in the future, you usually want your working directory set to where your script is</p>
+<li><p>As a general rule, no matter how you have your folders organized in the future, you usually want your working directory set to <em>where your script is</em></p>
 <ul>
 <li>That way, you’re always giving directions from the common point of “where we are we are right now”
 <ul>
@@ -608,12 +526,100 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ol>
 <ul>
 <li>But, this really isn’t usually the most efficient</li>
-<li>Note: <code>getwd()</code> is sometimes still useful to check what your current working directory is set to</li>
 </ul></li>
 </ul></li>
 </ul></li>
 <li><p>As I say, if we organize our folder as outlined in this lesson, and use an R project, we shouldn’t need to change this much, but it’s inevitable you will every now and then</p></li>
 </ul>
+</section>
+<section id="file-paths" class="level3">
+<h3 data-anchor-id="file-paths">File Paths</h3>
+<ul>
+<li>When we are working with R, we (most of the time) need to bring in other items, such as data
+<ul>
+<li>In order to do that, our computer has to find these items, and there are two ways it can do that</li>
+</ul></li>
+</ul>
+<section id="absolute-paths" class="level4">
+<h4 data-anchor-id="absolute-paths">Absolute Paths</h4>
+<ul>
+<li>Absolute paths are directions to what you’re looking for starting from the root of your computer, and list out exactly where a file is. For example, as I’m writing this lesson, the absolute path of this Quarto script is</li>
+</ul>
+<p><code>"/Users/Matt/Desktop/7916/02-set-data.qmd"</code></p>
+<ul>
+<li>This is perfectly fine, assuming two things
+<ol type="1">
+<li>I don’t move the project directory</li>
+<li>It only needs to run on my computer</li>
+</ol></li>
+<li>Oftentimes, we cannot rely on both these assumptions being true
+<ul>
+<li>Plus, if we start with these absolute paths and then need to change, it will then become a real pain to update everything
+<ul>
+<li>So, we should <strong>ALWAYS</strong> use relative paths instead (this one of the only strict rules for assignments)</li>
+</ul></li>
+</ul></li>
+</ul>
+</section>
+<section id="relative-paths" class="level4">
+<h4 data-anchor-id="relative-paths">Relative Paths</h4>
+<ul>
+<li><p>Imagine I am giving you directions to a College of Education cookout, but, I give you directions from my house. That’s only any use if you know where my house is…</p>
+<ul>
+<li>Instead, you really want directions from somewhere we all know, like Norman Hall
+<ul>
+<li>That is (basically) how relative paths work, we give directions to to our data from a common point</li>
+</ul></li>
+</ul></li>
+<li><p>Relative paths are directions to what you’re looking for from where you are right now (a.k.a your “working directory”)</p></li>
+<li><p>If we assume have our working directory set to our shiny new class folder, then, that becomes the starting point for all our directions</p>
+<ul>
+<li>Therefore, to access <code>hd2007.csv</code> in out <code>data</code> sub-folder, we just need to say <code>file.path("data", "hd2007.csv")</code></li>
+</ul></li>
+</ul>
+</section>
+<section id="the-file.path-function" class="level4">
+<h4 data-anchor-id="the-file.path-function">The <code>file.path()</code> Function</h4>
+<ul>
+<li>One last thing, you see how file paths are typically written with <code>/</code> or <code>\</code>? (which depends on your computer)
+<ul>
+<li>R has a nice function that means we don’t have to
+<ul>
+<li><ol type="a">
+<li>worry about which way around the slash should be</li>
+</ol></li>
+<li><ol start="2" type="a">
+<li>avoid issues with different computers expecting different slashes</li>
+</ol></li>
+</ul></li>
+<li><code>file.path()</code>
+<ul>
+<li>Inside, we just type the name of each folder/file in “quotes”, turning
+<ul>
+<li><code>"Users/Matt/Desktop/7916"</code> into</li>
+<li><code>file.path("Users", "Matt", "Desktop", "7916")</code></li>
+<li>This may look longer, but, it’s more compatible and easier to remember”</li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul>
+</section>
+<section id="what-if-i-need-to-go-back-a-level" class="level4">
+<h4 data-anchor-id="what-if-i-need-to-go-back-a-level">What If I Need to Go Back a Level?</h4>
+<ul>
+<li>Sometimes we are in a folder, but want to go back a level, i.e.&nbsp;not the folder our current folder is in
+<ul>
+<li>This is very common if with we were using the “pristine kitchen” approach</li>
+</ul></li>
+<li>To do so is easy, we just add a <code>".."</code> to our <code>file.path()</code>
+<ul>
+<li>So, if we are in my class folder on my desktop, and we want to go to another folder on the desktop
+<ul>
+<li><code>file.path("..", "&lt;folder we want&gt;")</code></li>
+</ul></li>
+</ul></li>
+</ul>
+</section>
 </section>
 </section>
 <section id="script-template" class="level2">
@@ -726,7 +732,7 @@ dbl (43): UNITID, FIPS, OBEREG, GENTELE, OPEFLAG, SECTOR, ICLEVEL, CONTROL, ...
 <li>The actual data is identical, but, STATA data is labeled (i.e., short descriptions attached to the variables beyond the variable name and codebook)</li>
 <li>“But this is an R class, not a STATA class”
 <ul>
-<li>True, but R can read labeled STATA data easily using the <code>tidyverse</code></li>
+<li>True, but R can read labeled STATA data easily using the <code>haven</code> library from the <code>tidyverse</code></li>
 <li>Generally, labeled data is nice, but .csv data is easier to open in other programs (say you wanted to explore it in Excel first). So it’s up to you!</li>
 </ul></li>
 </ul></li>
@@ -747,16 +753,15 @@ dbl (43): UNITID, FIPS, OBEREG, GENTELE, OPEFLAG, SECTOR, ICLEVEL, CONTROL, ...
 <ul>
 <li>National Center for Educational Statistics (also the owner of IPEDS)
 <ul>
-<li>Longitudinal Surveys (HSLS, ECLES-K, etc.)</li>
-<li>One-off data collection</li>
-<li>K-12 equivilant of IPEDS</li>
-<li>NCES has a good amount of publicly available data, but they also have a LOT of restricted data
+<li>Longitudinal Surveys (<a href="https://nces.ed.gov/surveys/hsls09/">High School Longitudinal Study</a>, <a href="https://nces.ed.gov/ecls/">ECLS-Early Childhood Longitudinal Studies</a></li>
+<li><a href="https://nces.ed.gov/admindata/">Administrative Data (including IPEDS)</a></li>
+<li>NCES has a good amount of publicly available data, but they also have a LOT of [restricted data]((https://nces.ed.gov/pubsearch/licenses.asp)
 <ul>
-<li>Typically publicly available data will be either institution (school, college, university wide) or fully anonomized. Meanwhile restricted data will often be student level and have some more detailed information.
+<li>Typically publicly available data will be either institution level (school, college, university wide) or fully anonymized. Meanwhile restricted data will often be student level and have some more detailed information.
 <ul>
 <li>Getting restricted data is tough, but not impossible
 <ul>
-<li>You will need a clear purpose of your study and to know exactly what data you want access to (see available data <a href="">here</a>)</li>
+<li>You will need a clear purpose of your study and to know exactly what data you want access to (see available data <a href="https://nces.ed.gov/pubsearch/licenses.asp">here</a>)</li>
 <li>You’ll then need to take this idea to your advisor</li>
 </ul></li>
 <li>For your project in this class, your data <strong>MUST</strong> be publicly available
@@ -766,25 +771,33 @@ dbl (43): UNITID, FIPS, OBEREG, GENTELE, OPEFLAG, SECTOR, ICLEVEL, CONTROL, ...
 </ul></li>
 </ul></li>
 </ul></li>
-<li>College Scorecard
+<li><a href="https://collegescorecard.ed.gov">College Scorecard</a>
 <ul>
 <li>Designed more as a tool for potential college students, college scorecard has data points of interest to this audience, but some things useful for our research too, in particular graduate earning levels
 <ul>
-<li>Similarly to IPEDS, if using College Scorecard, we want to avoid the point-and-click interface and download the entire data files available <a href="">here</a></li>
+<li>Similarly to IPEDS, if using College Scorecard, we want to avoid the point-and-click interface and download the <a href="https://collegescorecard.ed.gov/data/">entire data files available here</a></li>
 </ul></li>
 </ul></li>
 <li>National Bureau of Labor Statistics
 <ul>
-<li>Longitudinal surveys similar to NCES, but some more extensive</li>
-<li>National Longitudinal Survey of Youth (NLSY) is one of the most used</li>
+<li><a href="https://www.bls.gov/nls/">Longitudinal surveys</a> similar to NCES, but some more extensive</li>
+<li><a href="https://www.bls.gov/nls/nlsy97.htm">National Longitudinal Survey of Youth (NLSY)</a> is one of the most used</li>
+<li>There are publicly available portions of these surveys, but other sections are restricted, see <a href="https://www.bls.gov/nls/getting-started/accessing-data.htm">BLS’s accessing data page for more info</a></li>
 </ul></li>
-<li>Census &amp; American Community Survey
+<li><a href="https://www.census.gov/programs-surveys.html">Census &amp; American Community Survey</a>
 <ul>
 <li>Useful for population statistics, not student specific
 <ul>
-<li>Common variables for higher ed research include education and income levels of population</li>
-<li>We will actually do some cool stuff to download ACS data directly to R later in <a href="./10-viz-iii.html">Data Viz III</a></li>
+<li>Common variables for higher ed research include education and income levels of population
+<ul>
+<li>For example, see the <a href="https://api.census.gov/data/2019/acs/acs5/variables.html">variables available in the 2019 ACS here</a></li>
 </ul></li>
+<li>We will actually do some cool stuff to download ACS data directly to R later in <a href="./10-viz-iii.html">Data Viz III</a> using the <a href="https://walker-data.com/tidycensus/">tidycensus package</a></li>
+</ul></li>
+</ul></li>
+<li><a href="https://www.msidata.org/data">MSI Data Project</a>
+<ul>
+<li>Details about MSI classification and includes IPEDS ID numbers to easily link to additional data</li>
 </ul></li>
 <li>Many, many more, have fun exploring!</li>
 </ul>
