@@ -10,7 +10,19 @@ library(tidyverse)
 
 output <- Sys.getenv("QUARTO_PROJECT_OUTPUT_DIR")
 
-## Attempt to create multi-level zipped example folder, moved to simple zips of each separate
+##'[Remove duplicates created by Quarto glitch]
+dup_files <- list.files(output, pattern = "\\s\\d\\.[a-zA-Z0-9]+$")
+dup_folders <- list.files(output, pattern = "\\s\\d$")
+
+for(i in dup_files) {
+  unlink(file.path(output, i))
+}
+
+for(i in dup_folders) {
+  fs::dir_delete(file.path(output, i))
+}
+
+##'[Create example folder]
 example <- file.path(output, "example-folder")
 dir.create(example)
 
@@ -41,6 +53,10 @@ for(i in r_scripts) {
             to = file.path(example, i))
   
 }
+
+##'[Copy in R Script Template]
+file.copy(from = file.path("site-attachments", "r-script-template.R"),
+          to = file.path(example, "r-script-template.R"))
 
 ##'[Create Final Project Sub-Folder]
 
