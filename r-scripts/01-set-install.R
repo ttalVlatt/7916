@@ -37,6 +37,8 @@ x
 
 
 
+install.packages("tidyverse")
+
 
 
 ## load library (note quirk that you don't need quotes here)

@@ -614,20 +614,28 @@ src="https://posit.co/download/rstudio-desktop/"></iframe>
 <p>Many packages rely on other packages to function properly. When you use <code>install.packages()</code>, the default option is to install all dependencies. By default, R will check how you installed R and download the right operating system file type.</p>
 <blockquote class="blockquote">
 <h4 id="quick-exercise-2">Quick exercise</h4>
-<p>Install the <a href="https://CRAN.R-project.org/package=tidyverse"><code>tidyverse</code></a> package, which is really a suite of packages that we’ll use throughout the semester. Don’t forget to use double quotation marks around the package name: <code>install.packages("tidyverse")</code></p>
+<p>Install the <a href="https://CRAN.R-project.org/package=tidyverse"><code>tidyverse</code></a> package, which is really a suite of packages that we’ll use throughout the semester. Don’t forget to use double quotation marks around the package name:</p>
 </blockquote>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"tidyverse"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+The downloaded binary packages are in
+    /var/folders/2m/59_k7np56qzf3szlbyz366ch0000gn/T//Rtmpdxp2D9/downloaded_packages</code></pre>
+</div>
+</div>
 </section>
 <section id="loading-package-libraries" class="level3">
 <h3 data-anchor-id="loading-package-libraries">Loading package libraries</h3>
 <p>Package libraries can loaded in a number of ways, but the easiest it to write:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"&lt;library name&gt;"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"&lt;library name&gt;"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>where <code>"&lt;library name&gt;"</code> is the name of the package/library. You will need to load these before you can use their functions in your scripts. Typically, they are placed at the top of the script file.</p>
 <p>For example, let’s load the <code>tidyverse</code> library we just installed:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="do">## load library (note quirk that you don't need quotes here)</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="do">## load library (note quirk that you don't need quotes here)</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
 ✔ dplyr     1.1.4     ✔ readr     2.1.4
@@ -651,13 +659,13 @@ src="https://posit.co/download/rstudio-desktop/"></iframe>
 <h3 data-anchor-id="help-files">Help files</h3>
 <p>In the console, typing a function name immediately after a question mark will bring up that function’s help file (in RStudio, you should see in the bottom right panel):</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="do">## get help file for function</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>?median</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="do">## get help file for function</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>?median</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Two question marks will search for the command name in CRAN packages (again, in the bottom right facet):</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="do">## search for function in CRAN</span></span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>??median</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="do">## search for function in CRAN</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>??median</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>At first, using help files may feel like trying to use a dictionary to see how to spell a word — if you knew how to spell it, you wouldn’t need the dictionary! Similarly, if you knew what you needed, you wouldn’t need the help file. But over time, they will become more useful, particularly when you want to figure out an obscure option that will give you <em>exactly</em> what you need.</p>
 </section>
