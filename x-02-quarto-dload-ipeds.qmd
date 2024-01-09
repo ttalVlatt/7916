@@ -15,12 +15,12 @@ Note: The Quarto lesson will be really helpful for the assignment here, so proba
     
 ## Download IPEDS by Dr. Skinner
 
-- Dr. Skinner, the previous instructor of the class, wrote an R script that downloads IPEDS files directly to a project folder
+- Dr. Skinner, the original instructor of the class, wrote an R script that downloads IPEDS files directly to a project folder
   - I actually used this for my final project when I took the class with him
   - Doing this enables true "push button reproducibility" of your report
     - As in, all I need to do to replicate your report is hit "render", no pre-downloading of the data required
     
-- Download IPEDS is an R-script available on Dr. Skinner's personal website, [here]()
+- [Download IPEDS is an R-script available on Dr. Skinner's personal website, here](https://www.btskinner.io/code/download-ipeds/)
 
 - That's all the instruction you get for this lesson, Dr. Skinner's site should be enough to work out the rest. Turn to the assignment tab to see how to earn the extra credit points
   - The purpose of this limited instruction is to push you a little into playing with reasources you find in the wild!
@@ -29,78 +29,14 @@ Note: The Quarto lesson will be really helpful for the assignment here, so proba
 
 There are two ways you can get credit for this, either
 
-1. Utilize download IPEDS in your final reproducible report
+1. Utilize download IPEDS in your final reproducible report (simply say so in the Canvas text entry box option)
   - Hint: you're going to want to `source()` the download ipeds script from your `.qmd` script
   *or*
 2. If you don't use any IPEDS data in your report, submit any `.qmd` file that sources a download IPEDS script and then reads the downloaded data in
   - If you go this route, please don't put time into putting anything else in the scripts, I just want to see you download the data and read it in
   
-- Word of caution: while you don't have to, I'd recommend editing the `.txt` file to only download the files you want, not the whole of IPEDS
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-### Download all of IPEDS via R
-
-If you don't want to bother with the portal, ~I've~ Ben has written an R script
-that will download the entirety of IPEDS to your computer (a little over
-1 GB if you only want one type of data file). See
-[github.com/btskinner/downloadipeds](https://github.com/btskinner/downloadipeds)
-for the script and information on how to use it.
-
-
-# Assignment
-
-1. Create a new R script (use the template provided if you'd like)
-  - To keep things organized, I'd suggest naming it something like
-    - `a-01-reading-data.R`
-2. Take the Excel file from Melvin's section of the lesson, and read it in to R, assigning it an object (just like we did in class) 
-  - Hint: you'll need a new package to read Excel files, between Google and asking your friends, you should be able to figure it out
-3. Pick any single data file from IPEDS, download the STATA (.dta) version, and read it in to R, assigning it to an object (again, just like we did in class)
-  - Hint: again, you'll need the use a package to read in .dta files, but I trust you can work out which one
+- Hint: Depending on the data you select, you might need to `unzip()` the files before reading them in.
   
-Once complete, turn in the script (no data etc.) to Canvas by the due date (Sunday 11:59pm following the lesson). Assignments will be graded on the following Monday (time permitting) in line with the grading policy outlined in the syllabus.
-
+- Word of caution: while you don't have to, I'd recommend editing the `.txt` file to only download the files you want, not the whole of IPEDS
 
 :::

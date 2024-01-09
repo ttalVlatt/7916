@@ -70,6 +70,10 @@ for(i in r_scripts) {
 file.copy(from = file.path("site-attachments", "r-script-template.R"),
           to = file.path(example, "r-script-template.R"))
 
+##'[Copy in Syllabus .pdf]
+file.copy(from = file.path(output, "syllabus.pdf"),
+          to = file.path(example, "syllabus.pdf"))
+
 ##'[Create Final Project Sub-Folder]
 
 final <- file.path(example, "reproducible-report")
