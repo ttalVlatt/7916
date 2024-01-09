@@ -35,6 +35,11 @@ x
 
 # Matt <- "Hi"
 
+typeof(x)
+
+x <- "1"
+typeof(x)
+
 
 
 install.packages("tidyverse")
