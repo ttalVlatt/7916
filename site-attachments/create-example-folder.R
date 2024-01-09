@@ -53,7 +53,7 @@ r_scripts <- r_scripts |>
   discard(~str_detect(.x, "07")) |>
   discard(~str_detect(.x, "14")) |>
   discard(~str_detect(.x, "x-01")) |>
-  discard(~str_detect(.x, "x-03")) |>
+  discard(~str_detect(.x, "x-02")) |>
   discard(~str_detect(.x, "x-04"))
 
 ##'[Add lesn- to all lesson scripts for grouping]
