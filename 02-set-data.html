@@ -223,6 +223,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text">IV: Tidyverse Tricks &amp; SQL</span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./13-wrangle-phil.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Extra: Skinner’s Philosophy of Data Wrangling</span></a>
+  </div>
+</li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
@@ -257,12 +263,41 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="false">
- <span class="menu-text">Programming</span></a>
+ <span class="menu-text">Quarto</span></a>
           <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
       <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07-quarto-intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Reproducable Reports with Quarto</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./x-03-quarto-zotero.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Extra: Vanilla R (Data Wrangling I Redux)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./x-04-quarto-dload-ipeds.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">II: Reading Data &amp; IPEDS</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="false">
+ <span class="menu-text">Programming</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./11-pro-function.html" class="sidebar-item-text sidebar-link">
@@ -356,9 +391,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <ul>
 <li>In here, you will see
 <ul>
+<li>An <code>.R</code> script template</li>
 <li>A set of numbered .R scripts (these are our lesson scripts)</li>
 <li>A data folder</li>
-<li>A reproducible-report (with it’s own data sub-folder)</li>
+<li>A reproducible-report fo (with it’s own data sub-folder)</li>
 </ul></li>
 </ul></li>
 <li><p>Download and save this folder wherever you usually keep class folders</p>
@@ -585,6 +621,40 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><p>As I say, if we organize our folder as outlined in this lesson, and use an R project, we shouldn’t need to change this much, but it’s inevitable you will every now and then</p></li>
 </ul>
 </section>
+</section>
+<section id="script-template" class="level2">
+<h2 data-anchor-id="script-template">Script Template</h2>
+<ul>
+<li>In our shiny new class folder, you’ll see an <code>r-script-template.R</code> file. This is the template I use in my work, closely based on Dr.&nbsp;Skinner’s R script template (with a little bit of added color).
+<ul>
+<li>This a resource for you to use for assignments and other work, feel free to change it to suit your needs
+<ul>
+<li>Generally I just “Save As” the template everytime I make a new script</li>
+</ul></li>
+</ul></li>
+<li>The script header block is a useful way to keep more info than a file name can</li>
+<li>The main reason to use a template is to keep your work organized into sections
+<ul>
+<li>This template has
+<ul>
+<li><code>Libraries</code> to load needed packages</li>
+<li><code>Input</code> to load data</li>
+<li><code>Prep</code> to clean the data</li>
+<li><code>Analysis</code> to run our analyses</li>
+<li><code>Output</code> to save our modified data</li>
+</ul></li>
+<li>However, these will not always be the sections you need
+<ul>
+<li>In bigger projects, you might have a whole script for data cleaning</li>
+<li>In other projects, you might want a section or script just for making plots</li>
+<li>In your assignments, you’ll likely want a section for each question</li>
+</ul></li>
+<li>The main point is to ensure you have some kind of sections in your scripts
+<ul>
+<li>Scripts can be really hard to navigate if you don’t!</li>
+</ul></li>
+</ul></li>
+</ul>
 </section>
 <section id="reading-in-data" class="level2">
 <h2 data-anchor-id="reading-in-data">Reading in Data</h2>
