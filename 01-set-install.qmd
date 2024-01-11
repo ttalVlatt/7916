@@ -49,7 +49,8 @@ credit lessons, but we will cover when needed.
 i.  For windows users, select "base" then "Download R..." (the top
     options)
 ii. For mac users, select either apple silicon or intel options
-    depending on how new your mac is - If you need to check which kind
+    depending on how new your mac is 
+      - If you need to check which kind
     your mac is, hit the apple logo in the top left of your screen, then
     "About This Mac" then under "Processor" it will either intel or
     silicon. I can also help you with this in class if needed.
@@ -77,7 +78,7 @@ ii. For mac users, select either apple silicon or intel options
         -   There are multiple "development environments" you can use
             for R. VSCode is a great option by Microsoft for using a
             variety of languages, but, the best option for R is RStudio
-            and it is purpose built for the language (it also works with
+            as it is purpose built for the language (it also works with
             Python too)
 -   I did try to create another little portal below, but, sadly Posit
     (the company who created RStudio) have disabled the way I do that.
@@ -127,7 +128,9 @@ By default, RStudio has 3-4 main frames:
 3.  Top right: Environment / History / Connections
 4.  Bottom right: Files / Plots / Packages / Help / Viewer
 
-For today, we are mostly going to explore R using the console, copying and pasting commands from the website. Fear not, however, as there is a `.R` script with the contents in your class folder that we will set up next week.
+For today, we are mostly going to explore some basic features of R using the console, copying and pasting commands from the website rather than saving them in a script. Fear not, however, as there is already an `.R` script containing all these commands saved in your class folder that we will set up next week.
+  - All an `.R` script does is save your code and pass it line-by-line to the console
+    - After today, anything we want to save will be done through a script, anything we just need to run one time will be done in console
 
 ## Basic R Commands
 
@@ -158,11 +161,6 @@ We can also use R like a basic calculator
 ```{r}
 1 + 1
 ```
-
--   If we want to, we could actually put these commands directly into
-    the console (try copying `1 + 1` into the console)
-    -   This is actually all running a script does
-        -   We use scripts to save a record of what we did
 
 ## Assignment
 
@@ -243,7 +241,7 @@ For this section, let's just open a blank `.R` script in RStudio (again, all the
         comments the next line (although this can be annoying at times
         too)
     -   If you want to take your comments to the next level `##'`
-        RStudio also enables some fun color coding options with `@`,
+        in RStudio also enables some fun color coding options with `@`,
         `[]`, `**`, and `:`
         -   These can be useful in longer scripts to draw attention to
             specific points
@@ -282,6 +280,18 @@ data. There are many, but the major ones that you'll use most often are:
 -   `list`
 -   `dataframe`
 
+Let's see what type of object `x` we created earlier is
+
+```{r}
+typeof(x)
+```
+
+What if we make it "1"?
+```{r}
+x <- "1"
+typeof(x)
+```
+
 Understanding the nuanced differences between data types is not
 important right now. Just know that they exist and that you'll gain an
 intuitive understanding of them as you become better aquainted with R.
@@ -289,9 +299,9 @@ intuitive understanding of them as you become better aquainted with R.
 ## Packages
 
 -   User-submitted packages are a huge part of what makes R great
--   You may hear me use the phrases "base R" during class
+-   You may hear me use the phrases "base R" or "vanilla R" during class
     -   What I mean by this is the R that comes as you download it with
-        no packages loaded (sometimes also called "vanilla R")
+        no packages loaded
     -   While it's powerful in and of itself --- you can do everything
         you need with base R --- most of your scripts will make use of
         one of more contributed packages = These will make your data

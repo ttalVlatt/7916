@@ -7,16 +7,15 @@ image: apple-touch-icon.png
 
 # Lesson
 
-[{{< fa code >}} R Code](/R-Scripts/03-Data-Wrangling-I.R)
+[{{< fa code >}} R Code](/r-scripts/03-wranlge-i.R)
 
-We take our first full dive into R in this lesson. Though every data
+- Today we take our first full dive into R. Though every data
 wrangling / analysis is unique, the best way to learn and practice R
-is to answer a question using data. By the end of this lesson, you
+is to answer a question using data, which is how this lesson is set up. 
+- By the end of this lesson, you
 will have read in a data set, lightly cleaned it, produced results,
-and saved your findings in a new file. As part of this process, you
-will have practiced translating a research question into data analysis
-steps, which is a skill every bit as important as technical
-sophistication with a statistical language like R.
+and saved your findings in a new file. 
+  - As part of this process, you will have practiced translating a research question into data analysis steps, which is a skill every bit as important as technical sophistication with a statistical language like R.
 
 ## Core processes in a data analysis
 
@@ -31,10 +30,7 @@ all --- of the following steps:
 1. **Arrange** data
 1. **Write** out updated data
 
-Returning to our cooking metaphor from the [organizing
-lesson](/edh7916/lessons/organizing.html): if the first and last steps
-represent our raw ingredients and finished dish, respectively, then
-the middle steps are the core processes we use to prepare the meal.
+Returning to our cooking metaphor from the [organizing lesson](02-set-data.qmd): if the first and last steps represent our raw ingredients and finished dish, respectively, then the middle steps are the core processes we use to prepare the meal.
 
 As you can see, there aren't that many core processes to use. Their
 power comes from the infinite ways they can be ordered and
@@ -46,8 +42,7 @@ work.
 
 ## Tidyverse
 
-The tidyverse is shorthand for a [number of
-packages](https://www.tidyverse.org/packages/) that are built to work
+The tidyverse is shorthand for a [number of packages](https://www.tidyverse.org/packages/) that are built to work
 well together and can be used in place of base R functions. A few of
 the tidyverse packages that you will often use are:
 
@@ -90,24 +85,11 @@ library(tidyverse)
 
 ## Check working directory
 
-This script --- like the one from the [organizing
-lesson](/edh7916/lessons/organizing.html) --- assumes that the
-`scripts` subdirectory is the working directory, that the required
-data file is in the `data` subdirectory, and that both subdirectories
-are at the same level in the course directory. Like this:
-
-```
-student_skinner/         <--- Top-level
-|
-|__/data                 <--- Sub-level 1
-|    |--+ hsls_small.csv
-|
-|__/scripts              <--- Sub-level 1 (Working directory)
-     |--+ dw_one.R
-```
+This script --- like the one from the [organizing lesson](02-set-data.qmd) --- assumes that the class folder is the working directory and that the required
+data file is in the `data` sub-directory. Like this:
 
 If you need a refresher on setting the working directory, see the
-[prior lesson](/edh7916/lessons/organizing.html).
+[prior lesson](02-set-data.qmd).
 
 **Notice** that I'm not setting (_i.e._ hard coding) the working
 directory in the script. That would not work well for sharing the
@@ -148,8 +130,7 @@ Let's do it!
 
 ## **Read** in data
 
-For this lesson, we'll use a subset of the [High School Longitudinal
-Study of 2009 (HSLS09)](https://nces.ed.gov/surveys/hsls09/), an IES /
+For this lesson, we'll use a subset of the [High School Longitudinal Study of 2009 (HSLS09)](https://nces.ed.gov/surveys/hsls09/), an IES /
 NCES data set that features:
 
 > * Nationally representative, longitudinal study of 23,000+ 9th graders
@@ -167,8 +148,7 @@ rely on this subset. Be sure to download the full data set with all
 relevant variables and weights if that's the case. But for our
 purposes in this lesson, it will work just fine.
 
-Throughout, we'll need to consult the code book. An [online version can
-be found at this link (after a little navigation)](https://nces.ed.gov/OnlineCodebook/). 
+Throughout, we'll need to consult the code book. An [online version canbe found at this link](https://nces.ed.gov/datalab/onlinecodebook). 
 
 > #### Quick exercise 
 > Follow the code book link above in your browser and navigate to the
@@ -189,7 +169,7 @@ be found at this link (after a little navigation)](https://nces.ed.gov/OnlineCod
 df <- read_csv(file.path("data", "hsls-small.csv"))
 ```
 
-Unlike the `readRDS()` function we've used before, `read_csv()` prints
+You may notice the `read_csv()` prints
 out information about the data just read in. Nothing is wrong! The
 `read_csv()` function, like many other functions in the tidyverse,
 assumes you'd rather have more rather than less information and acts
@@ -211,6 +191,133 @@ to parse the columns), we might see other column types like:
 > special character used to separate _CSV_ files? Once you figure it
 > out, re-read in the data using `read_delim()`, being sure to set the
 > `delim` argument to the correct character.
+
+Up to know, this should all seem fairly consistent with last week's lesson. This is just the set up, now it's time to dive into really using R!
+
+## Pipe Operator `|>` in R
+
+Remember in our [organizing lesson](02-set-data.qmd) I said `|>` was something I would explain later? Well now's the time...
+
+The pipe is one of the things that makes R code more intuitive than other programming languages, as it allows us write code in the order we think about it, passing it one from one function to another, rather than nesting it like traditional code would be written.
+
+For this example don't worry about the actual processes (we will go over them more below), just look at how much more intuitive the code is with `|>`s.
+
+First, let's say I want to take the data we just read in and `select` the `x1txmtscor` (math test scores) column
+
+###### Without `|>`
+```{r}
+## Without |>
+select(df, x1txmtscor)
+```
+
+###### With `|>`
+```{r}
+## With |>
+df |> select(x1txmtscor)
+```
+
+But, what if we want to take that output and select only students with a math score above 50?
+
+###### Without `|>`
+```{r}
+## Without |>
+filter(select(df, x1txmtscor), x1txmtscor > 50)
+```
+
+###### With `|>`
+```{r}
+## With |>
+df |> select(x1txmtscor) |> filter(x1txmtscor > 50)
+```
+
+See how the non-piped version is getting messy? Let's add one more level to really make the point, creating a new variable that is the square root of the test score
+
+###### Without `|>`
+```{r}
+## Without |>
+mutate(filter(select(df, x1txmtscor), x1txmtscor > 50), sqrt = sqrt(x1txmtscor))
+```
+
+###### With `|>`
+```{r}
+## With |>
+df |> select(x1txmtscor) |> filter(x1txmtscor > 50) |> mutate(sqrt = sqrt(x1txmtscor))
+```
+
+- As we are getting longer, I'm going to use a new line for each pipe, just to make it even clearer (it makes no difference to R)
+
+```{r}
+df |>
+  select(x1txmtscor) |>
+  filter(x1txmtscor > 50) |>
+  mutate(sqrt = sqrt(x1txmtscor))
+```
+
+Even though we haven't covered any of these commands yet, I think (tell me if I'm wrong) the `|>` is still pretty easy to know roughly what's going on. Whereas, the traditional nested way gets really tricky beyond a couple of commands.
+
+> Note for later: In general, the pipe works intuitively and typically passes some kind of data from step-to-step. Rarely, when working with more complicated functions that take multiple arguments, you might need to specify where the piped data is going, which you do by placing an underscore. For example, `data |> function(argument = _)`
+
+Of course, if you wanted, you could do each step separately, constantly assigning and overwriting an object like below
+
+```{r}
+## Without the |>, we could technically break it down step by step assigning
+## after each step, but again it's confusing 
+temp <- select(df, x1txmtscor)
+temp <- filter(temp, x1txmtscor > 50)
+temp <- mutate(temp, sqrt = sqrt(x1txmtscor))
+temp
+```
+
+But again, I think it's less intuitive than simply piping the results.
+
+- If we do want to see step-by-step output in a piped command, you can either
+  a. Run the code as you write it line-by-line (usually what I do)
+  b. Highlight sections of the piped code to run up to a point
+
+#### Assigning Output from Pipes
+
+- Assigning output from pipes is the same as we have covered a few times, we use a `<-` to pass it backwards to an object (in this case we called that object  `df_backward_pass`)
+
+```{r}
+df_backward_pass <- df |>
+  select(x1txmtscor) |>
+  filter(x1txmtscor > 50) |>
+  mutate(sqrt = sqrt(x1txmtscor))
+```
+
+- If you want to think of it this way, we are effectively continuing to pass it forward like this...
+
+```{r}
+df |>
+  select(x1txmtscor) |>
+  filter(x1txmtscor > 50) |>
+  mutate(sqrt = sqrt(x1txmtscor)) ->
+  df_forward_pass
+```
+
+- That's how I first thought about how pipes and assignment work together, and you
+can see the outputs are `identical()`
+
+```{r}
+identical(df_backward_pass, df_forward_pass)
+```
+
+- However, you *really* shouldn't write code like this, as although it runs, it's
+then hard to later find where you created `df_forward_pass`.
+- Starting the string of code with where you store the result is **MUCH** clearer.
+  - But, it really helped me to think about it this way at first, so hopefully it will help some of you understand how `|>` and `<-` work together
+
+#### A Brief History of the R Pipe
+
+<span style="display:block;text-align:center">
+[![badge](https://raw.githubusercontent.com/tidyverse/magrittr/main/man/figures/logo.png)](https://www.fine-arts-museum.be/uploads/exhibitions/images/magritte_la_trahison_des_images_large@2x.jpg)
+</span>
+
+- The pipe was originally a `tidyverse` invention, and used `%>%` symbol, which is probably still the more common pipe you see in the wild
+- The pipe we are using was brought into the base (vanilla) version of R a few years ago as `|>` 
+- The reason for the change is some benefits that are beyond the scope of this class, but I wanted you to be aware that `|>` and `%>%` <ins>are essentially the same thing</ins>
+  - You can intermingle them, but, the new pipe is one less character to type, doesn't need you to have loaded `tidyverse` loaded, and I think it's more clear, so I suggest you stick with `|>`
+
 
 ## **Select** variables (columns)
 
@@ -686,9 +793,7 @@ together using pipes.
 Tidyverse pipes, `|>`, come from the [magrittr
 package](http://magrittr.tidyverse.org).
 
-<span style="display:block;text-align:center">
-[![badge](https://raw.githubusercontent.com/tidyverse/magrittr/main/man/figures/logo.png)](https://www.fine-arts-museum.be/uploads/exhibitions/images/magritte_la_trahison_des_images_large@2x.jpg)
-</span>
+
 
 Pipes take output from the left side and pipe it to the input of the
 right side. So `mean(x)` can be rewritten as `x |> mean`: `x` outputs

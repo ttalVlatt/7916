@@ -20,14 +20,14 @@ We'll begin with how to organize your course and project files.
 
 #### Ben's kitchen example
 
-"Every data analysis project should have its own set of organized
-folders. Just like you might organize a kitchen so that ingredients,
-cookbooks, and prepared food all have a specific cabinet or shelf, so
-too should you organize your project. We'll organize our course
-directory in a similar fashion."
+> "Every data analysis project should have its own set of organized
+> folders. Just like you might organize a kitchen so that ingredients,
+> cookbooks, and prepared food all have a specific cabinet or shelf, so
+> too should you organize your project. We'll organize our course
+> directory in a similar fashion."
 
 - In this world, think of pristine kitchen where **NOTHING** sits out on the counter.
-- However, we are going to have kitchen where some things are stored away in cupboards, but what we actually work with (the scripts) sits out on the counter
+- However, we are going to have kitchen where some things are stored away in cupboards, but what we regularly work with (the scripts) sits out on the counter
   - The kitchen metaphor also works to explain why you might take these approaches
     - It's definitely tidier to keep everything in your kitchen stored away, but, it adds an extra step whenever you want to cook a meal. The same is true here. 
     - Why? We will get to that later...
@@ -36,12 +36,13 @@ directory in a similar fashion."
 
 - With this kitchen metaphor in mind, let's set up our folder for the class
 
-- I've made an [EDH-7916 example folder you can download here](/example-folder.zip) which is also available on the class homepage.
+- I've made an [EDH-7916 example folder you can download here](/EDH-7916.zip) which is also available on the class homepage.
   - In here, you will see
     - An `.R` script template
     - A set of numbered .R scripts (these are our lesson scripts)
     - A data folder
-    - A reproducible-report fo (with it's own data sub-folder)
+    - A reproducible-report folder (with it's own data sub-folder)
+    - A `.pdf` copy of the syllabus
 - Download and save this folder wherever you usually keep class folders
   - I personally use my Desktop, but you can use your Documents etc. if you wish
   - You can rename the folder if you'd like (please don't rename the internal folders)
@@ -66,7 +67,6 @@ directory in a similar fashion."
 
 - Always name your files something logical
   - The file name should always tell something about the purpose of that file or folder
-  
 - Script numbering
  - I am personally a big fan of [Hadley Wickham (the founder of RStudio)'s script numbering](http://adv-r.had.co.nz/Style.html)
     - Basically start all your script names with the number that they should be run in
@@ -92,58 +92,11 @@ directory in a similar fashion."
     
 - With our class folder now set up, it's time to go over some other key organization principles
 
-### File Paths
-
-- When we are working with R, we (most of the time) need to bring in
-    other items, such as data
-  - In order to do that, our computer has to find these items, and there are two ways it can do that
-
-#### Absolute Paths
-
-- Absolute paths are directions to what you're looking for starting from the root of your computer, and list out exactly where a file is. For example, as I'm writing this lesson, the absolute path of this Quarto script is
-
-`"/Users/Matt/Desktop/7916/02-set-data.qmd"`
-
-- This is perfectly fine, assuming two things
-  1. I don't move the project directory
-  2. It only needs to run on my computer
-- Oftentimes, we cannot rely on both these assumptions being true
-  - Plus, if we start with these absolute paths and then need to change, it will then become a real pain to update everything
-    - So, we should **ALWAYS** use relative paths instead (this one of the only strict rules for assignments)
-
-#### Relative Paths
-
-- Imagine I am giving you directions to a College of Education cookout, but, I give you directions from my house. That's only any use if you know where my house is...
-  - Instead, you really want directions from somewhere we all know, like Norman Hall
-      - That is (basically) how relative paths work, we give directions to to our data from a common point
-- Relative paths are directions to what you're looking for from where you are right now (a.k.a your "working directory")
-
-#### The `file.path()` Function
-
-- One last thing, you see how file paths are typically written with `/` or `\`? (which depends on your computer)
-  - R has a nice function that means we don't have to
-    - a) worry about which way around the slash should be
-    - b) avoid issues with different computers expecting different slashes
-  - `file.path()`
-    - Inside that, we just type the name of each folder/file in "quotes"
-      - `"Users/Matt/Desktop/7916"`
-      into
-      - `file.path("Users", "Matt", "Desktop", "7916")`
-      - This may look longer, but, it's more compatible and easier to remember"
-      
-#### What If I Need to Go Back a Level?
-
-- Sometimes we are in a folder, but want to go back a level, i.e. not the folder our current folder is in
-  - This is very common if with we were using the "pristine kitchen" approach
-- To do so is easy, we just add a `".."` to our `file.path()`
-  - So, if we are in my class folder on my desktop, and we want to go to another folder on the desktop
-    - `file.path("..", "<folder we want>")`
-
 ### Working Directory
 
 - The working directory is almost certainly the most common cause of issues in this class, and continues to be something I get tripped up by from time to time, so this may take a minute to get your head around
 
-- As a general rule, no matter how you have your folders organized in the future, you usually want your working directory set to where your script is
+- As a general rule, no matter how you have your folders organized in the future, you usually want your working directory set to *where your script is*
   - That way, you're always giving directions from the common point of "where we are we are right now"
       - This will then be the same if I move the project folder on my computer, or run it on someone else's computer
 - By default, when we open a project in RStudio, RStudio helpfully sets our working directory to the project folder
@@ -168,9 +121,57 @@ directory in a similar fashion."
                 - Note: "Go to working directory" can be useful to see what's in the folder if you navigate away
       4. The old school vanilla R way `setwd("<path to your script>")`
         - But, this really isn't usually the most efficient
-        - Note: `getwd()` is sometimes still useful to check what your current working directory is set to
 
 - As I say, if we organize our folder as outlined in this lesson, and use an R project, we shouldn't need to change this much, but it's inevitable you will every now and then
+
+### File Paths
+
+- When we are working with R, we (most of the time) need to bring in other items, such as data
+  - In order to do that, our computer has to find these items, and there are two ways it can do that
+
+#### Absolute Paths
+
+- Absolute paths are directions to what you're looking for starting from the root of your computer, and list out exactly where a file is. For example, as I'm writing this lesson, the absolute path of this Quarto script is
+
+`"/Users/Matt/Desktop/7916/02-set-data.qmd"`
+
+- This is perfectly fine, assuming two things
+  1. I don't move the project directory
+  2. It only needs to run on my computer
+- Oftentimes, we cannot rely on both these assumptions being true
+  - Plus, if we start with these absolute paths and then need to change, it will then become a real pain to update everything
+    - So, we should **ALWAYS** use relative paths instead (this one of the only strict rules for assignments)
+
+#### Relative Paths
+
+- Imagine I am giving you directions to a College of Education cookout, but, I give you directions from my house. That's only any use if you know where my house is...
+  - Instead, you really want directions from somewhere we all know, like Norman Hall
+      - That is (basically) how relative paths work, we give directions to to our data from a common point
+- Relative paths are directions to what you're looking for from where you are right now (a.k.a your "working directory")
+
+- If we assume have our working directory set to our shiny new class folder, then, that becomes the starting point for all our directions
+  - Therefore, to access `hd2007.csv` in out `data` sub-folder, we just need to say `file.path("data", "hd2007.csv")`
+
+#### The `file.path()` Function
+
+- One last thing, you see how file paths are typically written with `/` or `\`? (which depends on your computer)
+  - R has a nice function that means we don't have to
+    - a) worry about which way around the slash should be
+    - b) avoid issues with different computers expecting different slashes
+  - `file.path()`
+    - Inside, we just type the name of each folder/file in "quotes", turning
+      - `"Users/Matt/Desktop/7916"`
+      into
+      - `file.path("Users", "Matt", "Desktop", "7916")`
+      - This may look longer, but, it's more compatible and easier to remember"
+      
+#### What If I Need to Go Back a Level?
+
+- Sometimes we are in a folder, but want to go back a level, i.e. not the folder our current folder is in
+  - This is very common if with we were using the "pristine kitchen" approach
+- To do so is easy, we just add a `".."` to our `file.path()`
+  - So, if we are in my class folder on my desktop, and we want to go to another folder on the desktop
+    - `file.path("..", "<folder we want>")`
 
 ## Script Template
 
@@ -202,7 +203,7 @@ directory in a similar fashion."
 ################################################################################
 ##
 ## <PROJ> EDH 7916
-## <FILE> Setup II: Organizing and Reading Data 
+## <FILE> Getting Started II: Organizing and Reading Data 
 ## <INIT> 04 January 2024
 ## <AUTH> Matt Capaldi (modified from Ben Skinner)
 ##
@@ -253,48 +254,51 @@ Now let's go and explore IPEDS Data Center and see where a lot of contemporary h
 - Most NCES datasets have two options to download, plain old .csv files, and .dta STATA data files
   - The actual data is identical, but, STATA data is labeled (i.e., short descriptions attached to the variables beyond the variable name and codebook)
   - "But this is an R class, not a STATA class"
-    - True, but R can read labeled STATA data easily using the `tidyverse`
+    - True, but R can read labeled STATA data easily using the `haven` library from the `tidyverse`
     - Generally, labeled data is nice, but .csv data is easier to open in other programs (say you wanted to explore it in Excel first). So it's up to you!
   
 ### Using Codebooks
   
-- To be able to use most of these big data sets, you need to be able to understand the code. Let's look together at the [codebook for EFFY (headcount enrollment) for 2021]()
-  - For IPEDS, the codebook is called the dictionary, and is always an Excel file (.xlsx). Other data sources will look different but the general principle will be the same 
+- To be able to use most of these big data sets, you need to be able to understand the code. Let's look together at the [codebook for EFFY (headcount enrollment) for 2021](https://nces.ed.gov/ipeds/datacenter/data/EFFY2021_Dict.zip)
+  - For IPEDS, the codebook is called the dictionary, and is always an Excel file (.xlsx). Other data sources will look different but the general principle will be the same
 
 ## Other common data sources for higher education research
 
   - National Center for Educational Statistics (also the owner of IPEDS)
-    - Longitudinal Surveys (HSLS, ECLES-K, etc.)
-    - One-off data collection
-    - K-12 equivilant of IPEDS
-    - NCES has a good amount of publicly available data, but they also have a LOT of restricted data
-      - Typically publicly available data will be either institution (school, college, university wide) or fully anonomized. Meanwhile restricted data will often be student level and have some more detailed information.
+    - Longitudinal Surveys ([High School Longitudinal Study](https://nces.ed.gov/surveys/hsls09/), [ECLS-Early Childhood Longitudinal Studies](https://nces.ed.gov/ecls/)
+    - [Administrative Data (including IPEDS)](https://nces.ed.gov/admindata/)
+    - NCES has a good amount of publicly available data, but they also have a LOT of [restricted data]((https://nces.ed.gov/pubsearch/licenses.asp)
+      - Typically publicly available data will be either institution level (school, college, university wide) or fully anonymized. Meanwhile restricted data will often be student level and have some more detailed information.
         - Getting restricted data is tough, but not impossible
-          - You will need a clear purpose of your study and to know exactly what data you want access to (see available data [here]())
+          - You will need a clear purpose of your study and to know exactly what data you want access to (see available data [here](https://nces.ed.gov/pubsearch/licenses.asp))
           - You'll then need to take this idea to your advisor
         - For your project in this class, your data **MUST** be publicly available
           - This means we must be able to go and download it ourselves, you won't submit data with your final project submission
-  - College Scorecard
+  - [College Scorecard](https://collegescorecard.ed.gov)
     - Designed more as a tool for potential college students, college scorecard has data points of interest to this audience, but some things useful for our research too, in particular graduate earning levels
-      - Similarly to IPEDS, if using College Scorecard, we want to avoid the point-and-click interface and download the entire data files available [here]()
+      - Similarly to IPEDS, if using College Scorecard, we want to avoid the point-and-click interface and download the [entire data files available here](https://collegescorecard.ed.gov/data/)
   - National Bureau of Labor Statistics
-    - Longitudinal surveys similar to NCES, but some more extensive
-    - National Longitudinal Survey of Youth (NLSY) is one of the most used
-  - Census & American Community Survey
+    - [Longitudinal surveys](https://www.bls.gov/nls/) similar to NCES, but some more extensive
+    - [National Longitudinal Survey of Youth (NLSY)](https://www.bls.gov/nls/nlsy97.htm) is one of the most used
+    - There are publicly available portions of these surveys, but other sections are restricted, see [BLS's accessing data page for more info](https://www.bls.gov/nls/getting-started/accessing-data.htm)
+  - [Census & American Community Survey](https://www.census.gov/programs-surveys.html)
     - Useful for population statistics, not student specific
       - Common variables for higher ed research include education and income levels of population
-      - We will actually do some cool stuff to download ACS data directly to R later in [Data Viz III](10-viz-iii.qmd)
+        - For example, see the [variables available in the 2019 ACS here](https://api.census.gov/data/2019/acs/acs5/variables.html)
+      - We will actually do some cool stuff to download ACS data directly to R later in [Data Viz III](10-viz-iii.qmd) using the [tidycensus package](https://walker-data.com/tidycensus/)
+  - [MSI Data Project](https://www.msidata.org/data)
+    - Details about MSI classification and funding, includes IPEDS ID numbers to easily link to additional data
   - Many, many more, have fun exploring!
 
 # Assignment
 
 1. Create a new R script (use the template provided if you'd like)
   - To keep things organized, I'd suggest naming it something like
-    - `a-01-reading-data.R`
+    - `assignment-01.R` or `a-set-data.R`
       - I suggest adding the `a-` just to keep your assignments grouped away from the lessons
-2. Take the Excel file from Melvin's section of the lesson, and read it in to R, assigning it an object (just like we did in class) 
+2. Take the Excel file from Melvin's section of the lesson, save it to your `data` folder, and read it in to R, assigning it an object (just like we did in class) 
   - Hint: you'll need a new package to read Excel files, between Google and asking your friends, you should be able to figure it out
-3. Pick any single data file from IPEDS, download the STATA (.dta) version, and read it in to R, assigning it to an object (again, just like we did in class)
+3. Pick any single data file from IPEDS, download the STATA (.dta) version, save it to your `data` folder, and read it in to R, assigning it to an object (again, just like we did in class)
   - Hint: again, you'll need the use a package to read in .dta files, but I trust you can work out which one
   
 Once complete, turn in the .R script (no data etc.) to Canvas by the due date (Sunday 11:59pm following the lesson). Assignments will be graded on the following Monday (time permitting) in line with the grading policy outlined in the syllabus.
