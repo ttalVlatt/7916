@@ -204,13 +204,13 @@ For this example don't worry about the actual processes (we will go over them mo
 
 First, let's say I want to take the data we just read in and `select` the `x1txmtscor` (math test scores) column
 
-###### Without `|>`
+#### Without `|>`
 ```{r}
 ## Without |>
 select(df, x1txmtscor)
 ```
 
-###### With `|>`
+#### With `|>`
 ```{r}
 ## With |>
 df |> select(x1txmtscor)
@@ -218,13 +218,13 @@ df |> select(x1txmtscor)
 
 But, what if we want to take that output and select only students with a math score above 50?
 
-###### Without `|>`
+#### Without `|>`
 ```{r}
 ## Without |>
 filter(select(df, x1txmtscor), x1txmtscor > 50)
 ```
 
-###### With `|>`
+#### With `|>`
 ```{r}
 ## With |>
 df |> select(x1txmtscor) |> filter(x1txmtscor > 50)
@@ -232,16 +232,16 @@ df |> select(x1txmtscor) |> filter(x1txmtscor > 50)
 
 See how the non-piped version is getting messy? Let's add one more level to really make the point, creating a new variable that is the square root of the test score
 
-###### Without `|>`
+#### Without `|>`
 ```{r}
 ## Without |>
-mutate(filter(select(df, x1txmtscor), x1txmtscor > 50), sqrt = sqrt(x1txmtscor))
+mutate(filter(select(df, x1txmtscor), x1txmtscor > 50), square_root = sqrt(x1txmtscor))
 ```
 
-###### With `|>`
+#### With `|>`
 ```{r}
 ## With |>
-df |> select(x1txmtscor) |> filter(x1txmtscor > 50) |> mutate(sqrt = sqrt(x1txmtscor))
+df |> select(x1txmtscor) |> filter(x1txmtscor > 50) |> mutate(square_root = sqrt(x1txmtscor))
 ```
 
 - As we are getting longer, I'm going to use a new line for each pipe, just to make it even clearer (it makes no difference to R)
@@ -250,7 +250,7 @@ df |> select(x1txmtscor) |> filter(x1txmtscor > 50) |> mutate(sqrt = sqrt(x1txmt
 df |>
   select(x1txmtscor) |>
   filter(x1txmtscor > 50) |>
-  mutate(sqrt = sqrt(x1txmtscor))
+  mutate(square_root = sqrt(x1txmtscor))
 ```
 
 Even though we haven't covered any of these commands yet, I think (tell me if I'm wrong) the `|>` is still pretty easy to know roughly what's going on. Whereas, the traditional nested way gets really tricky beyond a couple of commands.
@@ -264,7 +264,7 @@ Of course, if you wanted, you could do each step separately, constantly assignin
 ## after each step, but again it's confusing 
 temp <- select(df, x1txmtscor)
 temp <- filter(temp, x1txmtscor > 50)
-temp <- mutate(temp, sqrt = sqrt(x1txmtscor))
+temp <- mutate(temp, square_root = sqrt(x1txmtscor))
 temp
 ```
 
@@ -282,7 +282,7 @@ But again, I think it's less intuitive than simply piping the results.
 df_backward_pass <- df |>
   select(x1txmtscor) |>
   filter(x1txmtscor > 50) |>
-  mutate(sqrt = sqrt(x1txmtscor))
+  mutate(square_root = sqrt(x1txmtscor))
 ```
 
 - If you want to think of it this way, we are effectively continuing to pass it forward like this...
@@ -291,7 +291,7 @@ df_backward_pass <- df |>
 df |>
   select(x1txmtscor) |>
   filter(x1txmtscor > 50) |>
-  mutate(sqrt = sqrt(x1txmtscor)) ->
+  mutate(square_root = sqrt(x1txmtscor)) ->
   df_forward_pass
 ```
 
@@ -315,68 +315,56 @@ then hard to later find where you created `df_forward_pass`.
 
 - The pipe was originally a `tidyverse` invention, and used `%>%` symbol, which is probably still the more common pipe you see in the wild
 - The pipe we are using was brought into the base (vanilla) version of R a few years ago as `|>` 
-- The reason for the change is some benefits that are beyond the scope of this class, but I wanted you to be aware that `|>` and `%>%` <ins>are essentially the same thing</ins>
+- The reason for the change is some benefits that are beyond the scope of this class, but I wanted you to be aware that <ins>`|>` and `%>%` are essentially the same thing</ins>
   - You can intermingle them, but, the new pipe is one less character to type, doesn't need you to have loaded `tidyverse` loaded, and I think it's more clear, so I suggest you stick with `|>`
 
+## Basic Tidyverse Commands
 
-## **Select** variables (columns)
+- Now we have the pipe `|>` covered, it's time to dig into some basic data wrangling commands
+
+### `select()` variables (columns)
+
+- Often data sets contain hundreds, thousands, or even tens of thousands of variables, when we are only interested in a handful. Our first `tidyverse` command `select()` helps us deal with this, by, as you may have guessed `select()`-ing the variables we want
+- Since we are going to pipe our R commands, we start with our data then pipe it into the `select()` command
+- In the `select()` command, we list out the variables we want
+  - `stu_id, x1stuedexpct, x1paredexpct, x1region`
+    - Notice, in this (and most tidyverse) command(s) we don't have to use "quotes" around the variable names
+      - Hint: a common error message when you needed to put something in quotes is `Error: object xxx not found`
 
 ```{r, include = FALSE, purl = TRUE}
-## ---------------------------
-## process
-## ---------------------------
+df |> select(stu_id, x1stuedexpct, x1paredexpct, x1region)
 ```
 
-To choose variables, either when making a new data frame or dropping
-them, use `select()`. Like the other **dplyr** functions we'll use,
-the first argument `select()` takes is the data frame (or tibble)
-object. After that, we list the column names we want to keep.
+> Quick question, if we want to use this reduced data-frame going forward, what should we do?
 
-Some [pseudocode](https://en.wikipedia.org/wiki/Pseudocode) for using
-`select()` is:
+That's right, assign it to an object! Let's call that `df_small`
 
-```r
-## pseudocode (not to be run)
-select(< df object >, column_1_name, column_2_name)
+```{r, include = FALSE, purl = TRUE}
+df_small <- df |> select(stu_id, x1stuedexpct, x1paredexpct, x1region)
 ```
 
-Because we don't want to overwrite our original data in memory, we'll
-assign (`<-`) the output to a new object called `df_tmp`.
+## `mutate()` data into new forms
+
+- When we want to add variables and change existing ones, we can use the `mutate()` function
+- In this case, we want to create a new variable `high_expect` that is the larger of `x1stuedexpct` and `x1paredexpct`
+
+`mutate()` enables us to make a new variable or modify an existing variable, just like in the piping demonstration above when I made a new variable that was the square root of the math test score
+  1. I took our `df` and piped it into `mutate()`
+  2. Inside mutate I created a new variable called `square_root` 
+    - note: this uses `=` not `<-` to assign, confusing I know...
+  3. I assigned to new variable `square_root` the `sqrt()` (an R function for square root) of `x1txmtscor` (math score)
 
 ```{r}
-## -----------------
-## select
-## -----------------
-
-## select columns we need and assign to new object
-df_tmp <- select(df, stu_id, x1stuedexpct, x1paredexpct, x1region)
-
-## show
-df_tmp
+df |> mutate(square_root = sqrt(x1txmtscor))
 ```
 
-## **Mutate** data into new forms
+So, let's take that same logic and apply it to our missing values!
 
-To add variables and change existing ones, use the `mutate()` function.
-
-Just like `select()`, the `mutate()` function takes the data frame as
-the first argument, followed by variable name, new or old, that is
-created/modified by some function: 
-
-```r
-## pseudocode (not to be run)
-mutate(< df object >, column_1_name = function(...))
-```
-
-In this case, the `function(...)` (or, _stuff we want to do_) is add a
-new column that is the larger of `x1stuedexpct` and `x1paredexpct`.
+But wait, we have a problem...
 
 ### Understanding our data
 
-First things first, however, we need to check the [code
-book](https://nces.ed.gov/OnlineCodebook/) to see what the numerical
-values for our two education expectation variables represent. To save
-time, I've copied them here:
+First things first, however, we need to check the [code book](https://nces.ed.gov/datalab/onlinecodebook) to see what the numerical values for our two education expectation variables represent. To save time, I've copied them here:
 
 #### `x1stuedexpct`
 
@@ -417,16 +405,13 @@ _How far in school parent thinks 9th grader will go_
 |-8|Unit non-response|
 |-9|Missing|
 
-The good news is that the categorical values are the same for both
-variables (meaning we can make an easy comparison) and move in a
-logical progression. The bad news is that we have three values ---
-`-8`, `-9`, and `11` --- that we need to deal with so that the
-averages we compute later represent what we mean.
+- The good news is that the categorical values are the same for both variables (meaning we can make an easy comparison) and move in a logical progression. 
+- The bad news is that we have three values --- `-8`, `-9`, and `11` --- that we need to deal with so that the averages we compute later represent what we mean.
 
-Let's see how many observations are affected by these values using
-`count()` (notice that we don't assign to a new object; this means
-we'll see the result in the console, but nothing in our data or object
-will change):
+## `count()` how many students in each category
+
+- Let's see how many observations are affected by these values using `count()` 
+> notice that we don't assign to a new object; this means we'll see the result in the console, but nothing in our data or object will change
 
 ```{r}
 ## -----------------
@@ -434,192 +419,184 @@ will change):
 ## -----------------
 
 ## see unique values for student expectation
-count(df_tmp, x1stuedexpct)
+df_small |> count(x1stuedexpct)
 
 ## see unique values for parental expectation
-count(df_tmp, x1paredexpct)
+df_small |> count(x1paredexpct)
 ```
 
-Dealing with `-8` and `-9` is straightforward --- we'll convert it
-missing. In R, missing values are technically stored as `NA`. Not all
-statistical software uses the same values to represent missing values
-(for example, Stata uses a dot `.`). Likely because they want to be
-software agnostic, NCES has decided to represent missing values as a
-limited number of negative values. In this case, `-8` and `-9`
+- Dealing with `-8` and `-9` is straight forward --- we'll convert it missing.
+  - In R, missing values are technically stored as `NA`.
+    - Not all statistical software uses the same values to represent missing values (for example, Stata uses a dot `.`). Likely because they want to be software agnostic,
+  - NCES has decided to represent missing values as a limited number of negative values. In this case, `-8` and `-9`
 represent missing values.
 
-How to handle missing values is a **very** important topic, one we
-could spend all semester discussing. For now, we are just going to
-drop observations with missing values; but be forewarned that how you
-handle missing values can have real ramifications for the quality of
-your final results.
+- Note: how to handle missing values is a **very** important topic, one we could spend all semester discussing
+  - For now, we are just going to drop observations with missing values; but be forewarned that how you handle missing values can have real ramifications for the quality of your final results.
+  - In real research, a better approach is usually to impute missing values, but that is beyond our scope right now
 
-Deciding what to do with `11` is a little trickier. While it's not a
-missing value _per se_, it also doesn't make much sense in its current
-ordering, that is, to be "higher" than completing a professional
-degree. We'll make a decision to convert these to `NA` as well,
-effectively deciding that an answer of "I don't know" is the same as
-missing an answer.
+- Deciding what to do with `11` is a little trickier. While it's not a missing value _per se_, it also doesn't make much sense in its current ordering, that is, to be "higher" than completing a professional degree
+  - We'll make a decision to convert these to `NA` as well, effectively deciding that an answer of "I don't know" is the same as missing an answer.
 
 ## Changing existing variables (columns)
 
-So first step: convert `-8`, `-9`, and `11` in both variables to
-`NA`. We can do this by overwriting cells in each variable with `NA`
-when they equal one of these two values. For this, we'll use the
-`ifelse()` function, which has three parts:
+- So first step: convert `-8`, `-9`, and `11` in both variables to `NA`. We can do this by overwriting cells in each variable with `NA` when they equal one of these two values. For this, we'll use the `ifelse()` function
 
-```r
-## pseudo code (not to be run)
-ifelse(< test >, < return this if TRUE >, < return this if FALSE >)
-```
+## `ifelse()` conditional values
 
-`ifelse()` works by asking: `if` the `< test >` is `TRUE` do **this**
-`else` (_i.e._ the `< test >` is `FALSE`) do **that**.  By _test_, I
-mean a code statement that evaluates to either `TRUE` or
-`FALSE`. For example:
+`ifelse()` is a really common command in `R` and has three parts
+  1. `statement` that can be `TRUE` or `FALSE`
+  2. What to return `if` the `statement` is `TRUE`
+  3. `else` what to return when the `statement` is `FALSE`
 
-- `1 == 1` (`TRUE`)
-- `1 == 2` (`FALSE`)
-- `1 + 1 == 2` (`TRUE`)
+Now, we have three values we want to covert to NA, so we *could* do them one-at-a-time, like below
 
-**NOTE** When checking whether something equals something else, use a
-double equals sign (`==`); a single equals sign typically means
-assignment `=` or the same thing as the arrow, `<-`.
-
-What we want is to go row by row (that is, observation by observation)
-through both `x1stuedexpct` and `x1paredexpct` and test whether the
-value is either `-8`, `-9`, or `11` --- if it is, then replace with
-`NA`, otherwise, just replace it with the value it found (_i.e._ leave
-it alone).
-
-We could develop a sophisticated test that looked for any of these
-conditions, but we can also just do it with multiple `ifelse()`
-functions. Notice, however, that we can test for both `-8` and `-9` in
-the same test since all the categories we want are positive.
+- Let's walk through this code
+1. Assign the results back to `df_small` (which will overwrite our previous `df_small`)
+2. Take `df_small` and pipe `|>` it into `mutate()`
+  - we use `df_small` over `df` to keep our previous steps
+3. Inside `mutate()` create a new variable called `student_exp`
+- Notice, I'm creating a new column `student_exp` rather than modifying the original column. We could modify the original column by just putting `x1stuedexpct` as the first argument, but, this is clearer for demonstration purposes
+4. Make our new variable `student_exp` with an `ifelse()` statement, which remember has 3 parts
+  i. `statement` which is asking "is `x1stuedexpct == -8`"?
+    - Notice `==` means "is equal to", while `=` means "assign to". Yes it's confusing, but you'll get it over time!
+  ii. `if` that `statement` is true, make it `NA`
+  iii. `else` (if the statement is false) return `x1stuedexpct`
 
 ```{r}
-## use case_when to overwrite -8 and 11 with NA in our two expectation variables
-df_tmp <- mutate(df_tmp,
-                 ## correct student expectations 
-                 x1stuedexpct = ifelse(x1stuedexpct < 0,   # is value < 0?
-                                       NA,                 # T: replace with NA
-                                       x1stuedexpct),      # F: replace with self
-                 x1stuedexpct = ifelse(x1stuedexpct == 11, # is value == 11?
-                                       NA,                 # T: replace with NA
-                                       x1stuedexpct),      # F: replace with self
-                 ## correct parental expectations
-                 x1paredexpct = ifelse(x1paredexpct < 0,   # (same as above...)
-                                       NA,                 
-                                       x1paredexpct),       
-                 x1paredexpct = ifelse(x1paredexpct == 11,
-                                       NA,
-                                       x1paredexpct))
+df_small <- df_small |>
+  mutate(student_exp = ifelse(x1stuedexpct == -8, NA, x1stuedexpct))
 ```
 
-Notice that we used `df_tmp` rather than `df`. That's because we want
-to carry through the work we did with `select()` before. If we used
-`df` instead, then we'd be back to the original data object --- not
-what we want.
-
-Let's confirm that our code worked as we planned by using `count()`
-again.
+Okay, make sense? Let's see what we just did (look at row 26)
 
 ```{r}
-## again see unique values for student expectation
-count(df_tmp, x1stuedexpct)
-
-## again see unique values for parental expectation
-count(df_tmp, x1paredexpct)
+print(df_small, n = 26)
 ```
 
-## Adding new variables (columns)
+This is fine, but we have to do it 3 times for both parent and student expectation
 
-Adding a new variable to our data frame is just like modifying an
-existing column. The only difference is that instead of putting an
-existing column name on the LHS of the `=` sign in `mutate()`, we'll
-make up a new name. This tells R to make a new column in our data
-frame that contains the results from the the RHS function(s).
+- Instead, can anyone think (not in `R` code, just in terms of logic) how we could change our `statement` piece of the `ifelse()` to be more efficient?
 
-```r
-## pseudocode (not to be run)
-mutate(< df object >, new_column_name = function(...))
-```
+## `%in%` and `list()`
 
-Now that we've corrected our expectation variables, we create a new
-variable that is the higher of the two (per our initial instructions
-to choose the higher of the two if both existed).
-
-Using `ifelse()` again, we can test whether each student's degree
-expectation is higher than that of their parent; if true, we'll put
-the student's value into the new variable --- if false, we'll put the
-parent's value into the new variable.
-
+- What we can do, is group -8, -9, and 11 together into a list using `list()`
+  - Then, we can use the `%in%` operator to ask if that result is any of the numbers in that list
+    - This keeps our code shorter and easier to read
 
 ```{r}
-## mutate (notice that we use df_tmp now)
-df_tmp <- mutate(df_tmp,
-                 high_expct = ifelse(x1stuedexpct > x1paredexpct, # test
-                                     x1stuedexpct,                # if TRUE
-                                     x1paredexpct))               # if FALSE
-
-## show
-df_tmp
+df_small <- df_small |>
+  mutate(student_exp = ifelse(x1stuedexpct %in% list(-8, -9, 11), NA, x1stuedexpct),
+         parent_exp = ifelse(x1paredexpct %in% list(-8, -9, 11), NA, x1paredexpct))
 ```
 
-Doing a quick "ocular test" of our first few rows, it seems like our
-new variable is correct...**EXCEPT**...it doesn't look like we handled
-`NA` values correctly. Look at student `10002` in the second row:
-while the student doesn't have an expectation (or said "I don't
-know"), the parent does. However, our new variable records `NA`. Let's
-fix it with this test:
+- The code now works just as above, but instead of asking if `x1stuedexpct` is equal to -8, it asks if it's in the list of -8, -9, and 11, then does the same for parental expectations!
 
-> If `high_expct` **is missing** **and** `x1stuedexpct` **is not missing**, replace with
-> that; otherwise replace with itself (leave alone). Repeat, but for
-> `x1paredexpct`. If still `NA`, then we can assume both student and
-> parent expectations were missing.
+Let's view those first 26 rows again to see what we did
+
+```{r}
+print(df_small, n = 26)
+```
+
+And just to be doubly-sure, lets check count again
+
+```{r}
+df_small |> count(student_exp) 
+df_small |> count(parent_exp)
+```
+
+Success!
+
+So, let's get back to our original task, creating a new variable that is the highest of parental and student expectations!
+
+## Back on track!
+
+To make a new variable which is the highest of two variables, we can use our friend `ifelse()` some more
+
+```{r}
+df_small <- df_small |>
+  mutate(high_exp = ifelse(student_exp > parent_exp, student_exp, parent_exp))
+```
+
+- That code is *almost* what we want to do
+  - If `student_exp` is higher then take that, if not, take `parent_exp`
+    - There's two things I haven't fully accounted for though
+      - One doesn't actually matter here, but might in other circumstances
+      - One definitely matters here
+        - Without looking at the results below, can you tell me what they might be?
+
+-
+-
+-
+-
+-
+-
+
+The one that doesn't actually matter here
+- I was a little sloppy with the `statement` piece, I just asked if `student_exp` was greater than `parent_exp` or not
+  - If I was being more careful, I might have said "greater than or equal to"
+    - Why doesn't this matter in this context, and when might it matter?
+    
+Now let's check our data frame to see the one that does matter
+
+```{r}
+print(df_small, n = 26)
+```
+
+- Hmm, that seems odd, why would R consider `NA` to be greater than `6`?
+  - Any thoughts?
   
-Translating the bold words to R code: 
-
-- **is missing**: `is.na()`
-- **and**: `&`
-- **is not missing**: `!is.na()` (`!` means **NOT**)
-
-we get:
+- Generally, R is overly-cautious when dealing with `NA`s to ensure you don't accidentally drop them without realizing it
+  - For example, if I asked you what the `mean(c(5, 6, 4, NA))` would be, you'd probably say 5, right?
+    - R is never going to just ignore the NA values like that unless we tell it to
 
 ```{r}
-## correct for NA values
-df_tmp <- mutate(df_tmp,
-                 ## step 1: compare with student's expectations
-                 high_expct = ifelse(is.na(high_expct) & !is.na(x1stuedexpct), 
-                                     x1stuedexpct,                
-                                     high_expct),
-                 ## step 2: compare with parent's expectations
-                 high_expct = ifelse(is.na(high_expct) & !is.na(x1paredexpct), 
-                                     x1paredexpct,                
-                                     high_expct))               
-
-## show
-df_tmp
+mean(c(5, 6, 4, NA))
 ```
 
-Looking at the second observation again, it looks like we've fixed our
-`NA` issue. Looking at rows 7 and 9, it seems like those situations
-are correctly handled as well.
+See, what have to explictly tell it to remove the `NA` values
 
-To be clear, there were other ways we could have handled fixing our
-missing values and creating our new variable. For example, we could
-have left our missing values as negative numbers (and converting 11 to
-a negative value) so that our comparison would have worked the first
-time. We could have used more sophisticated tests in our `ifelse()`
-statements. However, these paths weren't clear until we'd already
-worked a bit. The point to keep in mind that the process is often
+```{r}
+mean(c(5, 6, 4, NA), na.rm = T)
+```
+
+- So in our case of trying to get the highest expectation, R doesn't want us to forget we have `NA` values, so it throws them at us.
+- For now, let's keep the results we got, but if it gave us an `NA` and there is a non-`NA` value in other other column, sub that in
+
+## `is.na()` and `!`
+
+To do this, we will add another couple of code helpers
+  -`is.na(high_exp)` simply asks if the `high_exp` is `NA` or not
+    - R doesn't let you just say `high_exp == NA`
+  -`!` is really helpful tool, which can be used to negate or invert a command
+      - `!is.na(student_exp)` just returns the opposite of `is.na(student_exp)` so it tells us that the column is not `NA` 
+      
+Used together, we can now ensure we have as few `NA`s as possible in the data (there will still be some when both student and parent were `NA`)
+      
+```{r}
+df_small <- df_small |>
+  mutate(high_exp = ifelse(is.na(high_exp) & !is.na(student_exp), student_exp, high_exp),
+         high_exp = ifelse(is.na(high_exp) & !is.na(parent_exp), parent_exp, high_exp))
+```
+
+Let's print this one last time to check our work
+
+```{r}
+print(df_small, n = 26)
+```
+
+Okay, looks good!
+
+- There are other ways we could have gone about this analysis, some more sophisticated and slicker
+  - But, what matters more is that we checked our work as we went, caught the issues, and finished with the correct data
+    - We will learn more tools along the way that speed things up, especially in the brand new [Data Wrangling IV Lesson](09-wrangle-iv.qmd)
+    - However, the more steps you take at once, the more you have to check at once!
+    - There's often never a single correct way to get to the right answer, so long as you get there, it's clear, and you catch issues as they come
+
+> "The point to keep in mind that the process is often
 iterative (two steps forward, one step back...) and that there's
-seldom an single _correct way_.
+seldom an single _correct way_." B.T. Skinner
 
-> #### Quick exercise 
-> What happens when the student and parent expectations are the same,
-> either a value or `NA`? Does our `ifelse()` statement account for
-> those situations? If so, how?
 
 ## **Filter** observations (rows)
 
