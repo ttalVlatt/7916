@@ -15,16 +15,16 @@
 
 library(tidyverse)
 
-## -----------------------------------------------------------------------------
-## Wrangle data
-## -----------------------------------------------------------------------------
-
 ## ---------------------------
-## input
+## Read in Data
 ## ---------------------------
 
 ## data are CSV, so we use read_csv() from the readr library
 df <- read_csv(file.path("data", "hsls-small.csv"))
+
+## ---------------------------
+## The Pipe |> Operator
+## ---------------------------
 
 ## Without |>
 select(df, x1txmtscor)
@@ -69,13 +69,17 @@ df |>
 
 all.equal(df_backward_pass, df_forward_pass)
 
+## ---------------------------
+## Select Variables
+## ---------------------------
+
 df |> select(stu_id, x1stuedexpct, x1paredexpct, x1region)
 
 df_small <- df |> select(stu_id, x1stuedexpct, x1paredexpct, x1region)
 
-## -----------------
-## mutate
-## -----------------
+## ---------------------------
+## Count Catagorical Variables
+## ---------------------------
 
 ## see unique values for student expectation
 df_small |> count(x1stuedexpct)
@@ -83,22 +87,35 @@ df_small |> count(x1stuedexpct)
 ## see unique values for parental expectation
 df_small |> count(x1paredexpct)
 
+## ---------------------------
+## Modify an Existing Variable with Mutate
+## Conditional ifelse Statements
+## ---------------------------
+
 df_small <- df_small |>
-  mutate(student_exp = ifelse(x1stuedexpct == -8, NA, x1stuedexpct))
+  mutate(x1stuedexpct = ifelse(x1stuedexpct == -8, NA, x1stuedexpct))
 
 print(df_small, n = 26)
 
+## ---------------------------
+## Being Efficient with %in% and c()
+## ---------------------------
+
 df_small <- df_small |>
-  mutate(student_exp = ifelse(x1stuedexpct %in% c(-8, -9, 11), NA, x1stuedexpct),
-         parent_exp = ifelse(x1paredexpct %in% c(-8, -9, 11), NA, x1paredexpct))
+  mutate(x1stuedexpct = ifelse(x1stuedexpct %in% c(-8, -9, 11), NA, x1stuedexpct),
+         x1paredexpct = ifelse(x1paredexpct %in% c(-8, -9, 11), NA, x1paredexpct))
 
 print(df_small, n = 26)
 
-df_small |> count(student_exp) 
-df_small |> count(parent_exp)
+df_small |> count(x1stuedexpct) 
+df_small |> count(x1paredexpct)
+
+## ---------------------------
+## Create New Variable with Mutate
+## ---------------------------
 
 df_small <- df_small |>
-  mutate(high_exp = ifelse(student_exp > parent_exp, student_exp, parent_exp))
+  mutate(high_exp = ifelse(x1stuedexpct > x1paredexpct, x1stuedexpct, x1paredexpct))
 
 print(df_small, n = 26)
 
@@ -106,15 +123,19 @@ mean(c(5, 6, 4, NA))
 
 mean(c(5, 6, 4, NA), na.rm = T)
 
+## ---------------------------
+## Handling NA Values
+## ---------------------------
+
 df_small <- df_small |>
-  mutate(high_exp = ifelse(is.na(high_exp) & !is.na(student_exp), student_exp, high_exp),
-         high_exp = ifelse(is.na(high_exp) & !is.na(parent_exp), parent_exp, high_exp))
+  mutate(high_exp = ifelse(is.na(high_exp) & !is.na(x1stuedexpct), x1stuedexpct, high_exp),
+         high_exp = ifelse(is.na(high_exp) & !is.na(x1paredexpct), x1paredexpct, high_exp))
 
 print(df_small, n = 26)
 
-## -----------------
-## filter
-## -----------------
+## ---------------------------
+## Filter NA Rows
+## ---------------------------
 
 ## get summary of our new variable
 df_small |> count(high_exp)
@@ -127,14 +148,18 @@ df_small_cut |> count(high_exp)
 ## does the original # of rows - current # or rows == NA in count?
 nrow(df_small) - nrow(df_small_cut)
 
-## -----------------
-## summarize
-## -----------------
+## ---------------------------
+## Summarizing Data
+## ---------------------------
 
 ## get average (without storing)
 df_small_cut |> summarize(mean(high_exp))
 
 df_small_cut |> summarize(mean_exp = mean(high_exp))
+
+## ---------------------------
+## Grouping Data
+## ---------------------------
 
 ## get grouped average
 df_small_cut |>
@@ -142,7 +167,7 @@ df_small_cut |>
   summarize(mean_exp = mean(high_exp))
 
 ## ---------------------------
-## output
+## Saving Data
 ## ---------------------------
 
 ## write with useful name
@@ -154,7 +179,7 @@ df_small_cut |>
 
 
 ## ---------------------------
-## appendix
+## Appendix: All in One!
 ## ---------------------------
 
 ## Let's redo the analysis above, but with a fully chained set of
@@ -190,5 +215,5 @@ all.equal(non_chain, chain)
       
 
 ## -----------------------------------------------------------------------------
-## end script
+## End Script
 ## -----------------------------------------------------------------------------

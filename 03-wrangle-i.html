@@ -398,11 +398,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="do">## ---------------------------</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="do">## libraries</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="do">## ---------------------------</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
 ✔ dplyr     1.1.4     ✔ readr     2.1.4
@@ -447,12 +443,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><p>Throughout, we’ll need to consult the code book. An <a href="https://nces.ed.gov/datalab/onlinecodebook">online version can be found at this link</a>.</p></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="do">## ---------------------------</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="do">## input</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="do">## ---------------------------</span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="do">## data are CSV, so we use read_csv() from the readr library</span></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="fu">file.path</span>(<span class="st">"data"</span>, <span class="st">"hsls-small.csv"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="do">## data are CSV, so we use read_csv() from the readr library</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="fu">file.path</span>(<span class="st">"data"</span>, <span class="st">"hsls-small.csv"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Rows: 23503 Columns: 16
 ── Column specification ────────────────────────────────────────────────────────
@@ -791,12 +783,8 @@ dbl (16): stu_id, x1sex, x1race, x1stdob, x1txmtscor, x1paredu, x1hhnumber, ...
 <p>Notice that we don’t assign to a new object; this means we’ll see the result in the console, but nothing in our data or object will change</p>
 </blockquote>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="do">## -----------------</span></span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="do">## mutate</span></span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="do">## -----------------</span></span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a><span class="do">## see unique values for student expectation</span></span>
-<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>df_small <span class="sc">|&gt;</span> <span class="fu">count</span>(x1stuedexpct)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="do">## see unique values for student expectation</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>df_small <span class="sc">|&gt;</span> <span class="fu">count</span>(x1stuedexpct)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 12 × 2
    x1stuedexpct     n
@@ -879,18 +867,12 @@ dbl (16): stu_id, x1sex, x1race, x1stdob, x1txmtscor, x1paredu, x1hhnumber, ...
 <li>New variables are created if you provide <code>&lt;where to go&gt;</code> a new variable name (or nothing), variables are modified if you provide <code>&lt;where to go&gt;</code> an existing variable name</li>
 <li><code>&lt;what to go there&gt;</code> can as simple as a single number all the way to a chain of piped functions, so long as there’s a clear answer for every row</li>
 </ul></li>
-<li>In this case, we want to create a new variable <code>student_exp</code> which is <code>NA</code> when <code>x1stuedexpct</code> is -8, -9, or 11
-<ul>
-<li>Note: we could just overwrite <code>x1paredexpect</code> and <code>x1stuedexpct</code> with <code>NA</code> replacements calling the new variable the same as the old
-<ul>
-<li>But, when making significant changes like this I like to create a new variable so you can compare what you did</li>
-</ul></li>
-</ul></li>
+<li>In this case, we want to modify <code>x1stuedexpct</code> to be <code>NA</code> when <code>x1stuedexpct</code> is -8, -9, or 11</li>
 </ul>
 <p>Now, we have three values we want to covert to NA, so we <em>could</em> do them one-at-a-time, like below</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>df_small <span class="ot">&lt;-</span> df_small <span class="sc">|&gt;</span></span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">student_exp =</span> <span class="fu">ifelse</span>(x1stuedexpct <span class="sc">==</span> <span class="sc">-</span><span class="dv">8</span>, <span class="cn">NA</span>, x1stuedexpct))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">x1stuedexpct =</span> <span class="fu">ifelse</span>(x1stuedexpct <span class="sc">==</span> <span class="sc">-</span><span class="dv">8</span>, <span class="cn">NA</span>, x1stuedexpct))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ul>
 <li>Let’s walk through this code</li>
@@ -898,8 +880,8 @@ dbl (16): stu_id, x1sex, x1race, x1stdob, x1txmtscor, x1paredu, x1hhnumber, ...
 <ol type="1">
 <li>Assign the results back to <code>df_small</code> (which will overwrite our previous <code>df_small</code>)</li>
 <li>Take <code>df_small</code> and pipe <code>|&gt;</code> it into <code>mutate()</code></li>
-<li>Inside <code>mutate()</code> create a new variable called <code>student_exp</code></li>
-<li>Make our new variable <code>student_exp</code> with an <code>ifelse()</code> statement, which remember has 3 parts</li>
+<li>Inside <code>mutate()</code> assign our results to <code>x1stuedexpct</code> (which will modify the existing variable)</li>
+<li>Modify <code>x1stuedexpct</code> with an <code>ifelse()</code> statement, which remember has 3 parts</li>
 </ol>
 <ol type="i">
 <li><code>statement</code> which is asking “is <code>x1stuedexpct == -8</code>”? - Notice <code>==</code> means “is equal to”, while <code>=</code> means “assign to”. Yes it’s confusing, but you’ll get it over time!</li>
@@ -910,35 +892,35 @@ dbl (16): stu_id, x1sex, x1race, x1stdob, x1txmtscor, x1paredu, x1hhnumber, ...
 <div class="cell">
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(df_small, <span class="at">n =</span> <span class="dv">26</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 23,503 × 5
-   stu_id x1stuedexpct x1paredexpct x1region student_exp
-    &lt;dbl&gt;        &lt;dbl&gt;        &lt;dbl&gt;    &lt;dbl&gt;       &lt;dbl&gt;
- 1  10001            8            6        2           8
- 2  10002           11            6        1          11
- 3  10003           10           10        4          10
- 4  10004           10           10        3          10
- 5  10005            6           10        3           6
- 6  10006           10            8        3          10
- 7  10007            8           11        1           8
- 8  10008            8            6        1           8
- 9  10009           11           11        3          11
-10  10010            8            6        1           8
-11  10011            8            6        3           8
-12  10012           11           11        2          11
-13  10013            8           10        3           8
-14  10014            2            6        3           2
-15  10015           11           10        3          11
-16  10016            4            6        2           4
-17  10018            6            7        2           6
-18  10019            8           -8        2           8
-19  10020            8            8        4           8
-20  10021            8           11        2           8
-21  10022           10            8        4          10
-22  10024            6            8        2           6
-23  10025            8           -8        4           8
-24  10026            7           10        3           7
-25  10027           11            6        1          11
-26  10028           -8           -8        3          NA
+<pre><code># A tibble: 23,503 × 4
+   stu_id x1stuedexpct x1paredexpct x1region
+    &lt;dbl&gt;        &lt;dbl&gt;        &lt;dbl&gt;    &lt;dbl&gt;
+ 1  10001            8            6        2
+ 2  10002           11            6        1
+ 3  10003           10           10        4
+ 4  10004           10           10        3
+ 5  10005            6           10        3
+ 6  10006           10            8        3
+ 7  10007            8           11        1
+ 8  10008            8            6        1
+ 9  10009           11           11        3
+10  10010            8            6        1
+11  10011            8            6        3
+12  10012           11           11        2
+13  10013            8           10        3
+14  10014            2            6        3
+15  10015           11           10        3
+16  10016            4            6        2
+17  10018            6            7        2
+18  10019            8           -8        2
+19  10020            8            8        4
+20  10021            8           11        2
+21  10022           10            8        4
+22  10024            6            8        2
+23  10025            8           -8        4
+24  10026            7           10        3
+25  10027           11            6        1
+26  10028           NA           -8        3
 # ℹ 23,477 more rows</code></pre>
 </div>
 </div>
@@ -963,8 +945,8 @@ dbl (16): stu_id, x1sex, x1race, x1stdob, x1txmtscor, x1paredu, x1hhnumber, ...
 </ul>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>df_small <span class="ot">&lt;-</span> df_small <span class="sc">|&gt;</span></span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">student_exp =</span> <span class="fu">ifelse</span>(x1stuedexpct <span class="sc">%in%</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">8</span>, <span class="sc">-</span><span class="dv">9</span>, <span class="dv">11</span>), <span class="cn">NA</span>, x1stuedexpct),</span>
-<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">parent_exp =</span> <span class="fu">ifelse</span>(x1paredexpct <span class="sc">%in%</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">8</span>, <span class="sc">-</span><span class="dv">9</span>, <span class="dv">11</span>), <span class="cn">NA</span>, x1paredexpct))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">x1stuedexpct =</span> <span class="fu">ifelse</span>(x1stuedexpct <span class="sc">%in%</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">8</span>, <span class="sc">-</span><span class="dv">9</span>, <span class="dv">11</span>), <span class="cn">NA</span>, x1stuedexpct),</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">x1paredexpct =</span> <span class="fu">ifelse</span>(x1paredexpct <span class="sc">%in%</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">8</span>, <span class="sc">-</span><span class="dv">9</span>, <span class="dv">11</span>), <span class="cn">NA</span>, x1paredexpct))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ul>
 <li>The code now works just as above, but instead of asking if <code>x1stuedexpct</code> is equal to -8, it asks if it’s in the list of -8, -9, and 11, then does the same for parental expectations!
@@ -975,35 +957,35 @@ dbl (16): stu_id, x1sex, x1race, x1stdob, x1txmtscor, x1paredu, x1hhnumber, ...
 <div class="cell">
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(df_small, <span class="at">n =</span> <span class="dv">26</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 23,503 × 6
-   stu_id x1stuedexpct x1paredexpct x1region student_exp parent_exp
-    &lt;dbl&gt;        &lt;dbl&gt;        &lt;dbl&gt;    &lt;dbl&gt;       &lt;dbl&gt;      &lt;dbl&gt;
- 1  10001            8            6        2           8          6
- 2  10002           11            6        1          NA          6
- 3  10003           10           10        4          10         10
- 4  10004           10           10        3          10         10
- 5  10005            6           10        3           6         10
- 6  10006           10            8        3          10          8
- 7  10007            8           11        1           8         NA
- 8  10008            8            6        1           8          6
- 9  10009           11           11        3          NA         NA
-10  10010            8            6        1           8          6
-11  10011            8            6        3           8          6
-12  10012           11           11        2          NA         NA
-13  10013            8           10        3           8         10
-14  10014            2            6        3           2          6
-15  10015           11           10        3          NA         10
-16  10016            4            6        2           4          6
-17  10018            6            7        2           6          7
-18  10019            8           -8        2           8         NA
-19  10020            8            8        4           8          8
-20  10021            8           11        2           8         NA
-21  10022           10            8        4          10          8
-22  10024            6            8        2           6          8
-23  10025            8           -8        4           8         NA
-24  10026            7           10        3           7         10
-25  10027           11            6        1          NA          6
-26  10028           -8           -8        3          NA         NA
+<pre><code># A tibble: 23,503 × 4
+   stu_id x1stuedexpct x1paredexpct x1region
+    &lt;dbl&gt;        &lt;dbl&gt;        &lt;dbl&gt;    &lt;dbl&gt;
+ 1  10001            8            6        2
+ 2  10002           NA            6        1
+ 3  10003           10           10        4
+ 4  10004           10           10        3
+ 5  10005            6           10        3
+ 6  10006           10            8        3
+ 7  10007            8           NA        1
+ 8  10008            8            6        1
+ 9  10009           NA           NA        3
+10  10010            8            6        1
+11  10011            8            6        3
+12  10012           NA           NA        2
+13  10013            8           10        3
+14  10014            2            6        3
+15  10015           NA           10        3
+16  10016            4            6        2
+17  10018            6            7        2
+18  10019            8           NA        2
+19  10020            8            8        4
+20  10021            8           NA        2
+21  10022           10            8        4
+22  10024            6            8        2
+23  10025            8           NA        4
+24  10026            7           10        3
+25  10027           NA            6        1
+26  10028           NA           NA        3
 # ℹ 23,477 more rows</code></pre>
 </div>
 </div>
@@ -1011,39 +993,39 @@ dbl (16): stu_id, x1sex, x1race, x1stdob, x1txmtscor, x1paredu, x1hhnumber, ...
 <li>Just to be doubly-sure, lets check <code>count()</code> again</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>df_small <span class="sc">|&gt;</span> <span class="fu">count</span>(student_exp) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>df_small <span class="sc">|&gt;</span> <span class="fu">count</span>(x1stuedexpct) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 11 × 2
-   student_exp     n
-         &lt;dbl&gt; &lt;int&gt;
- 1           1    93
- 2           2  2619
- 3           3   140
- 4           4  1195
- 5           5   115
- 6           6  3505
- 7           7   231
- 8           8  4278
- 9           9   176
-10          10  4461
-11          NA  6690</code></pre>
+   x1stuedexpct     n
+          &lt;dbl&gt; &lt;int&gt;
+ 1            1    93
+ 2            2  2619
+ 3            3   140
+ 4            4  1195
+ 5            5   115
+ 6            6  3505
+ 7            7   231
+ 8            8  4278
+ 9            9   176
+10           10  4461
+11           NA  6690</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>df_small <span class="sc">|&gt;</span> <span class="fu">count</span>(parent_exp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>df_small <span class="sc">|&gt;</span> <span class="fu">count</span>(x1paredexpct)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 11 × 2
-   parent_exp     n
-        &lt;dbl&gt; &lt;int&gt;
- 1          1    55
- 2          2  1293
- 3          3   149
- 4          4  1199
- 5          5   133
- 6          6  4952
- 7          7    76
- 8          8  3355
- 9          9    37
-10         10  3782
-11         NA  8472</code></pre>
+   x1paredexpct     n
+          &lt;dbl&gt; &lt;int&gt;
+ 1            1    55
+ 2            2  1293
+ 3            3   149
+ 4            4  1199
+ 5            5   133
+ 6            6  4952
+ 7            7    76
+ 8            8  3355
+ 9            9    37
+10           10  3782
+11           NA  8472</code></pre>
 </div>
 </div>
 <p>Success!</p>
@@ -1056,12 +1038,12 @@ dbl (16): stu_id, x1sex, x1race, x1stdob, x1txmtscor, x1paredu, x1hhnumber, ...
 </ul>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>df_small <span class="ot">&lt;-</span> df_small <span class="sc">|&gt;</span></span>
-<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">high_exp =</span> <span class="fu">ifelse</span>(student_exp <span class="sc">&gt;</span> parent_exp, student_exp, parent_exp))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">high_exp =</span> <span class="fu">ifelse</span>(x1stuedexpct <span class="sc">&gt;</span> x1paredexpct, x1stuedexpct, x1paredexpct))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ul>
 <li>That code is <em>almost</em> what we want to do
 <ul>
-<li>If <code>student_exp</code> is higher then take that, if not, take <code>parent_exp</code>
+<li>If <code>x1stuedexpct</code> is higher then take that, if not, take <code>x1paredexpct</code>
 <ul>
 <li>There’s two things I haven’t fully accounted for though…
 <ul>
@@ -1083,7 +1065,7 @@ dbl (16): stu_id, x1sex, x1race, x1stdob, x1txmtscor, x1paredu, x1hhnumber, ...
 <section id="sloppy-mistake-1-doesnt-matter-here" class="level4">
 <h4 data-anchor-id="sloppy-mistake-1-doesnt-matter-here">Sloppy Mistake 1 (doesn’t matter here)</h4>
 <ul>
-<li>I was a little sloppy with the <code>statement</code> piece, I just asked if <code>student_exp</code> was greater than <code>parent_exp</code> or not
+<li>I was a little sloppy with the <code>statement</code> piece, I just asked if <code>x1stuedexpct</code> was greater than <code>x1paredexpct</code> or not
 <ul>
 <li>If I was being more careful, I might have said “greater than or equal to”
 <ul>
@@ -1100,35 +1082,35 @@ dbl (16): stu_id, x1sex, x1race, x1stdob, x1txmtscor, x1paredu, x1hhnumber, ...
 <div class="cell">
 <div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(df_small, <span class="at">n =</span> <span class="dv">26</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 23,503 × 7
-   stu_id x1stuedexpct x1paredexpct x1region student_exp parent_exp high_exp
-    &lt;dbl&gt;        &lt;dbl&gt;        &lt;dbl&gt;    &lt;dbl&gt;       &lt;dbl&gt;      &lt;dbl&gt;    &lt;dbl&gt;
- 1  10001            8            6        2           8          6        8
- 2  10002           11            6        1          NA          6       NA
- 3  10003           10           10        4          10         10       10
- 4  10004           10           10        3          10         10       10
- 5  10005            6           10        3           6         10       10
- 6  10006           10            8        3          10          8       10
- 7  10007            8           11        1           8         NA       NA
- 8  10008            8            6        1           8          6        8
- 9  10009           11           11        3          NA         NA       NA
-10  10010            8            6        1           8          6        8
-11  10011            8            6        3           8          6        8
-12  10012           11           11        2          NA         NA       NA
-13  10013            8           10        3           8         10       10
-14  10014            2            6        3           2          6        6
-15  10015           11           10        3          NA         10       NA
-16  10016            4            6        2           4          6        6
-17  10018            6            7        2           6          7        7
-18  10019            8           -8        2           8         NA       NA
-19  10020            8            8        4           8          8        8
-20  10021            8           11        2           8         NA       NA
-21  10022           10            8        4          10          8       10
-22  10024            6            8        2           6          8        8
-23  10025            8           -8        4           8         NA       NA
-24  10026            7           10        3           7         10       10
-25  10027           11            6        1          NA          6       NA
-26  10028           -8           -8        3          NA         NA       NA
+<pre><code># A tibble: 23,503 × 5
+   stu_id x1stuedexpct x1paredexpct x1region high_exp
+    &lt;dbl&gt;        &lt;dbl&gt;        &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;
+ 1  10001            8            6        2        8
+ 2  10002           NA            6        1       NA
+ 3  10003           10           10        4       10
+ 4  10004           10           10        3       10
+ 5  10005            6           10        3       10
+ 6  10006           10            8        3       10
+ 7  10007            8           NA        1       NA
+ 8  10008            8            6        1        8
+ 9  10009           NA           NA        3       NA
+10  10010            8            6        1        8
+11  10011            8            6        3        8
+12  10012           NA           NA        2       NA
+13  10013            8           10        3       10
+14  10014            2            6        3        6
+15  10015           NA           10        3       NA
+16  10016            4            6        2        6
+17  10018            6            7        2        7
+18  10019            8           NA        2       NA
+19  10020            8            8        4        8
+20  10021            8           NA        2       NA
+21  10022           10            8        4       10
+22  10024            6            8        2        8
+23  10025            8           NA        4       NA
+24  10026            7           10        3       10
+25  10027           NA            6        1       NA
+26  10028           NA           NA        3       NA
 # ℹ 23,477 more rows</code></pre>
 </div>
 </div>
@@ -1173,15 +1155,15 @@ dbl (16): stu_id, x1sex, x1race, x1stdob, x1txmtscor, x1paredu, x1hhnumber, ...
 <ul>
 <li>R doesn’t let you just say <code>high_exp == NA</code> -<code>!</code> is really helpful tool, which can be used to negate or invert a command
 <ul>
-<li><code>!is.na(student_exp)</code> just returns the opposite of <code>is.na(student_exp)</code> so it tells us that the column is not <code>NA</code> -<code>&amp;</code> can be useful inside conditional statements, as it means both must be <code>TRUE</code> (FYI: <code>|</code> means or)</li>
+<li><code>!is.na(x1stuedexpct)</code> just returns the opposite of <code>is.na(x1stuedexpct)</code> so it tells us that the column is not <code>NA</code> -<code>&amp;</code> can be useful inside conditional statements, as it means both must be <code>TRUE</code> (FYI: <code>|</code> means or)</li>
 </ul></li>
 </ul></li>
 <li>Used together, we can now ensure we have as few <code>NA</code>s as possible in the data (there will still be some when both student and parent were <code>NA</code>)</li>
 </ul>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>df_small <span class="ot">&lt;-</span> df_small <span class="sc">|&gt;</span></span>
-<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">high_exp =</span> <span class="fu">ifelse</span>(<span class="fu">is.na</span>(high_exp) <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(student_exp), student_exp, high_exp),</span>
-<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">high_exp =</span> <span class="fu">ifelse</span>(<span class="fu">is.na</span>(high_exp) <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(parent_exp), parent_exp, high_exp))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">high_exp =</span> <span class="fu">ifelse</span>(<span class="fu">is.na</span>(high_exp) <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(x1stuedexpct), x1stuedexpct, high_exp),</span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">high_exp =</span> <span class="fu">ifelse</span>(<span class="fu">is.na</span>(high_exp) <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(x1paredexpct), x1paredexpct, high_exp))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ul>
 <li>Let’s print this one last time to check our work</li>
@@ -1189,35 +1171,35 @@ dbl (16): stu_id, x1sex, x1race, x1stdob, x1txmtscor, x1paredu, x1hhnumber, ...
 <div class="cell">
 <div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(df_small, <span class="at">n =</span> <span class="dv">26</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 23,503 × 7
-   stu_id x1stuedexpct x1paredexpct x1region student_exp parent_exp high_exp
-    &lt;dbl&gt;        &lt;dbl&gt;        &lt;dbl&gt;    &lt;dbl&gt;       &lt;dbl&gt;      &lt;dbl&gt;    &lt;dbl&gt;
- 1  10001            8            6        2           8          6        8
- 2  10002           11            6        1          NA          6        6
- 3  10003           10           10        4          10         10       10
- 4  10004           10           10        3          10         10       10
- 5  10005            6           10        3           6         10       10
- 6  10006           10            8        3          10          8       10
- 7  10007            8           11        1           8         NA        8
- 8  10008            8            6        1           8          6        8
- 9  10009           11           11        3          NA         NA       NA
-10  10010            8            6        1           8          6        8
-11  10011            8            6        3           8          6        8
-12  10012           11           11        2          NA         NA       NA
-13  10013            8           10        3           8         10       10
-14  10014            2            6        3           2          6        6
-15  10015           11           10        3          NA         10       10
-16  10016            4            6        2           4          6        6
-17  10018            6            7        2           6          7        7
-18  10019            8           -8        2           8         NA        8
-19  10020            8            8        4           8          8        8
-20  10021            8           11        2           8         NA        8
-21  10022           10            8        4          10          8       10
-22  10024            6            8        2           6          8        8
-23  10025            8           -8        4           8         NA        8
-24  10026            7           10        3           7         10       10
-25  10027           11            6        1          NA          6        6
-26  10028           -8           -8        3          NA         NA       NA
+<pre><code># A tibble: 23,503 × 5
+   stu_id x1stuedexpct x1paredexpct x1region high_exp
+    &lt;dbl&gt;        &lt;dbl&gt;        &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;
+ 1  10001            8            6        2        8
+ 2  10002           NA            6        1        6
+ 3  10003           10           10        4       10
+ 4  10004           10           10        3       10
+ 5  10005            6           10        3       10
+ 6  10006           10            8        3       10
+ 7  10007            8           NA        1        8
+ 8  10008            8            6        1        8
+ 9  10009           NA           NA        3       NA
+10  10010            8            6        1        8
+11  10011            8            6        3        8
+12  10012           NA           NA        2       NA
+13  10013            8           10        3       10
+14  10014            2            6        3        6
+15  10015           NA           10        3       10
+16  10016            4            6        2        6
+17  10018            6            7        2        7
+18  10019            8           NA        2        8
+19  10020            8            8        4        8
+20  10021            8           NA        2        8
+21  10022           10            8        4       10
+22  10024            6            8        2        8
+23  10025            8           NA        4        8
+24  10026            7           10        3       10
+25  10027           NA            6        1        6
+26  10028           NA           NA        3       NA
 # ℹ 23,477 more rows</code></pre>
 </div>
 </div>
@@ -1240,12 +1222,8 @@ dbl (16): stu_id, x1sex, x1race, x1stdob, x1txmtscor, x1paredu, x1hhnumber, ...
 <li>Now it’s made correctly, let’s check the counts of our new variable</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="do">## -----------------</span></span>
-<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a><span class="do">## filter</span></span>
-<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a><span class="do">## -----------------</span></span>
-<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a><span class="do">## get summary of our new variable</span></span>
-<span id="cb44-6"><a href="#cb44-6" aria-hidden="true" tabindex="-1"></a>df_small <span class="sc">|&gt;</span> <span class="fu">count</span>(high_exp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="do">## get summary of our new variable</span></span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>df_small <span class="sc">|&gt;</span> <span class="fu">count</span>(high_exp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 11 × 2
    high_exp     n
@@ -1268,7 +1246,7 @@ dbl (16): stu_id, x1sex, x1race, x1stdob, x1txmtscor, x1paredu, x1hhnumber, ...
 <ul>
 <li>In more sophisticated analyses, this is where we might need to think about imputation or something else to handle the missing-ness
 <ul>
-<li>For the sake of this lesson, however, we just want to drop the observations with <code>NA high_exp</code></li>
+<li>For the sake of this lesson, however, we just want to drop the observations with <code>NA</code> for <code>high_exp</code></li>
 </ul></li>
 </ul></li>
 </ul>
@@ -1344,8 +1322,8 @@ dbl (16): stu_id, x1sex, x1race, x1stdob, x1txmtscor, x1paredu, x1hhnumber, ...
 <section id="summarizing-data-with-summarize" class="level3">
 <h3 data-anchor-id="summarizing-data-with-summarize">Summarizing Data with <code>summarize()</code></h3>
 <ul>
-<li>Okay, so we have our data, we made our <code>high_exp</code> variable, and we’ve done some work to make sure there aren’t any missing values we haven’t accounted for</li>
-<li>Now, we talked in our week one data talk about how massive tables of data are not particularly helpful to for someone to read or interpret
+<li>Okay, so we have our data selected, we made our <code>high_exp</code> variable, and we’ve done some work to handle missing data</li>
+<li>In our week one data talk we discussed how massive tables of data are not particularly helpful to for someone to read or interpret
 <ul>
 <li>We will cover how to make graphs of our data in a few weeks</li>
 <li>For our final task today, we are going to make some summary tables using <code>summarize()</code> from the <code>tidyverse</code></li>
@@ -1360,12 +1338,8 @@ dbl (16): stu_id, x1sex, x1race, x1stdob, x1txmtscor, x1paredu, x1hhnumber, ...
 </ul></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="do">## -----------------</span></span>
-<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a><span class="do">## summarize</span></span>
-<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a><span class="do">## -----------------</span></span>
-<span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb51-5"><a href="#cb51-5" aria-hidden="true" tabindex="-1"></a><span class="do">## get average (without storing)</span></span>
-<span id="cb51-6"><a href="#cb51-6" aria-hidden="true" tabindex="-1"></a>df_small_cut <span class="sc">|&gt;</span> <span class="fu">summarize</span>(<span class="fu">mean</span>(high_exp))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="do">## get average (without storing)</span></span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>df_small_cut <span class="sc">|&gt;</span> <span class="fu">summarize</span>(<span class="fu">mean</span>(high_exp))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1 × 1
   `mean(high_exp)`
@@ -1453,6 +1427,14 @@ dbl (16): stu_id, x1sex, x1race, x1stdob, x1txmtscor, x1paredu, x1hhnumber, ...
 <li>If you want to save a data frame you already assigned to an object <code>write_csv(&lt;object&gt;, file.path(&lt;path&gt;))</code> would work just fine!</li>
 </ul></li>
 </ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="do">## write with useful name</span></span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a>df_small_cut <span class="sc">|&gt;</span></span>
+<span id="cb57-4"><a href="#cb57-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(x1region) <span class="sc">|&gt;</span></span>
+<span id="cb57-5"><a href="#cb57-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">mean_exp =</span> <span class="fu">mean</span>(high_exp)) <span class="sc">|&gt;</span></span>
+<span id="cb57-6"><a href="#cb57-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">write_csv</span>(<span class="fu">file.path</span>(<span class="st">"data"</span>, <span class="st">"region-expects.csv"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 <p>Phew!</p>
 </section>
 </section>
@@ -1460,37 +1442,33 @@ dbl (16): stu_id, x1sex, x1race, x1stdob, x1txmtscor, x1paredu, x1hhnumber, ...
 <h2 data-anchor-id="appendix-all-at-once">Appendix: All at Once</h2>
 <p>We went through that piece by piece to demonstrate each function, but, there’s no reason we can’t just <code>|&gt;</code> pipe it all together</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="do">## ---------------------------</span></span>
-<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a><span class="do">## appendix</span></span>
-<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a><span class="do">## ---------------------------</span></span>
-<span id="cb57-4"><a href="#cb57-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb57-5"><a href="#cb57-5" aria-hidden="true" tabindex="-1"></a><span class="do">## Let's redo the analysis above, but with a fully chained set of</span></span>
-<span id="cb57-6"><a href="#cb57-6" aria-hidden="true" tabindex="-1"></a><span class="do">## functions.</span></span>
-<span id="cb57-7"><a href="#cb57-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb57-8"><a href="#cb57-8" aria-hidden="true" tabindex="-1"></a><span class="do">## start with original df</span></span>
-<span id="cb57-9"><a href="#cb57-9" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span></span>
-<span id="cb57-10"><a href="#cb57-10" aria-hidden="true" tabindex="-1"></a>  <span class="do">## select columns we want</span></span>
-<span id="cb57-11"><a href="#cb57-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(stu_id, x1stuedexpct, x1paredexpct, x1region) <span class="sc">|&gt;</span></span>
-<span id="cb57-12"><a href="#cb57-12" aria-hidden="true" tabindex="-1"></a>  <span class="do">## If expectation is -8, -9. or 11, make it NA</span></span>
-<span id="cb57-13"><a href="#cb57-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">student_exp =</span> <span class="fu">ifelse</span>(x1stuedexpct <span class="sc">%in%</span> <span class="fu">list</span>(<span class="sc">-</span><span class="dv">8</span>, <span class="sc">-</span><span class="dv">9</span>, <span class="dv">11</span>), <span class="cn">NA</span>, x1stuedexpct),</span>
-<span id="cb57-14"><a href="#cb57-14" aria-hidden="true" tabindex="-1"></a>         <span class="at">parent_exp =</span> <span class="fu">ifelse</span>(x1paredexpct <span class="sc">%in%</span> <span class="fu">list</span>(<span class="sc">-</span><span class="dv">8</span>, <span class="sc">-</span><span class="dv">9</span>, <span class="dv">11</span>), <span class="cn">NA</span>, x1paredexpct)) <span class="sc">|&gt;</span></span>
-<span id="cb57-15"><a href="#cb57-15" aria-hidden="true" tabindex="-1"></a>  <span class="do">## Make a new variable called high_exp that is the higher or parent and student exp</span></span>
-<span id="cb57-16"><a href="#cb57-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">high_exp =</span> <span class="fu">ifelse</span>(student_exp <span class="sc">&gt;</span> parent_exp, student_exp, parent_exp)) <span class="sc">|&gt;</span></span>
-<span id="cb57-17"><a href="#cb57-17" aria-hidden="true" tabindex="-1"></a>  <span class="do">## If one exp is NA but the other isn't, keep the value not the NA</span></span>
-<span id="cb57-18"><a href="#cb57-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">high_exp =</span> <span class="fu">ifelse</span>(<span class="fu">is.na</span>(high_exp) <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(student_exp), student_exp, high_exp),</span>
-<span id="cb57-19"><a href="#cb57-19" aria-hidden="true" tabindex="-1"></a>         <span class="at">high_exp =</span> <span class="fu">ifelse</span>(<span class="fu">is.na</span>(high_exp) <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(parent_exp), parent_exp, high_exp)) <span class="sc">|&gt;</span></span>
-<span id="cb57-20"><a href="#cb57-20" aria-hidden="true" tabindex="-1"></a>  <span class="do">## Drop is high_exp is still NA (neither parent or student answereed)</span></span>
-<span id="cb57-21"><a href="#cb57-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(high_exp)) <span class="sc">|&gt;</span></span>
-<span id="cb57-22"><a href="#cb57-22" aria-hidden="true" tabindex="-1"></a>  <span class="do">## Group the results by region</span></span>
-<span id="cb57-23"><a href="#cb57-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(x1region) <span class="sc">|&gt;</span></span>
-<span id="cb57-24"><a href="#cb57-24" aria-hidden="true" tabindex="-1"></a>  <span class="do">## Get the mean of high_exp (by region)</span></span>
-<span id="cb57-25"><a href="#cb57-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">mean_exp =</span> <span class="fu">mean</span>(high_exp)) <span class="sc">|&gt;</span></span>
-<span id="cb57-26"><a href="#cb57-26" aria-hidden="true" tabindex="-1"></a>  <span class="do">## Write that to a .csv file</span></span>
-<span id="cb57-27"><a href="#cb57-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">write_csv</span>(<span class="fu">file.path</span>(<span class="st">"data"</span>, <span class="st">"region-expects-chain.csv"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Let's redo the analysis above, but with a fully chained set of</span></span>
+<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a><span class="do">## functions.</span></span>
+<span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb58-4"><a href="#cb58-4" aria-hidden="true" tabindex="-1"></a><span class="do">## start with original df</span></span>
+<span id="cb58-5"><a href="#cb58-5" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span></span>
+<span id="cb58-6"><a href="#cb58-6" aria-hidden="true" tabindex="-1"></a>  <span class="do">## select columns we want</span></span>
+<span id="cb58-7"><a href="#cb58-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(stu_id, x1stuedexpct, x1paredexpct, x1region) <span class="sc">|&gt;</span></span>
+<span id="cb58-8"><a href="#cb58-8" aria-hidden="true" tabindex="-1"></a>  <span class="do">## If expectation is -8, -9. or 11, make it NA</span></span>
+<span id="cb58-9"><a href="#cb58-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">student_exp =</span> <span class="fu">ifelse</span>(x1stuedexpct <span class="sc">%in%</span> <span class="fu">list</span>(<span class="sc">-</span><span class="dv">8</span>, <span class="sc">-</span><span class="dv">9</span>, <span class="dv">11</span>), <span class="cn">NA</span>, x1stuedexpct),</span>
+<span id="cb58-10"><a href="#cb58-10" aria-hidden="true" tabindex="-1"></a>         <span class="at">parent_exp =</span> <span class="fu">ifelse</span>(x1paredexpct <span class="sc">%in%</span> <span class="fu">list</span>(<span class="sc">-</span><span class="dv">8</span>, <span class="sc">-</span><span class="dv">9</span>, <span class="dv">11</span>), <span class="cn">NA</span>, x1paredexpct)) <span class="sc">|&gt;</span></span>
+<span id="cb58-11"><a href="#cb58-11" aria-hidden="true" tabindex="-1"></a>  <span class="do">## Make a new variable called high_exp that is the higher or parent and student exp</span></span>
+<span id="cb58-12"><a href="#cb58-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">high_exp =</span> <span class="fu">ifelse</span>(student_exp <span class="sc">&gt;</span> parent_exp, student_exp, parent_exp)) <span class="sc">|&gt;</span></span>
+<span id="cb58-13"><a href="#cb58-13" aria-hidden="true" tabindex="-1"></a>  <span class="do">## If one exp is NA but the other isn't, keep the value not the NA</span></span>
+<span id="cb58-14"><a href="#cb58-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">high_exp =</span> <span class="fu">ifelse</span>(<span class="fu">is.na</span>(high_exp) <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(student_exp), student_exp, high_exp),</span>
+<span id="cb58-15"><a href="#cb58-15" aria-hidden="true" tabindex="-1"></a>         <span class="at">high_exp =</span> <span class="fu">ifelse</span>(<span class="fu">is.na</span>(high_exp) <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(parent_exp), parent_exp, high_exp)) <span class="sc">|&gt;</span></span>
+<span id="cb58-16"><a href="#cb58-16" aria-hidden="true" tabindex="-1"></a>  <span class="do">## Drop is high_exp is still NA (neither parent or student answereed)</span></span>
+<span id="cb58-17"><a href="#cb58-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(high_exp)) <span class="sc">|&gt;</span></span>
+<span id="cb58-18"><a href="#cb58-18" aria-hidden="true" tabindex="-1"></a>  <span class="do">## Group the results by region</span></span>
+<span id="cb58-19"><a href="#cb58-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(x1region) <span class="sc">|&gt;</span></span>
+<span id="cb58-20"><a href="#cb58-20" aria-hidden="true" tabindex="-1"></a>  <span class="do">## Get the mean of high_exp (by region)</span></span>
+<span id="cb58-21"><a href="#cb58-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">mean_exp =</span> <span class="fu">mean</span>(high_exp)) <span class="sc">|&gt;</span></span>
+<span id="cb58-22"><a href="#cb58-22" aria-hidden="true" tabindex="-1"></a>  <span class="do">## Write that to a .csv file</span></span>
+<span id="cb58-23"><a href="#cb58-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">write_csv</span>(<span class="fu">file.path</span>(<span class="st">"data"</span>, <span class="st">"region-expects-chain.csv"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>To double check, let’s just check these are the same</p>
+<p>To double check, let’s just check these are the same…</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a>non_chain <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="fu">file.path</span>(<span class="st">"data"</span>, <span class="st">"region-expects.csv"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>non_chain <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="fu">file.path</span>(<span class="st">"data"</span>, <span class="st">"region-expects.csv"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Rows: 4 Columns: 2
 ── Column specification ────────────────────────────────────────────────────────
@@ -1500,7 +1478,7 @@ dbl (2): x1region, mean_exp
 ℹ Use `spec()` to retrieve the full column specification for this data.
 ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a>chain <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="fu">file.path</span>(<span class="st">"data"</span>, <span class="st">"region-expects-chain.csv"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb61"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a>chain <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="fu">file.path</span>(<span class="st">"data"</span>, <span class="st">"region-expects-chain.csv"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Rows: 4 Columns: 2
 ── Column specification ────────────────────────────────────────────────────────
@@ -1510,7 +1488,7 @@ dbl (2): x1region, mean_exp
 ℹ Use `spec()` to retrieve the full column specification for this data.
 ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="fu">all.equal</span>(non_chain, chain)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb63"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a><span class="fu">all.equal</span>(non_chain, chain)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] TRUE</code></pre>
 </div>
