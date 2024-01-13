@@ -518,9 +518,7 @@ dbl (16): stu_id, x1sex, x1race, x1stdob, x1txmtscor, x1paredu, x1hhnumber, ...
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="do">## With |&gt;</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span> <span class="fu">select</span>(x1txmtscor) <span class="sc">|&gt;</span> <span class="fu">filter</span>(x1txmtscor <span class="sc">&gt;</span> <span class="dv">50</span>) <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">square_root =</span> <span class="fu">sqrt</span>(x1txmtscor))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<ul>
-<li>As we are getting longer, I’m going to use a new line for each pipe, just to make it even clearer (it makes no difference to R)</li>
-</ul>
+<p>As we are getting longer, I’m going to use a new line for each pipe, just to make it even clearer (it makes no difference to R)</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(x1txmtscor) <span class="sc">|&gt;</span></span>
@@ -568,10 +566,10 @@ dbl (16): stu_id, x1sex, x1race, x1stdob, x1txmtscor, x1paredu, x1hhnumber, ...
 <span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  df_forward_pass</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ul>
-<li>That’s how I first thought about how pipes and assignment work together, and you can see the outputs are <code>identical()</code></li>
+<li>That’s how I first thought about how pipes and assignment work together, and you can see the outputs are <code>all.equal()</code></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">identical</span>(df_backward_pass, df_forward_pass)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">all.equal</span>(df_backward_pass, df_forward_pass)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] TRUE</code></pre>
 </div>
@@ -588,11 +586,11 @@ dbl (16): stu_id, x1sex, x1race, x1stdob, x1txmtscor, x1paredu, x1hhnumber, ...
 <h4 data-anchor-id="a-brief-history-of-the-r-pipe">A Brief History of the R Pipe</h4>
 <p><span style="display:block;text-align:center"> <a href="https://www.fine-arts-museum.be/uploads/exhibitions/images/magritte_la_trahison_des_images_large@2x.jpg"><img src="https://raw.githubusercontent.com/tidyverse/magrittr/main/man/figures/logo.png" class="img-fluid" alt="badge"></a> </span></p>
 <ul>
-<li>The pipe was originally a <code>tidyverse</code> invention, and used <code>%&gt;%</code> symbol, which is probably still the more common pipe you see in the wild</li>
-<li>The pipe we are using was brought into the base (vanilla) version of R a few years ago as <code>|&gt;</code></li>
-<li>The reason for the change is some benefits that are beyond the scope of this class, but I wanted you to be aware that <ins><code>|&gt;</code> and <code>%&gt;%</code> are essentially the same thing</ins>
+<li>The pipe was originally a <code>tidyverse</code> invention, and used <code>%&gt;%</code> symbol, which is probably still a common pipe you see “in the wild”</li>
+<li>The pipe we are using was brought into the Vanilla version of R a few years ago as <code>|&gt;</code></li>
+<li>The reason for the change is some benefits that are beyond the scope of this class, but I wanted you to be aware that <code>|&gt;</code> and <code>%&gt;%</code> <ins>are essentially the same thing</ins>
 <ul>
-<li>You can intermingle them, but, the new pipe is one less character to type, doesn’t need you to have loaded <code>tidyverse</code> loaded, and I think it’s more clear, so I suggest you stick with <code>|&gt;</code></li>
+<li>You can intermingle them, but, but for clarity I would stick with <code>|&gt;</code></li>
 </ul></li>
 </ul>
 </section>
@@ -605,16 +603,13 @@ dbl (16): stu_id, x1sex, x1race, x1stdob, x1txmtscor, x1paredu, x1hhnumber, ...
 <section id="selecting-variablescolumns-with-select" class="level3">
 <h3 data-anchor-id="selecting-variablescolumns-with-select">Selecting Variables/Columns with <code>select()</code></h3>
 <ul>
-<li>Often data sets contain hundreds, thousands, or even tens of thousands of variables, when we are only interested in a handful. Our first <code>tidyverse</code> command <code>select()</code> helps us deal with this, by, as you may have guessed <code>select()</code>-ing the variables we want</li>
+<li>Often data sets contain hundreds, thousands, or even tens of thousands of variables, when we are only interested in a handful. Our first <code>tidyverse</code> command <code>select()</code> helps us deal with this, by, as you may have guessed, <code>select()</code>-ing the variables we want</li>
 <li>Since we are going to pipe our R commands, we start with our data then pipe it into the <code>select()</code> command</li>
 <li>In the <code>select()</code> command, we list out the variables we want
 <ul>
 <li><code>stu_id, x1stuedexpct, x1paredexpct, x1region</code>
 <ul>
-<li>Notice, in this (and most tidyverse) command(s) we don’t have to use “quotes” around the variable names
-<ul>
-<li>Hint: a common error message when you needed to put something in quotes is <code>Error: object xxx not found</code></li>
-</ul></li>
+<li>Notice: in this (and most tidyverse) command(s) we don’t have to use “quotes” around the variable names. A common error message when you did need to put something in quotes is <code>Error: object xxx not found</code></li>
 </ul></li>
 </ul></li>
 </ul>
@@ -645,13 +640,14 @@ dbl (16): stu_id, x1sex, x1race, x1stdob, x1txmtscor, x1paredu, x1hhnumber, ...
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>df_small <span class="ot">&lt;-</span> df <span class="sc">|&gt;</span> <span class="fu">select</span>(stu_id, x1stuedexpct, x1paredexpct, x1region)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ul>
-<li>Our next step is to create a variable that’s the higher of student and parent expectations. Sounds simple enough, but wait, we have a problem…
+<li>Our next step is to create a variable that’s the higher of student and parent expectations. Sounds simple enough, but first, we have a problem…
 <ul>
 <li>Can anyone guess what it is?</li>
 </ul></li>
 </ul>
-<section id="understanding-our-data" class="level4">
-<h4 data-anchor-id="understanding-our-data">Understanding our data</h4>
+</section>
+<section id="understanding-our-data" class="level3">
+<h3 data-anchor-id="understanding-our-data">Understanding our data</h3>
 <p>First things first, however, we need to check the <a href="https://nces.ed.gov/datalab/onlinecodebook">code book</a> to see what the numerical values for our two education expectation variables represent. To save time, I’ve copied them here:</p>
 <section id="x1stuedexpct" class="level5">
 <h5 data-anchor-id="x1stuedexpct"><code>x1stuedexpct</code></h5>
@@ -786,12 +782,14 @@ dbl (16): stu_id, x1sex, x1race, x1stdob, x1txmtscor, x1paredu, x1hhnumber, ...
 </ul>
 </section>
 </section>
-</section>
 <section id="exploring-catagorical-variables-with-count" class="level3">
 <h3 data-anchor-id="exploring-catagorical-variables-with-count">Exploring Catagorical Variables with <code>count()</code></h3>
 <ul>
-<li>First, let’s see how many observations are affected by these values using <code>count()</code> &gt; notice that we don’t assign to a new object; this means we’ll see the result in the console, but nothing in our data or object will change</li>
+<li>First, let’s see how many observations are affected by these values using <code>count()</code></li>
 </ul>
+<blockquote class="blockquote">
+<p>Notice that we don’t assign to a new object; this means we’ll see the result in the console, but nothing in our data or object will change</p>
+</blockquote>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="do">## -----------------</span></span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="do">## mutate</span></span>
@@ -855,24 +853,31 @@ dbl (16): stu_id, x1sex, x1race, x1stdob, x1txmtscor, x1paredu, x1hhnumber, ...
 <ul>
 <li>For now, we’ll make a decision to convert these to <code>NA</code> as well, effectively deciding that an answer of “I don’t know” is the same as missing an answer</li>
 </ul></li>
-<li>So first step: convert <code>-8</code>, <code>-9</code>, and <code>11</code> in both variables to <code>NA</code>. We can do this by overwriting cells in each variable with <code>NA</code> when they equal one of these two values. For this, we’ll use the <code>mutate()</code> and <code>ifelse()</code> functions</li>
+<li>So first step: convert <code>-8</code>, <code>-9</code>, and <code>11</code> in both variables to <code>NA</code>. For this, we’ll use the <code>mutate()</code> and <code>ifelse()</code> functions</li>
 </ul>
 </section>
 <section id="conditional-values-with-ifelse" class="level3">
 <h3 data-anchor-id="conditional-values-with-ifelse">Conditional Values with <code>ifelse()</code></h3>
-<p><code>ifelse()</code> is a really common command in <code>R</code> and has three parts 1. <code>statement</code> that can be <code>TRUE</code> or <code>FALSE</code> 2. What to return <code>if</code> the <code>statement</code> is <code>TRUE</code> 3. <code>else</code> what to return when the <code>statement</code> is <code>FALSE</code></p>
+<ul>
+<li><code>ifelse()</code> is a really common command in <code>R</code> and has three parts
+<ol type="1">
+<li><code>statement</code> that can be <code>TRUE</code> or <code>FALSE</code></li>
+<li>What to return <code>if</code> the <code>statement</code> is <code>TRUE</code></li>
+<li><code>else</code> what to return when the <code>statement</code> is <code>FALSE</code></li>
+</ol></li>
+</ul>
 </section>
-<section id="modifying-data-with-mutate" class="level3">
-<h3 data-anchor-id="modifying-data-with-mutate">Modifying Data with <code>mutate()</code></h3>
+<section id="modifying-an-existing-variable-with-mutate" class="level3">
+<h3 data-anchor-id="modifying-an-existing-variable-with-mutate">Modifying an Existing Variable with <code>mutate()</code></h3>
 <ul>
 <li>When we want to add variables and change existing ones, we can use the <code>mutate()</code> function
 <ul>
 <li>The basic idea of mutate commands is <code>mutate(&lt;where to go&gt; = &lt;what to go there&gt;)</code>
 <ul>
-<li>This is probably the trickiest function we cover today to understand at first</li>
+<li>This is probably the trickiest function we cover today to understand</li>
 </ul></li>
 <li>New variables are created if you provide <code>&lt;where to go&gt;</code> a new variable name (or nothing), variables are modified if you provide <code>&lt;where to go&gt;</code> an existing variable name</li>
-<li><code>&lt;what to go there&gt;</code> can as simple as a single number all the way to a chain of piped function, so long as there’s a clear answer for every row</li>
+<li><code>&lt;what to go there&gt;</code> can as simple as a single number all the way to a chain of piped functions, so long as there’s a clear answer for every row</li>
 </ul></li>
 <li>In this case, we want to create a new variable <code>student_exp</code> which is <code>NA</code> when <code>x1stuedexpct</code> is -8, -9, or 11
 <ul>
@@ -958,8 +963,8 @@ dbl (16): stu_id, x1sex, x1race, x1stdob, x1txmtscor, x1paredu, x1hhnumber, ...
 </ul>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>df_small <span class="ot">&lt;-</span> df_small <span class="sc">|&gt;</span></span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">student_exp =</span> <span class="fu">ifelse</span>(x1stuedexpct <span class="sc">%in%</span> <span class="fu">list</span>(<span class="sc">-</span><span class="dv">8</span>, <span class="sc">-</span><span class="dv">9</span>, <span class="dv">11</span>), <span class="cn">NA</span>, x1stuedexpct),</span>
-<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">parent_exp =</span> <span class="fu">ifelse</span>(x1paredexpct <span class="sc">%in%</span> <span class="fu">list</span>(<span class="sc">-</span><span class="dv">8</span>, <span class="sc">-</span><span class="dv">9</span>, <span class="dv">11</span>), <span class="cn">NA</span>, x1paredexpct))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">student_exp =</span> <span class="fu">ifelse</span>(x1stuedexpct <span class="sc">%in%</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">8</span>, <span class="sc">-</span><span class="dv">9</span>, <span class="dv">11</span>), <span class="cn">NA</span>, x1stuedexpct),</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">parent_exp =</span> <span class="fu">ifelse</span>(x1paredexpct <span class="sc">%in%</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">8</span>, <span class="sc">-</span><span class="dv">9</span>, <span class="dv">11</span>), <span class="cn">NA</span>, x1paredexpct))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ul>
 <li>The code now works just as above, but instead of asking if <code>x1stuedexpct</code> is equal to -8, it asks if it’s in the list of -8, -9, and 11, then does the same for parental expectations!
@@ -1042,11 +1047,12 @@ dbl (16): stu_id, x1sex, x1race, x1stdob, x1txmtscor, x1paredu, x1hhnumber, ...
 </div>
 </div>
 <p>Success!</p>
+</section>
+<section id="creating-a-new-variable-with-mutate" class="level3">
+<h3 data-anchor-id="creating-a-new-variable-with-mutate">Creating a New Variable with <code>mutate()</code></h3>
 <ul>
-<li>So, with that tangent out of the way, let’s get back to our original task, creating a new variable that is the highest of parental and student expectations
-<ul>
+<li>So, with that tangent out of the way, let’s get back to our original task, creating a new variable that is the highest of parental and student expectations</li>
 <li>To make a new variable which is the highest of two variables, we can use our friends <code>mutate()</code> and <code>ifelse()</code> some more</li>
-</ul></li>
 </ul>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>df_small <span class="ot">&lt;-</span> df_small <span class="sc">|&gt;</span></span>
@@ -1057,7 +1063,7 @@ dbl (16): stu_id, x1sex, x1race, x1stdob, x1txmtscor, x1paredu, x1hhnumber, ...
 <ul>
 <li>If <code>student_exp</code> is higher then take that, if not, take <code>parent_exp</code>
 <ul>
-<li>There’s two things I haven’t fully accounted for though
+<li>There’s two things I haven’t fully accounted for though…
 <ul>
 <li>One doesn’t actually matter here, but might in other circumstances</li>
 <li>One definitely matters here
@@ -1074,8 +1080,9 @@ dbl (16): stu_id, x1sex, x1race, x1stdob, x1txmtscor, x1paredu, x1hhnumber, ...
 <figcaption>“<a href="https://www.rawpixel.com/image/6772898/png-sticker-public-domain">Rubber duck png sticker, transparent</a>” is marked with <a href="https://creativecommons.org/publicdomain/zero/1.0/?ref=openverse">CC0 1.0.</a></figcaption>
 </figure>
 </div>
+<section id="sloppy-mistake-1-doesnt-matter-here" class="level4">
+<h4 data-anchor-id="sloppy-mistake-1-doesnt-matter-here">Sloppy Mistake 1 (doesn’t matter here)</h4>
 <ul>
-<li>The one that doesn’t actually matter here</li>
 <li>I was a little sloppy with the <code>statement</code> piece, I just asked if <code>student_exp</code> was greater than <code>parent_exp</code> or not
 <ul>
 <li>If I was being more careful, I might have said “greater than or equal to”
@@ -1083,6 +1090,11 @@ dbl (16): stu_id, x1sex, x1race, x1stdob, x1txmtscor, x1paredu, x1hhnumber, ...
 <li>Why doesn’t this matter in this context, and when might it matter?</li>
 </ul></li>
 </ul></li>
+</ul>
+</section>
+<section id="sloppy-mistake-2-does-matter-here" class="level4">
+<h4 data-anchor-id="sloppy-mistake-2-does-matter-here">Sloppy Mistake 2 (does matter here)</h4>
+<ul>
 <li>Now let’s check our data frame to see the one that does matter</li>
 </ul>
 <div class="cell">
@@ -1153,14 +1165,15 @@ dbl (16): stu_id, x1sex, x1race, x1stdob, x1txmtscor, x1paredu, x1hhnumber, ...
 <li>For now, let’s keep the results we got, but, if it gave us an <code>NA</code> and there is a non-<code>NA</code> value in other other column, sub that in</li>
 </ul>
 </section>
+</section>
 <section id="dealing-with-missing-values-with-is.na-and" class="level3">
-<h3 data-anchor-id="dealing-with-missing-values-with-is.na-and">Dealing With Missing Values with <code>is.na()</code> and <code>!</code></h3>
+<h3 data-anchor-id="dealing-with-missing-values-with-is.na-and">Dealing With Missing Values with <code>is.na()</code>, <code>&amp;</code>, and <code>!</code></h3>
 <ul>
 <li>To do this, we will add another couple of code helpers -<code>is.na(high_exp)</code> simply asks if the <code>high_exp</code> is <code>NA</code> or not
 <ul>
 <li>R doesn’t let you just say <code>high_exp == NA</code> -<code>!</code> is really helpful tool, which can be used to negate or invert a command
 <ul>
-<li><code>!is.na(student_exp)</code> just returns the opposite of <code>is.na(student_exp)</code> so it tells us that the column is not <code>NA</code></li>
+<li><code>!is.na(student_exp)</code> just returns the opposite of <code>is.na(student_exp)</code> so it tells us that the column is not <code>NA</code> -<code>&amp;</code> can be useful inside conditional statements, as it means both must be <code>TRUE</code> (FYI: <code>|</code> means or)</li>
 </ul></li>
 </ul></li>
 <li>Used together, we can now ensure we have as few <code>NA</code>s as possible in the data (there will still be some when both student and parent were <code>NA</code>)</li>
@@ -1446,9 +1459,38 @@ dbl (16): stu_id, x1sex, x1race, x1stdob, x1txmtscor, x1paredu, x1hhnumber, ...
 <section id="appendix-all-at-once" class="level2">
 <h2 data-anchor-id="appendix-all-at-once">Appendix: All at Once</h2>
 <p>We went through that piece by piece to demonstrate each function, but, there’s no reason we can’t just <code>|&gt;</code> pipe it all together</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="do">## ---------------------------</span></span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a><span class="do">## appendix</span></span>
+<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a><span class="do">## ---------------------------</span></span>
+<span id="cb57-4"><a href="#cb57-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-5"><a href="#cb57-5" aria-hidden="true" tabindex="-1"></a><span class="do">## Let's redo the analysis above, but with a fully chained set of</span></span>
+<span id="cb57-6"><a href="#cb57-6" aria-hidden="true" tabindex="-1"></a><span class="do">## functions.</span></span>
+<span id="cb57-7"><a href="#cb57-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-8"><a href="#cb57-8" aria-hidden="true" tabindex="-1"></a><span class="do">## start with original df</span></span>
+<span id="cb57-9"><a href="#cb57-9" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span></span>
+<span id="cb57-10"><a href="#cb57-10" aria-hidden="true" tabindex="-1"></a>  <span class="do">## select columns we want</span></span>
+<span id="cb57-11"><a href="#cb57-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(stu_id, x1stuedexpct, x1paredexpct, x1region) <span class="sc">|&gt;</span></span>
+<span id="cb57-12"><a href="#cb57-12" aria-hidden="true" tabindex="-1"></a>  <span class="do">## If expectation is -8, -9. or 11, make it NA</span></span>
+<span id="cb57-13"><a href="#cb57-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">student_exp =</span> <span class="fu">ifelse</span>(x1stuedexpct <span class="sc">%in%</span> <span class="fu">list</span>(<span class="sc">-</span><span class="dv">8</span>, <span class="sc">-</span><span class="dv">9</span>, <span class="dv">11</span>), <span class="cn">NA</span>, x1stuedexpct),</span>
+<span id="cb57-14"><a href="#cb57-14" aria-hidden="true" tabindex="-1"></a>         <span class="at">parent_exp =</span> <span class="fu">ifelse</span>(x1paredexpct <span class="sc">%in%</span> <span class="fu">list</span>(<span class="sc">-</span><span class="dv">8</span>, <span class="sc">-</span><span class="dv">9</span>, <span class="dv">11</span>), <span class="cn">NA</span>, x1paredexpct)) <span class="sc">|&gt;</span></span>
+<span id="cb57-15"><a href="#cb57-15" aria-hidden="true" tabindex="-1"></a>  <span class="do">## Make a new variable called high_exp that is the higher or parent and student exp</span></span>
+<span id="cb57-16"><a href="#cb57-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">high_exp =</span> <span class="fu">ifelse</span>(student_exp <span class="sc">&gt;</span> parent_exp, student_exp, parent_exp)) <span class="sc">|&gt;</span></span>
+<span id="cb57-17"><a href="#cb57-17" aria-hidden="true" tabindex="-1"></a>  <span class="do">## If one exp is NA but the other isn't, keep the value not the NA</span></span>
+<span id="cb57-18"><a href="#cb57-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">high_exp =</span> <span class="fu">ifelse</span>(<span class="fu">is.na</span>(high_exp) <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(student_exp), student_exp, high_exp),</span>
+<span id="cb57-19"><a href="#cb57-19" aria-hidden="true" tabindex="-1"></a>         <span class="at">high_exp =</span> <span class="fu">ifelse</span>(<span class="fu">is.na</span>(high_exp) <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(parent_exp), parent_exp, high_exp)) <span class="sc">|&gt;</span></span>
+<span id="cb57-20"><a href="#cb57-20" aria-hidden="true" tabindex="-1"></a>  <span class="do">## Drop is high_exp is still NA (neither parent or student answereed)</span></span>
+<span id="cb57-21"><a href="#cb57-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(high_exp)) <span class="sc">|&gt;</span></span>
+<span id="cb57-22"><a href="#cb57-22" aria-hidden="true" tabindex="-1"></a>  <span class="do">## Group the results by region</span></span>
+<span id="cb57-23"><a href="#cb57-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(x1region) <span class="sc">|&gt;</span></span>
+<span id="cb57-24"><a href="#cb57-24" aria-hidden="true" tabindex="-1"></a>  <span class="do">## Get the mean of high_exp (by region)</span></span>
+<span id="cb57-25"><a href="#cb57-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">mean_exp =</span> <span class="fu">mean</span>(high_exp)) <span class="sc">|&gt;</span></span>
+<span id="cb57-26"><a href="#cb57-26" aria-hidden="true" tabindex="-1"></a>  <span class="do">## Write that to a .csv file</span></span>
+<span id="cb57-27"><a href="#cb57-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">write_csv</span>(<span class="fu">file.path</span>(<span class="st">"data"</span>, <span class="st">"region-expects-chain.csv"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 <p>To double check, let’s just check these are the same</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a>non_chain <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="fu">file.path</span>(<span class="st">"data"</span>, <span class="st">"region-expects.csv"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a>non_chain <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="fu">file.path</span>(<span class="st">"data"</span>, <span class="st">"region-expects.csv"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Rows: 4 Columns: 2
 ── Column specification ────────────────────────────────────────────────────────
@@ -1458,7 +1500,7 @@ dbl (2): x1region, mean_exp
 ℹ Use `spec()` to retrieve the full column specification for this data.
 ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>chain <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="fu">file.path</span>(<span class="st">"data"</span>, <span class="st">"region-expects-chain.csv"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a>chain <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="fu">file.path</span>(<span class="st">"data"</span>, <span class="st">"region-expects-chain.csv"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Rows: 4 Columns: 2
 ── Column specification ────────────────────────────────────────────────────────
@@ -1468,12 +1510,12 @@ dbl (2): x1region, mean_exp
 ℹ Use `spec()` to retrieve the full column specification for this data.
 ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb61"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a><span class="fu">all.equal</span>(non_chain, chain)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="fu">all.equal</span>(non_chain, chain)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] TRUE</code></pre>
 </div>
 </div>
-<p>Yep!</p>
+<p>WooHoo!</p>
 </section>
 <section id="final-notes" class="level2">
 <h2 data-anchor-id="final-notes">Final notes</h2>

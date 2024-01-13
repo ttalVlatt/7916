@@ -67,7 +67,7 @@ df |>
   mutate(square_root = sqrt(x1txmtscor)) ->
   df_forward_pass
 
-identical(df_backward_pass, df_forward_pass)
+all.equal(df_backward_pass, df_forward_pass)
 
 df |> select(stu_id, x1stuedexpct, x1paredexpct, x1region)
 
@@ -89,8 +89,8 @@ df_small <- df_small |>
 print(df_small, n = 26)
 
 df_small <- df_small |>
-  mutate(student_exp = ifelse(x1stuedexpct %in% list(-8, -9, 11), NA, x1stuedexpct),
-         parent_exp = ifelse(x1paredexpct %in% list(-8, -9, 11), NA, x1paredexpct))
+  mutate(student_exp = ifelse(x1stuedexpct %in% c(-8, -9, 11), NA, x1stuedexpct),
+         parent_exp = ifelse(x1paredexpct %in% c(-8, -9, 11), NA, x1paredexpct))
 
 print(df_small, n = 26)
 
