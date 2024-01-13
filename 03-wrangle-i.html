@@ -360,8 +360,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>As part of this process, you will have practiced translating a research question into data analysis steps, which is a skill every bit as important as technical sophistication with a statistical language like R</li>
 </ul></li>
 </ul>
-<section id="example-task" class="level2">
-<h2 data-anchor-id="example-task">Example Task</h2>
+<section id="re-urgent-data-question-from-the-provost" class="level2">
+<h2 data-anchor-id="re-urgent-data-question-from-the-provost">Re: Urgent Data Question from the Provost</h2>
 <ul>
 <li>Through today’s lesson, we will explore some of the basics of data wrangling
 <ul>
@@ -463,7 +463,6 @@ dbl (16): stu_id, x1sex, x1race, x1stdob, x1txmtscor, x1paredu, x1hhnumber, ...
 </section>
 <section id="pipe-operator-in-r" class="level2">
 <h2 data-anchor-id="pipe-operator-in-r">Pipe Operator <code>|&gt;</code> in R</h2>
-<p>Remember in our <a href="./02-set-data.html">organizing lesson</a> I said <code>|&gt;</code> was something I would explain later? Well now’s the time…</p>
 <p>The pipe is one of the things that makes R code more intuitive than other programming languages, as it allows us write code in the order we think about it, passing it one from one function to another, rather than nesting it like traditional code would be written</p>
 <p>For this example don’t worry about the actual processes (we will go over them more below), just look at how much more intuitive the code is with <code>|&gt;</code>s.</p>
 <p>First, let’s say I want to take the data we just read in and <code>select</code> the <code>x1txmtscor</code> (math test scores) column</p>
@@ -480,7 +479,7 @@ dbl (16): stu_id, x1sex, x1race, x1stdob, x1txmtscor, x1paredu, x1hhnumber, ...
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="do">## With |&gt;</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span> <span class="fu">select</span>(x1txmtscor)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>But, what if we want to take that output and select only students with a math score above 50?</p>
+<p>Neither is that confusing… But, what if we want to take that output and select only students with a math score above 50?</p>
 </section>
 <section id="without-1" class="level4">
 <h4 data-anchor-id="without-1">Without <code>|&gt;</code></h4>
@@ -512,20 +511,20 @@ dbl (16): stu_id, x1sex, x1race, x1stdob, x1txmtscor, x1paredu, x1hhnumber, ...
 </div>
 <p>As we are getting longer, I’m going to use a new line for each pipe, just to make it even clearer (it makes no difference to R)</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(x1txmtscor) <span class="sc">|&gt;</span></span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(x1txmtscor <span class="sc">&gt;</span> <span class="dv">50</span>) <span class="sc">|&gt;</span></span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">square_root =</span> <span class="fu">sqrt</span>(x1txmtscor))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Best to use  a new line for each pipe when code gets longer</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(x1txmtscor) <span class="sc">|&gt;</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(x1txmtscor <span class="sc">&gt;</span> <span class="dv">50</span>) <span class="sc">|&gt;</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">square_root =</span> <span class="fu">sqrt</span>(x1txmtscor))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Even though we haven’t covered any of these commands yet, I think (tell me if I’m wrong) the <code>|&gt;</code> is still pretty easy to know roughly what’s going on. Whereas, the traditional nested way gets really tricky beyond a couple of commands.</p>
 <p>Of course, if you wanted, you could do each step separately, constantly assigning and overwriting an object like below</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Without the |&gt;, we could technically break it down step by step assigning</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="do">## after each step, but again, I think it's more confusing </span></span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>temp <span class="ot">&lt;-</span> <span class="fu">select</span>(df, x1txmtscor)</span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>temp <span class="ot">&lt;-</span> <span class="fu">filter</span>(temp, x1txmtscor <span class="sc">&gt;</span> <span class="dv">50</span>)</span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>temp <span class="ot">&lt;-</span> <span class="fu">mutate</span>(temp, <span class="at">square_root =</span> <span class="fu">sqrt</span>(x1txmtscor))</span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>temp</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Without the |&gt;, we could technically break it down step by step</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>temp <span class="ot">&lt;-</span> <span class="fu">select</span>(df, x1txmtscor)</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>temp <span class="ot">&lt;-</span> <span class="fu">filter</span>(temp, x1txmtscor <span class="sc">&gt;</span> <span class="dv">50</span>)</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>temp <span class="ot">&lt;-</span> <span class="fu">mutate</span>(temp, <span class="at">square_root =</span> <span class="fu">sqrt</span>(x1txmtscor))</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>temp</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>But again, I think it’s less intuitive than simply piping the results.</p>
 <ul>
@@ -542,26 +541,30 @@ dbl (16): stu_id, x1sex, x1race, x1stdob, x1txmtscor, x1paredu, x1hhnumber, ...
 <li>Assigning output from pipes is the same as we have covered a few times, we use a <code>&lt;-</code> to pass it backwards to an object (in this case we called that object <code>df_backward_pass</code>)</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>df_backward_pass <span class="ot">&lt;-</span> df <span class="sc">|&gt;</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(x1txmtscor) <span class="sc">|&gt;</span></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(x1txmtscor <span class="sc">&gt;</span> <span class="dv">50</span>) <span class="sc">|&gt;</span></span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">square_root =</span> <span class="fu">sqrt</span>(x1txmtscor))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Always assign backwards</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>df_backward_pass <span class="ot">&lt;-</span> df <span class="sc">|&gt;</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(x1txmtscor) <span class="sc">|&gt;</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(x1txmtscor <span class="sc">&gt;</span> <span class="dv">50</span>) <span class="sc">|&gt;</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">square_root =</span> <span class="fu">sqrt</span>(x1txmtscor))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ul>
 <li>If you want to think of it this way, we are effectively continuing to pass it forward like this…</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(x1txmtscor) <span class="sc">|&gt;</span></span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(x1txmtscor <span class="sc">&gt;</span> <span class="dv">50</span>) <span class="sc">|&gt;</span></span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">square_root =</span> <span class="fu">sqrt</span>(x1txmtscor)) <span class="ot">-&gt;</span></span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  df_forward_pass</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="do">## You can think of the assignment as a continuation of the pipe like this</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="do">## but don't write it this way, it's then hard to find what you called something later</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(x1txmtscor) <span class="sc">|&gt;</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(x1txmtscor <span class="sc">&gt;</span> <span class="dv">50</span>) <span class="sc">|&gt;</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">square_root =</span> <span class="fu">sqrt</span>(x1txmtscor)) <span class="ot">-&gt;</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>  df_forward_pass</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ul>
 <li>That’s how I first thought about how pipes and assignment work together, and you can see the outputs are <code>all.equal()</code></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">all.equal</span>(df_backward_pass, df_forward_pass)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Checking they are the same</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">all.equal</span>(df_backward_pass, df_forward_pass)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] TRUE</code></pre>
 </div>
@@ -601,7 +604,7 @@ dbl (16): stu_id, x1sex, x1race, x1stdob, x1txmtscor, x1paredu, x1hhnumber, ...
 <ul>
 <li><code>stu_id, x1stuedexpct, x1paredexpct, x1region</code>
 <ul>
-<li>Notice: in this (and most tidyverse) command(s) we don’t have to use “quotes” around the variable names. A common error message when you did need to put something in quotes is <code>Error: object xxx not found</code></li>
+<li>Notice: in this (and most tidyverse) command(s) we don’t have to use “quotes” around the variable names. A common error message when you did need to put something in quotes is <code>Error: object &lt;thing you should have "quoted"&gt; not found</code></li>
 </ul></li>
 </ul></li>
 </ul>
@@ -828,7 +831,7 @@ dbl (16): stu_id, x1sex, x1race, x1stdob, x1txmtscor, x1paredu, x1hhnumber, ...
 <ul>
 <li>In R, missing values are technically stored as <code>NA</code>.
 <ul>
-<li>Not all statistical software uses the same values to represent missing values (for example, Stata uses a dot <code>.</code>)</li>
+<li>Not all statistical software uses the same values to represent missing values (for example, STATA uses a dot <code>.</code>)</li>
 </ul></li>
 <li>NCES has decided to represent missing values as a limited number of negative values. In this case, <code>-8</code> and <code>-9</code> represent missing values</li>
 </ul></li>
@@ -864,7 +867,8 @@ dbl (16): stu_id, x1sex, x1race, x1stdob, x1txmtscor, x1paredu, x1hhnumber, ...
 <ul>
 <li>This is probably the trickiest function we cover today to understand</li>
 </ul></li>
-<li>New variables are created if you provide <code>&lt;where to go&gt;</code> a new variable name (or nothing), variables are modified if you provide <code>&lt;where to go&gt;</code> an existing variable name</li>
+<li>New variables are created if you provide <code>&lt;where to go&gt;</code> a new variable name (or nothing)</li>
+<li>Variables are modified if you provide <code>&lt;where to go&gt;</code> an existing variable name</li>
 <li><code>&lt;what to go there&gt;</code> can as simple as a single number all the way to a chain of piped functions, so long as there’s a clear answer for every row</li>
 </ul></li>
 <li>In this case, we want to modify <code>x1stuedexpct</code> to be <code>NA</code> when <code>x1stuedexpct</code> is -8, -9, or 11</li>
@@ -1266,7 +1270,7 @@ dbl (16): stu_id, x1sex, x1race, x1stdob, x1txmtscor, x1paredu, x1hhnumber, ...
 <span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>df_small_cut <span class="ot">&lt;-</span> df_small <span class="sc">|&gt;</span> <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(high_exp))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ul>
-<li>Above we re-used our <code>!is.na()</code> helper to keep all rows that answer “yes” to “are you not <code>NA</code>?”
+<li>I re-used our <code>!is.na()</code> helper to keep all rows that answer “yes” to “are you not <code>NA</code>?”
 <ul>
 <li>Double negatives are something you’ll have to get used to in coding, sorry</li>
 <li>Notice, instead of overwriting <code>df_small</code> we assigned this to a new object <code>df_small_cut</code>

@@ -44,29 +44,33 @@ mutate(filter(select(df, x1txmtscor), x1txmtscor > 50), square_root = sqrt(x1txm
 ## With |>
 df |> select(x1txmtscor) |> filter(x1txmtscor > 50) |> mutate(square_root = sqrt(x1txmtscor))
 
+## Best to use  a new line for each pipe when code gets longer
 df |>
   select(x1txmtscor) |>
   filter(x1txmtscor > 50) |>
   mutate(square_root = sqrt(x1txmtscor))
 
-## Without the |>, we could technically break it down step by step assigning
-## after each step, but again, I think it's more confusing 
+## Without the |>, we could technically break it down step by step
 temp <- select(df, x1txmtscor)
 temp <- filter(temp, x1txmtscor > 50)
 temp <- mutate(temp, square_root = sqrt(x1txmtscor))
 temp
 
+## Always assign backwards
 df_backward_pass <- df |>
   select(x1txmtscor) |>
   filter(x1txmtscor > 50) |>
   mutate(square_root = sqrt(x1txmtscor))
 
+## You can think of the assignment as a continuation of the pipe like this
+## but don't write it this way, it's then hard to find what you called something later
 df |>
   select(x1txmtscor) |>
   filter(x1txmtscor > 50) |>
   mutate(square_root = sqrt(x1txmtscor)) ->
   df_forward_pass
 
+## Checking they are the same
 all.equal(df_backward_pass, df_forward_pass)
 
 ## ---------------------------
@@ -78,7 +82,7 @@ df |> select(stu_id, x1stuedexpct, x1paredexpct, x1region)
 df_small <- df |> select(stu_id, x1stuedexpct, x1paredexpct, x1region)
 
 ## ---------------------------
-## Count Catagorical Variables
+## Count Categorical Variables
 ## ---------------------------
 
 ## see unique values for student expectation
