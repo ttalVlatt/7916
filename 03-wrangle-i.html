@@ -352,12 +352,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" aria-current="page">Lesson</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">Assignment</a></li></ul>
 <div class="tab-content">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
-<p><a href="./r-scripts/03-wranlge-i.R"><i class="fa-solid fa-code" aria-label="code"></i> R Code</a></p>
+<p><a href="./r-scripts/03-wrangle-i.R"><i class="fa-solid fa-code" aria-label="code"></i> R Code</a></p>
 <ul>
-<li>Today we take our first full dive into R. Though every data wrangling / analysis is unique, the best way to learn and practice R is to answer a question using data, which is how this lesson is set up.</li>
-<li>By the end of this lesson, you will have read in a data set, lightly cleaned it, produced results, and saved your findings in a new file.
+<li>Today we take our first full dive into R. Though every data wrangling / analysis is unique, the best way to learn and practice R is to answer a question using data, which is how this lesson is set up</li>
+<li>By the end of this lesson, you will have read in a data set, lightly cleaned it, produced results, and saved your findings in a new file
 <ul>
-<li>As part of this process, you will have practiced translating a research question into data analysis steps, which is a skill every bit as important as technical sophistication with a statistical language like R.</li>
+<li>As part of this process, you will have practiced translating a research question into data analysis steps, which is a skill every bit as important as technical sophistication with a statistical language like R</li>
 </ul></li>
 </ul>
 <section id="example-task" class="level2">
@@ -372,12 +372,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Using HSLS09 data, figure out average differences in college degree expectations across census regions; for a first pass, ignore missing values and use the higher of student and parental expectations if an observation has both.</p>
 </blockquote>
 <ul>
-<li>A primary skill (often unremarked upon) in data analytic work is translation. Your advisor, IR director, funding agency director — even collaborator — won’t speak to you in the language of R.
+<li>A primary skill (often unremarked upon) in data analytic work is translation. Your advisor, IR director, funding agency director — even collaborator — won’t speak to you in the language of R
 <ul>
 <li>Instead, it’s up to you to
 <ol type="1">
 <li>translate a research question into the discrete steps coding steps necessary to provide an answer, and then</li>
-<li>translate the answer such that everyone understands what you’ve found.</li>
+<li>translate the answer such that everyone understands what you’ve found</li>
 </ol></li>
 </ul></li>
 </ul>
@@ -419,16 +419,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="check-working-directory" class="level2">
 <h2 data-anchor-id="check-working-directory">Check working directory</h2>
-<p>This script — like the one from the <a href="./02-set-data.html">organizing lesson</a> — assumes that the class folder is the working directory and that the required data file is in the <code>data</code> sub-directory. Like this:</p>
-<p>If you need a refresher on setting the working directory, see the <a href="./02-set-data.html">prior lesson</a>.</p>
-<p><strong>Notice</strong> that I’m not setting (<em>i.e.</em> hard coding) the working directory in the script. That would not work well for sharing the code. Instead, I tell you where you need to be (a common landmark), let you get there, and then rely on relative paths afterwards.</p>
-</section>
-<section id="example-data-analysis-task" class="level2">
-<h2 data-anchor-id="example-data-analysis-task">Example data analysis task</h2>
-</section>
-<section id="read-in-data" class="level2">
-<h2 data-anchor-id="read-in-data"><strong>Read</strong> in data</h2>
-<p>For this lesson, we’ll use a subset of the <a href="https://nces.ed.gov/surveys/hsls09/">High School Longitudinal Study of 2009 (HSLS09)</a>, an IES / NCES data set that features:</p>
+<ul>
+<li><p>This script — like the one from the <a href="./02-set-data.html">organizing lesson</a> — assumes that the class folder is the working directory and that the required data file is in the <code>data</code> sub-directory</p></li>
+<li><p>If you need a refresher on setting the working directory, see the <a href="./02-set-data.html">prior lesson</a>.</p></li>
+<li><p><strong>Notice</strong> that I’m not setting (<em>i.e.</em> hard coding) the working directory in the script. That would not work well for sharing the code. Instead, I tell you where you need to be (a common landmark), let you get there, and then rely on relative paths afterwards</p></li>
+</ul>
+<section id="reading-data-in-with-read_csv" class="level3">
+<h3 data-anchor-id="reading-data-in-with-read_csv">Reading Data in with <code>read_csv()</code></h3>
+<ul>
+<li>For this lesson, we’ll use a subset of the <a href="https://nces.ed.gov/surveys/hsls09/">High School Longitudinal Study of 2009 (HSLS09)</a>, an IES /NCES data set that features:</li>
+</ul>
 <blockquote class="blockquote">
 <ul>
 <li>Nationally representative, longitudinal study of 23,000+ 9th graders from 944 schools in 2009, with a first follow-up in 2012 and a second follow-up in 2016<br>
@@ -442,12 +442,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>10 state representative data sets</li>
 </ul>
 </blockquote>
-<p>If you are interested in using HSLS09 for future projects, <strong>DO NOT</strong> rely on this subset. Be sure to download the full data set with all relevant variables and weights if that’s the case. But for our purposes in this lesson, it will work just fine.</p>
-<p>Throughout, we’ll need to consult the code book. An <a href="https://nces.ed.gov/datalab/onlinecodebook">online version canbe found at this link</a>.</p>
-<blockquote class="blockquote">
-<h4 id="quick-exercise">Quick exercise</h4>
-<p>Follow the code book link above in your browser and navigate to the HSLS09 code book.</p>
-</blockquote>
+<ul>
+<li><p>If you are interested in using HSLS09 for future projects, <strong>DO NOT</strong> rely on this subset. Be sure to download the full data set with all relevant variables and weights if that’s the case. But for our purposes in this lesson, it will work just fine.</p></li>
+<li><p>Throughout, we’ll need to consult the code book. An <a href="https://nces.ed.gov/datalab/onlinecodebook">online version can be found at this link</a>.</p></li>
+</ul>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="do">## ---------------------------</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="do">## input</span></span>
@@ -465,217 +463,42 @@ dbl (16): stu_id, x1sex, x1race, x1stdob, x1txmtscor, x1paredu, x1hhnumber, ...
 ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
 </div>
 </div>
-<p>You may notice the <code>read_csv()</code> prints out information about the data just read in. Nothing is wrong! The <code>read_csv()</code> function, like many other functions in the tidyverse, assumes you’d rather have more rather than less information and acts accordingly. We can see that all the columns were read in as doubles (<code>dbl(16)</code>), which is just a type of number that the computer understands in a special way (a distinction that’s not important for us in this case). For other data (or if we had told <code>read_csv()</code> how to parse the columns), we might see other column types like:</p>
 <ul>
-<li><code>int()</code>: another type of number (again, an important distinction for the computer, but not usually for us)</li>
-<li><code>chr()</code>: strings (<em>e.g.</em>, <code>"Ben"</code> or <code>"1"</code> [notice the quotes])</li>
-<li><code>lgl()</code>: Boolean values of <code>TRUE</code> or <code>FALSE</code></li>
+<li><p>You may notice the <code>read_csv()</code> prints out information about the data just read in. Nothing is wrong! The <code>read_csv()</code> function, like many other functions in the tidyverse, assumes you’d rather have more rather than less information and acts accordingly</p></li>
+<li><p>Up to now, this should all seem fairly consistent with last week’s lesson. This is just the set up, now it’s time to dive in!</p></li>
 </ul>
-<blockquote class="blockquote">
-<h4 id="quick-exercise-1">Quick exercise</h4>
-<p><code>read_csv()</code> is special version of <code>read_delim()</code>, which can read various <em>delimited</em> file types, that is, tabular data in which data cells are separated by a special character. What’s the special character used to separate <em>CSV</em> files? Once you figure it out, re-read in the data using <code>read_delim()</code>, being sure to set the <code>delim</code> argument to the correct character.</p>
-</blockquote>
-<p>Up to know, this should all seem fairly consistent with last week’s lesson. This is just the set up, now it’s time to dive into really using R!</p>
+</section>
 </section>
 <section id="pipe-operator-in-r" class="level2">
 <h2 data-anchor-id="pipe-operator-in-r">Pipe Operator <code>|&gt;</code> in R</h2>
 <p>Remember in our <a href="./02-set-data.html">organizing lesson</a> I said <code>|&gt;</code> was something I would explain later? Well now’s the time…</p>
-<p>The pipe is one of the things that makes R code more intuitive than other programming languages, as it allows us write code in the order we think about it, passing it one from one function to another, rather than nesting it like traditional code would be written.</p>
+<p>The pipe is one of the things that makes R code more intuitive than other programming languages, as it allows us write code in the order we think about it, passing it one from one function to another, rather than nesting it like traditional code would be written</p>
 <p>For this example don’t worry about the actual processes (we will go over them more below), just look at how much more intuitive the code is with <code>|&gt;</code>s.</p>
 <p>First, let’s say I want to take the data we just read in and <code>select</code> the <code>x1txmtscor</code> (math test scores) column</p>
 <section id="without" class="level4">
 <h4 data-anchor-id="without">Without <code>|&gt;</code></h4>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Without |&gt;</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">select</span>(df, x1txmtscor)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 23,503 × 1
-   x1txmtscor
-        &lt;dbl&gt;
- 1       59.4
- 2       47.7
- 3       64.2
- 4       49.3
- 5       62.6
- 6       58.1
- 7       49.5
- 8       54.6
- 9       53.2
-10       63.8
-# ℹ 23,493 more rows</code></pre>
-</div>
-</div>
 </section>
 <section id="with" class="level4">
 <h4 data-anchor-id="with">With <code>|&gt;</code></h4>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="do">## With |&gt;</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span> <span class="fu">select</span>(x1txmtscor)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 23,503 × 1
-   x1txmtscor
-        &lt;dbl&gt;
- 1       59.4
- 2       47.7
- 3       64.2
- 4       49.3
- 5       62.6
- 6       58.1
- 7       49.5
- 8       54.6
- 9       53.2
-10       63.8
-# ℹ 23,493 more rows</code></pre>
-</div>
-</div>
 <p>But, what if we want to take that output and select only students with a math score above 50?</p>
 </section>
 <section id="without-1" class="level4">
 <h4 data-anchor-id="without-1">Without <code>|&gt;</code></h4>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Without |&gt;</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">filter</span>(<span class="fu">select</span>(df, x1txmtscor), x1txmtscor <span class="sc">&gt;</span> <span class="dv">50</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 11,691 × 1
-   x1txmtscor
-        &lt;dbl&gt;
- 1       59.4
- 2       64.2
- 3       62.6
- 4       58.1
- 5       54.6
- 6       53.2
- 7       63.8
- 8       56.5
- 9       67.7
-10       66.7
-# ℹ 11,681 more rows</code></pre>
-</div>
-</div>
 </section>
 <section id="with-1" class="level4">
 <h4 data-anchor-id="with-1">With <code>|&gt;</code></h4>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="do">## With |&gt;</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span> <span class="fu">select</span>(x1txmtscor) <span class="sc">|&gt;</span> <span class="fu">filter</span>(x1txmtscor <span class="sc">&gt;</span> <span class="dv">50</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 11,691 × 1
-   x1txmtscor
-        &lt;dbl&gt;
- 1       59.4
- 2       64.2
- 3       62.6
- 4       58.1
- 5       54.6
- 6       53.2
- 7       63.8
- 8       56.5
- 9       67.7
-10       66.7
-# ℹ 11,681 more rows</code></pre>
-</div>
-</div>
 <p>See how the non-piped version is getting messy? Let’s add one more level to really make the point, creating a new variable that is the square root of the test score</p>
 </section>
 <section id="without-2" class="level4">
 <h4 data-anchor-id="without-2">Without <code>|&gt;</code></h4>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Without |&gt;</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mutate</span>(<span class="fu">filter</span>(<span class="fu">select</span>(df, x1txmtscor), x1txmtscor <span class="sc">&gt;</span> <span class="dv">50</span>), <span class="at">square_root =</span> <span class="fu">sqrt</span>(x1txmtscor))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 11,691 × 2
-   x1txmtscor square_root
-        &lt;dbl&gt;       &lt;dbl&gt;
- 1       59.4        7.71
- 2       64.2        8.02
- 3       62.6        7.91
- 4       58.1        7.62
- 5       54.6        7.39
- 6       53.2        7.29
- 7       63.8        7.99
- 8       56.5        7.52
- 9       67.7        8.23
-10       66.7        8.16
-# ℹ 11,681 more rows</code></pre>
-</div>
-</div>
 </section>
 <section id="with-2" class="level4">
 <h4 data-anchor-id="with-2">With <code>|&gt;</code></h4>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="do">## With |&gt;</span></span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span> <span class="fu">select</span>(x1txmtscor) <span class="sc">|&gt;</span> <span class="fu">filter</span>(x1txmtscor <span class="sc">&gt;</span> <span class="dv">50</span>) <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">square_root =</span> <span class="fu">sqrt</span>(x1txmtscor))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 11,691 × 2
-   x1txmtscor square_root
-        &lt;dbl&gt;       &lt;dbl&gt;
- 1       59.4        7.71
- 2       64.2        8.02
- 3       62.6        7.91
- 4       58.1        7.62
- 5       54.6        7.39
- 6       53.2        7.29
- 7       63.8        7.99
- 8       56.5        7.52
- 9       67.7        8.23
-10       66.7        8.16
-# ℹ 11,681 more rows</code></pre>
-</div>
-</div>
 <ul>
 <li>As we are getting longer, I’m going to use a new line for each pipe, just to make it even clearer (it makes no difference to R)</li>
 </ul>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span></span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(x1txmtscor) <span class="sc">|&gt;</span></span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(x1txmtscor <span class="sc">&gt;</span> <span class="dv">50</span>) <span class="sc">|&gt;</span></span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">square_root =</span> <span class="fu">sqrt</span>(x1txmtscor))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 11,691 × 2
-   x1txmtscor square_root
-        &lt;dbl&gt;       &lt;dbl&gt;
- 1       59.4        7.71
- 2       64.2        8.02
- 3       62.6        7.91
- 4       58.1        7.62
- 5       54.6        7.39
- 6       53.2        7.29
- 7       63.8        7.99
- 8       56.5        7.52
- 9       67.7        8.23
-10       66.7        8.16
-# ℹ 11,681 more rows</code></pre>
-</div>
-</div>
 <p>Even though we haven’t covered any of these commands yet, I think (tell me if I’m wrong) the <code>|&gt;</code> is still pretty easy to know roughly what’s going on. Whereas, the traditional nested way gets really tricky beyond a couple of commands.</p>
-<blockquote class="blockquote">
-<p>Note for later: In general, the pipe works intuitively and typically passes some kind of data from step-to-step. Rarely, when working with more complicated functions that take multiple arguments, you might need to specify where the piped data is going, which you do by placing an underscore. For example, <code>data |&gt; function(argument = _)</code></p>
-</blockquote>
 <p>Of course, if you wanted, you could do each step separately, constantly assigning and overwriting an object like below</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Without the |&gt;, we could technically break it down step by step assigning</span></span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="do">## after each step, but again it's confusing </span></span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>temp <span class="ot">&lt;-</span> <span class="fu">select</span>(df, x1txmtscor)</span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>temp <span class="ot">&lt;-</span> <span class="fu">filter</span>(temp, x1txmtscor <span class="sc">&gt;</span> <span class="dv">50</span>)</span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>temp <span class="ot">&lt;-</span> <span class="fu">mutate</span>(temp, <span class="at">square_root =</span> <span class="fu">sqrt</span>(x1txmtscor))</span>
-<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>temp</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 11,691 × 2
-   x1txmtscor square_root
-        &lt;dbl&gt;       &lt;dbl&gt;
- 1       59.4        7.71
- 2       64.2        8.02
- 3       62.6        7.91
- 4       58.1        7.62
- 5       54.6        7.39
- 6       53.2        7.29
- 7       63.8        7.99
- 8       56.5        7.52
- 9       67.7        8.23
-10       66.7        8.16
-# ℹ 11,681 more rows</code></pre>
-</div>
-</div>
 <p>But again, I think it’s less intuitive than simply piping the results.</p>
 <ul>
 <li>If we do want to see step-by-step output in a piped command, you can either
@@ -691,26 +514,26 @@ dbl (16): stu_id, x1sex, x1race, x1stdob, x1txmtscor, x1paredu, x1hhnumber, ...
 <li>Assigning output from pipes is the same as we have covered a few times, we use a <code>&lt;-</code> to pass it backwards to an object (in this case we called that object <code>df_backward_pass</code>)</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>df_backward_pass <span class="ot">&lt;-</span> df <span class="sc">|&gt;</span></span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(x1txmtscor) <span class="sc">|&gt;</span></span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(x1txmtscor <span class="sc">&gt;</span> <span class="dv">50</span>) <span class="sc">|&gt;</span></span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">square_root =</span> <span class="fu">sqrt</span>(x1txmtscor))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>df_backward_pass <span class="ot">&lt;-</span> df <span class="sc">|&gt;</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(x1txmtscor) <span class="sc">|&gt;</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(x1txmtscor <span class="sc">&gt;</span> <span class="dv">50</span>) <span class="sc">|&gt;</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">square_root =</span> <span class="fu">sqrt</span>(x1txmtscor))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ul>
 <li>If you want to think of it this way, we are effectively continuing to pass it forward like this…</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span></span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(x1txmtscor) <span class="sc">|&gt;</span></span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(x1txmtscor <span class="sc">&gt;</span> <span class="dv">50</span>) <span class="sc">|&gt;</span></span>
-<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">square_root =</span> <span class="fu">sqrt</span>(x1txmtscor)) <span class="ot">-&gt;</span></span>
-<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>  df_forward_pass</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(x1txmtscor) <span class="sc">|&gt;</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(x1txmtscor <span class="sc">&gt;</span> <span class="dv">50</span>) <span class="sc">|&gt;</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">square_root =</span> <span class="fu">sqrt</span>(x1txmtscor)) <span class="ot">-&gt;</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  df_forward_pass</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ul>
 <li>That’s how I first thought about how pipes and assignment work together, and you can see the outputs are <code>identical()</code></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">identical</span>(df_backward_pass, df_forward_pass)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">identical</span>(df_backward_pass, df_forward_pass)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] TRUE</code></pre>
 </div>
@@ -741,8 +564,8 @@ dbl (16): stu_id, x1sex, x1race, x1stdob, x1txmtscor, x1paredu, x1hhnumber, ...
 <ul>
 <li>Now we have the pipe <code>|&gt;</code> covered, it’s time to dig into some basic data wrangling commands</li>
 </ul>
-<section id="select-variables-columns" class="level3">
-<h3 data-anchor-id="select-variables-columns"><code>select()</code> variables (columns)</h3>
+<section id="selecting-variablescolumns-with-select" class="level3">
+<h3 data-anchor-id="selecting-variablescolumns-with-select">Selecting Variables/Columns with <code>select()</code></h3>
 <ul>
 <li>Often data sets contain hundreds, thousands, or even tens of thousands of variables, when we are only interested in a handful. Our first <code>tidyverse</code> command <code>select()</code> helps us deal with this, by, as you may have guessed <code>select()</code>-ing the variables we want</li>
 <li>Since we are going to pipe our R commands, we start with our data then pipe it into the <code>select()</code> command</li>
@@ -757,54 +580,43 @@ dbl (16): stu_id, x1sex, x1race, x1stdob, x1txmtscor, x1paredu, x1hhnumber, ...
 </ul></li>
 </ul></li>
 </ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span> <span class="fu">select</span>(stu_id, x1stuedexpct, x1paredexpct, x1region)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 23,503 × 4
+   stu_id x1stuedexpct x1paredexpct x1region
+    &lt;dbl&gt;        &lt;dbl&gt;        &lt;dbl&gt;    &lt;dbl&gt;
+ 1  10001            8            6        2
+ 2  10002           11            6        1
+ 3  10003           10           10        4
+ 4  10004           10           10        3
+ 5  10005            6           10        3
+ 6  10006           10            8        3
+ 7  10007            8           11        1
+ 8  10008            8            6        1
+ 9  10009           11           11        3
+10  10010            8            6        1
+# ℹ 23,493 more rows</code></pre>
+</div>
+</div>
 <blockquote class="blockquote">
-<p>Quick question, if we want to use this reduced data-frame going forward, what should we do?</p>
+<p>Quick question: if we want to use this reduced data-frame going forward, what should we do?</p>
 </blockquote>
 <p>That’s right, assign it to an object! Let’s call that <code>df_small</code></p>
-</section>
-</section>
-<section id="mutate-data-into-new-forms" class="level2">
-<h2 data-anchor-id="mutate-data-into-new-forms"><code>mutate()</code> data into new forms</h2>
-<ul>
-<li>When we want to add variables and change existing ones, we can use the <code>mutate()</code> function</li>
-<li>In this case, we want to create a new variable <code>high_expect</code> that is the larger of <code>x1stuedexpct</code> and <code>x1paredexpct</code></li>
-</ul>
-<p><code>mutate()</code> enables us to make a new variable or modify an existing variable, just like in the piping demonstration above when I made a new variable that was the square root of the math test score 1. I took our <code>df</code> and piped it into <code>mutate()</code> 2. Inside mutate I created a new variable called <code>square_root</code> - note: this uses <code>=</code> not <code>&lt;-</code> to assign, confusing I know… 3. I assigned to new variable <code>square_root</code> the <code>sqrt()</code> (an R function for square root) of <code>x1txmtscor</code> (math score)</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">square_root =</span> <span class="fu">sqrt</span>(x1txmtscor))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: There was 1 warning in `mutate()`.
-ℹ In argument: `square_root = sqrt(x1txmtscor)`.
-Caused by warning in `sqrt()`:
-! NaNs produced</code></pre>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>df_small <span class="ot">&lt;-</span> df <span class="sc">|&gt;</span> <span class="fu">select</span>(stu_id, x1stuedexpct, x1paredexpct, x1region)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 23,503 × 17
-   stu_id x1sex x1race x1stdob x1txmtscor x1paredu x1hhnumber x1famincome
-    &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;      &lt;dbl&gt;    &lt;dbl&gt;      &lt;dbl&gt;       &lt;dbl&gt;
- 1  10001     1      8  199502       59.4        5          3          10
- 2  10002     2      8  199511       47.7        3          6           3
- 3  10003     2      3  199506       64.2        7          3           6
- 4  10004     2      8  199505       49.3        4          2           5
- 5  10005     1      8  199505       62.6        4          4           9
- 6  10006     2      8  199504       58.1        3          6           5
- 7  10007     2      8  199409       49.5        2          2           4
- 8  10008     1      8  199410       54.6        7          3           7
- 9  10009     1      8  199501       53.2        2          3           4
-10  10010     2      8  199503       63.8        3          4           4
-# ℹ 23,493 more rows
-# ℹ 9 more variables: x1poverty185 &lt;dbl&gt;, x1ses &lt;dbl&gt;, x1stuedexpct &lt;dbl&gt;,
-#   x1paredexpct &lt;dbl&gt;, x1region &lt;dbl&gt;, x4hscompstat &lt;dbl&gt;, x4evratndclg &lt;dbl&gt;,
-#   x4hs2psmos &lt;dbl&gt;, square_root &lt;dbl&gt;</code></pre>
-</div>
-</div>
-<p>So, let’s take that same logic and apply it to our missing values!</p>
-<p>But wait, we have a problem…</p>
-<section id="understanding-our-data" class="level3">
-<h3 data-anchor-id="understanding-our-data">Understanding our data</h3>
+<ul>
+<li>Our next step is to create a variable that’s the higher of student and parent expectations. Sounds simple enough, but wait, we have a problem…
+<ul>
+<li>Can anyone guess what it is?</li>
+</ul></li>
+</ul>
+<section id="understanding-our-data" class="level4">
+<h4 data-anchor-id="understanding-our-data">Understanding our data</h4>
 <p>First things first, however, we need to check the <a href="https://nces.ed.gov/datalab/onlinecodebook">code book</a> to see what the numerical values for our two education expectation variables represent. To save time, I’ve copied them here:</p>
-<section id="x1stuedexpct" class="level4">
-<h4 data-anchor-id="x1stuedexpct"><code>x1stuedexpct</code></h4>
+<section id="x1stuedexpct" class="level5">
+<h5 data-anchor-id="x1stuedexpct"><code>x1stuedexpct</code></h5>
 <p><em>How far in school 9th grader thinks he/she will get</em></p>
 <table class="table">
 <thead>
@@ -865,8 +677,8 @@ Caused by warning in `sqrt()`:
 </tbody>
 </table>
 </section>
-<section id="x1paredexpct" class="level4">
-<h4 data-anchor-id="x1paredexpct"><code>x1paredexpct</code></h4>
+<section id="x1paredexpct" class="level5">
+<h5 data-anchor-id="x1paredexpct"><code>x1paredexpct</code></h5>
 <p><em>How far in school parent thinks 9th grader will go</em></p>
 <table class="table">
 <thead>
@@ -931,24 +743,24 @@ Caused by warning in `sqrt()`:
 </tbody>
 </table>
 <ul>
-<li>The good news is that the categorical values are the same for both variables (meaning we can make an easy comparison) and move in a logical progression.</li>
-<li>The bad news is that we have three values — <code>-8</code>, <code>-9</code>, and <code>11</code> — that we need to deal with so that the averages we compute later represent what we mean.</li>
+<li>The good news is that the categorical values are the same for both variables (meaning we can make an easy comparison) and move in a logical progression</li>
+<li>The bad news is that we have three values — <code>-8</code>, <code>-9</code>, and <code>11</code> — that we need to deal with so that the averages we compute later represent what we mean</li>
 </ul>
 </section>
 </section>
 </section>
-<section id="count-how-many-students-in-each-category" class="level2">
-<h2 data-anchor-id="count-how-many-students-in-each-category"><code>count()</code> how many students in each category</h2>
+<section id="exploring-catagorical-variables-with-count" class="level3">
+<h3 data-anchor-id="exploring-catagorical-variables-with-count">Exploring Catagorical Variables with <code>count()</code></h3>
 <ul>
-<li>Let’s see how many observations are affected by these values using <code>count()</code> &gt; notice that we don’t assign to a new object; this means we’ll see the result in the console, but nothing in our data or object will change</li>
+<li>First, let’s see how many observations are affected by these values using <code>count()</code> &gt; notice that we don’t assign to a new object; this means we’ll see the result in the console, but nothing in our data or object will change</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="do">## -----------------</span></span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="do">## mutate</span></span>
-<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="do">## -----------------</span></span>
-<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a><span class="do">## see unique values for student expectation</span></span>
-<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>df_small <span class="sc">|&gt;</span> <span class="fu">count</span>(x1stuedexpct)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="do">## -----------------</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="do">## mutate</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="do">## -----------------</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="do">## see unique values for student expectation</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>df_small <span class="sc">|&gt;</span> <span class="fu">count</span>(x1stuedexpct)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 12 × 2
    x1stuedexpct     n
@@ -966,8 +778,8 @@ Caused by warning in `sqrt()`:
 11           10  4461
 12           11  4631</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="do">## see unique values for parental expectation</span></span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>df_small <span class="sc">|&gt;</span> <span class="fu">count</span>(x1paredexpct)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="do">## see unique values for parental expectation</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>df_small <span class="sc">|&gt;</span> <span class="fu">count</span>(x1paredexpct)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 13 × 2
    x1paredexpct     n
@@ -992,62 +804,68 @@ Caused by warning in `sqrt()`:
 <ul>
 <li>In R, missing values are technically stored as <code>NA</code>.
 <ul>
-<li>Not all statistical software uses the same values to represent missing values (for example, Stata uses a dot <code>.</code>). Likely because they want to be software agnostic,</li>
+<li>Not all statistical software uses the same values to represent missing values (for example, Stata uses a dot <code>.</code>)</li>
 </ul></li>
-<li>NCES has decided to represent missing values as a limited number of negative values. In this case, <code>-8</code> and <code>-9</code> represent missing values.</li>
+<li>NCES has decided to represent missing values as a limited number of negative values. In this case, <code>-8</code> and <code>-9</code> represent missing values</li>
 </ul></li>
 <li>Note: how to handle missing values is a <strong>very</strong> important topic, one we could spend all semester discussing
 <ul>
-<li>For now, we are just going to drop observations with missing values; but be forewarned that how you handle missing values can have real ramifications for the quality of your final results.</li>
+<li>For now, we are just going to drop observations with missing values; but be forewarned that how you handle missing values can have real ramifications for the quality of your final results</li>
 <li>In real research, a better approach is usually to impute missing values, but that is beyond our scope right now</li>
 </ul></li>
 <li>Deciding what to do with <code>11</code> is a little trickier. While it’s not a missing value <em>per se</em>, it also doesn’t make much sense in its current ordering, that is, to be “higher” than completing a professional degree
 <ul>
-<li>We’ll make a decision to convert these to <code>NA</code> as well, effectively deciding that an answer of “I don’t know” is the same as missing an answer.</li>
+<li>For now, we’ll make a decision to convert these to <code>NA</code> as well, effectively deciding that an answer of “I don’t know” is the same as missing an answer</li>
+</ul></li>
+<li>So first step: convert <code>-8</code>, <code>-9</code>, and <code>11</code> in both variables to <code>NA</code>. We can do this by overwriting cells in each variable with <code>NA</code> when they equal one of these two values. For this, we’ll use the <code>mutate()</code> and <code>ifelse()</code> functions</li>
+</ul>
+</section>
+<section id="conditional-values-with-ifelse" class="level3">
+<h3 data-anchor-id="conditional-values-with-ifelse">Conditional Values with <code>ifelse()</code></h3>
+<p><code>ifelse()</code> is a really common command in <code>R</code> and has three parts 1. <code>statement</code> that can be <code>TRUE</code> or <code>FALSE</code> 2. What to return <code>if</code> the <code>statement</code> is <code>TRUE</code> 3. <code>else</code> what to return when the <code>statement</code> is <code>FALSE</code></p>
+</section>
+<section id="modifying-data-with-mutate" class="level3">
+<h3 data-anchor-id="modifying-data-with-mutate">Modifying Data with <code>mutate()</code></h3>
+<ul>
+<li>When we want to add variables and change existing ones, we can use the <code>mutate()</code> function
+<ul>
+<li>The basic idea of mutate commands is <code>mutate(&lt;where to go&gt; = &lt;what to go there&gt;)</code>
+<ul>
+<li>This is probably the trickiest function we cover today to understand at first</li>
+</ul></li>
+<li>New variables are created if you provide <code>&lt;where to go&gt;</code> a new variable name (or nothing), variables are modified if you provide <code>&lt;where to go&gt;</code> an existing variable name</li>
+<li><code>&lt;what to go there&gt;</code> can as simple as a single number all the way to a chain of piped function, so long as there’s a clear answer for every row</li>
+</ul></li>
+<li>In this case, we want to create a new variable <code>student_exp</code> which is <code>NA</code> when <code>x1stuedexpct</code> is -8, -9, or 11
+<ul>
+<li>Note: we could just overwrite <code>x1paredexpect</code> and <code>x1stuedexpct</code> with <code>NA</code> replacements calling the new variable the same as the old
+<ul>
+<li>But, when making significant changes like this I like to create a new variable so you can compare what you did</li>
+</ul></li>
 </ul></li>
 </ul>
-</section>
-<section id="changing-existing-variables-columns" class="level2">
-<h2 data-anchor-id="changing-existing-variables-columns">Changing existing variables (columns)</h2>
-<ul>
-<li>So first step: convert <code>-8</code>, <code>-9</code>, and <code>11</code> in both variables to <code>NA</code>. We can do this by overwriting cells in each variable with <code>NA</code> when they equal one of these two values. For this, we’ll use the <code>ifelse()</code> function</li>
-</ul>
-</section>
-<section id="ifelse-conditional-values" class="level2">
-<h2 data-anchor-id="ifelse-conditional-values"><code>ifelse()</code> conditional values</h2>
-<p><code>ifelse()</code> is a really common command in <code>R</code> and has three parts 1. <code>statement</code> that can be <code>TRUE</code> or <code>FALSE</code> 2. What to return <code>if</code> the <code>statement</code> is <code>TRUE</code> 3. <code>else</code> what to return when the <code>statement</code> is <code>FALSE</code></p>
 <p>Now, we have three values we want to covert to NA, so we <em>could</em> do them one-at-a-time, like below</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>df_small <span class="ot">&lt;-</span> df_small <span class="sc">|&gt;</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">student_exp =</span> <span class="fu">ifelse</span>(x1stuedexpct <span class="sc">==</span> <span class="sc">-</span><span class="dv">8</span>, <span class="cn">NA</span>, x1stuedexpct))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 <ul>
 <li>Let’s walk through this code</li>
 </ul>
 <ol type="1">
 <li>Assign the results back to <code>df_small</code> (which will overwrite our previous <code>df_small</code>)</li>
 <li>Take <code>df_small</code> and pipe <code>|&gt;</code> it into <code>mutate()</code></li>
-</ol>
-<ul>
-<li>we use <code>df_small</code> over <code>df</code> to keep our previous steps</li>
-</ul>
-<ol start="3" type="1">
 <li>Inside <code>mutate()</code> create a new variable called <code>student_exp</code></li>
-</ol>
-<ul>
-<li>Notice, I’m creating a new column <code>student_exp</code> rather than modifying the original column. We could modify the original column by just putting <code>x1stuedexpct</code> as the first argument, but, this is clearer for demonstration purposes</li>
-</ul>
-<ol start="4" type="1">
 <li>Make our new variable <code>student_exp</code> with an <code>ifelse()</code> statement, which remember has 3 parts</li>
 </ol>
 <ol type="i">
 <li><code>statement</code> which is asking “is <code>x1stuedexpct == -8</code>”? - Notice <code>==</code> means “is equal to”, while <code>=</code> means “assign to”. Yes it’s confusing, but you’ll get it over time!</li>
 <li><code>if</code> that <code>statement</code> is true, make it <code>NA</code></li>
-<li><code>else</code> (if the statement is false) return <code>x1stuedexpct</code></li>
+<li><code>else</code> (if the statement is false) return the original variable <code>x1stuedexpct</code></li>
 </ol>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>df_small <span class="ot">&lt;-</span> df_small <span class="sc">|&gt;</span></span>
-<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">student_exp =</span> <span class="fu">ifelse</span>(x1stuedexpct <span class="sc">==</span> <span class="sc">-</span><span class="dv">8</span>, <span class="cn">NA</span>, x1stuedexpct))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
 <p>Okay, make sense? Let’s see what we just did (look at row 26)</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(df_small, <span class="at">n =</span> <span class="dv">26</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(df_small, <span class="at">n =</span> <span class="dv">26</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 23,503 × 5
    stu_id x1stuedexpct x1paredexpct x1region student_exp
@@ -1081,33 +899,38 @@ Caused by warning in `sqrt()`:
 # ℹ 23,477 more rows</code></pre>
 </div>
 </div>
-<p>This is fine, but we have to do it 3 times for both parent and student expectation</p>
+<ul>
+<li>This is fine, but we have to do it 3 times for both parent and student expectation
 <ul>
 <li>Instead, can anyone think (not in <code>R</code> code, just in terms of logic) how we could change our <code>statement</code> piece of the <code>ifelse()</code> to be more efficient?</li>
+</ul></li>
 </ul>
 </section>
-<section id="in-and-list" class="level2">
-<h2 data-anchor-id="in-and-list"><code>%in%</code> and <code>list()</code></h2>
+<section id="being-efficient-with-in-and-c" class="level3">
+<h3 data-anchor-id="being-efficient-with-in-and-c">Being Efficient with <code>%in%</code> and <code>c()</code></h3>
 <ul>
-<li>What we can do, is group -8, -9, and 11 together into a list using <code>list()</code>
+<li>What we can do, is group -8, -9, and 11 together into a list using <code>c()</code>
 <ul>
+<li><code>c()</code> is a very common function in R used to create a list</li>
+</ul></li>
 <li>Then, we can use the <code>%in%</code> operator to ask if that result is any of the numbers in that list
 <ul>
 <li>This keeps our code shorter and easier to read</li>
 </ul></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>df_small <span class="ot">&lt;-</span> df_small <span class="sc">|&gt;</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">student_exp =</span> <span class="fu">ifelse</span>(x1stuedexpct <span class="sc">%in%</span> <span class="fu">list</span>(<span class="sc">-</span><span class="dv">8</span>, <span class="sc">-</span><span class="dv">9</span>, <span class="dv">11</span>), <span class="cn">NA</span>, x1stuedexpct),</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">parent_exp =</span> <span class="fu">ifelse</span>(x1paredexpct <span class="sc">%in%</span> <span class="fu">list</span>(<span class="sc">-</span><span class="dv">8</span>, <span class="sc">-</span><span class="dv">9</span>, <span class="dv">11</span>), <span class="cn">NA</span>, x1paredexpct))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li>The code now works just as above, but instead of asking if <code>x1stuedexpct</code> is equal to -8, it asks if it’s in the list of -8, -9, and 11, then does the same for parental expectations!
+<ul>
+<li>Let’s view those first 26 rows again to see what we did</li>
 </ul></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>df_small <span class="ot">&lt;-</span> df_small <span class="sc">|&gt;</span></span>
-<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">student_exp =</span> <span class="fu">ifelse</span>(x1stuedexpct <span class="sc">%in%</span> <span class="fu">list</span>(<span class="sc">-</span><span class="dv">8</span>, <span class="sc">-</span><span class="dv">9</span>, <span class="dv">11</span>), <span class="cn">NA</span>, x1stuedexpct),</span>
-<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">parent_exp =</span> <span class="fu">ifelse</span>(x1paredexpct <span class="sc">%in%</span> <span class="fu">list</span>(<span class="sc">-</span><span class="dv">8</span>, <span class="sc">-</span><span class="dv">9</span>, <span class="dv">11</span>), <span class="cn">NA</span>, x1paredexpct))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<ul>
-<li>The code now works just as above, but instead of asking if <code>x1stuedexpct</code> is equal to -8, it asks if it’s in the list of -8, -9, and 11, then does the same for parental expectations!</li>
-</ul>
-<p>Let’s view those first 26 rows again to see what we did</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(df_small, <span class="at">n =</span> <span class="dv">26</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(df_small, <span class="at">n =</span> <span class="dv">26</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 23,503 × 6
    stu_id x1stuedexpct x1paredexpct x1region student_exp parent_exp
@@ -1141,9 +964,11 @@ Caused by warning in `sqrt()`:
 # ℹ 23,477 more rows</code></pre>
 </div>
 </div>
-<p>And just to be doubly-sure, lets check count again</p>
+<ul>
+<li>Just to be doubly-sure, lets check <code>count()</code> again</li>
+</ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>df_small <span class="sc">|&gt;</span> <span class="fu">count</span>(student_exp) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>df_small <span class="sc">|&gt;</span> <span class="fu">count</span>(student_exp) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 11 × 2
    student_exp     n
@@ -1160,7 +985,7 @@ Caused by warning in `sqrt()`:
 10          10  4461
 11          NA  6690</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>df_small <span class="sc">|&gt;</span> <span class="fu">count</span>(parent_exp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>df_small <span class="sc">|&gt;</span> <span class="fu">count</span>(parent_exp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 11 × 2
    parent_exp     n
@@ -1179,14 +1004,15 @@ Caused by warning in `sqrt()`:
 </div>
 </div>
 <p>Success!</p>
-<p>So, let’s get back to our original task, creating a new variable that is the highest of parental and student expectations!</p>
-</section>
-<section id="back-on-track" class="level2">
-<h2 data-anchor-id="back-on-track">Back on track!</h2>
-<p>To make a new variable which is the highest of two variables, we can use our friend <code>ifelse()</code> some more</p>
+<ul>
+<li>So, with that tangent out of the way, let’s get back to our original task, creating a new variable that is the highest of parental and student expectations
+<ul>
+<li>To make a new variable which is the highest of two variables, we can use our friends <code>mutate()</code> and <code>ifelse()</code> some more</li>
+</ul></li>
+</ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>df_small <span class="ot">&lt;-</span> df_small <span class="sc">|&gt;</span></span>
-<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">high_exp =</span> <span class="fu">ifelse</span>(student_exp <span class="sc">&gt;</span> parent_exp, student_exp, parent_exp))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>df_small <span class="ot">&lt;-</span> df_small <span class="sc">|&gt;</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">high_exp =</span> <span class="fu">ifelse</span>(student_exp <span class="sc">&gt;</span> parent_exp, student_exp, parent_exp))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ul>
 <li>That code is <em>almost</em> what we want to do
@@ -1210,10 +1036,19 @@ Caused by warning in `sqrt()`:
 <figcaption>“<a href="https://www.rawpixel.com/image/6772898/png-sticker-public-domain">Rubber duck png sticker, transparent</a>” is marked with <a href="https://creativecommons.org/publicdomain/zero/1.0/?ref=openverse">CC0 1.0.</a></figcaption>
 </figure>
 </div>
-<p>The one that doesn’t actually matter here - I was a little sloppy with the <code>statement</code> piece, I just asked if <code>student_exp</code> was greater than <code>parent_exp</code> or not - If I was being more careful, I might have said “greater than or equal to” - Why doesn’t this matter in this context, and when might it matter?</p>
-<p>Now let’s check our data frame to see the one that does matter</p>
+<ul>
+<li>The one that doesn’t actually matter here</li>
+<li>I was a little sloppy with the <code>statement</code> piece, I just asked if <code>student_exp</code> was greater than <code>parent_exp</code> or not
+<ul>
+<li>If I was being more careful, I might have said “greater than or equal to”
+<ul>
+<li>Why doesn’t this matter in this context, and when might it matter?</li>
+</ul></li>
+</ul></li>
+<li>Now let’s check our data frame to see the one that does matter</li>
+</ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(df_small, <span class="at">n =</span> <span class="dv">26</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(df_small, <span class="at">n =</span> <span class="dv">26</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 23,503 × 7
    stu_id x1stuedexpct x1paredexpct x1region student_exp parent_exp high_exp
@@ -1261,35 +1096,47 @@ Caused by warning in `sqrt()`:
 </ul></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(<span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">6</span>, <span class="dv">4</span>, <span class="cn">NA</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(<span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">6</span>, <span class="dv">4</span>, <span class="cn">NA</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] NA</code></pre>
 </div>
 </div>
-<p>See, what have to explictly tell it to remove the <code>NA</code> values</p>
+<ul>
+<li>See, what have to explicitly tell it to remove the <code>NA</code> values</li>
+</ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(<span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">6</span>, <span class="dv">4</span>, <span class="cn">NA</span>), <span class="at">na.rm =</span> T)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(<span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">6</span>, <span class="dv">4</span>, <span class="cn">NA</span>), <span class="at">na.rm =</span> T)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 5</code></pre>
 </div>
 </div>
 <ul>
 <li>So in our case of trying to get the highest expectation, R doesn’t want us to forget we have <code>NA</code> values, so it throws them at us.</li>
-<li>For now, let’s keep the results we got, but if it gave us an <code>NA</code> and there is a non-<code>NA</code> value in other other column, sub that in</li>
+<li>For now, let’s keep the results we got, but, if it gave us an <code>NA</code> and there is a non-<code>NA</code> value in other other column, sub that in</li>
 </ul>
 </section>
-<section id="is.na-and" class="level2">
-<h2 data-anchor-id="is.na-and"><code>is.na()</code> and <code>!</code></h2>
-<p>To do this, we will add another couple of code helpers -<code>is.na(high_exp)</code> simply asks if the <code>high_exp</code> is <code>NA</code> or not - R doesn’t let you just say <code>high_exp == NA</code> -<code>!</code> is really helpful tool, which can be used to negate or invert a command - <code>!is.na(student_exp)</code> just returns the opposite of <code>is.na(student_exp)</code> so it tells us that the column is not <code>NA</code></p>
-<p>Used together, we can now ensure we have as few <code>NA</code>s as possible in the data (there will still be some when both student and parent were <code>NA</code>)</p>
+<section id="dealing-with-missing-values-with-is.na-and" class="level3">
+<h3 data-anchor-id="dealing-with-missing-values-with-is.na-and">Dealing With Missing Values with <code>is.na()</code> and <code>!</code></h3>
+<ul>
+<li>To do this, we will add another couple of code helpers -<code>is.na(high_exp)</code> simply asks if the <code>high_exp</code> is <code>NA</code> or not
+<ul>
+<li>R doesn’t let you just say <code>high_exp == NA</code> -<code>!</code> is really helpful tool, which can be used to negate or invert a command
+<ul>
+<li><code>!is.na(student_exp)</code> just returns the opposite of <code>is.na(student_exp)</code> so it tells us that the column is not <code>NA</code></li>
+</ul></li>
+</ul></li>
+<li>Used together, we can now ensure we have as few <code>NA</code>s as possible in the data (there will still be some when both student and parent were <code>NA</code>)</li>
+</ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>df_small <span class="ot">&lt;-</span> df_small <span class="sc">|&gt;</span></span>
-<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">high_exp =</span> <span class="fu">ifelse</span>(<span class="fu">is.na</span>(high_exp) <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(student_exp), student_exp, high_exp),</span>
-<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">high_exp =</span> <span class="fu">ifelse</span>(<span class="fu">is.na</span>(high_exp) <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(parent_exp), parent_exp, high_exp))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>df_small <span class="ot">&lt;-</span> df_small <span class="sc">|&gt;</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">high_exp =</span> <span class="fu">ifelse</span>(<span class="fu">is.na</span>(high_exp) <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(student_exp), student_exp, high_exp),</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">high_exp =</span> <span class="fu">ifelse</span>(<span class="fu">is.na</span>(high_exp) <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(parent_exp), parent_exp, high_exp))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Let’s print this one last time to check our work</p>
+<ul>
+<li>Let’s print this one last time to check our work</li>
+</ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(df_small, <span class="at">n =</span> <span class="dv">26</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(df_small, <span class="at">n =</span> <span class="dv">26</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 23,503 × 7
    stu_id x1stuedexpct x1paredexpct x1region student_exp parent_exp high_exp
@@ -1323,9 +1170,9 @@ Caused by warning in `sqrt()`:
 # ℹ 23,477 more rows</code></pre>
 </div>
 </div>
-<p>Okay, looks good!</p>
 <ul>
-<li>There are other ways we could have gone about this analysis, some more sophisticated and slicker
+<li><p>Okay, looks good!</p></li>
+<li><p>There are other ways we could have gone about this analysis, some more sophisticated and slicker</p>
 <ul>
 <li>But, what matters more is that we checked our work as we went, caught the issues, and finished with the correct data
 <ul>
@@ -1342,12 +1189,12 @@ Caused by warning in `sqrt()`:
 <li>Now it’s made correctly, let’s check the counts of our new variable</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="do">## -----------------</span></span>
-<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a><span class="do">## filter</span></span>
-<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a><span class="do">## -----------------</span></span>
-<span id="cb52-4"><a href="#cb52-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-5"><a href="#cb52-5" aria-hidden="true" tabindex="-1"></a><span class="do">## get summary of our new variable</span></span>
-<span id="cb52-6"><a href="#cb52-6" aria-hidden="true" tabindex="-1"></a>df_small <span class="sc">|&gt;</span> <span class="fu">count</span>(high_exp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="do">## -----------------</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="do">## filter</span></span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a><span class="do">## -----------------</span></span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a><span class="do">## get summary of our new variable</span></span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>df_small <span class="sc">|&gt;</span> <span class="fu">count</span>(high_exp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 11 × 2
    high_exp     n
@@ -1375,8 +1222,9 @@ Caused by warning in `sqrt()`:
 </ul></li>
 </ul>
 </section>
-<section id="filter-observations-rows" class="level2">
-<h2 data-anchor-id="filter-observations-rows"><strong>Filter</strong> observations (rows)</h2>
+</section>
+<section id="keeping-rows-based-on-a-condition-with-filter" class="level2">
+<h2 data-anchor-id="keeping-rows-based-on-a-condition-with-filter">Keeping Rows Based on a Condition with <code>filter()</code></h2>
 <ul>
 <li>To do this, we are going to use the <code>filter()</code> command from <code>tidyverse</code></li>
 <li><code>filter()</code> works by only keeping observations that <em>meet</em> the condition(s) we set
@@ -1385,8 +1233,8 @@ Caused by warning in `sqrt()`:
 </ul></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="do">## filter out missing values</span></span>
-<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a>df_small_cut <span class="ot">&lt;-</span> df_small <span class="sc">|&gt;</span> <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(high_exp))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="do">## filter out missing values</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>df_small_cut <span class="ot">&lt;-</span> df_small <span class="sc">|&gt;</span> <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(high_exp))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ul>
 <li>Above we re-used our <code>!is.na()</code> helper to keep all rows that answer “yes” to “are you not <code>NA</code>?”
@@ -1405,7 +1253,7 @@ Caused by warning in `sqrt()`:
 <li>To see if that worked, let’s <code>count()</code> our new variable one more time</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>df_small_cut <span class="sc">|&gt;</span> <span class="fu">count</span>(high_exp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>df_small_cut <span class="sc">|&gt;</span> <span class="fu">count</span>(high_exp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 10 × 2
    high_exp     n
@@ -1423,15 +1271,15 @@ Caused by warning in `sqrt()`:
 </div>
 </div>
 <ul>
-<li>Okay, so <code>NA</code>s, perfect!</li>
+<li>Okay, so no <code>NA</code>s, perfect!</li>
 <li>Just to be extra sure we only removed <code>NA</code>s, we can check the difference in how many rows our original <code>df_small</code> has with <code>df_small_cut</code>
 <ul>
 <li>Who can tell me how many rows <em>should</em> have been dropped?</li>
 </ul></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="do">## does the original # of rows - current # or rows == NA in count?</span></span>
-<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(df_small) <span class="sc">-</span> <span class="fu">nrow</span>(df_small_cut)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="do">## does the original # of rows - current # or rows == NA in count?</span></span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(df_small) <span class="sc">-</span> <span class="fu">nrow</span>(df_small_cut)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 3463</code></pre>
 </div>
@@ -1442,9 +1290,8 @@ Caused by warning in `sqrt()`:
 <li>You could also just check by looking at the <code>df</code>s in the environment tab, but this way leaves no room for mental math errors</li>
 </ul></li>
 </ul>
-</section>
-<section id="summarize-data" class="level2">
-<h2 data-anchor-id="summarize-data"><strong>summarize()</strong> data</h2>
+<section id="summarizing-data-with-summarize" class="level3">
+<h3 data-anchor-id="summarizing-data-with-summarize">Summarizing Data with <code>summarize()</code></h3>
 <ul>
 <li>Okay, so we have our data, we made our <code>high_exp</code> variable, and we’ve done some work to make sure there aren’t any missing values we haven’t accounted for</li>
 <li>Now, we talked in our week one data talk about how massive tables of data are not particularly helpful to for someone to read or interpret
@@ -1462,12 +1309,12 @@ Caused by warning in `sqrt()`:
 </ul></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a><span class="do">## -----------------</span></span>
-<span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a><span class="do">## summarize</span></span>
-<span id="cb59-3"><a href="#cb59-3" aria-hidden="true" tabindex="-1"></a><span class="do">## -----------------</span></span>
-<span id="cb59-4"><a href="#cb59-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-5"><a href="#cb59-5" aria-hidden="true" tabindex="-1"></a><span class="do">## get average (without storing)</span></span>
-<span id="cb59-6"><a href="#cb59-6" aria-hidden="true" tabindex="-1"></a>df_small_cut <span class="sc">|&gt;</span> <span class="fu">summarize</span>(<span class="fu">mean</span>(high_exp))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="do">## -----------------</span></span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a><span class="do">## summarize</span></span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a><span class="do">## -----------------</span></span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a><span class="do">## get average (without storing)</span></span>
+<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a>df_small_cut <span class="sc">|&gt;</span> <span class="fu">summarize</span>(<span class="fu">mean</span>(high_exp))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1 × 1
   `mean(high_exp)`
@@ -1482,7 +1329,7 @@ Caused by warning in `sqrt()`:
 </ul></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb61"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a>df_small_cut <span class="sc">|&gt;</span> <span class="fu">summarize</span>(<span class="at">mean_exp =</span> <span class="fu">mean</span>(high_exp))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>df_small_cut <span class="sc">|&gt;</span> <span class="fu">summarize</span>(<span class="at">mean_exp =</span> <span class="fu">mean</span>(high_exp))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1 × 1
   mean_exp
@@ -1500,8 +1347,8 @@ Caused by warning in `sqrt()`:
 </ul></li>
 </ul>
 </section>
-<section id="group_by" class="level2">
-<h2 data-anchor-id="group_by"><code>group_by()</code></h2>
+<section id="grouping-data-with-group_by" class="level3">
+<h3 data-anchor-id="grouping-data-with-group_by">Grouping Data with <code>group_by()</code></h3>
 <ul>
 <li>The <code>group_by()</code> function, following the <code>tidyverse</code> principle of intuitive naming, <em>groups</em> the data and outputs <em>by</em> the variable(s) you say
 <ul>
@@ -1515,10 +1362,10 @@ Caused by warning in `sqrt()`:
 </ul></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb63"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a><span class="do">## get grouped average</span></span>
-<span id="cb63-2"><a href="#cb63-2" aria-hidden="true" tabindex="-1"></a>df_small_cut <span class="sc">|&gt;</span></span>
-<span id="cb63-3"><a href="#cb63-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(x1region) <span class="sc">|&gt;</span></span>
-<span id="cb63-4"><a href="#cb63-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">mean_exp =</span> <span class="fu">mean</span>(high_exp))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="do">## get grouped average</span></span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>df_small_cut <span class="sc">|&gt;</span></span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(x1region) <span class="sc">|&gt;</span></span>
+<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">mean_exp =</span> <span class="fu">mean</span>(high_exp))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 4 × 2
   x1region mean_exp
@@ -1536,8 +1383,8 @@ Caused by warning in `sqrt()`:
 </ul></li>
 </ul>
 </section>
-<section id="using-write_csv-to-export-data" class="level2">
-<h2 data-anchor-id="using-write_csv-to-export-data">Using <strong>write_csv()</strong> to Export Data</h2>
+<section id="saving-data-with-write_csv" class="level3">
+<h3 data-anchor-id="saving-data-with-write_csv">Saving Data with <code>write_csv()</code></h3>
 <ul>
 <li>Sometimes we want to be able to access objects from scripts without having to re-run the whole thing
 <ul>
@@ -1557,12 +1404,13 @@ Caused by warning in `sqrt()`:
 </ul>
 <p>Phew!</p>
 </section>
+</section>
 <section id="appendix-all-at-once" class="level2">
 <h2 data-anchor-id="appendix-all-at-once">Appendix: All at Once</h2>
 <p>We went through that piece by piece to demonstrate each function, but, there’s no reason we can’t just <code>|&gt;</code> pipe it all together</p>
 <p>To double check, let’s just check these are the same</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb65"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a>non_chain <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="fu">file.path</span>(<span class="st">"data"</span>, <span class="st">"region-expects.csv"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>non_chain <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="fu">file.path</span>(<span class="st">"data"</span>, <span class="st">"region-expects.csv"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Rows: 4 Columns: 2
 ── Column specification ────────────────────────────────────────────────────────
@@ -1572,7 +1420,7 @@ dbl (2): x1region, mean_exp
 ℹ Use `spec()` to retrieve the full column specification for this data.
 ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb67"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a>chain <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="fu">file.path</span>(<span class="st">"data"</span>, <span class="st">"region-expects-chain.csv"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>chain <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="fu">file.path</span>(<span class="st">"data"</span>, <span class="st">"region-expects-chain.csv"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Rows: 4 Columns: 2
 ── Column specification ────────────────────────────────────────────────────────
@@ -1582,7 +1430,7 @@ dbl (2): x1region, mean_exp
 ℹ Use `spec()` to retrieve the full column specification for this data.
 ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb69"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a><span class="fu">all.equal</span>(non_chain, chain)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="fu">all.equal</span>(non_chain, chain)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] TRUE</code></pre>
 </div>
@@ -1610,32 +1458,40 @@ dbl (2): x1region, mean_exp
 </section>
 </div>
 <div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
-<p>Using the <code>hsls_small.csv</code> data set and the online code book, answer the following questions. You <strong>do not</strong> need to save the final output as a data file: just having the final result print to the console is fine. For each question, I would like you to try to pipe all the commands together. You can account for missing values by dropping them.</p>
-<p>For each question, show your data work and then answer the question in a short (1-2 sentence(s)) comment.</p>
+<ul>
+<li>Using the <code>hsls_small.csv</code> data set answer the following questions
+<ul>
+<li>Hint: You’re going to need the code book to identify the necessary variables</li>
+</ul></li>
+</ul>
 <section id="questions" class="level2">
 <h2 data-anchor-id="questions">Questions</h2>
 <ol type="1">
-<li><p>What is the average standardized math test score?</p></li>
-<li><p>What is the average standardized math test score by gender?</p></li>
-<li><p>In what year and month were the oldest students in the data set born? The youngest?</p></li>
-<li><p>Among those students who are under 185% of the federal poverty line in the base year of the survey, what is the median household income (give the category and what that category reprents).</p></li>
-<li><p>Of the students who earned a high school credential (diploma or GED), what percentage earned a GED or equivalency? How does this differ by region?</p></li>
-<li><p>What percentage of students ever attended a postsecondary institution by February 2016? Give the cross tabulations for:</p>
-<ul>
-<li>family incomes less than or equal to $35,000 and greater than $35,000<br>
-</li>
-<li>region</li>
-</ul>
-<p>This means you should have percentages for 8 groups: above/below $35k within each region.</p>
-<p><strong>HINT</strong> You can <code>group_by()</code> on more than one group.</p></li>
+<li></li>
 </ol>
-<section id="submission-details" class="level4">
-<h4 data-anchor-id="submission-details">Submission details</h4>
+<ol type="i">
+<li>What is the average standardized math test score?</li>
+<li>How does this differ by gender? 2 Among those students who are under 185% of the federal poverty line in the base year of the survey, what is the median household income category? (include what that category represents)</li>
+</ol>
+<ol start="3" type="1">
+<li></li>
+</ol>
+<ol type="i">
+<li>Of the students who earned a high school credential (traditional diploma or GED), what percentage earned a GED or equivalency?</li>
+<li>How does this differ by region?</li>
+</ol>
+<ol start="4" type="1">
+<li></li>
+</ol>
+<ol type="i">
+<li>What percentage of students ever attended a post-secondary institution by February 2016?</li>
+<li>Give the cross tabulation for both family incomes above/below $35,000 and region<br>
+- This means you should have percentages for 8 groups: above/below $35k within each region
 <ul>
-<li>Save your script (<code>&lt;lastname&gt;_assignment_3.R</code>) in your <code>scripts</code> directory.</li>
-<li>Push changes to your repo (the new script and new folder) to GitHub prior to the next class session.</li>
-</ul>
-</section>
+<li>Hint: <code>group_by()</code> can be given more than one group</li>
+</ul></li>
+</ol>
+<p>Once complete, turn in the .R script (no data etc.) to Canvas by the due date (Sunday 11:59pm following the lesson). Assignments will be graded on the following Monday (time permitting) in line with the grading policy outlined in the syllabus.</p>
 </section>
 </div>
 </div>

@@ -50,7 +50,7 @@ df |>
   mutate(square_root = sqrt(x1txmtscor))
 
 ## Without the |>, we could technically break it down step by step assigning
-## after each step, but again it's confusing 
+## after each step, but again, I think it's more confusing 
 temp <- select(df, x1txmtscor)
 temp <- filter(temp, x1txmtscor > 50)
 temp <- mutate(temp, square_root = sqrt(x1txmtscor))
@@ -72,8 +72,6 @@ identical(df_backward_pass, df_forward_pass)
 df |> select(stu_id, x1stuedexpct, x1paredexpct, x1region)
 
 df_small <- df |> select(stu_id, x1stuedexpct, x1paredexpct, x1region)
-
-df |> mutate(square_root = sqrt(x1txmtscor))
 
 ## -----------------
 ## mutate
