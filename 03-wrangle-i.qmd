@@ -7,15 +7,13 @@ image: apple-touch-icon.png
 
 # Lesson
 
-[{{< fa code >}} R Code](/r-scripts/03-wranlge-i.R)
+[{{< fa code >}} R Code](/r-scripts/03-wrangle-i.R)
 
-- Today we take our first full dive into R. Though every data
-wrangling / analysis is unique, the best way to learn and practice R
-is to answer a question using data, which is how this lesson is set up. 
-- By the end of this lesson, you
-will have read in a data set, lightly cleaned it, produced results,
-and saved your findings in a new file. 
-  - As part of this process, you will have practiced translating a research question into data analysis steps, which is a skill every bit as important as technical sophistication with a statistical language like R.
+- Today we take our first full dive into R. Though every data wrangling / analysis is unique, the best way to learn and practice R
+is to answer a question using data, which is how this lesson is set up
+- By the end of this lesson, you will have read in a data set, lightly cleaned it, produced results,
+and saved your findings in a new file
+  - As part of this process, you will have practiced translating a research question into data analysis steps, which is a skill every bit as important as technical sophistication with a statistical language like R
   
 ## Example Task
 
@@ -27,10 +25,10 @@ and saved your findings in a new file.
 > use the higher of student and parental expectations if an
 > observation has both.
 
-- A primary skill (often unremarked upon) in data analytic work is translation. Your advisor, IR director, funding agency director --- even collaborator --- won't speak to you in the language of R.
+- A primary skill (often unremarked upon) in data analytic work is translation. Your advisor, IR director, funding agency director --- even collaborator --- won't speak to you in the language of R
   - Instead, it's up to you to
     1. translate a research question into the discrete steps coding steps necessary to provide an answer, and then
-    2. translate the answer such that everyone understands what you've found.
+    2. translate the answer such that everyone understands what you've found
 
 What we need to do is some combination of the following:
 
@@ -61,35 +59,27 @@ Let's do it!
 - Throughout this lesson (and class), we are going to lean heavily on the `tidyverse` collection of packages
   - If you don't already have this installed, use `install.packages("tidyverse")`
 
-```{r}
+```{r, include = FALSE, purl = TRUE}
 ## ---------------------------
 ## libraries
 ## ---------------------------
+```
 
+```{r}
 library(tidyverse)
 ```
 
 ## Check working directory
 
-This script --- like the one from the [organizing lesson](02-set-data.qmd) --- assumes that the class folder is the working directory and that the required
-data file is in the `data` sub-directory. Like this:
+- This script --- like the one from the [organizing lesson](02-set-data.qmd) --- assumes that the class folder is the working directory and that the required data file is in the `data` sub-directory
 
-If you need a refresher on setting the working directory, see the
-[prior lesson](02-set-data.qmd).
+- If you need a refresher on setting the working directory, see the [prior lesson](02-set-data.qmd).
 
-**Notice** that I'm not setting (_i.e._ hard coding) the working
-directory in the script. That would not work well for sharing the
-code. Instead, I tell you where you need to be (a common landmark),
-let you get there, and then rely on relative paths afterwards.
+- **Notice** that I'm not setting (_i.e._ hard coding) the working directory in the script. That would not work well for sharing the code. Instead, I tell you where you need to be (a common landmark), let you get there, and then rely on relative paths afterwards
 
-## Example data analysis task
+### Reading Data in with `read_csv()`
 
-
-
-## **Read** in data
-
-For this lesson, we'll use a subset of the [High School Longitudinal Study of 2009 (HSLS09)](https://nces.ed.gov/surveys/hsls09/), an IES /
-NCES data set that features:
+- For this lesson, we'll use a subset of the [High School Longitudinal Study of 2009 (HSLS09)](https://nces.ed.gov/surveys/hsls09/), an IES /NCES data set that features:
 
 > * Nationally representative, longitudinal study of 23,000+ 9th graders
 > from 944 schools in 2009, with a first follow-up in 2012 and a second
@@ -101,75 +91,49 @@ NCES data set that features:
 >   9th and 11th grades   
 > * 10 state representative data sets 
 
-If you are interested in using HSLS09 for future projects, **DO NOT**
-rely on this subset. Be sure to download the full data set with all
-relevant variables and weights if that's the case. But for our
-purposes in this lesson, it will work just fine.
+- If you are interested in using HSLS09 for future projects, **DO NOT** rely on this subset. Be sure to download the full data set with all relevant variables and weights if that's the case. But for our purposes in this lesson, it will work just fine.
 
-Throughout, we'll need to consult the code book. An [online version canbe found at this link](https://nces.ed.gov/datalab/onlinecodebook). 
+- Throughout, we'll need to consult the code book. An [online version can be found at this link](https://nces.ed.gov/datalab/onlinecodebook). 
 
-> #### Quick exercise 
-> Follow the code book link above in your browser and navigate to the
-> HSLS09 code book.
-
-```{r, purl = TRUE, include = FALSE}
-## -----------------------------------------------------------------------------
-## Wrangle data
-## -----------------------------------------------------------------------------
+```{r, include = FALSE, purl = TRUE}
+## ---------------------------
+## Read in Data
+## ---------------------------
 ```
 
 ```{r}
-## ---------------------------
-## input
-## ---------------------------
-
 ## data are CSV, so we use read_csv() from the readr library
 df <- read_csv(file.path("data", "hsls-small.csv"))
 ```
 
-You may notice the `read_csv()` prints
-out information about the data just read in. Nothing is wrong! The
-`read_csv()` function, like many other functions in the tidyverse,
-assumes you'd rather have more rather than less information and acts
-accordingly.  We can see that all the columns were read in as doubles
-(`dbl(16)`), which is just a type of number that the computer
-understands in a special way (a distinction that's not important for
-us in this case). For other data (or if we had told `read_csv()` how
-to parse the columns), we might see other column types like:
+- You may notice the `read_csv()` prints out information about the data just read in. Nothing is wrong! The `read_csv()` function, like many other functions in the tidyverse, assumes you'd rather have more rather than less information and acts accordingly
 
-- `int()`: another type of number (again, an important
-  distinction for the computer, but not usually for us)
-- `chr()`: strings (_e.g._, `"Ben"` or `"1"` [notice the quotes]) 
-- `lgl()`: Boolean values of `TRUE` or `FALSE`
-
-> #### Quick exercise 
-> `read_csv()` is special version of `read_delim()`,
-> which can read various _delimited_ file types, that is, tabular data
-> in which data cells are separated by a special character. What's the
-> special character used to separate _CSV_ files? Once you figure it
-> out, re-read in the data using `read_delim()`, being sure to set the
-> `delim` argument to the correct character.
-
-Up to know, this should all seem fairly consistent with last week's lesson. This is just the set up, now it's time to dive into really using R!
+- Up to now, this should all seem fairly consistent with last week's lesson. This is just the set up, now it's time to dive in!
 
 ## Pipe Operator `|>` in R
 
+```{r, include = FALSE, purl = TRUE}
+## ---------------------------
+## The Pipe |> Operator
+## ---------------------------
+```
+
 Remember in our [organizing lesson](02-set-data.qmd) I said `|>` was something I would explain later? Well now's the time...
 
-The pipe is one of the things that makes R code more intuitive than other programming languages, as it allows us write code in the order we think about it, passing it one from one function to another, rather than nesting it like traditional code would be written.
+The pipe is one of the things that makes R code more intuitive than other programming languages, as it allows us write code in the order we think about it, passing it one from one function to another, rather than nesting it like traditional code would be written
 
 For this example don't worry about the actual processes (we will go over them more below), just look at how much more intuitive the code is with `|>`s.
 
 First, let's say I want to take the data we just read in and `select` the `x1txmtscor` (math test scores) column
 
 #### Without `|>`
-```{r}
+```{r, output=F, echo=T}
 ## Without |>
 select(df, x1txmtscor)
 ```
 
 #### With `|>`
-```{r}
+```{r, output=F, echo=T}
 ## With |>
 df |> select(x1txmtscor)
 ```
@@ -177,13 +141,13 @@ df |> select(x1txmtscor)
 But, what if we want to take that output and select only students with a math score above 50?
 
 #### Without `|>`
-```{r}
+```{r, output=F, echo=T}
 ## Without |>
 filter(select(df, x1txmtscor), x1txmtscor > 50)
 ```
 
 #### With `|>`
-```{r}
+```{r, output=F, echo=T}
 ## With |>
 df |> select(x1txmtscor) |> filter(x1txmtscor > 50)
 ```
@@ -191,20 +155,20 @@ df |> select(x1txmtscor) |> filter(x1txmtscor > 50)
 See how the non-piped version is getting messy? Let's add one more level to really make the point, creating a new variable that is the square root of the test score
 
 #### Without `|>`
-```{r}
+```{r, output=F, echo=T}
 ## Without |>
 mutate(filter(select(df, x1txmtscor), x1txmtscor > 50), square_root = sqrt(x1txmtscor))
 ```
 
 #### With `|>`
-```{r}
+```{r, output=F, echo=T}
 ## With |>
 df |> select(x1txmtscor) |> filter(x1txmtscor > 50) |> mutate(square_root = sqrt(x1txmtscor))
 ```
 
-- As we are getting longer, I'm going to use a new line for each pipe, just to make it even clearer (it makes no difference to R)
+As we are getting longer, I'm going to use a new line for each pipe, just to make it even clearer (it makes no difference to R)
 
-```{r}
+```{r, output=F, echo=T}
 df |>
   select(x1txmtscor) |>
   filter(x1txmtscor > 50) |>
@@ -213,13 +177,11 @@ df |>
 
 Even though we haven't covered any of these commands yet, I think (tell me if I'm wrong) the `|>` is still pretty easy to know roughly what's going on. Whereas, the traditional nested way gets really tricky beyond a couple of commands.
 
-> Note for later: In general, the pipe works intuitively and typically passes some kind of data from step-to-step. Rarely, when working with more complicated functions that take multiple arguments, you might need to specify where the piped data is going, which you do by placing an underscore. For example, `data |> function(argument = _)`
-
 Of course, if you wanted, you could do each step separately, constantly assigning and overwriting an object like below
 
-```{r}
+```{r, output=F, echo=T}
 ## Without the |>, we could technically break it down step by step assigning
-## after each step, but again it's confusing 
+## after each step, but again, I think it's more confusing 
 temp <- select(df, x1txmtscor)
 temp <- filter(temp, x1txmtscor > 50)
 temp <- mutate(temp, square_root = sqrt(x1txmtscor))
@@ -253,11 +215,10 @@ df |>
   df_forward_pass
 ```
 
-- That's how I first thought about how pipes and assignment work together, and you
-can see the outputs are `identical()`
+- That's how I first thought about how pipes and assignment work together, and you can see the outputs are `all.equal()`
 
 ```{r}
-identical(df_backward_pass, df_forward_pass)
+all.equal(df_backward_pass, df_forward_pass)
 ```
 
 - However, you *really* shouldn't write code like this, as although it runs, it's
@@ -271,60 +232,49 @@ then hard to later find where you created `df_forward_pass`.
 [![badge](https://raw.githubusercontent.com/tidyverse/magrittr/main/man/figures/logo.png)](https://www.fine-arts-museum.be/uploads/exhibitions/images/magritte_la_trahison_des_images_large@2x.jpg)
 </span>
 
-- The pipe was originally a `tidyverse` invention, and used `%>%` symbol, which is probably still the more common pipe you see in the wild
-- The pipe we are using was brought into the base (vanilla) version of R a few years ago as `|>` 
-- The reason for the change is some benefits that are beyond the scope of this class, but I wanted you to be aware that <ins>`|>` and `%>%` are essentially the same thing</ins>
-  - You can intermingle them, but, the new pipe is one less character to type, doesn't need you to have loaded `tidyverse` loaded, and I think it's more clear, so I suggest you stick with `|>`
+- The pipe was originally a `tidyverse` invention, and used `%>%` symbol, which is probably still a common pipe you see "in the wild"
+- The pipe we are using was brought into the Vanilla version of R a few years ago as `|>` 
+- The reason for the change is some benefits that are beyond the scope of this class, but I wanted you to be aware that `|>` and `%>%` <ins>are essentially the same thing</ins>
+  - You can intermingle them, but, but for clarity I would stick with `|>`
 
 ## Basic Tidyverse Commands
 
 - Now we have the pipe `|>` covered, it's time to dig into some basic data wrangling commands
 
-### `select()` variables (columns)
+### Selecting Variables/Columns with `select()`
 
-- Often data sets contain hundreds, thousands, or even tens of thousands of variables, when we are only interested in a handful. Our first `tidyverse` command `select()` helps us deal with this, by, as you may have guessed `select()`-ing the variables we want
+```{r, include = FALSE, purl = TRUE}
+## ---------------------------
+## Select Variables
+## ---------------------------
+```
+
+- Often data sets contain hundreds, thousands, or even tens of thousands of variables, when we are only interested in a handful. Our first `tidyverse` command `select()` helps us deal with this, by, as you may have guessed, `select()`-ing the variables we want
 - Since we are going to pipe our R commands, we start with our data then pipe it into the `select()` command
 - In the `select()` command, we list out the variables we want
   - `stu_id, x1stuedexpct, x1paredexpct, x1region`
-    - Notice, in this (and most tidyverse) command(s) we don't have to use "quotes" around the variable names
-      - Hint: a common error message when you needed to put something in quotes is `Error: object xxx not found`
+    - Notice: in this (and most tidyverse) command(s) we don't have to use "quotes" around the variable names. A common error message when you did need to put something in quotes is `Error: object xxx not found`
 
-```{r, include = FALSE, purl = TRUE}
+```{r}
 df |> select(stu_id, x1stuedexpct, x1paredexpct, x1region)
 ```
 
-> Quick question, if we want to use this reduced data-frame going forward, what should we do?
+> Quick question: if we want to use this reduced data-frame going forward, what should we do?
 
 That's right, assign it to an object! Let's call that `df_small`
 
-```{r, include = FALSE, purl = TRUE}
+```{r}
 df_small <- df |> select(stu_id, x1stuedexpct, x1paredexpct, x1region)
 ```
 
-## `mutate()` data into new forms
-
-- When we want to add variables and change existing ones, we can use the `mutate()` function
-- In this case, we want to create a new variable `high_expect` that is the larger of `x1stuedexpct` and `x1paredexpct`
-
-`mutate()` enables us to make a new variable or modify an existing variable, just like in the piping demonstration above when I made a new variable that was the square root of the math test score
-  1. I took our `df` and piped it into `mutate()`
-  2. Inside mutate I created a new variable called `square_root` 
-    - note: this uses `=` not `<-` to assign, confusing I know...
-  3. I assigned to new variable `square_root` the `sqrt()` (an R function for square root) of `x1txmtscor` (math score)
-
-```{r}
-df |> mutate(square_root = sqrt(x1txmtscor))
-```
-
-So, let's take that same logic and apply it to our missing values!
-
-But wait, we have a problem...
+- Our next step is to create a variable that's the higher of student and parent expectations. Sounds simple enough, but first, we have a problem...
+  - Can anyone guess what it is?
 
 ### Understanding our data
 
 First things first, however, we need to check the [code book](https://nces.ed.gov/datalab/onlinecodebook) to see what the numerical values for our two education expectation variables represent. To save time, I've copied them here:
 
-#### `x1stuedexpct`
+##### `x1stuedexpct`
 
 _How far in school 9th grader thinks he/she will get_
 
@@ -343,7 +293,7 @@ _How far in school 9th grader thinks he/she will get_
 |11|Don't know|
 |-8|Unit non-response|
 
-#### `x1paredexpct`
+##### `x1paredexpct`
 
 _How far in school parent thinks 9th grader will go_
 
@@ -363,19 +313,22 @@ _How far in school parent thinks 9th grader will go_
 |-8|Unit non-response|
 |-9|Missing|
 
-- The good news is that the categorical values are the same for both variables (meaning we can make an easy comparison) and move in a logical progression. 
-- The bad news is that we have three values --- `-8`, `-9`, and `11` --- that we need to deal with so that the averages we compute later represent what we mean.
+- The good news is that the categorical values are the same for both variables (meaning we can make an easy comparison) and move in a logical progression 
+- The bad news is that we have three values --- `-8`, `-9`, and `11` --- that we need to deal with so that the averages we compute later represent what we mean
 
-## `count()` how many students in each category
+### Exploring Catagorical Variables with `count()`
 
-- Let's see how many observations are affected by these values using `count()` 
-> notice that we don't assign to a new object; this means we'll see the result in the console, but nothing in our data or object will change
+```{r, include = FALSE, purl = TRUE}
+## ---------------------------
+## Count Catagorical Variables
+## ---------------------------
+```
+
+- First, let's see how many observations are affected by these values using `count()` 
+
+> Notice that we don't assign to a new object; this means we'll see the result in the console, but nothing in our data or object will change
 
 ```{r}
-## -----------------
-## mutate
-## -----------------
-
 ## see unique values for student expectation
 df_small |> count(x1stuedexpct)
 
@@ -385,46 +338,58 @@ df_small |> count(x1paredexpct)
 
 - Dealing with `-8` and `-9` is straight forward --- we'll convert it missing.
   - In R, missing values are technically stored as `NA`.
-    - Not all statistical software uses the same values to represent missing values (for example, Stata uses a dot `.`). Likely because they want to be software agnostic,
+    - Not all statistical software uses the same values to represent missing values (for example, Stata uses a dot `.`)
   - NCES has decided to represent missing values as a limited number of negative values. In this case, `-8` and `-9`
-represent missing values.
+represent missing values
 
 - Note: how to handle missing values is a **very** important topic, one we could spend all semester discussing
-  - For now, we are just going to drop observations with missing values; but be forewarned that how you handle missing values can have real ramifications for the quality of your final results.
+  - For now, we are just going to drop observations with missing values; but be forewarned that how you handle missing values can have real ramifications for the quality of your final results
   - In real research, a better approach is usually to impute missing values, but that is beyond our scope right now
 
 - Deciding what to do with `11` is a little trickier. While it's not a missing value _per se_, it also doesn't make much sense in its current ordering, that is, to be "higher" than completing a professional degree
-  - We'll make a decision to convert these to `NA` as well, effectively deciding that an answer of "I don't know" is the same as missing an answer.
+  - For now, we'll make a decision to convert these to `NA` as well, effectively deciding that an answer of "I don't know" is the same as missing an answer
 
-## Changing existing variables (columns)
+- So first step: convert `-8`, `-9`, and `11` in both variables to `NA`. For this, we'll use the `mutate()` and `ifelse()` functions
 
-- So first step: convert `-8`, `-9`, and `11` in both variables to `NA`. We can do this by overwriting cells in each variable with `NA` when they equal one of these two values. For this, we'll use the `ifelse()` function
+### Conditional Values with `ifelse()`
 
-## `ifelse()` conditional values
+```{r, include = FALSE, purl = TRUE}
+## ---------------------------
+## Modify an Existing Variable with Mutate
+## Conditional ifelse Statements
+## ---------------------------
+```
 
-`ifelse()` is a really common command in `R` and has three parts
+- `ifelse()` is a really common command in `R` and has three parts
   1. `statement` that can be `TRUE` or `FALSE`
   2. What to return `if` the `statement` is `TRUE`
   3. `else` what to return when the `statement` is `FALSE`
 
+### Modifying an Existing Variable with `mutate()`
+
+- When we want to add variables and change existing ones, we can use the `mutate()` function
+  - The basic idea of mutate commands is `mutate(<where to go> = <what to go there>)`
+    - This is probably the trickiest function we cover today to understand
+  - New variables are created if you provide `<where to go>` a new variable name (or nothing), variables are modified if you provide `<where to go>` an existing variable name
+  - `<what to go there>` can as simple as a single number all the way to a chain of piped functions, so long as there's a clear answer for every row
+- In this case, we want to modify `x1stuedexpct` to be `NA` when `x1stuedexpct` is -8, -9, or 11
+    
 Now, we have three values we want to covert to NA, so we *could* do them one-at-a-time, like below
+
+```{r}
+df_small <- df_small |>
+  mutate(x1stuedexpct = ifelse(x1stuedexpct == -8, NA, x1stuedexpct))
+```
 
 - Let's walk through this code
 1. Assign the results back to `df_small` (which will overwrite our previous `df_small`)
 2. Take `df_small` and pipe `|>` it into `mutate()`
-  - we use `df_small` over `df` to keep our previous steps
-3. Inside `mutate()` create a new variable called `student_exp`
-- Notice, I'm creating a new column `student_exp` rather than modifying the original column. We could modify the original column by just putting `x1stuedexpct` as the first argument, but, this is clearer for demonstration purposes
-4. Make our new variable `student_exp` with an `ifelse()` statement, which remember has 3 parts
+3. Inside `mutate()` assign our results to `x1stuedexpct` (which will modify the existing variable)
+4. Modify `x1stuedexpct` with an `ifelse()` statement, which remember has 3 parts
   i. `statement` which is asking "is `x1stuedexpct == -8`"?
     - Notice `==` means "is equal to", while `=` means "assign to". Yes it's confusing, but you'll get it over time!
   ii. `if` that `statement` is true, make it `NA`
-  iii. `else` (if the statement is false) return `x1stuedexpct`
-
-```{r}
-df_small <- df_small |>
-  mutate(student_exp = ifelse(x1stuedexpct == -8, NA, x1stuedexpct))
-```
+  iii. `else` (if the statement is false) return the original variable `x1stuedexpct`
 
 Okay, make sense? Let's see what we just did (look at row 26)
 
@@ -432,65 +397,76 @@ Okay, make sense? Let's see what we just did (look at row 26)
 print(df_small, n = 26)
 ```
 
-This is fine, but we have to do it 3 times for both parent and student expectation
+- This is fine, but we have to do it 3 times for both parent and student expectation
+  - Instead, can anyone think (not in `R` code, just in terms of logic) how we could change our `statement` piece of the `ifelse()` to be more efficient?
 
-- Instead, can anyone think (not in `R` code, just in terms of logic) how we could change our `statement` piece of the `ifelse()` to be more efficient?
+### Being Efficient with `%in%` and `c()`
 
-## `%in%` and `list()`
+```{r, include = FALSE, purl = TRUE}
+## ---------------------------
+## Being Efficient with %in% and c()
+## ---------------------------
+```
 
-- What we can do, is group -8, -9, and 11 together into a list using `list()`
-  - Then, we can use the `%in%` operator to ask if that result is any of the numbers in that list
-    - This keeps our code shorter and easier to read
+- What we can do, is group -8, -9, and 11 together into a list using `c()`
+  - `c()` is a very common function in R used to create a list
+- Then, we can use the `%in%` operator to ask if that result is any of the numbers in that list
+  - This keeps our code shorter and easier to read
 
 ```{r}
 df_small <- df_small |>
-  mutate(student_exp = ifelse(x1stuedexpct %in% list(-8, -9, 11), NA, x1stuedexpct),
-         parent_exp = ifelse(x1paredexpct %in% list(-8, -9, 11), NA, x1paredexpct))
+  mutate(x1stuedexpct = ifelse(x1stuedexpct %in% c(-8, -9, 11), NA, x1stuedexpct),
+         x1paredexpct = ifelse(x1paredexpct %in% c(-8, -9, 11), NA, x1paredexpct))
 ```
 
 - The code now works just as above, but instead of asking if `x1stuedexpct` is equal to -8, it asks if it's in the list of -8, -9, and 11, then does the same for parental expectations!
-
-Let's view those first 26 rows again to see what we did
+  - Let's view those first 26 rows again to see what we did
 
 ```{r}
 print(df_small, n = 26)
 ```
 
-And just to be doubly-sure, lets check count again
+- Just to be doubly-sure, lets check `count()` again
 
 ```{r}
-df_small |> count(student_exp) 
-df_small |> count(parent_exp)
+df_small |> count(x1stuedexpct) 
+df_small |> count(x1paredexpct)
 ```
 
 Success!
 
-So, let's get back to our original task, creating a new variable that is the highest of parental and student expectations!
+### Creating a New Variable with `mutate()`
 
-## Back on track!
+```{r, include = FALSE, purl = TRUE}
+## ---------------------------
+## Create New Variable with Mutate
+## ---------------------------
+```
 
-To make a new variable which is the highest of two variables, we can use our friend `ifelse()` some more
+- So, with that tangent out of the way, let's get back to our original task, creating a new variable that is the highest of parental and student expectations
+- To make a new variable which is the highest of two variables, we can use our friends `mutate()` and `ifelse()` some more
 
 ```{r}
 df_small <- df_small |>
-  mutate(high_exp = ifelse(student_exp > parent_exp, student_exp, parent_exp))
+  mutate(high_exp = ifelse(x1stuedexpct > x1paredexpct, x1stuedexpct, x1paredexpct))
 ```
 
 - That code is *almost* what we want to do
-  - If `student_exp` is higher then take that, if not, take `parent_exp`
-    - There's two things I haven't fully accounted for though
+  - If `x1stuedexpct` is higher then take that, if not, take `x1paredexpct`
+    - There's two things I haven't fully accounted for though...
       - One doesn't actually matter here, but might in other circumstances
       - One definitely matters here
         - Without scrolling past the duck, can you tell me what they might be?
 
 !["[Rubber duck png sticker, transparent](https://www.rawpixel.com/image/6772898/png-sticker-public-domain)" is marked with [CC0 1.0.](https://creativecommons.org/publicdomain/zero/1.0/?ref=openverse)](site-attachments/Rubber-Duck.png){width=200px fig-align="left"}
 
-The one that doesn't actually matter here
-- I was a little sloppy with the `statement` piece, I just asked if `student_exp` was greater than `parent_exp` or not
+#### Sloppy Mistake 1 (doesn't matter here)
+- I was a little sloppy with the `statement` piece, I just asked if `x1stuedexpct` was greater than `x1paredexpct` or not
   - If I was being more careful, I might have said "greater than or equal to"
     - Why doesn't this matter in this context, and when might it matter?
     
-Now let's check our data frame to see the one that does matter
+#### Sloppy Mistake 2 (does matter here)
+- Now let's check our data frame to see the one that does matter
 
 ```{r}
 print(df_small, n = 26)
@@ -507,38 +483,45 @@ print(df_small, n = 26)
 mean(c(5, 6, 4, NA))
 ```
 
-See, what have to explictly tell it to remove the `NA` values
+- See, what have to explicitly tell it to remove the `NA` values
 
 ```{r}
 mean(c(5, 6, 4, NA), na.rm = T)
 ```
 
 - So in our case of trying to get the highest expectation, R doesn't want us to forget we have `NA` values, so it throws them at us.
-- For now, let's keep the results we got, but if it gave us an `NA` and there is a non-`NA` value in other other column, sub that in
+- For now, let's keep the results we got, but, if it gave us an `NA` and there is a non-`NA` value in other other column, sub that in
 
-## `is.na()` and `!`
+### Dealing With Missing Values with `is.na()`, `&`, and `!`
 
-To do this, we will add another couple of code helpers
+```{r, include = FALSE, purl = TRUE}
+## ---------------------------
+## Handling NA Values
+## ---------------------------
+```
+
+- To do this, we will add another couple of code helpers
   -`is.na(high_exp)` simply asks if the `high_exp` is `NA` or not
     - R doesn't let you just say `high_exp == NA`
   -`!` is really helpful tool, which can be used to negate or invert a command
-      - `!is.na(student_exp)` just returns the opposite of `is.na(student_exp)` so it tells us that the column is not `NA` 
+      - `!is.na(x1stuedexpct)` just returns the opposite of `is.na(x1stuedexpct)` so it tells us that the column is not `NA`
+  -`&` can be useful inside conditional statements, as it means both must be `TRUE` (FYI: `|` means or)
       
-Used together, we can now ensure we have as few `NA`s as possible in the data (there will still be some when both student and parent were `NA`)
+- Used together, we can now ensure we have as few `NA`s as possible in the data (there will still be some when both student and parent were `NA`)
       
 ```{r}
 df_small <- df_small |>
-  mutate(high_exp = ifelse(is.na(high_exp) & !is.na(student_exp), student_exp, high_exp),
-         high_exp = ifelse(is.na(high_exp) & !is.na(parent_exp), parent_exp, high_exp))
+  mutate(high_exp = ifelse(is.na(high_exp) & !is.na(x1stuedexpct), x1stuedexpct, high_exp),
+         high_exp = ifelse(is.na(high_exp) & !is.na(x1paredexpct), x1paredexpct, high_exp))
 ```
 
-Let's print this one last time to check our work
+- Let's print this one last time to check our work
 
 ```{r}
 print(df_small, n = 26)
 ```
 
-Okay, looks good!
+- Okay, looks good!
 
 - There are other ways we could have gone about this analysis, some more sophisticated and slicker
   - But, what matters more is that we checked our work as we went, caught the issues, and finished with the correct data
@@ -552,20 +535,22 @@ seldom an single _correct way_." B.T. Skinner
 
 - Now it's made correctly, let's check the counts of our new variable
 
-```{r}
-## -----------------
-## filter
-## -----------------
+```{r, include = FALSE, purl = TRUE}
+## ---------------------------
+## Filter NA Rows
+## ---------------------------
+```
 
+```{r}
 ## get summary of our new variable
 df_small |> count(high_exp)
 ```
 
 - Hmm... We still have a large number of `NA`s, meaning neither the parent or student provided an expectation
     - In more sophisticated analyses, this is where we might need to think about imputation or something else to handle the missing-ness
-      - For the sake of this lesson, however, we just want to drop the observations with `NA high_exp`
+      - For the sake of this lesson, however, we just want to drop the observations with `NA` for `high_exp`
 
-## **Filter** observations (rows)
+## Keeping Rows Based on a Condition with `filter()`
 
 - To do this, we are going to use the `filter()` command from `tidyverse`
 - `filter()` works by only keeping observations that *meet* the condition(s) we set
@@ -589,7 +574,7 @@ df_small_cut <- df_small |> filter(!is.na(high_exp))
 df_small_cut |> count(high_exp)
 ```
 
-- Okay, so `NA`s, perfect!
+- Okay, so no `NA`s, perfect!
 - Just to be extra sure we only removed `NA`s, we can check the difference in how many rows our original `df_small` has with `df_small_cut`
   - Who can tell me how many rows *should* have been dropped?
 
@@ -601,10 +586,16 @@ nrow(df_small) - nrow(df_small_cut)
 - `nrow()` does what you'd expect, counts the number of rows
   - You could also just check by looking at the `df`s in the environment tab, but this way leaves no room for mental math errors
 
-## **summarize()** data
+### Summarizing Data with `summarize()`
 
-- Okay, so we have our data, we made our `high_exp` variable, and we've done some work to make sure there aren't any missing values we haven't accounted for
-- Now, we talked in our week one data talk about how massive tables of data are not particularly helpful to for someone to read or interpret
+```{r, include = FALSE, purl = TRUE}
+## ---------------------------
+## Summarizing Data
+## ---------------------------
+```
+
+- Okay, so we have our data selected, we made our `high_exp` variable, and we've done some work to handle missing data
+- In our week one data talk we discussed how massive tables of data are not particularly helpful to for someone to read or interpret
   - We will cover how to make graphs of our data in a few weeks
   - For our final task today, we are going to make some summary tables using `summarize()` from the `tidyverse`
   
@@ -615,10 +606,6 @@ nrow(df_small) - nrow(df_small_cut)
     - You can either spit the summary tables out into the console without assignment (which we will do) or if you need to use them for something else, assign them to a new object
 
 ```{r}
-## -----------------
-## summarize
-## -----------------
-
 ## get average (without storing)
 df_small_cut |> summarize(mean(high_exp))
 ```
@@ -634,7 +621,13 @@ df_small_cut |> summarize(mean_exp = mean(high_exp))
   - We were asked if it varied by region...
     - For time's sake, I can tell you the region variable is `x1region` and splits the US in 4 Census regions
 
-## `group_by()` 
+### Grouping Data with `group_by()`
+
+```{r, include = FALSE, purl = TRUE}
+## ---------------------------
+## Grouping Data
+## ---------------------------
+```
 
 - The `group_by()` function, following the `tidyverse` principle of intuitive naming, *groups* the data and outputs *by* the variable(s) you say
   - So, since we want to calculate the average high expectation by region, we `group_by(x1region)`
@@ -651,7 +644,13 @@ df_small_cut |>
 - Success! While expectations are similar across the country, there's some variance by region
   - While there are few things we could do to make this a little fancier (e.g., changing the region numbers to names, formatting the table, etc.) we have answered our question, and have clear documentation of how we got here, so I will call that a win!
 
-## Using **write_csv()** to Export Data
+### Saving Data with `write_csv()`
+
+```{r, include = FALSE, purl = TRUE}
+## ---------------------------
+## Saving Data
+## ---------------------------
+```
 
 - Sometimes we want to be able to access objects from scripts without having to re-run the whole thing
   - Remember: one of the main advantages of R is the data we read in is untouched
@@ -661,11 +660,7 @@ df_small_cut |>
 - Since we didn't assign our summary table to anything, we can just add `write_csv()` to the end of the pipe and add a `file.path()`
   - If you want to save a data frame you already assigned to an object `write_csv(<object>, file.path(<path>))` would work just fine!
 
-```{r, include = FALSE, purl = TRUE}
-## ---------------------------
-## output
-## ---------------------------
-
+```{r}
 ## write with useful name
 
 df_small_cut |>
@@ -679,13 +674,17 @@ Phew!
 
 ## Appendix: All at Once
 
+
+```{r, include=FALSE, purl=TRUE}
+## ---------------------------
+## Appendix: All in One!
+## ---------------------------
+```
+
 We went through that piece by piece to demonstrate each function, but, there's no reason we can't just `|>` pipe it all together
 
-```{r, include = FALSE, purl = TRUE}
-## ---------------------------
-## appendix
-## ---------------------------
 
+```{r}
 ## Let's redo the analysis above, but with a fully chained set of
 ## functions.
 
@@ -712,7 +711,7 @@ df |>
   
 ```
 
-To double check, let's just check these are the same
+To double check, let's just check these are the same...
   
 ```{r}
 
@@ -723,7 +722,7 @@ all.equal(non_chain, chain)
       
 ```
 
-Yep!
+WooHoo!
 
 ## Final notes
 
@@ -738,51 +737,30 @@ Yep!
 
 ```{r, include = FALSE, purl = TRUE}
 ## -----------------------------------------------------------------------------
-## end script
+## End Script
 ## -----------------------------------------------------------------------------
 ```
 
 # Assignment
 
-Using the `hsls_small.csv` data set and the online code book, answer
-the following questions. You **do not** need to save the final output
-as a data file: just having the final result print to the console is
-fine. For each question, I would like you to try to pipe all the
-commands together. You can account for missing values by dropping
-them.
-
-For each question, show your data work and then answer the question in
-a short (1-2 sentence(s)) comment. 
+- Using the `hsls_small.csv` data set answer the following questions
+  - Hint: You're going to need the code book to identify the necessary variables
 
 ## Questions
 
-1) What is the average standardized math test score?
-2) What is the average standardized math test score by gender?
-3) In what year and month were the oldest students in the data set
-   born? The youngest?
-4) Among those students who are under 185% of the federal poverty line
-   in the base year of the survey, what is the median household income
-   (give the category and what that category reprents).
-5) Of the students who earned a high school credential (diploma or
-   GED), what percentage earned a GED or equivalency? How does this
-   differ by region?
-6) What percentage of students ever attended a postsecondary
-   institution by February 2016? Give the cross tabulations for:  
-     - family incomes less than or equal to $35,000 and greater than
-       $35,000   
-	 - region  
-	 
-   This means you should have percentages for 8 groups: above/below
-   $35k within each region.   
-   
-   **HINT** You can `group_by()` on more than one group.
+1. 
+  i. What is the average standardized math test score?
+  ii. How does this differ by gender?
+2. Among those students who are under 185% of the federal poverty line in the base year of the survey, what is the median household income category? (include what that category represents)
+3. 
+  i. Of the students who earned a high school credential (traditional diploma or GED), what percentage earned a GED or equivalency?
+  ii. How does this differ by region?
+4. 
+  i. What percentage of students ever attended a post-secondary institution by February 2016? 
+  ii. Give the cross tabulation for both family incomes above/below $35,000 and region  
+    - This means you should have percentages for 8 groups: above/below $35k within each region
+      - Hint: `group_by()` can be given more than one group
   
-#### Submission details
-
-- Save your script (`<lastname>_assignment_3.R`) in your `scripts`
-  directory.
-- Push changes to your repo (the new script and new folder) to GitHub
-  prior to the next class session.
-
+Once complete, turn in the .R script (no data etc.) to Canvas by the due date (Sunday 11:59pm following the lesson). Assignments will be graded on the following Monday (time permitting) in line with the grading policy outlined in the syllabus.
 
 :::
