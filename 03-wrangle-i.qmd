@@ -15,7 +15,7 @@ is to answer a question using data, which is how this lesson is set up
 and saved your findings in a new file
   - As part of this process, you will have practiced translating a research question into data analysis steps, which is a skill every bit as important as technical sophistication with a statistical language like R
   
-## Example Task
+## Re: Urgent Data Question from the Provost
 
 - Through today's lesson, we will explore some of the basics of data wrangling
   - But to make it more realistic, we will be doing so to answer a realistic question you may be asked by your advisor or supervisor
@@ -118,8 +118,6 @@ df <- read_csv(file.path("data", "hsls-small.csv"))
 ## ---------------------------
 ```
 
-Remember in our [organizing lesson](02-set-data.qmd) I said `|>` was something I would explain later? Well now's the time...
-
 The pipe is one of the things that makes R code more intuitive than other programming languages, as it allows us write code in the order we think about it, passing it one from one function to another, rather than nesting it like traditional code would be written
 
 For this example don't worry about the actual processes (we will go over them more below), just look at how much more intuitive the code is with `|>`s.
@@ -138,7 +136,7 @@ select(df, x1txmtscor)
 df |> select(x1txmtscor)
 ```
 
-But, what if we want to take that output and select only students with a math score above 50?
+Neither is that confusing... But, what if we want to take that output and select only students with a math score above 50?
 
 #### Without `|>`
 ```{r, output=F, echo=T}
@@ -169,6 +167,7 @@ df |> select(x1txmtscor) |> filter(x1txmtscor > 50) |> mutate(square_root = sqrt
 As we are getting longer, I'm going to use a new line for each pipe, just to make it even clearer (it makes no difference to R)
 
 ```{r, output=F, echo=T}
+## Best to use  a new line for each pipe when code gets longer
 df |>
   select(x1txmtscor) |>
   filter(x1txmtscor > 50) |>
@@ -180,8 +179,7 @@ Even though we haven't covered any of these commands yet, I think (tell me if I'
 Of course, if you wanted, you could do each step separately, constantly assigning and overwriting an object like below
 
 ```{r, output=F, echo=T}
-## Without the |>, we could technically break it down step by step assigning
-## after each step, but again, I think it's more confusing 
+## Without the |>, we could technically break it down step by step
 temp <- select(df, x1txmtscor)
 temp <- filter(temp, x1txmtscor > 50)
 temp <- mutate(temp, square_root = sqrt(x1txmtscor))
@@ -199,6 +197,7 @@ But again, I think it's less intuitive than simply piping the results.
 - Assigning output from pipes is the same as we have covered a few times, we use a `<-` to pass it backwards to an object (in this case we called that object  `df_backward_pass`)
 
 ```{r}
+## Always assign backwards
 df_backward_pass <- df |>
   select(x1txmtscor) |>
   filter(x1txmtscor > 50) |>
@@ -208,6 +207,8 @@ df_backward_pass <- df |>
 - If you want to think of it this way, we are effectively continuing to pass it forward like this...
 
 ```{r}
+## You can think of the assignment as a continuation of the pipe like this
+## but don't write it this way, it's then hard to find what you called something later
 df |>
   select(x1txmtscor) |>
   filter(x1txmtscor > 50) |>
@@ -218,6 +219,7 @@ df |>
 - That's how I first thought about how pipes and assignment work together, and you can see the outputs are `all.equal()`
 
 ```{r}
+## Checking they are the same
 all.equal(df_backward_pass, df_forward_pass)
 ```
 
@@ -253,7 +255,7 @@ then hard to later find where you created `df_forward_pass`.
 - Since we are going to pipe our R commands, we start with our data then pipe it into the `select()` command
 - In the `select()` command, we list out the variables we want
   - `stu_id, x1stuedexpct, x1paredexpct, x1region`
-    - Notice: in this (and most tidyverse) command(s) we don't have to use "quotes" around the variable names. A common error message when you did need to put something in quotes is `Error: object xxx not found`
+    - Notice: in this (and most tidyverse) command(s) we don't have to use "quotes" around the variable names. A common error message when you did need to put something in quotes is `Error: object <thing you should have "quoted"> not found`
 
 ```{r}
 df |> select(stu_id, x1stuedexpct, x1paredexpct, x1region)
@@ -320,7 +322,7 @@ _How far in school parent thinks 9th grader will go_
 
 ```{r, include = FALSE, purl = TRUE}
 ## ---------------------------
-## Count Catagorical Variables
+## Count Categorical Variables
 ## ---------------------------
 ```
 
@@ -338,7 +340,7 @@ df_small |> count(x1paredexpct)
 
 - Dealing with `-8` and `-9` is straight forward --- we'll convert it missing.
   - In R, missing values are technically stored as `NA`.
-    - Not all statistical software uses the same values to represent missing values (for example, Stata uses a dot `.`)
+    - Not all statistical software uses the same values to represent missing values (for example, STATA uses a dot `.`)
   - NCES has decided to represent missing values as a limited number of negative values. In this case, `-8` and `-9`
 represent missing values
 
@@ -370,7 +372,8 @@ represent missing values
 - When we want to add variables and change existing ones, we can use the `mutate()` function
   - The basic idea of mutate commands is `mutate(<where to go> = <what to go there>)`
     - This is probably the trickiest function we cover today to understand
-  - New variables are created if you provide `<where to go>` a new variable name (or nothing), variables are modified if you provide `<where to go>` an existing variable name
+  - New variables are created if you provide `<where to go>` a new variable name (or nothing)
+  - Variables are modified if you provide `<where to go>` an existing variable name
   - `<what to go there>` can as simple as a single number all the way to a chain of piped functions, so long as there's a clear answer for every row
 - In this case, we want to modify `x1stuedexpct` to be `NA` when `x1stuedexpct` is -8, -9, or 11
     
@@ -561,7 +564,7 @@ df_small |> count(high_exp)
 df_small_cut <- df_small |> filter(!is.na(high_exp))
 ```
 
-- Above we re-used our `!is.na()` helper to keep all rows that answer "yes" to "are you not `NA`?" 
+- I re-used our `!is.na()` helper to keep all rows that answer "yes" to "are you not `NA`?" 
   - Double negatives are something you'll have to get used to in coding, sorry
   - Notice, instead of overwriting `df_small` we assigned this to a new object `df_small_cut`
     - Generally, when making substantial changes to a data set like dropping observations, I like to be able to double check what I did, which is easier if we make a new `df`
