@@ -3,12 +3,283 @@ title: "IV: Tidyverse Tricks & SQL"
 image: apple-touch-icon.png
 ---
 
-:::{.panel-tabset}
-
+::: panel-tabset
 # Lesson
 
-You can download R [{{< fa code >}}](https://cran.r-project.org) [here](https://cran.r-project.org).
+```{r, include = FALSE, purl = TRUE}
+## -----------------------------------------------------------------------------
+##
+##' [PROJ: EDH 7916]
+##' [FILE: Tidyverse Tricks & SQL]
+##' [INIT: Jan 12th 2024]
+##' [AUTH: Matt Capaldi] @ttalVlatt
+##
+## -----------------------------------------------------------------------------
+
+setwd(this.path::here())
+
+## ---------------------------
+##' [Libraries]
+## ---------------------------
+
+library(tidyverse)
+library(dbplyr)
+
+```
+
+[{{< fa code >}} R Code](/r-scripts/09-wrangle-iv.R)
+
+-   In this brand new lesson for 2024 we are going to cover two main topics
+    1.  Some more advanced `tidyverse` commands that can save a lot of time
+    2.  How the `tidyverse` we have learned so far relates to `SQL` (Structured Query Language) commonly used to access databases
+
+## Tidyverse Tricks
+
+-   Now you have a decent grasp on the core functions of `tidyverse` we can start exploring some helper functions that can make our lives much easier!
+-   These commands have been chosen as I have personally found them wildly helpful in working with IPEDS and other data
+    -   To demonstrate, we are going to use IPEDS finance data files for 2018/19-2020/21
+-   To get started, let's load in finance data for the 2018/19 school year
+    -   Notice: IPEDS uses separate data files for public `_f1a` non-profit `_f2` and for-profit `_f3` colleges
+
+```{r}
+df_18_pub <- read_csv(file.path("data", "ipeds-finance", "f1819_f1a_rv.csv"))
+df_18_np <- read_csv(file.path("data", "ipeds-finance", "f1819_f2_rv.csv"))
+df_18_fp <- read_csv(file.path("data", "ipeds-finance", "f1819_f3_rv.csv"))
+```
+
+-   First, since there should be no college in more than one of these data files, and each college only has one row, we can `bind_rows` to stack each one on top of the other
+    -   Then run a quick test to check no UNITID appears more than once (no duplicates)
+
+```{r}
+df_18 <- bind_rows(df_18_pub, df_18_np, df_18_fp)
+
+df_18 |>
+  count(UNITID) |>
+  filter(n > 1)
+
+```
+
+-   Notice: we now have 6069 obs. of 663 variables
+    -   Does this pass the "eyeball test"?
+        -   The number of obs. looks right as it is just sum of the obs. from the 3 dfs
+        -   The number of vars. may look concerning at first
+            -   Why, if all we did was "stack" rows on top of each other, would the number of vars increase?
+-   What we have created is a somewhat "sparse" data frame, as each institution category has differently named variables (in part due to differing reporting requirements)
+
+Our data looks something like this
+
+|                | Public Vars | Non-Profit Vars | For-Profit Vars |
+|----------------|-------------|-----------------|-----------------|
+| Public IDs     | `values`    | `NA`            | `NA`            |
+| Non-Profit IDs | `NA`        | `values`        | `NA`            |
+| For-Profit IDs | `NA`        | `NA`            | `values`        |
+
+: Depiction of Sparse DataFrame
+
+- Hmm, sounds like this could get tricky... Luckily `tidyverse` is here to help!
+
+### `coelesce()` Data Split Across Columns
+
+- Let's say we want to combine this information into one variable to show how much all institutions spend on instruction, research, and student services, respectively
+  - Side note: If combining variables like this in your own work, check the code book to ensure you know what you're combining and why
+  - In this case, the variables we will be combining appear to be close equivalents
+  
+- First things first, let's `select()` the relevant variables from the larger data set using the IPEDS dictionary files
+  - Quick question: How did I find the variable names to use below? 
+
+```{r}
+df_18 <- df_18 |>
+  select(UNITID,
+         F1C011, F1C021, F1C061,
+         F2E011, F2E021, F2E051,
+         F3E011, F3E02A1, F3E03B1)
+
+print(df_18)
+```
+
+- For the sake of demonstration, let me show how to do this for instruction without our first "tidyverse trick"
+  - Fun fact: I did something very close to this in my final project when I took this class!
+
+```{r}
+
+## Split back up into separate files
+pub <- df_18 |> filter(!is.na(F1C011)) |>
+  ## Rename the variable
+  rename(inst_spend = F1C011) |>
+  ## Drop the other variables
+  select(UNITID, inst_spend)
+np <- df_18 |> filter(!is.na(F2E011)) |>
+  rename(inst_spend = F2E011) |>
+  select(UNITID, inst_spend)
+fp <- df_18 |> filter(!is.na(F3E011)) |>
+  rename(inst_spend = F3E011) |>
+  select(UNITID, inst_spend)
+## Re-bind the colleges back up
+rebind <- bind_rows(pub, np, fp)
+
+```
+
+- Quite a lot of code, and that is a relatively simple case
+- Luckily, tidyverse has a command to help us, `coalesce()` 
+  - Returns the first non-missing value across any number of columns
+    - This works perfectly in situations like this, when you only have one data point for each row, it could just be in any column
+
+```{r}
+coalesce <- df_18 |>
+  mutate(inst_spend = coalesce(F1C011, F2E011, F3E011)) |>
+  select(UNITID, inst_spend)
+```
+
+- Let's check, are they the same?
+
+```{r}
+all.equal(rebind, coalesce)
+```
+
+Yep! So let's do all the columns and get a clean data frame
+
+```{r}
+df_18_clean <- df_18 |>
+  mutate(inst_spend = coalesce(F1C011, F2E011, F3E011),
+         rsch_spend = coalesce(F1C021, F2E021, F3E02A1),
+         serv_spend = coalesce(F1C061, F2E051, F3E03B1)) |>
+  select(UNITID, inst_spend, rsch_spend, serv_spend)
+```
+
+- This is a real time saver if working with IPEDS finance data
+- Another use case for this might be if you had 30 columns one for each test date and rows for student scores, they all took the test on one of the dates, you want a single column for student scores, but it could have been recorded in any of the date columns
+
+### Finding `if_any()` Issues
+
+- Although compliance is a federal requirement, completeness of reporting remains a struggle when using IPEDS data
+- From the snapshots of the data we have seen so far, it seems that there's a good number of $0 reports for these values
+- Let's try and get a data frame containing only institutions that reported $0 for one of these spending categories
+
+- Without the helper function
+
+```{r}
+df_0_inst <- df_18_clean |> filter(inst_spend == 0)
+df_0_rsch <- df_18_clean |> filter(rsch_spend == 0)
+df_0_serv <- df_18_clean |> filter(serv_spend == 0)
+df_0 <- bind_rows(df_0_inst, df_0_rsch, df_0_serv)
+
+## Plus we end up with duplicates
+df_0 |>
+  count(UNITID) |>
+  filter(n > 1)
+
+```
+
+- Let's walk through this code
+  1. Assign our results to a new object called `df_0`
+  2. Take `df_18_clean` and pipe it into filter
+  3. Inside `filter()` we have our `if_any` helper function, which has two arguments
+    i. `.cols` which columns to look across
+      - Here we have just gone for all columns with `everything()`, but you could input a list of specific column names, or another selection function like `where(is.numeric))`
+    ii. `.fns` function to test the columns against
+      - Here we have use `~ . == 0`
+        - We haven't used `purrr` from `tidyverse` in this class, but the `~` comes from there, in short, it starts a very simple function for us
+          - The function takes any value `.` and asks if it equals 0 `== 0`
+          - If the function returns `TRUE` (as in it equals 0) for any column, that row will be `filter()`-ed in 
+
+```{r}
+df_0 <- df_18_clean |>
+  filter(if_any(everything(), ~ . == 0)) ## h/t https://stackoverflow.com/questions/69585261/dplyr-if-any-and-numeric-filtering
+
+print(df_0)
+```
+
+### Working `across()` Multiple Columns
+
+- Now let's explore that data a little more with `if_any()`'s sister function `across()`
+  - Internally `if_any()` and `across()` are set up the same
+    - They both take
+      i. `.cols` which columns to look across
+      ii. `.fns` function to test the columns against
+  - The difference between them comes down to which function they work in
+    - `if_any()` is used in a handful of functions like `filter()`
+    - `across` is used in most functions like `summarize()` and `mutate()`
+      - If you try to use `across()` where you aren't meant to `tidyverse` will throw you a warning
+      
+- Here, we will use the `across` function inside `count()` to get a breakdown of which spending categories are unreported most often
+
+```{r}
+df_0 |>
+  select(-UNITID) |>
+  count(across(everything(), ~ . == 0))
+```
+
+- The internal logic of the `across()` here is identical to the `if_any()` above
+  - `everything()` works across all columns, `~ . == 0` is a simple function to test if any value equals 0
+- `across()` just works in the `count()` function
+  - Outputs a count table counting combinations of the variables equaling 0
+    - By far the most common variable to report zero is research spending, with 4411 reporting only that variable as 0
+    - 25 schools reported 0 for all three variables
+    
+    
+
+- Although we've only been working across 3 variables in these examples, the power of these commands is that they can work across an unlimited number of columns, so the bigger your data, the more should be thinking `across()` and `if_any()`
+
+### Moving Beyond `ifelse()` with `case_when()`
+
+- Keeping digging into differences in spending categories, next, let's say we want to create a new variable that says which order the three spending categories were for each school
+
+- Let's walk through the `case_when()` code
+  1. Much like we used `ifelse()` inside mutate to make a new variable in [Data Wranling I](03-wrangle-i.qmd), we can use `case_when()` when we have more than a binary test
+    - `case_when()` goes down the list of conditions in order until it finds one that it answers `TRUE` at which point it returns the value on the right hand side of the `~`
+    - Here we have listed out all possible orders of spending categories with a label for each scenario
+  2. Unlike `ifelse()` there is a unique danger that would don't cover every eventuality with your conditions
+    - This is why I like to end with `TRUE`, as that will be `TRUE` no matter what
+      - I then assign some kind of catch-all phrase that makes me know I made an error (it will just `NA` if you don't do this)
+  3. To check if a `case_when()` worked, I like to pipe it into a `count()` for the new variable we made
+
+```{r}
+df_18_clean |>
+  mutate(highest_cat = case_when(inst_spend > rsch_spend & rsch_spend > serv_spend ~ "inst_rsch_serv",
+                                 inst_spend > serv_spend & serv_spend > rsch_spend ~ "inst_serv_rsch",
+                                 rsch_spend > inst_spend & inst_spend > serv_spend ~ "rsch_inst_serv",
+                                 rsch_spend > serv_spend & serv_spend > inst_spend ~ "rsch_serv_inst",
+                                 serv_spend > inst_spend & inst_spend > rsch_spend ~ "serv_inst_rsch",
+                                 serv_spend > rsch_spend & rsch_spend > inst_spend ~ "serv_rsch_inst",
+                                 TRUE ~ "You missed a condition Matt")) |>
+  count(highest_cat)
+```
+
+- Looks like I missed something in my `case_when()`, can anyone guess what it is?
+
+- What would happen to this school
+  - inst_spend 35,000,000
+  - rsch_spend 20,000,000
+  - serv_spend 20,000,000
+    - As I have only specified for all order of categories being "greater than" the other, situations where two categories are equal slip through the cracks
+      - This was a genuine mistake when writing the lesson, precisely why I always include that catch all
+      
+- Let's see how our results change if I use "greater than or equal to" signs
+      
+```{r}
+df_18_clean |>
+  mutate(highest_cat = case_when(inst_spend >= rsch_spend & rsch_spend >= serv_spend ~ "inst_rsch_serv",
+                                 inst_spend >= serv_spend & serv_spend >= rsch_spend ~ "inst_serv_rsch",
+                                 rsch_spend >= inst_spend & inst_spend >= serv_spend ~ "rsch_inst_serv",
+                                 rsch_spend >= serv_spend & serv_spend >= inst_spend ~ "rsch_serv_inst",
+                                 serv_spend >= inst_spend & inst_spend >= rsch_spend ~ "serv_inst_rsch",
+                                 serv_spend >= rsch_spend & rsch_spend >= inst_spend ~ "serv_rsch_inst",
+                                 TRUE ~ "You missed a condition Matt")) |>
+  count(highest_cat)
+```
+
+- No missing conditions this time, hooray!
+
+### Tidyverse Tricks Summary
+
+- I hope some of these more advanced `tidyverse` commands will prove helpful, particularly as you move into the world of bigger data sets with more variables!
+- Next, we are going to revisit some code from [Data Wrangling I](03-wrangle-i.qmd) and [Data Wrangling II](04-wrangle-ii.qmd) and see how it translates to `SQL`
+
+## From `tidyverse` to `SQL`
+
+-   For this section, we are going to use
 
 # Assignment
 
+There is no homework assignment associated with this lesson. Instead, your initial analysis for your reproducible report is due Sunday at 11:59pm. See the [final project](99-final.qmd) for details.
 :::
