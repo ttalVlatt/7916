@@ -20,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -318,10 +352,466 @@ ul.task-list li input[type="checkbox"] {
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" aria-current="page">Lesson</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">Assignment</a></li></ul>
 <div class="tab-content">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
-<p>You can download R <a href="https://cran.r-project.org"><i class="fa-solid fa-code" aria-label="code"></i></a> <a href="https://cran.r-project.org">here</a>.</p>
+<p><a href="./r-scripts/09-wrangle-iv.R"><i class="fa-solid fa-code" aria-label="code"></i> R Code</a></p>
+<ul>
+<li>In this brand new lesson for 2024 we are going to cover two main topics
+<ol type="1">
+<li>Some more advanced <code>tidyverse</code> commands that can save a lot of time</li>
+<li>How the <code>tidyverse</code> we have learned so far relates to <code>SQL</code> (Structured Query Language) commonly used to access databases</li>
+</ol></li>
+</ul>
+<section id="tidyverse-tricks" class="level2">
+<h2 data-anchor-id="tidyverse-tricks">Tidyverse Tricks</h2>
+<ul>
+<li>Now you have a decent grasp on the core functions of <code>tidyverse</code> we can start exploring some helper functions that can make our lives much easier!</li>
+<li>These commands have been chosen as I have personally found them wildly helpful in working with IPEDS and other data
+<ul>
+<li>To demonstrate, we are going to use IPEDS finance data files for 2018/19-2020/21</li>
+</ul></li>
+<li>To get started, let’s load in finance data for the 2018/19 school year
+<ul>
+<li>Notice: IPEDS uses separate data files for public <code>_f1a</code> non-profit <code>_f2</code> and for-profit <code>_f3</code> colleges</li>
+</ul></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>df_18_pub <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="fu">file.path</span>(<span class="st">"data"</span>, <span class="st">"ipeds-finance"</span>, <span class="st">"f1819_f1a_rv.csv"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 1961 Columns: 227
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr (112): XF1A01, XF1A31, XF1A04, XF1A05, XF1A06, XF1A19, XF1A07, XF1A08, X...
+dbl (115): UNITID, F1A01, F1A31, F1A04, F1A05, F1A06, F1A19, F1A07, F1A08, F...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>df_18_np <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="fu">file.path</span>(<span class="st">"data"</span>, <span class="st">"ipeds-finance"</span>, <span class="st">"f1819_f2_rv.csv"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 1836 Columns: 280
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr (139): XF2A01, XF2A19, XF2A20, XF2A02, XF2A03, XF2A03A, XF2A04, XF2A05, ...
+dbl (141): UNITID, F2A01, F2A19, F2A20, F2A02, F2A03, F2A03A, F2A04, F2A05, ...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>df_18_fp <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="fu">file.path</span>(<span class="st">"data"</span>, <span class="st">"ipeds-finance"</span>, <span class="st">"f1819_f3_rv.csv"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 2272 Columns: 158
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr (78): XF3A01, XF3A01A, XF3A01B, XF3A01C, XF3A02, XF3A02A, XF3A03, XF3A04...
+dbl (80): UNITID, F3A01, F3A01A, F3A01B, F3A01C, F3A02, F3A02A, F3A03, F3A04...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+</div>
+<ul>
+<li>First, since there should be no college in more than one of these data files, and each college only has one row, we can <code>bind_rows</code> to stack each one on top of the other
+<ul>
+<li>Then run a quick test to check no UNITID appears more than once (no duplicates)</li>
+</ul></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>df_18 <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(df_18_pub, df_18_np, df_18_fp)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>df_18 <span class="sc">|&gt;</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(UNITID) <span class="sc">|&gt;</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(n <span class="sc">&gt;</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 0 × 2
+# ℹ 2 variables: UNITID &lt;dbl&gt;, n &lt;int&gt;</code></pre>
+</div>
+</div>
+<ul>
+<li>Notice: we now have 6069 obs. of 663 variables
+<ul>
+<li>Does this pass the “eyeball test”?
+<ul>
+<li>The number of obs. looks right as it is just sum of the obs. from the 3 dfs</li>
+<li>The number of vars. may look concerning at first
+<ul>
+<li>Why, if all we did was “stack” rows on top of each other, would the number of vars increase?</li>
+</ul></li>
+</ul></li>
+</ul></li>
+<li>What we have created is a somewhat “sparse” data frame, as each institution category has differently named variables (in part due to differing reporting requirements)</li>
+</ul>
+<p>Our data looks something like this</p>
+<table class="table">
+<caption>Depiction of Sparse DataFrame</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th>Public Vars</th>
+<th>Non-Profit Vars</th>
+<th>For-Profit Vars</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Public IDs</td>
+<td><code>values</code></td>
+<td><code>NA</code></td>
+<td><code>NA</code></td>
+</tr>
+<tr class="even">
+<td>Non-Profit IDs</td>
+<td><code>NA</code></td>
+<td><code>values</code></td>
+<td><code>NA</code></td>
+</tr>
+<tr class="odd">
+<td>For-Profit IDs</td>
+<td><code>NA</code></td>
+<td><code>NA</code></td>
+<td><code>values</code></td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>Hmm, sounds like this could get tricky… Luckily <code>tidyverse</code> is here to help!</li>
+</ul>
+<section id="coelesce-data-split-across-columns" class="level3">
+<h3 data-anchor-id="coelesce-data-split-across-columns"><code>coelesce()</code> Data Split Across Columns</h3>
+<ul>
+<li>Let’s say we want to combine this information into one variable to show how much all institutions spend on instruction, research, and student services, respectively
+<ul>
+<li>Side note: If combining variables like this in your own work, check the code book to ensure you know what you’re combining and why</li>
+<li>In this case, the variables we will be combining appear to be close equivalents</li>
+</ul></li>
+<li>First things first, let’s <code>select()</code> the relevant variables from the larger data set using the IPEDS dictionary files
+<ul>
+<li>Quick question: How did I find the variable names to use below?</li>
+</ul></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>df_18 <span class="ot">&lt;-</span> df_18 <span class="sc">|&gt;</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(UNITID,</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>         F1C011, F1C021, F1C061,</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>         F2E011, F2E021, F2E051,</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>         F3E011, F3E02A1, F3E03B1)</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(df_18)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6,069 × 10
+   UNITID    F1C011    F1C021 F1C061 F2E011 F2E021 F2E051 F3E011 F3E02A1 F3E03B1
+    &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;
+ 1 100654  32957353  12837888 2.06e7     NA     NA     NA     NA      NA      NA
+ 2 100663 297179571 309254195 4.43e7     NA     NA     NA     NA      NA      NA
+ 3 100706  71302241  83802490 2.12e7     NA     NA     NA     NA      NA      NA
+ 4 100724  39655073   3527160 1.61e7     NA     NA     NA     NA      NA      NA
+ 5 100733         0         0 0          NA     NA     NA     NA      NA      NA
+ 6 100751 361807147  85757568 6.70e7     NA     NA     NA     NA      NA      NA
+ 7 100760   8740330         0 3.61e6     NA     NA     NA     NA      NA      NA
+ 8 100812  17101084         0 2.92e6     NA     NA     NA     NA      NA      NA
+ 9 100830  30454417    444565 7.79e6     NA     NA     NA     NA      NA      NA
+10 100858 252146479 208187924 4.07e7     NA     NA     NA     NA      NA      NA
+# ℹ 6,059 more rows</code></pre>
+</div>
+</div>
+<ul>
+<li>For the sake of demonstration, let me show how to do this for instruction without our first “tidyverse trick”
+<ul>
+<li>Fun fact: I did something very close to this in my final project when I took this class!</li>
+</ul></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Split back up into separate files</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>pub <span class="ot">&lt;-</span> df_18 <span class="sc">|&gt;</span> <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(F1C011)) <span class="sc">|&gt;</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="do">## Rename the variable</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">inst_spend =</span> F1C011) <span class="sc">|&gt;</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  <span class="do">## Drop the other variables</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(UNITID, inst_spend)</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>np <span class="ot">&lt;-</span> df_18 <span class="sc">|&gt;</span> <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(F2E011)) <span class="sc">|&gt;</span></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">inst_spend =</span> F2E011) <span class="sc">|&gt;</span></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(UNITID, inst_spend)</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>fp <span class="ot">&lt;-</span> df_18 <span class="sc">|&gt;</span> <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(F3E011)) <span class="sc">|&gt;</span></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">inst_spend =</span> F3E011) <span class="sc">|&gt;</span></span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(UNITID, inst_spend)</span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a><span class="do">## Re-bind the colleges back up</span></span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>rebind <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(pub, np, fp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li>Quite a lot of code, and that is a relatively simple case</li>
+<li>Luckily, tidyverse has a command to help us, <code>coalesce()</code>
+<ul>
+<li>Returns the first non-missing value across any number of columns
+<ul>
+<li>This works perfectly in situations like this, when you only have one data point for each row, it could just be in any column</li>
+</ul></li>
+</ul></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>coalesce <span class="ot">&lt;-</span> df_18 <span class="sc">|&gt;</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">inst_spend =</span> <span class="fu">coalesce</span>(F1C011, F2E011, F3E011)) <span class="sc">|&gt;</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(UNITID, inst_spend)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li>Let’s check, are they the same?</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">all.equal</span>(rebind, coalesce)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] TRUE</code></pre>
+</div>
+</div>
+<p>Yep! So let’s do all the columns and get a clean data frame</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>df_18_clean <span class="ot">&lt;-</span> df_18 <span class="sc">|&gt;</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">inst_spend =</span> <span class="fu">coalesce</span>(F1C011, F2E011, F3E011),</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">rsch_spend =</span> <span class="fu">coalesce</span>(F1C021, F2E021, F3E02A1),</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">serv_spend =</span> <span class="fu">coalesce</span>(F1C061, F2E051, F3E03B1)) <span class="sc">|&gt;</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(UNITID, inst_spend, rsch_spend, serv_spend)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li>This is a real time saver if working with IPEDS finance data</li>
+<li>Another use case for this might be if you had 30 columns one for each test date and rows for student scores, they all took the test on one of the dates, you want a single column for student scores, but it could have been recorded in any of the date columns</li>
+</ul>
+</section>
+<section id="finding-if_any-issues" class="level3">
+<h3 data-anchor-id="finding-if_any-issues">Finding <code>if_any()</code> Issues</h3>
+<ul>
+<li><p>Although compliance is a federal requirement, completeness of reporting remains a struggle when using IPEDS data</p></li>
+<li><p>From the snapshots of the data we have seen so far, it seems that there’s a good number of $0 reports for these values</p></li>
+<li><p>Let’s try and get a data frame containing only institutions that reported $0 for one of these spending categories</p></li>
+<li><p>Without the helper function</p></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>df_0_inst <span class="ot">&lt;-</span> df_18_clean <span class="sc">|&gt;</span> <span class="fu">filter</span>(inst_spend <span class="sc">==</span> <span class="dv">0</span>)</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>df_0_rsch <span class="ot">&lt;-</span> df_18_clean <span class="sc">|&gt;</span> <span class="fu">filter</span>(rsch_spend <span class="sc">==</span> <span class="dv">0</span>)</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>df_0_serv <span class="ot">&lt;-</span> df_18_clean <span class="sc">|&gt;</span> <span class="fu">filter</span>(serv_spend <span class="sc">==</span> <span class="dv">0</span>)</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>df_0 <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(df_0_inst, df_0_rsch, df_0_serv)</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a><span class="do">## Plus we end up with duplicates</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>df_0 <span class="sc">|&gt;</span></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(UNITID) <span class="sc">|&gt;</span></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(n <span class="sc">&gt;</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 375 × 2
+   UNITID     n
+    &lt;dbl&gt; &lt;int&gt;
+ 1 100733     3
+ 2 103529     3
+ 3 106324     2
+ 4 106360     2
+ 5 106494     2
+ 6 107099     2
+ 7 108056     2
+ 8 108269     2
+ 9 111045     2
+10 111708     2
+# ℹ 365 more rows</code></pre>
+</div>
+</div>
+<ul>
+<li>Let’s walk through this code
+<ol type="1">
+<li>Assign our results to a new object called <code>df_0</code></li>
+<li>Take <code>df_18_clean</code> and pipe it into filter</li>
+<li>Inside <code>filter()</code> we have our <code>if_any</code> helper function, which has two arguments</li>
+</ol>
+<ol type="i">
+<li><code>.cols</code> which columns to look across - Here we have just gone for all columns with <code>everything()</code>, but you could input a list of specific column names, or another selection function like <code>where(is.numeric))</code></li>
+<li><code>.fns</code> function to test the columns against - Here we have use <code>~ . == 0</code>
+<ul>
+<li>We haven’t used <code>purrr</code> from <code>tidyverse</code> in this class, but the <code>~</code> comes from there, in short, it starts a very simple function for us
+<ul>
+<li>The function takes any value <code>.</code> and asks if it equals 0 <code>== 0</code></li>
+<li>If the function returns <code>TRUE</code> (as in it equals 0) for any column, that row will be <code>filter()</code>-ed in</li>
+</ul></li>
+</ul></li>
+</ol></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>df_0 <span class="ot">&lt;-</span> df_18_clean <span class="sc">|&gt;</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">if_any</span>(<span class="fu">everything</span>(), <span class="sc">~</span> . <span class="sc">==</span> <span class="dv">0</span>)) <span class="do">## h/t https://stackoverflow.com/questions/69585261/dplyr-if-any-and-numeric-filtering</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(df_0)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 4,803 × 4
+   UNITID inst_spend rsch_spend serv_spend
+    &lt;dbl&gt;      &lt;dbl&gt;      &lt;dbl&gt;      &lt;dbl&gt;
+ 1 100733          0          0          0
+ 2 100760    8740330          0    3605430
+ 3 100812   17101084          0    2918417
+ 4 101028    6298586          0    2062946
+ 5 101143    7532616          0    3094312
+ 6 101161   23308825          0    7205781
+ 7 101240   20593662          0    7278193
+ 8 101286   17872473          0    4563448
+ 9 101295   20945006          0    6225596
+10 101301    5373481          0    3216811
+# ℹ 4,793 more rows</code></pre>
+</div>
+</div>
+</section>
+<section id="working-across-multiple-columns" class="level3">
+<h3 data-anchor-id="working-across-multiple-columns">Working <code>across()</code> Multiple Columns</h3>
+<ul>
+<li>Now let’s explore that data a little more with <code>if_any()</code>’s sister function <code>across()</code>
+<ul>
+<li>Internally <code>if_any()</code> and <code>across()</code> are set up the same
+<ul>
+<li>They both take
+<ol type="i">
+<li><code>.cols</code> which columns to look across</li>
+<li><code>.fns</code> function to test the columns against</li>
+</ol></li>
+</ul></li>
+<li>The difference between them comes down to which function they work in
+<ul>
+<li><code>if_any()</code> is used in a handful of functions like <code>filter()</code></li>
+<li><code>across</code> is used in most functions like <code>summarize()</code> and <code>mutate()</code>
+<ul>
+<li>If you try to use <code>across()</code> where you aren’t meant to <code>tidyverse</code> will throw you a warning</li>
+</ul></li>
+</ul></li>
+</ul></li>
+<li>Here, we will use the <code>across</code> function inside <code>count()</code> to get a breakdown of which spending categories are unreported most often</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>df_0 <span class="sc">|&gt;</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>UNITID) <span class="sc">|&gt;</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(<span class="fu">across</span>(<span class="fu">everything</span>(), <span class="sc">~</span> . <span class="sc">==</span> <span class="dv">0</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 7 × 4
+  inst_spend rsch_spend serv_spend     n
+  &lt;lgl&gt;      &lt;lgl&gt;      &lt;lgl&gt;      &lt;int&gt;
+1 FALSE      FALSE      TRUE          12
+2 FALSE      TRUE       FALSE       4411
+3 FALSE      TRUE       TRUE         336
+4 TRUE       FALSE      FALSE          5
+5 TRUE       FALSE      TRUE           2
+6 TRUE       TRUE       FALSE         12
+7 TRUE       TRUE       TRUE          25</code></pre>
+</div>
+</div>
+<ul>
+<li>The internal logic of the <code>across()</code> here is identical to the <code>if_any()</code> above
+<ul>
+<li><code>everything()</code> works across all columns, <code>~ . == 0</code> is a simple function to test if any value equals 0</li>
+</ul></li>
+<li><code>across()</code> just works in the <code>count()</code> function
+<ul>
+<li>Outputs a count table counting combinations of the variables equaling 0
+<ul>
+<li>By far the most common variable to report zero is research spending, with 4411 reporting only that variable as 0</li>
+<li>25 schools reported 0 for all three variables</li>
+</ul></li>
+</ul></li>
+<li>Although we’ve only been working across 3 variables in these examples, the power of these commands is that they can work across an unlimited number of columns, so the bigger your data, the more should be thinking <code>across()</code> and <code>if_any()</code></li>
+</ul>
+</section>
+<section id="moving-beyond-ifelse-with-case_when" class="level3">
+<h3 data-anchor-id="moving-beyond-ifelse-with-case_when">Moving Beyond <code>ifelse()</code> with <code>case_when()</code></h3>
+<ul>
+<li><p>Keeping digging into differences in spending categories, next, let’s say we want to create a new variable that says which order the three spending categories were for each school</p></li>
+<li><p>Let’s walk through the <code>case_when()</code> code</p>
+<ol type="1">
+<li>Much like we used <code>ifelse()</code> inside mutate to make a new variable in <a href="./03-wrangle-i.html">Data Wranling I</a>, we can use <code>case_when()</code> when we have more than a binary test</li>
+</ol>
+<ul>
+<li><code>case_when()</code> goes down the list of conditions in order until it finds one that it answers <code>TRUE</code> at which point it returns the value on the right hand side of the <code>~</code></li>
+<li>Here we have listed out all possible orders of spending categories with a label for each scenario</li>
+</ul>
+<ol start="2" type="1">
+<li>Unlike <code>ifelse()</code> there is a unique danger that would don’t cover every eventuality with your conditions</li>
+</ol>
+<ul>
+<li>This is why I like to end with <code>TRUE</code>, as that will be <code>TRUE</code> no matter what
+<ul>
+<li>I then assign some kind of catch-all phrase that makes me know I made an error (it will just <code>NA</code> if you don’t do this)</li>
+</ul></li>
+</ul>
+<ol start="3" type="1">
+<li>To check if a <code>case_when()</code> worked, I like to pipe it into a <code>count()</code> for the new variable we made</li>
+</ol></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>df_18_clean <span class="sc">|&gt;</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">highest_cat =</span> <span class="fu">case_when</span>(inst_spend <span class="sc">&gt;</span> rsch_spend <span class="sc">&amp;</span> rsch_spend <span class="sc">&gt;</span> serv_spend <span class="sc">~</span> <span class="st">"inst_rsch_serv"</span>,</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>                                 inst_spend <span class="sc">&gt;</span> serv_spend <span class="sc">&amp;</span> serv_spend <span class="sc">&gt;</span> rsch_spend <span class="sc">~</span> <span class="st">"inst_serv_rsch"</span>,</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>                                 rsch_spend <span class="sc">&gt;</span> inst_spend <span class="sc">&amp;</span> inst_spend <span class="sc">&gt;</span> serv_spend <span class="sc">~</span> <span class="st">"rsch_inst_serv"</span>,</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>                                 rsch_spend <span class="sc">&gt;</span> serv_spend <span class="sc">&amp;</span> serv_spend <span class="sc">&gt;</span> inst_spend <span class="sc">~</span> <span class="st">"rsch_serv_inst"</span>,</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>                                 serv_spend <span class="sc">&gt;</span> inst_spend <span class="sc">&amp;</span> inst_spend <span class="sc">&gt;</span> rsch_spend <span class="sc">~</span> <span class="st">"serv_inst_rsch"</span>,</span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>                                 serv_spend <span class="sc">&gt;</span> rsch_spend <span class="sc">&amp;</span> rsch_spend <span class="sc">&gt;</span> inst_spend <span class="sc">~</span> <span class="st">"serv_rsch_inst"</span>,</span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>                                 <span class="cn">TRUE</span> <span class="sc">~</span> <span class="st">"You missed a condition Matt"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(highest_cat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 7 × 2
+  highest_cat                     n
+  &lt;chr&gt;                       &lt;int&gt;
+1 You missed a condition Matt   377
+2 inst_rsch_serv                262
+3 inst_serv_rsch               5004
+4 rsch_inst_serv                 35
+5 rsch_serv_inst                  4
+6 serv_inst_rsch                384
+7 serv_rsch_inst                  3</code></pre>
+</div>
+</div>
+<ul>
+<li><p>Looks like I missed something in my <code>case_when()</code>, can anyone guess what it is?</p></li>
+<li><p>What would happen to this school</p>
+<ul>
+<li>inst_spend 35,000,000</li>
+<li>rsch_spend 20,000,000</li>
+<li>serv_spend 20,000,000
+<ul>
+<li>As I have only specified for all order of categories being “greater than” the other, situations where two categories are equal slip through the cracks
+<ul>
+<li>This was a genuine mistake when writing the lesson, precisely why I always include that catch all</li>
+</ul></li>
+</ul></li>
+</ul></li>
+<li><p>Let’s see how our results change if I use “greater than or equal to” signs</p></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>df_18_clean <span class="sc">|&gt;</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">highest_cat =</span> <span class="fu">case_when</span>(inst_spend <span class="sc">&gt;=</span> rsch_spend <span class="sc">&amp;</span> rsch_spend <span class="sc">&gt;=</span> serv_spend <span class="sc">~</span> <span class="st">"inst_rsch_serv"</span>,</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>                                 inst_spend <span class="sc">&gt;=</span> serv_spend <span class="sc">&amp;</span> serv_spend <span class="sc">&gt;=</span> rsch_spend <span class="sc">~</span> <span class="st">"inst_serv_rsch"</span>,</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>                                 rsch_spend <span class="sc">&gt;=</span> inst_spend <span class="sc">&amp;</span> inst_spend <span class="sc">&gt;=</span> serv_spend <span class="sc">~</span> <span class="st">"rsch_inst_serv"</span>,</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>                                 rsch_spend <span class="sc">&gt;=</span> serv_spend <span class="sc">&amp;</span> serv_spend <span class="sc">&gt;=</span> inst_spend <span class="sc">~</span> <span class="st">"rsch_serv_inst"</span>,</span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>                                 serv_spend <span class="sc">&gt;=</span> inst_spend <span class="sc">&amp;</span> inst_spend <span class="sc">&gt;=</span> rsch_spend <span class="sc">~</span> <span class="st">"serv_inst_rsch"</span>,</span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>                                 serv_spend <span class="sc">&gt;=</span> rsch_spend <span class="sc">&amp;</span> rsch_spend <span class="sc">&gt;=</span> inst_spend <span class="sc">~</span> <span class="st">"serv_rsch_inst"</span>,</span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>                                 <span class="cn">TRUE</span> <span class="sc">~</span> <span class="st">"You missed a condition Matt"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(highest_cat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 2
+  highest_cat        n
+  &lt;chr&gt;          &lt;int&gt;
+1 inst_rsch_serv   624
+2 inst_serv_rsch  5005
+3 rsch_inst_serv    37
+4 rsch_serv_inst     4
+5 serv_inst_rsch   396
+6 serv_rsch_inst     3</code></pre>
+</div>
+</div>
+<ul>
+<li>No missing conditions this time, hooray!</li>
+</ul>
+</section>
+<section id="tidyverse-tricks-summary" class="level3">
+<h3 data-anchor-id="tidyverse-tricks-summary">Tidyverse Tricks Summary</h3>
+<ul>
+<li>I hope some of these more advanced <code>tidyverse</code> commands will prove helpful, particularly as you move into the world of bigger data sets with more variables!</li>
+<li>Next, we are going to revisit some code from <a href="./03-wrangle-i.html">Data Wrangling I</a> and <a href="./04-wrangle-ii.html">Data Wrangling II</a> and see how it translates to <code>SQL</code></li>
+</ul>
+</section>
+</section>
+<section id="from-tidyverse-to-sql" class="level2">
+<h2 data-anchor-id="from-tidyverse-to-sql">From <code>tidyverse</code> to <code>SQL</code></h2>
+<ul>
+<li>For this section, we are going to use</li>
+</ul>
+</section>
 </div>
 <div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
-
+<p>There is no homework assignment associated with this lesson. Instead, your initial analysis for your reproducible report is due Sunday at 11:59pm. See the <a href="./99-final.html">final project</a> for details.</p>
 </div>
 </div>
 </div>
