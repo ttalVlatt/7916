@@ -24,6 +24,7 @@ setwd(this.path::here())
 
 library(tidyverse)
 library(dbplyr)
+library(RSQLite)
 
 ```
 
@@ -79,6 +80,12 @@ Our data looks something like this
 - Hmm, sounds like this could get tricky... Luckily `tidyverse` is here to help!
 
 ### `coelesce()` Data Split Across Columns
+
+```{r, include = FALSE, purl = TRUE}
+## ---------------------------
+##' [coalesce()-ing Split Data]
+## ---------------------------
+```
 
 - Let's say we want to combine this information into one variable to show how much all institutions spend on instruction, research, and student services, respectively
   - Side note: If combining variables like this in your own work, check the code book to ensure you know what you're combining and why
@@ -151,6 +158,12 @@ df_18_clean <- df_18 |>
 
 ### Finding `if_any()` Issues
 
+```{r, include = FALSE, purl = TRUE}
+## ---------------------------
+##' [Finding if_any() Issues]
+## ---------------------------
+```
+
 - Although compliance is a federal requirement, completeness of reporting remains a struggle when using IPEDS data
 - From the snapshots of the data we have seen so far, it seems that there's a good number of $0 reports for these values
 - Let's try and get a data frame containing only institutions that reported $0 for one of these spending categories
@@ -191,6 +204,12 @@ print(df_0)
 
 ### Working `across()` Multiple Columns
 
+```{r, include = FALSE, purl = TRUE}
+## ---------------------------
+##' [Working across() Columns]
+## ---------------------------
+```
+
 - Now let's explore that data a little more with `if_any()`'s sister function `across()`
   - Internally `if_any()` and `across()` are set up the same
     - They both take
@@ -221,6 +240,12 @@ df_0 |>
 - Although we've only been working across 3 variables in these examples, the power of these commands is that they can work across an unlimited number of columns, so the bigger your data, the more should be thinking `across()` and `if_any()`
 
 ### Moving Beyond `ifelse()` with `case_when()`
+
+```{r, include = FALSE, purl = TRUE}
+## ---------------------------
+##' [From ifelse() to case_when()]
+## ---------------------------
+```
 
 - Keeping digging into differences in spending categories, next, let's say we want to create a new variable that says which order the three spending categories were for each school
 
@@ -270,6 +295,9 @@ df_18_clean |>
 
 - No missing conditions this time, hooray!
 
+- Also, I'm definitely surprised how few institutions spend most on research, and just how many spend instruction > services > research
+  - Does this surprise you as well?
+
 ### Tidyverse Tricks Summary
 
 - I hope some of these more advanced `tidyverse` commands will prove helpful, particularly as you move into the world of bigger data sets with more variables!
@@ -277,9 +305,394 @@ df_18_clean |>
 
 ## From `tidyverse` to `SQL`
 
--   For this section, we are going to use
+- For this section, we are going to see how tasks from [Data Wrangling I](03-wrangle-i.qmd) and [Data Wrangling II](04-wrangle-ii.qmd) could be performed using `SQL`, a common tool used to work with databases.
+
+### What is `SQL`?
+
+- SQL, short for Structured Query Language, is a way of retrieving, modifying, and storing data from databases. For a solid background page on `SQL` see [this overview from AWS](https://aws.amazon.com/what-is/sql/)
+- One of thing that confuses people about SQL is that there's the base language of SQL that all SQL-based products share and then multiple commercial product implementations of SQL that take the base language and add additional and unique functions
+  - The `dbplyr` package we are going to use below attempts to mimic the implementation we tell it to
+- A key difference between `R` and `SQL` is that we don't have the option to assign our results to an object like we do with `R`
+  - Instead, an `SQL` query is simply the code to retrieve the data, what happens to that data (e.g., does it show up on your screen, is it saved somewhere, etc.) will be determined by the `SQL`-based software you're using
+
+### How does `SQL` Relate to this Class?
+
+- First, `SQL` is a really important tool for data management jobs in higher education. Larger institutions like UF almost certainly store their institutional data in a database that uses `SQL`
+  - However, it is rarely taught in Higher Ed degree programs, so, this little intro already sets you up for success
+- Second, the `tidyverse` language we have been learning this semester is in many ways similar to `SQL`
+  - In fact, a lot of the functions and function names in `tidyverse` come directly from `SQL`
+  - There's an entire package `dbplyr` which can translate our standard `dplyr` commands to `SQL` queries
+    - That's what we are going to play around with today!
+    
+    
+### Data Wrangling I in `SQL`
+
+```{r, include = FALSE, purl = TRUE}
+## ---------------------------
+##' [Data Wrangling I in SQL]
+## ---------------------------
+```
+
+- In [Data Wrangling I](03-wrangle-i.qmd) we were given the following task
+
+> Using HSLS09 data, figure out average differences in college degree expectations
+> across census regions; for a first pass, ignore missing values and
+> use the higher of student and parental expectations if an
+> observation has both.
+
+- Our final piped together code to answer the question looked like this
+
+```{r}
+df <- read_csv(file.path("data", "hsls-small.csv"))
+
+df |>
+  ## select columns we want
+  select(stu_id, x1stuedexpct, x1paredexpct, x1region) |>
+  ## If expectation is -8, -9. or 11, make it NA
+  mutate(student_exp = ifelse(x1stuedexpct %in% list(-8, -9, 11), NA, x1stuedexpct),
+         parent_exp = ifelse(x1paredexpct %in% list(-8, -9, 11), NA, x1paredexpct)) |>
+  ## Make a new variable called high_exp that is the higher or parent and student exp
+  mutate(high_exp = ifelse(student_exp > parent_exp, student_exp, parent_exp)) |>
+  ## If one exp is NA but the other isn't, keep the value not the NA
+  mutate(high_exp = ifelse(is.na(high_exp) & !is.na(student_exp), student_exp, high_exp),
+         high_exp = ifelse(is.na(high_exp) & !is.na(parent_exp), parent_exp, high_exp)) |>
+  ## Drop is high_exp is still NA (neither parent or student answered)
+  filter(!is.na(high_exp)) |>
+  ## Group the results by region
+  group_by(x1region) |>
+  ## Get the mean of high_exp (by region)
+  summarize(mean_exp = mean(high_exp))
+```
+
+- Now, let's see what that looks like in `SQL`
+- First, we have to simulate an `SQL` database for `dbplyr`
+  - This tells `dbplyr` exactly how to translate our code
+  - For today's class, we will simulate a Microsoft Access database with the `simulate_access()` command
+- Second, instead of a normal `df`, we want R to pretend that `df` is a table in a database, which we do with the `memdb_frame()` command
+  - If you're curious what this command does, try `print(df)` and `print(db)` to see the difference
+
+```{r, include = FALSE, purl = TRUE}
+## ---------------------------
+##' [dbplyr SQL Setup]
+## ---------------------------
+```
+
+```{r}
+
+microsoft_access <- simulate_access()
+
+db <- memdb_frame(df)
+
+```
+
+- Now, let's use `dbplyr`'s `show_query()` function to see what this task would look like in `SQL`
+  - It's a little overwhelming, particularly because it's nested code (show some appreciation for the `|>` pipe)
+    - Honestly, you wouldn't often do something with this many steps in `SQL`
+  - But, as we walk through it piece by piece, you will see a lot of similarities to the `R` code we wrote
+
+```{r}
+
+db |>
+  ## select columns we want
+  select(stu_id, x1stuedexpct, x1paredexpct, x1region) |>
+  ## If expectation is -8, -9. or 11, make it NA
+  mutate(student_exp = ifelse(x1stuedexpct %in% list(-8, -9, 11), NA, x1stuedexpct),
+         parent_exp = ifelse(x1paredexpct %in% list(-8, -9, 11), NA, x1paredexpct)) |>
+  ## Make a new variable called high_exp that is the higher or parent and student exp
+  mutate(high_exp = ifelse(student_exp > parent_exp, student_exp, parent_exp)) |>
+  ## If one exp is NA but the other isn't, keep the value not the NA
+  mutate(high_exp = ifelse(is.na(high_exp) & !is.na(student_exp), student_exp, high_exp),
+         high_exp = ifelse(is.na(high_exp) & !is.na(parent_exp), parent_exp, high_exp)) |>
+  ## Drop is high_exp is still NA (neither parent or student answereed)
+  filter(!is.na(high_exp)) |>
+  ## Group the results by region
+  group_by(x1region) |>
+  ## Get the mean of high_exp (by region)
+  summarize(mean_exp = mean(high_exp)) |>
+  show_query()
+
+```
+
+#### Step-by-Step Breakdown
+
+```{r, include = FALSE, purl = TRUE}
+## ---------------------------
+##' [Step-by-Step Breakdown]
+## ---------------------------
+```
+
+1. First, we selected our four variables from `dbplyr_001` (which is our database `db`)
+
+```{r}
+db |>
+  ## select columns we want
+  select(stu_id, x1stuedexpct, x1paredexpct, x1region) |>
+  show_query()
+```
+
+2. Second, we add in `CASE WHEN` statements, that work in place of our `ifelse()` statements to replace -8 -9 and 11 with `NA` (`NULL` in SQL-speak)
+  - These actually work just like the `case_when()` function we covered in the first part of the class
+
+```{r}
+db |>
+  ## select columns we want
+  select(stu_id, x1stuedexpct, x1paredexpct, x1region) |>
+  ## If expectation is -8, -9. or 11, make it NA
+  mutate(student_exp = ifelse(x1stuedexpct %in% list(-8, -9, 11), NA, x1stuedexpct),
+         parent_exp = ifelse(x1paredexpct %in% list(-8, -9, 11), NA, x1paredexpct)) |>
+  show_query()
+```
+
+3. Okay, all we have done here is add in the line that creates our `high_exp` variable (see the first full line of code)
+  - The confusing part is that `dbplyr` has created `q01` and `SELECT`-ed everything `.*` from it
+    - This (and any of time you see `q01`) is just a bit like if we assigned something into a new object midway through processing
+
+```{r}
+
+db |>
+  ## select columns we want
+  select(stu_id, x1stuedexpct, x1paredexpct, x1region) |>
+  ## If expectation is -8, -9. or 11, make it NA
+  mutate(student_exp = ifelse(x1stuedexpct %in% list(-8, -9, 11), NA, x1stuedexpct),
+         parent_exp = ifelse(x1paredexpct %in% list(-8, -9, 11), NA, x1paredexpct)) |>
+  ## Make a new variable called high_exp that is the higher or parent and student exp
+  mutate(high_exp = ifelse(student_exp > parent_exp, student_exp, parent_exp)) |>
+  show_query()
+
+```
+
+4. Here's where things become hard to untangle, mostly because `dbplyr` keeps assigning the results to `q01` then `SELECT`-ing everything back
+  - If you made it this far, you've got the main point of this exercise, so don't worry if this becomes too confusing
+  - This step we added the first two longer blocks of code that `SELECT` our variables again (as the previous step's output was saved back to `q01`) then perform a `CASE WHEN` that's equivalent to our `ifelse()` statements that took the non-`NA` value if from parent/student expectations if the other was `NA` (`NULL` in SQL-speak)
+
+```{r}
+db |>
+  ## select columns we want
+  select(stu_id, x1stuedexpct, x1paredexpct, x1region) |>
+  ## If expectation is -8, -9. or 11, make it NA
+  mutate(student_exp = ifelse(x1stuedexpct %in% list(-8, -9, 11), NA, x1stuedexpct),
+         parent_exp = ifelse(x1paredexpct %in% list(-8, -9, 11), NA, x1paredexpct)) |>
+  ## Make a new variable called high_exp that is the higher or parent and student exp
+  mutate(high_exp = ifelse(student_exp > parent_exp, student_exp, parent_exp)) |>
+  ## If one exp is NA but the other isn't, keep the value not the NA
+  mutate(high_exp = ifelse(is.na(high_exp) & !is.na(student_exp), student_exp, high_exp),
+         high_exp = ifelse(is.na(high_exp) & !is.na(parent_exp), parent_exp, high_exp)) |>
+  show_query()
+```
+
+5. Here we added 2 lines of substance (`FROM (` just links to rest of the code)
+- First line: `SELECT q01.*`
+  - Select everything from q01 (a temporary object saved from the last step)
+- Last line: ``WHERE (NOT((`high_exp` IS NULL)))``
+  - Same as `filter(!is.na(high_exp))`
+- Note: the reason it's the first and last lines is that everything we have done so far is nested in the middle
+  - Revisit the introduction to the `|>` pipe in [Data Wrangling I](03-wrangle-i.qmd) for refresher on nested code
+
+
+```{r}
+db |>
+  ## select columns we want
+  select(stu_id, x1stuedexpct, x1paredexpct, x1region) |>
+  ## If expectation is -8, -9. or 11, make it NA
+  mutate(student_exp = ifelse(x1stuedexpct %in% list(-8, -9, 11), NA, x1stuedexpct),
+         parent_exp = ifelse(x1paredexpct %in% list(-8, -9, 11), NA, x1paredexpct)) |>
+  ## Make a new variable called high_exp that is the higher or parent and student exp
+  mutate(high_exp = ifelse(student_exp > parent_exp, student_exp, parent_exp)) |>
+  ## If one exp is NA but the other isn't, keep the value not the NA
+  mutate(high_exp = ifelse(is.na(high_exp) & !is.na(student_exp), student_exp, high_exp),
+         high_exp = ifelse(is.na(high_exp) & !is.na(parent_exp), parent_exp, high_exp)) |>
+  ## Drop is high_exp is still NA (neither parent or student answereed)
+  filter(!is.na(high_exp)) |>
+  show_query()
+```
+
+6. Finally, we want to get our mean expectation by region, so we add 2 lines of substance again
+  - Last line: ``GROUP BY `x1region``
+    - Group the data by region
+  - First line: ``SELECT `x1region`, AVG(`high_exp`) AS `mean_exp``
+    - Taking `x1region` as the first column and the `AVG` (mean) of `high_exp` as the second column
+
+```{r}
+db |>
+  ## select columns we want
+  select(stu_id, x1stuedexpct, x1paredexpct, x1region) |>
+  ## If expectation is -8, -9. or 11, make it NA
+  mutate(student_exp = ifelse(x1stuedexpct %in% list(-8, -9, 11), NA, x1stuedexpct),
+         parent_exp = ifelse(x1paredexpct %in% list(-8, -9, 11), NA, x1paredexpct)) |>
+  ## Make a new variable called high_exp that is the higher or parent and student exp
+  mutate(high_exp = ifelse(student_exp > parent_exp, student_exp, parent_exp)) |>
+  ## If one exp is NA but the other isn't, keep the value not the NA
+  mutate(high_exp = ifelse(is.na(high_exp) & !is.na(student_exp), student_exp, high_exp),
+         high_exp = ifelse(is.na(high_exp) & !is.na(parent_exp), parent_exp, high_exp)) |>
+  ## Drop is high_exp is still NA (neither parent or student answered)
+  filter(!is.na(high_exp)) |>
+  ## Group the results by region
+  group_by(x1region) |>
+  summarize(mean_exp = mean(high_exp)) |>
+  show_query()
+```
+
+- There we have it, a walk through our first data wrangling session translated into `SQL`
+  - By no means are expected to have any working knowledge of `SQL` from this
+  - The point is to demonstrate how similar they are, and get your toes wet if you're interested in developing `SQL` skills (as any future institutional researchers should be)
+
+- Next, we will explore `Data Wrangling II` to see how `SQL` can be used for joining data
+
+### Data Wrangling II in `SQL`
+
+```{r, include = FALSE, purl = TRUE}
+## ---------------------------
+##' [Data Wrangling II in SQL]
+## ---------------------------
+```
+
+- To get started, we need to read in our data and set it up as a simulated database, just like we did above
+
+```{r}
+
+df_2 <- read_csv(file.path("data", "sch-test", "all-schools.csv"))
+
+db_2 <- memdb_frame(df_2)
+
+```
+
+#### Create Summary Table
+
+```{r, include = FALSE, purl = TRUE}
+## ---------------------------
+##' [Create Summary Table]
+## ---------------------------
+```
+
+- Our first command is pretty simple, we want to group our data by year then calculate the mean test score, which will give us average test scores for each year
+
+```{r}
+
+df_sum <- db_2 |>
+    ## grouping by year so average within each year
+    group_by(year) |>
+    ## get mean(<score>) for each test
+    summarize(math_m = mean(math),
+              read_m = mean(read),
+              science_m = mean(science)) |>
+  show_query()
+```
+
+- Much like before, we start with `SELECT`
+- We list out what we want, which is the `year` variable and `AVG()`s of math, reading, and science test scores
+- We are taking them from our simulated databases `dbplyr_002` which we want `GROUP BY`-ed year
+  - Remember we can't read nested code top to bottom, the `GROUP BY` takes place as we pull the data out of `dbplyr_002` before we calculate the `AVG()`
+
+#### Left-Join
+
+```{r, include = FALSE, purl = TRUE}
+## ---------------------------
+##' [Left-Join]
+## ---------------------------
+```
+  
+- Next, we want to join these averages back into the the main data frame
+
+```{r}
+df_joined <- db_2 |>
+    ## pipe into left_join to join with df_sum using "year" as key
+    left_join(df_sum, by = "year") |>
+  show_query()
+```
+
+- We see our preceding query nested inside our new query from the second `SELECT` statement to the `GROUP BY` statement
+  - That all sits become `RHS`  inside our `LEFT JOIN` statement
+- We see this is joined `ON` the `year` variable with the original data `dbplyr_002`
+
+#### Pivot-Longer
+
+```{r, include = FALSE, purl = TRUE}
+## ---------------------------
+##' [Pivot-Longer]
+## ---------------------------
+```
+
+- Our next query pivots the data longer, which remember from our original lesson take the math, reading, and science score columns, and turns them into one column for score type and column for score
+
+```{r}
+df_long <- db_2 |>
+    ## cols: current test columns
+    ## names_to: where "math", "read", and "science" will go
+    ## values_to: where the values in cols will go
+    pivot_longer(cols = c("math","read","science"),
+                 names_to = "test",
+                 values_to = "score") |>
+  show_query()
+```
+
+- What we see here is a bit different, as it's manually
+- First we `SELECT` school and year as they are, math as `test` and `math` as `score`
+- This then `UNION ALL`-ed (think `bind_rows` style stacking) with the same query for `reading` and then again for `science`
+
+#### Pivot-Wider
+
+```{r, include = FALSE, purl = TRUE}
+## ---------------------------
+##' [Pivot-Wider]
+## ---------------------------
+```
+
+- Next, let's pivot that data back wide
+
+```{r}
+df_wide <- df_long |>
+    ## names_from: values in this column will become new column names
+    ## values_from: values in this column will become values in new cols
+    pivot_wider(names_from = "test",
+                values_from = "score") |>
+  show_query()
+```
+
+- Our first `SELECT` statement asks for school and year, then...
+- We use `CASE WHEN` for each type of test, creating a new variable for each subject `WHEN` the test type equaled that subject
+- Beneath that, we see our previous query that creates the long data that we pivoted back wider
+
+
+#### Pivot-Longer with Compound Names
+
+```{r, include = FALSE, purl = TRUE}
+## ---------------------------
+##' [Pivot-Longer with Compound Names]
+## ---------------------------
+```
+
+- Finally, let's read in our an extra-wide version of our data into `df_3` and turn it into a simulated database
+
+```{r}
+
+df_3 <- read_csv(file.path("data", "sch-test", "all-schools-wide.csv"))
+
+db_3 <- memdb_frame(df_3)
+
+print(db_3)
+
+```
+
+- Now using the `contains()` function to `pivot_longer()` any columns with 19 in the name (all but school name)
+- We then take the column names and split (`names_sep`) them by the `_` putting the first half into new column `test` and the second half into new column `year`, with the values from all cells going into new column `score`
+
+```{r}
+## Note: change from DWII,dbplyr can't translate separate, or any stringr commands, so we have to 
+## more sophisticated with our pivot_longer
+df_long_fix <- db_3 |>
+    ## NB: contains() looks for "19" in name: if there, it adds it to cols
+    pivot_longer(cols = contains("19"),
+                 names_to = c("test", "year"),
+                 names_sep = "_",
+                 values_to = "score") |>
+  show_query()
+
+```
+
+- Similarly to our previous pivot longer, we see the `SQL` effectively just creates a series of queries, one for each year/subject combination, then `UNION ALL` stacks them all together
 
 # Assignment
 
 There is no homework assignment associated with this lesson. Instead, your initial analysis for your reproducible report is due Sunday at 11:59pm. See the [final project](99-final.qmd) for details.
+
 :::
