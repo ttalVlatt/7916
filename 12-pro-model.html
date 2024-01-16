@@ -20,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -39,6 +73,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/quarto-contrib/fontawesome6-0.1.0/all.css" rel="stylesheet">
+<link href="site_libs/quarto-contrib/fontawesome6-0.1.0/latex-fontsize.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -316,14 +352,132 @@ ul.task-list li input[type="checkbox"] {
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" aria-current="page">Lesson</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">Assignment</a></li></ul>
 <div class="tab-content">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
-<p>First off, I am not a stats professor, and this is not a stats lesson. Some of you have taken years of stats classes, while others are yet to take any. The purpose of this lesson is meant to focus on the R and programmatic aspects of modeling than statistical theory.</p>
-<p>That said, it may still be a lot for those less familiar with stats. Fear not, there is no expectation to use of any this in your final assignment, nor is there an assignment for this lesson (optional final project drafts are due Sunday)!</p>
-<p>If this lesson starts to go over your comfort level, that’s completely fine! Try your best to follow along, and maybe revisit the website once you’re a little further along your stats jounrey.</p>
-<section id="t-test" class="level2">
-<h2 data-anchor-id="t-test">t-test</h2>
+<p><a href="./r-scripts/12-pro-model.R"><i class="fa-solid fa-code" aria-label="code"></i> R Code</a></p>
+<ul>
+<li>First off, let me say I am not a stats professor, and this is not a stats lesson. Some of you have taken years of stats classes, while others are yet to take any. The purpose of this lesson is meant to focus on the R and programmatic aspects of modeling than statistical theory
+<ul>
+<li>That said, it may still be a lot of information for those less familiar with stats. Fear not, there is no expectation to use of any this in your final assignment, nor is there an assignment for this lesson (optional final project drafts are due Sunday)!</li>
+<li>If this lesson starts to go beyond your comfort level, that’s completely fine! Try your best to follow along, and maybe revisit this lesson once you’re a little further along your stats journey</li>
+</ul></li>
+</ul>
+<section id="data-preparation" class="level2">
+<h2 data-anchor-id="data-preparation">Data Preparation</h2>
+<ul>
+<li>Our first step is going to be setting up our data for analysis</li>
+<li>There are two fundamental things to be aware of before programming statistical models in R
+<ul>
+<li>Missing data points
+<ul>
+<li>When modeling, by default, R will simply drop any rows that have an <code>NA</code> in any variable you are modeling on (this is a little different to the cautious R we ran into in <a href="./03-wrangle-i.html">Data Wrangling I</a>)</li>
+<li>In real world applications, you need to think carefully about how you handle these…
+<ul>
+<li>Should I impute the missing data? If so, using what method?</li>
+<li>Should I use this variable at all if it’s missing for a bunch of observations?</li>
+</ul></li>
+<li>For this lesson, however, we are just going to drop <code>NA</code> values so we can focus on the main content</li>
+</ul></li>
+<li>Categorical variables
+<ul>
+<li>For those who have taken stats, how to handle categorical variables is often an entire 3-hour lesson
+<ul>
+<li>Ultimately, you have to create dummy variables (0 or 1) for all but one category (which is considered your base group)</li>
+</ul></li>
+<li>However, R has a really nice way of handling this situation with less confusion <code>factor()</code>s
+<ul>
+<li>Behind the scenes, <code>factor()</code>s do indeed create dummy variables as required, but, it is all automated
+<ul>
+<li>The only thing we may need to do manually is choose which <code>level</code> of the <code>factor</code> is the base group</li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul></li>
+<li>For this class, we are going to re-use our subset of the HSLS survey</li>
+<li>So, let’s get our data set up in terms of missing data and categorical variables, while reviewing some techniques from <a href="./09-wrangle-iv.html">Data Wrangling IV</a>
+<ul>
+<li>Does anyone want to walk the class through the block of code below explaining our <code>if_any()</code> or <code>across()</code> statements?…</li>
+</ul></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="fu">file.path</span>(<span class="st">"data"</span>, <span class="st">"hsls-small.csv"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 23503 Columns: 16
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+dbl (16): stu_id, x1sex, x1race, x1stdob, x1txmtscor, x1paredu, x1hhnumber, ...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> df <span class="sc">|&gt;</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(x1sex, x1race, x1txmtscor, x1paredu, x1ses, x1poverty185) <span class="sc">|&gt;</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span> <span class="fu">if_any</span>(<span class="at">.cols =</span> <span class="fu">everything</span>(),</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>                  <span class="at">.fns =</span> <span class="sc">~</span> . <span class="sc">%in%</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">8</span>, <span class="sc">-</span><span class="dv">9</span>))) <span class="sc">|&gt;</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="at">.cols =</span> <span class="sc">!</span> <span class="fu">c</span>(x1txmtscor, x1ses),</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>                <span class="at">.fns =</span> <span class="sc">~</span> <span class="fu">as.factor</span>(.)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="t-tests-with-t.test" class="level2">
+<h2 data-anchor-id="t-tests-with-t.test">t-tests with <code>t.test()</code></h2>
+<ul>
+<li>One of the first inferential statistical tests you will have learned (or will learn) is the t-test
+<ul>
+<li>For those unfamiliar, the basic concept of a t-test if variance between two groups (i.e., the difference between treatment and control) is greater than the variance within those groups (i.e., random variance between people within the same group)
+<ul>
+<li>If that between-group-variance is great enough compared to the within-group-variance, the t-test will be “statistically significant”
+<ul>
+<li>This means we are 95% confident (if using the usual 95% confidence level) that the there is a genuine difference between the groups</li>
+</ul></li>
+</ul></li>
+<li>There are a handful of statistical assumptions we have to satisfy, which are beyond our scope here, but hopefully the general concept will hope those of you yet to take your stats foundations follow along</li>
+</ul></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(x1txmtscor <span class="sc">~</span> x1sex, <span class="at">data =</span> df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Welch Two Sample t-test
+
+data:  x1txmtscor by x1sex
+t = 0.38555, df = 16321, p-value = 0.6998
+alternative hypothesis: true difference in means between group 1 and group 2 is not equal to 0
+95 percent confidence interval:
+ -0.2455338  0.3657777
+sample estimates:
+mean in group 1 mean in group 2 
+       52.14309        52.08297 </code></pre>
+</div>
+</div>
+<ul>
+<li>Luckily, the code for <code>t.test()</code> is actually very simple (as is the case for regression too)
+<ul>
+<li>The first argument is a <code>forumla</code>, which for a t-test is just <code>outcome ~ group</code> where group must only have 2 levels</li>
+<li>The second argument is <code>data =</code> which we supply our prepared data frame
+<ul>
+<li>Note: the pipe <code>|&gt;</code> doesn’t play as nicely with models as it does other commands
+<ul>
+<li>It’s usually easier to just specify <code>data =</code> in a new line (don’t pipe anything in)
+<ul>
+<li>But, if you must pipe <code>|&gt;</code>, then use the placeholder argument <code>data = _</code> which will tell the pipe <code>|&gt;</code>-ed output to go where the underscore is</li>
+</ul></li>
+</ul></li>
+</ul></li>
+<li>This code simply prints out our <code>t.test()</code> result
+<ul>
+<li>As our p-value is not less than 0.05, our result is not significant</li>
+</ul></li>
+</ul></li>
+</ul>
 </section>
 <section id="lm" class="level2">
 <h2 data-anchor-id="lm">lm</h2>
+<ul>
+<li>The problem with t-tests for our research, is that they don’t provide any ability to control for external variables
+<ul>
+<li>They work great in experimental setting with random-treatment-assignment, but in the messy world of educational research, that’s rarely what we have</li>
+</ul></li>
+<li>What we far more commonly use is a regression (or more advanced methods that build off regression) which allows use to control for other variables</li>
+<li>The basic premise of regression very much builds off the logic of t-tests, testing if the variance associated with our treatment variable is great enough compared to a) residual/random variance and b) variance associated with our control variables, to say with confidence that there is a significant difference</li>
+</ul>
 <section id="extracting-predictions" class="level3">
 <h3 data-anchor-id="extracting-predictions">extracting predictions</h3>
 </section>
