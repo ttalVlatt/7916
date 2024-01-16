@@ -43,7 +43,8 @@ df_18 <- df_18 |>
          F2E011, F2E021, F2E051,
          F3E011, F3E02A1, F3E03B1)
 
-print(df_18)
+print(df_18[100:105,])
+print(df_18[3000:3005,])
 
 
 ## Split back up into separate files
@@ -62,10 +63,6 @@ fp <- df_18 |> filter(!is.na(F3E011)) |>
 rebind <- bind_rows(pub, np, fp)
 
 
-coalesce <- df_18 |>
-  mutate(inst_spend = coalesce(F1C011, F2E011, F3E011)) |>
-  select(UNITID, inst_spend)
-
 all.equal(rebind, coalesce)
 
 df_18_clean <- df_18 |>
@@ -73,6 +70,9 @@ df_18_clean <- df_18 |>
          rsch_spend = coalesce(F1C021, F2E021, F3E02A1),
          serv_spend = coalesce(F1C061, F2E051, F3E03B1)) |>
   select(UNITID, inst_spend, rsch_spend, serv_spend)
+
+print(df_18_clean[100:105,])
+print(df_18_clean[3000:3005,])
 
 ## ---------------------------
 ##' [Finding if_any() Issues]
