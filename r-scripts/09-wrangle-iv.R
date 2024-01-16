@@ -18,6 +18,10 @@ library(dbplyr)
 library(RSQLite)
 
 
+## ---------------------------
+##' [Tidyverse Tricks Data]
+## ---------------------------
+
 df_18_pub <- read_csv(file.path("data", "ipeds-finance", "f1819_f1a_rv.csv"))
 df_18_np <- read_csv(file.path("data", "ipeds-finance", "f1819_f2_rv.csv"))
 df_18_fp <- read_csv(file.path("data", "ipeds-finance", "f1819_f3_rv.csv"))
