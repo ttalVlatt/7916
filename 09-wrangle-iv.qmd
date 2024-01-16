@@ -36,6 +36,12 @@ library(RSQLite)
 
 ## Tidyverse Tricks
 
+```{r, include = FALSE, purl = TRUE}
+## ---------------------------
+##' [Tidyverse Tricks Data]
+## ---------------------------
+```
+
 -   Now you have a decent grasp on the core functions of `tidyverse` we can start exploring some helper functions that can make our lives much easier!
 -   These commands have been chosen as I have personally found them wildly helpful in working with IPEDS and other data
     -   To demonstrate, we are going to use IPEDS finance data files for 2018/19-2020/21
@@ -104,6 +110,8 @@ df_18 <- df_18 |>
 print(df_18)
 ```
 
+<!--
+
 - For the sake of demonstration, let me show how to do this for instruction without our first "tidyverse trick"
   - Fun fact: I did something very close to this in my final project when I took this class!
 
@@ -127,6 +135,9 @@ rebind <- bind_rows(pub, np, fp)
 ```
 
 - Quite a lot of code, and that is a relatively simple case
+
+-->
+
 - Luckily, tidyverse has a command to help us, `coalesce()` 
   - Returns the first non-missing value across any number of columns
     - This works perfectly in situations like this, when you only have one data point for each row, it could just be in any column
@@ -137,6 +148,8 @@ coalesce <- df_18 |>
   select(UNITID, inst_spend)
 ```
 
+<!--
+
 - Let's check, are they the same?
 
 ```{r}
@@ -144,6 +157,10 @@ all.equal(rebind, coalesce)
 ```
 
 Yep! So let's do all the columns and get a clean data frame
+
+-->
+
+let's do all the columns and get a clean data frame
 
 ```{r}
 df_18_clean <- df_18 |>
@@ -168,6 +185,8 @@ df_18_clean <- df_18 |>
 - From the snapshots of the data we have seen so far, it seems that there's a good number of $0 reports for these values
 - Let's try and get a data frame containing only institutions that reported $0 for one of these spending categories
 
+<!--
+
 - Without the helper function
 
 ```{r}
@@ -183,6 +202,15 @@ df_0 |>
 
 ```
 
+-->
+
+```{r}
+df_0 <- df_18_clean |>
+  filter(if_any(everything(), ~ . == 0)) ## h/t https://stackoverflow.com/questions/69585261/dplyr-if-any-and-numeric-filtering
+
+print(df_0)
+```
+
 - Let's walk through this code
   1. Assign our results to a new object called `df_0`
   2. Take `df_18_clean` and pipe it into filter
@@ -194,13 +222,6 @@ df_0 |>
         - We haven't used `purrr` from `tidyverse` in this class, but the `~` comes from there, in short, it starts a very simple function for us
           - The function takes any value `.` and asks if it equals 0 `== 0`
           - If the function returns `TRUE` (as in it equals 0) for any column, that row will be `filter()`-ed in 
-
-```{r}
-df_0 <- df_18_clean |>
-  filter(if_any(everything(), ~ . == 0)) ## h/t https://stackoverflow.com/questions/69585261/dplyr-if-any-and-numeric-filtering
-
-print(df_0)
-```
 
 ### Working `across()` Multiple Columns
 
