@@ -29,6 +29,10 @@ df_18 |>
   filter(n > 1)
 
 
+## ---------------------------
+##' [coalesce()-ing Split Data]
+## ---------------------------
+
 df_18 <- df_18 |>
   select(UNITID,
          F1C011, F1C021, F1C061,
@@ -66,6 +70,10 @@ df_18_clean <- df_18 |>
          serv_spend = coalesce(F1C061, F2E051, F3E03B1)) |>
   select(UNITID, inst_spend, rsch_spend, serv_spend)
 
+## ---------------------------
+##' [Finding if_any() Issues]
+## ---------------------------
+
 df_0_inst <- df_18_clean |> filter(inst_spend == 0)
 df_0_rsch <- df_18_clean |> filter(rsch_spend == 0)
 df_0_serv <- df_18_clean |> filter(serv_spend == 0)
@@ -82,9 +90,17 @@ df_0 <- df_18_clean |>
 
 print(df_0)
 
+## ---------------------------
+##' [Working across() Columns]
+## ---------------------------
+
 df_0 |>
   select(-UNITID) |>
   count(across(everything(), ~ . == 0))
+
+## ---------------------------
+##' [From ifelse() to case_when()]
+## ---------------------------
 
 df_18_clean |>
   mutate(highest_cat = case_when(inst_spend > rsch_spend & rsch_spend > serv_spend ~ "inst_rsch_serv",
@@ -106,6 +122,10 @@ df_18_clean |>
                                  TRUE ~ "You missed a condition Matt")) |>
   count(highest_cat)
 
+## ---------------------------
+##' [Data Wrangling I in SQL]
+## ---------------------------
+
 df <- read_csv(file.path("data", "hsls-small.csv"))
 
 df |>
@@ -119,12 +139,16 @@ df |>
   ## If one exp is NA but the other isn't, keep the value not the NA
   mutate(high_exp = ifelse(is.na(high_exp) & !is.na(student_exp), student_exp, high_exp),
          high_exp = ifelse(is.na(high_exp) & !is.na(parent_exp), parent_exp, high_exp)) |>
-  ## Drop is high_exp is still NA (neither parent or student answereed)
+  ## Drop is high_exp is still NA (neither parent or student answered)
   filter(!is.na(high_exp)) |>
   ## Group the results by region
   group_by(x1region) |>
   ## Get the mean of high_exp (by region)
   summarize(mean_exp = mean(high_exp))
+
+## ---------------------------
+##' [dbplyr SQL Setup]
+## ---------------------------
 
 
 microsoft_access <- simulate_access()
@@ -153,15 +177,84 @@ db |>
   show_query()
 
 
+## ---------------------------
+##' [Step-by-Step Breakdown]
+## ---------------------------
 
-df_1 <- memdb_frame(read_csv(file.path("data", "sch-test", "by-school", "bend-gate-1980.csv")))
-df_2 <- memdb_frame(read_csv(file.path("data", "sch-test", "by-school", "bend-gate-1981.csv")))
-df_3 <- memdb_frame(read_csv(file.path("data", "sch-test", "by-school", "bend-gate-1982.csv")))
+db |>
+  ## select columns we want
+  select(stu_id, x1stuedexpct, x1paredexpct, x1region) |>
+  show_query()
 
-## change from bind_rows() to union_all() to play nice with dbplyr
-## union_all only takes 2 frames at a time, so second pipe needed
-union_all(df_1, df_2) |> union_all(df_3) |> show_query()
+db |>
+  ## select columns we want
+  select(stu_id, x1stuedexpct, x1paredexpct, x1region) |>
+  ## If expectation is -8, -9. or 11, make it NA
+  mutate(student_exp = ifelse(x1stuedexpct %in% list(-8, -9, 11), NA, x1stuedexpct),
+         parent_exp = ifelse(x1paredexpct %in% list(-8, -9, 11), NA, x1paredexpct)) |>
+  show_query()
 
+
+db |>
+  ## select columns we want
+  select(stu_id, x1stuedexpct, x1paredexpct, x1region) |>
+  ## If expectation is -8, -9. or 11, make it NA
+  mutate(student_exp = ifelse(x1stuedexpct %in% list(-8, -9, 11), NA, x1stuedexpct),
+         parent_exp = ifelse(x1paredexpct %in% list(-8, -9, 11), NA, x1paredexpct)) |>
+  ## Make a new variable called high_exp that is the higher or parent and student exp
+  mutate(high_exp = ifelse(student_exp > parent_exp, student_exp, parent_exp)) |>
+  show_query()
+
+
+db |>
+  ## select columns we want
+  select(stu_id, x1stuedexpct, x1paredexpct, x1region) |>
+  ## If expectation is -8, -9. or 11, make it NA
+  mutate(student_exp = ifelse(x1stuedexpct %in% list(-8, -9, 11), NA, x1stuedexpct),
+         parent_exp = ifelse(x1paredexpct %in% list(-8, -9, 11), NA, x1paredexpct)) |>
+  ## Make a new variable called high_exp that is the higher or parent and student exp
+  mutate(high_exp = ifelse(student_exp > parent_exp, student_exp, parent_exp)) |>
+  ## If one exp is NA but the other isn't, keep the value not the NA
+  mutate(high_exp = ifelse(is.na(high_exp) & !is.na(student_exp), student_exp, high_exp),
+         high_exp = ifelse(is.na(high_exp) & !is.na(parent_exp), parent_exp, high_exp)) |>
+  show_query()
+
+db |>
+  ## select columns we want
+  select(stu_id, x1stuedexpct, x1paredexpct, x1region) |>
+  ## If expectation is -8, -9. or 11, make it NA
+  mutate(student_exp = ifelse(x1stuedexpct %in% list(-8, -9, 11), NA, x1stuedexpct),
+         parent_exp = ifelse(x1paredexpct %in% list(-8, -9, 11), NA, x1paredexpct)) |>
+  ## Make a new variable called high_exp that is the higher or parent and student exp
+  mutate(high_exp = ifelse(student_exp > parent_exp, student_exp, parent_exp)) |>
+  ## If one exp is NA but the other isn't, keep the value not the NA
+  mutate(high_exp = ifelse(is.na(high_exp) & !is.na(student_exp), student_exp, high_exp),
+         high_exp = ifelse(is.na(high_exp) & !is.na(parent_exp), parent_exp, high_exp)) |>
+  ## Drop is high_exp is still NA (neither parent or student answereed)
+  filter(!is.na(high_exp)) |>
+  show_query()
+
+db |>
+  ## select columns we want
+  select(stu_id, x1stuedexpct, x1paredexpct, x1region) |>
+  ## If expectation is -8, -9. or 11, make it NA
+  mutate(student_exp = ifelse(x1stuedexpct %in% list(-8, -9, 11), NA, x1stuedexpct),
+         parent_exp = ifelse(x1paredexpct %in% list(-8, -9, 11), NA, x1paredexpct)) |>
+  ## Make a new variable called high_exp that is the higher or parent and student exp
+  mutate(high_exp = ifelse(student_exp > parent_exp, student_exp, parent_exp)) |>
+  ## If one exp is NA but the other isn't, keep the value not the NA
+  mutate(high_exp = ifelse(is.na(high_exp) & !is.na(student_exp), student_exp, high_exp),
+         high_exp = ifelse(is.na(high_exp) & !is.na(parent_exp), parent_exp, high_exp)) |>
+  ## Drop is high_exp is still NA (neither parent or student answered)
+  filter(!is.na(high_exp)) |>
+  ## Group the results by region
+  group_by(x1region) |>
+  summarize(mean_exp = mean(high_exp)) |>
+  show_query()
+
+## ---------------------------
+##' [Data Wrangling II in SQL]
+## ---------------------------
 
 
 df_2 <- read_csv(file.path("data", "sch-test", "all-schools.csv"))
@@ -169,8 +262,11 @@ df_2 <- read_csv(file.path("data", "sch-test", "all-schools.csv"))
 db_2 <- memdb_frame(df_2)
 
 
+## ---------------------------
+##' [Create Summary Table]
+## ---------------------------
 
-## Actually create `df_sum`
+
 df_sum <- db_2 |>
     ## grouping by year so average within each year
     group_by(year) |>
@@ -180,11 +276,18 @@ df_sum <- db_2 |>
               science_m = mean(science)) |>
   show_query()
 
+## ---------------------------
+##' [Left-Join]
+## ---------------------------
 
 df_joined <- db_2 |>
     ## pipe into left_join to join with df_sum using "year" as key
     left_join(df_sum, by = "year") |>
   show_query()
+
+## ---------------------------
+##' [Pivot-Longer]
+## ---------------------------
 
 df_long <- db_2 |>
     ## cols: current test columns
@@ -195,8 +298,9 @@ df_long <- db_2 |>
                  values_to = "score") |>
   show_query()
 
-## show
-df_long
+## ---------------------------
+##' [Pivot-Wider]
+## ---------------------------
 
 df_wide <- df_long |>
     ## names_from: values in this column will become new column names
@@ -205,19 +309,17 @@ df_wide <- df_long |>
                 values_from = "score") |>
   show_query()
 
+## ---------------------------
+##' [Pivot-Longer with Compound Names]
+## ---------------------------
+
 
 df_3 <- read_csv(file.path("data", "sch-test", "all-schools-wide.csv"))
 
 db_3 <- memdb_frame(df_3)
 
-df_long <- db_3 |>
-    ## NB: contains() looks for "19" in name: if there, it adds it to cols
-    pivot_longer(cols = contains("19"),
-                 names_to = "test_year",
-                 values_to = "score") |>
-  show_query()
+print(db_3)
 
-print(df_long)
 
 ## Note: change from DWII,dbplyr can't translate separate, or any stringr commands, so we have to 
 ## more sophisticated with our pivot_longer
@@ -228,7 +330,4 @@ df_long_fix <- db_3 |>
                  names_sep = "_",
                  values_to = "score") |>
   show_query()
-
-## show
-df_long_fix
 
