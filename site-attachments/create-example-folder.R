@@ -6,8 +6,9 @@
 ##' [AUTH: Matt Capaldi] @ttalVlatt
 ##
 ## ----------------------------------------------------------------------------
+
 library(tidyverse)
-library()
+library(git2r)
 
 output <- Sys.getenv("QUARTO_PROJECT_OUTPUT_DIR")
 
@@ -45,6 +46,23 @@ for(i in dup_files) {
 
 for(i in dup_folders) {
   fs::dir_delete(file.path(output, "r-scripts", i))
+}
+
+##'[Remove duplicates in data created by Quarto glitch]
+dup_files <- list.files(file.path("data"),
+                                  recursive = T,
+                                  pattern = "\\s\\d\\.[a-zA-Z0-9]+$")
+
+dup_folders <- list.files(file.path("data"),
+                          recursive = T,
+                          pattern = "\\s\\d$")
+
+for(i in dup_files) {
+  unlink(file.path("data", i))
+}
+
+for(i in dup_folders) {
+  fs::dir_delete(file.path("data", i))
 }
 
 ##'[Create example folder]
@@ -119,10 +137,69 @@ zip::zip(file.path("..", "EDH-7916.zip"),
 ## Reset working directory back to project folder
 setwd(file.path("..", ".."))
 
+##'[Upedate git EDH-7916 with new Example Folder]
 
-##' [Push example folder to 7916-student git repo]
+## Delete old EDH-7916
+if(dir.exists(file.path("..", "EDH-7916"))) {
+fs::dir_delete(file.path("..", "EDH-7916"))
+}
+
+## Copy fresh EDH-7916 from website rendering
+fs::dir_copy(file.path("_site", "EDH-7916"),  #example,
+             new_path = file.path("..", "EDH-7916"),
+             overwrite = TRUE)
+
+## Use git commands directly to terminal in post render
+
+# writeLines(paste("This repo was last updated", Sys.time()),
+#            "Last-Updated.txt")
+
+## Clone down the EDH-7916 folder to Desktop if not there
+# if(!dir.exists("../EDH-7916")) {
+# 
+#   git2r::clone("https://github.com/ttalVlatt/EDH-7916", "../EDH-7916")
+#   
+# }
+
+## Copies files over from created EDH-7916 to cloned repo
+# fs::dir_copy(file.path("_site", "EDH-7916"),  #example,
+#              new_path = file.path("..", "EDH-7916"),
+#              overwrite = TRUE)
+
+# file.copy()
+
+## Back out of 7916 repo into new student repo
+# setwd(file.path("..", "EDH-7916"))
+
+## Initialize new folder as a git repo
+## git2r::init()
+
+## Pull down for any updates
+# git2r::pull()
+
+## Write a .txt file with last updated time (primarily a file to inital commmit)
 
 
+# ## Add the .txt we just created
+# git2r::add(path = "Last-Updated.txt")
+# 
+# ## Make an initial commit so we can push to remote
+# git2r::commit(message = "Updates Scripts", all = TRUE)
+# 
+# ## Set up the remote
+# git2r::push()
+
+
+
+
+
+
+
+## Add the EDH-7916 remote repo as the remote_url
+# git2r::remote_add(name = "EDH-7916",
+#                   url = "https://github.com/ttalVlatt/EDH-7916")
+# 
+# git2r::repository_head()
 
 ## -----------------------------------------------------------------------------
 ##' *END SCRIPT*
