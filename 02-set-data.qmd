@@ -10,15 +10,15 @@ image: apple-touch-icon.png
 -   Now we have shown why Excel can be a problem, in this shorter
     lesson, we'll discuss how to set up a project directory and read in
     some data from IPEDS
-    - Note: There is no "incorrect" way of doing this as long (as long as it works), however, the principles we use in this lesson will help you avoid issues in the future
+    - Note: There is no "incorrect" way of doing this (as long as it works), however, the principles we use in this lesson will help you avoid issues in the future
 
 ## Organizing a Project Folder
 
 We'll begin with how to organize your course and project files.
 
-- We are now arriving at one of the first small differences from previous versions of the course; how the sub-folders are organized.
+- Note: we are now arriving at one of the first small differences from previous versions of the course; how the sub-folders are organized. There's a trade-off between simplicity and tidy-ness here, we have opted for simplicity
 
-#### Ben's kitchen example
+#### Skinner's Kitchen Metaphor
 
 > "Every data analysis project should have its own set of organized
 > folders. Just like you might organize a kitchen so that ingredients,
@@ -26,7 +26,7 @@ We'll begin with how to organize your course and project files.
 > too should you organize your project. We'll organize our course
 > directory in a similar fashion."
 
-- In this world, think of pristine kitchen where **NOTHING** sits out on the counter.
+- In Dr. Skinner's kitchen, think of pristine space where **NOTHING** sits out on the counter.
 - However, we are going to have kitchen where some things are stored away in cupboards, but what we regularly work with (the scripts) sits out on the counter
   - The kitchen metaphor also works to explain why you might take these approaches
     - It's definitely tidier to keep everything in your kitchen stored away, but, it adds an extra step whenever you want to cook a meal. The same is true here. 
@@ -36,7 +36,7 @@ We'll begin with how to organize your course and project files.
 
 - With this kitchen metaphor in mind, let's set up our folder for the class
 
-- I've made an [EDH-7916 example folder you can download here](/EDH-7916.zip) which is also available on the class homepage.
+- I've made an [EDH-7916 example folder you can download here](/EDH-7916.zip) which is also available on the class homepage
   - In here, you will see
     - An `.R` script template
     - A set of numbered `.R` scripts (these are our lesson scripts)
@@ -44,8 +44,8 @@ We'll begin with how to organize your course and project files.
     - A reproducible-report folder (with it's own data sub-folder)
     - A `.pdf` copy of the syllabus
 - Download and save this folder wherever you usually keep class folders
-  - I personally use my Desktop, but you can use your Documents etc. if you wish
-  - You can rename the folder if you'd like (please don't rename the internal folders)
+  - I personally use my Desktop, but you can use your Documents folder etc. if you wish
+  - You can rename the folder if you'd like (but please don't rename the internal folders)
     - See naming guidelines below on how best to name files
 - Throughout the class (and especially in your final project) you may feel the need for other sub-folders for other items (such as one to keep graphs in), but this should be fine for now
 
@@ -53,8 +53,7 @@ We'll begin with how to organize your course and project files.
 
 - RStudio has some really helpful features, one of which is creating R Projects easily
   - At their very simplest, these can be ways of keeping your RStudio environment saved (especially helpful switching between projects), but also enable more feature like using git (see extra credit lesson)
-  
-- Note: If you're using posit.cloud, you already have a RStudio project by default 
+  - Note: If you're using posit.cloud, you already have a RStudio project by default 
   
 - It's pretty easy to set up a project now we have our class folder set up
   1. In the top right corner of RStudio you'll see a blue cube with "none" next to it
@@ -65,7 +64,7 @@ We'll begin with how to organize your course and project files.
 
 ### Naming Guidelines
 
-- Your class scripts and data files are already named, but there will be numerous files you need to create through the class (assignment scripts, everything for your file report, etc.). So it's best we get on the same page
+- Your class scripts and data files are already named, but there will be numerous files you need to create throughout the class (assignment scripts, everything for your final report, etc.). So it's best we get on the same page
 
 - Always name your files something logical
   - The file name should always tell something about the purpose of that file or folder
@@ -88,7 +87,7 @@ We'll begin with how to organize your course and project files.
   - Later on we will be be in situations where we have to type out file names, so if you go too long, it can become frustrating
 
 - You may think the names of your class scripts are a little odd, so let me explain those as an example
-    1.[Hadley Wickham's script numbering](http://adv-r.had.co.nz/Style.html) corresponding to the order of the lessons
+    1. [Hadley Wickham's script numbering](http://adv-r.had.co.nz/Style.html) corresponding to the order of the lessons
     2. `set`, `wrangle`, `viz`, `quarto`, or `pro` indicate which group of lessons it belongs to (it helps me automatically create the groups on the website sidebar) 
     3. Anything else is just descriptive, roman numerals for the lesson series, or a descriptive word
     
@@ -206,7 +205,7 @@ We'll begin with how to organize your course and project files.
 ## <PROJ> EDH 7916
 ## <FILE> Getting Started II: Organizing and Reading Data 
 ## <INIT> 04 January 2024
-## <AUTH> Matt Capaldi (modified from Ben Skinner)
+## <AUTH> Matt Capaldi (modified from B.T. Skinner)
 ##
 ################################################################################
 
@@ -252,38 +251,38 @@ Now let's go and explore IPEDS Data Center and see where a lot of contemporary h
   
 ### "Data File" vs. "STATA Data File"
 
-- For some data sets, a STATA file option will download a `.dta` STATA file format version of the data, which is often nicely labelled
+- For some NCES data sets, such as HSLS downloaded from [NCES DataLab](), selecting the Stata file option will download a `.dta` STATA file format version of the data, which is often nicely labelled
   - We can actually read these into R using the `haven` library from the `tidyverse`
 - However, for IPEDS, the STATA file option is actually just another `.csv` file, it's formatted slightly differently to read into STATA, so there's no reason to bother with it when using R
   
 ### Using IPEDS Codebooks
   
 - To be able to use most of these big data sets, you need to be able to understand the code. Let's look together at the [codebook for EFFY (headcount enrollment) for 2021](https://nces.ed.gov/ipeds/datacenter/data/EFFY2021_Dict.zip)
-  - For IPEDS, the codebook is called the dictionary, and is always an Excel file (.xlsx). Other data sources will look different but the general principle will be the same
+  - For IPEDS, the code book is called the dictionary, and is always an Excel file (`.xlsx`). Other data sources will look different but the general principle will be the same
 
 ## Other common data sources for higher education research
 
   - National Center for Educational Statistics (also the owner of IPEDS)
-    - Longitudinal Surveys ([High School Longitudinal Study](https://nces.ed.gov/surveys/hsls09/), [ECLS-Early Childhood Longitudinal Studies](https://nces.ed.gov/ecls/)
+    - Longitudinal Surveys such as [HSLS-High School Longitudinal Study](https://nces.ed.gov/surveys/hsls09/) and [ECLS-Early Childhood Longitudinal Studies](https://nces.ed.gov/ecls/)
     - [Administrative Data (including IPEDS)](https://nces.ed.gov/admindata/)
-    - NCES has a good amount of publicly available data, but they also have a LOT of [restricted data]((https://nces.ed.gov/pubsearch/licenses.asp)
-      - Typically publicly available data will be either institution level (school, college, university wide) or fully anonymized. Meanwhile restricted data will often be student level and have some more detailed information.
+    - NCES has a good amount of publicly available data, but they also have a LOT of [restricted data](https://nces.ed.gov/pubsearch/licenses.asp)
+      - Typically publicly available data will be either institution level (school, college, university wide) or fully anonymized. Meanwhile restricted data will often be student level and have some more detailed information
         - Getting restricted data is tough, but not impossible
           - You will need a clear purpose of your study and to know exactly what data you want access to (see available data [here](https://nces.ed.gov/pubsearch/licenses.asp))
           - You'll then need to take this idea to your advisor
-        - For your project in this class, your data **MUST** be publicly available
+        - For your final project in this class, your data <ins>**MUST** be publicly available<\ins>
           - This means we must be able to go and download it ourselves, you won't submit data with your final project submission
   - [College Scorecard](https://collegescorecard.ed.gov)
     - Designed more as a tool for potential college students, college scorecard has data points of interest to this audience, but some things useful for our research too, in particular graduate earning levels
       - Similarly to IPEDS, if using College Scorecard, we want to avoid the point-and-click interface and download the [entire data files available here](https://collegescorecard.ed.gov/data/)
   - National Bureau of Labor Statistics
-    - [Longitudinal surveys](https://www.bls.gov/nls/) similar to NCES, but some more extensive
-    - [National Longitudinal Survey of Youth (NLSY)](https://www.bls.gov/nls/nlsy97.htm) is one of the most used
+    - [Longitudinal surveys](https://www.bls.gov/nls/), some have educational variables similar to NCES but are often much broader in scope
+      - [National Longitudinal Survey of Youth (NLSY)](https://www.bls.gov/nls/nlsy97.htm) is one of the most used
     - There are publicly available portions of these surveys, but other sections are restricted, see [BLS's accessing data page for more info](https://www.bls.gov/nls/getting-started/accessing-data.htm)
   - [Census & American Community Survey](https://www.census.gov/programs-surveys.html)
     - Useful for population statistics, not student specific
-      - Common variables for higher ed research include education and income levels of population
-        - For example, see the [variables available in the 2019 ACS here](https://api.census.gov/data/2019/acs/acs5/variables.html)
+      - Common variables for higher ed research include education and income levels for a population
+        - For example of what is available, see the [variables available in the 2019 ACS here](https://api.census.gov/data/2019/acs/acs5/variables.html)
       - We will actually do some cool stuff to download ACS data directly to R later in [Data Viz III](10-viz-iii.qmd) using the [tidycensus package](https://walker-data.com/tidycensus/)
   - [MSI Data Project](https://www.msidata.org/data)
     - Details about MSI classification and funding, includes IPEDS ID numbers to easily link to additional data
@@ -291,7 +290,8 @@ Now let's go and explore IPEDS Data Center and see where a lot of contemporary h
 
 # Assignment
 
-1. Create a new R script (use the template provided if you'd like)
+1. Create a new R script in the top level of the project directory (use the template provided if you'd like)
+  - Note: to keep my grading time reasonable, *please* <ins>keep your scripts in the top-level of your class folder</ins>, that way everyone is using the working directory and file paths
   - To keep things organized, I'd suggest naming it something like
     - `assignment-01.R` or `a-02-set-data.R`
       - If you use the lesson name, I suggest adding the `a-` just to keep your assignments grouped separately
@@ -300,6 +300,5 @@ Now let's go and explore IPEDS Data Center and see where a lot of contemporary h
 3. Pick any single data file from IPEDS that peaks your interest, download it, save it to your `data` folder, and read it in to R, assigning it to an object (again, just like we did in class)
   
 Once complete, turn in the .R script (no data etc.) to Canvas by the due date (Sunday 11:59pm following the lesson). Assignments will be graded on the following Monday (time permitting) in line with the grading policy outlined in the syllabus.
-
 
 :::

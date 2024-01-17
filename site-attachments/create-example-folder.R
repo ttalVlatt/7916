@@ -7,6 +7,7 @@
 ##
 ## ----------------------------------------------------------------------------
 library(tidyverse)
+library()
 
 output <- Sys.getenv("QUARTO_PROJECT_OUTPUT_DIR")
 
@@ -34,8 +35,27 @@ for(i in dup_folders) {
   fs::dir_delete(i)
 }
 
+##'[Remove duplicates in r-scripts created by Quarto glitch]
+dup_files <- list.files(file.path(output, "r-scripts"), pattern = "\\s\\d\\.[a-zA-Z0-9]+$")
+dup_folders <- list.files(file.path(output, "r-scripts"), pattern = "\\s\\d$")
+
+for(i in dup_files) {
+  unlink(file.path(output, "r-scripts", i))
+}
+
+for(i in dup_folders) {
+  fs::dir_delete(file.path(output, "r-scripts", i))
+}
+
 ##'[Create example folder]
-example <- file.path(output, "example-folder")
+
+## Delete the old example folder to remake it
+if(dir.exists(file.path(output, "EDH-7916"))) {
+  ## Delete old unzipped example folder
+  unlink(file.path(output, "EDH-7916"), recursive = T)
+}
+
+example <- file.path(output, "EDH-7916")
 dir.create(example)
 
 ##'[Create data sub-folder]
@@ -99,8 +119,10 @@ zip::zip(file.path("..", "EDH-7916.zip"),
 ## Reset working directory back to project folder
 setwd(file.path("..", ".."))
 
-## Delete unzipped example folder
-unlink(example, recursive = T)
+
+##' [Push example folder to 7916-student git repo]
+
+
 
 ## -----------------------------------------------------------------------------
 ##' *END SCRIPT*

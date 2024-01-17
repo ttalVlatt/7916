@@ -4,27 +4,242 @@ image: apple-touch-icon.png
 ---
 
 ::: panel-tabset
+
 # Lesson
 
-First off, I am not a stats professor, and this is not a stats lesson. Some of you have taken years of stats classes, while others are yet to take any. The purpose of this lesson is meant to focus on the R and programmatic aspects of modeling than statistical theory. 
+[{{< fa code >}} R Code](/r-scripts/12-pro-model.R)
 
-That said, it may still be a lot for those less familiar with stats. Fear not, there is no expectation to use of any this in your final assignment, nor is there an assignment for this lesson (optional final project drafts are due Sunday)! 
+```{r, include = FALSE, purl = TRUE}
+## -----------------------------------------------------------------------------
+##
+##' [PROJ: EDH 7916]
+##' [FILE: Modeling Basics]
+##' [INIT: Jan 16th 2024]
+##' [AUTH: Matt Capaldi] @ttalVlatt
+##
+## -----------------------------------------------------------------------------
 
-If this lesson starts to go over your comfort level, that's completely fine! Try your best to follow along, and maybe revisit the website once you're a little further along your stats jounrey.
+setwd(this.path::here())
 
-## t-test
+## ---------------------------
+##' [Libraries]
+## ---------------------------
 
-## lm
+library(tidyverse)
+library(estimatr)
 
-### extracting predictions
+```
 
-### checking residuals
+- First off, let me say I am not a stats professor, and this is not a stats lesson. Some of you have taken years of stats classes, while others are yet to take any. The purpose of this lesson is meant to focus on the R and programmatic aspects of modeling than statistical theory
+  - That said, it may still be a lot of information for those less familiar with stats. Fear not, there is no expectation to use of any this in your final assignment, nor is there an assignment for this lesson (optional final project drafts are due Sunday)! 
+  - If this lesson starts to go beyond your comfort level, that's completely fine! Try your best to follow along, and maybe revisit this lesson once you're a little further along your stats journey
+  
+## Data Preparation
 
-### assumption checking packages
+```{r, include = FALSE, purl = TRUE}
+## ---------------------------
+##' [Data Prep]
+## ---------------------------
+```
 
-## formula objects
+- Our first step is going to be setting up our data for analysis
+- There are two fundamental things to be aware of before programming statistical models in R
+  - Missing data points
+    - When modeling, by default, R will simply drop any rows that have an `NA` in any variable you are modeling on (this is a little different to the cautious R we ran into in [Data Wrangling I](03-wrangle-i.qmd))
+    - In real world applications, you need to think carefully about how you handle these...
+      - Should I impute the missing data? If so, using what method?
+      - Should I use this variable at all if it's missing for a bunch of observations?
+    - For this lesson, however, we are just going to drop `NA` values so we can focus on the main content
+  - Categorical variables
+    - For those who have taken stats, how to handle categorical variables is often an entire 3-hour lesson
+      - Ultimately, you have to create dummy variables (0 or 1) for all but one category (which is considered your base group)
+    - However, R has a really nice way of handling this situation with less confusion `factor()`s
+      - Behind the scenes, `factor()`s do indeed create dummy variables as required, but, it is all automated
+        - The only thing we may need to do manually is choose which `level` of the `factor` is the base group
+        
+        
+- For this class, we are going to re-use our subset of the HSLS survey
+- So, let's get our data set up in terms of missing data and categorical variables, while reviewing some techniques from [Data Wrangling IV](09-wrangle-iv.qmd)
+  - Does anyone want to walk the class through the block of code below explaining our `if_any()` or `across()` statements?...
 
-## modeling programatically with loops
+```{r}
+df <- read_csv(file.path("data", "hsls-small.csv"))
+
+df <- df |>
+  select(stu_id, x1sex, x1race, x1txmtscor, x1paredu, x1ses, x1poverty185) |>
+  filter(! if_any(.cols = everything(),
+                  .fns = ~ . %in% c(-8, -9))) |>
+  mutate(across(.cols = ! c(x1txmtscor, x1ses),
+                .fns = ~ as.factor(.)))
+
+```
+
+## t-tests with `t.test()`
+
+```{r, include = FALSE, purl = TRUE}
+## ---------------------------
+##' [t-tests]
+## ---------------------------
+```
+
+- One of the first inferential statistical tests you will have learned (or will learn) is the t-test
+  - For those unfamiliar, the basic concept of a t-test if variance between two groups (i.e., the difference between treatment and control) is greater than the variance within those groups (i.e., random variance between people within the same group)
+    - If that between-group-variance is great enough compared to the within-group-variance, the t-test will be "statistically significant"
+      - This means we are 95% confident (if using the usual 95% confidence level) that the there is a genuine difference between the groups
+  - There are a handful of statistical assumptions we have to satisfy, which are beyond our scope here, but hopefully the general concept will hope those of you yet to take your stats foundations follow along
+  
+```{r}
+t.test(x1txmtscor ~ x1sex, data = df)
+```
+
+- Luckily, the code for `t.test()` is actually very simple (as is the case for regression too)
+  - The first argument is a `forumla`, which for a t-test is just `outcome ~ group` where group must only have 2 levels
+  - The second argument is `data =` which we supply our prepared data frame
+    - Note: the pipe `|>` doesn't play as nicely with models as it does other commands
+      - It's usually easier to just specify `data =` in a new line (don't pipe anything in)
+        - But, if you must pipe `|>`, then use the placeholder argument `data = _` which will tell the pipe `|>`-ed output to go where the underscore is
+  - This code simply prints out our `t.test()` result
+    - As our p-value is not less than 0.05, our result is not significant
+
+## Regression with `lm()`
+
+```{r, include = FALSE, purl = TRUE}
+## ---------------------------
+##' [Regression]
+## ---------------------------
+```
+
+- The problem with t-tests for our research, is that they don't provide any ability to control for external variables
+  - They work great in experimental setting with random-treatment-assignment, but in the messy world of educational research, that's rarely what we have
+- What we far more commonly use is a regression (or more advanced methods that build off regression) which allows use to control for other variables
+- The basic premise of regression very much builds off the logic of t-tests, testing if the variance associated with our treatment variable is great enough compared to a) residual/random variance and b) variance associated with our control variables, to say with confidence that there is a significant difference associated with our treatment
+
+```{r}
+lm_sex <- lm(x1txmtscor ~ x1sex + x1poverty185 + x1paredu, data = df)
+summary(lm_sex)
+```
+
+- One key difference from `t.test()` is that we assigned `<-` our `lm()` results to an object rather than just spitting them out
+  - That's because the `summary()` function is much more useful for `lm()` objects, plus, we are going to explore the `lm()` object more in the next steps
+
+### Extracting Predictions
+
+```{r, include = FALSE, purl = TRUE}
+## ---------------------------
+##' [Predictions with Regression]
+## ---------------------------
+```
+
+- Since we have our `lm()` object saved, let's start by taking a look inside it by clicking on the object in our environment (top right) panel
+
+- Confusing right? Most statistical models look something like this, it's basically a collection of lists and tables containing different information about the model
+  - There are functions such as `summary()` that are great at pulling out the most commonly needed information without having to go manually digging through the model object, but sometimes, it can be useful to know it's there
+  - Another great function is `predict()` which extracts estimated values of the outcome variable based on the predictor variables (some other models use `fitted()` for the same purpose)
+    - For those more familiar with stats, you'll know predicted values are often compared against the true values to see how strong the model is
+
+```{r}
+predictions <- predict(lm_sex)
+```
+
+- We can also use `predict()` to estimate potential outcome values for new students who don't have the outcome for
+
+```{r}
+df_unknown <- df |>
+  slice_sample(prop = 0.1) |>
+  select(-x1txmtscor)
+
+df_train <- df |>
+  anti_join(df_unknown, by = "stu_id")
+
+lm_sex_train <- lm(x1txmtscor ~ x1sex + x1poverty185 + x1paredu, data = df_train)
+
+predictions_new <- predict(lm_sex_train, newdata = df_unknown)
+
+```
+
+### Checking Residuals
+
+```{r, include = FALSE, purl = TRUE}
+## ---------------------------
+##' [Extracting Residuals from Regression]
+## ---------------------------
+```
+
+- Many of the assumptions relating to regression are tested by looking at the residuals
+  - We aren't going to go over those assumptions, again, this is not a stats class
+  - But it might be useful to see how to get them out of a model object
+  - Let's start by viewing the lm object again (environment, top right panel), then clicking on the little white box on the right hand side of the screen for the row "residuals"
+
+- That is a magic tip, if you ever want to get something specific out of a model object, often they'll be something you can click on to generate the code needed to access it in the console
+  - For residuals, it is `lm_sex[["residuals"]]`
+
+```{r}
+residuals <- lm_sex[["residuals"]]
+```
+
+- Now, again, not to get too deep into assumptions, but one of the key things to check is that your residuals have a normal distribution
+  - So let's revisit some [Data Visualization I](05-viz-i.qmd) content and make a simple `ggplot()` histogram to of them
+  
+```{r}
+ggplot() +
+  geom_histogram(aes(x = residuals),
+                 color = "black",
+                 fill = "skyblue")
+```
+
+- Wow, that is almost a perfect normal distribution!
+  - Bonus points: can anyone remember/think of something about the variable `x1txmtscor` that made this result quite likely? Think about what *kind* of score it is
+
+## `formula()` Objects
+
+```{r, include = FALSE, purl = TRUE}
+## ---------------------------
+##' [Formula Objects]
+## ---------------------------
+```
+
+- The second from last thing is really simple, but, it can be a time & error saver if you want to get more advanced like our final step
+  - Above, we simply put our formula into the `t.test()` or `lm()` command
+    - Instead, we can actually specify it as a formula object first, then call that object, which has two advantages
+      1. If we run multiple tests with the same formula, we only have to change it once in our code for updates
+        - Here, we will run both standard `lm()` and `lm_robust()` from the `estimatr` package
+      2. If we want to run multiple tests in a loop like below, it makes that possible too
+      
+```{r}
+
+matts_form <- formula(x1txmtscor ~ x1sex + x1poverty185 + x1paredu)
+
+lm_sex <- lm(matts_form, data = df)
+summary(lm_sex)
+
+lm_sex_robust <- lm_robust(matts_form, data = df)
+summary(lm_sex_robust)
+
+```
+
+## Modeling Programatically with Loops
+
+```{r, include = FALSE, purl = TRUE}
+## ---------------------------
+##' [Modelling with Loops]
+## ---------------------------
+```
+
+```{r}
+
+outcomes <- c("x1txmtscor", "x1ses")
+
+for(i in outcomes) {
+  
+  loop_form <- formula(paste0(i, "~ x1sex + x1poverty185 + x1paredu"))
+  
+  loop_lm <- lm(loop_form, data = df)
+  
+  print(summary(loop_lm))
+  
+}
+
+```
 
 # Assignment
 
