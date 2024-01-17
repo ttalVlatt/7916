@@ -8,7 +8,6 @@
 ## ----------------------------------------------------------------------------
 
 library(tidyverse)
-library(git2r)
 
 output <- Sys.getenv("QUARTO_PROJECT_OUTPUT_DIR")
 
@@ -123,6 +122,19 @@ dir.create(file.path(final, "data"))
 file.copy(from = file.path("data", "hd2007.csv"),
           to = file.path(final, "data", "placeholder.csv"))
 
+
+##' [Remove any Duplicates in Example Folder created by Quarto/icloud glitch]
+
+dup_files <- list.files(example,
+                        recursive = T,
+                        include.dirs = T,
+                        all.files = T,
+                        pattern = "\\s\\d(\\.[a-zA-Z0-9]+)?$")
+
+for(i in dup_files) {
+  unlink(file.path(example, i), recursive = T)
+}
+
 ##'[ZIP Example Folder]
 
 ## To avoid empty files, setwd to the example
@@ -137,43 +149,63 @@ zip::zip(file.path("..", "EDH-7916.zip"),
 ## Reset working directory back to project folder
 setwd(file.path("..", ".."))
 
-##'[Upedate git EDH-7916 with new Example Folder]
+##'[Update git EDH-7916 with Fresh Scripts]
+
+## Delete old temp (fail-safe, should have already been un-linked)
+# if(dir.exists(file.path("..", "temp"))) {
+#   unlink(file.path("..", "temp"), recursive = T)
+# }
+
+## Copy fresh temp folder using EDH-7916 from website rendering
+# fs::dir_copy(file.path(output, "EDH-7916"),  #example,
+#              new_path = file.path("..", "temp"),
+#              overwrite = TRUE)
 
 ## Delete old EDH-7916
 if(dir.exists(file.path("..", "EDH-7916"))) {
-  fs::dir_delete(file.path("..", "EDH-7916"))
+  unlink(file.path("..", "EDH-7916"), recursive = T)
 }
 
-## Copy fresh EDH-7916 from website rendering
-fs::dir_copy(file.path("_site", "EDH-7916"),  #example,
-             new_path = file.path("..", "EDH-7916"),
-             overwrite = TRUE)
+## Send git commands directly to terminal
+system("
+   cd ..;
+   git clone https://github.com/ttalVlatt/EDH-7916;
+   cp -r 7916/_site/EDH-7916/* EDH-7916
+   cd EDH-7916;
+   git add .;
+   git commit -m 'update scripts';
+   git push origin  
+       ")
 
-##'[Remove duplicates in EDH-7916 created by Quarto/icloud glitch]
+## Delete temp file
+# unlink(file.path("..", "temp"), recursive = T)
 
-dup_files <- list.files(file.path("..", "EDH-7916"),
-                        recursive = T,
-                        pattern = "\\s\\d\\.[a-zA-Z0-9]+$")
-dup_folders <- list.files(file.path("..", "EDH-7916"),
-                          recursive = T,
-                          pattern = "\\s\\d$")
-
-for(i in dup_files) {
-  unlink(file.path("..", "EDH-7916", i))
-}
-
-for(i in dup_folders) {
-  fs::dir_delete(file.path("..", "EDH-7916", i))
-}
 
 ## Use git commands directly to terminal
-system("cd ../EDH-7916;
-       git init;
-       git add .;
-       git commit -m 'update scripts';
-       git remote add EDH-7916 https://github.com/ttalVlatt/EDH-7916;
-       git push -u --force EDH-7916 main;
-       cd ../7916")
+# system("cd ../EDH-7916;
+#        git init;
+#        touch .gitignore;
+#        echo '.DS_Store' >> .gitignore;
+#        echo '.Rhistory' >> .gitignore;
+#        echo '.Rproj.user/' >> .gitignore;
+#        git add .;
+#        git commit -m 'update scripts';
+#        git remote add EDH-7916 https://github.com/ttalVlatt/EDH-7916;
+#        git push -u --force EDH-7916 main;
+#        cd ../7916") 
+
+  
+       # git init;
+       # touch .gitignore;
+       # echo '.DS_Store' >> .gitignore;
+       # echo '.Rhistory' >> .gitignore;
+       # echo '.Rproj.user/' >> .gitignore;
+       # git add .;
+       # git commit -m 'update scripts';
+       # git remote add EDH-7916 https://github.com/ttalVlatt/EDH-7916;
+       # git push -u --force EDH-7916 main;
+       # cd ../7916")
+
 
 # writeLines(paste("This repo was last updated", Sys.time()),
 #            "Last-Updated.txt")
