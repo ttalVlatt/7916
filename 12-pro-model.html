@@ -409,7 +409,7 @@ dbl (16): stu_id, x1sex, x1race, x1stdob, x1txmtscor, x1paredu, x1hhnumber, ...
 ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> df <span class="sc">|&gt;</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(x1sex, x1race, x1txmtscor, x1paredu, x1ses, x1poverty185) <span class="sc">|&gt;</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(stu_id, x1sex, x1race, x1txmtscor, x1paredu, x1ses, x1poverty185) <span class="sc">|&gt;</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span> <span class="fu">if_any</span>(<span class="at">.cols =</span> <span class="fu">everything</span>(),</span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>                  <span class="at">.fns =</span> <span class="sc">~</span> . <span class="sc">%in%</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">8</span>, <span class="sc">-</span><span class="dv">9</span>))) <span class="sc">|&gt;</span></span>
 <span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="at">.cols =</span> <span class="sc">!</span> <span class="fu">c</span>(x1txmtscor, x1ses),</span>
@@ -468,31 +468,273 @@ mean in group 1 mean in group 2
 </ul></li>
 </ul>
 </section>
-<section id="lm" class="level2">
-<h2 data-anchor-id="lm">lm</h2>
+<section id="regression-with-lm" class="level2">
+<h2 data-anchor-id="regression-with-lm">Regression with <code>lm()</code></h2>
 <ul>
 <li>The problem with t-tests for our research, is that they don’t provide any ability to control for external variables
 <ul>
 <li>They work great in experimental setting with random-treatment-assignment, but in the messy world of educational research, that’s rarely what we have</li>
 </ul></li>
 <li>What we far more commonly use is a regression (or more advanced methods that build off regression) which allows use to control for other variables</li>
-<li>The basic premise of regression very much builds off the logic of t-tests, testing if the variance associated with our treatment variable is great enough compared to a) residual/random variance and b) variance associated with our control variables, to say with confidence that there is a significant difference</li>
+<li>The basic premise of regression very much builds off the logic of t-tests, testing if the variance associated with our treatment variable is great enough compared to a) residual/random variance and b) variance associated with our control variables, to say with confidence that there is a significant difference associated with our treatment</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>lm_sex <span class="ot">&lt;-</span> <span class="fu">lm</span>(x1txmtscor <span class="sc">~</span> x1sex <span class="sc">+</span> x1poverty185 <span class="sc">+</span> x1paredu, <span class="at">data =</span> df)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(lm_sex)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = x1txmtscor ~ x1sex + x1poverty185 + x1paredu, data = df)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-32.748  -5.715   0.160   6.136  30.413 
+
+Coefficients:
+              Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)    49.0485     0.3379 145.139  &lt; 2e-16 ***
+x1sex2         -0.0412     0.1429  -0.288    0.773    
+x1poverty1851  -3.0224     0.1729 -17.483  &lt; 2e-16 ***
+x1paredu2       1.3419     0.3234   4.149 3.36e-05 ***
+x1paredu3       2.4834     0.3584   6.929 4.38e-12 ***
+x1paredu4       6.1227     0.3507  17.460  &lt; 2e-16 ***
+x1paredu5       8.1726     0.3814  21.426  &lt; 2e-16 ***
+x1paredu7      10.7669     0.4294  25.074  &lt; 2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 9.161 on 16421 degrees of freedom
+Multiple R-squared:  0.1605,    Adjusted R-squared:  0.1601 
+F-statistic: 448.4 on 7 and 16421 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+</div>
+<ul>
+<li>One key difference from <code>t.test()</code> is that we assigned <code>&lt;-</code> our <code>lm()</code> results to an object rather than just spitting them out
+<ul>
+<li>That’s because the <code>summary()</code> function is much more useful for <code>lm()</code> objects, plus, we are going to explore the <code>lm()</code> object more in the next steps</li>
+</ul></li>
 </ul>
 <section id="extracting-predictions" class="level3">
-<h3 data-anchor-id="extracting-predictions">extracting predictions</h3>
+<h3 data-anchor-id="extracting-predictions">Extracting Predictions</h3>
+<ul>
+<li><p>Since we have our <code>lm()</code> object saved, let’s start by taking a look inside it by clicking on the object in our environment (top right) panel</p></li>
+<li><p>Confusing right? Most statistical models look something like this, it’s basically a collection of lists and tables containing different information about the model</p>
+<ul>
+<li>There are functions such as <code>summary()</code> that are great at pulling out the most commonly needed information without having to go manually digging through the model object, but sometimes, it can be useful to know it’s there</li>
+<li>Another great function is <code>predict()</code> which extracts estimated values of the outcome variable based on the predictor variables (some other models use <code>fitted()</code> for the same purpose)
+<ul>
+<li>For those more familiar with stats, you’ll know predicted values are often compared against the true values to see how strong the model is</li>
+</ul></li>
+</ul></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>predictions <span class="ot">&lt;-</span> <span class="fu">predict</span>(lm_sex)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li>We can also use <code>predict()</code> to estimate potential outcome values for new students who don’t have the outcome for</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>df_unknown <span class="ot">&lt;-</span> df <span class="sc">|&gt;</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_sample</span>(<span class="at">prop =</span> <span class="fl">0.1</span>) <span class="sc">|&gt;</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>x1txmtscor)</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>df_train <span class="ot">&lt;-</span> df <span class="sc">|&gt;</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">anti_join</span>(df_unknown, <span class="at">by =</span> <span class="st">"stu_id"</span>)</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>lm_sex_train <span class="ot">&lt;-</span> <span class="fu">lm</span>(x1txmtscor <span class="sc">~</span> x1sex <span class="sc">+</span> x1poverty185 <span class="sc">+</span> x1paredu, <span class="at">data =</span> df_train)</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>predictions_new <span class="ot">&lt;-</span> <span class="fu">predict</span>(lm_sex_train, <span class="at">newdata =</span> df_unknown)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 </section>
 <section id="checking-residuals" class="level3">
-<h3 data-anchor-id="checking-residuals">checking residuals</h3>
-</section>
-<section id="assumption-checking-packages" class="level3">
-<h3 data-anchor-id="assumption-checking-packages">assumption checking packages</h3>
+<h3 data-anchor-id="checking-residuals">Checking Residuals</h3>
+<ul>
+<li>Many of the assumptions relating to regression are tested by looking at the residuals
+<ul>
+<li>We aren’t going to go over those assumptions, again, this is not a stats class</li>
+<li>But it might be useful to see how to get them out of a model object</li>
+<li>Let’s start by viewing the lm object again (environment, top right panel), then clicking on the little white box on the right hand side of the screen for the row “residuals”</li>
+</ul></li>
+<li>That is a magic tip, if you ever want to get something specific out of a model object, often they’ll be something you can click on to generate the code needed to access it in the console
+<ul>
+<li>For residuals, it is <code>lm_sex[["residuals"]]</code></li>
+</ul></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>residuals <span class="ot">&lt;-</span> lm_sex[[<span class="st">"residuals"</span>]]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li>Now, again, not to get too deep into assumptions, but one of the key things to check is that your residuals have a normal distribution
+<ul>
+<li>So let’s revisit some <a href="./05-viz-i.html">Data Visualization I</a> content and make a simple <code>ggplot()</code> histogram to of them</li>
+</ul></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="fu">aes</span>(<span class="at">x =</span> residuals),</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>                 <span class="at">color =</span> <span class="st">"black"</span>,</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>                 <span class="at">fill =</span> <span class="st">"skyblue"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="12-pro-model_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<ul>
+<li>Wow, that is almost a perfect normal distribution!
+<ul>
+<li>Bonus points: can anyone remember/think of something about the variable <code>x1txmtscor</code> that made this result quite likely? Think about what <em>kind</em> of score it is</li>
+</ul></li>
+</ul>
 </section>
 </section>
 <section id="formula-objects" class="level2">
-<h2 data-anchor-id="formula-objects">formula objects</h2>
+<h2 data-anchor-id="formula-objects"><code>formula()</code> Objects</h2>
+<ul>
+<li>The second from last thing is really simple, but, it can be a time &amp; error saver if you want to get more advanced like our final step
+<ul>
+<li>Above, we simply put our formula into the <code>t.test()</code> or <code>lm()</code> command
+<ul>
+<li>Instead, we can actually specify it as a formula object first, then call that object, which has two advantages
+<ol type="1">
+<li>If we run multiple tests with the same formula, we only have to change it once in our code for updates</li>
+</ol>
+<ul>
+<li>Here, we will run both standard <code>lm()</code> and <code>lm_robust()</code> from the <code>estimatr</code> package</li>
+</ul>
+<ol start="2" type="1">
+<li>If we want to run multiple tests in a loop like below, it makes that possible too</li>
+</ol></li>
+</ul></li>
+</ul></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>matts_form <span class="ot">&lt;-</span> <span class="fu">formula</span>(x1txmtscor <span class="sc">~</span> x1sex <span class="sc">+</span> x1poverty185 <span class="sc">+</span> x1paredu)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>lm_sex <span class="ot">&lt;-</span> <span class="fu">lm</span>(matts_form, <span class="at">data =</span> df)</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(lm_sex)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = matts_form, data = df)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-32.748  -5.715   0.160   6.136  30.413 
+
+Coefficients:
+              Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)    49.0485     0.3379 145.139  &lt; 2e-16 ***
+x1sex2         -0.0412     0.1429  -0.288    0.773    
+x1poverty1851  -3.0224     0.1729 -17.483  &lt; 2e-16 ***
+x1paredu2       1.3419     0.3234   4.149 3.36e-05 ***
+x1paredu3       2.4834     0.3584   6.929 4.38e-12 ***
+x1paredu4       6.1227     0.3507  17.460  &lt; 2e-16 ***
+x1paredu5       8.1726     0.3814  21.426  &lt; 2e-16 ***
+x1paredu7      10.7669     0.4294  25.074  &lt; 2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 9.161 on 16421 degrees of freedom
+Multiple R-squared:  0.1605,    Adjusted R-squared:  0.1601 
+F-statistic: 448.4 on 7 and 16421 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>lm_sex_robust <span class="ot">&lt;-</span> <span class="fu">lm_robust</span>(matts_form, <span class="at">data =</span> df)</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(lm_sex_robust)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm_robust(formula = matts_form, data = df)
+
+Standard error type:  HC2 
+
+Coefficients:
+              Estimate Std. Error  t value   Pr(&gt;|t|) CI Lower CI Upper    DF
+(Intercept)    49.0485     0.3241 151.3515  0.000e+00  48.4133   49.684 16421
+x1sex2         -0.0412     0.1430  -0.2882  7.732e-01  -0.3214    0.239 16421
+x1poverty1851  -3.0224     0.1761 -17.1640  1.840e-65  -3.3676   -2.677 16421
+x1paredu2       1.3419     0.3063   4.3811  1.188e-05   0.7415    1.942 16421
+x1paredu3       2.4834     0.3400   7.3038  2.925e-13   1.8170    3.150 16421
+x1paredu4       6.1227     0.3378  18.1247  1.040e-72   5.4606    6.785 16421
+x1paredu5       8.1726     0.3696  22.1114 8.842e-107   7.4481    8.897 16421
+x1paredu7      10.7669     0.4335  24.8379 1.014e-133   9.9172   11.617 16421
+
+Multiple R-squared:  0.1605 ,   Adjusted R-squared:  0.1601 
+F-statistic: 446.5 on 7 and 16421 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+</div>
 </section>
 <section id="modeling-programatically-with-loops" class="level2">
-<h2 data-anchor-id="modeling-programatically-with-loops">modeling programatically with loops</h2>
+<h2 data-anchor-id="modeling-programatically-with-loops">Modeling Programatically with Loops</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>outcomes <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"x1txmtscor"</span>, <span class="st">"x1ses"</span>)</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> outcomes) {</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  loop_form <span class="ot">&lt;-</span> <span class="fu">formula</span>(<span class="fu">paste0</span>(i, <span class="st">"~ x1sex + x1poverty185 + x1paredu"</span>))</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>  loop_lm <span class="ot">&lt;-</span> <span class="fu">lm</span>(loop_form, <span class="at">data =</span> df)</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(<span class="fu">summary</span>(loop_lm))</span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = loop_form, data = df)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-32.748  -5.715   0.160   6.136  30.413 
+
+Coefficients:
+              Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)    49.0485     0.3379 145.139  &lt; 2e-16 ***
+x1sex2         -0.0412     0.1429  -0.288    0.773    
+x1poverty1851  -3.0224     0.1729 -17.483  &lt; 2e-16 ***
+x1paredu2       1.3419     0.3234   4.149 3.36e-05 ***
+x1paredu3       2.4834     0.3584   6.929 4.38e-12 ***
+x1paredu4       6.1227     0.3507  17.460  &lt; 2e-16 ***
+x1paredu5       8.1726     0.3814  21.426  &lt; 2e-16 ***
+x1paredu7      10.7669     0.4294  25.074  &lt; 2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 9.161 on 16421 degrees of freedom
+Multiple R-squared:  0.1605,    Adjusted R-squared:  0.1601 
+F-statistic: 448.4 on 7 and 16421 DF,  p-value: &lt; 2.2e-16
+
+
+Call:
+lm(formula = loop_form, data = df)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-1.72381 -0.26681 -0.00593  0.25999  1.28288 
+
+Coefficients:
+               Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)   -0.731028   0.014093  -51.87   &lt;2e-16 ***
+x1sex2        -0.001848   0.005962   -0.31    0.757    
+x1poverty1851 -0.500690   0.007210  -69.45   &lt;2e-16 ***
+x1paredu2      0.476082   0.013488   35.30   &lt;2e-16 ***
+x1paredu3      0.861408   0.014946   57.64   &lt;2e-16 ***
+x1paredu4      1.298040   0.014624   88.76   &lt;2e-16 ***
+x1paredu5      1.719034   0.015907  108.07   &lt;2e-16 ***
+x1paredu7      2.387740   0.017907  133.34   &lt;2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 0.382 on 16421 degrees of freedom
+Multiple R-squared:  0.7917,    Adjusted R-squared:  0.7916 
+F-statistic:  8917 on 7 and 16421 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+</div>
 </section>
 </div>
 <div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
