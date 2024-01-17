@@ -141,7 +141,7 @@ setwd(file.path("..", ".."))
 
 ## Delete old EDH-7916
 if(dir.exists(file.path("..", "EDH-7916"))) {
-fs::dir_delete(file.path("..", "EDH-7916"))
+  fs::dir_delete(file.path("..", "EDH-7916"))
 }
 
 ## Copy fresh EDH-7916 from website rendering
@@ -149,7 +149,31 @@ fs::dir_copy(file.path("_site", "EDH-7916"),  #example,
              new_path = file.path("..", "EDH-7916"),
              overwrite = TRUE)
 
-## Use git commands directly to terminal in post render
+##'[Remove duplicates in EDH-7916 created by Quarto/icloud glitch]
+
+dup_files <- list.files(file.path("..", "EDH-7916"),
+                        recursive = T,
+                        pattern = "\\s\\d\\.[a-zA-Z0-9]+$")
+dup_folders <- list.files(file.path("..", "EDH-7916"),
+                          recursive = T,
+                          pattern = "\\s\\d$")
+
+for(i in dup_files) {
+  unlink(file.path("..", "EDH-7916", i))
+}
+
+for(i in dup_folders) {
+  fs::dir_delete(file.path("..", "EDH-7916", i))
+}
+
+## Use git commands directly to terminal
+system("cd ../EDH-7916;
+       git init;
+       git add .;
+       git commit -m 'update scripts';
+       git remote add EDH-7916 https://github.com/ttalVlatt/EDH-7916;
+       git push -u --force EDH-7916 main;
+       cd ../7916")
 
 # writeLines(paste("This repo was last updated", Sys.time()),
 #            "Last-Updated.txt")
