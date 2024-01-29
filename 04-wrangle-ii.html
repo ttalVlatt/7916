@@ -341,10 +341,27 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" aria-current="page">Lesson</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">Assignment</a></li></ul>
 <div class="tab-content">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
-<p>So far, we have only worked with single data files: we read in a file, wrangled our data, and, sometimes, outputted a new file. But very often, a key aspect of the data wrangling workflow is to combine more than one data set together. This may include <strong>appending</strong> new rows to an existing data frame in memory or <strong>joining</strong> two data sets together using a common key value found in both. Another key data manipulation task is to <strong>reshape</strong> our data, pivoting from wide to long form (or vice versa). We’ll go through each individually below.</p>
+<ul>
+<li>So far, we have only worked with single data files: we read in a file, wrangled our data, and, sometimes, outputted a new file.</li>
+<li>But very often, a key aspect of the data wrangling workflow is to combine more than one data set together. This may include;
+<ul>
+<li><strong>appending</strong> new rows to an existing data frame in memory</li>
+<li><strong>joining</strong> two data sets together using a common key value found in both.</li>
+</ul></li>
+<li>As part of this, we often will need to;
+<ul>
+<li><strong>reshape</strong> our data, pivoting from wide to long form (or vice versa).</li>
+</ul></li>
+<li>We’ll go through each individually below.</li>
+</ul>
 <section id="data" class="level2">
 <h2 data-anchor-id="data">Data</h2>
-<p>After you download and unzip the data for today’s lesson, move the full folder, <code>sch_test</code>, into the <code>data</code> subdirectory. It should look something like this:</p>
+<ul>
+<li>The data for today’s lesson is all in your <code>data/sch-test</code> folder
+<ul>
+<li>It should look something like this:</li>
+</ul></li>
+</ul>
 <pre><code>|__ data/
     |-- ...
     |__ sch_test/
@@ -355,11 +372,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
             |-- bend_gate_1981.csv
             |...
             |-- spottsville_1985.csv</code></pre>
-<p>These fake data represent test scores across three subjects — math, reading, and science — across four schools over six years. Each school has a file for each year in the <code>by_school</code> subdirectory. The two files in <code>sch_test</code> directory, <code>all_schools.csv</code> and <code>all_schools_wide.csv</code>, combine the individual files but in different formats. We’ll use these data sets to practice appending, joining, and reshaping.</p>
+<ul>
+<li>These fake data represent test scores across three subjects — math, reading, and science — across four schools over six years.</li>
+<li>Each school has a file for each year in the <code>by_school</code> subdirectory.</li>
+<li>The two files in <code>sch_test</code> directory, <code>all_schools.csv</code> and <code>all_schools_wide.csv</code>, combine the individual files but in different formats.
+<ul>
+<li>We’ll use these data sets to practice appending, joining, and reshaping.</li>
+</ul></li>
+</ul>
 </section>
 <section id="setup" class="level2">
 <h2 data-anchor-id="setup">Setup</h2>
-<p>As always, we begin by reading in the tidyverse library and assigning our paths to macros we can reuse below.</p>
+<p>As always, we begin by reading in the tidyverse library.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="do">## ---------------------------</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="do">## libraries</span></span>
@@ -379,11 +403,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
 </div>
 </div>
-<p>As we did in the past lesson, we run this script assuming that our working directory is set to the <code>scripts</code> directory. Notice that we also include macros for our subdirectories within the <code>data</code> directory. Since they are nested, we can use the previous macros to set new macros.</p>
+<ul>
+<li>As we did in the past lesson, we will run this script assuming that our working directory is set to the project folder</li>
+</ul>
 </section>
 <section id="appending-data" class="level2">
 <h2 data-anchor-id="appending-data">Appending data</h2>
-<p>Our first task is the most straightforward. When appending data, we simply add similarly structured rows to an exiting data frame. What do I mean by similarly structured? Imagine you have a data frame that looks like this:</p>
+<ul>
+<li>Our first task is the most straightforward. When appending data, we simply add similarly structured rows to an exiting data frame.</li>
+<li>What do I mean by similarly structured? Imagine you have a data frame that looks like this:</li>
+</ul>
 <table class="table">
 <thead>
 <tr class="header">
@@ -415,7 +444,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 </tbody>
 </table>
-<p>Now, assume you are given data that look like this:</p>
+<ul>
+<li>Now, assume you are given data that look like this:</li>
+</ul>
 <table class="table">
 <thead>
 <tr class="header">
@@ -437,7 +468,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 </tbody>
 </table>
-<p>These data are similarly structured: <em>same column names in the same order</em>. If we know that the data came from the same process (<em>e.g.</em>, <strong>id</strong>s represent students in the same classroom with each file representing a different test day), then we can safely append the second to the first:</p>
+<ul>
+<li>These data are similarly structured: <em>same column names in the same order</em>. If we know that the data came from the same process (<em>e.g.</em>, <strong>id</strong>s represent students in the same classroom with each file representing a different test day), then we can safely append the second to the first:</li>
+</ul>
 <table class="table">
 <thead>
 <tr class="header">
@@ -479,8 +512,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 </tbody>
 </table>
-<p>Data that are the result of the <em>exact</em> same data collecting process across locations or time may be appended. In education research, administrative data are often recorded each term or year, meaning you can build a panel data set by appending. The NCES IPEDS data files generally work like this.</p>
-<p>However, it’s incumbent upon you as the researcher to understand your data. Just because you are able to append (R will try to make it work for you) doesn’t mean you always should. What if the <code>score</code> column in our data weren’t on the same scale? What if the test date mattered but isn’t included in the file? What if the files actually represent scores from different grades or schools? It’s possible that we can account for each of these issues as we clean our data, but it won’t happen automatically — append with care!</p>
+<ul>
+<li>Data that are the result of the <em>exact</em> same data collecting process across locations or time may be appended. In education research, administrative data are often recorded each term or year, meaning you can build a panel data set by appending. The NCES IPEDS data files <em>generally</em> work like this
+<ul>
+<li>Note on IPEDS: Some of the variables have changed over time, one of the most notable being enrollment data between 2001 and 2002, so always check your dictionary!</li>
+</ul></li>
+<li>However, it’s incumbent upon you as the researcher to understand your data. Just because you are able to append (R will try to make it work for you) doesn’t mean you always should.
+<ul>
+<li>What if the <code>score</code> column in our data weren’t on the same scale?</li>
+<li>What if the test date mattered but isn’t included in the file?</li>
+<li>What if the files actually represent scores from different grades or schools?</li>
+<li>It’s possible that we can account for each of these issues as we clean our data, but it won’t happen automatically — append with care!</li>
+</ul></li>
+</ul>
 <!-- > #### Quick exercise  -->
 <!-- > While appending data can be straightforward, it can also be -->
 <!-- > _dangerous_. What do you think I mean by that? Think of some -->
@@ -528,7 +572,9 @@ dbl (4): year, math, read, science
 ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
 </div>
 </div>
-<p>Looking at each, we can see that they are similarly structured, with the following columns in the same order: <code>school</code>, <code>year</code>, <code>math</code>, <code>read</code>, <code>science</code>:</p>
+<ul>
+<li>Looking at each, we can see that they are similarly structured, with the following columns in the same order: <code>school</code>, <code>year</code>, <code>math</code>, <code>read</code>, <code>science</code>:</li>
+</ul>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="do">## ---------------------------</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="do">## process</span></span>
@@ -573,16 +619,53 @@ dbl (4): year, math, read, science
 3 Bend Gate  1982   514   316     816</code></pre>
 </div>
 </div>
-<p>That’s it!</p>
+<ul>
+<li>That’s it!</li>
+</ul>
 <blockquote class="blockquote">
 <h4 id="quick-exercise">Quick exercise</h4>
 <p>Read in the rest of the files for Bend Gate and append them to the current data frame.</p>
 </blockquote>
+<blockquote class="blockquote">
+<h4 id="quick-exercise-take-two">Quick exercise: Take Two</h4>
+<p>If <code>bind_rows()</code> stacks tables on top of each other, what do you think would stack them side-by-side? Copy the below code and try to figure how to get them back together</p>
+</blockquote>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>df_split_left <span class="ot">&lt;-</span> df[,<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>]</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>df_split_right <span class="ot">&lt;-</span> df[,<span class="dv">3</span><span class="sc">:</span><span class="dv">5</span>]</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(df_split_left)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 2
+  school     year
+  &lt;chr&gt;     &lt;dbl&gt;
+1 Bend Gate  1980
+2 Bend Gate  1981
+3 Bend Gate  1982</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(df_split_right)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 3
+   math  read science
+  &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;
+1   515   281     808
+2   503   312     814
+3   514   316     816</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Append them back together side-by-side</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 </section>
 </section>
 <section id="joining-data" class="level2">
 <h2 data-anchor-id="joining-data">Joining data</h2>
-<p>More often than appending your data files, however, you will need to merge or join them. With a join, you add to your data frame new columns (new variables) that come from a second data frame. The key difference between joining and appending is that a join requires a <em>key</em>, that is, a variable or index common to each data frame that uniquely identifies observations. It’s this key that’s used to line everything up.</p>
+<ul>
+<li>More often than appending your data files, however, you will need to merge or join them.</li>
+<li>With a join, you add to your data frame new columns (new variables) that come from a second data frame.</li>
+<li>The key difference between joining and appending is that a join requires a <em>key</em>, that is, a variable or index common to each data frame that uniquely identifies observations.
+<ul>
+<li>It’s this key that’s used to line everything up.</li>
+</ul></li>
+</ul>
 <p>For example, say you have these two data sets,</p>
 <table class="table">
 <thead>
@@ -642,7 +725,10 @@ dbl (4): year, math, read, science
 </tr>
 </tbody>
 </table>
-<p>and you want to add the school <code>type</code> to the first data set. You can do this because you have a common <em>key</em> between each set: <code>sch</code>. A pseudocode description of this join would be:</p>
+<ul>
+<li>You want to add the school <code>type</code> to the first data set.</li>
+<li>You can do this because you have a common <em>key</em> between each set: <code>sch</code>.</li>
+</ul>
 <ol type="1">
 <li>Add a column to the first data frame called <code>type</code></li>
 <li>Fill in each row of the new column with the <code>type</code> value that corresponds to the matching <code>sch</code> value in both data frames:
@@ -696,14 +782,21 @@ dbl (4): year, math, read, science
 </table>
 <section id="example-1" class="level3">
 <h3 data-anchor-id="example-1">Example</h3>
-<p>A common join task in education research involves adding group-level aggregate statistics to individual observations: for example, adding school-level average test scores to each student’s row. With a panel data set (observations across time), we might want within-year averages added to each unit-by-time period row. Let’s do the second, adding within-year across school average test scores to each school-by-year observation.</p>
+<ul>
+<li>A common join task in education research involves adding group-level aggregate statistics to individual observations, for example;
+<ul>
+<li>adding school-level average test scores to each student’s row.</li>
+<li>With a panel data set (observations across time), we might want within-year averages added to each unit-by-time period row.</li>
+</ul></li>
+<li>Let’s do the second, adding within-year across school average test scores to each school-by-year observation.</li>
+</ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="do">## ---------------------------</span></span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="do">## input</span></span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="do">## ---------------------------</span></span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="do">## read in all_schools data</span></span>
-<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="fu">file.path</span>(<span class="st">"data"</span>, <span class="st">"sch-test"</span>, <span class="st">"all-schools.csv"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="do">## ---------------------------</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="do">## input</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="do">## ---------------------------</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a><span class="do">## read in all_schools data</span></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="fu">file.path</span>(<span class="st">"data"</span>, <span class="st">"sch-test"</span>, <span class="st">"all-schools.csv"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Rows: 24 Columns: 5
 ── Column specification ────────────────────────────────────────────────────────
@@ -715,10 +808,12 @@ dbl (4): year, math, read, science
 ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
 </div>
 </div>
-<p>Looking at the data, we see that it’s similar to what we’ve seen above, with additional schools.</p>
+<ul>
+<li>Looking at the data, we see that it’s similar to what we’ve seen above, with additional schools.</li>
+</ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="do">## show</span></span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="do">## show</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 24 × 5
    school        year  math  read science
@@ -744,21 +839,21 @@ dbl (4): year, math, read, science
 <section id="get-summary" class="level4">
 <h4 data-anchor-id="get-summary">1. Get summary</h4>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="do">## ---------------------------</span></span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="do">## process</span></span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="do">## ---------------------------</span></span>
-<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a><span class="do">## get test score summary </span></span>
-<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>df_sum <span class="ot">&lt;-</span> df <span class="sc">|&gt;</span></span>
-<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>    <span class="do">## grouping by year so average within each year</span></span>
-<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(year) <span class="sc">|&gt;</span></span>
-<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>    <span class="do">## get mean(&lt;score&gt;) for each test</span></span>
-<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(<span class="at">math_m =</span> <span class="fu">mean</span>(math),</span>
-<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>              <span class="at">read_m =</span> <span class="fu">mean</span>(read),</span>
-<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>              <span class="at">science_m =</span> <span class="fu">mean</span>(science))</span>
-<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a><span class="do">## show</span></span>
-<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a>df_sum</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="do">## ---------------------------</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="do">## process</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="do">## ---------------------------</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a><span class="do">## get test score summary </span></span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>df_sum <span class="ot">&lt;-</span> df <span class="sc">|&gt;</span></span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>    <span class="do">## grouping by year so average within each year</span></span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(year) <span class="sc">|&gt;</span></span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>    <span class="do">## get mean(&lt;score&gt;) for each test</span></span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(<span class="at">math_m =</span> <span class="fu">mean</span>(math),</span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a>              <span class="at">read_m =</span> <span class="fu">mean</span>(read),</span>
+<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a>              <span class="at">science_m =</span> <span class="fu">mean</span>(science))</span>
+<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a><span class="do">## show</span></span>
+<span id="cb27-15"><a href="#cb27-15" aria-hidden="true" tabindex="-1"></a>df_sum</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 6 × 4
    year math_m read_m science_m
@@ -778,20 +873,19 @@ dbl (4): year, math, read, science
 </section>
 <section id="join" class="level4">
 <h4 data-anchor-id="join">2. Join</h4>
-<p>While one can <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/merge.html"><code>merge</code> using base R</a>, dplyr uses the <a href="https://en.wikipedia.org/wiki/Join_(SQL)">SQL language of joins</a>, which can be conceptually clearer (particularly for those who already have experience with relational database structures). Here are the most common joins you will use:</p>
 <ul>
-<li><code>left_join(x, y)</code>: keep all x, drop unmatched y</li>
-<li><code>right_join(x, y)</code>: keep all y, drop unmatched x</li>
-<li><code>inner_join(x, y)</code>: keep only matching</li>
-<li><code>full_join(x, y)</code>: keep everything</li>
+<li><p>While one can <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/merge.html"><code>merge</code> using base R</a>, dplyr uses the <a href="https://en.wikipedia.org/wiki/Join_(SQL)">SQL language of joins</a>, - This can be conceptually clearer (particularly for those who already have experience with relational database structures).</p>
+<ul>
+<li>We will learn more about this in <a href="./09-wrangle-iv.html">Data Wrangling IV</a></li>
+</ul></li>
+<li><p>Here are the most common joins you will use:</p></li>
+<li><p><code>left_join(x, y)</code>: keep all x, drop unmatched y</p></li>
+<li><p><code>right_join(x, y)</code>: keep all y, drop unmatched x</p></li>
+<li><p><code>inner_join(x, y)</code>: keep only matching</p></li>
+<li><p><code>full_join(x, y)</code>: keep everything</p></li>
+<li><p><code>anti_join(x, y)</code>: keep only obs in x and that are not in y (more useful than you’d think)</p></li>
+<li><p>For example, the result of a <strong>left join</strong> between data frame <em>X</em> and data frame <em>Y</em> will include all observations in <em>X</em> and those in <em>Y</em> that are also in <em>X</em>.</p></li>
 </ul>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="./edh7916/assets/img/joins.png" class="img-fluid figure-img"></p>
-<figcaption class="figure-caption">In the Venn diagrams above, blue represents the observations that are kept, white the observations that are dropped.</figcaption>
-</figure>
-</div>
-<p>For example, the result of a <strong>left join</strong> between data frame <em>X</em> and data frame <em>Y</em> will include all observations in <em>X</em> and those in <em>Y</em> that are also in <em>X</em>.</p>
 <p><strong>X</strong></p>
 <table class="table">
 <thead>
@@ -881,17 +975,26 @@ dbl (4): year, math, read, science
 </tr>
 </tbody>
 </table>
-<p>Observations in both <em>X</em> and <em>Y</em> (<code>001</code> and <code>002</code>, above), will have data for the columns that were separately in <em>X</em> and <em>Y</em> before. Those in <em>X</em> only (<code>003</code>), will have missing values in the new columns that came from <em>Y</em> because they didn’t exist there. Observations in <em>Y</em> but not <em>X</em> (<code>004</code>) are dropped entirely.</p>
+<ul>
+<li>Observations in both <em>X</em> and <em>Y</em> (<code>001</code> and <code>002</code>, above), will have data for the columns that were separately in <em>X</em> and <em>Y</em> before.</li>
+<li>Those in <em>X</em> only (<code>003</code>), will have missing values in the new columns that came from <em>Y</em> because they didn’t exist there.</li>
+<li>Observations in <em>Y</em> but not <em>X</em> (<code>004</code>) are dropped entirely.</li>
+</ul>
 <p>Back to our example…</p>
-<p>Since we want to join a smaller aggregated data frame, <code>df_sum</code>, to the original data frame, <code>df</code>, we’ll use a <code>left_join()</code>. The join functions will try to guess the joining variable (and tell you what it picked) if you don’t supply one, but we’ll specify one to be clear.</p>
+<ul>
+<li>Since we want to join a smaller aggregated data frame, <code>df_sum</code>, to the original data frame, <code>df</code>, we’ll use a <code>left_join()</code>.
+<ul>
+<li>The join functions will try to guess the joining variable (and tell you what it picked) if you don’t supply one, but we’ll specify one to be clear.</li>
+</ul></li>
+</ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="do">## start with data frame...</span></span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>df_joined <span class="ot">&lt;-</span> df <span class="sc">|&gt;</span></span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>    <span class="do">## pipe into left_join to join with df_sum using "year" as key</span></span>
-<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">left_join</span>(df_sum, <span class="at">by =</span> <span class="st">"year"</span>)</span>
-<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a><span class="do">## show</span></span>
-<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>df_joined</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="do">## start with data frame...</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>df_joined <span class="ot">&lt;-</span> df <span class="sc">|&gt;</span></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>    <span class="do">## pipe into left_join to join with df_sum using "year" as key</span></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">left_join</span>(df_sum, <span class="at">by =</span> <span class="st">"year"</span>)</span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a><span class="do">## show</span></span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>df_joined</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 24 × 8
    school        year  math  read science math_m read_m science_m
@@ -918,10 +1021,18 @@ dbl (4): year, math, read, science
 </section>
 <section id="reshaping-data" class="level2">
 <h2 data-anchor-id="reshaping-data">Reshaping data</h2>
-<p>Reshaping data is a common data wrangling task. Whether going from <a href="https://en.wikipedia.org/wiki/Wide_and_narrow_data">wide to long format or long to wide</a>, it can be a painful process. But with a little practice, the ability to reshape data will become a powerful tool in your toolbox.</p>
+<ul>
+<li>Reshaping data is a common and important data wrangling task.</li>
+<li>Whether going from <a href="https://en.wikipedia.org/wiki/Wide_and_narrow_data">wide to long format or long to wide</a>, it can be a painful process.
+<ul>
+<li>But with a little practice, the ability to reshape data will become a powerful tool in your toolbox.</li>
+</ul></li>
+</ul>
 <section id="definitions" class="level3">
 <h3 data-anchor-id="definitions">Definitions</h3>
-<p>While there are various definitions of tabular data structure, the two you will most often come across are <strong>wide</strong> and <strong>long</strong>. Wide data are data structures in which all variable/values are columns. At the extreme end, every <em>id</em> will only have a single row:</p>
+<ul>
+<li>While there are various definitions of tabular data structure, the two you will most often come across are <strong>wide</strong> and <strong>long</strong>. Wide data are data structures in which all variable/values are columns. At the extreme end, every <em>id</em> will only have a single row:</li>
+</ul>
 <table class="table">
 <colgroup>
 <col style="width: 5%">
@@ -963,7 +1074,12 @@ dbl (4): year, math, read, science
 </tr>
 </tbody>
 </table>
-<p>Notice how each particular score (by year) has its own column? Compare this to long data in which each <em>observational unit</em> (id test score within a given year) will have a row:</p>
+<ul>
+<li>Notice how each particular score (by year) has its own column?
+<ul>
+<li>Compare this to long data in which each <em>observational unit</em> (id test score within a given year) will have a row:</li>
+</ul></li>
+</ul>
 <table class="table">
 <thead>
 <tr class="header">
@@ -1048,19 +1164,29 @@ dbl (4): year, math, read, science
 </tr>
 </tbody>
 </table>
-<p>The first wide and second long table present the same information in a different format. So why bother reshaping? The short answer is that you sometimes need one format and sometimes the other due to the demands of the analysis you want to run, the figure you want to plot, or the table you want to make.</p>
-<p><strong>NB</strong>: Data in the wild are often some combination of these two types: <em>wide-ish</em> or <em>long-ish</em>. For an example, see our <code>all_schools.csv</code> data below, which is wide in some variables (test), but long in others (year). The point of defining long vs wide is not to have a testable definition, but rather to have a framework for thinking about how your data are structured and if that structure will work for your data analysis needs.</p>
+<ul>
+<li>The first wide and second long table present the same information in a different format.
+<ul>
+<li>So why bother reshaping?
+<ul>
+<li>The short answer is that you sometimes need one format and sometimes the other due to the demands of the analysis you want to run, the figure you want to plot, or the table you want to make.</li>
+</ul></li>
+</ul></li>
+</ul>
+<blockquote class="blockquote">
+<p>Note: Data in the wild are often some combination of these two types: <em>wide-ish</em> or <em>long-ish</em>. For an example, see our <code>all-schools.csv</code> data below, which is wide in some variables (test), but long in others (year). The point of defining long vs wide is not to have a testable definition, but rather to have a framework for thinking about how your data are structured and if that structure will work for your data analysis needs.</p>
+</blockquote>
 </section>
 <section id="example-wide-long" class="level3">
 <h3 data-anchor-id="example-wide-long">Example: wide –&gt; long</h3>
 <p>To start, we’ll go back to the <code>all_schools.csv</code> file.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="do">## ---------------------------</span></span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="do">## input</span></span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="do">## ---------------------------</span></span>
-<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a><span class="do">## reading again just to be sure we have the original data</span></span>
-<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="fu">file.path</span>(<span class="st">"data"</span>, <span class="st">"sch-test"</span>, <span class="st">"all-schools.csv"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="do">## ---------------------------</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="do">## input</span></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a><span class="do">## ---------------------------</span></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a><span class="do">## reading again just to be sure we have the original data</span></span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="fu">file.path</span>(<span class="st">"data"</span>, <span class="st">"sch-test"</span>, <span class="st">"all-schools.csv"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Rows: 24 Columns: 5
 ── Column specification ────────────────────────────────────────────────────────
@@ -1072,8 +1198,17 @@ dbl (4): year, math, read, science
 ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
 </div>
 </div>
-<p>Notice how the data are wide in <strong>test</strong>: each school has one row per year, but each test gets its own column. While this setup can be efficient for storage, it’s not always the best for analysis or even just browsing. What we want is for the data to be long.</p>
-<p>Instead of each test having its own column, we would like to make the data look like our long data example above, with each row representing a single <em>school</em>, <em>year</em>, <em>test</em>, <em>score</em>:</p>
+<ul>
+<li>Notice how the data are wide in <strong>test</strong>:
+<ul>
+<li>Each school has one row per year, but each test gets its own column.</li>
+<li>While this setup can be efficient for storage, it’s not always the best for analysis or even just browsing.
+<ul>
+<li>What we want is for the data to be long.</li>
+</ul></li>
+</ul></li>
+<li>Instead of each test having its own column, we would like to make the data look like our long data example above, with each row representing a single <em>school</em>, <em>year</em>, <em>test</em>, <em>score</em>:</li>
+</ul>
 <table class="table">
 <colgroup>
 <col style="width: 12%">
@@ -1116,33 +1251,42 @@ dbl (4): year, math, read, science
 </tr>
 </tbody>
 </table>
-<p>As with joins, you can <a href="https://stats.idre.ucla.edu/r/faq/how-can-i-reshape-my-data-in-r/">reshape data frames using base R commands</a>. But again, we’ll use tidyverse functions in the <a href="http://tidyr.tidyverse.org">tidyr</a> library. Specifically, we’ll rely on the tidyr <code>pivot_longer()</code> and <code>pivot_wider()</code> commands.</p>
+<ul>
+<li>As with joins, you can <a href="https://stats.idre.ucla.edu/r/faq/how-can-i-reshape-my-data-in-r/">reshape data frames using base R commands</a>.</li>
+<li>But again, we’ll use tidyverse functions in the <a href="http://tidyr.tidyverse.org">tidyr</a> library.
+<ul>
+<li>Specifically, we’ll rely on the tidyr <code>pivot_longer()</code> and <code>pivot_wider()</code> commands.</li>
+</ul></li>
+</ul>
 <section id="pivot_longer" class="level4">
 <h4 data-anchor-id="pivot_longer"><code>pivot_longer()</code></h4>
 <p>The <code>pivot_longer()</code> function can take a number of arguments, but the core things it needs to know are:</p>
 <ul>
-<li><code>data</code>: the name of the data frame you’re reshaping (we can use <code>|&gt;</code> to pipe in the data name)</li>
-<li><code>cols</code>: the names of the columns that you want to pivot into values of a single new column (thereby making the data frame “longer”)</li>
-<li><code>names_to</code>: the name of the new column that will contain the names of the <code>cols</code> you just listed</li>
-<li><code>values_to</code>: the name of the column where the values in the <code>cols</code> you listed will go</li>
+<li><p><code>data</code>: the name of the data frame you’re reshaping (we can use <code>|&gt;</code> to pipe in the data name)</p></li>
+<li><p><code>cols</code>: the names of the columns that you want to pivot into values of a single new column (thereby making the data frame “longer”)</p></li>
+<li><p><code>names_to</code>: the name of the new column that will contain the names of the <code>cols</code> you just listed</p></li>
+<li><p><code>values_to</code>: the name of the column where the values in the <code>cols</code> you listed will go</p></li>
+<li><p>In our current situation, our <code>cols</code> to pivot are <code>"math"</code>, <code>"read"</code>, and <code>"science"</code>.</p>
+<ul>
+<li>Since they are test types, we’ll call our <code>names_to</code> column <code>"test"</code> and our <code>values_to</code> column <code>"score"</code>.</li>
+</ul></li>
 </ul>
-<p>In our current situation, our <code>cols</code> to pivot are <code>"math"</code>, <code>"read"</code>, and <code>"science"</code>. Since they are test types, we’ll call our <code>names_to</code> column <code>"test"</code> and our <code>values_to</code> column <code>"score"</code>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="do">## ---------------------------</span></span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="do">## process</span></span>
-<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="do">## ---------------------------</span></span>
-<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a><span class="do">## wide to long</span></span>
-<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>df_long <span class="ot">&lt;-</span> df <span class="sc">|&gt;</span></span>
-<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>    <span class="do">## cols: current test columns</span></span>
-<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>    <span class="do">## names_to: where "math", "read", and "science" will go</span></span>
-<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>    <span class="do">## values_to: where the values in cols will go</span></span>
-<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="fu">c</span>(<span class="st">"math"</span>,<span class="st">"read"</span>,<span class="st">"science"</span>),</span>
-<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a>                 <span class="at">names_to =</span> <span class="st">"test"</span>,</span>
-<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a>                 <span class="at">values_to =</span> <span class="st">"score"</span>)</span>
-<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-14"><a href="#cb28-14" aria-hidden="true" tabindex="-1"></a><span class="do">## show</span></span>
-<span id="cb28-15"><a href="#cb28-15" aria-hidden="true" tabindex="-1"></a>df_long</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="do">## ---------------------------</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="do">## process</span></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a><span class="do">## ---------------------------</span></span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a><span class="do">## wide to long</span></span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>df_long <span class="ot">&lt;-</span> df <span class="sc">|&gt;</span></span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>    <span class="do">## cols: current test columns</span></span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a>    <span class="do">## names_to: where "math", "read", and "science" will go</span></span>
+<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a>    <span class="do">## values_to: where the values in cols will go</span></span>
+<span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="fu">c</span>(<span class="st">"math"</span>,<span class="st">"read"</span>,<span class="st">"science"</span>),</span>
+<span id="cb33-11"><a href="#cb33-11" aria-hidden="true" tabindex="-1"></a>                 <span class="at">names_to =</span> <span class="st">"test"</span>,</span>
+<span id="cb33-12"><a href="#cb33-12" aria-hidden="true" tabindex="-1"></a>                 <span class="at">values_to =</span> <span class="st">"score"</span>)</span>
+<span id="cb33-13"><a href="#cb33-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-14"><a href="#cb33-14" aria-hidden="true" tabindex="-1"></a><span class="do">## show</span></span>
+<span id="cb33-15"><a href="#cb33-15" aria-hidden="true" tabindex="-1"></a>df_long</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 72 × 4
    school     year test    score
@@ -1170,26 +1314,26 @@ dbl (4): year, math, read, science
 <h3 data-anchor-id="example-long-wide">Example: long –&gt; wide</h3>
 <section id="pivot_wider" class="level4">
 <h4 data-anchor-id="pivot_wider"><code>pivot_wider()</code></h4>
-<p>Now that we have our long data, let’s reshape it back to wide format using <code>pivot_wider()</code>. In this case, we’re doing just the opposite from before — here are the main arguments you need to attend to:</p>
 <ul>
-<li><code>data</code>: the name of the data frame you’re reshaping (we can use <code>|&gt;</code> to pipe in the data name)</li>
-<li><code>names_from</code>: the name of the column that contains the values which will become new column names</li>
-<li><code>values_from</code>: the name of the column that contains the values associated with the values in <code>names_from</code> column; these will go into the new columns.</li>
+<li><p>Now that we have our long data, let’s reshape it back to wide format using <code>pivot_wider()</code>. In this case, we’re doing just the opposite from before — here are the main arguments you need to attend to:</p></li>
+<li><p><code>data</code>: the name of the data frame you’re reshaping (we can use <code>|&gt;</code> to pipe in the data name)</p></li>
+<li><p><code>names_from</code>: the name of the column that contains the values which will become new column names</p></li>
+<li><p><code>values_from</code>: the name of the column that contains the values associated with the values in <code>names_from</code> column; these will go into the new columns.</p></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="do">## ---------------------------</span></span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="do">## process</span></span>
-<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="do">## ---------------------------</span></span>
-<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a><span class="do">## long to wide</span></span>
-<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>df_wide <span class="ot">&lt;-</span> df_long <span class="sc">|&gt;</span></span>
-<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>    <span class="do">## names_from: values in this column will become new column names</span></span>
-<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>    <span class="do">## values_from: values in this column will become values in new cols</span></span>
-<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> <span class="st">"test"</span>,</span>
-<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a>                <span class="at">values_from =</span> <span class="st">"score"</span>)</span>
-<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a><span class="do">## show</span></span>
-<span id="cb30-13"><a href="#cb30-13" aria-hidden="true" tabindex="-1"></a>df_wide</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="do">## ---------------------------</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="do">## process</span></span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a><span class="do">## ---------------------------</span></span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a><span class="do">## long to wide</span></span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>df_wide <span class="ot">&lt;-</span> df_long <span class="sc">|&gt;</span></span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a>    <span class="do">## names_from: values in this column will become new column names</span></span>
+<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a>    <span class="do">## values_from: values in this column will become values in new cols</span></span>
+<span id="cb35-9"><a href="#cb35-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> <span class="st">"test"</span>,</span>
+<span id="cb35-10"><a href="#cb35-10" aria-hidden="true" tabindex="-1"></a>                <span class="at">values_from =</span> <span class="st">"score"</span>)</span>
+<span id="cb35-11"><a href="#cb35-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-12"><a href="#cb35-12" aria-hidden="true" tabindex="-1"></a><span class="do">## show</span></span>
+<span id="cb35-13"><a href="#cb35-13" aria-hidden="true" tabindex="-1"></a>df_wide</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 24 × 5
    school        year  math  read science
@@ -1215,15 +1359,21 @@ dbl (4): year, math, read, science
 </section>
 <section id="example-wide-long-with-corrections" class="level3">
 <h3 data-anchor-id="example-wide-long-with-corrections">Example: wide –&gt; long with corrections</h3>
-<p>Unfortunately, it’s not always so clear cut to reshape data. In this second example, we’ll again reshape from wide to long, but we’ll have to munge our data a bit after the reshape to make it analysis ready.</p>
-<p>First, we’ll read in a second file <code>all_schools_wide.csv</code>. This file contains the same information as before, but in a <em>very</em> wide format: each school has only one row and each test by year value gets its own column in the form <code>&lt;test&gt;_&lt;year&gt;</code>.</p>
+<ul>
+<li><p>Unfortunately, it’s not always so clear cut to reshape data.</p></li>
+<li><p>In this second example, we’ll again reshape from wide to long, but we’ll have to munge our data a bit after the reshape to make it analysis ready.</p></li>
+<li><p>First, we’ll read in a second file <code>all_schools_wide.csv</code>.</p>
+<ul>
+<li>This file contains the same information as before, but in a <em>very</em> wide format: each school has only one row and each test by year value gets its own column in the form <code>&lt;test&gt;_&lt;year&gt;</code>.</li>
+</ul></li>
+</ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="do">## ---------------------------</span></span>
-<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="do">## input</span></span>
-<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="do">## ---------------------------</span></span>
-<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a><span class="do">## read in very wide test score data</span></span>
-<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="fu">file.path</span>(<span class="st">"data"</span>, <span class="st">"sch-test"</span>, <span class="st">"all-schools-wide.csv"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="do">## ---------------------------</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="do">## input</span></span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a><span class="do">## ---------------------------</span></span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a><span class="do">## read in very wide test score data</span></span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="fu">file.path</span>(<span class="st">"data"</span>, <span class="st">"sch-test"</span>, <span class="st">"all-schools-wide.csv"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Rows: 4 Columns: 19
 ── Column specification ────────────────────────────────────────────────────────
@@ -1234,8 +1384,8 @@ dbl (18): math_1980, read_1980, science_1980, math_1981, read_1981, science_...
 ℹ Use `spec()` to retrieve the full column specification for this data.
 ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="do">## show</span></span>
-<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="do">## show</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 4 × 19
   school       math_1980 read_1980 science_1980 math_1981 read_1981 science_1981
@@ -1250,27 +1400,27 @@ dbl (18): math_1980, read_1980, science_1980, math_1981, read_1981, science_...
 #   science_1985 &lt;dbl&gt;</code></pre>
 </div>
 </div>
-<p>Second, we can <code>pivot_longer()</code> as we did before using the following values for our key arguments:</p>
 <ul>
-<li><code>data</code> : <code>df</code> (but piped in using <code>|&gt;</code>)</li>
-<li><code>cols</code> : use special <a href="https://www.rdocumentation.org/packages/tidyselect/versions/1.0.0/topics/select_helpers">tidyselect helper function</a> <code>contains()</code> to select all test by year columns</li>
-<li><code>names_to</code>: <code>test_year</code></li>
-<li><code>values_to</code>: <code>score</code></li>
+<li><p>Second, we can <code>pivot_longer()</code> as we did before using the following values for our key arguments:</p></li>
+<li><p><code>data</code> : <code>df</code> (but piped in using <code>|&gt;</code>)</p></li>
+<li><p><code>cols</code> : use special <a href="https://www.rdocumentation.org/packages/tidyselect/versions/1.0.0/topics/select_helpers">tidyselect helper function</a> <code>contains()</code> to select all test by year columns</p></li>
+<li><p><code>names_to</code>: <code>test_year</code></p></li>
+<li><p><code>values_to</code>: <code>score</code></p></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="do">## ---------------------------</span></span>
-<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="do">## process</span></span>
-<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a><span class="do">## ---------------------------</span></span>
-<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a><span class="do">## wide to long</span></span>
-<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>df_long <span class="ot">&lt;-</span> df <span class="sc">|&gt;</span></span>
-<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a>    <span class="do">## NB: contains() looks for "19" in name: if there, it adds it to cols</span></span>
-<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="fu">contains</span>(<span class="st">"19"</span>),</span>
-<span id="cb36-9"><a href="#cb36-9" aria-hidden="true" tabindex="-1"></a>                 <span class="at">names_to =</span> <span class="st">"test_year"</span>,</span>
-<span id="cb36-10"><a href="#cb36-10" aria-hidden="true" tabindex="-1"></a>                 <span class="at">values_to =</span> <span class="st">"score"</span>)</span>
-<span id="cb36-11"><a href="#cb36-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-12"><a href="#cb36-12" aria-hidden="true" tabindex="-1"></a><span class="do">## show</span></span>
-<span id="cb36-13"><a href="#cb36-13" aria-hidden="true" tabindex="-1"></a>df_long</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="do">## ---------------------------</span></span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a><span class="do">## process</span></span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a><span class="do">## ---------------------------</span></span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a><span class="do">## wide to long</span></span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a>df_long <span class="ot">&lt;-</span> df <span class="sc">|&gt;</span></span>
+<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a>    <span class="do">## NB: contains() looks for "19" in name: if there, it adds it to cols</span></span>
+<span id="cb41-8"><a href="#cb41-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="fu">contains</span>(<span class="st">"19"</span>),</span>
+<span id="cb41-9"><a href="#cb41-9" aria-hidden="true" tabindex="-1"></a>                 <span class="at">names_to =</span> <span class="st">"test_year"</span>,</span>
+<span id="cb41-10"><a href="#cb41-10" aria-hidden="true" tabindex="-1"></a>                 <span class="at">values_to =</span> <span class="st">"score"</span>)</span>
+<span id="cb41-11"><a href="#cb41-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-12"><a href="#cb41-12" aria-hidden="true" tabindex="-1"></a><span class="do">## show</span></span>
+<span id="cb41-13"><a href="#cb41-13" aria-hidden="true" tabindex="-1"></a>df_long</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 72 × 3
    school    test_year    score
@@ -1292,25 +1442,36 @@ dbl (18): math_1980, read_1980, science_1980, math_1981, read_1981, science_...
 <h4 id="quick-exercise-4">Quick exercise</h4>
 <p>Why did we use “19” as our value in the contains() function? <strong>HINT</strong>: use the <code>names()</code> function to return a list of the original data frame (<code>df</code>) column names.</p>
 </blockquote>
-<p>This mostly worked to get our data long, but now we have this weird combined <code>test_year</code> column. What we really want are two columns, one for the year and one for the test type. We can fix this using <a href="https://tidyr.tidyverse.org/reference/separate.html">tidyr <code>separate()</code></a> function with the following arguments:</p>
 <ul>
+<li>This mostly worked to get our data long
+<ul>
+<li>But now we have this weird combined <code>test_year</code> column.</li>
+<li>What we really want are two columns
+<ul>
+<li>One for the year</li>
+<li>One for the test type.
+<ul>
+<li>We can fix this using <a href="https://tidyr.tidyverse.org/reference/separate.html">tidyr <code>separate()</code></a> function with the following arguments:</li>
+</ul></li>
+</ul></li>
+</ul></li>
 <li><code>data</code>: our <code>df_long</code> object, piped in using <code>|&gt;</code></li>
 <li><code>col</code>: the column we want to split (<code>test_year</code>)</li>
 <li><code>into</code>: the names of the new columns to create from <code>col</code> (<code>test</code> and <code>year</code>)</li>
 <li><code>sep</code>: the name of the character that splits the values in <code>col</code>, so R knows how to fill each of the <code>into</code> columns (<code>"_"</code>)</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="do">## separate test_year into two columns, filling appropriately</span></span>
-<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>df_long_fix <span class="ot">&lt;-</span> df_long <span class="sc">|&gt;</span></span>
-<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>    <span class="do">## col: the column to split</span></span>
-<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>    <span class="do">## into: names of resulting splits</span></span>
-<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>    <span class="do">## sep: the split point --&gt; left to "test", right to "year"</span></span>
-<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">separate</span>(<span class="at">col =</span> <span class="st">"test_year"</span>,</span>
-<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a>             <span class="at">into =</span> <span class="fu">c</span>(<span class="st">"test"</span>, <span class="st">"year"</span>),</span>
-<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a>             <span class="at">sep =</span> <span class="st">"_"</span>)</span>
-<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-10"><a href="#cb38-10" aria-hidden="true" tabindex="-1"></a><span class="do">## show</span></span>
-<span id="cb38-11"><a href="#cb38-11" aria-hidden="true" tabindex="-1"></a>df_long_fix</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="do">## separate test_year into two columns, filling appropriately</span></span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>df_long_fix <span class="ot">&lt;-</span> df_long <span class="sc">|&gt;</span></span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>    <span class="do">## col: the column to split</span></span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>    <span class="do">## into: names of resulting splits</span></span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>    <span class="do">## sep: the split point --&gt; left to "test", right to "year"</span></span>
+<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">separate</span>(<span class="at">col =</span> <span class="st">"test_year"</span>,</span>
+<span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a>             <span class="at">into =</span> <span class="fu">c</span>(<span class="st">"test"</span>, <span class="st">"year"</span>),</span>
+<span id="cb43-8"><a href="#cb43-8" aria-hidden="true" tabindex="-1"></a>             <span class="at">sep =</span> <span class="st">"_"</span>)</span>
+<span id="cb43-9"><a href="#cb43-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-10"><a href="#cb43-10" aria-hidden="true" tabindex="-1"></a><span class="do">## show</span></span>
+<span id="cb43-11"><a href="#cb43-11" aria-hidden="true" tabindex="-1"></a>df_long_fix</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 72 × 4
    school    test    year  score
@@ -1330,31 +1491,59 @@ dbl (18): math_1980, read_1980, science_1980, math_1981, read_1981, science_...
 </div>
 <blockquote class="blockquote">
 <h4 id="quick-exercise-5">Quick exercise</h4>
-<p>Redo the last few steps in a single combined chain using pipes. That is, start with <code>df</code> (which contains <code>all_schools_wide.csv</code>), reshape long, and fix so that you end up with four columns — all in a single piped chain.</p>
+<p>Redo the last two steps in a single combined chain using pipes. - That is, start with <code>df</code> (which contains <code>all_schools_wide.csv</code>) - Reshape long - Fix so that you end up with four columns - All in a single piped <code>|&gt;</code> chain.</p>
 </blockquote>
 </section>
 </section>
 <section id="final-note" class="level2">
 <h2 data-anchor-id="final-note">Final note</h2>
-<p>Just as all data sets are unique, so too are the particular steps you may need to take to <strong>append</strong>, <strong>join</strong>, or <strong>reshape</strong> your data. Even experienced coders rarely get all the steps correct the first try. Be prepared to spend time getting to know your data and figuring out, through trial and error, how to wrangle it so that it meets your analytic needs. Code books, institutional/domain knowledge, and patience are your friends here!</p>
+<ul>
+<li>Just as all data sets are unique, so too are the particular steps you may need to take to <strong>append</strong>, <strong>join</strong>, or <strong>reshape</strong> your data.
+<ul>
+<li>Even experienced coders rarely get all the steps correct the first try.</li>
+<li>Be prepared to spend time getting to know your data and figuring out, through trial and error, how to wrangle it so that it meets your analytic needs.</li>
+<li>Code books, institutional/domain knowledge, and patience are your friends here!</li>
+</ul></li>
+</ul>
 </section>
 </div>
 <div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
-<p>Using the <code>hsls-small.csv</code> data set and the online codebook, answer the following questions. You <strong>do not</strong> need to save the final output as a data file: just having the final result print to the console is fine. For each question, I would like you to try to pipe all the commands together. Throughout, you <strong>should</strong> account for missing values by dropping them.</p>
-<p>For each question, show your data work and, if necessary, answer the question in a short (1-2 sentence(s)) comment.</p>
+<ul>
+<li>Using the <code>hsls-small.csv</code> data set and the online codebook, answer the following questions.
+<ul>
+<li>Throughout, you <strong>should</strong> account for missing values by dropping them.</li>
+</ul></li>
+</ul>
 <section id="questions" class="level2">
 <h2 data-anchor-id="questions">Questions</h2>
 <ol type="1">
-<li><p>Compute the average test score by region and join back into the full data frame. Next, compute the difference between each student’s test score and that of the region. Finally, return the mean of these differences by region.</p></li>
-<li><p>Compute the average test score by region and family income level. Join back to the full data frame. <strong>HINT</strong> You can join on more than one key.</p></li>
-<li><p>Select the following variables from the full data set:</p>
+<li>In one chained pipe (I don’t need to see intermediate steps);</li>
+</ol>
+<ol type="i">
+<li>Compute the average test score by region</li>
+<li>Join back into the full data frame.</li>
+<li>Compute the difference between each student’s test score and that of the region.</li>
+<li>Finally, return the mean of these differences by region.</li>
+</ol>
+<ol start="2" type="1">
+<li>Compute the average test score by region and family income level and join it back to the full data frame.
+<ul>
+<li><strong>HINT</strong> You can join on more than one key.</li>
+</ul></li>
+<li>Select the following variables from the full data set:
 <ul>
 <li><code>stu_id</code></li>
 <li><code>x1stuedexpct</code></li>
 <li><code>x1paredexpct</code></li>
 <li><code>x4evratndclg</code></li>
+</ul></li>
+</ol>
+<ul>
+<li>From this reduced data frame, reshape the data frame so that it is long in educational expectations
+<ul>
+<li>As in, each observation should have two rows, one for each educational expectation type</li>
+</ul></li>
 </ul>
-<p>From this reduced data frame, reshape the data frame so that it is long in educational expectations, meaning that each observation should have two rows, one for each educational expectation type.</p>
 <p><em>e.g.&nbsp;(your column names and values may be different)</em></p>
 <table class="table">
 <thead>
@@ -1391,15 +1580,8 @@ dbl (18): math_1980, read_1980, science_1980, math_1981, read_1981, science_...
 <td style="text-align: center;">1</td>
 </tr>
 </tbody>
-</table></li>
-</ol>
-<section id="submission-details" class="level4">
-<h4 data-anchor-id="submission-details">Submission details</h4>
-<ul>
-<li>Save your script (<code>&lt;lastname&gt;_assignment_4.R</code>) in your <code>scripts</code> directory.</li>
-<li>Push changes to your repo (the new script and new folder) to GitHub prior to the next class session.</li>
-</ul>
-</section>
+</table>
+<p>Once complete, turn in the .R script (no data etc.) to Canvas by the due date (Sunday 11:59pm following the lesson). Assignments will be graded on the following Monday (time permitting) in line with the grading policy outlined in the syllabus.</p>
 </section>
 </div>
 </div>
