@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.533">
+<meta name="generator" content="quarto-1.3.450">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -22,7 +22,7 @@ ul.task-list li input[type="checkbox"] {
 }
 /* CSS for syntax highlighting */
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -79,13 +79,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   "collapse-after": 3,
   "panel-placement": "start",
   "type": "textbox",
-  "limit": 50,
-  "keyboard-shortcut": [
-    "f",
-    "/",
-    "s"
-  ],
-  "show-item-context": false,
+  "limit": 20,
   "language": {
     "search-no-results-text": "No results",
     "search-matching-documents-text": "matching documents",
@@ -94,7 +88,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-more-match-text": "more match in this document",
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
-    "search-text-placeholder": "",
     "search-detached-cancel-button-title": "Cancel",
     "search-submit-button-title": "Submit",
     "search-label": "Search"
@@ -104,37 +97,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
-
 <link rel="stylesheet" href="site-attachments/styles.css">
 <meta property="og:title" content="EDH 7916 - Extra: Git &amp; GitHub">
 <meta property="og:image" content="https://capaldi.info/7916/apple-touch-icon.png">
-<meta property="og:site_name" content="EDH 7916">
+<meta property="og:site-name" content="EDH 7916">
 <meta property="og:image:height" content="180">
 <meta property="og:image:width" content="180">
 <meta name="twitter:title" content="EDH 7916 - Extra: Git &amp; GitHub">
@@ -150,12 +116,12 @@ window.Quarto = {
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./01-set-install.html">Getting Started</a></li><li class="breadcrumb-item"><a href="./x-01-set-git.html">Extra: Git &amp; GitHub</a></li></ol></nav>
-        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
-        </a>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./01-set-install.html">Getting Started</a></li><li class="breadcrumb-item"><a href="./x-01-set-git.html">Extra: Git &amp; GitHub</a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
         <i class="bi bi-search"></i>
       </button>
@@ -165,7 +131,7 @@ window.Quarto = {
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation docked overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
       <a href="./">EDH 7916</a> 
@@ -350,13 +316,13 @@ window.Quarto = {
     </ul>
     </div>
 </nav>
-<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
 <!-- margin-sidebar -->
     
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./01-set-install.html">Getting Started</a></li><li class="breadcrumb-item"><a href="./x-01-set-git.html">Extra: Git &amp; GitHub</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
 <h1 class="title">Extra: Git &amp; GitHub</h1>
 </div>
@@ -371,9 +337,7 @@ window.Quarto = {
   </div>
   
 
-
 </header>
-
 
 <div class="tabset-margin-container"></div><div class="panel-tabset">
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" aria-current="page">Lesson</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">Assignment</a></li></ul>
@@ -395,7 +359,11 @@ window.Quarto = {
 <section id="why-use-git" class="level2">
 <h2 data-anchor-id="why-use-git">Why use git?</h2>
 <p>With so many other (read: easier!) ways to share and collaborate on documents, why use git? Isn’t it a bit overkill to learn an entirely new syntax? Why not just email files or use something like DropBox? Because it is very easy to end up with something like this:</p>
-<p><a href="http://www.phdcomics.com/comics/archive.php?comicid=1531"><img src="https://pbs.twimg.com/media/B9HgQmDIEAALfb4.jpg" class="img-fluid"></a></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="http://www.phdcomics.com/comics/archive.php?comicid=1531"><img src="https://pbs.twimg.com/media/B9HgQmDIEAALfb4.jpg" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
 <p><em>Credit: Jorge Chan</em></p>
 <section id="as-complexity-increases-so-does-the-need-for-git" class="level3">
 <h3 data-anchor-id="as-complexity-increases-so-does-the-need-for-git">As complexity increases, so does the need for git</h3>
@@ -417,7 +385,11 @@ window.Quarto = {
 </section>
 <section id="how-does-gitgithub-work" class="level3">
 <h3 data-anchor-id="how-does-gitgithub-work">How does git/GitHub work?</h3>
-<p><a href="https://commons.wikimedia.org/wiki/File:Git_data_flow.png"><img src="http://upload.wikimedia.org/wikipedia/commons/2/29/Git_data_flow.png" class="img-fluid"></a></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="https://commons.wikimedia.org/wiki/File:Git_data_flow.png"><img src="http://upload.wikimedia.org/wikipedia/commons/2/29/Git_data_flow.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
 <p><em>Credit: Lbhtw (Own work)</em></p>
 </section>
 <section id="plain-text-and-git" class="level3">
@@ -469,40 +441,40 @@ window.Quarto = {
 <p>To set up your PAT, we’ll once again use <a href="https://happygitwithr.com/">Jenny Bryan’s GitHub guide</a>. Specifically, <a href="https://happygitwithr.com/https-pat.html#tldr">we’ll use instructions found here</a>. Repeating the instructions, they are:</p>
 <p>In the RStudio console, type the following and press enter:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>usethis<span class="sc">::</span><span class="fu">create_github_token</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="img-fluid quarto-figure quarto-figure-center">
+<div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="site-attachments/btskinner-imgs/rstudio_gitcred1.png" class="img-fluid figure-img"></p>
-<figcaption>RStudio gitcred prompt</figcaption>
+<figcaption class="figure-caption">RStudio gitcred prompt</figcaption>
 </figure>
 </div>
 <p>This should open up a web page on GitHub to create a token with some presents. The presets are fine, though I would recommend setting the PAT to last at least until the course is over (so you don’t have to do all of this again in a month). In this example, I put this course id in the use <em>Note</em> box and set the expiration for middle of the summer after the course has ended. Once you’ve set these, scroll to the bottom and click the button to generate the PAT.</p>
-<div class="img-fluid quarto-figure quarto-figure-center">
+<div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="site-attachments/btskinner-imgs/github_pat.png" class="img-fluid figure-img"></p>
-<figcaption>GitHub PAT page</figcaption>
+<figcaption class="figure-caption">GitHub PAT page</figcaption>
 </figure>
 </div>
 <p>You see a screen that looks like this:</p>
-<div class="img-fluid quarto-figure quarto-figure-center">
+<div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="site-attachments/btskinner-imgs/github_pat2.png" class="img-fluid figure-img"></p>
-<figcaption>GitHub PAT page</figcaption>
+<figcaption class="figure-caption">GitHub PAT page</figcaption>
 </figure>
 </div>
 <p>I’ve blocked out the letters and numbers after <code>gh_</code> (not that I’m using this PAT since it’s now public!), but you should see a full string. Keep this window open and head back to RStudio.</p>
 <p>In the console type and press enter:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>gitcreds<span class="sc">::</span><span class="fu">gitcreds_set</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="img-fluid quarto-figure quarto-figure-center">
+<div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="site-attachments/btskinner-imgs/gitcreds_set.png" class="img-fluid figure-img"></p>
-<figcaption>GitHub PAT page</figcaption>
+<figcaption class="figure-caption">GitHub PAT page</figcaption>
 </figure>
 </div>
 <p>It will as you to add your password. Paste the <code>gh_</code> PAT and press enter. If it worked, you should see the following:</p>
-<div class="img-fluid quarto-figure quarto-figure-center">
+<div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="site-attachments/btskinner-imgs/gitcreds_finish.png" class="img-fluid figure-img"></p>
-<figcaption>GitHub PAT page: finish</figcaption>
+<figcaption class="figure-caption">GitHub PAT page: finish</figcaption>
 </figure>
 </div>
 <p>If you (or someone you share your computer with) has already set up a PAT in the past, you will be given the option to keep your current set up or replace. I’ll leave that to you. All else being equal, it’s probably better to replace the old PAT with the new PAT unless you have compelling reason not to do so.</p>
@@ -520,53 +492,53 @@ window.Quarto = {
 <li>that you are signed into GitHub</li>
 </ul>
 <p>If you are signed in and have the right link, you should see your page. For example, mine looks like this:</p>
-<div class="img-fluid quarto-figure quarto-figure-center">
+<div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="site-attachments/btskinner-imgs/github_student_repo.png" class="img-fluid figure-img"></p>
-<figcaption>GitHub student repo</figcaption>
+<figcaption class="figure-caption">GitHub student repo</figcaption>
 </figure>
 </div>
 <p>Just above the list of files, click on the button that says clone (it’s green by default).</p>
-<div class="img-fluid quarto-figure quarto-figure-center">
+<div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="site-attachments/btskinner-imgs/github_clone.png" class="img-fluid figure-img"></p>
-<figcaption>GitHub clone</figcaption>
+<figcaption class="figure-caption">GitHub clone</figcaption>
 </figure>
 </div>
 <p>You’ll see a drop down. Confirm that <strong>HTTPS</strong> is bold and underlined. You’ll want to copy to the web address in the text box for the next step (you can use the overlapping box symbol just to the right of the address to copy it to your clipboard).</p>
 <p>Now, return to RStudio. In the upper right hand corner, you’ll see <em>Project: (none)</em> (if you’ve been using RStudio, you may have a project going, meaning it won’t say “none”, but that’s okay). Click on that to see a drop down list of options. You will click on the first option <em>New Project</em>.</p>
-<div class="img-fluid quarto-figure quarto-figure-center">
+<div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="site-attachments/btskinner-imgs/rstudio_new_project.png" class="img-fluid figure-img"></p>
-<figcaption>RStudio new project</figcaption>
+<figcaption class="figure-caption">RStudio new project</figcaption>
 </figure>
 </div>
 <p>This window will pop up.</p>
-<div class="img-fluid quarto-figure quarto-figure-center">
+<div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="site-attachments/btskinner-imgs/rstudio_new_project_vc.png" class="img-fluid figure-img"></p>
-<figcaption>RStudio new project: version control</figcaption>
+<figcaption class="figure-caption">RStudio new project: version control</figcaption>
 </figure>
 </div>
 <p>Choose the option <em>Version Control</em> option. In the next window that opens, choose <em>Git</em>.</p>
-<div class="img-fluid quarto-figure quarto-figure-center">
+<div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="./edh7916/assets/img/rstudio_new_project_git.png" class="img-fluid figure-img"></p>
-<figcaption>RStudio new project: git</figcaption>
+<figcaption class="figure-caption">RStudio new project: git</figcaption>
 </figure>
 </div>
 <p>In the final window, paste the URL for your GitHub repo in the first text box. The middle text box should auto-fill with your repo name: <code>student_&lt;last_name&gt;</code>. The last text box is where you want to store your repo. On my computer, it shows the Desktop. If you’d rather place your course files in another place on your computer (<em>e.g.</em> a <em>projects</em> folder or maybe a <em>class</em> folder), then use the <em>Browse</em> button to select a new location. <strong>The main thing is to remember where you saved it!</strong> Once you’re satisfied, click the <em>Create Project</em> button.</p>
-<div class="img-fluid quarto-figure quarto-figure-center">
+<div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="./edh7916/assets/img/rstudio_new_project_create.png" class="img-fluid figure-img"></p>
-<figcaption>RStudio new project: create</figcaption>
+<figcaption class="figure-caption">RStudio new project: create</figcaption>
 </figure>
 </div>
 <p>If everything works, you’ll see a drop down window that looks like it’s doing some work with files. It will quickly close and RStudio will look like it is restarting, when it reopens, you should see your repo files in the bottom right pane, a new tab that says <em>Git</em>, and your repo name in the upper right as the new project name. You are now ready to work with your class files!</p>
-<div class="img-fluid quarto-figure quarto-figure-center">
+<div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="site-attachments/btskinner-imgs/rstudio_new_project_complete.png" class="img-fluid figure-img"></p>
-<figcaption>RStudio new project: complete</figcaption>
+<figcaption class="figure-caption">RStudio new project: complete</figcaption>
 </figure>
 </div>
 </section>
@@ -580,83 +552,83 @@ window.Quarto = {
 <li><em>Pushing</em> your changes (copying changes to your local repository to your remote repository — GitHub)</li>
 </ol>
 <p>If you click on the <em>Git</em> tab, you’ll a new file listed with some boxes next to it.</p>
-<div class="img-fluid quarto-figure quarto-figure-center">
+<div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="site-attachments/btskinner-imgs/rstudio_git_tab.png" class="img-fluid figure-img"></p>
-<figcaption>RStudio new project: Git tab</figcaption>
+<figcaption class="figure-caption">RStudio new project: Git tab</figcaption>
 </figure>
 </div>
 <p>This particular file is a settings file and not that important for us, but it will be good to use as an example. If you want to see information about the file, click the <em>Diff</em> button on the far left, just under the <em>Environment</em> tab.</p>
 <p>A new window will open. The bottom window shows the changes made to the file. Lines with additions are in green; lines with subtractions are in red. Because this is a new file, the entire text is green.</p>
-<div class="img-fluid quarto-figure quarto-figure-center">
+<div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="./edh7916/assets/img/rstudio_git_diff.png" class="img-fluid figure-img"></p>
-<figcaption>RStudio new project: Git diff</figcaption>
+<figcaption class="figure-caption">RStudio new project: Git diff</figcaption>
 </figure>
 </div>
 <p>If you click on the <em>History</em> button, you can see the history of changes to the repo. There’s not much right now, but over time, the history can be <em>very</em> helpful for finding deleted code or pinpointing when a bug was introduced.</p>
-<div class="img-fluid quarto-figure quarto-figure-center">
+<div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="site-attachments/btskinner-imgs/rstudio_git_history.png" class="img-fluid figure-img"></p>
-<figcaption>RStudio new project: Git history</figcaption>
+<figcaption class="figure-caption">RStudio new project: Git history</figcaption>
 </figure>
 </div>
 <p>Going back by clicking on <em>Changes</em> window, let’s stage/add our file, commit it, and push it.</p>
 <section id="stageadd" class="level3">
 <h3 data-anchor-id="stageadd">Stage/add</h3>
 <p>To stage/add a file, click the box next to the file name. You’ll notice that the two boxes under the <em>Status</em> header become a single box with an “A” in it for <strong>Add</strong>.</p>
-<div class="img-fluid quarto-figure quarto-figure-center">
+<div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="site-attachments/btskinner-imgs/rstudio_git_add.png" class="img-fluid figure-img"></p>
-<figcaption>RStudio new project: Git add</figcaption>
+<figcaption class="figure-caption">RStudio new project: Git add</figcaption>
 </figure>
 </div>
 </section>
 <section id="commit" class="level3">
 <h3 data-anchor-id="commit">Commit</h3>
 <p>Next, you need to <strong>Commit</strong> the changes to the local repository. Do this by writing a message in the box on the right. You can write whatever you want, but per the suggestions above, I recommend something short and informative. Once you’re done, click the <em>Commit</em> button.</p>
-<div class="img-fluid quarto-figure quarto-figure-center">
+<div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="site-attachments/btskinner-imgs/rstudio_git_commit.png" class="img-fluid figure-img"></p>
-<figcaption>RStudio new project: Git commit</figcaption>
+<figcaption class="figure-caption">RStudio new project: Git commit</figcaption>
 </figure>
 </div>
 <p>You’ll see a drop down menu telling you what has happened. At first this can seem like nothing, but over time, you’ll get the hang of the messages. This tells you that 1 file (our <code>Rproj</code> file changed with 13 new lines (if there were deletions, it would say that, too). You can close this out.</p>
-<div class="img-fluid quarto-figure quarto-figure-center">
+<div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="site-attachments/btskinner-imgs/rstudio_git_commit2.png" class="img-fluid figure-img"></p>
-<figcaption>RStudio new project: Git commit result</figcaption>
+<figcaption class="figure-caption">RStudio new project: Git commit result</figcaption>
 </figure>
 </div>
 <p>After closing, notice that you don’t see the file name any more or the changes in the bottom panel. However, there is new line towards the top left that tells you “Your branch is ahead of origin/main by 1 commit.” <em>origin/main</em> is the git name of your remote repo: <em>origin</em> is the remote (GitHub) and <em>main</em> is the specific branch (we will only use the “main” branch in this course). In other words, your local repo has changes that are one step ahead of what’s on GitHub. Time to sync them up!</p>
-<div class="img-fluid quarto-figure quarto-figure-center">
+<div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="site-attachments/btskinner-imgs/rstudio_git_post_commit.png" class="img-fluid figure-img"></p>
-<figcaption>RStudio new project: Git post commit</figcaption>
+<figcaption class="figure-caption">RStudio new project: Git post commit</figcaption>
 </figure>
 </div>
 </section>
 <section id="push" class="level3">
 <h3 data-anchor-id="push">Push</h3>
 <p>Pushing the changes to GitHub is simple: just click the <em>Push</em> button in the far upper right (up arrow). Once again, you’ll get a drop down window with messages from git. There’s no error (it’ll let you know), so you can close the window.</p>
-<div class="img-fluid quarto-figure quarto-figure-center">
+<div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="site-attachments/btskinner-imgs/rstudio_git_push.png" class="img-fluid figure-img"></p>
-<figcaption>RStudio new project: Git push</figcaption>
+<figcaption class="figure-caption">RStudio new project: Git push</figcaption>
 </figure>
 </div>
 <p>When you go back to the main RStudio window, you’ll notice that file is no longer listed in the <em>Git</em> tab. Should you make changes to it, it will reappear. Similarly, any files in your local repo that you change, add, or delete will show up here.</p>
-<div class="img-fluid quarto-figure quarto-figure-center">
+<div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="site-attachments/btskinner-imgs/rstudio_git_post_push.png" class="img-fluid figure-img"></p>
-<figcaption>RStudio new project: Git post push</figcaption>
+<figcaption class="figure-caption">RStudio new project: Git post push</figcaption>
 </figure>
 </div>
 <p>If you want to confirm that the push worked, go to your repo at GitHub. If you can see the new file and the commit message, then you know your changes have made it to your GitHub repo. Importantly for this course, if you see the changes on GitHub, that means I can see them. Conversely, if you don’t see the changes on GitHub, then I can’t see them. Double check!</p>
-<div class="img-fluid quarto-figure quarto-figure-center">
+<div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="site-attachments/btskinner-imgs/github_post_push.png" class="img-fluid figure-img"></p>
-<figcaption>RStudio new project: GitHub post push</figcaption>
+<figcaption class="figure-caption">RStudio new project: GitHub post push</figcaption>
 </figure>
 </div>
 </section>
@@ -665,17 +637,17 @@ window.Quarto = {
 <h2 data-anchor-id="pulling-down-changes-from-github">Pulling down changes from GitHub</h2>
 <p>Closing the loop, you also need to <strong>pull</strong> down changes from GitHub. In general, this is necessary when are you are using multiple computers or working with a collaborator. For this course, you’ll need to pull down updates and comments I make to your repo.</p>
 <p>To pull, all you need to do is click the <em>Pull</em> button in the <em>Git</em> tab (with the down arrow).</p>
-<div class="img-fluid quarto-figure quarto-figure-center">
+<div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="site-attachments/btskinner-imgs/rstudio_git_pull.png" class="img-fluid figure-img"></p>
-<figcaption>RStudio: pull</figcaption>
+<figcaption class="figure-caption">RStudio: pull</figcaption>
 </figure>
 </div>
 <p>If there’s nothing new, you’ll get a message like this. If so, you’re good to go!</p>
-<div class="img-fluid quarto-figure quarto-figure-center">
+<div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="site-attachments/btskinner-imgs/rstudio_git_post_pull.png" class="img-fluid figure-img"></p>
-<figcaption>RStudio: post pull</figcaption>
+<figcaption class="figure-caption">RStudio: post pull</figcaption>
 </figure>
 </div>
 <p>If there are changes, you’ll be informed of those and you’ll see them reflected in your local files. If there’s a new file, you’ll see it appear in your local directory. If a file is deleted, it will be removed from your local directory. If there were any changes in a file, you’ll see them when you next open the file.</p>
@@ -783,9 +755,10 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     // clear code selection
     e.clearSelection();
   });
-  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+  function tippyHover(el, contentFn) {
     const config = {
       allowHTML: true,
+      content: contentFn,
       maxWidth: 500,
       delay: 100,
       arrow: false,
@@ -795,17 +768,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       interactive: true,
       interactiveBorder: 10,
       theme: 'quarto',
-      placement: 'bottom-start',
+      placement: 'bottom-start'
     };
-    if (contentFn) {
-      config.content = contentFn;
-    }
-    if (onTriggerFn) {
-      config.onTrigger = onTriggerFn;
-    }
-    if (onUntriggerFn) {
-      config.onUntrigger = onUntriggerFn;
-    }
     window.tippy(el, config); 
   }
   const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
@@ -818,120 +782,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
       return note.innerHTML;
-    });
-  }
-  const xrefs = window.document.querySelectorAll('a.quarto-xref');
-  const processXRef = (id, note) => {
-    // Strip column container classes
-    const stripColumnClz = (el) => {
-      el.classList.remove("page-full", "page-columns");
-      if (el.children) {
-        for (const child of el.children) {
-          stripColumnClz(child);
-        }
-      }
-    }
-    stripColumnClz(note)
-    if (id === null || id.startsWith('sec-')) {
-      // Special case sections, only their first couple elements
-      const container = document.createElement("div");
-      if (note.children && note.children.length > 2) {
-        container.appendChild(note.children[0].cloneNode(true));
-        for (let i = 1; i < note.children.length; i++) {
-          const child = note.children[i];
-          if (child.tagName === "P" && child.innerText === "") {
-            continue;
-          } else {
-            container.appendChild(child.cloneNode(true));
-            break;
-          }
-        }
-        if (window.Quarto?.typesetMath) {
-          window.Quarto.typesetMath(container);
-        }
-        return container.innerHTML
-      } else {
-        if (window.Quarto?.typesetMath) {
-          window.Quarto.typesetMath(note);
-        }
-        return note.innerHTML;
-      }
-    } else {
-      // Remove any anchor links if they are present
-      const anchorLink = note.querySelector('a.anchorjs-link');
-      if (anchorLink) {
-        anchorLink.remove();
-      }
-      if (window.Quarto?.typesetMath) {
-        window.Quarto.typesetMath(note);
-      }
-      return note.innerHTML;
-    }
-  }
-  for (var i=0; i<xrefs.length; i++) {
-    const xref = xrefs[i];
-    tippyHover(xref, undefined, function(instance) {
-      instance.disable();
-      let url = xref.getAttribute('href');
-      let hash = undefined; 
-      if (url.startsWith('#')) {
-        hash = url;
-      } else {
-        try { hash = new URL(url).hash; } catch {}
-      }
-      if (hash) {
-        const id = hash.replace(/^#\/?/, "");
-        const note = window.document.getElementById(id);
-        if (note !== null) {
-          try {
-            const html = processXRef(id, note.cloneNode(true));
-            instance.setContent(html);
-          } finally {
-            instance.enable();
-            instance.show();
-          }
-        } else {
-          // See if we can fetch this
-          fetch(url.split('#')[0])
-          .then(res => res.text())
-          .then(html => {
-            const parser = new DOMParser();
-            const htmlDoc = parser.parseFromString(html, "text/html");
-            const note = htmlDoc.getElementById(id);
-            if (note !== null) {
-              const html = processXRef(id, note);
-              instance.setContent(html);
-            } 
-          }).finally(() => {
-            instance.enable();
-            instance.show();
-          });
-        }
-      } else {
-        // See if we can fetch a full url (with no hash to target)
-        // This is a special case and we should probably do some content thinning / targeting
-        fetch(url)
-        .then(res => res.text())
-        .then(html => {
-          const parser = new DOMParser();
-          const htmlDoc = parser.parseFromString(html, "text/html");
-          const note = htmlDoc.querySelector('main.content');
-          if (note !== null) {
-            // This should only happen for chapter cross references
-            // (since there is no id in the URL)
-            // remove the first header
-            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
-              note.children[0].remove();
-            }
-            const html = processXRef(null, note);
-            instance.setContent(html);
-          } 
-        }).finally(() => {
-          instance.enable();
-          instance.show();
-        });
-      }
-    }, function(instance) {
     });
   }
       let selectedAnnoteEl;
@@ -975,7 +825,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             }
             div.style.top = top - 2 + "px";
             div.style.height = height + 4 + "px";
-            div.style.left = 0;
             let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
             if (gutterDiv === null) {
               gutterDiv = window.document.createElement("div");
@@ -1001,32 +850,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         });
         selectedAnnoteEl = undefined;
       };
-        // Handle positioning of the toggle
-    window.addEventListener(
-      "resize",
-      throttle(() => {
-        elRect = undefined;
-        if (selectedAnnoteEl) {
-          selectCodeLines(selectedAnnoteEl);
-        }
-      }, 10)
-    );
-    function throttle(fn, ms) {
-    let throttle = false;
-    let timer;
-      return (...args) => {
-        if(!throttle) { // first call gets through
-            fn.apply(this, args);
-            throttle = true;
-        } else { // all the others get throttled
-            if(timer) clearTimeout(timer); // cancel #2
-            timer = setTimeout(() => {
-              fn.apply(this, args);
-              timer = throttle = false;
-            }, ms);
-        }
-      };
-    }
       // Attach click handler to the DT
       const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
       for (const annoteDlNode of annoteDls) {
@@ -1092,9 +915,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     <div class="nav-footer-left">
       <ul class="footer-items list-unstyled">
     <li class="nav-item">
-    <a class="nav-link" href="https://capaldi.info">
-<p>M.J. Capaldi</p>
-</a>
+    <a class="nav-link" href="https://capaldi.info">M.J. Capaldi</a>
   </li>  
 </ul>
     </div>   
@@ -1104,9 +925,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     <div class="nav-footer-right">
       <ul class="footer-items list-unstyled">
     <li class="nav-item">
-    <a class="nav-link" href="https://quarto.org/docs/websites">
-<p>Built with Quarto</p>
-</a>
+    <a class="nav-link" href="https://quarto.org/docs/websites">Built with Quarto</a>
   </li>  
     <li class="nav-item compact">
     <a class="nav-link" href="https://github.com/ttalVlatt/EDH-7916">
@@ -1118,7 +937,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     </div>
   </div>
 </footer>
-
 
 
 
