@@ -162,19 +162,19 @@ setwd(file.path("..", ".."))
 #              overwrite = TRUE)
 
 ## Delete old EDH-7916
-if(dir.exists(file.path("..", "EDH-7916"))) {
-  unlink(file.path("..", "EDH-7916"), recursive = T)
+if(dir.exists("EDH-7916")) {
+  unlink("EDH-7916", recursive = T)
 }
 
 ## Send git commands directly to terminal
 system("
-   cd ..;
-   git clone https://github.com/ttalVlatt/EDH-7916;
-   cp -r 7916/_site/EDH-7916/* EDH-7916
+   git clone git@github.com:ttalVlatt/EDH-7916.git;
+   cp -r 7916/_site/EDH-7916/* EDH-7916;
    cd EDH-7916;
    git add .;
    git commit -m 'update scripts';
-   git push origin  
+   git push origin
+   cd ..
        ")
 
 ## Delete temp file
