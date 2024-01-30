@@ -169,7 +169,7 @@ if(dir.exists("EDH-7916")) {
 ## Send git commands directly to terminal
 system("
    git clone git@github.com:ttalVlatt/EDH-7916.git;
-   cp -r 7916/_site/EDH-7916/* EDH-7916;
+   cp -r _site/EDH-7916/* EDH-7916;
    cd EDH-7916;
    git add .;
    git commit -m 'update scripts';
