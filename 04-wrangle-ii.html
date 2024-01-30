@@ -522,8 +522,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>What if the <code>score</code> column in our data weren’t on the same scale?</li>
 <li>What if the test date mattered but isn’t included in the file?</li>
 <li>What if the files actually represent scores from different grades or schools?</li>
-<li>It’s possible that we can account for each of these issues as we clean our data, but it won’t happen automatically — append with care!</li>
 </ul></li>
+<li>It’s possible that we can account for each of these issues as we clean our data, but it won’t happen automatically — append with care!</li>
 </ul>
 <!-- > #### Quick exercise  -->
 <!-- > While appending data can be straightforward, it can also be -->
@@ -874,9 +874,10 @@ dbl (4): year, math, read, science
 <section id="join" class="level4">
 <h4 data-anchor-id="join">2. Join</h4>
 <ul>
-<li><p>While one can <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/merge.html"><code>merge</code> using base R</a>, dplyr uses the <a href="https://en.wikipedia.org/wiki/Join_(SQL)">SQL language of joins</a>, - This can be conceptually clearer (particularly for those who already have experience with relational database structures).</p>
+<li><p>While one can <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/merge.html"><code>merge</code> using base R</a>, dplyr uses the <a href="https://en.wikipedia.org/wiki/Join_(SQL)">SQL language of joins</a>,</p>
 <ul>
-<li>We will learn more about this in <a href="./09-wrangle-iv.html">Data Wrangling IV</a></li>
+<li>This can be conceptually clearer (particularly for those who already have experience with relational database structures).</li>
+<li>We will learn more about SQL in <a href="./09-wrangle-iv.html">Data Wrangling IV</a></li>
 </ul></li>
 <li><p>Here are the most common joins you will use:</p></li>
 <li><p><code>left_join(x, y)</code>: keep all x, drop unmatched y</p></li>
@@ -1031,7 +1032,13 @@ dbl (4): year, math, read, science
 <section id="definitions" class="level3">
 <h3 data-anchor-id="definitions">Definitions</h3>
 <ul>
-<li>While there are various definitions of tabular data structure, the two you will most often come across are <strong>wide</strong> and <strong>long</strong>. Wide data are data structures in which all variable/values are columns. At the extreme end, every <em>id</em> will only have a single row:</li>
+<li>While there are various definitions of tabular data structure, the two you will most often come across are <strong>wide</strong> and <strong>long</strong>.
+<ul>
+<li>Wide data are data structures in which all variable/values are columns.
+<ul>
+<li>At the extreme end, every <em>id</em> will only have a single row:</li>
+</ul></li>
+</ul></li>
 </ul>
 <table class="table">
 <colgroup>
@@ -1361,7 +1368,7 @@ dbl (4): year, math, read, science
 <h3 data-anchor-id="example-wide-long-with-corrections">Example: wide –&gt; long with corrections</h3>
 <ul>
 <li><p>Unfortunately, it’s not always so clear cut to reshape data.</p></li>
-<li><p>In this second example, we’ll again reshape from wide to long, but we’ll have to munge our data a bit after the reshape to make it analysis ready.</p></li>
+<li><p>In this second example, we’ll again reshape from wide to long, but we’ll have to wrangle our data a bit after the reshape to make it analysis ready.</p></li>
 <li><p>First, we’ll read in a second file <code>all_schools_wide.csv</code>.</p>
 <ul>
 <li>This file contains the same information as before, but in a <em>very</em> wide format: each school has only one row and each test by year value gets its own column in the form <code>&lt;test&gt;_&lt;year&gt;</code>.</li>
@@ -1489,10 +1496,17 @@ dbl (18): math_1980, read_1980, science_1980, math_1981, read_1981, science_...
 # ℹ 62 more rows</code></pre>
 </div>
 </div>
-<blockquote class="blockquote">
-<h4 id="quick-exercise-5">Quick exercise</h4>
-<p>Redo the last two steps in a single combined chain using pipes. - That is, start with <code>df</code> (which contains <code>all_schools_wide.csv</code>) - Reshape long - Fix so that you end up with four columns - All in a single piped <code>|&gt;</code> chain.</p>
-</blockquote>
+<section id="quick-exercise-5" class="level4">
+<h4 data-anchor-id="quick-exercise-5">Quick exercise</h4>
+<ul>
+<li>Redo the last two steps in a single combined chain using pipes.
+<ul>
+<li>That is, start with <code>df</code> (which contains <code>all_schools_wide.csv</code>)</li>
+<li>Reshape it long</li>
+<li>Fix so that you end up with four columns</li>
+</ul></li>
+</ul>
+</section>
 </section>
 </section>
 <section id="final-note" class="level2">
@@ -1528,22 +1542,14 @@ dbl (18): math_1980, read_1980, science_1980, math_1981, read_1981, science_...
 <ol start="2" type="1">
 <li>Compute the average test score by region and family income level and join it back to the full data frame.
 <ul>
-<li><strong>HINT</strong> You can join on more than one key.</li>
+<li>Hint: You can join on more than one key.</li>
 </ul></li>
-<li>Select the following variables from the full data set:
-<ul>
-<li><code>stu_id</code></li>
-<li><code>x1stuedexpct</code></li>
-<li><code>x1paredexpct</code></li>
-<li><code>x4evratndclg</code></li>
-</ul></li>
+<li></li>
 </ol>
-<ul>
-<li>From this reduced data frame, reshape the data frame so that it is long in educational expectations
-<ul>
-<li>As in, each observation should have two rows, one for each educational expectation type</li>
-</ul></li>
-</ul>
+<ol type="i">
+<li><p>Select the following variables from the full data set: - <code>stu_id</code> - <code>x1stuedexpct</code> - <code>x1paredexpct</code> - <code>x4evratndclg</code></p></li>
+<li><p>From this reduced data frame, reshape the data frame so that it is long in educational expectations - As in, each observation should have two rows, one for each educational expectation type</p></li>
+</ol>
 <p><em>e.g.&nbsp;(your column names and values may be different)</em></p>
 <table class="table">
 <thead>
