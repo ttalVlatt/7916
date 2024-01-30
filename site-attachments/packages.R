@@ -7,10 +7,12 @@
 ##
 ## -----------------------------------------------------------------------------
 
+options(repos = "https://cloud.r-project.org/")
+
 required_packs <- c(
   "tidyverse", "rmarkdown", "knitr", "quarto", "patchwork", "dbplyr", "RSQLite",
   "sf", "tidycensus", "tigris", "estimatr", "gitcreds", "fs", "zip",
-  "doconv" 
+  "doconv", "this.path", "tinytex"
 )
 
 installed_packs <- installed.packages()

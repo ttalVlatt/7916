@@ -1,48 +1,52 @@
 ---
 title: "I: Basics"
 image: apple-touch-icon.png
+editor_options: 
+  chunk_output_type: console
 ---
 
 :::{.panel-tabset}
 
 # Lesson
 
-One key part of understanding your data and presenting your analyses
-lies making plots. This lesson will focus on graphics.
+- One key part of understanding your data and presenting your analyses lies in making plots, which we will cover through this section of the class
 
-R has three major graphing systems: the [base system](https://stat.ethz.ch/R-manual/R-devel/library/graphics/html/00Index.html),
-[lattice](http://lattice.r-forge.r-project.org), and
-[ggplot2](http://ggplot2.tidyverse.org). Each system has its benefits
-and drawbacks. Each is also very versatile with many, many options for
-creating and adjusting plots.
+- There are multiple graphing systems in R, but we are going to focus on two (primarily one);
+  - [vanilla R plots](https://stat.ethz.ch/R-manual/R-devel/library/graphics/html/00Index.html)
+  - [ggplot2](http://ggplot2.tidyverse.org). 
 
-Unfortunately, there isn't enough time to go through all three
-graphing systems. After describing a few base R graphing functions,
-this lesson will focus on using ggplot2 since it allows users to build
-plots using the [grammar of
-graphics](http://vita.had.co.nz/papers/layered-grammar.html) and
-integrates well with the tidyverse.
+#### Vanilla R Plots
+
+- Vanilla R (i.e., R without any packages loaded) can create some basic plots
+  - They aren't the prettiest, so I wouldn't recommend them in reports and papers
+    - But, they're super-easy and quick to create, so they're perfect for quickly checking your data during the exploration phase
+    
+#### `ggplot2` Plots
+
+- `ggplot` or `ggplot2` (ggplot was originally a different library, but doesn't exist anymore)
+- The gg stands for [grammar of graphics](http://vita.had.co.nz/papers/layered-grammar.html)
+  - This is a whole world of detail to dive into if you want
+  - The basic idea is that the graphs are made up of *layers*
+    - This allows us to create some really cool and detailed plots
+      - I'd strongly recommend `ggplot2` for making plots you want to share
+        - Even stata users admit the plots can't match `ggplot2`
 
 ## Setup
 
-We're using two libraries today:
+- We're using two libraries today (plus the vanilla R plot functions)
 
 - [ggplot2](http://ggplot2.tidyverse.org)
 - [haven](http://haven.tidyverse.org)
 
-The [ggplot2](http://ggplot2.tidyverse.org) library is part of the
-tidyverse, so we don't need to load it separately (we can
-just use `library(tidyverse)` as always). 
+- The [ggplot2](http://ggplot2.tidyverse.org) library is part of the `tidyverse`
+  - We don't need to load it separately (we can just use `library(tidyverse)` as always)
 
-We're also going to use [haven](http://haven.tidyverse.org), which
-allows us to read in data files from other software such as SPSS, SAS,
-and Stata. We'll use it to read in a Stata (`*.dta`) version of the
-small HSLS data we've used before. The Stata version, unlike the plain
-CSV version, has labels for the variables and values. These will be
-useful when plotting. 
+- We're also going to use [haven](http://haven.tidyverse.org),
+- Also part of the `tidyverse` but not loaded by default, so we have to load it with `library(haven)`
+  - Haven allows us to read in data files from other software such as SPSS, SAS, and Stata
+    - We'll use it to read in a Stata (`*.dta`) version of the small HSLS data we've used before.
+      - The Stata version, unlike the plain `.csv` version, has labels for the variables and values, which will be useful when plotting. 
 
-Though haven is part of the tidyverse (and should have been installed
-when you installed tidyverse), we'll have to explicitly call it.
 
 ```{r, include = FALSE, purl = TRUE}
 ################################################################################
@@ -64,8 +68,7 @@ library(tidyverse)
 library(haven)
 ```
 
-**Note** that since we have two data files this lesson, we'll give
-them unique names instead of the normal `df`:
+- **Note** that since we have two data files this lesson, we'll give them unique names instead of the normal `df`:
 
 - `df_hs` := `hsls_small.dta`
 - `df_ts` := `all_schools.csv`
@@ -76,8 +79,8 @@ them unique names instead of the normal `df`:
 ## ---------------------------
 
 ## read_dta() ==> read in Stata (*.dta) files
-## read_csv() ==> read in comma separated value (*.csv) files
 df_hs <- read_dta(file.path("data", "hsls-small.dta"))
+## read_csv() ==> read in comma separated value (*.csv) files
 df_ts <- read_csv(file.path("data", "sch-test", "all-schools.csv"))
 ```
 
@@ -89,20 +92,18 @@ df_ts <- read_csv(file.path("data", "sch-test", "all-schools.csv"))
 ## -----------------------------------------------------------------------------
 ```
 
-Even though new graphics libraries have been developed, the base R
-graphics system remains powerful. The base system is also very easy to
-use in a pinch. When I want a quick visual of a data distribution
-that's just for me, I often use base R.
+- Even though new graphics libraries have been developed, the base R graphics system remains powerful
+- The base system is also very easy to use in a pinch
+  - When I want a quick visual of a data distribution that's just for me, I often use base R
 
-**Note** that for the next few plots, I'm not much concerned with how
-they look. Specifically, the axis labels won't look very nice. We
-could spend time learning to make really nice base R plots for
-publication, but I'd rather we spend that time with ggplot2 graphics.
+- **Note** that for the next few plots, I'm not much concerned with how they look
+  - Specifically, the axis labels won't look very nice
+  - We could spend time learning to make really nice base R plots for publication
+    - But I'd rather we spend that time with ggplot2 graphics.
 
-**Also note** that we'll switch to using the base R data frame `$`
-notation to pull out the columns we want. If you need some more
-information on using `$` notation, [check out the supplemental lesson
-on data wrangling with base R](/edh7916/lessons/dw_one_base_r.html).
+- **Also note** that we'll have to switch to using the vanilla R data frame `$` notation to pull out the columns we want
+  - In short, to reference a column in a data frame in vanilla R, you say `dataframe$column`
+  - If you need some more information on using `$` notation, [check out the supplemental lesson on data wrangling with vanilla R](x-03-pro-vanilla.qmd).
 
 ### Histogram
 
@@ -112,10 +113,9 @@ on data wrangling with base R](/edh7916/lessons/dw_one_base_r.html).
 ## ---------------------------
 ```
 
-For continuous variables, a histogram is a useful plot. Though the
-`hist()` function has many options to adjust how it looks, the
-defaults work really well if you just want a quick look at the
-distribution.
+- For continuous variables, a histogram is a useful plot
+- Though the `hist()` function has many options to adjust how it looks
+  - The default settings work really well if you just want a quick look at the distribution.
 
 ```{r eda_base_histogram}
 ## histogram of math scores (which should be normal by design)
@@ -133,24 +133,11 @@ hist(df_hs$x1txmtscor)
 ## ---------------------------
 ```
 
-Density plots are also really helpful. R doesn't have single density
-plot function, but you can get a density plot in one of two ways, each
-of which will give a slightly different result.
+- Density plots are also really helpful for checking the distribution of a variable
+- Vanilla R doesn't have formal density plot function, but you can get a density plot with a trick
+  - `plot()` the `density()` of a continuous variable
 
-First, you can adjust the `hist()` function to add the `freq = FALSE`
-argument. It looks like the first histogram above, but notice that the
-y-axis now represents density rather than counts.
-
-```{r eda_base_hist_density}
-## density plot of math scores with hist() function
-hist(df_hs$x1txmtscor, freq = FALSE)
-```
-
-Second, you can `plot()` the `density()` of a continuous
-variable. Unlike `hist()`, however, `density()` doesn't automatically
-ignore missing values, so we have to tell it to remove `NA`s using the
-`na.rm = TRUE` argument (a common argument for base R functions that's
-useful to remember).
+> Quick question: What does the `na.rm = TRUE` and why might we need it?
 
 ```{r eda_base_density}
 ## density plot of math scores
@@ -159,9 +146,8 @@ plot(density(df_hs$x1txmtscor, na.rm = TRUE))
 ```
 
 > #### Quick exercise
-> Plot the density of SES. Next, add the `col`
-> argument in `plot()` to change the color of the line to `"red"`:
-> `plot(density(df_hs$x1txtmscor, na.rm = TRUE), col = "red")`.
+> First, plot the density of SES
+> Then, add the `col` argument in `plot()` to change the color of the line to `"red"`
 
 ### Box plot
 
@@ -171,30 +157,23 @@ plot(density(df_hs$x1txmtscor, na.rm = TRUE))
 ## ---------------------------
 ```
 
-A box plot will let you see the distribution of a continuous variable
-at specific values of another discrete variable. For example, test
-scores ranges at each student expectation level.
+- A box plot will let you see the distribution of a continuous variable at specific values of a categorical variable
+  - For example, test scores ranges at each student expectation level
 
-Call a box plot using the `boxplot()` function. This one is a little
-trickier because it uses the [R
-formula](https://www.statmethods.net/graphs/boxplot.html) construction
-to set the continuous variable against the discrete variable. The formula uses a
-tilde, `~`, and should be constructed like this:
-
-* `<continuous var> ~ <discrete var>`
-
-Notice how we can use the `data = df_hs` argument instead of adding
-`df_hs$` in front of the variable names. This saves us some typing.
+- Call a box plot using the `boxplot()` function
+  - This one is a little trickier because it uses the [R formula](https://www.statmethods.net/graphs/boxplot.html) construction
+to set the continuous variable against the discrete variable
+  - The formula uses a tilde, `~`, and should be constructed like this:
+    - `<continuous var> ~ <discrete var>`
+    - We will talk in more detail about formulas in the [Programming: Modeling Basics lesson](12-pro-model.qmd)
+  - As we are using a formula, notice how we can use the `data = df_hs` argument instead of adding `df_hs$` in front of the variable names, which saves some typing
 
 ```{r eda_base_box}
 ## box plot of math scores against student expectations
 boxplot(x1txmtscor ~ x1stuedexpct, data = df_hs)
 ```
 
-From the boxplot, we can see that math test scores tend to increase as
-students' educational expectations increase (remember that 11 means "I
-don't know [how far I'll go in school]"), though there's quite a bit
-of overlap in the marginal distributions.
+From the boxplot, we can see that math test scores tend to increase as students' educational expectations increase (remember that 11 means "I don't know [how far I'll go in school]"), though there's quite a bit of overlap in the marginal distributions.
 
 ### Scatter
 
@@ -204,36 +183,22 @@ of overlap in the marginal distributions.
 ## ---------------------------
 ```
 
-Plot two continuous variables against one another using the base
-`plot()` function. There are two primary ways to make a scatter plot
-using `plot()`:
-
-* `plot(x, y)`
-* `plot(y ~ x)`
-
-With both, `x` is the variable that will go on the x-axis and `y` the
-one that will go on the y-axis. It's really a matter of which makes
-sense to you. We'll use the first.
+- Plot two continuous variables against one another using the base `plot()` function
+- The main way to make a scatter plot is `plot(x, y)`
+  - The `x` is the variable that will go on the x-axis and `y` the one that will go on the y-axis
 
 ```{r eda_base_scatter}
 ## scatter plot of math against SES
 plot(df_hs$x1ses, df_hs$x1txmtscor)
 ```
 
-While the data seem to show a positive correlation between
-socioeconomic status and math test score, there's also quite a bit of
-variation in that association (notice that the cloud-like nature of
-the circles). 
+From the scatter plot we see the data seem to show a positive correlation between socioeconomic status and math test score, there's also quite a bit of variation in that association (notice that the cloud-like nature of the circles). 
 
 > #### Quick exercise 
 > Rerun the above plot, but this time store it in an object,
-> `plot_1`. Next, make the same plot, but this time use the second
-> formula construction (`~`) --- store it in an object,
-> `plot_2`. Visually compare the two, but for a more formal test, use
-> `identical(plot_1, plot_2)` on the two plot objects to prove they
-> are the same.
+> `plot_1`, then get the plot to print out
 
-## Plots using ggplot2
+## Plots using `ggplot2`
 
 ```{r, echo = FALSE, purl = TRUE}
 ## -----------------------------------------------------------------------------
@@ -241,19 +206,15 @@ the circles).
 ## -----------------------------------------------------------------------------
 ```
 
-ggplot2 is my --- and many R users' --- primary system for making
-plots. It is based on the idea of a [grammar of
-graphics](https://www.springer.com/gp/book/9780387245447). Just as we
-can use finite rules of a language grammar to construct an endless
-number of unique sentences, so too can we use a few graphical
-grammatical rules to make an endless number of unique figures.
+- `ggplot2` is my --- and many R users' --- primary system for making plots
+- It is based on the idea of a [grammar of graphics](https://www.springer.com/gp/book/9780387245447)
+  - Just as we can use finite rules of a language grammar to construct an endless number of unique sentences, so too can we use a few graphical grammatical rules to make an endless number of unique figures.
 
-The [ggplot2 system](http://ggplot2.tidyverse.org/reference/) is too
-involved to cover in all of its details, but that's kind of the point
-of the grammar of graphics: once you see how it's put together, you
-can anticipate the commands you need to build your plot.
+- The [ggplot2 system](http://ggplot2.tidyverse.org/reference/) is too involved to cover in all of its details
+  - But that's kind of the point of the grammar of graphics
+  - Once you see how it's put together, you can anticipate the commands you need to build your plot.
 
-We'll start by covering the same plots as above.
+- We'll start by covering the same plots as above.
 
 ### Histogram
 
@@ -266,68 +227,50 @@ We'll start by covering the same plots as above.
 [As the main help site says](http://ggplot2.tidyverse.org), all
 ggplot2 plots need three things:
 
-* **[data]**: The source of the variables you want to plot
-* **[aesthetics]**: How variables in the data map onto the plot
-  (_e.g._, what's on the x-axis? what's on the y-axis?)
-* **[geom]**: The geometry of the figure or the kind of figure you
-  want to make (_e.g._, what do you want to **do** with those data and
-  mappings? A line graph? A box plot?...)
+- **[data]**: The source of the variables you want to plot
+- **[aesthetics]**: How variables in the data map onto the plot (_e.g._, what's on the x-axis? what's on the y-axis?)
+- **[geom]**: The geometry of the figure or the kind of figure you want to make (_e.g._, what do you want to **do** with those data and mappings? A line graph? A box plot?...)
 
-We'll start by making a histogram again. To help make these pieces
-clearer, I'll use the argument names when possible. The first
-function, which initializes the plot is `ggplot()`. Its first
-argument is the data. 
-
-The aesthetic mappings, that is, which variables go where or how they
-function on the plot, go inside the `aes()` function. Since we only
-have one variable, `x1txmtscor`, it is assigned to `x`.
-
-If we assign this first part to an object, `p`, and print by calling
-the object...
+- We'll start by making a histogram again
+- To help make these pieces clearer, I'll use the argument names when possible
+  - As you become familiar, you probably will stop naming some of these core arguments
+- The first function, which initializes the plot is `ggplot()`
+  - Its first argument is the data, which want to use `df_hs`
 
 ```{r eda_plot_histogram_blank, warning = F, message = F}
 ## init ggplot 
-p <- ggplot(data = df_hs, mapping = aes(x = x1txmtscor))
-p
+ggplot(data = df_hs)
 ```
 
-...nothing! Well, not nothing, but no histogram. That's because the
-plot object `p` knows the data and the key variable mapping but
-doesn't know what do with them. What do we want?
-
-Since we want a histogram, we add the `geom_histogram()` function to
-the existing plot object with a plus sign(`+`). Once we do that, we'll
-try to print the plot again...
+- ...nothing! Well, not nothing, but no histogram.
+  - That's because the plot knows the data but doesn't know what do with it. What do we want?
+- Since we want a histogram, we add the `geom_histogram()` function to the existing plot object with a plus sign(`+`). Once we do that, we'll try to print the plot again...
+- The aesthetic mappings, that is, which variables go where or how they function on the plot, go inside the `aes()` function. 
+  - Since we only have one variable, `x1txmtscor`, it is assigned to `x`.
 
 ```{r eda_plot_histogram, warning = F, message = F}
 ## add histogram instruction (notice we can add pieces using +)
-p <- p + geom_histogram()
-p
+ggplot(data = df_hs) +
+  geom_histogram(mapping = aes(x = x1txmtscor))
 ```
 
 Success!
 
-Let's repeat it the whole process, but without the middle step:
+> Quick excercise: try assigning the historgram to an object, then getting it to print out
 
-```{r eda_plot_histogram_2, warning = F, message = F}
-## create histogram using ggplot
-p <- ggplot(data = df_hs, mapping = aes(x = x1txmtscor)) +
-    geom_histogram()
-p
-```
+- As you can see, the code to make a ggplot2 figure looks a lot like what we've seen with other tidyverse libraries, _e.g._ dplyr.
+- The key difference between ggplot2 and our previous code, however, is that 
+  - Up to now we have used the pipe (`|>`) to pass output to the next function
+  - ggplot2 uses a plus sign (`+`) add new layers to the plot
+  
+- Layers is exactly how you want to think about ggplots
+  - The `ggplot()` is the base layer of the graph
+    - Anything you place in here will become the default for every other layer
+      - For example, if we say `data = df` in `ggplot()`, that will be the default data for every layer
+        - Generally I specify the data here, and `mapping = aes()` in the specific plots
 
-As you can see, the code to make a ggplot2 figure looks a lot like
-what we've seen with other tidyverse libraries, _e.g._ dplyr. The key
-difference between ggplot2 and dplyr, however, is that while dplyr
-uses the pipe (`|>`) to connect different functions, ggplot2 uses a
-plus sign (`+`).
+> Quick question(s): Why might that make sense? Which is more likely to change? Are there times you might want to set an aesthetic for the whole plot?
 
-It may help you remember the difference:
-
-- dplyr _moves_ output from left to the input in the right and so
-  needs a **pipe** (`|>`)
-- ggplot2 _adds_ layer upon layer to build up the final figure and
-  so needs a **plus sign** (`+`)
 
 ### Density
 
@@ -337,73 +280,58 @@ It may help you remember the difference:
 ## ---------------------------
 ```
 
-Unlike the base R graphics system, ggplot2 does have a density
-plotting command, `geom_density()`. Instead of building up the figure
-piecemeal, we'll go ahead and chain the geom to the first command and
-print.
-
-Notice how the function chain is the mostly the same as above, but (1)
-written in a single linked chain and (2) using a different `geom_*()`
-command at the end to indicate that we want something different.
+- Unlike the base R graphics system, ggplot2 does have a density plotting command `geom_density()`
+  - The rest of the code remains the same as for `geom_histogram()`
 
 ```{r eda_plot_density, warning = F, message = F}
 ## density
-p <- ggplot(data = df_hs, mapping = aes(x = x1txmtscor)) +
-    geom_density()
-p
+ggplot(data = df_hs) +
+  geom_density(mapping = aes(x = x1txmtscor))
 ```
 
 > #### Quick exercise
-> Make a density plot of SES.
+> If we wanted to see the histogram and density plot on top of each other, what might we do? Give it a go, and, tell me why it didn't work...
 
-If we want to superimpose the density plot over the histogram, we only
-need chain the two commands together with a slight modification in how
-the histogram is made. This way, the histogram and the density will be
-on the same scale.
+```{r}
+ggplot(data = df_hs) +
+  geom_histogram(mapping = aes(x = x1txmtscor)) +
+  geom_density(mapping = aes(x = x1txmtscor))
+```
 
-The change happens in the `geom_histogram()` function, where we add a
-new mapping: `aes(y = ..density..)`. (**NOTE:** this is similar to what we
-did above in base R to make a histogram on a density scale.)
+- The issue is that the histogram y scale is much much larger than the density
+  - To fix that, let's modify the `geom_histogram()` aesthetic to use the `density` function rather than the raw counts
+    - We use the `after_stat()` function, which basically means after ggplot calculates the statistics, it converts them to density
 
 ```{r eda_plot_histdens, warning = F, message = F}
 ## histogram with density plot overlapping
-p <- ggplot(data = df_hs, mapping = aes(x = x1txmtscor)) +
-    geom_histogram(mapping = aes(y = ..density..)) +
-    geom_density()
-p
+ggplot(data = df_hs) +
+  geom_histogram(mapping = aes(x = x1txmtscor, y = after_stat(density))) +
+  geom_density(mapping = aes(x = x1txmtscor))
 ```
 
-It worked, but it's not the greatest visual since the colors are the
-same and the density plot is thin with no fill. 
+- It worked, but it's not the greatest visual since the colors are the same and the density plot is thin with no fill. 
 
-Adding to what came before, the `geom_histogram()` and
-`geom_density()` both take on new arguments that change the
-defaults. Now the resulting plot should look nicer and be easier to
-read.
+- Adding to what came before, the `geom_histogram()` and `geom_density()` both take on new arguments that change the defaults
+- Now the resulting plot should look nicer and be easier to read
 
 ```{r eda_plot_histdens_2, warning = F, message = F}
 ## histogram with density plot overlapping (add color to see better)
-p <- ggplot(data = df_hs, mapping = aes(x = x1txmtscor)) +
-    geom_histogram(mapping = aes(y = ..density..),
-                   color = "black",
-                   fill = "white") +
-    geom_density(fill = "red", alpha = 0.2)
-p
+ggplot(data = df_hs) +
+  geom_histogram(mapping = aes(x = x1txmtscor, y = after_stat(density)),
+                 color = "black",
+                 fill = "white") +
+  geom_density(mapping = aes(x = x1txmtscor),
+               fill = "red",
+               alpha = 0.2)
+
 ```
 
 > #### Quick exercise
-> Try changing some of the arguments in the last plot. What happens
-> when you change `alpha` (keep the value between 0 and 1)? What does
-> the `color` argument change? And `fill`? What happens if you switch
-> the `geom_*()` functions, call `geom_histogram()` after you call
-> `geom_density()`?
+> Try changing some of the arguments in the last plot. What happens when you change `alpha` (keep the value between 0 and 1)? What does the `color` argument change? And `fill`? What happens if you switch the `geom_*()` functions, call `geom_histogram()` after you call `geom_density()`?
 
-**A key thing to note about arguments** is that when the are outside
-of the `aes()`, they apply uniformly to the whole geom (_e.g._ all the
-histogram bars are white with a black outline, the density is light
-red). When you want some aesthetic of the figure to change as a
-function of the data, you need to put it inside `aes()`. We'll see
-this in the next plot.
+- A critical thing to note, in the previous plot `color`, `fill`, and `alpha` were all outside the `aes()`
+  - This means they take a single value and apply it uniformly, it should portray no information and just change the appearance
+  - To use these elements to portray information, we need to place the arguments inside `aes()` like we will do in the next plot
 
 ### Two-way
 
@@ -413,34 +341,29 @@ this in the next plot.
 ## ---------------------------
 ```
 
-Plotting the difference in a continuous distribution across groups is
-a common task. Let's see the difference between student math scores
-between students with parents who have any postsecondary degree and
-those without. 
+- Plotting the difference in a continuous distribution across groups is a common task
+- Let's see the difference between student math scores between students with parents who have any postsecondary degree and those without. 
 
-Since we're using data that was labeled in Stata, we'll see the
-labels when we use `count()`
+- Since we're using data that was labeled in Stata, we'll see the labels when we use `count()`
 
 ```{r}
 ## see the counts for each group
 df_hs |> count(x1paredu)
 ```
 
-We can see that all values of `x1paredu` greater than 2 represent
-parents with some college credential. Since we want only two distinct
-groups, we can use the operator `>=` to make a new 0/1 binary
-variable. If a value of `x1paredu` is above 3, then the new indicator
-`pared_coll` will be 1; if not, 0.
+- We can see that all values of `x1paredu` greater than 2 represent parents with some college credential
+  - Since we want only two distinct groups, we can use `mutate`, `ifelse` and the operator `>=` to make a new 0/1 binary variable.     - If a value of `x1paredu` is above 3, then the new indicator `pared_coll` will be 1; if not, 0.
 
-**NOTE** that in the Stata version of `hsls_small`, all the missing
-values, which are normally negative numbers, have already been
-properly converted to `NA` values. That's why we see a count column
-for `NA` and not labels for missingness that we might have expected
-based on prior lessons.
+**NOTE** that in the Stata version of `hsls_small`, all the missing values, which are normally negative numbers, have already been properly converted to `NA` values. That's why we see a count column for `NA` and not labels for missingness that we might have expected based on prior lessons.
 
-The `ggplot()` function doesn't need to use our full data. In fact,
-our data needs to be set up a bit differently to make this plot. We'll
-make a new temporary data object that only has the data we need.
+- The `ggplot()` function doesn't need to use our full data
+- In fact, our data needs to be set up a bit differently to make this plot
+  - This is a common thing people forget when plotting, data wrangling lessons [one](03-wrangle-i.qmd) and [two](04-wrangle-ii.qmd) are your friend here
+- We'll make a new temporary data object that only has the data we need.
+
+- Notice, after we create `pared_coll`, we use the `factor()` command to make it a factor type of variable
+  - This is R's built in way of handling categorical variables (i.e., so that is doesn't think it's continuous)
+  - Creating factors is really useful for plotting, and later on for statistical models
 
 
 ```{r}
@@ -450,8 +373,9 @@ plot_df <- df_hs |>
     select(x1paredu, x1txmtscor) |>
     ## can't plot NA so will drop
     drop_na() |>
-    ## create new variable that == 1 if parents have any college
-    mutate(pared_coll = ifelse(x1paredu >= 3, 1, 0)) |>
+    ## create new variable that == 1 if parents have any college, then make it a factor
+    mutate(pared_coll = ifelse(x1paredu >= 3, 1, 0),
+           pared_coll = factor(pared_coll)) |>
     ## drop (using negative sign) the original variable we don't need now
     select(-x1paredu) 
 
@@ -459,33 +383,34 @@ plot_df <- df_hs |>
 head(plot_df)
 ```
 
-To plot against the two groups we've made, we need to add it to the
-aesthetic feature, `aes()`. The math score, `x1txmtscor`, is still
-mapped to `x`, but since we want two side-by-side histograms, we set
-the `fill` aesthetic to our new indicator variable. So the function
-knows that it's a group (and not just a continuous number with only
-two values), we wrap it in the `factor()` function.
-
-Finally, we add some changes to the `geom_histogram()` function so that
-each group is on the same scale. 
+- To plot against the two groups we've made, we need to add it to the aesthetic feature, `aes()`
+- The math score, `x1txmtscor`, is still mapped to `x`
+- Since we want two side-by-side histograms, we set the `fill` aesthetic to our new indicator variable
 
 ```{r eda_plot_histogram_double, warning = F, message = F}
 ## two way histogram
-p <- ggplot(data = plot_df,
-            aes(x = x1txmtscor, fill = factor(pared_coll))) +
-    geom_histogram(alpha = 0.5, stat = "density", position = "identity")
-p
+ggplot(plot_df) +
+  geom_histogram(aes(x = x1txmtscor,
+                     fill = pared_coll),
+                 alpha = 0.5,
+                 color = "black")
 ```
 
-By assigning `pared_coll` to the `fill` aesthetic, we can see a
-difference in the distribution of math test scores between students
-whose parents have at least some college and those whose parents do
-not. 
+- By assigning `pared_coll` to the `fill` aesthetic, we can see a difference in the distribution of math test scores between students whose parents have at least some college and those whose parents do not
+  - Note: there are more students with no parental college education, so that whole histogram is bigger
+    - If we want to compare the shape of distribution more easily, we should use `geom_density()`
 
-> #### Quick exercise
-> Remove some of the new arguments in `geom_histogram()`. How does the
-> resulting plot change? Remove the `factor()` function from around
-> `pared_coll`: what happens?
+```{r eda_plot_histogram_double, warning = F, message = F}
+## two way histogram
+ggplot(plot_df) +
+  geom_density(aes(x = x1txmtscor,
+                     fill = pared_coll),
+                 alpha = 0.5,
+                 color = "black")
+```
+
+> #### Quick question
+> Why does the `color = "black"` not mean we have two black density/histogram plots? What happens if you remove it? Can you make it `<something else> = "black"` to get rid of the colors? 
 
 ### Box plot
 
@@ -495,31 +420,29 @@ not.
 ## ---------------------------
 ```
 
-By this point, you're hopefully seeing the pattern in how ggplot2
-figures are put together. To make a box plot, we need to add a `y`
-mapping to the `aes()` in addition to the `x` mapping. We've also
-added the same variable to `fill` as we did to `x`.  We do this so
-that in addition to having different box and whisker plots along the
-x-axis, each plot is given its own color.
+- By this point, you're hopefully seeing the pattern in how ggplot2 figures are put together
+- To make a box plot, we need to add a `y` mapping to the `aes()` in addition to the `x` mapping
+- We've also added the same variable to `fill` as we did to `x`
+  - We do this so that in addition to having different box and whisker plots along the x-axis, each plot is given its own color
+- Notice: this time, we just threw `factor()` around the variable in the plot, rather than using mutate to change the data
+
+> Quick question: What do you think the pros and cons of using `factor()` in the plot over mutating the data might be?
+
 
 ```{r eda_plot_box, warning = F, message = F}
 ## box plot using both factor() and as_factor()
-p <- ggplot(data = df_hs,
-            mapping = aes(x = factor(x1paredu),
-                          y = x1txmtscor,
-                          fill = as_factor(x1paredu))) +
-    geom_boxplot()
-p
+ggplot(data = df_hs,
+       mapping = aes(x = factor(x1paredu),
+                     y = x1txmtscor,
+                     fill = factor(x1paredu))) +
+  geom_boxplot()
 ```
 
-In a way, this plot is similar to the dual histogram above. But since
-we want to see the distribution of math scores across finer-grained
-levels of parental education, the box and whisker plot is clearer than
-trying to overlap seven histograms.
+- In a way, this plot is similar to the dual histogram above
+  - But since we want to see the distribution of math scores across finer-grained levels of parental education, the box and whisker plot is clearer than trying to overlap seven histograms.
 
 > #### Quick exercise
-> Change the `as_factor()` and `factor()` functions above. How does
-> the plot change?
+> We will get more into making things look pretty in [Data Vizualization II](06-viz-ii.qmd), but, what is a real problem with this graph? Does it even need to be there?
 
 ### Scatter
 
@@ -529,12 +452,9 @@ trying to overlap seven histograms.
 ## ---------------------------
 ```
 
-To make a scatter plot, make sure that the `aes()` has mappings for
-the `x` axis and `y` axis and then use `geom_point()` to plot. To make
-things easier to see (remembering the cloud from the base R plot
-above), we'll reduce the data to 10% of the full sample using
-`sample_frac()` from dplyr. We'll also limit our 10% to those who
-aren't missing information about student education expectations
+- To make a scatter plot, make sure that the `aes()` has mappings for the `x` axis and `y` axis and then use `geom_point()` to plot.
+- To make things easier to see (remembering the over-crowded cloud from the base R plot above), we'll reduce the data to 10% of the full sample using `sample_frac()` from dplyr
+- We'll also limit our 10% to those who aren't missing information about student education expectations
 
 ```{r eda_plot_scatter_1, warning = F, message = F}
 ## sample 10% to make figure clearer
@@ -545,17 +465,13 @@ df_hs_10 <- df_hs |>
     sample_frac(0.1)
 
 ## scatter
-p <- ggplot(data = df_hs_10, mapping = aes(x = x1ses, y = x1txmtscor)) +
-    geom_point()
-p
-
+ggplot(data = df_hs_10) +
+  geom_point(mapping = aes(x = x1ses, y = x1txmtscor))
 ```
 
-Now that we have our scatter plot, let's say that we want to add a
-third dimension. Specifically, we want to change the color of each
-point based on whether a student plans to earn a Bachelor's degree or
-higher. That means we need a new dummy variable that is 1 for those
-with BA/BS plans and 0 for others.
+- Now that we have our scatter plot, let's say that we want to add a third dimension
+  - Specifically, we want to change the color of each point based on whether a student plans to earn a Bachelor's degree or higher
+    - That means we need a new dummy variable that is 1 for those with BA/BS plans and 0 for others.
 
 We can look at the student base year expectations with `count()`:
 
@@ -565,36 +481,36 @@ df_hs |>
     count(x1stuedexpct)
 ```
 
-We see that `x1stuedexpct >= 6` means a student plans to earn a
-Bachelor's degree or higher. But since we need to account for the fact
-that 11 means "I don't know", we need to make sure our test includes
-`x1stuedexpct < 11`. Remember from a prior lesson that we can connect
-these two statements together with the operator `&`. Let's create our
-new variable.
+- We see that `x1stuedexpct >= 6` means a student plans to earn a Bachelor's degree or higher.
+- But since we need to account for the fact that 11 means "I don't know", we need to make sure our test includes `x1stuedexpct < 11`
+- Remember from a prior lesson that we can connect these two statements together with the operator `&`
+- Let's create our new variable
+  - Notice this time when I create the factor, I specify `levels` and `labels`
+    - This applies labels much like the `haven` version of our data has, which will print out in our plot
 
 ```{r}
 ## create variable for students who plan to graduate from college
 df_hs_10 <- df_hs_10 |>
     mutate(plan_col_grad = ifelse(x1stuedexpct >= 6 & x1stuedexpct < 11,
                                   1,        # if T: 1
-                                  0))       # if F: 0
+                                  0),       # if F: 0
+           plan_col_grad = factor(plan_col_grad,
+                                  levels = c(0, 1),
+                                  labels = c("No", "Yes")))      
 ```
 
-Now that we have our new variable `plan_col_grad`, we can add it the
-`color` aesthetic, `aes()` in `geom_point()`. Don't forget to use
-`factor()` so that ggplot knows to treat it like a group!
+- Now that we have our new variable `plan_col_grad`, we can add it the `color` aesthetic, `aes()` in `geom_point()`.
 
 ```{r eda_plot_scatter_2, warning = F, message = F}
 ## scatter
-p <- ggplot(data = df_hs_10,
-            mapping = aes(x = x1ses, y = x1txmtscor)) +
-    geom_point(mapping = aes(color = factor(plan_col_grad)), alpha = 0.5)
-p
+ggplot(data = df_hs_10,
+       mapping = aes(x = x1ses, y = x1txmtscor)) +
+  geom_point(mapping = aes(color = plan_col_grad), alpha = 0.5)
+
 ```
 
 > #### Quick exercise
-> Change how you make `plan_col_grad` so that instead of 1 and 0, you
-> use 'yes' and 'no'. Make your figure again. What changes?
+> Remake the plot so the variables on each axis are flipped
 
 ### Fitted lines
 
@@ -604,66 +520,35 @@ p
 ## ---------------------------
 ```
 
-It's often helpful to plot fitted lines against a scatter plot to help
-see the underlying trend. There are a number of ways to do this with
-the `geom_smooth()` function.
+- It's often helpful to plot fitted lines against a scatter plot to help see the underlying trend
+  - There are a number of ways to do this with the `geom_smooth()` function
 
 #### Linear fit
 
-Setting `method = lm` in `geom_smooth()` will fit a simple straight
-line of best fit with 95% confidence interval shaded around it.
+- Setting `method = lm` in `geom_smooth()` will fit a simple straight line of best fit with 95% confidence interval shaded around it.
+- Since we want the points and the line to share the same `x` and `y` aesthetics, let's put them in the `ggplot()` base layer
 
 ```{r eda_plot_scatter_3, warning = F, message = F}
 ## add fitted line with linear fit
-p <- ggplot(data = df_hs_10, mapping = aes(x = x1ses, y = x1txmtscor)) +
+ggplot(data = df_hs_10, mapping = aes(x = x1ses, y = x1txmtscor)) +
     geom_point(mapping = aes(color = factor(plan_col_grad)), alpha = 0.5) +
-    geom_smooth(method = lm)
-p
+    geom_smooth(method = lm, color = "black")
 ```
-
-#### Linear fit with polynomials
-
-In addition to the `method`, we can add a `formula` to allow the
-fitted line to take a non-linear shape. Using the `aes()` values of
-`x` and `y`, the argument below uses an R formula, `y ~ x`, but with
-the addition of the `poly()` function. Setting the second argument in
-`poly()` to 2 gives the line an extra quadratic term, which allows it
-to take a more curved shape.
-
-```{r eda_plot_scatter_4, warning = F, message = F}
-## add fitted line with polynomial linear fit
-p <- ggplot(data = df_hs_10, mapping = aes(x = x1ses, y = x1txmtscor)) +
-    geom_point(mapping = aes(color = factor(plan_col_grad)), alpha = 0.5) +
-    geom_smooth(method = lm, formula = y ~ poly(x,2))
-p
-```
-
-> #### Quick exercise
-> Change the value in `poly()` to higher numbers. How does the line
-> change? 
 
 #### Loess
 
-Finally, we can skip trying to adjust a linear line and just fit a
-[LOESS](https://en.wikipedia.org/wiki/Local_regression) curve, which
-is a smooth line produced by fitting a large number of local
-polynomial regressions on subsets of the data.
+- Finally, we can skip trying to adjust a linear line and just fit a [LOESS](https://en.wikipedia.org/wiki/Local_regression) curve, which is a smooth line produced by fitting a large number of local polynomial regressions on subsets of the data.
 
 ```{r eda_plot_scatter_5, warning = F, message = F}
 ## add fitted line with loess
-p <- ggplot(data = df_hs_10, mapping = aes(x = x1ses, y = x1txmtscor)) +
+ggplot(data = df_hs_10, mapping = aes(x = x1ses, y = x1txmtscor)) +
     geom_point(mapping = aes(color = factor(plan_col_grad)), alpha = 0.5) +
-    geom_smooth(method = loess)
-p
+    geom_smooth(method = loess, color = "black")
 ```
 
-To be clear, these semi-automated lines of best fit should not be used
-to draw final conclusions about the relationships in your data. You
-will want to do **much more** analytic work to make sure any
-correlations you observe aren't simply spurious and that fitted lines
-are telling you something useful. That said, fitted lines via
-ggplot2 can be useful when first trying to understand your data or
-to more clearly show observed trends.
+- To be clear, these semi-automated lines of best fit should not be used to draw final conclusions about the relationships in your data
+- You will want to do **much more** analytic work to make sure any correlations you observe aren't simply spurious and that fitted lines are telling you something useful
+- That said, fitted lines via `ggplot2` can be useful when first trying to understand your data or to more clearly show observed trends.
 
 ### Line graph
 
@@ -673,26 +558,30 @@ to more clearly show observed trends.
 ## ---------------------------
 ```
 
-When you want to show changes in one variable as a function of another
-variable, _e.g._, changes in test scores over time, then a line graph
-is often a good choice. Since our `hsls_small` data is
-cross-sectional, we'll shift to using our school test score
-data. Remember that the test score data show three sets of test scores
-(math, science, and reading) for four schools over a period of six
-years. This data frame is long in year, but wide in test type. It
-looks like this:
+- When you want to show changes in one variable as a function of another variable
+  - _e.g._, changes in test scores over time
+- A line graph is often a good choice.
+- Since our `hsls_small` data is cross-sectional, we'll shift to using our school test score data `df_ts` from [Data Wrangling II](04-wrangle-ii.qmd)
+
+
+> Quick question: What does cross-sectional mean? What is the opposite of it?
+
+- As a reminder, here's what the data looks like
 
 ```{r}
 ## show test score data
 df_ts
 ```
 
-To keep it simple for our first line plot, we'll filter our plot data
-to keep only scores for one school. Notice how we can do that directly
-with pipes inside the `ggplot()` function. We want to see changes in
-test scores over time, so we'll map `year` to the `x` axis and, for
-now, `math` to the `y` axis. To see a line graph, we add
-`geom_line()`.
+#### Simple Line-Graph
+
+- To keep it simple for our first line plot, we'll filter our plot data to keep only scores for one school
+  - Notice how we can do that directly with pipes inside the `ggplot()` function
+- We want to see changes in test scores over time, so we'll map
+  - `year` to the `x` axis
+  - `math` to the `y` axis
+- To see a line graph, we add `geom_line()`.
+-Also notice: since we are going to build this up in layers over a few steps, we are going to assign it to the object `p`
 
 ```{r, warning = F, message = F}
 ## line graph
@@ -705,6 +594,8 @@ p
 > #### QUICK EXERCISE 
 > Change the school in `filter()` to "East Heights" and then "Bend
 > Gate".
+
+#### Multiple-Line Graphs
 
 Easy enough, but let's say that we want to add a third dimension ---
 to show math scores for each school in the same plot area. To do this,
