@@ -9,6 +9,8 @@ editor_options:
 
 # Lesson
 
+[{{< fa code >}} R Code](/r-scripts/04-wrangle-ii.R)
+
 - So far, we have only worked with single data files: we read in a file, wrangled our data, and, sometimes, outputted a new file.
 - But very often, a key aspect of the data wrangling workflow is to combine more than one data set together. This may include;
   - **appending** new rows to an existing data frame in memory
@@ -347,6 +349,84 @@ df_joined
 > Look at the first 10 rows of `df_joined`. What do you notice about
 > the new summary columns we added?
 
+### Matt's Re-Explanation of Joining (Updated Feb 1 2024)
+
+- Following a productive conversation in my office hours, I wanted to re-explain joining in a way I think is a little clearer than explanation above. Hopefully this helps some of you!
+- All `_join()` functions takes three main "arguments" and they have always the same meaning
+  - `x` data one, a.k.a. the "left" data
+  - `y` data two, a.k.a. the "right" data
+  - `by` the variables to use as a "key"
+
+#### "left" and "right" just mean `x` and `y`
+- The `left` in `left_join()` simply means "start with `x` data and join `y` data into it"
+  - It doesn't have anything to do with being physically on the left
+- If it helps, think of `left_join()` as the `x` join
+
+```{r}
+## We can be overly specific to make the point
+left_join(x = df,
+          y = df_sum,
+          by = "year")
+```
+
+##### Using the `|>` pipe
+- Now, if you remember from [Data Wrangling I](03-wrangle-i.qmd), the `|>` makes R code more intuitive by "piping" one thing into the next
+  - This makes things simpler 99% of the time (no one wants to be writing nested code)
+  - But in this case it takes a second to get your head around
+- By default, the pipe `|>` will always go into the first "argument" of a function, which in this case, is `x`
+  - We can always specify where it should go with an `_` underscore
+
+```{r}
+## Therefore 
+left_join(x = df,
+          y = df_sum,
+          by = "year")
+
+## Is exactly the same as
+df |>
+  left_join(x = _, ## If it helps to visualize, the _ is where the |> will go
+            y = df_sum,
+            by = "year")
+
+## Is exactly the same as
+df |>
+  left_join(df_sum,
+            by = "year")
+```
+
+- You can write joins whichever way you want (piped or not-piped)
+  - Eventually, you will find piped is easier and more-efficient, but focus on whichever way makes more sense to you for now
+
+```{r}
+## Note: if we want to keep the joined data, we should assign it to df_join
+df_join <- df |>
+  left_join(df_sum,
+            by = "year")
+
+```
+
+#### `by`
+
+- Whichever type of `_join` you are doing, the `by` argument is just how `x` and `y` are being matched up
+  - `by` has to be at least one variable that is in both `x` and `y` and identifies the same observation
+    - e.g., `by = "school_id"`
+    - Most often this will be some kind of identifying variable (student ID, school ID, city, state, region, etc.)
+  - If have more than one piece of information to match on, such as school and year, we can specify that with `c()`
+    - e.g., `by = c("school_id", "year")`
+    - This will then find information for each school in each year, and join it in correctly
+- If you don't provide any `by` arguments, `R` will try to be smart and look for columns names that are the same in both data sets
+  - This can lead to incorrect joins though, so always best to specify
+- Lastly, if you need to join by columns that have different names in each data set use `c("name in df_1" = "name in df_2")`
+  - e.g., `by = c("student_id" = "id_number")`
+
+#### `_join` summary
+
+- Joining data is one of the most important tasks in educational research
+  - [IPEDS Complete Data Files](https://nces.ed.gov/ipeds/datacenter/DataFiles) are the perfect example, within each year all the data is stored in separate files that need joining
+    - Remember the same IPEDS files for different years need `bind_rows()` once you add a year identifier
+- It takes a while to get your head around, but if you can do it properly, you are well on the way to mastering data wrangling!
+
+
 ## Reshaping data
 
 - Reshaping data is a common and important data wrangling task.
@@ -500,11 +580,14 @@ df_wide <- df_long |>
 df_wide
 ```
 
+
+<!--
+
 > #### Quick exercise 
 > In this case, our new wide data frame, `df_wide`, should be the same
 > as our initial data frame. Is it? How can you tell?
 
-### Example: wide --> long with corrections
+### Example: wide long with corrections
 
 - Unfortunately, it's not always so clear cut to reshape data.
 - In this second example, we'll again reshape from wide to long, but we'll have to wrangle our data a bit after the reshape to make it analysis ready.
@@ -574,7 +657,7 @@ and `year`)
 df_long_fix <- df_long |>
     ## col: the column to split
     ## into: names of resulting splits
-    ## sep: the split point --> left to "test", right to "year"
+    ## sep: the split point left to "test", right to "year"
     separate(col = "test_year",
              into = c("test", "year"),
              sep = "_")
@@ -589,11 +672,11 @@ df_long_fix
   - Reshape it long
   - Fix so that you end up with four columns
 
+-->
+
 ## Final note
 
-- Just as all data sets are unique, so too are the particular steps you
-may need to take to **append**, **join**, or **reshape** your
-data. 
+- Just as all data sets are unique, so too are the particular steps you may need to take to **append**, **join**, or **reshape** your data. 
   - Even experienced coders rarely get all the steps correct the first try.
   - Be prepared to spend time getting to know your data and figuring out, through trial and error, how to wrangle it so that it
 meets your analytic needs.
@@ -613,13 +696,18 @@ the following questions.
 
 ## Questions
 
-1. In one chained pipe (I don't need to see intermediate steps);
+1. If you want a challenge, do this all in one chained pipe, otherwise save step i output then pipe steps ii-iv;
   i. Compute the average test score by region
   ii. Join back into the full data frame.
   iii. Compute the difference between each student's test score and that of the region.
-  iv. Finally, return the mean of these differences by region.
+  iv. Finally, show the mean of these differences by region
+
+> Hint: if you think about it, this should probably be a very very small number...
+
 2. Compute the average test score by region and family income level and join it back to the full data frame.
-    - Hint: You can join on more than one key.
+
+> Hint: You can join on more than one key using `c()`.
+
 3. 
   i. Select the following variables from the full data set
     

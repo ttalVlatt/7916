@@ -9,6 +9,8 @@ editor_options:
 
 # Lesson
 
+[{{< fa code >}} R Code](/r-scripts/05-viz-i.R)
+
 - One key part of understanding your data and presenting your analyses lies in making plots, which we will cover through this section of the class
 
 - There are multiple graphing systems in R, but we are going to focus on two (primarily one);
@@ -369,15 +371,15 @@ df_hs |> count(x1paredu)
 ```{r}
 ## need to set up data
 plot_df <- df_hs |>
-    ## select the columns we need
-    select(x1paredu, x1txmtscor) |>
-    ## can't plot NA so will drop
-    drop_na() |>
-    ## create new variable that == 1 if parents have any college, then make it a factor
-    mutate(pared_coll = ifelse(x1paredu >= 3, 1, 0),
-           pared_coll = factor(pared_coll)) |>
-    ## drop (using negative sign) the original variable we don't need now
-    select(-x1paredu) 
+  ## select the columns we need
+  select(x1paredu, x1txmtscor) |>
+  ## can't plot NA so will drop
+  drop_na() |>
+  ## create new variable that == 1 if parents have any college, then make it a factor
+  mutate(pared_coll = ifelse(x1paredu >= 3, 1, 0),
+         pared_coll = factor(pared_coll)) |>
+  ## drop (using negative sign) the original variable we don't need now
+  select(-x1paredu) 
 
 ## show
 head(plot_df)
@@ -400,13 +402,13 @@ ggplot(plot_df) +
   - Note: there are more students with no parental college education, so that whole histogram is bigger
     - If we want to compare the shape of distribution more easily, we should use `geom_density()`
 
-```{r eda_plot_histogram_double, warning = F, message = F}
+```{r eda_plot_histogram_double_2, warning = F, message = F}
 ## two way histogram
 ggplot(plot_df) +
   geom_density(aes(x = x1txmtscor,
-                     fill = pared_coll),
-                 alpha = 0.5,
-                 color = "black")
+                   fill = pared_coll),
+               alpha = 0.5,
+               color = "black")
 ```
 
 > #### Quick question
@@ -459,10 +461,10 @@ ggplot(data = df_hs,
 ```{r eda_plot_scatter_1, warning = F, message = F}
 ## sample 10% to make figure clearer
 df_hs_10 <- df_hs |>
-    ## drop observations with missing values for x1stuedexpct
-    drop_na(x1stuedexpct) |>
-    ## sample
-    sample_frac(0.1)
+  ## drop observations with missing values for x1stuedexpct
+  drop_na(x1stuedexpct) |>
+  ## sample
+  sample_frac(0.1)
 
 ## scatter
 ggplot(data = df_hs_10) +
@@ -478,7 +480,7 @@ We can look at the student base year expectations with `count()`:
 ```{r}
 ## see student base year plans
 df_hs |>
-    count(x1stuedexpct)
+  count(x1stuedexpct)
 ```
 
 - We see that `x1stuedexpct >= 6` means a student plans to earn a Bachelor's degree or higher.
@@ -491,12 +493,12 @@ df_hs |>
 ```{r}
 ## create variable for students who plan to graduate from college
 df_hs_10 <- df_hs_10 |>
-    mutate(plan_col_grad = ifelse(x1stuedexpct >= 6 & x1stuedexpct < 11,
-                                  1,        # if T: 1
-                                  0),       # if F: 0
-           plan_col_grad = factor(plan_col_grad,
-                                  levels = c(0, 1),
-                                  labels = c("No", "Yes")))      
+  mutate(plan_col_grad = ifelse(x1stuedexpct >= 6 & x1stuedexpct < 11,
+                                1,        # if T: 1
+                                0),       # if F: 0
+         plan_col_grad = factor(plan_col_grad,
+                                levels = c(0, 1),
+                                labels = c("No", "Yes")))      
 ```
 
 - Now that we have our new variable `plan_col_grad`, we can add it the `color` aesthetic, `aes()` in `geom_point()`.
@@ -531,8 +533,8 @@ ggplot(data = df_hs_10,
 ```{r eda_plot_scatter_3, warning = F, message = F}
 ## add fitted line with linear fit
 ggplot(data = df_hs_10, mapping = aes(x = x1ses, y = x1txmtscor)) +
-    geom_point(mapping = aes(color = factor(plan_col_grad)), alpha = 0.5) +
-    geom_smooth(method = lm, color = "black")
+  geom_point(mapping = aes(color = factor(plan_col_grad)), alpha = 0.5) +
+  geom_smooth(method = lm, color = "black")
 ```
 
 #### Loess
@@ -542,8 +544,8 @@ ggplot(data = df_hs_10, mapping = aes(x = x1ses, y = x1txmtscor)) +
 ```{r eda_plot_scatter_5, warning = F, message = F}
 ## add fitted line with loess
 ggplot(data = df_hs_10, mapping = aes(x = x1ses, y = x1txmtscor)) +
-    geom_point(mapping = aes(color = factor(plan_col_grad)), alpha = 0.5) +
-    geom_smooth(method = loess, color = "black")
+  geom_point(mapping = aes(color = factor(plan_col_grad)), alpha = 0.5) +
+  geom_smooth(method = loess, color = "black")
 ```
 
 - To be clear, these semi-automated lines of best fit should not be used to draw final conclusions about the relationships in your data
@@ -563,10 +565,9 @@ ggplot(data = df_hs_10, mapping = aes(x = x1ses, y = x1txmtscor)) +
 - A line graph is often a good choice.
 - Since our `hsls_small` data is cross-sectional, we'll shift to using our school test score data `df_ts` from [Data Wrangling II](04-wrangle-ii.qmd)
 
-
 > Quick question: What does cross-sectional mean? What is the opposite of it?
 
-- As a reminder, here's what the data looks like
+- As a reminder, here's what the schools data looks like
 
 ```{r}
 ## show test score data
@@ -581,14 +582,12 @@ df_ts
   - `year` to the `x` axis
   - `math` to the `y` axis
 - To see a line graph, we add `geom_line()`.
--Also notice: since we are going to build this up in layers over a few steps, we are going to assign it to the object `p`
 
 ```{r, warning = F, message = F}
 ## line graph
-p <- ggplot(data = df_ts |> filter(school == "Spottsville"),
-            mapping = aes(x = year, y = math)) +
-    geom_line()
-p
+ggplot(data = df_ts |> filter(school == "Spottsville"),
+       mapping = aes(x = year, y = math)) +
+  geom_line()
 ```
 
 > #### QUICK EXERCISE 
@@ -597,13 +596,9 @@ p
 
 #### Multiple-Line Graphs
 
-Easy enough, but let's say that we want to add a third dimension ---
-to show math scores for each school in the same plot area. To do this,
-we can map a third aesthetic to `school`. [Looking at the help file
-for
-`geom_line()`](https://ggplot2.tidyverse.org/reference/geom_path.html#aesthetics),
-we see that lines (a version of a path) can take `colour`, which means
-we can change line color based on a variable. 
+- Easy enough, but let's say that we want to add a third dimension --- to show math scores for each school in the same plot area. 
+-To do this, we can map a third aesthetic to `school`. [Looking at the help file for `geom_line()`](https://ggplot2.tidyverse.org/reference/geom_path.html#aesthetics), we see that lines (a version of a path) can take `colour`, which means we can change line color based on a variable. 
+
 
 The code below is almost exactly the same as before less two things:
 
@@ -612,63 +607,51 @@ The code below is almost exactly the same as before less two things:
 
 ```{r, warning = F, message = F}
 ## line graph for math scores at every school over time
-p <- ggplot(data = df_ts,
-            mapping = aes(x = year, y = math, colour = school)) +
-    geom_line()
-p
+ggplot(data = df_ts,
+       mapping = aes(x = year, y = math, colour = school)) +
+  geom_line()
 ```
 
-This is nice (though maybe a little messy at the moment) because it
-allows us to compare math scores across time across schools. But we
-have two more test types --- reading and science --- that we would
-like to include as well. One approach that will let us add yet another
-dimension is to use facets.
+- This is nice (though maybe a little messy at the moment) because it allows us to compare math scores across time across schools.
+- But we have two more test types --- reading and science --- that we would like to include as well
+- One approach that will let us add yet another dimension is to use facets
 
 ### Facets
 
-With facets, we can put multiple plots together, each showing some
-subset of the data. For example, instead of plotting changes in math
-scores across schools over time on the same plot area (only changing
-the color), we can use `facet_wrap()` to give each school its own
-little plot. You might hear me or other refer to plots like this a
-showing _small multiples_ or as _small multiples_ figures.
+- With facets, we can put multiple plots together, each showing some subset of the data
+- For example, instead of plotting changes in math scores across schools over time on the same plot area (only changing the color), we can use `facet_wrap()` to give each school its own little plot.
 
-Compared to the code just above, notice how we've removed
-`colour = school` from `aes()` and included `facet_wrap(~
-school)`. The tilde (`~`) works like the tilde in `plot(y ~ x)` above:
-it means "plot against or by _X_". In this case, we are plotting math
-test scores over time _by_ each school.
+- Compared to the code just above, notice how we've removed `colour = school` from `aes()` and included `facet_wrap(~school)`
+  - The tilde (`~`) works like the tilde in `plot(y ~ x)` above: it means "plot against or by _X_". In this case, we are plotting math test scores over time _by_ each school.
 
 ```{r, warning = F, message = F}
 ## facet line graph
-p <- ggplot(data = df_ts,
-            mapping = aes(x = year, y = math)) +
-    facet_wrap(~ school) +
-    geom_line()
-p
+ggplot(data = df_ts,
+       mapping = aes(x = year, y = math)) +
+  facet_wrap(~ school) +
+  geom_line()
 ```
 
-Is this faceted plot better than the color line plot before it? To my
-eyes, it's a little clearer, but not so much so that I couldn't be
-convinced to use the first one. Whether you use the first or the
-second would largely depend on your specific data and presentation
-needs.
+- Is this faceted plot better than the color line plot before it?
+  - To my eyes, it's a little clearer, but not so much so that I couldn't be convinced to use the first one
+- Whether you use the first or the second would largely depend on your specific data and presentation needs.
 
-Faceting has a clearer advantage, however, when you want to include
-the fourth level of comparison: (1) scores across (2) time across (3)
-schools from (4) different tests. To make this comparison, we first
-need to reshape our data, which is only long in `year`, to be long in
-`test`, too. As we've already seen in a past lesson, we'll use
-`pivot_longer()` to place each test type in its own column (`test`)
-with the `score` next to it.
+- Faceting has a clearer advantage, however, when you want to include the fourth level of comparison:
+  1. scores across
+  2. time across
+  3. schools
+  4. different tests.
+  
+- To make this comparison, we first need to reshape our data, which is currently long in `year`, to be long in `test`, too.
+  - As we saw in [Data Wrangling II](04-wrangle-ii.qmd), we'll use `pivot_longer()` to place each test type in its own column (`test`) with the `score` next to it.
 
 
 ```{r}
 ## reshape data long
 df_ts_long <- df_ts |>
-    pivot_longer(cols = c("math","read","science"), # cols to pivot long
-                 names_to = "test",                 # where col names go
-                 values_to = "score")               # where col values go
+  pivot_longer(cols = c("math","read","science"), # cols to pivot long
+               names_to = "test",                 # where col names go
+               values_to = "score")               # where col values go
 
 ## show
 df_ts_long
@@ -678,179 +661,66 @@ df_ts_long
 > If we have 4 schools, 6 years, and 3 tests, how many observations
 > should `df_ts_long` have in total? Does it?
 
-With our reshaped data frame, we now reintroduce `colour` into the
-`aes()`, this time set to `test`. We make one other change: `y =
-score` now, since that's the column for test scores in our reshaped
-data. All else is the same.
+- With our reshaped data frame, we now reintroduce `colour` into the `aes()`, this time set to `test`
+- We make one other change: `y = score` now, since that's the column for test scores in our reshaped data
+- All else is the same.
 
 ```{r, warning = F, message = F}
 ## facet line graph, with colour = test and ~school
-p <- ggplot(data = df_ts_long,
-            mapping = aes(x = year, y = score, colour = test)) +
-    facet_wrap(~ school) +
-    geom_line()
-p
+ggplot(data = df_ts_long) +
+  geom_line(mapping = aes(x = year, y = score, colour = test)) +
+  facet_wrap(~school)
 ```
 
-Well, it worked...we can see each school's different test score trends
-over time, with each school in its own facet and test scores set to a
-different color. But the result is a bit underwhelming. Because the
-different test types are such different scales (even though they are
-normed within themselves), within-test changes seem rather flat over
-time.
+- Hmm, currently, each test score is on its own scale, which means this plot isn't super useful
+  - The difference between the types of score is so much greater than the variance within the test scores, we have 3 pretty flat lines
+- But maybe what we really want to know is how they've changed relative to where they started
+  - You can imagine a superintendent who took over in 1980 would be keen to know how scores have changed during their tenure.
 
-Let's try something different: in the next figure, we'll swap the
-variables we give to `colour` and within `facet_wrap()`. This means
-that each test should have its own facet and each line will represent
-a different school.
+- To see this, we need to *standardize* the test scores
+  - Often in statistics, you will mean-standardize a variable
+    - Difference between current score and the mean of the score, divided by the standard deviation of the score
+    
+$$
+\frac{x - \bar{x}}{\sigma(x)}
+$$
+    
+  - In simple terms, this puts all scores on the same scale
 
-```{r, warning = F, message = F}
-## facet line graph, now with colour = school and ~test
-p <- ggplot(data = df_ts_long,
-            mapping = aes(x = year, y = score, colour = school)) +
-    facet_wrap(~ test) +
-    geom_line()
-p
-```
 
-Okay. New problem. While it's maybe a _little_ easier to see same-test
-differences across schools over time, the different scales of the
-tests still make the figure less useful than we might hope. It's not
-that the students are _way_ better at science than reading; it's just
-that the tests are scaled differently. Someone quickly reading this
-figure, however, might make that incorrect interpretation.
-
-One thing we can do is change the y-axis for each facet. The default is
-to keep the y-axis scale the same. By adding `scales = "free_y"` to
-`facet_wrap()`, we'll let each test have its own y-axis scale.
-
-Having different axis scales side-by-side can be confusing, however
-(this is why the default is to keep them the same). To mitigate that
-confusion, we'll also rearrange the facets so they stack rather than
-sit side by side. To do this, we'll add `ncol = 1` to
-`facet_wrap()`. This says our facets have to stick to one column,
-effectively meaning they will stack vertically.
-
-```{r, warning = F, message = F}
-## facet line graph, with one column so they stack
-p <- ggplot(data = df_ts_long,
-            mapping = aes(x = year, y = score, colour = school)) +
-    facet_wrap(~ test, ncol = 1, scales = "free_y") +
-    geom_line()
-p
-```
-
-That looks better! But we can do even better than that...
-
-Currently, each test score is on its own normed scale. While our new
-figure allows us to make comparisons across schools over time _within_
-test, it's more difficult to make a good comparison _between_
-tests. For example, East Heights has a little over 20 point drop in
-reading scores from 1981 to 1982 and about the same drop in science
-scores from 1982 to 1983. How should we think about these drops? Are
-they about the same or is one drop relatively bigger than the other?
-
-To better answer this question, we could re-standardize each test
-score so that it is centered at 0 and a one unit change is equal to 1
-standard deviation difference in score. We'll use `mutate()` to create
-a new variable `score_std`. Because we `group_by()` `test`,
-`score_std` will be standardized within test.
+- To get the graph we want, we are going to do something very similar, but instead of using the mean of the score, we are going to take the score in 1980
+  - Therefore, every subsequent year will show the change since 1980, and since it's standardized, all test scores will be on the same scale
 
 ```{r}
-## rescale test scores
-df_ts_long <- df_ts_long |>
-    group_by(test) |>
-    mutate(score_std = (score - mean(score)) / sd(score)) |>
-    ungroup()
+df_ts_long_std <- df_ts_long |>
+  group_by(test, school) |>
+  arrange(year) |> 
+  mutate(score_year_one = first(score),
+         ## note that we're using score_year_one instead of mean(score)
+         score_std_sch = (score - score_year_one) / sd(score)) |>
+  ungroup()
+
+print(df_ts_long, n = 13)
 ```
 
-We'll repeat the same code as before, but this time substitute `y =
-score_std`. Because all tests are on the same standardized scale, we
-can also drop `scales = "free_y"`.
+Let's walk through that code
+
+1. Start with our `df_ts_long` and assign the output to `df_ts_long_std`
+2. Group the data by both test and school
+  - This is for us to be able to get a starting point for each test at each school
+3. Arrange the data in order of date (it already way, but since we are reliant on that, it's best to check)
+4. Create a new variable which is the `first()` score (since we are grouped by test and school, it will do it for each test/school combo)
+5. Create another new variable `score_std_sch` using the `score_year_one` as zero
+6. Ungroup the data since we are done with the calculation
 
 ```{r, warning = F, message = F}
-## facet line graph with standardized test scores
-p <- ggplot(data = df_ts_long,
-            mapping = aes(x = year, y = score_std, colour = school)) +
-    facet_wrap(~ test, ncol = 1) +
-    geom_line()
-p
+## facet line graph, with colour = test and ~school
+ggplot(data = df_ts_long_std) +
+  geom_line(mapping = aes(x = year, y = score_std_sch, colour = test)) +
+  facet_wrap(~school)
 ```
 
-Notice the lines look the same relative to one another, but now we
-have a consistent scale to help judge changes. To answer our question
-from before, it seems that the drop in reading scores (1981 to 1982)
-and science scores (1982 to 1983) were each about 1.5 standard
-deviations. We could test more formally, but we have a clearer idea
-now that all tests are on the same scale.
-
-> #### QUICK EXERCISE
-> What happens if you use the argument `scales = "free_y"` in the last
-> bit of code? Why might you not use that once we've scaled the test
-> scores?
-
-As a quick change, we can go back to having each school in its own
-facet and test scores within.
-
-```{r, warning = F, message = F}
-## facet line graph
-p <- ggplot(data = df_ts_long,
-            mapping = aes(x = year, y = score_std, colour = test)) +
-    facet_wrap(~ school) +
-    geom_line()
-p
-```
-
-> #### QUICK EXERCISE
-> Why did we drop `ncol = 1` from `facet_wrap()`? What happens if you
-> keep it?
-
-Our plot is looking better, but it still may not contain the
-information we want. We've standardized the test scores over this time
-window, but maybe what we really want to know is how they've _changed
-relative to the beginning of the sample period_. You can imagine a
-superintendent who took over in 1981 would be keen to know how scores
-have changed during their tenure.
-
-This means that while we still want to standardize the scores, we
-should zero them not at the overall mean, but at the value in the first
-year. We can do that by grouping by `school` and `test`, arranging in
-year order, making a new variable that is the `first()` score (within
-test, within school) and using that rather than the mean test score to
-make our new variable, `score_std_sch`.
-
-```{r}
-## standardize test scores within school to first year
-df_ts_long <- df_ts_long |>
-    group_by(test, school) |>
-    arrange(year) |> 
-    mutate(score_year_one = first(score),
-           ## note that we're using score_year_one instead of mean(score)
-           score_std_sch = (score - score_year_one) / sd(score)) |>
-    ungroup()
-```
-
-Now we'll plot using our new variable `score_std_sch`.
-
-```{r, warning = F, message = F}
-## facet line graph
-p <- ggplot(data = df_ts_long,
-            mapping = aes(x = year, y = score_std_sch, colour = test)) +
-    facet_wrap(~ school) +
-    geom_line()
-p
-```
-
-With this final graph, we can see relative changes across schools,
-across times, across tests. Notice that line shapes within each facet
-are the same as before, just shifted up or down so that the first
-value for each test in 1981 is 0. 
-
-Is this the best version of this figure (minus making the axis and
-legend labels look nicer)?  Again, it depends on what you want to
-show. Remember that figures don't speak for themselves: it's up to you
-to explain to your reader (include your future self) what they
-mean. That said, a well crafted figure will make that job much easier.
+And there we have a really informative plot, showing how test scores of all types have changed since 1980 across all four schools. Hopefully this shows that good plots and good data wrangling (and sometimes a little bit of stats) go hand in hand!
 
 ```{r, echo = FALSE, purl = TRUE}
 
@@ -859,40 +729,23 @@ mean. That said, a well crafted figure will make that job much easier.
 ################################################################################
 ```
 
-
 # Assignment
 
-Using the `hsls_small.dta` data set (the Stata version) and the online
-codebook, make plots that help answer each of the following
-questions. You **do not** need to save the final plot. Throughout, you
-**should** account for missing values by dropping them.
+- Using the `hsls_small.dta` data set (the Stata version used in this class) and the online codebook, make plots that help answer each of the following questions.
 
-For each question, show your data work and write 1-2 sentence(s) in a
-comment that describes the relationship your plot shows (_i.e._, how
-it answers the question).
+- Also note, your final project proposals are due this week as well. 
 
 ## Questions
 
-1. What is the distribution of household size among students in the
-   sample?
-2. How does student socioeconomic status differ between students who
-   ever attended college and those who did not?
-3. How do parental educational expectations differ across region?
-4. How does the relationship between socioeconomic status and math
-   test score differ across region (use a smoothing line to help show
-   any relationship)?
-5. Among students who ever attended college, how does socioeconomic
-   status differ between those who delayed postsecondary enrollment
-   and those who did not delay, when delay is defined as:
-   i. more than 6 months between high school graduation and
-     postsecondary enrollment?
-   ii. more than 12 months?
+1. How does student socioeconomic status differ between students who ever attended college and those who did not?
+2. How do educational expectations (of both students and parents) differ by high school completion status?
+  - Hint: you will want some code from last week's assignment here
+3. What is the relationship between student socioeconomic status and math test score?
 
-#### Submission details
+Do not worry about axis labels or other visual elements, that is covered next week.
 
-- Save your script (`<lastname>_assignment_5.R`) in your `scripts`
-  directory.
-- Push changes to your repo (the new script and new folder) to GitHub
-  prior to the next class session.
+Once complete, turn in the .R script (no data etc.) to Canvas by the due date (Sunday 11:59pm following the lesson). Assignments will be graded on the following Monday (time permitting) in line with the grading policy outlined in the syllabus.
+
+
 
 :::
