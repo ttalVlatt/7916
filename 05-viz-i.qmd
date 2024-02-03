@@ -11,6 +11,65 @@ editor_options:
 
 [{{< fa code >}} R Code](/r-scripts/05-viz-i.R)
 
+### Progress Check-In
+
+- In keeping with the theme of today's lesson, I made a little plot that represents roughly the breakdown of "core R content" covered in each lesson (as in, the basic knowledge you need to go off and do your own data work)
+  - Congratulations, after the first two data-wrangling lessons, you're already half-way done!
+  - Over the next three weeks, we will cover how to communicate the results of these basic skills using visualization with `ggplot2` and report generation with `quarto`
+  - Then, we will get into the final series of lessons, each of which gives you a little taste of some more sophisticated and/or niche applications of R
+  -Throughout all this, we will continue to become familiar with the basics of data wrangling, as that really is the key to it all 
+  
+- Any questions or concerns?
+
+
+```{r, echo=F, purl=F}
+
+library(tidyverse)
+
+progress <- tribble(
+  ~week, ~group, ~perc, ~lsn,
+  1, "Setup", 2.5, 1,
+  2, "Setup", 2.5, 2,
+  3, "Data Wrangling", 30, 3,
+  4, "Data Wrangling", 15, 4,
+  5, "Data Visualization", 10, 5,
+  6, "Data Visualization", 5, 6,
+  7, "Quarto", 10, 7,
+  8, "Data Wrangling", 5, 8,
+  9, "Data Wrangling", 5, 9,
+  10, "Programming", 5, 10,
+  11, "Data Visualization", 5, 11,
+  12, "Programming", 5, 12
+)
+
+for(i in progress$week) {
+  
+  to_paste <- progress |>
+    filter(week < i) |>
+    mutate(week = i) |>
+    unique()
+  
+  progress <-  bind_rows(progress, to_paste)
+  
+}
+
+ggplot(progress) +
+  geom_bar(aes(x = factor(week), y = perc, fill = fct_reorder(group, -week),
+               group = -lsn),
+           position = "stack",
+           stat = "identity",
+           color = "black",
+           alpha = 0.5) +
+  scale_fill_viridis_d(option = "inferno") +
+  labs(title = "Core Content Progress",
+       subtitle = "You've made it further than you think!",
+       x = "R Lesson",
+       y = "% of Core R Content",
+       fill = "Topic Group") +
+  theme_minimal()
+
+```
+
 - One key part of understanding your data and presenting your analyses lies in making plots, which we will cover through this section of the class
 
 - There are multiple graphing systems in R, but we are going to focus on two (primarily one);
