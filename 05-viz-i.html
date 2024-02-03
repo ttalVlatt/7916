@@ -353,7 +353,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <ul>
 <li>Congratulations, after the first two data-wrangling lessons, you’re already half-way done!</li>
 <li>Over the next three weeks, we will cover how to communicate the results of these basic skills using visualization with <code>ggplot2</code> and report generation with <code>quarto</code></li>
-<li>Then, we will get into the final series of lessons, each of which gives you a little taste of some more sophisticated and/or niche applications of R -Throughout all this, we will continue to become familiar with the basics of data wrangling, as that really is the key to it all</li>
+<li>Then, we will get into the final series of lessons, each of which gives you a little taste of some more sophisticated and/or niche applications of R</li>
+<li>Throughout all this, we will continue to become familiar with the basics of data wrangling, as that really is the key to it all</li>
 </ul></li>
 <li>Any questions or concerns?</li>
 </ul>
@@ -379,7 +380,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><p>There are multiple graphing systems in R, but we are going to focus on two (primarily one);</p>
 <ul>
 <li><a href="https://stat.ethz.ch/R-manual/R-devel/library/graphics/html/00Index.html">vanilla R plots</a></li>
-<li><a href="http://ggplot2.tidyverse.org">ggplot2</a>.</li>
+<li><a href="http://ggplot2.tidyverse.org">ggplot2</a></li>
 </ul></li>
 </ul>
 <section id="vanilla-r-plots" class="level4">
@@ -528,8 +529,8 @@ dbl (4): year, math, read, science
 </blockquote>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="do">## density plot of math scores</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="do">## read inside out: get density value, then plot values</span></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">density</span>(df_hs<span class="sc">$</span>x1txmtscor, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">density</span>(df_hs<span class="sc">$</span>x1txmtscor, <span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="05-viz-i_files/figure-html/eda_base_density-1.png" class="img-fluid" width="672"></p>
 </div>

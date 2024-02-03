@@ -897,109 +897,137 @@ df_0 |>
 </ul></li>
 </ul></li>
 </ul>
-</section>
-<section id="data-wrangling-i-in-sql" class="level3">
-<h3 data-anchor-id="data-wrangling-i-in-sql">Data Wrangling I in <code>SQL</code></h3>
-<ul>
-<li>In <a href="./03-wrangle-i.html">Data Wrangling I</a> we were given the following task</li>
-</ul>
-<blockquote class="blockquote">
-<p>Using HSLS09 data, figure out average differences in college degree expectations across census regions; for a first pass, ignore missing values and use the higher of student and parental expectations if an observation has both.</p>
-</blockquote>
-<ul>
-<li>Our final piped together code to answer the question looked like this</li>
-</ul>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="fu">file.path</span>(<span class="st">"data"</span>, <span class="st">"hsls-small.csv"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Rows: 23503 Columns: 16
+
+<!--
+
+### Data Wrangling I in `SQL`
+
+
+
+
+
+- In [Data Wrangling I](03-wrangle-i.qmd) we were given the following task
+
+> Using HSLS09 data, figure out average differences in college degree expectations
+> across census regions; for a first pass, ignore missing values and
+> use the higher of student and parental expectations if an
+> observation has both.
+
+- Our final piped together code to answer the question looked like this
+
+
+::: {.cell}
+
+```{.r .cell-code}
+df <- read_csv(file.path("data", "hsls-small.csv"))
+```
+
+::: {.cell-output .cell-output-stderr}
+```
+Rows: 23503 Columns: 16
 ── Column specification ────────────────────────────────────────────────────────
 Delimiter: ","
 dbl (16): stu_id, x1sex, x1race, x1stdob, x1txmtscor, x1paredu, x1hhnumber, ...
 
 ℹ Use `spec()` to retrieve the full column specification for this data.
-ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span></span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="do">## select columns we want</span></span>
-<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(stu_id, x1stuedexpct, x1paredexpct, x1region) <span class="sc">|&gt;</span></span>
-<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>  <span class="do">## If expectation is -8, -9. or 11, make it NA</span></span>
-<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">student_exp =</span> <span class="fu">ifelse</span>(x1stuedexpct <span class="sc">%in%</span> <span class="fu">list</span>(<span class="sc">-</span><span class="dv">8</span>, <span class="sc">-</span><span class="dv">9</span>, <span class="dv">11</span>), <span class="cn">NA</span>, x1stuedexpct),</span>
-<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">parent_exp =</span> <span class="fu">ifelse</span>(x1paredexpct <span class="sc">%in%</span> <span class="fu">list</span>(<span class="sc">-</span><span class="dv">8</span>, <span class="sc">-</span><span class="dv">9</span>, <span class="dv">11</span>), <span class="cn">NA</span>, x1paredexpct)) <span class="sc">|&gt;</span></span>
-<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>  <span class="do">## Make a new variable called high_exp that is the higher or parent and student exp</span></span>
-<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">high_exp =</span> <span class="fu">ifelse</span>(student_exp <span class="sc">&gt;</span> parent_exp, student_exp, parent_exp)) <span class="sc">|&gt;</span></span>
-<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>  <span class="do">## If one exp is NA but the other isn't, keep the value not the NA</span></span>
-<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">high_exp =</span> <span class="fu">ifelse</span>(<span class="fu">is.na</span>(high_exp) <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(student_exp), student_exp, high_exp),</span>
-<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a>         <span class="at">high_exp =</span> <span class="fu">ifelse</span>(<span class="fu">is.na</span>(high_exp) <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(parent_exp), parent_exp, high_exp)) <span class="sc">|&gt;</span></span>
-<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a>  <span class="do">## Drop is high_exp is still NA (neither parent or student answered)</span></span>
-<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(high_exp)) <span class="sc">|&gt;</span></span>
-<span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a>  <span class="do">## Group the results by region</span></span>
-<span id="cb27-15"><a href="#cb27-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(x1region) <span class="sc">|&gt;</span></span>
-<span id="cb27-16"><a href="#cb27-16" aria-hidden="true" tabindex="-1"></a>  <span class="do">## Get the mean of high_exp (by region)</span></span>
-<span id="cb27-17"><a href="#cb27-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">mean_exp =</span> <span class="fu">mean</span>(high_exp))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 4 × 2
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+```
+:::
+
+```{.r .cell-code}
+df |>
+  ## select columns we want
+  select(stu_id, x1stuedexpct, x1paredexpct, x1region) |>
+  ## If expectation is -8, -9. or 11, make it NA
+  mutate(student_exp = ifelse(x1stuedexpct %in% list(-8, -9, 11), NA, x1stuedexpct),
+         parent_exp = ifelse(x1paredexpct %in% list(-8, -9, 11), NA, x1paredexpct)) |>
+  ## Make a new variable called high_exp that is the higher or parent and student exp
+  mutate(high_exp = ifelse(student_exp > parent_exp, student_exp, parent_exp)) |>
+  ## If one exp is NA but the other isn't, keep the value not the NA
+  mutate(high_exp = ifelse(is.na(high_exp) & !is.na(student_exp), student_exp, high_exp),
+         high_exp = ifelse(is.na(high_exp) & !is.na(parent_exp), parent_exp, high_exp)) |>
+  ## Drop is high_exp is still NA (neither parent or student answered)
+  filter(!is.na(high_exp)) |>
+  ## Group the results by region
+  group_by(x1region) |>
+  ## Get the mean of high_exp (by region)
+  summarize(mean_exp = mean(high_exp))
+```
+
+::: {.cell-output .cell-output-stdout}
+```
+# A tibble: 4 × 2
   x1region mean_exp
-     &lt;dbl&gt;    &lt;dbl&gt;
+     <dbl>    <dbl>
 1        1     7.39
 2        2     7.17
 3        3     7.36
-4        4     7.13</code></pre>
-</div>
-</div>
-<ul>
-<li>Now, let’s see what that looks like in <code>SQL</code></li>
-<li>First, we have to simulate an <code>SQL</code> database for <code>dbplyr</code>
-<ul>
-<li>This tells <code>dbplyr</code> exactly how to translate our code</li>
-<li>For today’s class, we will simulate a Microsoft Access database with the <code>simulate_access()</code> command</li>
-</ul></li>
-<li>Second, instead of a normal <code>df</code>, we want R to pretend that <code>df</code> is a table in a database, which we do with the <code>memdb_frame()</code> command
-<ul>
-<li>If you’re curious what this command does, try <code>print(df)</code> and <code>print(db)</code> to see the difference</li>
-</ul></li>
-</ul>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>microsoft_access <span class="ot">&lt;-</span> <span class="fu">simulate_access</span>()</span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>db <span class="ot">&lt;-</span> <span class="fu">memdb_frame</span>(df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<ul>
-<li>Now, let’s use <code>dbplyr</code>’s <code>show_query()</code> function to see what this task would look like in <code>SQL</code>
-<ul>
-<li>It’s a little overwhelming, particularly because it’s nested code (show some appreciation for the <code>|&gt;</code> pipe)
-<ul>
-<li>Honestly, you wouldn’t often do something with this many steps in <code>SQL</code></li>
-</ul></li>
-<li>But, as we walk through it piece by piece, you will see a lot of similarities to the <code>R</code> code we wrote</li>
-</ul></li>
-</ul>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>db <span class="sc">|&gt;</span></span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>  <span class="do">## select columns we want</span></span>
-<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(stu_id, x1stuedexpct, x1paredexpct, x1region) <span class="sc">|&gt;</span></span>
-<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>  <span class="do">## If expectation is -8, -9. or 11, make it NA</span></span>
-<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">student_exp =</span> <span class="fu">ifelse</span>(x1stuedexpct <span class="sc">%in%</span> <span class="fu">list</span>(<span class="sc">-</span><span class="dv">8</span>, <span class="sc">-</span><span class="dv">9</span>, <span class="dv">11</span>), <span class="cn">NA</span>, x1stuedexpct),</span>
-<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">parent_exp =</span> <span class="fu">ifelse</span>(x1paredexpct <span class="sc">%in%</span> <span class="fu">list</span>(<span class="sc">-</span><span class="dv">8</span>, <span class="sc">-</span><span class="dv">9</span>, <span class="dv">11</span>), <span class="cn">NA</span>, x1paredexpct)) <span class="sc">|&gt;</span></span>
-<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>  <span class="do">## Make a new variable called high_exp that is the higher or parent and student exp</span></span>
-<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">high_exp =</span> <span class="fu">ifelse</span>(student_exp <span class="sc">&gt;</span> parent_exp, student_exp, parent_exp)) <span class="sc">|&gt;</span></span>
-<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a>  <span class="do">## If one exp is NA but the other isn't, keep the value not the NA</span></span>
-<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">high_exp =</span> <span class="fu">ifelse</span>(<span class="fu">is.na</span>(high_exp) <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(student_exp), student_exp, high_exp),</span>
-<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a>         <span class="at">high_exp =</span> <span class="fu">ifelse</span>(<span class="fu">is.na</span>(high_exp) <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(parent_exp), parent_exp, high_exp)) <span class="sc">|&gt;</span></span>
-<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a>  <span class="do">## Drop is high_exp is still NA (neither parent or student answereed)</span></span>
-<span id="cb30-13"><a href="#cb30-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(high_exp)) <span class="sc">|&gt;</span></span>
-<span id="cb30-14"><a href="#cb30-14" aria-hidden="true" tabindex="-1"></a>  <span class="do">## Group the results by region</span></span>
-<span id="cb30-15"><a href="#cb30-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(x1region) <span class="sc">|&gt;</span></span>
-<span id="cb30-16"><a href="#cb30-16" aria-hidden="true" tabindex="-1"></a>  <span class="do">## Get the mean of high_exp (by region)</span></span>
-<span id="cb30-17"><a href="#cb30-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">mean_exp =</span> <span class="fu">mean</span>(high_exp)) <span class="sc">|&gt;</span></span>
-<span id="cb30-18"><a href="#cb30-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">show_query</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Missing values are always removed in SQL aggregation functions.
+4        4     7.13
+```
+:::
+:::
+
+
+- Now, let's see what that looks like in `SQL`
+- First, we have to simulate an `SQL` database for `dbplyr`
+  - This tells `dbplyr` exactly how to translate our code
+  - For today's class, we will simulate a Microsoft Access database with the `simulate_access()` command
+- Second, instead of a normal `df`, we want R to pretend that `df` is a table in a database, which we do with the `memdb_frame()` command
+  - If you're curious what this command does, try `print(df)` and `print(db)` to see the difference
+
+
+
+
+::: {.cell}
+
+```{.r .cell-code}
+microsoft_access <- simulate_access()
+
+db <- memdb_frame(df)
+```
+:::
+
+
+- Now, let's use `dbplyr`'s `show_query()` function to see what this task would look like in `SQL`
+  - It's a little overwhelming, particularly because it's nested code (show some appreciation for the `|>` pipe)
+    - Honestly, you wouldn't often do something with this many steps in `SQL`
+  - But, as we walk through it piece by piece, you will see a lot of similarities to the `R` code we wrote
+
+
+::: {.cell}
+
+```{.r .cell-code}
+db |>
+  ## select columns we want
+  select(stu_id, x1stuedexpct, x1paredexpct, x1region) |>
+  ## If expectation is -8, -9. or 11, make it NA
+  mutate(student_exp = ifelse(x1stuedexpct %in% list(-8, -9, 11), NA, x1stuedexpct),
+         parent_exp = ifelse(x1paredexpct %in% list(-8, -9, 11), NA, x1paredexpct)) |>
+  ## Make a new variable called high_exp that is the higher or parent and student exp
+  mutate(high_exp = ifelse(student_exp > parent_exp, student_exp, parent_exp)) |>
+  ## If one exp is NA but the other isn't, keep the value not the NA
+  mutate(high_exp = ifelse(is.na(high_exp) & !is.na(student_exp), student_exp, high_exp),
+         high_exp = ifelse(is.na(high_exp) & !is.na(parent_exp), parent_exp, high_exp)) |>
+  ## Drop is high_exp is still NA (neither parent or student answereed)
+  filter(!is.na(high_exp)) |>
+  ## Group the results by region
+  group_by(x1region) |>
+  ## Get the mean of high_exp (by region)
+  summarize(mean_exp = mean(high_exp)) |>
+  show_query()
+```
+
+::: {.cell-output .cell-output-stderr}
+```
+Warning: Missing values are always removed in SQL aggregation functions.
 Use `na.rm = TRUE` to silence this warning
-This warning is displayed once every 8 hours.</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>&lt;SQL&gt;
+This warning is displayed once every 8 hours.
+```
+:::
+
+::: {.cell-output .cell-output-stdout}
+```
+<SQL>
 SELECT `x1region`, AVG(`high_exp`) AS `mean_exp`
 FROM (
   SELECT `q01`.*
@@ -1024,7 +1052,7 @@ FROM (
       FROM (
         SELECT
           `q01`.*,
-          CASE WHEN (`student_exp` &gt; `parent_exp`) THEN `student_exp` WHEN NOT (`student_exp` &gt; `parent_exp`) THEN `parent_exp` END AS `high_exp`
+          CASE WHEN (`student_exp` > `parent_exp`) THEN `student_exp` WHEN NOT (`student_exp` > `parent_exp`) THEN `parent_exp` END AS `high_exp`
         FROM (
           SELECT
             `stu_id`,
@@ -1040,41 +1068,59 @@ FROM (
   ) AS `q01`
   WHERE (NOT((`high_exp` IS NULL)))
 ) AS `q01`
-GROUP BY `x1region`</code></pre>
-</div>
-</div>
-<section id="step-by-step-breakdown" class="level4">
-<h4 data-anchor-id="step-by-step-breakdown">Step-by-Step Breakdown</h4>
-<ol type="1">
-<li>First, we selected our four variables from <code>dbplyr_001</code> (which is our database <code>db</code>)</li>
-</ol>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>db <span class="sc">|&gt;</span></span>
-<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>  <span class="do">## select columns we want</span></span>
-<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(stu_id, x1stuedexpct, x1paredexpct, x1region) <span class="sc">|&gt;</span></span>
-<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">show_query</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>&lt;SQL&gt;
+GROUP BY `x1region`
+```
+:::
+:::
+
+
+#### Step-by-Step Breakdown
+
+
+
+
+
+1. First, we selected our four variables from `dbplyr_001` (which is our database `db`)
+
+
+::: {.cell}
+
+```{.r .cell-code}
+db |>
+  ## select columns we want
+  select(stu_id, x1stuedexpct, x1paredexpct, x1region) |>
+  show_query()
+```
+
+::: {.cell-output .cell-output-stdout}
+```
+<SQL>
 SELECT `stu_id`, `x1stuedexpct`, `x1paredexpct`, `x1region`
-FROM `dbplyr_001`</code></pre>
-</div>
-</div>
-<ol start="2" type="1">
-<li>Second, we add in <code>CASE WHEN</code> statements, that work in place of our <code>ifelse()</code> statements to replace -8 -9 and 11 with <code>NA</code> (<code>NULL</code> in SQL-speak)</li>
-</ol>
-<ul>
-<li>These actually work just like the <code>case_when()</code> function we covered in the first part of the class</li>
-</ul>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>db <span class="sc">|&gt;</span></span>
-<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>  <span class="do">## select columns we want</span></span>
-<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(stu_id, x1stuedexpct, x1paredexpct, x1region) <span class="sc">|&gt;</span></span>
-<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>  <span class="do">## If expectation is -8, -9. or 11, make it NA</span></span>
-<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">student_exp =</span> <span class="fu">ifelse</span>(x1stuedexpct <span class="sc">%in%</span> <span class="fu">list</span>(<span class="sc">-</span><span class="dv">8</span>, <span class="sc">-</span><span class="dv">9</span>, <span class="dv">11</span>), <span class="cn">NA</span>, x1stuedexpct),</span>
-<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">parent_exp =</span> <span class="fu">ifelse</span>(x1paredexpct <span class="sc">%in%</span> <span class="fu">list</span>(<span class="sc">-</span><span class="dv">8</span>, <span class="sc">-</span><span class="dv">9</span>, <span class="dv">11</span>), <span class="cn">NA</span>, x1paredexpct)) <span class="sc">|&gt;</span></span>
-<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">show_query</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>&lt;SQL&gt;
+FROM `dbplyr_001`
+```
+:::
+:::
+
+
+2. Second, we add in `CASE WHEN` statements, that work in place of our `ifelse()` statements to replace -8 -9 and 11 with `NA` (`NULL` in SQL-speak)
+  - These actually work just like the `case_when()` function we covered in the first part of the class
+
+
+::: {.cell}
+
+```{.r .cell-code}
+db |>
+  ## select columns we want
+  select(stu_id, x1stuedexpct, x1paredexpct, x1region) |>
+  ## If expectation is -8, -9. or 11, make it NA
+  mutate(student_exp = ifelse(x1stuedexpct %in% list(-8, -9, 11), NA, x1stuedexpct),
+         parent_exp = ifelse(x1paredexpct %in% list(-8, -9, 11), NA, x1paredexpct)) |>
+  show_query()
+```
+
+::: {.cell-output .cell-output-stdout}
+```
+<SQL>
 SELECT
   `stu_id`,
   `x1stuedexpct`,
@@ -1082,33 +1128,37 @@ SELECT
   `x1region`,
   CASE WHEN (`x1stuedexpct` IN list(-8.0, -9.0, 11.0)) THEN NULL WHEN NOT (`x1stuedexpct` IN list(-8.0, -9.0, 11.0)) THEN `x1stuedexpct` END AS `student_exp`,
   CASE WHEN (`x1paredexpct` IN list(-8.0, -9.0, 11.0)) THEN NULL WHEN NOT (`x1paredexpct` IN list(-8.0, -9.0, 11.0)) THEN `x1paredexpct` END AS `parent_exp`
-FROM `dbplyr_001`</code></pre>
-</div>
-</div>
-<ol start="3" type="1">
-<li>Okay, all we have done here is add in the line that creates our <code>high_exp</code> variable (see the first full line of code)</li>
-</ol>
-<ul>
-<li>The confusing part is that <code>dbplyr</code> has created <code>q01</code> and <code>SELECT</code>-ed everything <code>.*</code> from it
-<ul>
-<li>This (and any of time you see <code>q01</code>) is just a bit like if we assigned something into a new object midway through processing</li>
-</ul></li>
-</ul>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>db <span class="sc">|&gt;</span></span>
-<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>  <span class="do">## select columns we want</span></span>
-<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(stu_id, x1stuedexpct, x1paredexpct, x1region) <span class="sc">|&gt;</span></span>
-<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>  <span class="do">## If expectation is -8, -9. or 11, make it NA</span></span>
-<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">student_exp =</span> <span class="fu">ifelse</span>(x1stuedexpct <span class="sc">%in%</span> <span class="fu">list</span>(<span class="sc">-</span><span class="dv">8</span>, <span class="sc">-</span><span class="dv">9</span>, <span class="dv">11</span>), <span class="cn">NA</span>, x1stuedexpct),</span>
-<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">parent_exp =</span> <span class="fu">ifelse</span>(x1paredexpct <span class="sc">%in%</span> <span class="fu">list</span>(<span class="sc">-</span><span class="dv">8</span>, <span class="sc">-</span><span class="dv">9</span>, <span class="dv">11</span>), <span class="cn">NA</span>, x1paredexpct)) <span class="sc">|&gt;</span></span>
-<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a>  <span class="do">## Make a new variable called high_exp that is the higher or parent and student exp</span></span>
-<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">high_exp =</span> <span class="fu">ifelse</span>(student_exp <span class="sc">&gt;</span> parent_exp, student_exp, parent_exp)) <span class="sc">|&gt;</span></span>
-<span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">show_query</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>&lt;SQL&gt;
+FROM `dbplyr_001`
+```
+:::
+:::
+
+
+3. Okay, all we have done here is add in the line that creates our `high_exp` variable (see the first full line of code)
+  - The confusing part is that `dbplyr` has created `q01` and `SELECT`-ed everything `.*` from it
+    - This (and any of time you see `q01`) is just a bit like if we assigned something into a new object midway through processing
+
+
+::: {.cell}
+
+```{.r .cell-code}
+db |>
+  ## select columns we want
+  select(stu_id, x1stuedexpct, x1paredexpct, x1region) |>
+  ## If expectation is -8, -9. or 11, make it NA
+  mutate(student_exp = ifelse(x1stuedexpct %in% list(-8, -9, 11), NA, x1stuedexpct),
+         parent_exp = ifelse(x1paredexpct %in% list(-8, -9, 11), NA, x1paredexpct)) |>
+  ## Make a new variable called high_exp that is the higher or parent and student exp
+  mutate(high_exp = ifelse(student_exp > parent_exp, student_exp, parent_exp)) |>
+  show_query()
+```
+
+::: {.cell-output .cell-output-stdout}
+```
+<SQL>
 SELECT
   `q01`.*,
-  CASE WHEN (`student_exp` &gt; `parent_exp`) THEN `student_exp` WHEN NOT (`student_exp` &gt; `parent_exp`) THEN `parent_exp` END AS `high_exp`
+  CASE WHEN (`student_exp` > `parent_exp`) THEN `student_exp` WHEN NOT (`student_exp` > `parent_exp`) THEN `parent_exp` END AS `high_exp`
 FROM (
   SELECT
     `stu_id`,
@@ -1118,31 +1168,37 @@ FROM (
     CASE WHEN (`x1stuedexpct` IN list(-8.0, -9.0, 11.0)) THEN NULL WHEN NOT (`x1stuedexpct` IN list(-8.0, -9.0, 11.0)) THEN `x1stuedexpct` END AS `student_exp`,
     CASE WHEN (`x1paredexpct` IN list(-8.0, -9.0, 11.0)) THEN NULL WHEN NOT (`x1paredexpct` IN list(-8.0, -9.0, 11.0)) THEN `x1paredexpct` END AS `parent_exp`
   FROM `dbplyr_001`
-) AS `q01`</code></pre>
-</div>
-</div>
-<ol start="4" type="1">
-<li>Here’s where things become hard to untangle, mostly because <code>dbplyr</code> keeps assigning the results to <code>q01</code> then <code>SELECT</code>-ing everything back</li>
-</ol>
-<ul>
-<li>If you made it this far, you’ve got the main point of this exercise, so don’t worry if this becomes too confusing</li>
-<li>This step we added the first two longer blocks of code that <code>SELECT</code> our variables again (as the previous step’s output was saved back to <code>q01</code>) then perform a <code>CASE WHEN</code> that’s equivalent to our <code>ifelse()</code> statements that took the non-<code>NA</code> value if from parent/student expectations if the other was <code>NA</code> (<code>NULL</code> in SQL-speak)</li>
-</ul>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>db <span class="sc">|&gt;</span></span>
-<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>  <span class="do">## select columns we want</span></span>
-<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(stu_id, x1stuedexpct, x1paredexpct, x1region) <span class="sc">|&gt;</span></span>
-<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>  <span class="do">## If expectation is -8, -9. or 11, make it NA</span></span>
-<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">student_exp =</span> <span class="fu">ifelse</span>(x1stuedexpct <span class="sc">%in%</span> <span class="fu">list</span>(<span class="sc">-</span><span class="dv">8</span>, <span class="sc">-</span><span class="dv">9</span>, <span class="dv">11</span>), <span class="cn">NA</span>, x1stuedexpct),</span>
-<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">parent_exp =</span> <span class="fu">ifelse</span>(x1paredexpct <span class="sc">%in%</span> <span class="fu">list</span>(<span class="sc">-</span><span class="dv">8</span>, <span class="sc">-</span><span class="dv">9</span>, <span class="dv">11</span>), <span class="cn">NA</span>, x1paredexpct)) <span class="sc">|&gt;</span></span>
-<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a>  <span class="do">## Make a new variable called high_exp that is the higher or parent and student exp</span></span>
-<span id="cb39-8"><a href="#cb39-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">high_exp =</span> <span class="fu">ifelse</span>(student_exp <span class="sc">&gt;</span> parent_exp, student_exp, parent_exp)) <span class="sc">|&gt;</span></span>
-<span id="cb39-9"><a href="#cb39-9" aria-hidden="true" tabindex="-1"></a>  <span class="do">## If one exp is NA but the other isn't, keep the value not the NA</span></span>
-<span id="cb39-10"><a href="#cb39-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">high_exp =</span> <span class="fu">ifelse</span>(<span class="fu">is.na</span>(high_exp) <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(student_exp), student_exp, high_exp),</span>
-<span id="cb39-11"><a href="#cb39-11" aria-hidden="true" tabindex="-1"></a>         <span class="at">high_exp =</span> <span class="fu">ifelse</span>(<span class="fu">is.na</span>(high_exp) <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(parent_exp), parent_exp, high_exp)) <span class="sc">|&gt;</span></span>
-<span id="cb39-12"><a href="#cb39-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">show_query</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>&lt;SQL&gt;
+) AS `q01`
+```
+:::
+:::
+
+
+4. Here's where things become hard to untangle, mostly because `dbplyr` keeps assigning the results to `q01` then `SELECT`-ing everything back
+  - If you made it this far, you've got the main point of this exercise, so don't worry if this becomes too confusing
+  - This step we added the first two longer blocks of code that `SELECT` our variables again (as the previous step's output was saved back to `q01`) then perform a `CASE WHEN` that's equivalent to our `ifelse()` statements that took the non-`NA` value if from parent/student expectations if the other was `NA` (`NULL` in SQL-speak)
+
+
+::: {.cell}
+
+```{.r .cell-code}
+db |>
+  ## select columns we want
+  select(stu_id, x1stuedexpct, x1paredexpct, x1region) |>
+  ## If expectation is -8, -9. or 11, make it NA
+  mutate(student_exp = ifelse(x1stuedexpct %in% list(-8, -9, 11), NA, x1stuedexpct),
+         parent_exp = ifelse(x1paredexpct %in% list(-8, -9, 11), NA, x1paredexpct)) |>
+  ## Make a new variable called high_exp that is the higher or parent and student exp
+  mutate(high_exp = ifelse(student_exp > parent_exp, student_exp, parent_exp)) |>
+  ## If one exp is NA but the other isn't, keep the value not the NA
+  mutate(high_exp = ifelse(is.na(high_exp) & !is.na(student_exp), student_exp, high_exp),
+         high_exp = ifelse(is.na(high_exp) & !is.na(parent_exp), parent_exp, high_exp)) |>
+  show_query()
+```
+
+::: {.cell-output .cell-output-stdout}
+```
+<SQL>
 SELECT
   `stu_id`,
   `x1stuedexpct`,
@@ -1163,7 +1219,7 @@ FROM (
   FROM (
     SELECT
       `q01`.*,
-      CASE WHEN (`student_exp` &gt; `parent_exp`) THEN `student_exp` WHEN NOT (`student_exp` &gt; `parent_exp`) THEN `parent_exp` END AS `high_exp`
+      CASE WHEN (`student_exp` > `parent_exp`) THEN `student_exp` WHEN NOT (`student_exp` > `parent_exp`) THEN `parent_exp` END AS `high_exp`
     FROM (
       SELECT
         `stu_id`,
@@ -1175,43 +1231,44 @@ FROM (
       FROM `dbplyr_001`
     ) AS `q01`
   ) AS `q01`
-) AS `q01`</code></pre>
-</div>
-</div>
-<ol start="5" type="1">
-<li>Here we added 2 lines of substance (<code>FROM (</code> just links to rest of the code)</li>
-</ol>
-<ul>
-<li>First line: <code>SELECT q01.*</code>
-<ul>
-<li>Select everything from q01 (a temporary object saved from the last step)</li>
-</ul></li>
-<li>Last line: <code>WHERE (NOT((`high_exp` IS NULL)))</code>
-<ul>
-<li>Same as <code>filter(!is.na(high_exp))</code></li>
-</ul></li>
-<li>Note: the reason it’s the first and last lines is that everything we have done so far is nested in the middle
-<ul>
-<li>Revisit the introduction to the <code>|&gt;</code> pipe in <a href="./03-wrangle-i.html">Data Wrangling I</a> for refresher on nested code</li>
-</ul></li>
-</ul>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>db <span class="sc">|&gt;</span></span>
-<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>  <span class="do">## select columns we want</span></span>
-<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(stu_id, x1stuedexpct, x1paredexpct, x1region) <span class="sc">|&gt;</span></span>
-<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>  <span class="do">## If expectation is -8, -9. or 11, make it NA</span></span>
-<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">student_exp =</span> <span class="fu">ifelse</span>(x1stuedexpct <span class="sc">%in%</span> <span class="fu">list</span>(<span class="sc">-</span><span class="dv">8</span>, <span class="sc">-</span><span class="dv">9</span>, <span class="dv">11</span>), <span class="cn">NA</span>, x1stuedexpct),</span>
-<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">parent_exp =</span> <span class="fu">ifelse</span>(x1paredexpct <span class="sc">%in%</span> <span class="fu">list</span>(<span class="sc">-</span><span class="dv">8</span>, <span class="sc">-</span><span class="dv">9</span>, <span class="dv">11</span>), <span class="cn">NA</span>, x1paredexpct)) <span class="sc">|&gt;</span></span>
-<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a>  <span class="do">## Make a new variable called high_exp that is the higher or parent and student exp</span></span>
-<span id="cb41-8"><a href="#cb41-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">high_exp =</span> <span class="fu">ifelse</span>(student_exp <span class="sc">&gt;</span> parent_exp, student_exp, parent_exp)) <span class="sc">|&gt;</span></span>
-<span id="cb41-9"><a href="#cb41-9" aria-hidden="true" tabindex="-1"></a>  <span class="do">## If one exp is NA but the other isn't, keep the value not the NA</span></span>
-<span id="cb41-10"><a href="#cb41-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">high_exp =</span> <span class="fu">ifelse</span>(<span class="fu">is.na</span>(high_exp) <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(student_exp), student_exp, high_exp),</span>
-<span id="cb41-11"><a href="#cb41-11" aria-hidden="true" tabindex="-1"></a>         <span class="at">high_exp =</span> <span class="fu">ifelse</span>(<span class="fu">is.na</span>(high_exp) <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(parent_exp), parent_exp, high_exp)) <span class="sc">|&gt;</span></span>
-<span id="cb41-12"><a href="#cb41-12" aria-hidden="true" tabindex="-1"></a>  <span class="do">## Drop is high_exp is still NA (neither parent or student answereed)</span></span>
-<span id="cb41-13"><a href="#cb41-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(high_exp)) <span class="sc">|&gt;</span></span>
-<span id="cb41-14"><a href="#cb41-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">show_query</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>&lt;SQL&gt;
+) AS `q01`
+```
+:::
+:::
+
+
+5. Here we added 2 lines of substance (`FROM (` just links to rest of the code)
+- First line: `SELECT q01.*`
+  - Select everything from q01 (a temporary object saved from the last step)
+- Last line: ``WHERE (NOT((`high_exp` IS NULL)))``
+  - Same as `filter(!is.na(high_exp))`
+- Note: the reason it's the first and last lines is that everything we have done so far is nested in the middle
+  - Revisit the introduction to the `|>` pipe in [Data Wrangling I](03-wrangle-i.qmd) for refresher on nested code
+
+
+
+::: {.cell}
+
+```{.r .cell-code}
+db |>
+  ## select columns we want
+  select(stu_id, x1stuedexpct, x1paredexpct, x1region) |>
+  ## If expectation is -8, -9. or 11, make it NA
+  mutate(student_exp = ifelse(x1stuedexpct %in% list(-8, -9, 11), NA, x1stuedexpct),
+         parent_exp = ifelse(x1paredexpct %in% list(-8, -9, 11), NA, x1paredexpct)) |>
+  ## Make a new variable called high_exp that is the higher or parent and student exp
+  mutate(high_exp = ifelse(student_exp > parent_exp, student_exp, parent_exp)) |>
+  ## If one exp is NA but the other isn't, keep the value not the NA
+  mutate(high_exp = ifelse(is.na(high_exp) & !is.na(student_exp), student_exp, high_exp),
+         high_exp = ifelse(is.na(high_exp) & !is.na(parent_exp), parent_exp, high_exp)) |>
+  ## Drop is high_exp is still NA (neither parent or student answereed)
+  filter(!is.na(high_exp)) |>
+  show_query()
+```
+
+::: {.cell-output .cell-output-stdout}
+```
+<SQL>
 SELECT `q01`.*
 FROM (
   SELECT
@@ -1234,7 +1291,7 @@ FROM (
     FROM (
       SELECT
         `q01`.*,
-        CASE WHEN (`student_exp` &gt; `parent_exp`) THEN `student_exp` WHEN NOT (`student_exp` &gt; `parent_exp`) THEN `parent_exp` END AS `high_exp`
+        CASE WHEN (`student_exp` > `parent_exp`) THEN `student_exp` WHEN NOT (`student_exp` > `parent_exp`) THEN `parent_exp` END AS `high_exp`
       FROM (
         SELECT
           `stu_id`,
@@ -1248,42 +1305,44 @@ FROM (
     ) AS `q01`
   ) AS `q01`
 ) AS `q01`
-WHERE (NOT((`high_exp` IS NULL)))</code></pre>
-</div>
-</div>
-<ol start="6" type="1">
-<li>Finally, we want to get our mean expectation by region, so we add 2 lines of substance again</li>
-</ol>
-<ul>
-<li>Last line: <code>GROUP BY `x1region</code>
-<ul>
-<li>Group the data by region</li>
-</ul></li>
-<li>First line: <code>SELECT `x1region`, AVG(`high_exp`) AS `mean_exp</code>
-<ul>
-<li>Taking <code>x1region</code> as the first column and the <code>AVG</code> (mean) of <code>high_exp</code> as the second column</li>
-</ul></li>
-</ul>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>db <span class="sc">|&gt;</span></span>
-<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>  <span class="do">## select columns we want</span></span>
-<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(stu_id, x1stuedexpct, x1paredexpct, x1region) <span class="sc">|&gt;</span></span>
-<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>  <span class="do">## If expectation is -8, -9. or 11, make it NA</span></span>
-<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">student_exp =</span> <span class="fu">ifelse</span>(x1stuedexpct <span class="sc">%in%</span> <span class="fu">list</span>(<span class="sc">-</span><span class="dv">8</span>, <span class="sc">-</span><span class="dv">9</span>, <span class="dv">11</span>), <span class="cn">NA</span>, x1stuedexpct),</span>
-<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">parent_exp =</span> <span class="fu">ifelse</span>(x1paredexpct <span class="sc">%in%</span> <span class="fu">list</span>(<span class="sc">-</span><span class="dv">8</span>, <span class="sc">-</span><span class="dv">9</span>, <span class="dv">11</span>), <span class="cn">NA</span>, x1paredexpct)) <span class="sc">|&gt;</span></span>
-<span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a>  <span class="do">## Make a new variable called high_exp that is the higher or parent and student exp</span></span>
-<span id="cb43-8"><a href="#cb43-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">high_exp =</span> <span class="fu">ifelse</span>(student_exp <span class="sc">&gt;</span> parent_exp, student_exp, parent_exp)) <span class="sc">|&gt;</span></span>
-<span id="cb43-9"><a href="#cb43-9" aria-hidden="true" tabindex="-1"></a>  <span class="do">## If one exp is NA but the other isn't, keep the value not the NA</span></span>
-<span id="cb43-10"><a href="#cb43-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">high_exp =</span> <span class="fu">ifelse</span>(<span class="fu">is.na</span>(high_exp) <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(student_exp), student_exp, high_exp),</span>
-<span id="cb43-11"><a href="#cb43-11" aria-hidden="true" tabindex="-1"></a>         <span class="at">high_exp =</span> <span class="fu">ifelse</span>(<span class="fu">is.na</span>(high_exp) <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(parent_exp), parent_exp, high_exp)) <span class="sc">|&gt;</span></span>
-<span id="cb43-12"><a href="#cb43-12" aria-hidden="true" tabindex="-1"></a>  <span class="do">## Drop is high_exp is still NA (neither parent or student answered)</span></span>
-<span id="cb43-13"><a href="#cb43-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(high_exp)) <span class="sc">|&gt;</span></span>
-<span id="cb43-14"><a href="#cb43-14" aria-hidden="true" tabindex="-1"></a>  <span class="do">## Group the results by region</span></span>
-<span id="cb43-15"><a href="#cb43-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(x1region) <span class="sc">|&gt;</span></span>
-<span id="cb43-16"><a href="#cb43-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">mean_exp =</span> <span class="fu">mean</span>(high_exp)) <span class="sc">|&gt;</span></span>
-<span id="cb43-17"><a href="#cb43-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">show_query</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>&lt;SQL&gt;
+WHERE (NOT((`high_exp` IS NULL)))
+```
+:::
+:::
+
+
+6. Finally, we want to get our mean expectation by region, so we add 2 lines of substance again
+  - Last line: ``GROUP BY `x1region``
+    - Group the data by region
+  - First line: ``SELECT `x1region`, AVG(`high_exp`) AS `mean_exp``
+    - Taking `x1region` as the first column and the `AVG` (mean) of `high_exp` as the second column
+
+
+::: {.cell}
+
+```{.r .cell-code}
+db |>
+  ## select columns we want
+  select(stu_id, x1stuedexpct, x1paredexpct, x1region) |>
+  ## If expectation is -8, -9. or 11, make it NA
+  mutate(student_exp = ifelse(x1stuedexpct %in% list(-8, -9, 11), NA, x1stuedexpct),
+         parent_exp = ifelse(x1paredexpct %in% list(-8, -9, 11), NA, x1paredexpct)) |>
+  ## Make a new variable called high_exp that is the higher or parent and student exp
+  mutate(high_exp = ifelse(student_exp > parent_exp, student_exp, parent_exp)) |>
+  ## If one exp is NA but the other isn't, keep the value not the NA
+  mutate(high_exp = ifelse(is.na(high_exp) & !is.na(student_exp), student_exp, high_exp),
+         high_exp = ifelse(is.na(high_exp) & !is.na(parent_exp), parent_exp, high_exp)) |>
+  ## Drop is high_exp is still NA (neither parent or student answered)
+  filter(!is.na(high_exp)) |>
+  ## Group the results by region
+  group_by(x1region) |>
+  summarize(mean_exp = mean(high_exp)) |>
+  show_query()
+```
+
+::: {.cell-output .cell-output-stdout}
+```
+<SQL>
 SELECT `x1region`, AVG(`high_exp`) AS `mean_exp`
 FROM (
   SELECT `q01`.*
@@ -1308,7 +1367,7 @@ FROM (
       FROM (
         SELECT
           `q01`.*,
-          CASE WHEN (`student_exp` &gt; `parent_exp`) THEN `student_exp` WHEN NOT (`student_exp` &gt; `parent_exp`) THEN `parent_exp` END AS `high_exp`
+          CASE WHEN (`student_exp` > `parent_exp`) THEN `student_exp` WHEN NOT (`student_exp` > `parent_exp`) THEN `parent_exp` END AS `high_exp`
         FROM (
           SELECT
             `stu_id`,
@@ -1324,26 +1383,35 @@ FROM (
   ) AS `q01`
   WHERE (NOT((`high_exp` IS NULL)))
 ) AS `q01`
-GROUP BY `x1region`</code></pre>
-</div>
-</div>
-<ul>
-<li>There we have it, a walk through our first data wrangling session translated into <code>SQL</code>
-<ul>
-<li>By no means are expected to have any working knowledge of <code>SQL</code> from this</li>
-<li>The point is to demonstrate how similar they are, and get your toes wet if you’re interested in developing <code>SQL</code> skills (as any future institutional researchers should be)</li>
-</ul></li>
-<li>Next, we will explore <code>Data Wrangling II</code> to see how <code>SQL</code> can be used for joining data</li>
-</ul>
-</section>
+GROUP BY `x1region`
+```
+:::
+:::
+
+
+- There we have it, a walk through our first data wrangling session translated into `SQL`
+  - By no means are expected to have any working knowledge of `SQL` from this
+  - The point is to demonstrate how similar they are, and get your toes wet if you're interested in developing `SQL` skills (as any future institutional researchers should be)
+
+- Next, we will explore `Data Wrangling II` to see how `SQL` can be used for joining data
+
+-->
 </section>
 <section id="data-wrangling-ii-in-sql" class="level3">
 <h3 data-anchor-id="data-wrangling-ii-in-sql">Data Wrangling II in <code>SQL</code></h3>
 <ul>
-<li>To get started, we need to read in our data and set it up as a simulated database, just like we did above</li>
+<li>First, we have to simulate an <code>SQL</code> database for <code>dbplyr</code>
+<ul>
+<li>This tells <code>dbplyr</code> exactly how to translate our code</li>
+<li>For today’s class, we will simulate a Microsoft Access database with the <code>simulate_access()</code> command</li>
+</ul></li>
+<li>Second, instead of a normal <code>df</code>, we want R to pretend that <code>df</code> is a table in a database, which we do with the <code>memdb_frame()</code> command
+<ul>
+<li>If you’re curious what this command does, try <code>print(df)</code> and <code>print(db)</code> to see the difference</li>
+</ul></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>df_2 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="fu">file.path</span>(<span class="st">"data"</span>, <span class="st">"sch-test"</span>, <span class="st">"all-schools.csv"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="fu">file.path</span>(<span class="st">"data"</span>, <span class="st">"sch-test"</span>, <span class="st">"all-schools.csv"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Rows: 24 Columns: 5
 ── Column specification ────────────────────────────────────────────────────────
@@ -1354,7 +1422,9 @@ dbl (4): year, math, read, science
 ℹ Use `spec()` to retrieve the full column specification for this data.
 ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>db_2 <span class="ot">&lt;-</span> <span class="fu">memdb_frame</span>(df_2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>microsoft_access <span class="ot">&lt;-</span> <span class="fu">simulate_access</span>()</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>db <span class="ot">&lt;-</span> <span class="fu">memdb_frame</span>(df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <section id="create-summary-table" class="level4">
 <h4 data-anchor-id="create-summary-table">Create Summary Table</h4>
@@ -1362,14 +1432,14 @@ dbl (4): year, math, read, science
 <li>Our first command is pretty simple, we want to group our data by year then calculate the mean test score, which will give us average test scores for each year</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>df_sum <span class="ot">&lt;-</span> db_2 <span class="sc">|&gt;</span></span>
-<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>    <span class="do">## grouping by year so average within each year</span></span>
-<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(year) <span class="sc">|&gt;</span></span>
-<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a>    <span class="do">## get mean(&lt;score&gt;) for each test</span></span>
-<span id="cb48-5"><a href="#cb48-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(<span class="at">math_m =</span> <span class="fu">mean</span>(math),</span>
-<span id="cb48-6"><a href="#cb48-6" aria-hidden="true" tabindex="-1"></a>              <span class="at">read_m =</span> <span class="fu">mean</span>(read),</span>
-<span id="cb48-7"><a href="#cb48-7" aria-hidden="true" tabindex="-1"></a>              <span class="at">science_m =</span> <span class="fu">mean</span>(science)) <span class="sc">|&gt;</span></span>
-<span id="cb48-8"><a href="#cb48-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">show_query</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>df_sum <span class="ot">&lt;-</span> db <span class="sc">|&gt;</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>    <span class="do">## grouping by year so average within each year</span></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(year) <span class="sc">|&gt;</span></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>    <span class="do">## get mean(&lt;score&gt;) for each test</span></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(<span class="at">math_m =</span> <span class="fu">mean</span>(math),</span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>              <span class="at">read_m =</span> <span class="fu">mean</span>(read),</span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>              <span class="at">science_m =</span> <span class="fu">mean</span>(science)) <span class="sc">|&gt;</span></span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">show_query</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>&lt;SQL&gt;
 SELECT
@@ -1396,10 +1466,10 @@ GROUP BY `year`</code></pre>
 <li>Next, we want to join these averages back into the the main data frame</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>df_joined <span class="ot">&lt;-</span> db_2 <span class="sc">|&gt;</span></span>
-<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>    <span class="do">## pipe into left_join to join with df_sum using "year" as key</span></span>
-<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">left_join</span>(df_sum, <span class="at">by =</span> <span class="st">"year"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">show_query</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>df_joined <span class="ot">&lt;-</span> db <span class="sc">|&gt;</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>    <span class="do">## pipe into left_join to join with df_sum using "year" as key</span></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">left_join</span>(df_sum, <span class="at">by =</span> <span class="st">"year"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">show_query</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>&lt;SQL&gt;
 SELECT `dbplyr_002`.*, `math_m`, `read_m`, `science_m`
@@ -1430,14 +1500,14 @@ LEFT JOIN (
 <li>Our next query pivots the data longer, which remember from our original lesson take the math, reading, and science score columns, and turns them into one column for score type and column for score</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>df_long <span class="ot">&lt;-</span> db_2 <span class="sc">|&gt;</span></span>
-<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>    <span class="do">## cols: current test columns</span></span>
-<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a>    <span class="do">## names_to: where "math", "read", and "science" will go</span></span>
-<span id="cb52-4"><a href="#cb52-4" aria-hidden="true" tabindex="-1"></a>    <span class="do">## values_to: where the values in cols will go</span></span>
-<span id="cb52-5"><a href="#cb52-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="fu">c</span>(<span class="st">"math"</span>,<span class="st">"read"</span>,<span class="st">"science"</span>),</span>
-<span id="cb52-6"><a href="#cb52-6" aria-hidden="true" tabindex="-1"></a>                 <span class="at">names_to =</span> <span class="st">"test"</span>,</span>
-<span id="cb52-7"><a href="#cb52-7" aria-hidden="true" tabindex="-1"></a>                 <span class="at">values_to =</span> <span class="st">"score"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb52-8"><a href="#cb52-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">show_query</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>df_long <span class="ot">&lt;-</span> db <span class="sc">|&gt;</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>    <span class="do">## cols: current test columns</span></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>    <span class="do">## names_to: where "math", "read", and "science" will go</span></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>    <span class="do">## values_to: where the values in cols will go</span></span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="fu">c</span>(<span class="st">"math"</span>,<span class="st">"read"</span>,<span class="st">"science"</span>),</span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>                 <span class="at">names_to =</span> <span class="st">"test"</span>,</span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>                 <span class="at">values_to =</span> <span class="st">"score"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">show_query</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>&lt;SQL&gt;
 SELECT `school`, `year`, 'math' AS `test`, `math` AS `score`
@@ -1466,12 +1536,12 @@ FROM `dbplyr_002`</code></pre>
 <li>Next, let’s pivot that data back wide</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>df_wide <span class="ot">&lt;-</span> df_long <span class="sc">|&gt;</span></span>
-<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a>    <span class="do">## names_from: values in this column will become new column names</span></span>
-<span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a>    <span class="do">## values_from: values in this column will become values in new cols</span></span>
-<span id="cb54-4"><a href="#cb54-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> <span class="st">"test"</span>,</span>
-<span id="cb54-5"><a href="#cb54-5" aria-hidden="true" tabindex="-1"></a>                <span class="at">values_from =</span> <span class="st">"score"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb54-6"><a href="#cb54-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">show_query</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>df_wide <span class="ot">&lt;-</span> df_long <span class="sc">|&gt;</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>    <span class="do">## names_from: values in this column will become new column names</span></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>    <span class="do">## values_from: values in this column will become values in new cols</span></span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> <span class="st">"test"</span>,</span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>                <span class="at">values_from =</span> <span class="st">"score"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">show_query</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>&lt;SQL&gt;
 SELECT
@@ -1509,7 +1579,7 @@ GROUP BY `school`, `year`</code></pre>
 <li>Finally, let’s read in our an extra-wide version of our data into <code>df_3</code> and turn it into a simulated database</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>df_3 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="fu">file.path</span>(<span class="st">"data"</span>, <span class="st">"sch-test"</span>, <span class="st">"all-schools-wide.csv"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>df_3 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="fu">file.path</span>(<span class="st">"data"</span>, <span class="st">"sch-test"</span>, <span class="st">"all-schools-wide.csv"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Rows: 4 Columns: 19
 ── Column specification ────────────────────────────────────────────────────────
@@ -1520,9 +1590,9 @@ dbl (18): math_1980, read_1980, science_1980, math_1981, read_1981, science_...
 ℹ Use `spec()` to retrieve the full column specification for this data.
 ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a>db_3 <span class="ot">&lt;-</span> <span class="fu">memdb_frame</span>(df_3)</span>
-<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(db_3)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>db_3 <span class="ot">&lt;-</span> <span class="fu">memdb_frame</span>(df_3)</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(db_3)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># Source:   table&lt;dbplyr_003&gt; [4 x 19]
 # Database: sqlite 3.45.0 [:memory:]
@@ -1543,15 +1613,15 @@ dbl (18): math_1980, read_1980, science_1980, math_1981, read_1981, science_...
 <li>We then take the column names and split (<code>names_sep</code>) them by the <code>_</code> putting the first half into new column <code>test</code> and the second half into new column <code>year</code>, with the values from all cells going into new column <code>score</code></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Note: change from DWII,dbplyr can't translate separate, or any stringr commands, so we have to </span></span>
-<span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a><span class="do">## more sophisticated with our pivot_longer</span></span>
-<span id="cb60-3"><a href="#cb60-3" aria-hidden="true" tabindex="-1"></a>df_long_fix <span class="ot">&lt;-</span> db_3 <span class="sc">|&gt;</span></span>
-<span id="cb60-4"><a href="#cb60-4" aria-hidden="true" tabindex="-1"></a>    <span class="do">## NB: contains() looks for "19" in name: if there, it adds it to cols</span></span>
-<span id="cb60-5"><a href="#cb60-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="fu">contains</span>(<span class="st">"19"</span>),</span>
-<span id="cb60-6"><a href="#cb60-6" aria-hidden="true" tabindex="-1"></a>                 <span class="at">names_to =</span> <span class="fu">c</span>(<span class="st">"test"</span>, <span class="st">"year"</span>),</span>
-<span id="cb60-7"><a href="#cb60-7" aria-hidden="true" tabindex="-1"></a>                 <span class="at">names_sep =</span> <span class="st">"_"</span>,</span>
-<span id="cb60-8"><a href="#cb60-8" aria-hidden="true" tabindex="-1"></a>                 <span class="at">values_to =</span> <span class="st">"score"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb60-9"><a href="#cb60-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">show_query</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Note: change from DWII,dbplyr can't translate separate, or any stringr commands, so we have to </span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="do">## more sophisticated with our pivot_longer</span></span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>df_long_fix <span class="ot">&lt;-</span> db_3 <span class="sc">|&gt;</span></span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>    <span class="do">## NB: contains() looks for "19" in name: if there, it adds it to cols</span></span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="fu">contains</span>(<span class="st">"19"</span>),</span>
+<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a>                 <span class="at">names_to =</span> <span class="fu">c</span>(<span class="st">"test"</span>, <span class="st">"year"</span>),</span>
+<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a>                 <span class="at">names_sep =</span> <span class="st">"_"</span>,</span>
+<span id="cb40-8"><a href="#cb40-8" aria-hidden="true" tabindex="-1"></a>                 <span class="at">values_to =</span> <span class="st">"score"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb40-9"><a href="#cb40-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">show_query</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>&lt;SQL&gt;
 SELECT `school`, 'math' AS `test`, '1980' AS `year`, `math_1980` AS `score`
