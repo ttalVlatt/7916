@@ -1471,88 +1471,68 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 # ℹ 14 more rows</code></pre>
 </div>
 </div>
-<!--
-
-> #### Quick exercise 
-> In this case, our new wide data frame, `df_wide`, should be the same
-> as our initial data frame. Is it? How can you tell?
-
-### Example: wide long with corrections
-
-- Unfortunately, it's not always so clear cut to reshape data.
-- In this second example, we'll again reshape from wide to long, but we'll have to wrangle our data a bit after the reshape to make it analysis ready.
-
-- First, we'll read in a second file `all_schools_wide.csv`.
-  - This file contains the same information as before, but in a _very_ wide format: each school has only one row and each test by year value gets its own column in the form `<test>_<year>`.
-
-
-::: {.cell}
-
-```{.r .cell-code}
-## ---------------------------
-## input
-## ---------------------------
-
-## read in very wide test score data
-df <- read_csv(file.path("data", "sch-test", "all-schools-wide.csv"))
-
-## show
-df
-```
-
-::: {.cell-output .cell-output-stdout}
-```
-# A tibble: 4 × 19
+</section>
+<section id="pivot_wider-with-separation" class="level4">
+<h4 data-anchor-id="pivot_wider-with-separation"><code>pivot_wider()</code> with separation</h4>
+<ul>
+<li>Unfortunately, it’s not always so clear cut to reshape data.</li>
+<li>In this second example, we’ll again reshape from wide to long, but with an extra argument that helps when there’s more than one piece of information in the variable name</li>
+</ul>
+<p>First, we’ll read in a second file <code>all_schools_wide.csv</code> - This file contains the same information as before, but in a <em>very</em> wide format</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="do">## ---------------------------</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="do">## input</span></span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a><span class="do">## ---------------------------</span></span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a><span class="do">## read in very wide test score data</span></span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="fu">file.path</span>(<span class="st">"data"</span>, <span class="st">"sch-test"</span>, <span class="st">"all-schools-wide.csv"</span>))</span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a><span class="do">## show</span></span>
+<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a>df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 4 × 19
   school       math_1980 read_1980 science_1980 math_1981 read_1981 science_1981
-  <chr>            <dbl>     <dbl>        <dbl>     <dbl>     <dbl>        <dbl>
+  &lt;chr&gt;            &lt;dbl&gt;     &lt;dbl&gt;        &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;        &lt;dbl&gt;
 1 Bend Gate          515       281          808       503       312          814
 2 East Heights       501       318          782       487       323          813
 3 Niagara            514       292          787       499       268          762
 4 Spottsville        498       288          813       494       270          765
-# ℹ 12 more variables: math_1982 <dbl>, read_1982 <dbl>, science_1982 <dbl>,
-#   math_1983 <dbl>, read_1983 <dbl>, science_1983 <dbl>, math_1984 <dbl>,
-#   read_1984 <dbl>, science_1984 <dbl>, math_1985 <dbl>, read_1985 <dbl>,
-#   science_1985 <dbl>
-```
-:::
-:::
-
-
-- Second, we can `pivot_longer()` as we did before using the following
-values for our key arguments:
-
-- `data` : `df` (but piped in using `|>`)
-- `cols` : use special [tidyselect helper
-  function](https://www.rdocumentation.org/packages/tidyselect/versions/1.0.0/topics/select_helpers)
-  `contains()` to select all test by year columns
-- `names_to`: `test_year`
-- `values_to`: `score`
-
-
-::: {.cell}
-
-```{.r .cell-code}
-## ---------------------------
-## process
-## ---------------------------
-
-## wide to long
-df_long <- df |>
-    ## NB: contains() looks for "19" in name: if there, it adds it to cols
-    pivot_longer(cols = contains("19"),
-                 names_to = c("test", "year"),
-                 names_sep = "_",
-                 values_to = "score")
-
-## show
-df_long
-```
-
-::: {.cell-output .cell-output-stdout}
-```
-# A tibble: 72 × 4
+# ℹ 12 more variables: math_1982 &lt;dbl&gt;, read_1982 &lt;dbl&gt;, science_1982 &lt;dbl&gt;,
+#   math_1983 &lt;dbl&gt;, read_1983 &lt;dbl&gt;, science_1983 &lt;dbl&gt;, math_1984 &lt;dbl&gt;,
+#   read_1984 &lt;dbl&gt;, science_1984 &lt;dbl&gt;, math_1985 &lt;dbl&gt;, read_1985 &lt;dbl&gt;,
+#   science_1985 &lt;dbl&gt;</code></pre>
+</div>
+</div>
+<p>You see, each school has only one row and each test by year value gets its own column in the form <code>&lt;test&gt;_&lt;year&gt;</code>.</p>
+<ul>
+<li>We will use <code>pivot_longer()</code> just as we did before
+<ul>
+<li>But instead of one column for <code>names_to</code> we use our friend <code>c()</code> to list two columns we want the information from column name to go to</li>
+<li>Then, we add <code>names_sep = "_"</code>, which means separate the information from the names at every underscore
+<ul>
+<li>I.e., this will put everything before the underscore in the first column <code>test</code> and everything after into the second column <code>year</code></li>
+</ul></li>
+</ul></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="do">## ---------------------------</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="do">## process</span></span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a><span class="do">## ---------------------------</span></span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a><span class="do">## wide to long</span></span>
+<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a>df_long <span class="ot">&lt;-</span> df <span class="sc">|&gt;</span></span>
+<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a>    <span class="do">## NB: contains() looks for "19" in name: if there, it adds it to cols</span></span>
+<span id="cb40-8"><a href="#cb40-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="fu">contains</span>(<span class="st">"19"</span>),</span>
+<span id="cb40-9"><a href="#cb40-9" aria-hidden="true" tabindex="-1"></a>                 <span class="at">names_to =</span> <span class="fu">c</span>(<span class="st">"test"</span>, <span class="st">"year"</span>),</span>
+<span id="cb40-10"><a href="#cb40-10" aria-hidden="true" tabindex="-1"></a>                 <span class="at">names_sep =</span> <span class="st">"_"</span>,</span>
+<span id="cb40-11"><a href="#cb40-11" aria-hidden="true" tabindex="-1"></a>                 <span class="at">values_to =</span> <span class="st">"score"</span>)</span>
+<span id="cb40-12"><a href="#cb40-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-13"><a href="#cb40-13" aria-hidden="true" tabindex="-1"></a><span class="do">## show</span></span>
+<span id="cb40-14"><a href="#cb40-14" aria-hidden="true" tabindex="-1"></a>df_long</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 72 × 4
    school    test    year  score
-   <chr>     <chr>   <chr> <dbl>
+   &lt;chr&gt;     &lt;chr&gt;   &lt;chr&gt; &lt;dbl&gt;
  1 Bend Gate math    1980    515
  2 Bend Gate read    1980    281
  3 Bend Gate science 1980    808
@@ -1563,18 +1543,16 @@ df_long
  8 Bend Gate read    1982    316
  9 Bend Gate science 1982    816
 10 Bend Gate math    1983    491
-# ℹ 62 more rows
-```
-:::
-:::
-
-
-> #### Quick exercise 
-> Why did we use "19" as our value in the contains() function?
-> **HINT**: use the `names()` function to return a list of the
-> original data frame (`df`) column names.
-
--->
+# ℹ 62 more rows</code></pre>
+</div>
+</div>
+<blockquote class="blockquote">
+<h4 id="quick-exercises">Quick exercise(s)</h4>
+<ol type="1">
+<li>What do you think we’d need to change if the column name had 3 pieces of information all separated by an underscore?</li>
+<li>What about if the information was separated by a <code>.</code> period?</li>
+</ol>
+</blockquote>
 </section>
 </section>
 </section>
