@@ -1,26 +1,18 @@
-knitr::opts_chunk$set(echo = TRUE)
+## You should have these packages already, we installed them our first lesson
+## but if you're not sure, run this code just in case
+install.packages(c("knitr", "rmarkdown", "quarto"))
 
-summary(cars)
+library(tidyverse)
 
-plot(pressure)
+df <- read_csv(file.path("data", "hsls-small.csv"))
 
-#writeLines(readLines("../scripts/test_scores.Rmd")[2:7])
+ggplot(data = df) +
+  geom_histogram(mapping = aes(x = x1txmtscor))
 
-## this is active R code
-## when compiled: the R code is run, and both code and results are printed
-x <- rnorm(1000)
-x
 
-#writeLines(readLines("../scripts/test_scores.Rmd")[9:48])
 
-#writeLines(readLines("../scripts/test_scores.Rmd")[9])
 
-knitr::opts_chunk$set(echo = TRUE)
 
-#writeLines(readLines("../scripts/test_scores.Rmd")[50:78])
+## source("06-viz-ii.R")
 
-#writeLines(readLines("../scripts/test_scores.Rmd")[69:78])
-
-#writeLines(readLines("../scripts/test_scores.Rmd")[89:126])
-
-#writeLines(readLines("../scripts/test_scores.Rmd")[129:158])
+patch

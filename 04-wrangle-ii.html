@@ -1472,8 +1472,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </section>
-<section id="pivot_wider-with-separation" class="level4">
-<h4 data-anchor-id="pivot_wider-with-separation"><code>pivot_wider()</code> with separation</h4>
+<section id="pivot_-ing-with-separation" class="level4">
+<h4 data-anchor-id="pivot_-ing-with-separation"><code>pivot_()</code>-ing with separation</h4>
 <ul>
 <li>Unfortunately, it’s not always so clear cut to reshape data.</li>
 <li>In this second example, we’ll again reshape from wide to long, but with an extra argument that helps when there’s more than one piece of information in the variable name</li>
@@ -1553,6 +1553,40 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>What about if the information was separated by a <code>.</code> period?</li>
 </ol>
 </blockquote>
+<ul>
+<li>Now, if we want to get our data back in to extra long form, we can use a very similar argument in <code>pivot_wider()</code>
+<ul>
+<li>We just use <code>c()</code> to say get the name information from two columns</li>
+<li><code>names_sep = "_"</code> is identical to before, but this time it’s saying to place and underscore as the separator</li>
+</ul></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="do">## ---------------------------</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a><span class="do">## process</span></span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a><span class="do">## ---------------------------</span></span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a><span class="do">## wide to long</span></span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a>df_wide <span class="ot">&lt;-</span> df_long <span class="sc">|&gt;</span></span>
+<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pivot_wider</span>(<span class="at">values_from =</span> score,</span>
+<span id="cb42-8"><a href="#cb42-8" aria-hidden="true" tabindex="-1"></a>                <span class="at">names_from =</span> <span class="fu">c</span>(test, year),</span>
+<span id="cb42-9"><a href="#cb42-9" aria-hidden="true" tabindex="-1"></a>                <span class="at">names_sep =</span> <span class="st">"_"</span>)</span>
+<span id="cb42-10"><a href="#cb42-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-11"><a href="#cb42-11" aria-hidden="true" tabindex="-1"></a><span class="do">## show</span></span>
+<span id="cb42-12"><a href="#cb42-12" aria-hidden="true" tabindex="-1"></a>df_wide</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 4 × 19
+  school       math_1980 read_1980 science_1980 math_1981 read_1981 science_1981
+  &lt;chr&gt;            &lt;dbl&gt;     &lt;dbl&gt;        &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;        &lt;dbl&gt;
+1 Bend Gate          515       281          808       503       312          814
+2 East Heights       501       318          782       487       323          813
+3 Niagara            514       292          787       499       268          762
+4 Spottsville        498       288          813       494       270          765
+# ℹ 12 more variables: math_1982 &lt;dbl&gt;, read_1982 &lt;dbl&gt;, science_1982 &lt;dbl&gt;,
+#   math_1983 &lt;dbl&gt;, read_1983 &lt;dbl&gt;, science_1983 &lt;dbl&gt;, math_1984 &lt;dbl&gt;,
+#   read_1984 &lt;dbl&gt;, science_1984 &lt;dbl&gt;, math_1985 &lt;dbl&gt;, read_1985 &lt;dbl&gt;,
+#   science_1985 &lt;dbl&gt;</code></pre>
+</div>
+</div>
 </section>
 </section>
 </section>

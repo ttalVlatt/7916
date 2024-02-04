@@ -73,6 +73,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/quarto-contrib/fontawesome6-0.1.0/all.css" rel="stylesheet">
+<link href="site_libs/quarto-contrib/fontawesome6-0.1.0/latex-fontsize.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -341,524 +343,578 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" aria-current="page">Lesson</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">Assignment</a></li></ul>
 <div class="tab-content">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
-<section id="quarto-visual-editor" class="level2">
-<h2 data-anchor-id="quarto-visual-editor">Quarto Visual Editor</h2>
+<p><a href="./site-attachments/quarto-template.qmd"><i class="fa-solid fa-code" aria-label="code"></i> Quarto Template</a></p>
 <ul>
-<li>One of the coolest features of Quarto vs plain RMarkdown is the visual editor
+<li>In this lesson, we are going to cover the basics of creating fully reproducible reports with Quarto</li>
+<li>You may have heard about RMarkdown <code>.Rmd</code> in other classes</li>
+<li>Quarto is the replacement for RMarkdown
 <ul>
-<li>This functions like a very basic MS Word
+<li>It can do anything RMarkdown can do and a whole whole lot more!</li>
+<li>Plus, it’s easier to use!</li>
+<li>Quarto is still somewhat new, version 1.4 just came out you probably all still have 1.3 (it comes with RStudio as it’s made by the same company, Posit)</li>
+</ul></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="do">## You should have these packages already, we installed them our first lesson</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="do">## but if you're not sure, run this code just in case</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="fu">c</span>(<span class="st">"knitr"</span>, <span class="st">"rmarkdown"</span>, <span class="st">"quarto"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Installing packages into '/cloud/lib/x86_64-pc-linux-gnu-library/4.3'
+(as 'lib' is unspecified)</code></pre>
+</div>
+</div>
+<section id="quarto-documentation" class="level2">
+<h2 data-anchor-id="quarto-documentation">Quarto Documentation</h2>
 <ul>
-<li>It is a new feature, so sometimes can be buggy</li>
+<li>Quarto also comes with one of the best sets of documentation I’ve come across on their website, <a href="https://quarto.org">check it out here</a>
+<ul>
+<li>Fun fact, the whole website is a massive Quarto project, which is kind of meta!</li>
+</ul></li>
+<li>Rather than trying to re-explain something they put so clearly, we will look to this site for guidance throughout this lesson</li>
+</ul>
+</section>
+<section id="why-quarto-over-word" class="level2">
+<h2 data-anchor-id="why-quarto-over-word">Why Quarto over Word?</h2>
+<ul>
+<li>Up until now, you’ve likely written most of your assignments using a Microsoft Word or something similar</li>
+<li>There are a few major reasons Quarto has most replaced Word for 90% of my work
+<ol type="1">
+<li>Integration with code/analysis</li>
+</ol>
+<ul>
+<li>This is the main one</li>
+<li>As you’ll see in this lesson, Quarto seamlessly integrates text with code output
+<ul>
+<li>So any tables and plots you create will be integrated into the report
+<ul>
+<li>No more spending hours copying your output from one screen to another and likely typing some of it wrong!</li>
+</ul></li>
+<li>You can even have the text you type update</li>
+</ul></li>
+<li>As a result, if when reviewing your final paper you spot an error right at the start of your analysis, as you often will (I did with my first publication), you just correct it and everything else automatically updates</li>
+</ul>
+<ol start="2" type="1">
+<li>Reproducibility/Transparancy</li>
+</ol>
+<ul>
+<li>As the code and text are integrated, it makes it easier to share and reproduce your results, there’s no way someone could fake a figure/table without it being obvious</li>
+</ul>
+<ol start="3" type="1">
+<li>Zotero integration</li>
+</ol>
+<ul>
+<li>We can’t really demonstrate it this lesson, but the way Quarto’s visual editor integrates with Zotero on your laptop is supurb</li>
+<li>Zotero is an open source reference manager
+<ul>
+<li>If you aren’t using a reference manager, you 110% should be
+<ul>
+<li>Zotero is a fantastic choice, as it’s open-source and free, <a href="https://www.zotero.org">check it out here</a></li>
 </ul></li>
 </ul></li>
-<li>There are still times the source editor works better
+<li>If you have zotero on your computer, to cite anything in your Zotero library, you just type <code>@</code> and you can search and add any article you have saved</li>
+</ul>
+<ol start="4" type="1">
+<li>Version control with git</li>
+</ol>
 <ul>
-<li>I find that for writing extended periods of text, the visual editor is really nice (especially with the Zotero integration covered in the <a href="">Quarto-Zotero extra credit</a>) However, for writing short amounts with code chunks, for hyperlinks, or for bullet point lists, the source editor is easier for me
+<li>As Quarto <code>.qmd</code> files are plain text/code files, they’re very small and work well with git for version control
 <ul>
-<li>As you learn markdown, the visual editor will probably be helpful in all situations, once you’re more comfortable with the syntax, you’ll likely prefer the source editor for some things</li>
+<li>See the <a href="./x-01-set-git.html">git extra credit lesson</a> for more information on git</li>
+</ul></li>
+</ul>
+<ol start="5" type="1">
+<li>One file, variety of formats</li>
+</ol>
+<ul>
+<li>Sometimes, you need to share your work in a variety of formats
+<ul>
+<li>Word and PDF is pretty easy, you can just save as…</li>
+<li>But what if you’re asked to publish your research to a website?</li>
+<li>What if you want to work on <a href="https://www.rc.ufl.edu/get-started/hipergator/">HiPerGator</a> so need your work in as <code>.ipynb</code> Jupyter Notebook?</li>
+</ul></li>
+<li>Quarto enables you to take the same work and switch formats easily and even publish to multiple formats at the same time</li>
+<li>You can also make presentations from as PowerPoint, PDF, or my new favorite, RevealJS
+<ul>
+<li>Again, if you fix a mistake, all your tables and plots will be corrected automatically, a lifesaver 2 hours before you go on stage at ASHE!</li>
 </ul></li>
 </ul></li>
 </ul>
+</section>
+<section id="text-portions-of-a-quarto-report" class="level2">
+<h2 data-anchor-id="text-portions-of-a-quarto-report">Text Portions of a Quarto Report</h2>
+<ul>
+<li>No matter how good your data viz skills are, the majority of most reports are still going to be text</li>
+<li>Text in Quarto reports is written as markdown text (that’s what the <code>md</code> part of <code>.qmd</code> stands for)</li>
+<li><a href="https://en.wikipedia.org/wiki/Markdown">Markdown</a> is a relatively simple plain text way of formatting text</li>
+<li>Quarto provide a great overview of markdown basics on their site <a href="https://quarto.org/docs/authoring/markdown-basics.html">here</a>, let’s take a look</li>
+</ul>
+<iframe width="900" height="600" src="https://quarto.org/docs/authoring/markdown-basics.html"></iframe>
+<section id="quarto-visual-editor" class="level3">
+<h3>Quarto Visual Editor</h3>
+<ul>
+<li>However, Quarto also has a visual editor, which looks like a simplified Microsoft Word, with point and click options for everything
+<ul>
+<li>You can toggle between <code>source</code> and <code>visual</code> modes at the top left of any <code>.qmd</code> file in RStudio</li>
+<li>All the visual editor does is write actual markdown based on what you clicked
+<ul>
+<li>If you want to learn markdown, flipping between the two is a great way to do that</li>
+</ul></li>
+</ul></li>
+<li>In my day to day life - If you start using Quarto on a regular basis, you’ll inevitably become familiar with markdown basics, as it is so much faster!
+<ul>
+<li>If I’m writing extended passages of text, I usually use the visual editor (primarily for the Zotero referencing feature I metioned above)
+<ul>
+<li>If you know markdown syntax (e.g., headings, bold, etc.), you can type it into the visual editor rather than clicking on options</li>
+</ul></li>
+<li>If I’m writing, I generally prefer the source editor</li>
+</ul></li>
+<li>For this class, you should be able to use the visual editor for most of your needs, no need to learn markdown!</li>
+</ul>
+<blockquote class="blockquote">
+<h2 id="quick-excercise" data-anchor-id="quarto-visual-editor">Quick Excercise</h2>
+<ol type="1">
+<li>Inside the Quarto template you downloaded at the top of the lesson write a few sentances descrbing your proposal for your reproducible report</li>
+<li>Add an appropriate header</li>
+<li>Add <strong>bold face</strong> around your dependent variable</li>
+<li>Make your data source name <em>italic</em></li>
+</ol>
+</blockquote>
+</section>
+</section>
+<section id="code-portions-of-a-quarto-document" class="level2">
+<h2 data-anchor-id="code-portions-of-a-quarto-document">Code Portions of a Quarto Document</h2>
+<ul>
+<li>The text is all well and good, but, the real power of Quarto comes from the ability to integrate code into work</li>
+<li>There are two main ways of doing this
+<ul>
+<li>Inline code chunks</li>
+<li>Sourcing <code>.R</code> scripts</li>
+</ul></li>
+</ul>
+<section id="inline-code-chunks" class="level3">
+<h3>Inline Code Chunks</h3>
+<ul>
+<li>For shorter chunks of code such as printing tables and plots, or short calculations, you can create code chunks in the <code>.qmd</code> file
+<ul>
+<li>These are like you cut an <code>.R</code> script up into little pieces and put them in between text</li>
+<li>They still run like one continuous <code>.R</code> script, from top to bottom
+<ul>
+<li>Anything you <code>&lt;-</code> assign in an earlier chunk will be available in later chunks</li>
+</ul></li>
+<li>The results/output of code in a chunk will print where the chunk is in the text in the rendered document</li>
+<li>You can add a code chunk by clicking on the insert code button along the top, or, by keyboard shortcut
+<ul>
+<li>command + option + I on Mac</li>
+<li>ctrl + alt + I on PC
+<ul>
+<li>Once inserted, you can name chunks for <a href="https://quarto.org/docs/authoring/cross-references.html">cross-referencing</a> and <a href="https://quarto.org/docs/computations/execution-options.html">set executation options</a> to change if/how they output results, both of which are beyond the scope of this class</li>
+</ul></li>
+</ul></li>
+</ul></li>
+<li>Let’s start out by reading in data, then making a simple ggplot of math test scores
+<ul>
+<li>Since we want to see the results, we will just call it rather than assigning it to an object</li>
+<li>Note: We need to load packages in our quarto script every time
+<ul>
+<li>Unless they are loaded by a script we source (see below)</li>
+</ul></li>
+</ul></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+✔ dplyr     1.1.4     ✔ readr     2.1.5
+✔ forcats   1.0.0     ✔ stringr   1.5.1
+✔ ggplot2   3.4.4     ✔ tibble    3.2.1
+✔ lubridate 1.9.3     ✔ tidyr     1.3.1
+✔ purrr     1.0.2     
+── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+✖ dplyr::filter() masks stats::filter()
+✖ dplyr::lag()    masks stats::lag()
+ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="fu">file.path</span>(<span class="st">"data"</span>, <span class="st">"hsls-small.csv"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 23503 Columns: 16
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+dbl (16): stu_id, x1sex, x1race, x1stdob, x1txmtscor, x1paredu, x1hhnumber, ...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> df) <span class="sc">+</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> x1txmtscor))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="07-quarto-intro_files/figure-html/basicplot-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<blockquote class="blockquote">
+<h2 id="quick-excercise-1" data-anchor-id="inline-code-chunks">Quick Excercise</h2>
+<ol type="1">
+<li>Add a new code chunk to your Quarto document</li>
+<li>Read in the <code>all-schools.csv</code> from the <code>sch-test</code> folder</li>
+<li>Make a line ggplot for math scores with colored lines for each school</li>
+</ol>
+</blockquote>
+<div class="cell">
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 24 Columns: 5
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr (1): school
+dbl (4): year, math, read, science
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="07-quarto-intro_files/figure-html/mathplot-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<ul>
+<li>Okay, those are printing, but last week we put so much work into creating a pretty plot, do I really have to copy all that code?
+<ul>
+<li>The answer is no!</li>
+</ul></li>
+</ul>
+</section>
 </section>
 <section id="sourcing-scripts" class="level2">
 <h2 data-anchor-id="sourcing-scripts">Sourcing scripts</h2>
-<p>In addition to using R in this course, you will also learn to use <a href="https://daringfireball.net/projects/markdown/">Markdown, a plain text markup language created by John Gruber in 2004</a>. If you’re thinking, no, not <em>another</em> language — rest assured that Markdown is very easy to learn and use. In fact, it’s possible you’ve already used Markdown (or a version of it) if you’ve ever used Slack or a lightweight writing tool like iAWriter.</p>
-<section id="but-why-not-just-use-ms-word" class="level3">
-<h3 data-anchor-id="but-why-not-just-use-ms-word"><em>But why not just use MS Word?</em></h3>
-<p>Most people who do any writing on a computer are familiar with MS Word. Even people who don’t use MS Word likely write with a MS Word-like program. Since we’re all on the same page, why introduce a new way to write — why Markdown?</p>
-<p>The primary reason to bother is that Markdown files are easier to share and better support replicability in a quantitative research workflow. Understanding why this it the case requires first understanding the difference in how each of these writing tools handles a document’s content and formatting.</p>
-</section>
-</section>
-<section id="wysiwyg-vs-wysiwym" class="level2">
-<h2 data-anchor-id="wysiwyg-vs-wysiwym">WYSIWYG vs WYSIWYM</h2>
-<section id="what-you-see-is-what-you-get" class="level3">
-<h3 data-anchor-id="what-you-see-is-what-you-get">“What you see is what you <em>get</em>”</h3>
-<p><em>WYSIWYG</em> (pronounced how you might guess - “whizzy-whig”) stands for <em>what you see is what you get</em>. MS Word and similar programs are WYSIWYG writing tools. Want some text bolded? You highlight the text, click on the bold text button (or hit Control/Command-B) and the text becomes <strong>bold</strong>. Want 1.05” margins to increase the page count (teachers <em>always</em> know, by the way…), then you adjust the margins and watch the text squeeze a little and the page count increase.</p>
-<p>The point is that as you write, you control the <em>content</em> and how it’s <em>formatted</em> at the same time. This is really powerful. You can see your document (literally) taking shape and when you’re done writing, you’re mostly done formatting, too.</p>
-<p>But one problem from a research perspective is that WYSIWYG document preparation programs don’t always share well, meaning that the formatting isn’t always preserved across computers or operating systems. Sometimes equations don’t open correctly; the font you selected doesn’t exist on another computer. While programs may be able to open each other’s files (<em>e.g.</em> OpenOffice can open a <code>.docx</code> file), that’s not always the case. They open different-program files with many errors or even not at all.</p>
-<p>The second problem is they don’t work well with reproducible workflows. Let’s say you’ve done some data analysis and make 10 tables and 10 figures. You’ve carefully placed and formatted in your MS Word report. Perfect! But before giving to your supervisor or submitting to a journal, you get some new data and need to rerun everything…ah! You’ll have to go through the whole transfer and formatting process again, increasing the likelihood of introducing errors.</p>
-</section>
-<section id="what-you-see-is-what-you-mean" class="level3">
-<h3 data-anchor-id="what-you-see-is-what-you-mean">“What you see is what you <em>mean</em>”</h3>
-<p><em>WYSIWIM</em> (“whizzy-whim”), on the other hand, separates formatting from content. Rather than making bold text bold, you instead add a bit of markup — some special syntax — to the text you want to be bold. Only when the document is finally <em>compiled</em> into the final form will the <strong>text be bold</strong>.</p>
-<p>Markdown syntax uses plain text characters to indicate formatting. This lesson was written in Markdown, so to show you an example, here’s the prior paragraph, in plain Markdown syntax:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>_WYSIWIM_ ("whizzy-whim"), on the other hand, separates formatting</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>from content. Rather than making bold text bold, you instead add a bit</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>of markup --- some special syntax --- to the text you want to be</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>bold. Only when the document is finally _compiled_ into the final</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>form will the **text be bold**. </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Markdown solves the two problems noted above. First, it’s written in plain text, which means that it can be opened on any computer running any operating system. Even if the end user doesn’t have a way to compile the raw Markdown syntax into the nice-looking final form, the text is still very legible. In fact, this feature — ability to read uncompiled — was a motivating force behind the development of Markdown:</p>
-<blockquote class="blockquote">
-<p>The idea is that a Markdown-formatted document should be publishable as-is, as plain text, without looking like it’s been marked up with tags or formatting instructions. <a href="https://daringfireball.net/projects/markdown/"><em>(John Gruber, Markdown website)</em></a></p>
-</blockquote>
-<p>Second, because it’s plain text, it integrates well with scripting languages like R. Remember our example from before? If your final report was in Markdown instead of MS Word, you could rerun your analyses with the updated data and then recompile your final report — tables and figures updated automatically!</p>
-<p>In fact, R and Markdown work so well together that you can combine them in a single — appropriately named — RMarkdown document that takes a combined file ending:</p>
-<ol type="1">
-<li>R script: <code>analysis.R</code></li>
-<li>Markdown script: <code>write_up.md</code></li>
-<li>RMarkdown script: <code>report.Rmd</code></li>
-</ol>
-<p>or</p>
-<p><code>analysis.R</code> + <code>write_up.md</code> = <code>report.Rmd</code></p>
-<p>We’ll keep our R and Markdown scripts separate at first, but know that you’ll submit an RMarkdown file for your final project.</p>
-</section>
-</section>
-<section id="markdown-syntax" class="level2">
-<h2 data-anchor-id="markdown-syntax">Markdown syntax</h2>
-<p>Rather than list Markdown syntax here, I’ll direct you to an excellent resource: <a href="https://www.markdownguide.org"><em>The Markdown Guide</em></a>. On this site, you find example of both <a href="https://www.markdownguide.org/basic-syntax/">basic syntax (headers, italics, bold, links)</a> and <a href="https://www.markdownguide.org/extended-syntax/">more advanced syntax (tables and footnotes)</a>.</p>
-<p>Here’s an example from the <a href="https://www.markdownguide.org/basic-syntax/">Markdown Guide basic syntax page for making headers</a>:</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="site-attachments/btskinner-imgs/markdown_guide_example.png" class="img-fluid figure-img"></p>
-<figcaption class="figure-caption">Markdown Guide</figcaption>
-</figure>
-</div>
-<p>On the left you have the Markdown syntax. To make a header, just put a pound sign / hash (<code>#</code>) in front of the line. As you want smaller headers, just keep adding pound signs. The middle column shows you the underlying <a href="https://en.wikipedia.org/wiki/HTML">HTML (web markup language)</a> code. This isn’t that important for us. The last column, however, shows the text as it will render in your final document.</p>
-<p>The site is also nice in that it shows you a few different ways, when they exist, of doing the same thing. Take some time to go through the site — it won’t take long — and keep it in mind as a reference for the future.</p>
-</section>
-<section id="other-references" class="level2">
-<h2 data-anchor-id="other-references">Other references</h2>
 <ul>
-<li><a href="https://plain-text.co">The Plain Person’s Guide to Plain Text Social Science</a>, by Kieran Healy (very short, but the first chapters make a strong case for using plain text when doing quantitative social science)</li>
-</ul>
-<p>In this lesson, we’ll combine many of the pieces we’ve already covered — reading in data, cleaning data, making figures — into a single RMarkdown document. We’ll purposefully keep it simple at first by reusing some code we’ve seen before.</p>
-</section>
-<section id="getting-started" class="level2">
-<h2 data-anchor-id="getting-started">Getting started</h2>
-<p>To properly compile a PDF documents from Markdown, you’ll need some version of <a href="https://www.latex-project.org/get/">LaTeX</a>, a typesetting system best known for being able to nicely render mathematical notation but that is really useful for making reproducible documents. You should have already downloaded this at the start of the course. If you didn’t, visit the <a href="../software/index.html">software page</a> for information on how to get it.</p>
-<p>If you are unable to get LaTeX to install properly or cannot get the document to compile as PDF, you should be able to compile to HTML instead.</p>
-<p>You will also need the R <strong>knitr</strong> and <strong>rmarkdown</strong> libraries. You should have <strong>rmarkdown</strong> already, but if you haven’t already installed either, type</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="fu">c</span>(<span class="st">"knitr"</span>,<span class="st">"rmarkdown"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>into your R console. <strong>NOTE</strong> that even if you’ve already installed rmarkdown, <code>install.packages()</code> will just quickly reinstall it.</p>
-</section>
-<section id="what-is-rmarkdown" class="level2">
-<h2 data-anchor-id="what-is-rmarkdown">What is RMarkdown?</h2>
-<p><a href="https://rmarkdown.rstudio.com/articles_intro.html">From the RStudio website</a>:</p>
-<blockquote class="blockquote">
-<p>R Markdown is a file format for making dynamic documents with R. An R Markdown document is written in markdown (an easy-to-write plain text format) and contains chunks of embedded R code…</p>
-</blockquote>
-<p>In other words, an RMarkdown (hereafter <em>RMD</em>) document has two basic components:</p>
+<li>Technically, you could do everything in code chunks, from data joining and cleaning right through to analysis
 <ul>
-<li>R code (in <strong>code chunks</strong>)</li>
-<li>Markdown text (most everything else outside of the code chunks)</li>
+<li>But, this will get really long, and make it harder to skip around and navigate the text of your document while you’re editing</li>
+</ul></li>
+<li>A better solution is to <code>source()</code> plain <code>R</code> scripts that have already been written</li>
+<li>When you do this, any objects created in those scripts will then be in the environment and able to be added seamlessly to your Quarto document</li>
+<li>To demonstrate, let’s <code>source()</code> our R script from last week’s lesson
+<ul>
+<li>There are two things that need to be right for this to work
+<ul>
+<li>The script has to be able to be run top to bottom with no errors
+<ul>
+<li>Anything that creates an error needs to be <code>##</code> commented out</li>
+</ul></li>
+<li>You need to know where the file is
+<ul>
+<li>In our case, because we used a slightly messy kitchen approach (see our <a href="./02-set-data.html">setup lesson on reading data</a> for a reminder) all our scripts should be in the top level of your project folder, so you should be able to source them by name
+<ul>
+<li>If they’re somewhere else, you can use <code>file.path()</code> like we use for data etc.</li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul></li>
 </ul>
-<p>RMD documents use the file ending, <code>*.Rmd</code>, which makes sense as they combine <code>R</code> code with <code>md</code> text. To <em>compile</em> an RMD file, meaning to</p>
-<ol type="1">
-<li>convert the plain Markdown text into formatted text</li>
-<li>run R code, producing all output along the way</li>
-<li>combine the Markdown text plus R output into a finished document</li>
-</ol>
-<p>You will use the <strong>rmarkdown</strong> <code>render()</code> function, which in turn uses the <strong>knitr</strong> <code>knit()</code> function under the hood. <a href="https://stackoverflow.com/a/40563480">It can be a bit confusing how all the pieces work together</a>, but luckily, you can use RStudio’s point-and-click interface to knit your documents.</p>
-</section>
-<section id="starting-a-new-document" class="level2">
-<h2 data-anchor-id="starting-a-new-document">Starting a new document</h2>
-<p>When you open a blank RMarkdown document, RStudio will by default fill it with some example text that looks like this. You can change this in RStudio’s settings, but I think it’s helpful to see the skeleton of an RMarkdown document (plus, it’s not a big deal to just erase the parts you don’t need).</p>
-<section id="example-text-in-new-file-started-via-rstudio-default" class="level4">
-<h4 data-anchor-id="example-text-in-new-file-started-via-rstudio-default">Example text in new file started via RStudio (default)</h4>
-<pre><code>---
-title: "Document Title"
-author: "Benjamin Skinner"
-date: "1/30/21"
-output: pdf_document
----</code></pre>
-</section>
-<section id="r-markdown" class="level3">
-<h3 data-anchor-id="r-markdown">R Markdown</h3>
-<p>This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <a href="http://rmarkdown.rstudio.com" class="uri">http://rmarkdown.rstudio.com</a>.</p>
-<p>When you click the <strong>Knit</strong> button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(cars)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>     speed           dist       
- Min.   : 4.0   Min.   :  2.00  
- 1st Qu.:12.0   1st Qu.: 26.00  
- Median :15.0   Median : 36.00  
- Mean   :15.4   Mean   : 42.98  
- 3rd Qu.:19.0   3rd Qu.: 56.00  
- Max.   :25.0   Max.   :120.00  </code></pre>
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 23503 Columns: 16
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+dbl (16): stu_id, x1sex, x1race, x1stdob, x1txmtscor, x1paredu, x1hhnumber, ...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Scale for y is already present.
+Adding another scale for y, which will replace the existing scale.
+Scale for fill is already present.
+Adding another scale for fill, which will replace the existing scale.</code></pre>
 </div>
 </div>
-</section>
-</section>
-<section id="including-plots" class="level2">
-<h2 data-anchor-id="including-plots">Including Plots</h2>
-<p>You can also embed plots, for example:</p>
 <div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"06-viz-ii.R"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li>Now, with that script sourced, we can call objects we created in that script, and they will appear in our Quarto document
+<ul>
+<li>For example, if we <code>source()</code> a script that joins and cleans data and leaves it assigned to an object <code>df_clean</code>, we can then call <code>df_clean</code> in a code chunk and it will be waiting</li>
+<li>Remember right at the end of last week we saved our final plot to <code>patch</code> and I said why was a surprise, this is why!
+<ul>
+<li>We simply call <code>patch</code> and our fancy patchwork will print out beneath the chunk
+<ul>
+<li>Note, since we loaded the <code>patchwork</code> library in the script we sourced, we don’t need to load it here</li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>patch</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+</div>
 <div class="cell-output-display">
-<p><img src="07-quarto-intro_files/figure-html/pressure-1.png" class="img-fluid" width="672"></p>
+<p><img src="07-quarto-intro_files/figure-html/patch-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>Note that the <code>echo = FALSE</code> parameter was added to the code chunk to prevent printing of the R code that generated the plot.</p>
-<p>Rather than going through this example text to learn about RMarkdown, we’ll use our own example document, <code>test_scores.Rmd</code>, which is linked above.</p>
-</section>
-<section id="compile-an-rmarkdown-document" class="level2">
-<h2 data-anchor-id="compile-an-rmarkdown-document">Compile an RMarkdown document</h2>
-<p>We’ll go through the main sections our example RMD document below. So you can follow along better, you should compile <code>test_scores.Rmd</code> as your first step.</p>
-<p>Once you’ve downloaded the file and data (if you don’t have it already), place the RMD file in the <code>scripts</code> directory and the unzipped data in the <code>data</code> directory.</p>
-<p>When you open <code>test_scores.Rmd</code> in RStudio, you should see a button in the upper left facet that says <strong>Knit</strong> with a ball of string icon.</p>
-<p><img src="site-attachments/btskinner-imgs/rstudio_rmarkdown.png" class="img-fluid"></p>
-<p>If you have the working directory correctly set to <code>scripts</code> and have placed the <code>sch_test/</code> data folder inside <code>data</code>, you should be able to click <strong>Knit</strong> and have the document compile into a PDF. By default, RStudio will open a PDF viewer window or show you the file in the lower right facet in the <strong>Viewer</strong> tab.</p>
-<p><strong>NOTE</strong> that if you’ve had trouble with LaTeX, you should be able to compile into an HTML file, which you can open in your browser.</p>
-</section>
-<section id="sections-of-our-document" class="level2">
-<h2 data-anchor-id="sections-of-our-document">Sections of our document</h2>
-</section>
-<section id="yaml-header" class="level2">
-<h2 data-anchor-id="yaml-header">YAML header</h2>
-<p>YAML, which stands for <a href="https://yaml.org">“YAML Ain’t a Markup Language”</a>, is a common way to configure dynamic documents like RMD documents. It’s the first thing you see at the top of an RMarkdown file. The YAML header is this piece of code:</p>
-<p>Notice the opening and closing three hyphens (<code>---</code>). This is how R knows that this section of code is special. The YAML can become complex, as you add document options, but for now we keep it simple:</p>
 <ul>
-<li><strong>title</strong>: the document title (printed)</li>
-<li><strong>author</strong>: the document author (printed)</li>
-<li><strong>date</strong>: manually set date (printed)
-<ul>
-<li>leave <strong>date</strong> out of YAML and the date on which the document is compiled will be added automatically, or you can use the LaTeX macro <code>\today</code>, which will also print today’s date</li>
-<li>set <strong>date</strong> to <code>""</code> (empty string) for no printed date</li>
-</ul></li>
-<li><strong>output</strong>: document output
-<ul>
-<li><code>pdf_output</code>: for PDF (uses LaTeX)</li>
-<li><code>html_output</code>: for web page output (open in browser)</li>
-<li><code>word_output</code>: for MSWord output (uses MSWord)</li>
-</ul></li>
+<li>This logic is really useful to keep long streams of code out of your Quarto document</li>
+<li>You also probably have lot’s of code already written in an <code>.R</code> script, and this is much easier than copy and pasting it all</li>
 </ul>
-<p>We’re using <code>pdf_output</code> but you can either change this setting or override it when compiling the final document.</p>
-<p><strong>NOTE</strong> that the colon (<code>:</code>) is a special character in YAML. Notice that I don’t necessarily have to use quotation marks for strings with spaces — I do for the title, but not for my name. That said, if your title includes a colon, you need to wrap the entire title string in double quotation marks (<code>"</code>) — otherwise the document won’t compile.</p>
-</section>
-<section id="code-chunks" class="level2">
-<h2 data-anchor-id="code-chunks">Code chunks</h2>
-<p>In general, an RMD code chunk looks like a markdown code chunk. The key difference between the two is that while a plain markdown code chunk is purely about formatting, the RMD code chunk will by default try to run the code and print any output:</p>
-<section id="markdown-code-chunk" class="level4">
-<h4 data-anchor-id="markdown-code-chunk">Markdown code chunk</h4>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="do">## this is just a representation </span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="do">## when compiled: nothing happens, only code is printed</span></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">1000</span>)</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>x</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</section>
-<section id="rmarkdown-code-chunk" class="level4">
-<h4 data-anchor-id="rmarkdown-code-chunk">RMarkdown code chunk</h4>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="do">## this is active R code</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="do">## when compiled: the R code is run, and both code and results are printed</span></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">1000</span>)</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>x</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>   [1] -0.124670395  0.479326517  1.769423259  0.449828374  1.601967773
-   [6] -0.356655896 -0.120989040  0.863733131  0.186926610 -0.088811280
-  [11]  0.290006557  0.479657797 -0.504136987 -0.931376136 -0.201683259
-  [16] -1.476199804  0.083274506 -0.110899890  0.355975251 -0.322164506
-  [21] -0.579776007 -0.796563124  3.075366158  0.831625409  0.463357673
-  [26] -0.092301113 -1.321854999  0.892660592 -0.247499440  2.161851862
-  [31] -2.153795126  1.383410273 -1.392005560 -0.068707301 -0.408007797
-  [36] -0.217406772  0.405966388 -0.456628065  0.420479416 -1.434699430
-  [41] -0.690655469 -0.872946624  1.086114746  0.133866474 -0.808348262
-  [46] -0.350102811 -0.638461946  0.858659595 -1.948186900  0.037766228
-  [51] -0.362608543  1.037848899 -0.762518853  0.781390869  1.789496720
-  [56]  0.121369972  0.578078605  0.264843898 -0.141534406  1.153068671
-  [61] -0.447735303  0.125908916  0.693877837  0.473807936 -1.168873452
-  [66] -0.312156387 -1.211226417 -1.506517687  2.005640405 -1.605304051
-  [71] -1.496551971  0.330055158 -0.168446514 -0.463129792  0.582755243
-  [76] -0.899540928 -0.662613364 -0.017146350 -0.381917252 -1.258699247
-  [81] -1.380355981 -0.596516345  0.783773453 -0.383939543  0.380867530
-  [86]  0.833582143 -1.339764638  0.516110245 -1.300013406 -2.096485871
-  [91] -0.714264442 -0.887229839  0.416201237 -1.807045018  0.926636257
-  [96]  0.472264224 -0.869926145 -1.226076653 -0.087549620 -0.779508446
- [101] -0.277765026 -0.558417374 -0.056767849 -0.351806997 -1.584483524
- [106] -0.042223853 -1.031814232 -0.583441239 -1.973497426 -1.401146155
- [111]  2.352671407 -0.576993593 -2.695858497  0.735715342 -0.213079934
- [116] -0.070463664 -1.164874059  0.359520651  2.322681274  0.754228576
- [121]  0.334427869  0.308054625 -0.476728416  0.963173231  0.264983735
- [126]  2.528622787 -1.149624733  0.267572634  1.390335026  1.558163230
- [131]  0.296160200  1.284667904 -0.505004684  0.026906399 -0.255307467
- [136]  1.469010145 -0.251244663 -1.426323092 -1.117189772 -0.082180035
- [141]  2.208617207 -0.416815588 -0.853733627  0.019838825 -1.123508001
- [146]  0.782839059  1.933374723 -1.248324366 -1.884492808  1.386499089
- [151] -0.068041479  1.728356222 -2.011685725  0.695688564 -0.451344922
- [156] -0.077995545  1.166250359  1.134153524  0.255615157  0.018697995
- [161] -1.842453857 -0.806227063  1.719575431 -0.562477238 -0.385088936
- [166] -1.455644976 -2.177954240 -1.781761298 -0.172688336 -1.302309622
- [171]  1.204321854 -1.334337605 -0.869909107  1.576999014  1.257073928
- [176]  0.576338061  1.570521536 -0.993110347 -1.166625955 -1.307015481
- [181]  0.774828507 -1.089893416 -0.526833862  0.469678536 -2.817032130
- [186]  0.163657642 -0.442148258 -0.907347530  0.113128201 -1.666520705
- [191]  0.469282749 -0.340468884  0.483955998 -0.066305431  0.269914271
- [196] -0.769482977 -0.122103211 -0.053365865  0.273069250  0.303644098
- [201]  0.418003713 -0.171208400  1.049872642  1.079684092  0.208015660
- [206]  1.184911421  0.517603753 -1.529703112  1.017606017  0.067023320
- [211] -1.417606704  0.517236606  1.005752910 -0.111946069  0.468534233
- [216]  0.931711295 -2.210892340 -1.481072743  0.545955944 -1.059795474
- [221] -2.076918556  0.570591142 -0.083312688  0.168418502  0.508610782
- [226]  0.988077527 -0.462135160  0.582992419 -0.491896843  0.239084842
- [231] -0.421210217  0.895636829  0.857084225 -0.778717354 -0.079024507
- [236] -2.329506646 -2.461929832  0.784413080 -1.406841092  2.421220670
- [241]  0.027668782  1.047652535  0.995944662 -1.407944911 -0.441510472
- [246]  0.901776090 -0.989801962 -1.724362493  0.368604019 -0.404210851
- [251]  0.162798243  0.021067964 -0.162239408 -1.395648554  0.148557193
- [256]  1.616320422  0.711593110  0.296782440 -0.910497448  1.048946348
- [261] -0.309736016 -0.066218735 -0.213020840 -0.994089989  0.159874293
- [266] -0.023721006  0.630225182  1.819652074 -0.467564326  0.577172334
- [271] -0.977887220  0.739865519 -0.546777581 -0.594770169  0.536727834
- [276] -0.596497043  1.263826477 -0.722659285 -0.931103582 -1.228033439
- [281] -0.898815503  1.285408889 -0.094126300 -0.378710585  0.149856885
- [286]  1.765069780 -0.750916488 -0.336735759 -1.246587834  0.103942557
- [291] -0.248350414  1.739283109 -0.946436984 -1.948396165 -0.787784413
- [296] -0.544201600  0.712093715 -1.306757808 -0.603268283 -1.313084606
- [301]  0.733280943 -1.280125487  0.153407619  0.100440769 -1.082863657
- [306]  1.952351802  0.189920298 -1.222154475 -0.596770459  0.022097252
- [311]  0.507235215  0.821894923  0.777356499 -0.200937493  1.020796512
- [316]  1.267793084 -0.389519645  2.136991972 -0.477781200 -0.905455850
- [321] -0.582122445 -0.241825385  0.299289181  1.141535653  0.199286462
- [326] -2.117989029 -0.702462134  0.083979129 -0.178295685 -0.641380086
- [331] -0.532219820  1.277658703 -0.158629577  1.764831708  0.826743326
- [336] -2.088288231 -1.060072201  1.141476698  0.496296620  0.115534508
- [341]  0.792071326  0.190416416 -0.850478124  0.395836193 -1.012873163
- [346] -0.545671218  0.282229379 -1.471545326  0.260877481  1.560654746
- [351] -1.472686015  1.719677628 -0.558880744  0.248764037  1.250447535
- [356]  0.130457357  0.285977243 -1.217445702  1.492273440 -0.488298767
- [361] -0.460336371  0.532780451 -0.657332151  0.312514724 -0.531081108
- [366] -0.890092872  1.186378464  0.074341151  1.529571022 -0.198375200
- [371]  1.458657743 -0.494267111  0.536404987 -1.579199320 -0.188106662
- [376] -0.288657729  0.470746310 -2.204346611 -0.813462342 -1.989974465
- [381]  0.156245348 -0.506196875  1.780106277 -0.071147458  0.757465117
- [386] -0.080941437 -0.528668871 -0.697493439 -0.036287325  0.197195981
- [391] -1.186240462 -1.078866060  0.221243190  0.702538832  0.796943998
- [396] -1.440955585 -0.153815611  0.297602687 -0.670420897  0.225098787
- [401]  0.732385563 -0.556312951  0.680220457 -1.438246891  0.031557829
- [406]  0.502901397 -0.182873533  0.782726738 -0.244704211  0.187637635
- [411] -0.528215039  1.074143021 -1.225537161 -0.799806101 -0.412110432
- [416] -2.823254818 -0.808026200  0.025487195 -0.761051165  0.309579362
- [421]  2.074958011 -0.027716202  0.167816866 -0.279555917 -0.050904232
- [426]  0.374085012  0.203025482 -0.861350012 -0.300294784 -0.740640802
- [431]  0.678889153  1.897594391 -0.513942521  0.279717066 -1.101930820
- [436]  0.821034702 -1.185705195  0.111111195 -1.067030237 -1.151357881
- [441]  1.263963771 -0.802719326  0.768386010 -1.023912379  2.131138203
- [446]  0.323449063  0.420460240  0.753247099  0.585815271  0.002145663
- [451]  1.796807401 -0.383044539  2.126494168  1.174525160 -0.221989757
- [456] -0.301050874 -1.255596054  1.266533802 -0.393034203 -0.395075485
- [461]  2.337933130  0.266350583 -1.067228339 -1.945024939 -0.816657540
- [466] -0.205269267 -0.499022097  0.427072559  0.720175340  1.358949676
- [471]  0.344845892  0.513869908  1.945270990 -0.219799029  1.097612959
- [476]  0.285120249 -0.180027416  0.531127329 -0.602928874  0.694813098
- [481]  0.552279312  0.238037007  0.038090499 -1.331758221 -1.004649970
- [486] -1.343423937 -0.194245416 -0.320239687  0.270767038 -0.314473190
- [491] -1.708744932  1.249087939 -0.950925095 -0.342127770 -1.340303786
- [496]  0.337970611  1.378816030  1.529563901  0.836155032  0.685974719
- [501] -2.034298498  1.349786166 -2.308951382  0.686152643 -0.327366150
- [506]  0.038575315 -1.443363266 -1.019292452 -0.072182677  0.270335742
- [511]  0.693812159 -1.947191271 -0.048322366  0.273359785  0.020954189
- [516]  0.411018509  1.325963139  2.532606646 -1.528332394 -1.131474551
- [521] -1.479297079 -1.693663513 -2.224567273 -0.716085226  0.651041640
- [526]  0.852844810  0.495750017 -0.491903970 -0.128637098 -1.437298876
- [531]  0.855170157 -1.062047440  0.116703740  0.629381618 -0.349488631
- [536]  0.285418684 -1.054894049  0.216386273  0.244310781  1.073810946
- [541]  1.094023346  0.198605908  0.548714804  0.635280799  0.887950763
- [546] -0.427465806 -0.405506793  1.674543385 -0.235219257  0.375825560
- [551]  0.127571117 -0.305338038  0.669516932 -0.324534336  0.867310902
- [556] -1.503054236 -0.605163132  1.123301528  0.718068929 -0.883977525
- [561]  0.850096921  0.013928365  0.222491948 -0.712613310 -0.458466866
- [566]  0.635653284  0.908898825 -1.701922767  0.273725366 -0.706994331
- [571]  0.138589884 -1.598761349 -0.893870414 -0.253793961  0.186478367
- [576]  0.853161079  0.388829705  1.129319654  0.540024132 -0.815459357
- [581] -0.232082513 -0.022497397 -0.658148856  0.105862720 -0.145178717
- [586]  0.917902653 -1.197493248  1.983213999 -1.161060696  1.692804095
- [591] -0.495699824 -0.519387719  0.809966000 -1.369977326  1.603471822
- [596] -1.816602720  0.658120239 -0.338563499 -0.160673846  2.070844393
- [601]  0.891830680  1.601706949  0.830264136 -0.667496760  2.273373879
- [606] -1.169282327 -0.545447303 -1.448467369 -0.146809142 -1.343854085
- [611] -0.215939059 -0.965887707 -0.658830514  0.029068301 -0.671577043
- [616] -0.720865412 -0.126463605  1.237552667  0.291907807  1.145892399
- [621]  1.540493325 -1.378365933  0.663038528 -0.287775383  0.714445744
- [626]  1.427565329  1.767067643 -0.409660321  0.637570647 -0.996154381
- [631]  0.078639568 -1.245328477 -0.204319635 -0.353360357 -1.122489481
- [636] -0.826978916  0.913891322  0.860584071  0.019543653  2.128107239
- [641]  0.797780414  0.415026257  0.009502659  1.185435788  0.555088443
- [646] -0.750670463 -0.621285879  1.794052682 -0.118776036 -0.946886042
- [651]  0.174272454 -1.170370248 -0.557635874  1.168869678 -1.395525242
- [656]  0.251844898 -0.647184704  0.858895188  0.025463205  0.658122297
- [661]  0.257047754 -0.131150614 -0.076754023 -1.284504349 -0.474253279
- [666] -0.761564654 -0.118834679 -2.690959705 -0.042905547 -1.416863286
- [671]  0.299155305 -1.541362890 -0.019153435 -1.898071664  0.178358840
- [676]  0.580646530  0.846172747  0.412565128  0.605329345  0.081411960
- [681]  0.970163970 -0.539677864 -0.364421083  0.009611384  0.011857914
- [686]  0.301877128 -0.882958438  0.740065045 -1.341256404 -0.545538976
- [691] -0.441040456 -1.627697143 -1.287991016  1.564039701  0.021775331
- [696] -0.728992309  2.654502693  0.025446412  0.820596129  0.042701488
- [701]  1.711213043 -0.539773416  1.951445156 -0.948713107  0.070032309
- [706]  1.195751875  0.109811673  0.252449053 -1.476192270  1.692254695
- [711]  0.619181927 -1.316419793  0.634375453  0.998803978 -0.606865204
- [716]  0.396529402 -0.795816311 -0.540525713 -0.209212061  2.144377527
- [721] -0.689953406  2.171539405  1.130915616  0.750699749 -0.035972450
- [726] -0.299259732  0.334135128  0.425122088 -1.412442089 -1.550028355
- [731]  0.190270056  0.137967381  1.777046575  1.766833184  2.694188023
- [736] -0.002122997 -0.198046654  0.312415472 -0.529745811  0.710825696
- [741] -0.027645846 -1.366406911 -1.407612766 -0.185812522  0.667004621
- [746]  0.868827860  0.286025150  0.887286299  0.249679269 -0.297922995
- [751] -1.163700679  0.274295853  0.605714247  1.286838764 -1.013012309
- [756] -0.430050839 -1.126102983 -1.349808770  0.913875005  0.549061101
- [761] -1.066683921 -1.316114027  0.349987800 -0.738452553 -0.235271529
- [766] -0.901300423 -1.466887734 -0.763664519  0.415288991 -0.356852563
- [771] -0.822619546  0.887104257 -0.963805649  1.729375141  0.559338039
- [776]  0.906243489 -1.737931169 -0.259770354  0.224512391  0.007081196
- [781] -2.564703793  1.774829776 -0.918458914  1.238099642  0.314646317
- [786] -1.230047237  0.455070558  0.131544824 -0.948875176 -0.461002715
- [791] -0.485904874  0.776131646  1.382273995 -2.481939231  0.060491790
- [796]  0.492405617 -0.341163595 -0.910470018  0.521551558  0.631961932
- [801]  0.291669642 -1.529900558  0.738980684  0.235453937  0.389024768
- [806]  0.506129088 -1.712065292 -0.365233741  0.838952856  0.050927477
- [811]  0.612504836  0.263030602 -0.693890575  1.545725207  1.394765983
- [816] -0.954389554 -0.180708375 -0.047036730  0.527596055  0.309186170
- [821]  0.570850915 -0.430631288 -0.007426787 -1.172688817 -0.251423507
- [826]  1.252698479  0.770179417 -0.121807134 -0.409498717 -0.223011888
- [831]  0.421408862  1.448582453  1.549139053 -0.237443873 -0.167060653
- [836] -1.430778178  0.589893732  1.079770697  0.269106562  0.308200589
- [841]  0.800613551 -0.748934042 -0.663115476  0.550372233 -0.993914389
- [846]  0.001448980 -1.646093301  1.711934403 -0.870155877 -0.289988043
- [851] -1.149077469 -0.873168808 -1.701637022  1.573639229  2.149775333
- [856]  0.681086181 -0.912426928 -1.571426219 -0.655000618 -0.267894565
- [861] -0.929026431 -1.297694286 -2.708667491  1.342206386 -0.234278485
- [866] -0.718129576  0.625662433 -0.098852558 -1.121283810  0.381574849
- [871] -1.271077951  0.557278693 -0.777563103 -0.069066520 -1.505591580
- [876] -0.413396796 -0.671166105  1.721221607  2.358236489 -0.718817211
- [881]  0.319699350  0.995839109 -0.362844409  0.300622547  0.707492331
- [886]  0.365681463  0.802968778  0.828008666  1.641880023 -0.757081796
- [891] -1.402561324  0.479518650  0.187545110  0.632252061 -0.473178012
- [896] -0.884686446 -1.767972924 -2.182180783  0.216873192 -0.838387207
- [901] -0.807000349 -1.284341295  0.717936329 -0.783909295 -0.781864280
- [906]  1.198159656  1.116271581  0.101672059  0.641720900  0.610448996
- [911]  0.979837438 -0.855098140  0.344611526  2.355470149  0.217561838
- [916] -1.087352392  0.327208405  2.226368018  0.010772954  1.623370272
- [921] -1.505530172 -0.014537508  0.336300890  0.497383066  0.164672334
- [926]  0.618921834 -1.234391386 -1.648478907  1.205398242 -2.946166573
- [931]  0.121062795  1.072683646  0.873199070 -0.555558828 -0.791759919
- [936] -0.984139743  0.830901358  0.464315929 -0.398962344 -0.676463466
- [941] -1.279962097  0.461417851 -0.572422407  0.294235641  0.354887158
- [946]  1.527794690 -0.668419928  1.514391915 -0.035047930  0.793640913
- [951]  0.784113754  0.703196055  0.877687671  0.968484822  0.017253881
- [956]  0.276414322  1.145028672  0.087378666 -0.953930916  1.388321483
- [961]  0.591414418 -1.078439120 -0.298550327  0.766079593 -0.537338697
- [966] -0.256250568  1.148930629 -0.325157390 -0.498266498 -1.320507441
- [971]  0.641805930 -0.557237098  0.513560668 -0.070004900 -0.063228775
- [976] -0.214743303  0.039656167  1.494680138 -0.216833509 -0.664454706
- [981]  0.550764009 -2.022223029  0.211286146  0.312189964  1.010306593
- [986] -1.154919190  0.404304055  0.270281304  0.736860366  1.186535825
- [991] -0.390281922  0.506292427  0.390367538  0.726823706  0.913703387
- [996]  1.308603719  0.012618244  0.712177218 -0.210266665  1.298321220</code></pre>
-</div>
-</div>
-<p>See the difference? It’s subtle, but notice that the RMD chunk places braces around the <strong>r</strong> after the tick marks: <code>{r}</code>. In a normal markdown document, the braces won’t mean anything. But in an RMD document, it’s the difference between just printing the code and running the code before printing the code and its output.</p>
-</section>
-<section id="code-chunk-options" class="level3">
-<h3 data-anchor-id="code-chunk-options">Code chunk options</h3>
-<p>In our first code chunk, notice how we still load our libraries and set our file paths. For the libraries, we need to load knitr with <code>library(knitr)</code> in addition to whichever libraries we need for our analysis. As usual, we also load the tidyverse.</p>
-<p>In addition to our normal analysis setup, notice that we add knitr-specific options in two places.</p>
-<section id="local-code-chunk-options-only-affect-this-code-chunk" class="level4">
-<h4 data-anchor-id="local-code-chunk-options-only-affect-this-code-chunk">Local code chunk options (only affect <em>this</em> code chunk)</h4>
-<p>First, we can set <em>local code chunk options</em> within the braces that start the code chunk. These options will only affect this particular code chunk.</p>
-<p>After <code>r</code>, the first word is the name of the chunk. I’ve called it <code>setup</code>, since that’s what this chunk is doing, but you can name it anything you want. It’s not strictly necessary to name your chunks, but it can come in handy as your documents become more complex: if you get an error, it’s much easier to find <code>data_input</code> chunk than <code>unnamed_chunk_38</code>. <strong>NOTE</strong> that all named chunks need to be unique or your document will not compile. If really like a particular chunk and want to reuse it, you can always add a number at the end: <code>data_input_1</code>, <code>data_input_2</code>, <code>data_input_3</code>, <em>etc</em>.</p>
-<p>There are a lot of <a href="https://yihui.org/knitr/options/">options you can set</a> for your chunks. Here we set the following:</p>
-<ul>
-<li><code>echo=F</code> (FALSE): don’t repeat this code in output</li>
-<li><code>include=F</code> (FALSE): run code, but don’t include output (unless a plot)</li>
-<li><code>message=F</code> (FALSE): don’t output any messages</li>
-<li><code>warning=F</code> (FALSE): don’t output any warnings</li>
-<li><code>error=F</code> (FALSE): don’t output any errors</li>
-</ul>
-<p>As of <a href="https://github.com/yihui/knitr/releases/tag/v1.35">knitr 1.35</a>, you can also include chunk options in rows below the opening line using the <code>#|</code> symbol pair. We could rewrite our example options using:</p>
-<p>However you choose to include them, these options keep our chunk from echoing the input code into our document and prevents any output. Basically, silence. Sometimes we want our code to echo; sometimes we want output. But since we are making a report, we generally want the underlying code to remain hidden. Readers of our report should only see the write up and any relevant tables and figures — but not all the hard coding we did to make them!</p>
-</section>
-<section id="global-code-chunk-options-affect-all-code-chunks" class="level4">
-<h4 data-anchor-id="global-code-chunk-options-affect-all-code-chunks">Global code chunk options (affect <em>all</em> code chunks)</h4>
-<p>After this first chunk, we can save some typing by setting these options for the rest of the document using <code>knitr::opt_chunks$set()</code>. Notice that we include the same settings as above plus a few more:</p>
-<ul>
-<li><code>fig.path</code>: path + prefix for all figures (put them in our <code>/figures</code> folder and add <code>"ts-"</code> to the name)</li>
-<li><code>dpi</code> (dots per inch): the print quality of our figures; 300 dpi is a nice standard for print (72dpi is sufficient for most web output)</li>
-<li><code>out.width</code>: our figures should fill the line width; if it’s an 8.5 by 11 inch page with 1 inch margins, then a width of 7.5 inches</li>
-<li><code>comment</code>: if we return code output, don’t prepend with <code>#</code> or anything — just the output.</li>
-</ul>
-<p><a href="https://yihui.org/knitr/options/">There are other options we can use</a>. We can also override these setting as necessary for individual code chunks using local settings like we did in the first chunk (as you’ll see below). The main idea with the set up code chunk is to get our document settings as close as possible to the way we generally want them.</p>
-</section>
-</section>
-<section id="chunk-to-chunk" class="level3">
-<h3 data-anchor-id="chunk-to-chunk">Chunk to chunk</h3>
-<p>Below, you see two code chunks with some Markdown text in the middle.</p>
-<p>An important thing to remember is that your coding environment carries from chunk to chunk, meaning that if you read in data in the code chunk (named <code>input</code>) as <code>df</code>, then <code>df</code> will still be available to you in the next chunk (named <code>table_all</code>) after writing some Markdown text. This means that you can still organize your RMD scripts like your R scripts (no need to do everything at once in a single huge chunk).</p>
-</section>
-<section id="make-a-nicer-table-with-kable" class="level3">
-<h3 data-anchor-id="make-a-nicer-table-with-kable">Make a nice(r) table with <code>kable()</code></h3>
-<p>Since we want to show all of our data (which isn’t very big in this case) and because the data frame <code>df</code> already is organized in the way we want to show the data (school by year with different columns for each test), we can just print out the data frame. To be clear, often our data will be too big to do this, but in this instance, we are okay.</p>
-<p>We could just print the data frame by calling <code>df</code> in a chunk. But to make it look nicer with a better format, we use <a href="https://bookdown.org/yihui/rmarkdown-cookbook/kable.html"><code>kable()</code> which is part of knitr</a>.</p>
-<p>Even using mostly default options, <code>kable()</code> will make a nice looking table for us. We add <code>digits = 0</code> to make sure that we only show whole numbers and we change our column names to something nicer (leaving a blank <code>""</code> for the school name column, which is obvious). Notice that in the chunk braces we add <code>include = T</code> so that the output — our table — for just this one code chunk will be printed. This is an example of using local code chunk options to override global chunk options.</p>
-</section>
-<section id="inline-code" class="level3">
-<h3 data-anchor-id="inline-code">Inline code</h3>
-<p>You can also call R code <em>inline</em>, that is, R code that sits outside of code chunks proper and instead is mixed in with your Markdown text.</p>
-<p>Inside the code chunk called <code>table_averages</code> we do three things:</p>
+<blockquote class="blockquote">
+<h2 id="quick-excercise-2">Quick Excercise</h2>
 <ol type="1">
-<li>Use <strong>dplyr</strong> to munge our data to get averages</li>
-<li>Store names and scores for high test scores in distinct well named objects:
-<ul>
-<li><code>hi_&lt;test&gt;_sch</code>: school name with highest average math/read/science score</li>
-<li><code>hi_&lt;test&gt;_scr</code>: highest average math/read/science score</li>
-</ul></li>
-<li>Make/print table using <code>kable()</code></li>
+<li><code>source()</code> <code>04-wrangle-ii.R</code></li>
+<li>print out the data object we made called <code>df_long</code></li>
 </ol>
-<p>In the Markdown text below this code chunk, we call the values using the inline code method</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="in">`r `</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>that is, single back tick, an <code>r</code>, the code we want, then closing back tick. We also pipe the object value to the <code>round()</code> function so that we don’t return averages with extra and unnecessary decimal points. We could have simply run all the code inline (included what we did in step 2 of the code chunk above), but that would have made for extra messy code.</p>
-<p>Why do this? One reason is that being able to incorporate data-driven values directly in your test is very powerful. Imagine you need to reproduce the same report on a monthly or quarterly basis when data are updated. Part of the written report includes values directly taken or calculated from the data. Rather than update these <a href="https://en.wikipedia.org/wiki/Magic_number_(programming)">“magic numbers”</a> each time (potentially missing some), you can use inline R code like we’ve done here. All you need to do then is update the data and recompile the report. Voila! Everything is properly updated.</p>
-<p>Taking it a step further, you can include all kinds of <code>ifelse()</code> logic to make complex dynamic documents. <em>If</em> the value of <em>X</em> is equal to or greater than the value of <em>Y</em>, then print “equals or exceeds”; <em>else</em> print “remains less than”. Be aware, however, that your document text still needs to make sense. It can be difficult enough writing one clear sentence; having to write a sentence that will remain coherent despite variable inputs can be <em>very tough</em>!</p>
+</blockquote>
+<div class="cell">
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 1 Columns: 5
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr (1): school
+dbl (4): year, math, read, science
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 1 Columns: 5
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr (1): school
+dbl (4): year, math, read, science
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 1 Columns: 5
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr (1): school
+dbl (4): year, math, read, science
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 2
+  school     year
+  &lt;chr&gt;     &lt;dbl&gt;
+1 Bend Gate  1980
+2 Bend Gate  1981
+3 Bend Gate  1982
+# A tibble: 3 × 3
+   math  read science
+  &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;
+1   515   281     808
+2   503   312     814
+3   514   316     816</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 24 Columns: 5
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr (1): school
+dbl (4): year, math, read, science
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 24 Columns: 5
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr (1): school
+dbl (4): year, math, read, science
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 4 Columns: 19
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr  (1): school
+dbl (18): math_1980, read_1980, science_1980, math_1981, read_1981, science_...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 72 × 4
+   school    test    year  score
+   &lt;chr&gt;     &lt;chr&gt;   &lt;chr&gt; &lt;dbl&gt;
+ 1 Bend Gate math    1980    515
+ 2 Bend Gate read    1980    281
+ 3 Bend Gate science 1980    808
+ 4 Bend Gate math    1981    503
+ 5 Bend Gate read    1981    312
+ 6 Bend Gate science 1981    814
+ 7 Bend Gate math    1982    514
+ 8 Bend Gate read    1982    316
+ 9 Bend Gate science 1982    816
+10 Bend Gate math    1983    491
+# ℹ 62 more rows</code></pre>
+</div>
+</div>
+<ul>
+<li>That covers the basics of quarto document content! No matter what output you choose, this all stays the same!</li>
+</ul>
 </section>
-<section id="figures" class="level3">
-<h3 data-anchor-id="figures">Figures</h3>
-<p>Finally, making figures is pretty much the same as making tables:</p>
-<p>Having reshaped our original data frame long (<code>df_long</code>), we make a figure just as we’ve done in the past — with some formatting improvements to make it nicer looking. While it’s not strictly necessary to store the figure in an object (<code>p</code>) that we then call, it works just fine.</p>
-<p>Notice that again added <code>include = T</code> to the chunk brace. Because we added figure options to <code>opt_chunks$set()</code> in the setup code chunk, this figure (as well as the next one) is sized so that it fills up the page width (with height determined as a ratio of that width) and printed at 300 dpi quality. If you look in the <code>figures</code> folder, you’ll see the figure named <code>ts-fig_unadjusted</code>, which is the prefix we set above with the name of the code chunk.</p>
+<section id="yaml-header-options" class="level2">
+<h2 data-anchor-id="yaml-header-options">YAML Header Options</h2>
+<ul>
+<li>The final thing to be aware of is the <code>YAML</code> header, that stuff at the top of the <code>.qmd</code> file</li>
+<li>In your template, I have set some basic things up that you can change
+<ul>
+<li>There are so, so, so, many options, many of which change with the format you are using</li>
+<li>Some basic ones to be aware of for now are
+<ul>
+<li><code>title:</code> kind of self-explanatory</li>
+<li><code>author:</code> again, kind of self-explanatory</li>
+<li><code>date:</code> this can take a specific date, or, it “today” will use the current date when you render the document</li>
+<li><code>editor: visual</code> defaults to the visual editor, easier for now</li>
+<li><code>editor_options:</code> <code>chunk_output_type: console</code> Just means that when editing the document and running code chunks, the output will appear in the console (like it always has with R scripts) rather than appearing as a preview in the script - This is a personal preference, feel free to play around!</li>
+<li><code>format</code>: this is power of Quarto, there are so many options which will be discussed next</li>
+<li><code>execute:</code> these are the default way we want code chunks to output</li>
+<li><code>echo: FALSE</code> means don’t print out the code (e.g., this site use <code>echo: TRUE</code>)</li>
+<li><code>message: FALSE</code> means don’t print out information like when tidyverse reads in data</li>
+<li>There’s a bunch more of these options, setting them in the YAML Header makes that the default behavior for the document, you can set them at the chunk level to only apply to that chunk</li>
+<li>You don’t need to alter these for this class, but if you want to learn more, see <a href="https://quarto.org/docs/computations/execution-options.html">executation options documentation</a></li>
+</ul></li>
+</ul></li>
+</ul>
+<blockquote class="blockquote">
+<h2 id="quick-excercise-3">Quick Excercise</h2>
+<ol type="1">
+<li>Change the title to something appropriate for your final report</li>
+<li>Change the author to your name</li>
+</ol>
+</blockquote>
+</section>
+<section id="quarto-output-formats" class="level2">
+<h2 data-anchor-id="quarto-output-formats">Quarto Output Formats</h2>
+<ul>
+<li>As I said at the start of this lesson, Quarto has so many different output formats you can choose from
+<ul>
+<li>The majority fall into three main categories
+<ul>
+<li><code>html</code></li>
+<li><code>pdf</code></li>
+<li>Microsoft Office (<code>docx</code> and <code>pptx</code>)</li>
+</ul></li>
+<li>We will mostly focus of office output for this class, but I will give a quick overview of the others first</li>
+</ul></li>
+</ul>
+<section id="html" class="level3">
+<h3 data-anchor-id="html"><code>html</code></h3>
+<ul>
+<li><code>html</code> is the file format that web browsers read for almost every website you visit</li>
+<li>This is probably my favorite output style, as it’s far less limited than the other types
+<ul>
+<li>Fun fact: this entire website is built with Quarto as html output
+<ul>
+<li>Click on the little GitHub icon in the lower right corner to see to <code>.qmd</code> files</li>
+</ul></li>
+<li>You can include fancy content like interactive graphics</li>
+</ul></li>
+<li>Unfortunately, the majority of work in academia (for now at least) still relies on traditional paper-based document formats, so we can’t justify spending much time on this today</li>
+<li>If you want to learn more about <code>html</code> output, start with the Quarto documentation on <a href="https://quarto.org/docs/websites/">Quarto Websites</a> and <a href="https://quarto.org/docs/presentations/revealjs/">Reveal.js Presentations</a></li>
+</ul>
+</section>
+<section id="pdf" class="level3">
+<h3 data-anchor-id="pdf"><code>pdf</code></h3>
+<ul>
+<li>The first paper-based document format is straight to <code>.pdf</code></li>
+<li>Traditionally, this has been dominated by <a href="https://www.latex-project.org">LaTeX</a>
+<ul>
+<li>Students under Dr.&nbsp;Skinner’s version of the class used this</li>
+<li>Personally, I find LaTeX slow, unintuitive, and inflexible</li>
+</ul></li>
+<li>In Quarto 1.4 (the version that came out a couple of weeks ago), support for a new much more user-friendly pdf generator <a href="https://typst.app">typst</a> has been added
+<ul>
+<li>I haven’t had chance to play around with this yet, but from first impressions I’m hopefull!</li>
+</ul></li>
+<li>You can also create pdfs straight from Quarto via word using an R script like <a href="site-attachments/docx2pdf.R">this</a> which I use for the syllabus</li>
+</ul>
+</section>
+<section id="docx" class="level3">
+<h3 data-anchor-id="docx"><code>docx</code></h3>
+<ul>
+<li><code>docx</code> output is, IMHO, the best starting place</li>
+<li>When you render your Quarto document, the result is a <code>.docx</code> file that you can then open in word or send to a supervisor/advisor
+<ul>
+<li>For example, if I’m running the data analysis for a project, I can create all the plots and tables, write up the methods section, then pass to my advisor to fill in the literature sections
+<ul>
+<li>Sure, straight to <code>.pdf</code> is nice is everyone is working in Quarto, but often (sadly) they won’t be
+<ul>
+<li><code>.docx</code> is a just more practical option a lot of the time</li>
+</ul></li>
+<li>You still get a document rendered with all the tables and plots which will update if the data changes upstream</li>
+</ul></li>
+</ul></li>
+<li>Plus, even if you craft the entire document in Quarto, it can be nice to have the option to run Grammarly on it in word, or tweak one little layout feature you can’t figure out how to get right in Quarto</li>
+<li>This is the output format I’d like you to use for your reproducible reports (unless you can convince me you need a different output)
+<ul>
+<li>So let’s take a look through the <a href="https://quarto.org/docs/reference/formats/docx.html">Quarto documentation for <code>.docx</code> output</a></li>
+</ul></li>
+</ul>
+<iframe width="900" height="600" src="https://quarto.org/docs/reference/formats/docx.html"></iframe>
+<p>As I say, the Quarto documentation is fantastic, I’m not asking you to do anything beyond the default docx output for the class - But, if you want to, <code>docx</code> output is formatted by a template <code>docx</code> file, read more about those in the <a href="https://quarto.org/docs/output-formats/ms-word-templates.html">Word templates documentation</a></p>
 </section>
 </section>
-<section id="text" class="level2">
-<h2 data-anchor-id="text">Text</h2>
-<p>Throughout our RMD file, we’ve include Markdown text. This text lives outside of the code chunks and is always printed in the final document. It follows normal Markdown text rules, but can have R code placed inline, as we saw above.</p>
-</section>
-<section id="writing-an-rmd-document" class="level2">
-<h2 data-anchor-id="writing-an-rmd-document">Writing an RMD document</h2>
-<p>Just as when you write a plain R script, your progress from initial RMD draft to final product will be iterative. While you can run R code from inside code chunks just as you’ve been all semester, you may find it useful to start your analyses in plain R files first and only add them to an RMD document later.</p>
-<p>For big projects, such as dissertation, it also doesn’t make much sense to put <em>everything</em> — data reading, cleaning, analysis, table/figure making — inside a single RMD document. You have to redo your entire workflow each time you compile! For large projects, it might make sense to do all the heavy lifting in separate R scripts — saving cleaned up data sets, tables, and figures along the way — and putting all the pre-establish pieces together at the end. But for small projects, such a descriptive policy report, a single RMD document might suffice.</p>
-</section>
-<section id="installing-latex" class="level2">
-<h2 data-anchor-id="installing-latex">Installing LaTeX</h2>
-<p>LaTeX is a document typesetting system/language. While it’s probably best known for its ability to nicely typeset mathematical equations, LaTeX works really well quantitative research workflows. That said, it can be difficult to install and work with.</p>
-<p>We’ll use LaTeX later in the semester so that you can make nice PDF reports. The good news is that you won’t really need to interact with LaTeX at all to do so — other than to install it now.</p>
-<p>Since you don’t need a full TeX distribution on your computer, you can most likely get by using the <a href="https://yihui.org/tinytex/">TinyTeX</a> distribution that we can install directly from R. If you want a full version of TeX on your computer (<strong>NOTE:</strong> It’s very large), then skip to the full installation for your computer.</p>
-<section id="tinytex" class="level3">
-<h3 data-anchor-id="tinytex">TinyTex</h3>
-<p>Once you’ve installed R and RStudio, open RStudio and type the following in the Console:</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"tinytex"</span>)</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>tinytex<span class="sc">::</span><span class="fu">install_tinytex</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>This will install the <code>tinytex</code> R package and then install the TinyTeX distribution (it may take a minute or two).</p>
+<section id="rendering-quarto-reports" class="level2">
+<h2 data-anchor-id="rendering-quarto-reports">Rendering Quarto Reports</h2>
+<ul>
+<li>To see the magic happen, we simply have to hit the “Render” button at the top of the Quarto file
+<ul>
+<li>This will go from top to bottom of our file turning the text/markdown sections into formatted text, and the code output to</li>
+</ul></li>
+</ul>
+<section id="a-common-trap-when-rendering-quarto-reports" class="level3">
+<h3 data-anchor-id="a-common-trap-when-rendering-quarto-reports">A Common Trap when Rendering Quarto Reports</h3>
+<ul>
+<li>One thing that people always get tripped up on is when something runs while editing the Quarto document, and doesn’t when rendering/running it
+<ul>
+<li>The main thing to be aware of is that when it starts to render, it will work with an entirely clean environment
+<ul>
+<li>If you have anything (a plot, a dataframe) saved in your environment you can access that when running the chunks one by one
+<ul>
+<li>When it renders, anything you call needs to created, either by <code>source()</code>-ing a script that makes it, or by making it within an earlier code chunk</li>
+<li>If you move chunks around, make sure you don’t try and call something before it’s been assigned!</li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul>
 </section>
 </section>
 </div>
 <div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
-<p>For this assignment, I want you to create a 1-2 page RMD document that uses <code>hsls_small.dta</code> to answer the following questions:</p>
-<blockquote class="blockquote">
-<p>Do educational expectations between a student and their parents generally differ? If so, which group tends to have higher expectations? Do differences vary by the parents’ own educational attainment?</p>
-</blockquote>
-<p>Your final file should include at least one figure and at least one table of summary statistics. The figure and table should be formatted nicely, with good axis labels and column names. You should explain your findings in the document text using Markdown syntax. You do not need to use or cite outside sources — just describe what you find. You also do not need to perform inferential tests (<em>e.g.</em> t-test of differences), though you can if you wish. I should not see input code in the final document — only the final clean output. In other words, it should look like a product you would give to a boss or would want given to you.</p>
-<p>I recommend using <code>test_score.Rmd</code> as a template for how you should:</p>
-<ol type="1">
-<li>Read in the data</li>
-<li>Wrangle the data as necessary to generate your analysis</li>
-<li>Create any tables you may have</li>
-<li>Create any figures you may have</li>
-</ol>
-<p>Feel free to repurpose any code you’ve seen in prior lessons, but make sure you answer the question to the best of your ability.</p>
-<section id="submission-details" class="level4">
-<h4 data-anchor-id="submission-details">Submission details</h4>
 <ul>
-<li>Save both your code file (<code>&lt;lastname&gt;_assignment_7.Rmd</code>) and compiled document (<code>&lt;lastname&gt;_assignment_7.pdf</code>) in your scripts directory.</li>
-<li>Push changes to your repo (the new script and new folder) to GitHub prior to the next class session.</li>
+<li>Good news! Through the quick exercises in this class, you should have some of this assignment done!</li>
 </ul>
-</section>
+<p>In a Quarto Document (you can continue using the template you started today)</p>
+<p><em>Should already be done</em></p>
+<ol type="1">
+<li>Write a few sentences describing your proposal for your reproducible report</li>
+<li>Add an appropriate header</li>
+<li>Add <strong>bold face</strong> around your dependent variable</li>
+<li>Make your data source name <em>italic</em></li>
+</ol>
+<p><em>New steps</em></p>
+<ol start="5" type="1">
+<li>Read in at least one data file you intend to use for your final project</li>
+<li>Write a few sentences describing where you got the data from</li>
+<li>Add an appropriate header (e.g., “Data”)</li>
+<li>Summarize one or more continuous variable including</li>
+</ol>
+<ul>
+<li>mean</li>
+<li>standard deviation</li>
+<li>minimum</li>
+<li>maximum</li>
+</ul>
+<ol start="9" type="1">
+<li>Summarize one or more categorical variables including</li>
+</ol>
+<ul>
+<li>count for each category</li>
+<li>percentage of count for each category</li>
+</ul>
+<ol start="10" type="1">
+<li>Save the file as <code>report.qmd</code></li>
+</ol>
+<p>Congratulations, you’ve officially started the Quarto document for your final project!</p>
+<p>Once complete, turn in the .qmd script (no data etc.) to Canvas by the due date (Sunday 11:59pm following the lesson). Assignments will be graded on the following Monday (time permitting) in line with the grading policy outlined in the syllabus.</p>
 </div>
 </div>
 </div>

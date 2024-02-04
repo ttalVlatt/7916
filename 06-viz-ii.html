@@ -400,9 +400,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="do">## -----------------------------------------------------------------------------</span></span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="do">## Drop missing values for math test score</span></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="do">## Note: they would be dropped by ggplot anyway, but this prevents that warning</span></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> df <span class="sc">|&gt;</span></span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(x1txmtscor <span class="sc">!=</span> <span class="sc">-</span><span class="dv">8</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> df <span class="sc">|&gt;</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(x1txmtscor <span class="sc">!=</span> <span class="sc">-</span><span class="dv">8</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ul>
 <li>First, let’s make a plain histogram with no settings</li>
@@ -875,20 +874,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><p>We technically have our original <code>p</code> plot saved, but we’ve made such progress since then, let’s whip up a nicer second plot and assign it to <code>p3</code></p></li>
 <li><p>I’ve included a couple of new things here, but it should be mostly familiar</p>
 <ul>
-<li><code>scale_fill_viridis_d()</code> sets color-blind friendly palettes, which can be great when you have a categorical variable but
+<li><code>scale_fill_viridis_d()</code> sets color-blind friendly palettes, especially useful when you have a categorical variable
 <ul>
 <li>Gradient color sets (greyscale, shades of red, etc.) are pretty color-blind friendly, as without any color, they all will look like greyscale
 <ul>
 <li>This is also just useful for printing in black and white!</li>
-</ul></li>
 <li>Typically though, gradient colors imply increasing/decreasing values of a continuous variable (e.g., darker red means more GOP on election maps)</li>
+</ul></li>
 <li>The viridis palettes in R have been designed to look like discrete color scales, i.e., they don’t look just like one color getting darker to most readers
 <ul>
-<li>But they also use shading/darkness/lightness of the colors, which means if printed in black and white, or read by someone who can’t see colors, they still look different</li>
+<li>But they also use shading/darkness/lightness of the colors, which means if printed in black and white, or read by someone who can’t see colors, they still work</li>
 </ul></li>
-<li>For this reason, I try to use these for categorical variables in reports, unless I get carried away with school spirit (that’s hint for the homework)!</li>
+<li>For this reason, I try to use these for categorical variables in reports, unless I get carried away with school spirit!</li>
 </ul></li>
-<li><code>begin</code> and <code>end</code> just allow you to trim the more extreme ends of the color palette off - This is useful in situations like this when you only have two cateogories and don’t want them to look totally black and white</li>
+<li><code>begin</code> and <code>end</code> just allow you to trim the more extreme ends of the color palette off - This is useful in situations like this when you only have two categories and don’t want them to look totally black and white</li>
 </ul></li>
 </ul>
 <div class="cell">
@@ -897,25 +896,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="do">## -----------------------------------------------------------------------------</span></span>
 <span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="do">## Make a nice looking second plot of math scores by by parental education</span></span>
-<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> df <span class="sc">|&gt;</span></span>
-<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">x1region =</span> <span class="fu">factor</span>(x1region,</span>
-<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>                           <span class="at">levels =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>),</span>
-<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>                           <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"Northeast"</span>, <span class="st">"Midwest"</span>, <span class="st">"South"</span>, <span class="st">"West"</span>)))</span>
-<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>p3 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(df) <span class="sc">+</span></span>
-<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> pared_coll,</span>
-<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>                             <span class="at">y =</span> x1txmtscor,</span>
-<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>                             <span class="at">fill =</span> pared_coll),</span>
-<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>               <span class="at">alpha =</span> <span class="fl">0.66</span>) <span class="sc">+</span></span>
-<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_viridis_d</span>(<span class="at">option =</span> <span class="st">"magma"</span>, <span class="at">begin =</span> <span class="fl">0.2</span>, <span class="at">end =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
-<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="cn">NULL</span>,</span>
-<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Math Score"</span>,</span>
-<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a>       <span class="at">fill =</span> <span class="st">"Parental Education"</span>) <span class="sc">+</span></span>
-<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_linedraw</span>()</span>
-<span id="cb16-22"><a href="#cb16-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-23"><a href="#cb16-23" aria-hidden="true" tabindex="-1"></a><span class="do">## show</span></span>
-<span id="cb16-24"><a href="#cb16-24" aria-hidden="true" tabindex="-1"></a>p3</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>p3 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(df) <span class="sc">+</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> pared_coll,</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>                             <span class="at">y =</span> x1txmtscor,</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>                             <span class="at">fill =</span> pared_coll),</span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>               <span class="at">alpha =</span> <span class="fl">0.66</span>) <span class="sc">+</span></span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_viridis_d</span>(<span class="at">option =</span> <span class="st">"magma"</span>, <span class="at">begin =</span> <span class="fl">0.2</span>, <span class="at">end =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="cn">NULL</span>,</span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Math Score"</span>,</span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>       <span class="at">fill =</span> <span class="st">"Parental Education"</span>) <span class="sc">+</span></span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_linedraw</span>()</span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a><span class="do">## show</span></span>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a>p3</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="06-viz-ii_files/figure-html/chunk21-1.png" class="img-fluid" width="672"></p>
 </div>
@@ -1040,6 +1033,22 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <ul>
 <li>There we go, now the title better reflects our patchwork, and the caption sits below both plots as it should</li>
+<li>As a note, we can also assign a whole patchwork to an object if we want
+<ul>
+<li>Let’s assign this plot to an object called <code>patch</code>
+<ul>
+<li>What we are going to do with it is a surprise for next week</li>
+</ul></li>
+</ul></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>patch <span class="ot">&lt;-</span> p2 <span class="sc">/</span> p3 <span class="sc">+</span> <span class="fu">guide_area</span>() <span class="sc">+</span> <span class="fu">plot_layout</span>(<span class="at">design =</span> <span class="st">"AAAAA</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="st">                                               BBBCC"</span>,</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>                                     <span class="at">guides=</span> <span class="st">"collect"</span>) <span class="sc">+</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot_annotation</span>(<span class="at">title =</span> <span class="st">"Math Test Scores Differences by Parental Education"</span>,</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>                  <span class="at">caption =</span> <span class="st">"Data: High School Longitudinal Study, 2009"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
 <li>Generally, our plot shows there’s a bit of difference in math test scores by parental education, but that doesn’t differ much by sex</li>
 </ul>
 </section>
