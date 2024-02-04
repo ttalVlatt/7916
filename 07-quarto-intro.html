@@ -358,10 +358,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="do">## You should have these packages already, we installed them our first lesson</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="do">## but if you're not sure, run this code just in case</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="fu">c</span>(<span class="st">"knitr"</span>, <span class="st">"rmarkdown"</span>, <span class="st">"quarto"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Installing packages into '/cloud/lib/x86_64-pc-linux-gnu-library/4.3'
-(as 'lib' is unspecified)</code></pre>
-</div>
 </div>
 <section id="quarto-documentation" class="level2">
 <h2 data-anchor-id="quarto-documentation">Quarto Documentation</h2>
@@ -474,7 +470,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 id="quick-excercise" data-anchor-id="quarto-visual-editor">Quick Excercise</h2>
 <ol type="1">
 <li>Inside the Quarto template you downloaded at the top of the lesson write a few sentances descrbing your proposal for your reproducible report</li>
-<li>Add an appropriate header</li>
+<li>Add an appropriate header (e.g., “Introduction”)</li>
 <li>Add <strong>bold face</strong> around your dependent variable</li>
 <li>Make your data source name <em>italic</em></li>
 </ol>
@@ -521,34 +517,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
-✔ dplyr     1.1.4     ✔ readr     2.1.5
-✔ forcats   1.0.0     ✔ stringr   1.5.1
-✔ ggplot2   3.4.4     ✔ tibble    3.2.1
-✔ lubridate 1.9.3     ✔ tidyr     1.3.1
-✔ purrr     1.0.2     
-── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
-✖ dplyr::filter() masks stats::filter()
-✖ dplyr::lag()    masks stats::lag()
-ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="fu">file.path</span>(<span class="st">"data"</span>, <span class="st">"hsls-small.csv"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Rows: 23503 Columns: 16
-── Column specification ────────────────────────────────────────────────────────
-Delimiter: ","
-dbl (16): stu_id, x1sex, x1race, x1stdob, x1txmtscor, x1paredu, x1hhnumber, ...
-
-ℹ Use `spec()` to retrieve the full column specification for this data.
-ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> df) <span class="sc">+</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> x1txmtscor))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
-</div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="fu">file.path</span>(<span class="st">"data"</span>, <span class="st">"hsls-small.csv"</span>))</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> df) <span class="sc">+</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> x1txmtscor))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="07-quarto-intro_files/figure-html/basicplot-1.png" class="img-fluid" width="672"></p>
 </div>
@@ -562,16 +536,6 @@ dbl (16): stu_id, x1sex, x1race, x1stdob, x1txmtscor, x1paredu, x1hhnumber, ...
 </ol>
 </blockquote>
 <div class="cell">
-<div class="cell-output cell-output-stderr">
-<pre><code>Rows: 24 Columns: 5
-── Column specification ────────────────────────────────────────────────────────
-Delimiter: ","
-chr (1): school
-dbl (4): year, math, read, science
-
-ℹ Use `spec()` to retrieve the full column specification for this data.
-ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-</div>
 <div class="cell-output-display">
 <p><img src="07-quarto-intro_files/figure-html/mathplot-1.png" class="img-fluid" width="672"></p>
 </div>
@@ -612,22 +576,7 @@ dbl (4): year, math, read, science
 </ul></li>
 </ul>
 <div class="cell">
-<div class="cell-output cell-output-stderr">
-<pre><code>Rows: 23503 Columns: 16
-── Column specification ────────────────────────────────────────────────────────
-Delimiter: ","
-dbl (16): stu_id, x1sex, x1race, x1stdob, x1txmtscor, x1paredu, x1hhnumber, ...
-
-ℹ Use `spec()` to retrieve the full column specification for this data.
-ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
-Scale for y is already present.
-Adding another scale for y, which will replace the existing scale.
-Scale for fill is already present.
-Adding another scale for fill, which will replace the existing scale.</code></pre>
-</div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"06-viz-ii.R"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"06-viz-ii.R"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ul>
 <li>Now, with that script sourced, we can call objects we created in that script, and they will appear in our Quarto document
@@ -643,10 +592,7 @@ Adding another scale for fill, which will replace the existing scale.</code></pr
 </ul></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>patch</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
-</div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>patch</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="07-quarto-intro_files/figure-html/patch-1.png" class="img-fluid" width="672"></p>
 </div>
@@ -663,72 +609,7 @@ Adding another scale for fill, which will replace the existing scale.</code></pr
 </ol>
 </blockquote>
 <div class="cell">
-<div class="cell-output cell-output-stderr">
-<pre><code>Rows: 1 Columns: 5
-── Column specification ────────────────────────────────────────────────────────
-Delimiter: ","
-chr (1): school
-dbl (4): year, math, read, science
-
-ℹ Use `spec()` to retrieve the full column specification for this data.
-ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
-Rows: 1 Columns: 5
-── Column specification ────────────────────────────────────────────────────────
-Delimiter: ","
-chr (1): school
-dbl (4): year, math, read, science
-
-ℹ Use `spec()` to retrieve the full column specification for this data.
-ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
-Rows: 1 Columns: 5
-── Column specification ────────────────────────────────────────────────────────
-Delimiter: ","
-chr (1): school
-dbl (4): year, math, read, science
-
-ℹ Use `spec()` to retrieve the full column specification for this data.
-ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 3 × 2
-  school     year
-  &lt;chr&gt;     &lt;dbl&gt;
-1 Bend Gate  1980
-2 Bend Gate  1981
-3 Bend Gate  1982
-# A tibble: 3 × 3
-   math  read science
-  &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;
-1   515   281     808
-2   503   312     814
-3   514   316     816</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Rows: 24 Columns: 5
-── Column specification ────────────────────────────────────────────────────────
-Delimiter: ","
-chr (1): school
-dbl (4): year, math, read, science
-
-ℹ Use `spec()` to retrieve the full column specification for this data.
-ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
-Rows: 24 Columns: 5
-── Column specification ────────────────────────────────────────────────────────
-Delimiter: ","
-chr (1): school
-dbl (4): year, math, read, science
-
-ℹ Use `spec()` to retrieve the full column specification for this data.
-ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
-Rows: 4 Columns: 19
-── Column specification ────────────────────────────────────────────────────────
-Delimiter: ","
-chr  (1): school
-dbl (18): math_1980, read_1980, science_1980, math_1981, read_1981, science_...
-
-ℹ Use `spec()` to retrieve the full column specification for this data.
-ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-</div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(df_long)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 72 × 4
    school    test    year  score
@@ -763,13 +644,23 @@ dbl (18): math_1980, read_1980, science_1980, math_1981, read_1981, science_...
 <li><code>author:</code> again, kind of self-explanatory</li>
 <li><code>date:</code> this can take a specific date, or, it “today” will use the current date when you render the document</li>
 <li><code>editor: visual</code> defaults to the visual editor, easier for now</li>
-<li><code>editor_options:</code> <code>chunk_output_type: console</code> Just means that when editing the document and running code chunks, the output will appear in the console (like it always has with R scripts) rather than appearing as a preview in the script - This is a personal preference, feel free to play around!</li>
+<li><code>editor_options:</code>
+<ul>
+<li><code>chunk_output_type: console</code> Just means that when editing the document and running code chunks, the output will appear in the console (like it always has with R scripts) rather than appearing as a preview in the script
+<ul>
+<li>This is a personal preference, feel free to play around!</li>
+</ul></li>
+</ul></li>
 <li><code>format</code>: this is power of Quarto, there are so many options which will be discussed next</li>
-<li><code>execute:</code> these are the default way we want code chunks to output</li>
+<li><code>execute:</code> these are the default way we want code chunks to output
+<ul>
 <li><code>echo: FALSE</code> means don’t print out the code (e.g., this site use <code>echo: TRUE</code>)</li>
-<li><code>message: FALSE</code> means don’t print out information like when tidyverse reads in data</li>
+<li><code>message: FALSE</code> means don’t print out information like when tidyverse reads in data
+<ul>
 <li>There’s a bunch more of these options, setting them in the YAML Header makes that the default behavior for the document, you can set them at the chunk level to only apply to that chunk</li>
 <li>You don’t need to alter these for this class, but if you want to learn more, see <a href="https://quarto.org/docs/computations/execution-options.html">executation options documentation</a></li>
+</ul></li>
+</ul></li>
 </ul></li>
 </ul></li>
 </ul>
@@ -882,11 +773,11 @@ dbl (18): math_1980, read_1980, science_1980, math_1981, read_1981, science_...
 <ul>
 <li>Good news! Through the quick exercises in this class, you should have some of this assignment done!</li>
 </ul>
-<p>In a Quarto Document (you can continue using the template you started today)</p>
+<p>In a Quarto Document (you should continue using the template you started today)</p>
 <p><em>Should already be done</em></p>
 <ol type="1">
 <li>Write a few sentences describing your proposal for your reproducible report</li>
-<li>Add an appropriate header</li>
+<li>Add an appropriate header (e.g., “Introduction”)</li>
 <li>Add <strong>bold face</strong> around your dependent variable</li>
 <li>Make your data source name <em>italic</em></li>
 </ol>

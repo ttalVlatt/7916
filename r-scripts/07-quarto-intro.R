@@ -16,3 +16,7 @@ ggplot(data = df) +
 ## source("06-viz-ii.R")
 
 patch
+
+
+
+print(df_long)
