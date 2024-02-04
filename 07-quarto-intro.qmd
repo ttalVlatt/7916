@@ -1,677 +1,311 @@
 ---
 title: "Reproducable Reports with Quarto"
 image: apple-touch-icon.png
+editor_options: 
+  chunk_output_type: console
 ---
 
 :::{.panel-tabset}
 
 # Lesson
 
-## Quarto Visual Editor
+[{{< fa code >}} Quarto Template](/site-attachments/quarto-template.qmd)
 
-- One of the coolest features of Quarto vs plain RMarkdown is the visual editor
-  - This functions like a very basic MS Word
-    - It is a new feature, so sometimes can be buggy
-- There are still times the source editor works better
-  - I find that for writing extended periods of text, the visual editor is really nice (especially with the Zotero integration covered in the [Quarto-Zotero extra credit]())
-  However, for writing short amounts with code chunks, for hyperlinks, or for bullet point lists, the source editor is easier for me
-    - As you learn markdown, the visual editor will probably be helpful in all situations, once you're more comfortable with the syntax, you'll likely prefer the source editor for some things
+- In this lesson, we are going to cover the basics of creating fully reproducible reports with Quarto
+- You may have heard about RMarkdown `.Rmd` in other classes
+- Quarto is the replacement for RMarkdown
+  - It can do anything RMarkdown can do and a whole whole lot more!
+  - Plus, it's easier to use!
+  - Quarto is still somewhat new, version 1.4 just came out you probably all still have 1.3 (it comes with RStudio as it's made by the same company, Posit)
+  
+```{r}
+## You should have these packages already, we installed them our first lesson
+## but if you're not sure, run this code just in case
+install.packages(c("knitr", "rmarkdown", "quarto"))
+```
+
+## Quarto Documentation
+
+- Quarto also comes with one of the best sets of documentation I've come across on their website, [check it out here](https://quarto.org)
+  - Fun fact, the whole website is a massive Quarto project, which is kind of meta!
+- Rather than trying to re-explain something they put so clearly, we will look to this site for guidance throughout this lesson
+
+## Why Quarto over Word?
+
+- Up until now, you've likely written most of your assignments using a Microsoft Word or something similar
+- There are a few major reasons Quarto has most replaced Word for 90% of my work
+  1. Integration with code/analysis
+    - This is the main one
+    - As you'll see in this lesson, Quarto seamlessly integrates text with code output
+      - So any tables and plots you create will be integrated into the report
+        - No more spending hours copying your output from one screen to another and likely typing some of it wrong!
+      - You can even have the text you type update
+    - As a result, if when reviewing your final paper you spot an error right at the start of your analysis, as you often will (I did with my first publication), you just correct it and everything else automatically updates
+  2. Reproducibility/Transparancy
+    - As the code and text are integrated, it makes it easier to share and reproduce your results, there's no way someone could fake a figure/table without it being obvious
+  3. Zotero integration
+    - We can't really demonstrate it this lesson, but the way Quarto's visual editor integrates with Zotero on your laptop is supurb
+    - Zotero is an open source reference manager
+      - If you aren't using a reference manager, you 110% should be
+        - Zotero is a fantastic choice, as it's open-source and free, [check it out here](https://www.zotero.org)
+    - If you have zotero on your computer, to cite anything in your Zotero library, you just type `@` and you can search and add any article you have saved
+  4. Version control with git
+    - As Quarto `.qmd` files are plain text/code files, they're very small and work well with git for version control
+      - See the [git extra credit lesson](x-01-set-git.qmd) for more information on git
+  5. One file, variety of formats
+    - Sometimes, you need to share your work in a variety of formats
+      - Word and PDF is pretty easy, you can just save as...
+      - But what if you're asked to publish your research to a website?
+      - What if you want to work on [HiPerGator](https://www.rc.ufl.edu/get-started/hipergator/) so need your work in as `.ipynb` Jupyter Notebook?
+    - Quarto enables you to take the same work and switch formats easily and even publish to multiple formats at the same time
+    - You can also make presentations from as PowerPoint, PDF, or my new favorite, RevealJS
+      - Again, if you fix a mistake, all your tables and plots will be corrected automatically, a lifesaver 2 hours before you go on stage at ASHE!
+
+## Text Portions of a Quarto Report
+
+- No matter how good your data viz skills are, the majority of most reports are still going to be text
+- Text in Quarto reports is written as markdown text (that's what the `md` part of `.qmd` stands for)
+- [Markdown](https://en.wikipedia.org/wiki/Markdown) is a relatively simple plain text way of formatting text
+- Quarto provide a great overview of markdown basics on their site [here](https://quarto.org/docs/authoring/markdown-basics.html), let's take a look
+
+```{=html}
+<iframe width="900" height="600" src="https://quarto.org/docs/authoring/markdown-basics.html"></iframe>
+```
+
+### Quarto Visual Editor
+
+- However, Quarto also has a visual editor, which looks like a simplified Microsoft Word, with point and click options for everything
+  - You can toggle between `source` and `visual` modes at the top left of any `.qmd` file in RStudio
+  - All the visual editor does is write actual markdown based on what you clicked
+    - If you want to learn markdown, flipping between the two is a great way to do that
+- In my day to day life
+      - If you start using Quarto on a regular basis, you'll inevitably become familiar with markdown basics, as it is so much faster!
+  - If I'm writing extended passages of text, I usually use the visual editor (primarily for the Zotero referencing feature I metioned above)
+    - If you know markdown syntax (e.g., headings, bold, etc.), you can type it into the visual editor rather than clicking on options
+  - If I'm writing, I generally prefer the source editor
+- For this class, you should be able to use the visual editor for most of your needs, no need to learn markdown!
+
+> ## Quick Excercise
+> 1. Inside the Quarto template you downloaded at the top of the lesson write a few sentances descrbing your proposal for your reproducible report
+> 2. Add an appropriate header
+> 3. Add **bold face** around your dependent variable
+> 4. Make your data source name *italic*
+
+## Code Portions of a Quarto Document
+
+- The text is all well and good, but, the real power of Quarto comes from the ability to integrate code into work
+- There are two main ways of doing this
+  - Inline code chunks
+  - Sourcing `.R` scripts
+
+### Inline Code Chunks
+
+- For shorter chunks of code such as printing tables and plots, or short calculations, you can create code chunks in the `.qmd` file
+  - These are like you cut an `.R` script up into little pieces and put them in between text
+  - They still run like one continuous `.R` script, from top to bottom
+    - Anything you `<-` assign in an earlier chunk will be available in later chunks
+  - The results/output of code in a chunk will print where the chunk is in the text in the rendered document
+  - You can add a code chunk by clicking on the insert code button along the top, or, by keyboard shortcut
+    - command + option + I on Mac
+    - ctrl + alt + I on PC
+      - Once inserted, you can name chunks for [cross-referencing](https://quarto.org/docs/authoring/cross-references.html) and [set executation options](https://quarto.org/docs/computations/execution-options.html) to change if/how they output results, both of which are beyond the scope of this class
     
+- Let's start out by reading in data, then making a simple ggplot of math test scores
+  - Since we want to see the results, we will just call it rather than assigning it to an object
+  - Note: We need to load packages in our quarto script every time
+    - Unless they are loaded by a script we source (see below) 
+  
+```{r basicplot}
+library(tidyverse)
+
+df <- read_csv(file.path("data", "hsls-small.csv"))
+
+ggplot(data = df) +
+  geom_histogram(mapping = aes(x = x1txmtscor))
+```
+
+> ## Quick Excercise
+> 1. Add a new code chunk to your Quarto document
+> 2. Read in the `all-schools.csv` from the `sch-test` folder
+> 3. Make a line ggplot for math scores with colored lines for each school
+
+```{r mathplot, echo=FALSE, purl=FALSE}
+df_2 <- read_csv(file.path("data", "sch-test", "all-schools.csv"))
+
+ggplot(df_2) +
+  geom_line(mapping = aes(x = year,
+                          y = math,
+                          color = school)) +
+  labs(title = "Math Scores 1980-1985 by School")
+
+```
+
+- Okay, those are printing, but last week we put so much work into creating a pretty plot, do I really have to copy all that code?
+  - The answer is no!
 
 ## Sourcing scripts
 
-
-In addition to using R in this course, you will also learn to use
-[Markdown, a plain text markup language created by John Gruber in
-2004](https://daringfireball.net/projects/markdown/). If you're
-thinking, no, not _another_ language --- rest assured that Markdown is
-very easy to learn and use. In fact, it's possible you've already used
-Markdown (or a version of it) if you've ever used Slack or a
-lightweight writing tool like iAWriter.
-
-### _But why not just use MS Word?_
-
-Most people who do any writing on a computer are familiar with MS
-Word. Even people who don't use MS Word likely write with a MS
-Word-like program. Since we're all on the same page, why introduce a
-new way to write --- why Markdown?
-
-The primary reason to bother is that Markdown files are easier to
-share and better support replicability in a quantitative research
-workflow. Understanding why this it the case requires first
-understanding the difference in how each of these writing tools
-handles a document's content and formatting.
-
-## WYSIWYG vs WYSIWYM
-
-### "What you see is what you _get_"
-
-_WYSIWYG_ (pronounced how you might guess - "whizzy-whig") stands for
-_what you see is what you get_. MS Word and similar programs are
-WYSIWYG writing tools. Want some text bolded? You highlight the text,
-click on the bold text button (or hit Control/Command-B) and the text
-becomes **bold**. Want 1.05" margins to increase the page count
-(teachers _always_ know, by the way...), then you adjust the margins
-and watch the text squeeze a little and the page count increase.
-
-The point is that as you write, you control the _content_ and how it's
-_formatted_ at the same time. This is really powerful. You can see
-your document (literally) taking shape and when you're done writing,
-you're mostly done formatting, too. 
-
-But one problem from a research perspective is that WYSIWYG document
-preparation programs don't always share well, meaning that the
-formatting isn't always preserved across computers or operating
-systems. Sometimes equations don't open correctly; the font you
-selected doesn't exist on another computer. While programs may be able
-to open each other's files (_e.g._ OpenOffice can open a `.docx`
-file), that's not always the case. They open different-program files
-with many errors or even not at all.
-
-The second problem is they don't work well with reproducible
-workflows. Let's say you've done some data analysis and make 10 tables
-and 10 figures. You've carefully placed and formatted in your MS Word
-report. Perfect! But before giving to your supervisor or submitting to
-a journal, you get some new data and need to rerun everything...ah!
-You'll have to go through the whole transfer and formatting process
-again, increasing the likelihood of introducing errors.
-
-### "What you see is what you _mean_"
-
-_WYSIWIM_ ("whizzy-whim"), on the other hand, separates formatting
-from content. Rather than making bold text bold, you instead add a bit
-of markup --- some special syntax --- to the text you want to be
-bold. Only when the document is finally _compiled_ into the final
-form will the **text be bold**. 
-
-Markdown syntax uses plain text characters to indicate
-formatting. This lesson was written in Markdown, so to show you an
-example, here's the prior paragraph, in plain Markdown syntax:
-
-```markdown
-_WYSIWIM_ ("whizzy-whim"), on the other hand, separates formatting
-from content. Rather than making bold text bold, you instead add a bit
-of markup --- some special syntax --- to the text you want to be
-bold. Only when the document is finally _compiled_ into the final
-form will the **text be bold**. 
+- Technically, you could do everything in code chunks, from data joining and cleaning right through to analysis
+  - But, this will get really long, and make it harder to skip around and navigate the text of your document while you're editing
+- A better solution is to `source()` plain `R` scripts that have already been written
+- When you do this, any objects created in those scripts will then be in the environment and able to be added seamlessly to your Quarto document
+- To demonstrate, let's `source()` our R script from last week's lesson
+  - There are two things that need to be right for this to work
+    - The script has to be able to be run top to bottom with no errors
+      - Anything that creates an error needs to be `##` commented out
+    - You need to know where the file is
+      - In our case, because we used a slightly messy kitchen approach (see our [setup lesson on reading data](02-set-data.qmd) for a reminder) all our scripts should be in the top level of your project folder, so you should be able to source them by name
+        - If they're somewhere else, you can use `file.path()` like we use for data etc.
+      
+```{r sourcereal, echo=FALSE, include=TRUE, purl=FALSE}
+source(file.path("_site", "r-scripts", "06-viz-ii.R"))
 ```
 
-Markdown solves the two problems noted above. First, it's written in
-plain text, which means that it can be opened on any computer running
-any operating system. Even if the end user doesn't have a way to
-compile the raw Markdown syntax into the nice-looking final form, the
-text is still very legible. In fact, this feature --- ability to read
-uncompiled --- was a motivating force behind the development of
-Markdown:
+```{r sourceshow, eval=FALSE, echo=TRUE, purl=TRUE}
+source("06-viz-ii.R")
+```
 
-> The idea is that a Markdown-formatted document should be publishable
-> as-is, as plain text, without looking like it’s been marked up with
-> tags or formatting instructions. [_(John Gruber, Markdown
-> website)_](https://daringfireball.net/projects/markdown/) 
+- Now, with that script sourced, we can call objects we created in that script, and they will appear in our Quarto document
+  - For example, if we `source()` a script that joins and cleans data and leaves it assigned to an object `df_clean`, we can then call `df_clean` in a code chunk and it will be waiting
+  - Remember right at the end of last week we saved our final plot to `patch` and I said why was a surprise, this is why!
+    - We simply call `patch` and our fancy patchwork will print out beneath the chunk
+      - Note, since we loaded the `patchwork` library in the script we sourced, we don't need to load it here
 
-Second, because it's plain text, it integrates well with scripting
-languages like R. Remember our example from before? If your final
-report was in Markdown instead of MS Word, you could rerun your
-analyses with the updated data and then recompile your final report
---- tables and figures updated automatically!
+```{r patch}
+patch
+```
 
-In fact, R and Markdown work so well together that you can combine
-them in a single --- appropriately named --- RMarkdown document that
-takes a combined file ending:
+- This logic is really useful to keep long streams of code out of your Quarto document
+- You also probably have lot's of code already written in an `.R` script, and this is much easier than copy and pasting it all
 
-1. R script: `analysis.R`
-1. Markdown script: `write_up.md`
-1. RMarkdown script: `report.Rmd`
+> ## Quick Excercise
+> 1. `source()` `04-wrangle-ii.R`
+> 2. print out the data object we made called `df_long`
 
-or 
+```{r sourcereal2, echo=FALSE, include=TRUE, purl=FALSE}
+source(file.path("_site", "r-scripts", "04-wrangle-ii.R"))
 
-`analysis.R` + `write_up.md` = `report.Rmd`
+print(df_long)
+```
 
-We'll keep our R and Markdown scripts separate at first, but know that
-you'll submit an RMarkdown file for your final project.
+- That covers the basics of quarto document content! No matter what output you choose, this all stays the same!
 
-## Markdown syntax
+## YAML Header Options
 
-Rather than list Markdown syntax here, I'll direct you to an excellent
-resource: [_The Markdown Guide_](https://www.markdownguide.org). On
-this site, you find example of both [basic syntax (headers, italics,
-bold, links)](https://www.markdownguide.org/basic-syntax/) and [more
-advanced syntax (tables and
-footnotes)](https://www.markdownguide.org/extended-syntax/). 
+- The final thing to be aware of is the `YAML` header, that stuff at the top of the `.qmd` file
+- In your template, I have set some basic things up that you can change
+  - There are so, so, so, many options, many of which change with the format you are using
+  - Some basic ones to be aware of for now are
+    - `title:` kind of self-explanatory
+    - `author:` again, kind of self-explanatory
+    - `date:` this can take a specific date, or, it "today" will use the current date when you render the document
+    - `editor: visual` defaults to the visual editor, easier for now
+    - `editor_options:` 
+        `chunk_output_type: console` Just means that when editing the document and running code chunks, the output will appear in the console (like it always has with R scripts) rather than appearing as a preview in the script
+          - This is a personal preference, feel free to play around!
+    - `format`: this is power of Quarto, there are so many options which will be discussed next
+    - `execute:` these are the default way we want code chunks to output
+     - `echo: FALSE` means don't print out the code (e.g., this site use `echo: TRUE`)
+     - `message: FALSE` means don't print out information like when tidyverse reads in data
+     - There's a bunch more of these options, setting them in the YAML Header makes that the default behavior for the document, you can set them at the chunk level to only apply to that chunk
+      - You don't need to alter these for this class, but if you want to learn more, see [executation options documentation](https://quarto.org/docs/computations/execution-options.html)
 
-Here's an example from the [Markdown Guide basic syntax page for
-making headers](https://www.markdownguide.org/basic-syntax/):
 
-![Markdown Guide](site-attachments/btskinner-imgs/markdown_guide_example.png)
+> ## Quick Excercise
+> 1. Change the title to something appropriate for your final report
+> 2. Change the author to your name
 
-On the left you have the Markdown syntax. To make a header, just put a
-pound sign / hash (`#`) in front of the line. As you want smaller
-headers, just keep adding pound signs. The middle column shows you the
-underlying [HTML (web markup
-language)](https://en.wikipedia.org/wiki/HTML) code. This isn't that
-important for us. The last column, however, shows the text as it will
-render in your final document.
+## Quarto Output Formats
 
-The site is also nice in that it shows you a few different ways, when
-they exist, of doing the same thing. Take some time to go through the
-site --- it won't take long --- and keep it in mind as a reference for
-the future.
-
-## Other references
-
-- [The Plain Person’s Guide to Plain Text Social
-  Science](https://plain-text.co), by Kieran Healy (very short, but
-  the first chapters make a strong case for using plain text when
-  doing quantitative social science)
+- As I said at the start of this lesson, Quarto has so many different output formats you can choose from
+  - The majority fall into three main categories
+    - `html`
+    - `pdf`
+    - Microsoft Office (`docx` and `pptx`)
+  - We will mostly focus of office output for this class, but I will give a quick overview of the others first
   
-In this lesson, we'll combine many of the pieces we've already
-covered --- reading in data, cleaning data, making figures
---- into a single RMarkdown document. We'll purposefully keep it
-simple at first by reusing some code we've seen before.
+### `html`
 
-## Getting started
+- `html` is the file format that web browsers read for almost every website you visit
+- This is probably my favorite output style, as it's far less limited than the other types
+  - Fun fact: this entire website is built with Quarto as html output
+    - Click on the little GitHub icon in the lower right corner to see to `.qmd` files
+  - You can include fancy content like interactive graphics
+- Unfortunately, the majority of work in academia (for now at least) still relies on traditional paper-based document formats, so we can't justify spending much time on this today
+- If you want to learn more about `html` output, start with the Quarto documentation on [Quarto Websites](https://quarto.org/docs/websites/) and [Reveal.js Presentations](https://quarto.org/docs/presentations/revealjs/)
 
-To properly compile a PDF documents from Markdown, you'll need some
-version of [LaTeX](https://www.latex-project.org/get/), a typesetting
-system best known for being able to nicely render mathematical
-notation but that is really useful for making reproducible
-documents. You should have already downloaded this at the start of the
-course. If you didn't, visit the [software
-page](../software/index.html) for information on how to get it.
+### `pdf`
 
-If you are unable to get LaTeX to install properly or cannot get the
-document to compile as PDF, you should be able to compile to HTML
-instead.
+- The first paper-based document format is straight to `.pdf`
+- Traditionally, this has been dominated by [LaTeX](https://www.latex-project.org)
+  - Students under Dr. Skinner's version of the class used this
+  - Personally, I find LaTeX slow, unintuitive, and inflexible
+- In Quarto 1.4 (the version that came out a couple of weeks ago), support for a new much more user-friendly pdf generator [typst](https://typst.app) has been added
+  - I haven't had chance to play around with this yet, but from first impressions I'm hopefull!
+- You can also create pdfs straight from Quarto via word using an R script like [this](site-attachments/docx2pdf.R) which I use for the syllabus
 
-You will also need the R **knitr** and **rmarkdown** libraries. You should
-have **rmarkdown** already, but if you haven't already installed either, type
+### `docx`
 
-```r
-install.packages(c("knitr","rmarkdown"))
-```
-
-into your R console. **NOTE** that even if you've already installed
-rmarkdown, `install.packages()` will just quickly reinstall it.
-
-## What is RMarkdown?
-
-[From the RStudio
-website](https://rmarkdown.rstudio.com/articles_intro.html):
-
-> R Markdown is a file format for making dynamic documents with R. An
-> R Markdown document is written in markdown (an easy-to-write plain
-> text format) and contains chunks of embedded R code...
-
-In other words, an RMarkdown (hereafter _RMD_) document has two basic
-components:
-
-- R code (in **code chunks**)
-- Markdown text (most everything else outside of the code chunks)
-
-RMD documents use the file ending, `*.Rmd`, which makes sense as they
-combine `R` code with `md` text. To _compile_ an RMD file, meaning to
-
-1. convert the plain Markdown text into formatted text
-2. run R code, producing all output along the way
-3. combine the Markdown text plus R output into a finished document
-
-You will use the **rmarkdown** `render()` function, which in turn uses
-the **knitr** `knit()` function under the hood. [It can be a bit
-confusing how all the pieces work
-together](https://stackoverflow.com/a/40563480), but luckily, you can
-use RStudio's point-and-click interface to knit your documents. 
-
-## Starting a new document
-
-When you open a blank RMarkdown document, RStudio will by default fill
-it with some example text that looks like this. You can change this in
-RStudio's settings, but I think it's helpful to see the skeleton of an
-RMarkdown document (plus, it's not a big deal to just erase the parts
-you don't need).
-
-#### Example text in new file started via RStudio (default)
-
-```
----
-title: "Document Title"
-author: "Benjamin Skinner"
-date: "1/30/21"
-output: pdf_document
----
-```
-
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
-
-### R Markdown
-
-This is an R Markdown document. Markdown is a simple formatting syntax
-for authoring HTML, PDF, and MS Word documents. For more details on
-using R Markdown see <http://rmarkdown.rstudio.com>.
-
-When you click the **Knit** button a document will be generated that
-includes both content as well as the output of any embedded R code
-chunks within the document. You can embed an R code chunk like this:
-
-```{r cars}
-summary(cars)
-```
-
-## Including Plots
-
-You can also embed plots, for example:
-
-```{r pressure, echo=FALSE}
-plot(pressure)
-```
-
-Note that the `echo = FALSE` parameter was added to the code chunk to
-prevent printing of the R code that generated the plot.  
-
-Rather than going through this example text to learn about RMarkdown,
-we'll use our own example document, `test_scores.Rmd`, which is linked
-above. 
-
-## Compile an RMarkdown document
-
-We'll go through the main sections our example RMD document below. So
-you can follow along better, you should compile `test_scores.Rmd` as
-your first step.
-
-Once you've downloaded the file and data (if you don't have it
-already), place the RMD file in the `scripts` directory and the
-unzipped data in the `data` directory.
-
-When you open `test_scores.Rmd` in RStudio, you should see a button in
-the upper left facet that says **Knit** with a ball of string icon.
-
-![](site-attachments/btskinner-imgs/rstudio_rmarkdown.png)
-
-If you have the working directory correctly set to
-`scripts` and have placed the `sch_test/` data folder inside `data`,
-you should be able to click **Knit** and have the document
-compile into a PDF. By default, RStudio will open a PDF viewer window
-or show you the file in the lower right facet in the **Viewer** tab.
-
-**NOTE** that if you've had trouble with LaTeX, you should be
-able to compile into an HTML file, which you can open in your browser.
-
-## Sections of our document
-
-## YAML header
-
-YAML, which stands for ["YAML Ain't a Markup
-Language"](https://yaml.org), is a common way to configure dynamic documents
-like RMD documents. It's the first thing you see at the top of an
-RMarkdown file. The YAML header is this piece of code:
-
-```{r, echo = F}
-#writeLines(readLines("../scripts/test_scores.Rmd")[2:7])
-```
-
-Notice the opening and closing three hyphens (`---`). This is how R
-knows that this section of code is special. The YAML can become
-complex, as you add document options, but for now we keep it simple:
-
-- **title**: the document title (printed)
-- **author**: the document author (printed)
-- **date**: manually set date (printed)
-  - leave **date** out of YAML and the date on which the document is
-    compiled will be added automatically, or you can use the LaTeX
-    macro `\today`, which will also print today's date
-  - set **date** to `""` (empty string) for no printed date
-- **output**: document output
-  - `pdf_output`: for PDF (uses LaTeX)
-  - `html_output`: for web page output (open in browser)
-  - `word_output`: for MSWord output (uses MSWord)
+- `docx` output is, IMHO, the best starting place
+- When you render your Quarto document, the result is a `.docx` file that you can then open in word or send to a supervisor/advisor
+  - For example, if I'm running the data analysis for a project, I can create all the plots and tables, write up the methods section, then pass to my advisor to fill in the literature sections
+    - Sure, straight to `.pdf` is nice is everyone is working in Quarto, but often (sadly) they won't be
+      - `.docx` is a just more practical option a lot of the time
+    - You still get a document rendered with all the tables and plots which will update if the data changes upstream
+- Plus, even if you craft the entire document in Quarto, it can be nice to have the option to run Grammarly on it in word, or tweak one little layout feature you can't figure out how to get right in Quarto
+- This is the output format I'd like you to use for your reproducible reports (unless you can convince me you need a different output)
+  - So let's take a look through the [Quarto documentation for `.docx` output](https://quarto.org/docs/reference/formats/docx.html)
   
-We're using `pdf_output` but you can either change this setting or
-override it when compiling the final document.
-
-**NOTE** that the colon (`:`) is a special character in YAML. Notice that I
-don't necessarily have to use quotation marks for strings with spaces ---
-I do for the title, but not for my name. That said, if your title
-includes a colon, you need to wrap the entire title string in double
-quotation marks (`"`) --- otherwise the document won't compile.
-
-## Code chunks
-
-In general, an RMD code chunk looks like a markdown code chunk. The
-key difference between the two is that while a plain markdown code
-chunk is purely about formatting, the RMD code chunk will by default
-try to run the code and print any output:
-
-#### Markdown code chunk
-
-```r
-## this is just a representation 
-## when compiled: nothing happens, only code is printed
-x <- rnorm(1000)
-x
+```{=html}
+<iframe width="900" height="600" src="https://quarto.org/docs/reference/formats/docx.html"></iframe>
 ```
 
-#### RMarkdown code chunk
+As I say, the Quarto documentation is fantastic, I'm not asking you to do anything beyond the default docx output for the class
+  - But, if you want to, `docx` output is formatted by a template `docx` file, read more about those in the [Word templates documentation](https://quarto.org/docs/output-formats/ms-word-templates.html)
 
-```{r}
-## this is active R code
-## when compiled: the R code is run, and both code and results are printed
-x <- rnorm(1000)
-x
-```
+## Rendering Quarto Reports
 
+- To see the magic happen, we simply have to hit the "Render" button at the top of the Quarto file
+  - This will go from top to bottom of our file turning the text/markdown sections into formatted text, and the code output to 
 
-See the difference? It's subtle, but notice that the RMD chunk
-places braces around the **r** after the tick marks: `{r}`. In a
-normal markdown document, the braces won't mean anything. But in an
-RMD document, it's the difference between just printing the code and
-running the code before printing the code and its output.
+### A Common Trap when Rendering Quarto Reports
 
-### Code chunk options
-
-```{r, echo = F}
-#writeLines(readLines("../scripts/test_scores.Rmd")[9:48])
-```
-   
-In our first code chunk, notice how we still load our libraries and
-set our file paths. For the libraries, we need to load knitr with
-`library(knitr)` in addition to whichever libraries we need for our
-analysis. As usual, we also load the tidyverse.
-
-In addition to our normal analysis setup, notice that we add
-knitr-specific options in two places.
-
-#### Local code chunk options (only affect _this_ code chunk)
-
-First, we can set _local code chunk options_ within the braces that
-start the code chunk. These options will only affect this particular
-code chunk.
-
-```{r, echo = F}
-#writeLines(readLines("../scripts/test_scores.Rmd")[9])
-```
-
-After `r`, the first word is the name of the chunk. I've called it
-`setup`, since that's what this chunk is doing, but you can name it
-anything you want. It's not strictly necessary to name your chunks,
-but it can come in handy as your documents become more complex: if you
-get an error, it's much easier to find `data_input` chunk than
-`unnamed_chunk_38`. **NOTE** that all named chunks need to be unique
-or your document will not compile. If really like a particular chunk
-and want to reuse it, you can always add a number at the end:
-`data_input_1`, `data_input_2`, `data_input_3`, _etc_.
-
-There are a lot of [options you can
-set](https://yihui.org/knitr/options/) for your chunks. Here we set
-the following:
-
-- `echo=F` (FALSE): don't repeat this code in output
-- `include=F` (FALSE): run code, but don't include output (unless a
-  plot)
-- `message=F` (FALSE): don't output any messages
-- `warning=F` (FALSE): don't output any warnings
-- `error=F` (FALSE): don't output any errors
-
-As of [knitr 1.35](https://github.com/yihui/knitr/releases/tag/v1.35),
-you can also include chunk options in rows below the opening line
-using the `#|` symbol pair. We could rewrite our example options
-using:
-
-
-```{r setup}
-#| echo: FALSE 
-#| include: FALSE
-#| message: FALSE
-#| warning: FALSE
-#| error: FALSE
-```
-
-
-However you choose to include them, these options keep our chunk from
-echoing the input code into our document and prevents any
-output. Basically, silence. Sometimes we want our code to echo;
-sometimes we want output. But since we are making a report, we
-generally want the underlying code to remain hidden. Readers of our
-report should only see the write up and any relevant tables and
-figures --- but not all the hard coding we did to make them!
-
-
-#### Global code chunk options (affect _all_ code chunks)
-
-After this first chunk, we can save some typing by setting these
-options for the rest of the document using
-`knitr::opt_chunks$set()`. Notice that we include the same settings as
-above plus a few more:
-
-- `fig.path`: path + prefix for all figures (put them in our
-  `/figures` folder and add `"ts-"` to the name)
-- `dpi` (dots per inch): the print quality of our figures; 300 dpi is
-  a nice standard for print (72dpi is sufficient for most web output)
-- `out.width`: our figures should fill the line width; if it's an 8.5
-  by 11 inch page with 1 inch margins, then a width of 7.5 inches
-- `comment`: if we return code output, don't prepend with `#` or
-  anything --- just the output.
-  
-[There are other options we can
-use](https://yihui.org/knitr/options/). We can also override these
-setting as necessary for individual code chunks using local settings
-like we did in the first chunk (as you'll see below). The main idea
-with the set up code chunk is to get our document settings as close as
-possible to the way we generally want them.
-
-### Chunk to chunk
-
-Below, you see two code chunks with some Markdown text in the middle.
-
-```{r, echo = F}
-#writeLines(readLines("../scripts/test_scores.Rmd")[50:78])
-```
-
-An important thing to remember is that your coding environment carries
-from chunk to chunk, meaning that if you read in data in the code
-chunk (named `input`) as `df`, then `df` will still be available to
-you in the next chunk (named `table_all`) after writing some Markdown
-text. This means that you can still organize your RMD scripts like
-your R scripts (no need to do everything at once in a single huge
-chunk).
-
-### Make a nice(r) table with `kable()`
-
-Since we want to show all of our data (which isn't very big in this case) and
-because the data frame `df` already is organized in the way we want to
-show the data (school by year with different columns for each test),
-we can just print out the data frame. To be clear, often our data will
-be too big to do this, but in this instance, we are okay.
-
-We could just print the data frame by calling `df` in a chunk. But to
-make it look nicer with a better format, we use [`kable()` which is part of
-knitr](https://bookdown.org/yihui/rmarkdown-cookbook/kable.html).
-
-```{r, echo = F}
-#writeLines(readLines("../scripts/test_scores.Rmd")[69:78])
-```
- 
-Even using mostly default options, `kable()` will make a nice looking
-table for us. We add `digits = 0` to make sure that we only show whole
-numbers and we change our column names to something nicer (leaving a
-blank `""` for the school name column, which is obvious). Notice that
-in the chunk braces we add `include = T` so that the output --- our
-table --- for just this one code chunk will be printed. This is an
-example of using local code chunk options to override global chunk
-options. 
-
-### Inline code
-
-You can also call R code _inline_, that is, R code that sits outside of code chunks
-proper and instead is mixed in with your Markdown text.
-
-```{r, echo = F}
-#writeLines(readLines("../scripts/test_scores.Rmd")[89:126])
-```
-
-Inside the code chunk called `table_averages` we do three things:
-
-1. Use **dplyr** to munge our data to get averages
-2. Store names and scores for high test scores in distinct well named
-   objects:
-   - `hi_<test>_sch`: school name with highest average math/read/science
-     score
-   - `hi_<test>_scr`: highest average math/read/science score
-3. Make/print table using `kable()`
-
-In the Markdown text below this code chunk, we call the values using
-the inline code method 
-
-````markdown
-`r `
-````
-
-that is, single back tick, an `r`, the code we want, then closing back
-tick. We also pipe the object value to the `round()` function so that
-we don't return averages with extra and unnecessary decimal points. We
-could have simply run all the code inline (included what we did in
-step 2 of the code chunk above), but that would have made for extra
-messy code.
-
-Why do this? One reason is that being able to incorporate data-driven
-values directly in your test is very powerful. Imagine you need to
-reproduce the same report on a monthly or quarterly basis when data
-are updated. Part of the written report includes values directly taken
-or calculated from the data. Rather than update these ["magic
-numbers"](https://en.wikipedia.org/wiki/Magic_number_(programming))
-each time (potentially missing some), you can use inline R code like
-we've done here. All you need to do then is update the data and
-recompile the report. Voila! Everything is properly updated.
-
-Taking it a step further, you can include all kinds of `ifelse()` logic to make
-complex dynamic documents. _If_ the value of _X_ is equal to or greater than the
-value of _Y_, then print "equals or exceeds"; _else_ print "remains
-less than". Be aware, however, that your document text
-still needs to make sense. It can be difficult enough writing one
-clear sentence; having to write a sentence that will remain coherent
-despite variable inputs can be _very tough_!
-
-### Figures
-
-Finally, making figures is pretty much the same as making tables:
-
-```{r, echo = F}
-#writeLines(readLines("../scripts/test_scores.Rmd")[129:158])
-```
-
-Having reshaped our original data frame long (`df_long`), we make a
-figure just as we've done in the past --- with some formatting
-improvements to make it nicer looking. While it's not strictly
-necessary to store the figure in an object (`p`) that we then call, it
-works just fine.
-
-Notice that again added `include = T` to the chunk brace. Because we
-added figure options to `opt_chunks$set()` in the setup code chunk,
-this figure (as well as the next one) is sized so that it fills up the
-page width (with height determined as a ratio of that width) and
-printed at 300 dpi quality. If you look in the `figures` folder,
-you'll see the figure named `ts-fig_unadjusted`, which is the prefix
-we set above with the name of the code chunk.
-
-## Text
-
-Throughout our RMD file, we've include Markdown text. This text lives
-outside of the code chunks and is always printed in the final
-document. It follows normal Markdown text rules, but can have R code
-placed inline, as we saw above.
-
-## Writing an RMD document
-
-Just as when you write a plain R script, your progress from initial
-RMD draft to final product will be iterative. While you can run R code
-from inside code chunks just as you've been all semester, you may find
-it useful to start your analyses in plain R files first and only add
-them to an RMD document later. 
-
-For big projects, such as dissertation, it also doesn't make much
-sense to put _everything_ --- data reading, cleaning, analysis,
-table/figure making --- inside a single RMD document. You have to redo
-your entire workflow each time you compile! For large projects, it
-might make sense to do all the heavy lifting in separate R scripts ---
-saving cleaned up data sets, tables, and figures along the way --- and
-putting all the pre-establish pieces together at the end. But for
-small projects, such a descriptive policy report, a single RMD
-document might suffice.
-
-
-
-
-
-
-## Installing LaTeX
-
-LaTeX is a document typesetting system/language. While it's probably
-best known for its ability to nicely typeset mathematical equations,
-LaTeX works really well quantitative research workflows. That said, it
-can be difficult to install and work with.
-
-We'll use LaTeX later in the semester so that you can make nice PDF
-reports. The good news is that you won't really need to interact with
-LaTeX at all to do so --- other than to install it now. 
-
-Since you don't need a full TeX distribution on your computer, you can
-most likely get by using the [TinyTeX](https://yihui.org/tinytex/)
-distribution that we can install directly from R. If you want a full
-version of TeX on your computer (**NOTE:** It's very large), then skip
-to the full installation for your computer.
-
-### TinyTex
-
-Once you've installed R and RStudio, open RStudio and type the
-following in the Console:
-
-```r
-install.packages("tinytex")
-tinytex::install_tinytex()
-```
-
-This will install the `tinytex` R package and then install the TinyTeX
-distribution (it may take a minute or two).
-
-
+- One thing that people always get tripped up on is when something runs while editing the Quarto document, and doesn't when rendering/running it
+  - The main thing to be aware of is that when it starts to render, it will work with an entirely clean environment
+    - If you have anything (a plot, a dataframe) saved in your environment you can access that when running the chunks one by one
+      - When it renders, anything you call needs to created, either by `source()`-ing a script that makes it, or by making it within an earlier code chunk
+      - If you move chunks around, make sure you don't try and call something before it's been assigned!
 
 # Assignment
 
-For this assignment, I want you to create a 1-2 page RMD document that
-uses `hsls_small.dta` to answer the following questions:
+- Good news! Through the quick exercises in this class, you should have some of this assignment done!
 
-> Do educational expectations between a student and their parents
-> generally differ?  If so, which group tends to have higher
-> expectations? Do differences vary by the parents' own educational
-> attainment?
+In a Quarto Document (you can continue using the template you started today)
 
-Your final file should include at least one figure and at least one
-table of summary statistics. The figure and table should be formatted
-nicely, with good axis labels and column names. You should explain
-your findings in the document text using Markdown syntax. You do not
-need to use or cite outside sources --- just describe what you
-find. You also do not need to perform inferential tests (_e.g._ t-test
-of differences), though you can if you wish. I should not see input
-code in the final document --- only the final clean output. In other
-words, it should look like a product you would give to a boss or would
-want given to you.
+*Should already be done*
 
-I recommend using `test_score.Rmd` as a template for how you should:
+1. Write a few sentences describing your proposal for your reproducible report
+2. Add an appropriate header
+3. Add **bold face** around your dependent variable
+4. Make your data source name *italic*
 
-1. Read in the data
-2. Wrangle the data as necessary to generate your analysis
-3. Create any tables you may have
-4. Create any figures you may have
+*New steps*
 
-Feel free to repurpose any code you've seen in prior lessons, but make
-sure you answer the question to the best of your ability.
+5. Read in at least one data file you intend to use for your final project
+6. Write a few sentences describing where you got the data from
+7. Add an appropriate header (e.g., "Data")
+8. Summarize one or more continuous variable including 
+  - mean
+  - standard deviation
+  - minimum
+  - maximum
+9. Summarize one or more categorical variables including
+  - count for each category
+  - percentage of count for each category
+10. Save the file as `report.qmd`
 
-#### Submission details
+Congratulations, you've officially started the Quarto document for your final project!
 
-- Save both your code file (`<lastname>_assignment_7.Rmd`) and
-  compiled document (`<lastname>_assignment_7.pdf`) in your scripts
-  directory.
-- Push changes to your repo (the new script and new folder) to GitHub
-  prior to the next class session.
+Once complete, turn in the .qmd script (no data etc.) to Canvas by the due date (Sunday 11:59pm following the lesson). Assignments will be graded on the following Monday (time permitting) in line with the grading policy outlined in the syllabus.
 
 :::

@@ -581,7 +581,7 @@ df_wide <- df_long |>
 df_wide
 ```
 
-#### `pivot_wider()` with separation
+#### `pivot_()`-ing with separation
 
 - Unfortunately, it's not always so clear cut to reshape data.
 - In this second example, we'll again reshape from wide to long, but with an extra argument that helps when there's more than one piece of information in the variable name
@@ -630,6 +630,25 @@ df_long
 > #### Quick exercise(s)
 > 1. What do you think we'd need to change if the column name had 3 pieces of information all separated by an underscore?
 > 2. What about if the information was separated by a `.` period?
+
+- Now, if we want to get our data back in to extra long form, we can use a very similar argument in `pivot_wider()`
+  - We just use `c()` to say get the name information from two columns
+  - `names_sep = "_"` is identical to before, but this time it's saying to place and underscore as the separator
+
+```{r}
+## ---------------------------
+## process
+## ---------------------------
+
+## wide to long
+df_wide <- df_long |>
+    pivot_wider(values_from = score,
+                names_from = c(test, year),
+                names_sep = "_")
+
+## show
+df_wide
+```
 
 ## Final note
 

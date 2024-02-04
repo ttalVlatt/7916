@@ -1,6 +1,9 @@
 ---
 title: "II: Customization"
 image: apple-touch-icon.png
+execute: 
+  message: false
+  warning: false
 editor_options: 
   chunk_output_type: console
 ---
@@ -11,7 +14,7 @@ editor_options:
 
 [{{< fa code >}} R Code](/r-scripts/06-viz-ii.R)
 
-```{r, include = FALSE, purl = TRUE}
+```{r chunk1, include = FALSE, purl = TRUE}
 ## -----------------------------------------------------------------------------
 ##
 ##' [PROJ: EDH7916: Data visualization with ggplot2]
@@ -40,7 +43,7 @@ That's what we're doing in this lesson.
 - In addition to tidyverse, we'll add a new library, [patchwork](https://patchwork.data-imaginist.com), that we'll use toward the end of the lesson.
 - If you haven't already downloaded it, be sure to install it first using `install.packages("patchwork")`.
 
-```{r}
+```{r chunk2}
 ## ---------------------------
 ##' [Libraries]
 ## ---------------------------
@@ -51,7 +54,7 @@ library(patchwork)
 
 - Finally, we'll load the data file we'll be using, `hsls_small.csv`
 
-```{r}
+```{r chunk3}
 ## ---------------------------
 ##' [Input data]
 ## ---------------------------
@@ -71,13 +74,12 @@ df <- read_csv(file.path("data", "hsls-small.csv"))
 > Quick Question:
 We didn't have to do this last week as default behavior when plotting is simply to drop missing values, which worked fine using the `.dta` version of this file. Why wouldn't that work with the `.csv` version of the same data?
 
-```{r}
+```{r chunk4}
 ## -----------------------------------------------------------------------------
 ##' [Initial plain plot]
 ## -----------------------------------------------------------------------------
 
 ## Drop missing values for math test score
-## Note: they would be dropped by ggplot anyway, but this prevents that warning
 df <- df |>
   filter(x1txmtscor != -8)
 ```
@@ -91,7 +93,7 @@ df <- df |>
       - If we want to overwrite something that is already in `p`, we just specify it again
         - Anything we don't say will be left as is
 
-```{r}
+```{r chunk5}
 ## create histogram using ggplot
 p <- ggplot(data = df) +
   geom_histogram(mapping = aes(x = x1txmtscor))
@@ -109,7 +111,7 @@ So there it is. Let's make it better.
   - This can be added as another layer to our existing plot `p`
 
 
-```{r}
+```{r chunk6}
 ## -----------------------------------------------------------------------------
 ##' [Titles and captions]
 ## -----------------------------------------------------------------------------
@@ -141,7 +143,7 @@ p
   - We don't really need a subtitle and since there's no default value, we'll just leave it out
   - Notice: `p` right now still has the placeholder `labs()` arguments, so we can just call it and overwrite `labs` with a new call
 
-```{r}
+```{r chunk7}
 ## ---------------------------
 ## titles and captions: ver 2
 ## ---------------------------
@@ -159,7 +161,7 @@ p
 
 > Quick question: What about these labels is a little silly? Try to fix it so it looks like the below 
 
-```{r, purl=F, echo=F}
+```{r chunk8, purl=F, echo=F}
 
 ## Remove the subtitle placeholder
 p <- p +
@@ -203,7 +205,7 @@ To change our _x_ and _y_ tick marks we will use:
 - Notice that within each `scale_*()` function, we use the same `start` and `stop` values for both `minor` and `major` breaks, just change the `by` option
   - This will give us axis numbers at spaced intervals with thinner, unnumbered lines between.
 
-```{r}
+```{r chunk9}
 ## -----------------------------------------------------------------------------
 ##' [Axis formatting]
 ## -----------------------------------------------------------------------------
@@ -223,7 +225,7 @@ p
   - do we need really _that_ much detail for histogram counts?
 - Let's keep what we have for the _x_ axis and increase the `by` values of the _y_ axis
 
-```{r}
+```{r chunk10}
 ## ---------------------------
 ## axis formatting: ver 2
 ## ---------------------------
@@ -251,7 +253,7 @@ p <- p +
         - These should be strings (in "") <int>in the same order as the `levels` you want to tie them to<\int>
         - In this case, we can say `labels = c("No college","College")` to match the `levels = c(0,1)`
 
-```{r}
+```{r chunk11}
 ## -----------------------------------------------------------------------------
 ##' [Legend labels]
 ## -----------------------------------------------------------------------------
@@ -269,7 +271,7 @@ df <- df |>
   
 > Quick question: I also added one other new line, who can remember what `alpha = 0.66` does?
 
-```{r}
+```{r chunk12}
 
 p2 <- ggplot(data = df) +
   geom_histogram(mapping = aes(x = x1txmtscor,
@@ -293,12 +295,14 @@ p2
 
 > Quick question: try adding something that will fix this issue and make it look like below
 
-```{r, purl=F, echo=F}
+```{r chunk13, purl=F, echo=F}
 p2 <- p2 +
   labs(fill = "Parental Education")
 
 p2
 ```
+
+## Color Scales
 
 - Personally, this graph still looks a little ugly
   - I (and a lot of people) are red-green colorblind
@@ -311,9 +315,9 @@ p2
           - For school spirit, let's pick a shade of orange and blue
             - Tip: You can add 1,2,3, or 4 next to a color in R to make it darker
 
-```{r}
+```{r chunk14}
 ## ---------------------------
-## legend labels: ver 3
+##' [Color Scales]
 ## ---------------------------
 
 ## create histogram using ggplot
@@ -333,7 +337,7 @@ Much better!
   - `facet_wrap()` uses a `~` tilde to mean "facet by this variable"
   
 
-```{r}
+```{r chunk15}
 ## Add a facet wrap for region
 p2 <- p2 +
   facet_wrap(~x1sex)
@@ -348,7 +352,7 @@ p2
 
 > From the Codebook: 1 is Male, 2 is Female
 
-```{r echo=FALSE, purl=FALSE}
+```{r chunk16, echo=FALSE, purl=FALSE}
 ## Add a facet wrap for region
 p2 <- p2 +
   facet_wrap(~factor(x1sex, levels = c(1,2), labels = c("Male", "Female")),
@@ -362,7 +366,7 @@ p2
 
 > Quick task: add a new `scale_x_continuous()` to overwrite the "breaks" we set earlier with a sequence from 0 to 100 by 10, like below
 
-```{r echo=FALSE, purl=FALSE}
+```{r chunk17, echo=FALSE, purl=FALSE}
 ## Add a facet wrap for region
 p2 <- p2 +
   scale_x_continuous(breaks = seq(0, 100, by = 10))
@@ -385,7 +389,7 @@ p2
   
 - First, let's take a look at `theme_bw()`
 
-```{r}
+```{r chunk18}
 ## -----------------------------------------------------------------------------
 ##' [Preset themes]
 ## -----------------------------------------------------------------------------
@@ -400,7 +404,7 @@ p2
 
 - How about `theme_linedraw()`?
 
-```{r}
+```{r chunk19}
 
 p2 <- p2 +
   theme_linedraw()
@@ -421,7 +425,7 @@ p2
       - ggplot units are how you resize most things in ggplot, easiest way to pick a number is to test a value and adjust from there
     - Make them round-ended pill shapes
   
-```{r}
+```{r chunk20}
 
 p2 <- p2 +
   theme(axis.ticks.x = element_line(linewidth = 0.8,
@@ -453,29 +457,23 @@ together
 
 - We technically have our original `p` plot saved, but we've made such progress since then, let's whip up a nicer second plot and assign it to `p3`
 - I've included a couple of new things here, but it should be mostly familiar
-  - `scale_fill_viridis_d()` sets color-blind friendly palettes, which can be great when you have a categorical variable but
+  - `scale_fill_viridis_d()` sets color-blind friendly palettes, especially useful when you have a categorical variable
     - Gradient color sets (greyscale, shades of red, etc.) are pretty color-blind friendly, as without any color, they all will look like greyscale
       - This is also just useful for printing in black and white!
-    - Typically though, gradient colors imply increasing/decreasing values of a continuous variable (e.g., darker red means more GOP on election maps)
+      - Typically though, gradient colors imply increasing/decreasing values of a continuous variable (e.g., darker red means more GOP on election maps)
     - The viridis palettes in R have been designed to look like discrete color scales, i.e., they don't look just like one color getting darker to most readers
-      - But they also use shading/darkness/lightness of the colors, which means if printed in black and white, or read by someone who can't see colors, they still look different
-    - For this reason, I try to use these for categorical variables in reports, unless I get carried away with school spirit (that's hint for the homework)!
+      - But they also use shading/darkness/lightness of the colors, which means if printed in black and white, or read by someone who can't see colors, they still work
+    - For this reason, I try to use these for categorical variables in reports, unless I get carried away with school spirit!
   - `begin` and `end` just allow you to trim the more extreme ends of the color palette off
-        - This is useful in situations like this when you only have two cateogories and don't want them to look totally black and white
+        - This is useful in situations like this when you only have two categories and don't want them to look totally black and white
   
 
-```{r}
+```{r chunk21}
 ## -----------------------------------------------------------------------------
 ##' [Multiple plots with patchwork]
 ## -----------------------------------------------------------------------------
 
 ## Make a nice looking second plot of math scores by by parental education
-
-df <- df |>
-  mutate(x1region = factor(x1region,
-                           levels = c(1,2,3,4),
-                           labels = c("Northeast", "Midwest", "South", "West")))
-
 p3 <- ggplot(df) +
   geom_boxplot(mapping = aes(x = pared_coll,
                              y = x1txmtscor,
@@ -496,7 +494,7 @@ p3
   - `p2 + p3`
 
 
-```{r}
+```{r chunk22}
 ## ---------------------------
 ## patchwork: side by side
 ## ---------------------------
@@ -505,43 +503,44 @@ p3
 p2 + p3
 ```
 
-- Cool! But there's a few things I don't like...
-  - The orange and blue clashes against the viridis colors
-    - So let's edit `p2` to also use the magma viridis scale too
-
-```{r}
-p2 <- p2 +
-  scale_fill_viridis_d(option = "magma", begin = 0.2, end = 0.8)
-
-p2 + p3
-```
-
-- In the preview pane, it's super squished, and even if we zoom in it's not great...
+- This is super squished, and even if we zoom in it's not great...
   - Let's try on top of each other instead
     - In patchwork, this is `/` rather than `+`
 
-```{r}
+```{r chunk23}
 p2 / p3
 ```
 
-- That's definitely better! If I'm getting picky, the boxplot is a little streched though, as it's trying to fill the length of two histograms
-  - If you want to specify a layout, you can do it using `plot_layout()` which takes a string of letters and #s 
+- Cool! But there's still a few things I don't like...
+  - The orange and blue clashes against the viridis colors
+    - So let's edit `p2` to also use the magma viridis scale too
+
+```{r chunk24}
+p2 <- p2 +
+  scale_fill_viridis_d(option = "magma", begin = 0.2, end = 0.8)
+
+p2 / p3
+```
+
+- That's definitely better! If I'm getting picky, the boxplot is a little stretched though, as it's trying to fill the length of two histograms
+  - If you want to specify a layout, you can do it using `plot_layout()` which takes a string of letters and \#s 
     - A, B, C, etc. refer to the plots in the order you add them to the patchwork
-    - # Can be used to add space
+    - \# Can be used to add space
     - So let's create a design the histograms on top take up 5 spaces, and the boxplot takes up 3, with a spacer on either side
 
-```{r}
+```{r chunk25}
 p2 / p3 + plot_layout(design = "AAAAA
-                                               #BBB#")
+                                #BBB#")
 ```
 
 - Pretty good, but when can do even better...
   - We can add a `guide_area()` for all legend keys to go
+  - We then need to add that as C in our patchwork design
   - Then inside `plot_layout()` specify `guides = "collect"` which will try and put all the legends in one place
-    - If our legends matched exactly, it would only keep one, but as the boxplot lines are part of the legened, they technically cannot be collapsed
+    - If our legends matched exactly, it would only keep one, but as the boxplot lines are part of the legend, they technically cannot be collapsed
       - If you really wanted, removing the lines from the boxplot legend would definitely by possible, but for the sake of the class, we will accept what we have!
 
-```{r}
+```{r chunk26}
 p2 / p3 + guide_area() + plot_layout(design = "AAAAA
                                                BBBCC",
                                      guides= "collect")
@@ -551,7 +550,7 @@ p2 / p3 + guide_area() + plot_layout(design = "AAAAA
 
 > Quick excercise: Remove the title and caption labels from p2, add subtitles to p2 and p3, then replot the patchwork
 
-```{r, echo=F, purl=F}
+```{r chunk27, echo=F, purl=F}
 p2 <- p2 +
   labs(title = NULL,
        caption = NULL,
@@ -568,7 +567,7 @@ p2 / p3 + guide_area() + plot_layout(design = "AAAAA
 - Okay, now finally, we can add some overall labess to our patchwork with `plot_annotation()`
   - These work very similarly to the ggplot `labs()`
 
-```{r, echo=F, purl=F}
+```{r chunk28}
 p2 / p3 + guide_area() + plot_layout(design = "AAAAA
                                                BBBCC",
                                      guides= "collect") +
@@ -577,7 +576,19 @@ p2 / p3 + guide_area() + plot_layout(design = "AAAAA
 ```
 
 - There we go, now the title better reflects our patchwork, and the caption sits below both plots as it should
-- Generally, our plot shows there's not a bunch of difference in math scores by sex or region, 
+- As a note, we can also assign a whole patchwork to an object if we want
+  - Let's assign this plot to an object called `patch`
+    - What we are going to do with it is a surprise for next week
+
+```{r chunk29}
+patch <- p2 / p3 + guide_area() + plot_layout(design = "AAAAA
+                                               BBBCC",
+                                     guides= "collect") +
+  plot_annotation(title = "Math Test Scores Differences by Parental Education",
+                  caption = "Data: High School Longitudinal Study, 2009")
+```
+
+- Generally, our plot shows there's a bit of difference in math test scores by parental education, but that doesn't differ much by sex
 
 ## Summary
 
