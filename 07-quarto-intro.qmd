@@ -3,6 +3,9 @@ title: "Reproducable Reports with Quarto"
 image: apple-touch-icon.png
 editor_options: 
   chunk_output_type: console
+execute: 
+  message: false
+  warning: false
 ---
 
 :::{.panel-tabset}
@@ -87,7 +90,7 @@ install.packages(c("knitr", "rmarkdown", "quarto"))
 
 > ## Quick Excercise
 > 1. Inside the Quarto template you downloaded at the top of the lesson write a few sentances descrbing your proposal for your reproducible report
-> 2. Add an appropriate header
+> 2. Add an appropriate header (e.g., "Introduction")
 > 3. Add **bold face** around your dependent variable
 > 4. Make your data source name *italic*
 
@@ -182,9 +185,11 @@ patch
 > 1. `source()` `04-wrangle-ii.R`
 > 2. print out the data object we made called `df_long`
 
-```{r sourcereal2, echo=FALSE, include=TRUE, purl=FALSE}
+```{r sourcereal2, echo=FALSE, include=FALSE, purl=FALSE}
 source(file.path("_site", "r-scripts", "04-wrangle-ii.R"))
+```
 
+```{r}
 print(df_long)
 ```
 
@@ -201,14 +206,14 @@ print(df_long)
     - `date:` this can take a specific date, or, it "today" will use the current date when you render the document
     - `editor: visual` defaults to the visual editor, easier for now
     - `editor_options:` 
-        `chunk_output_type: console` Just means that when editing the document and running code chunks, the output will appear in the console (like it always has with R scripts) rather than appearing as a preview in the script
+        - `chunk_output_type: console` Just means that when editing the document and running code chunks, the output will appear in the console (like it always has with R scripts) rather than appearing as a preview in the script
           - This is a personal preference, feel free to play around!
     - `format`: this is power of Quarto, there are so many options which will be discussed next
     - `execute:` these are the default way we want code chunks to output
-     - `echo: FALSE` means don't print out the code (e.g., this site use `echo: TRUE`)
-     - `message: FALSE` means don't print out information like when tidyverse reads in data
-     - There's a bunch more of these options, setting them in the YAML Header makes that the default behavior for the document, you can set them at the chunk level to only apply to that chunk
-      - You don't need to alter these for this class, but if you want to learn more, see [executation options documentation](https://quarto.org/docs/computations/execution-options.html)
+        - `echo: FALSE` means don't print out the code (e.g., this site use `echo: TRUE`)
+        - `message: FALSE` means don't print out information like when tidyverse reads in data
+          - There's a bunch more of these options, setting them in the YAML Header makes that the default behavior for the document, you can set them at the chunk level to only apply to that chunk
+          - You don't need to alter these for this class, but if you want to learn more, see [executation options documentation](https://quarto.org/docs/computations/execution-options.html)
 
 
 > ## Quick Excercise
@@ -280,29 +285,34 @@ As I say, the Quarto documentation is fantastic, I'm not asking you to do anythi
 
 - Good news! Through the quick exercises in this class, you should have some of this assignment done!
 
-In a Quarto Document (you can continue using the template you started today)
+In a Quarto Document (you should continue using the template you started today)
 
 *Should already be done*
 
-1. Write a few sentences describing your proposal for your reproducible report
-2. Add an appropriate header
-3. Add **bold face** around your dependent variable
-4. Make your data source name *italic*
+1.
+  i. Write a few sentences describing your proposal for your reproducible report
+  ii. Add an appropriate header (e.g., "Introduction")
+  iii. Add **bold face** around your dependent variable
+  iv. Make your data source name *italic*
+  v. Change the YAML Header title to something appropriate for your final report
+  vi. Change the YAML Header author to your name
 
 *New steps*
 
-5. Read in at least one data file you intend to use for your final project
-6. Write a few sentences describing where you got the data from
-7. Add an appropriate header (e.g., "Data")
-8. Summarize one or more continuous variable including 
-  - mean
-  - standard deviation
-  - minimum
-  - maximum
-9. Summarize one or more categorical variables including
-  - count for each category
-  - percentage of count for each category
-10. Save the file as `report.qmd`
+2.
+  i. Read in at least one data file you intend to use for your final project
+  ii. Write a few sentences describing where you got the data from
+  iii. Add an appropriate header (e.g., "Data")
+  iv. Summarize one or more continuous variable including 
+    - mean
+    - standard deviation
+    - minimum
+    - maximum
+  v. Summarize one or more categorical variables including
+    - count for each category
+    - percentage of count for each category
+      - Hint: Remember the easier way of getting percentages from assignment 3 solution
+  vi. Save the file as `report.qmd`
 
 Congratulations, you've officially started the Quarto document for your final project!
 
