@@ -360,7 +360,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
 <div class="cell">
 <div class="cell-output-display">
-<p><img src="05-viz-i_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid" width="672"></p>
+<p><img src="05-viz-i_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 </section>
@@ -411,18 +411,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <ul>
 <li><p>We’re using two libraries today (plus the vanilla R plot functions)</p></li>
 <li><p><a href="http://ggplot2.tidyverse.org">ggplot2</a></p></li>
-<li><p><a href="http://haven.tidyverse.org">haven</a></p></li>
 <li><p>The <a href="http://ggplot2.tidyverse.org">ggplot2</a> library is part of the <code>tidyverse</code></p>
 <ul>
 <li>We don’t need to load it separately (we can just use <code>library(tidyverse)</code> as always)</li>
-</ul></li>
-<li><p>We’re also going to use <a href="http://haven.tidyverse.org">haven</a>,</p></li>
-<li><p>Haven allows us to read in data files from other software such as SPSS, SAS, and Stata</p>
-<ul>
-<li>We’ll use it to read in a Stata (<code>*.dta</code>) version of the small HSLS data we’ve used before
-<ul>
-<li>The Stata version, unlike the plain <code>.csv</code> version, has labels for the variables and values, which will be useful when plotting</li>
-</ul></li>
 </ul></li>
 </ul>
 <div class="cell">
@@ -433,19 +424,28 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ul>
-<li>Also part of the <code>tidyverse</code> but not loaded by default</li>
+<li>We’re also going to use <a href="http://haven.tidyverse.org">haven</a>,</li>
+<li>Haven allows us to read in data files from other software such as SPSS, SAS, and Stata
+<ul>
+<li>We’ll use it to read in a Stata (<code>*.dta</code>) version of the small HSLS data we’ve used before
+<ul>
+<li>The Stata version, unlike the plain <code>.csv</code> version, has labels for the variables and values, which will be useful when plotting</li>
+</ul></li>
+</ul></li>
+<li>Haven is also part of the <code>tidyverse</code> but not loaded by default</li>
 <li>We could load the package with <code>library(haven)</code>, but, if we only need one function from a package, it’s often easier to call it directly (plus this is useful trick to know)
 <ul>
 <li><code>library(&lt;package&gt;)</code> pre-loads all the functions so that we can easily call them with just the function name</li>
 <li>If you only need one function from a package, or, you want to use a function from a package with a conflict (i.e., two packages with functions with the same name) we can specify where the function should come from like this
 <ul>
 <li><code>&lt;package&gt;::&lt;function&gt;</code></li>
+<li>I.e., <code>haven::read_dta()</code></li>
 </ul></li>
 </ul></li>
 </ul>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="do">## ---------------------------</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="do">## input data</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="do">## input data\</span></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="do">## ---------------------------</span></span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="do">## read_dta() ==&gt; read in Stata (*.dta) files</span></span>
@@ -454,7 +454,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>df_ts <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="fu">file.path</span>(<span class="st">"data"</span>, <span class="st">"sch-test"</span>, <span class="st">"all-schools.csv"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ul>
-<li><p><strong>Note</strong> that since we have two data files this lesson, we’ll gave them unique names instead of the normal <code>df</code>:</p></li>
+<li><p><strong>Note</strong> that since we have two data files this lesson, I gave them unique names instead of the normal <code>df</code>:</p></li>
 <li><p><code>df_hs</code> := <code>hsls_small.dta</code></p></li>
 <li><p><code>df_ts</code> := <code>all_schools.csv</code></p></li>
 </ul>
