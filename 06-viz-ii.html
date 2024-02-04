@@ -675,6 +675,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><img src="06-viz-ii_files/figure-html/chunk13-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
+</section>
+<section id="color-scales" class="level2">
+<h2 data-anchor-id="color-scales">Color Scales</h2>
 <ul>
 <li>Personally, this graph still looks a little ugly
 <ul>
@@ -703,7 +706,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="do">## ---------------------------</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="do">## legend labels: ver 3</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="do">##' [Color Scales]</span></span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="do">## ---------------------------</span></span>
 <span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="do">## create histogram using ggplot</span></span>
@@ -1026,13 +1029,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul></li>
 </ul>
 <div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>p2 <span class="sc">/</span> p3 <span class="sc">+</span> <span class="fu">guide_area</span>() <span class="sc">+</span> <span class="fu">plot_layout</span>(<span class="at">design =</span> <span class="st">"AAAAA</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="st">                                               BBBCC"</span>,</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>                                     <span class="at">guides=</span> <span class="st">"collect"</span>) <span class="sc">+</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot_annotation</span>(<span class="at">title =</span> <span class="st">"Math Test Scores Differences by Parental Education"</span>,</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>                  <span class="at">caption =</span> <span class="st">"Data: High School Longitudinal Study, 2009"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="06-viz-ii_files/figure-html/chunk28-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <ul>
 <li>There we go, now the title better reflects our patchwork, and the caption sits below both plots as it should</li>
-<li>Generally, our plot shows there’s not a bunch of difference in math scores by sex or region,</li>
+<li>Generally, our plot shows there’s a bit of difference in math test scores by parental education, but that doesn’t differ much by sex</li>
 </ul>
 </section>
 <section id="summary" class="level2">
