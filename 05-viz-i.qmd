@@ -1,8 +1,9 @@
 ---
 title: "I: Basics"
 image: apple-touch-icon.png
-editor_options: 
-  chunk_output_type: console
+execute: 
+  message: false
+  warning: false
 ---
 
 :::{.panel-tabset}
@@ -11,20 +12,32 @@ editor_options:
 
 [{{< fa code >}} R Code](/r-scripts/05-viz-i.R)
 
-### Progress Check-In
+```{r, include = FALSE, purl = TRUE}
+## -----------------------------------------------------------------------------
+##
+##' [PROJ: EDH7916: Data visualization with ggplot2]
+##' [FILE: 05-viz-i.R]
+##' [INIT: 9 March 2020]
+##' [AUTH: Benjamin Skinner @btskinner]
+##' [EDIT: Matt Capaldi @ttalVlatt]
+##
+## -----------------------------------------------------------------------------
+```
+
+## Progress Check-In
 
 - In keeping with the theme of today's lesson, I made a little plot that represents roughly the breakdown of "core R content" covered in each lesson (as in, the basic knowledge you need to go off and do your own data work)
   - Congratulations, after the first two data-wrangling lessons, you're already half-way done!
   - Over the next three weeks, we will cover how to communicate the results of these basic skills using visualization with `ggplot2` and report generation with `quarto`
   - Then, we will get into the final series of lessons, each of which gives you a little taste of some more sophisticated and/or niche applications of R
-  -Throughout all this, we will continue to become familiar with the basics of data wrangling, as that really is the key to it all 
+  - Throughout all this, we will continue to become familiar with the basics of data wrangling, as that really is the key to it all 
   
 - Any questions or concerns?
 
 
 ```{r, echo=F, purl=F}
 
-library(tidyverse)
+library(tidyverse, quietly = T)
 
 progress <- tribble(
   ~week, ~group, ~perc, ~lsn,
@@ -64,17 +77,19 @@ ggplot(progress) +
   labs(title = "Core Content Progress",
        subtitle = "You've made it further than you think!",
        x = "R Lesson",
-       y = "% of Core R Content",
+       y = "% of Core Content",
        fill = "Topic Group") +
   theme_minimal()
 
 ```
 
+## Setup
+
 - One key part of understanding your data and presenting your analyses lies in making plots, which we will cover through this section of the class
 
 - There are multiple graphing systems in R, but we are going to focus on two (primarily one);
   - [vanilla R plots](https://stat.ethz.ch/R-manual/R-devel/library/graphics/html/00Index.html)
-  - [ggplot2](http://ggplot2.tidyverse.org). 
+  - [ggplot2](http://ggplot2.tidyverse.org) 
 
 #### Vanilla R Plots
 
@@ -91,59 +106,51 @@ ggplot(progress) +
     - This allows us to create some really cool and detailed plots
       - I'd strongly recommend `ggplot2` for making plots you want to share
         - Even stata users admit the plots can't match `ggplot2`
-
-## Setup
+        
+### Libraries
 
 - We're using two libraries today (plus the vanilla R plot functions)
 
 - [ggplot2](http://ggplot2.tidyverse.org)
-- [haven](http://haven.tidyverse.org)
 
 - The [ggplot2](http://ggplot2.tidyverse.org) library is part of the `tidyverse`
   - We don't need to load it separately (we can just use `library(tidyverse)` as always)
 
-- We're also going to use [haven](http://haven.tidyverse.org),
-- Also part of the `tidyverse` but not loaded by default, so we have to load it with `library(haven)`
-  - Haven allows us to read in data files from other software such as SPSS, SAS, and Stata
-    - We'll use it to read in a Stata (`*.dta`) version of the small HSLS data we've used before.
-      - The Stata version, unlike the plain `.csv` version, has labels for the variables and values, which will be useful when plotting. 
-
-
-```{r, include = FALSE, purl = TRUE}
-################################################################################
-##
-## <PROJ> EDH7916: Data visualization with ggplot2
-## <FILE> plotting.R 
-## <INIT> 9 March 2020
-## <AUTH> Benjamin Skinner (GitHub/Twitter: @btskinner)
-##
-################################################################################
-
-```
 ```{r}
 ## ---------------------------
 ## libraries
 ## ---------------------------
 
 library(tidyverse)
-library(haven)
 ```
 
-- **Note** that since we have two data files this lesson, we'll give them unique names instead of the normal `df`:
+- We're also going to use [haven](http://haven.tidyverse.org),
+- Haven allows us to read in data files from other software such as SPSS, SAS, and Stata
+    - We'll use it to read in a Stata (`*.dta`) version of the small HSLS data we've used before
+      - The Stata version, unlike the plain `.csv` version, has labels for the variables and values, which will be useful when plotting
 
-- `df_hs` := `hsls_small.dta`
-- `df_ts` := `all_schools.csv`
+- Haven is also part of the `tidyverse` but not loaded by default
+- We could load the package with `library(haven)`, but, if we only need one function from a package, it's often easier to call it directly (plus this is useful trick to know)
+  - `library(<package>)` pre-loads all the functions so that we can easily call them with just the function name
+  - If you only need one function from a package, or, you want to use a function from a package with a conflict (i.e., two packages with functions with the same name) we can specify where the function should come from like this
+    - `<package>::<function>`
+    - I.e., `haven::read_dta()`
 
 ```{r}
 ## ---------------------------
-## input data
+## input data\
 ## ---------------------------
 
 ## read_dta() ==> read in Stata (*.dta) files
-df_hs <- read_dta(file.path("data", "hsls-small.dta"))
+df_hs <- haven::read_dta(file.path("data", "hsls-small.dta"))
 ## read_csv() ==> read in comma separated value (*.csv) files
 df_ts <- read_csv(file.path("data", "sch-test", "all-schools.csv"))
 ```
+
+- **Note** that since we have two data files this lesson, I gave them unique names instead of the normal `df`:
+
+- `df_hs` := `hsls_small.dta`
+- `df_ts` := `all_schools.csv`
 
 ## Plots using base R
 
@@ -202,8 +209,8 @@ hist(df_hs$x1txmtscor)
 
 ```{r eda_base_density}
 ## density plot of math scores
-## read inside out: get density value, then plot values
-plot(density(df_hs$x1txmtscor, na.rm = TRUE))
+density(df_hs$x1txmtscor, na.rm = TRUE) |>
+  plot()
 ```
 
 > #### Quick exercise
@@ -759,7 +766,7 @@ df_ts_long_std <- df_ts_long |>
          score_std_sch = (score - score_year_one) / sd(score)) |>
   ungroup()
 
-print(df_ts_long, n = 13)
+print(df_ts_long_std, n = 13)
 ```
 
 Let's walk through that code
@@ -798,7 +805,7 @@ And there we have a really informative plot, showing how test scores of all type
 
 1. How does student socioeconomic status differ between students who ever attended college and those who did not?
 2. How do educational expectations (of both students and parents) differ by high school completion status?
-  - Hint: you will want some code from last week's assignment here
+  - Hint: you will want to borrow some code from last week's assignment here
 3. What is the relationship between student socioeconomic status and math test score?
 
 Do not worry about axis labels or other visual elements, that is covered next week.
