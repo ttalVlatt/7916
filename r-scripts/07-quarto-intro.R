@@ -1,6 +1,6 @@
-## You should have these packages already, we installed them our first lesson
-## but if you're not sure, run this code just in case
-install.packages(c("knitr", "rmarkdown", "quarto"))
+## ## You should have these packages already, we installed them our first lesson
+## ## but if you're not sure, run this code just in case
+## install.packages(c("knitr", "rmarkdown", "quarto"))
 
 library(tidyverse)
 
