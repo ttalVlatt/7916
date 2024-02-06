@@ -1,0 +1,476 @@
+---
+title: "III: Data Wrangling I Redux: Vanilla R"
+image: apple-touch-icon.png
+editor_options: 
+  chunk_output_type: console
+---
+
+:::{.panel-tabset}
+
+# Lesson
+
+[{{< fa code >}} R Code](/r-scripts/x-03-vanilla.R)
+
+- This supplemental lesson is a companion to the [lesson on data wrangling with Tidyverse](03-wrangle-i.qmd)
+- While the tidyverse has fundamentally changed the way many people work with R, you can still use base or "vanilla" R for your data wrangling
+tasks
+- You may find it useful to perform an example data analysis without the support of the tidyverse
+- If you work with people who learned to code without the tidyverse, 
+
+- Because much of the material is otherwise the same, we won't go into the same depth in this supplemental lesson (you'll even see some repeated text)
+- We'll simply work to answer the research question posed in the other lesson.
+
+## Re: Urgent Data Question from the Provost
+
+- Through today's lesson, we will explore some of the basics of data wrangling
+  - But to make it more realistic, we will be doing so to answer a realistic question you may be asked by your advisor or supervisor
+
+> Using HSLS09 data, figure out average differences in college degree expectations
+> across census regions; for a first pass, ignore missing values and
+> use the higher of student and parental expectations if an
+> observation has both.
+
+- A primary skill (often unremarked upon) in data analytic work is translation. Your advisor, IR director, funding agency director --- even collaborator --- won't speak to you in the language of R
+  - Instead, it's up to you to
+    1. translate a research question into the discrete steps coding steps necessary to provide an answer, and then
+    2. translate the answer such that everyone understands what you've found
+
+What we need to do is some combination of the following:
+
+1. **Read** in the data
+2. **Select** the variables we need
+3. **Mutate** a new value that's the higher of student and parental
+   degree expectations
+4. **Filter** out observations with missing degree expectation values
+5. **Summarize** the data within region to get average degree
+   expectation values
+6. **Write** out the results to a file so we have it for later
+
+Let's do it!
+
+
+```{r, include = FALSE, purl = TRUE}
+################################################################################
+##
+## <PROJ> EDH7916: Data wrangling with base R
+## <FILE> dw_one_base_r.R 
+## <INIT> 20 January 2020
+## <AUTH> Benjamin Skinner (GitHub/Twitter: @btskinner)
+##
+################################################################################
+```
+
+**NOTE:** Since we're not using the vanilla R, we don't need to load any packages
+
+```{r}
+## ---------------------------
+## libraries
+## ---------------------------
+
+## NONE
+
+```
+
+## Check working directory
+
+- Before we get started, make sure your working directory is set to your class folder
+
+```{r}
+## Check working directory is correct
+setwd(this.path::here())
+```
+
+
+## **Read** in data
+
+- For this lesson, we'll use a subset of the [High School Longitudinal Study of 2009 (HSLS09)](https://nces.ed.gov/surveys/hsls09/), an IES /NCES data set that features:
+
+> * Nationally representative, longitudinal study of 23,000+ 9th graders
+> from 944 schools in 2009, with a first follow-up in 2012 and a second
+> follow-up in 2016  
+> * Students followed throughout secondary and postsecondary years  
+> * Surveys of students, their parents, math and science teachers,
+>   school administrators, and school counselors   
+> * A new student assessment in algebraic skills, reasoning, and problem solving for
+>   9th and 11th grades   
+> * 10 state representative data sets 
+
+- If you are interested in using HSLS09 for future projects, **DO NOT** rely on this subset. Be sure to download the full data set with all relevant variables and weights if that's the case. But for our purposes in this lesson, it will work just fine.
+
+- Throughout, we'll need to consult the code book. An [online version can be found at this link](https://nces.ed.gov/datalab/onlinecodebook). 
+
+> #### Quick exercise 
+> Follow the code book link above in your browser and navigate to the
+> HSLS09 code book.
+
+```{r}
+## ---------------------------
+## input
+## ---------------------------
+
+## data are CSV, so we use read.csv(), which is base R function
+df <- read.csv(file.path("data", "hsls-small.csv"))
+```
+
+- Unlike the `read_csv()` function we've used before, `read.csv()` doesn't print anything
+  - notice the difference: a `.` instead of an `_`
+- So that we can see our data, well print to the console. **BUT** before we do that...
+
+-`read.csv()` returns a base R `data.frame()` rather than the special data frame or `tibble()` that the tidyverse uses.
+- It's mostly the same, but one difference is that whereas R will only print the first 10 rows of a tibble, it will print the _entire_ `data.frame`
+  - We don't need to see the whole thing, so we'll use the `head()` function to print only the first 10 rows.
+
+```{r}
+## show first 10 rows
+head(df, n = 10)
+```
+
+## **Select** variables (columns)
+
+```{r, include = FALSE, purl = TRUE}
+## ---------------------------
+## process
+## ---------------------------
+```
+
+- Data frames are like special matrices
+  - They have rows and columns
+  - You can access these rows and columns using square bracket notation (`[]`)
+  - Because data frames have two dimensions, you use a comma inside the square brackets to indicate what you mean (`[,]`):
+    - `df[<rows>,<cols>]`
+
+- At it's most basic, you can use numbers to represent the index of the cell or cells you're interested in
+  - For example, if you want to access the value of the cell in row 1, column 4, you can use:
+
+```{r}
+## show value at row 1, col 4
+df[1, 4]
+```
+
+- Because data frames have column names (the variable names in our data set), we can also refer to them by name
+  - The fourth column is the student date of birth variable, `x1stdob`
+    - We can use that instead of `4` (notice the quotation marks `""`):
+
+```{r}
+## show value at row 1, x1stdob column
+df[1, "x1stdob"]
+```
+
+- If we want to see more than one column, we can put the names in a concatenated vector using the `c()` function:
+
+```{r}
+## show values at row 1, stu_id & x1stdob column
+df[1, c("stu_id", "x1stdob")]
+```
+
+- So far, we've not assigned these results to anything, so they've just printed to the console. 
+  - However, we can assign them to a new object
+  - If we want to slice our data so that we only have selected columns, we can leave the rows section blank (meaning we want all rows) and include all the columns we want to keep in our new data frame object.
+
+```{r}
+## -----------------
+## select
+## -----------------
+
+## select columns we need and assign to new object
+df_tmp <- df[, c("stu_id", "x1stuedexpct", "x1paredexpct", "x1region")]
+
+## show 10 rows
+head(df_tmp, n = 10)
+```
+
+## **Mutate** data into new forms
+
+### Changing existing variables (columns)
+
+- To conditionally change a variable, we'll once again use the bracket notation to target our changes
+- This time, however, we do a couple of things differently:
+  - include square brackets on the LHS of the assignment
+  - use conditions in the `<rows>` part of the bracket
+
+- As before, we need to account for the fact that our two expectation variables, `x1stuedexpct` and `x1paredexpct`, have values that need to be converted to `NA`: `-8`, `-9`, and `11`
+  - [See the first data wrangling lesson for the rationale behind these changes.](03-wrangle-i.qmd)
+
+- First, let's look at the unique values using the `table()` function
+  - This somewhat similar to `count()` in tidyverse
+- So that we see any missing values, we'll include an extra argument `useNA = "ifany"`
+  - This just means we will see counts for `NA`s if there are any
+
+```{r}
+## -----------------
+## mutate
+## -----------------
+
+## see unique values for student expectation
+table(df_tmp$x1stuedexpct, useNA = "ifany")
+
+## see unique values for parental expectation
+table(df_tmp$x1paredexpct, useNA = "ifany")
+```
+
+- Notice that we use a dollar sign, `$`, to call the column name from the data frame
+  - Unlike with the tidyverse, we cannot just use the column name
+    - Base R will look for that column name not as a column in a data frame, but as its own object
+    - It probably won't find it (or worse, you'll have another object in memory that it will find and you'll get the wrong thing!).
+
+
+
+- To modify a variable when it's a certain value, we can use the `[]` square brackets in a more advanced way
+  - Start by identifying the column you'd like
+    - e.g, `df_tmp$x1stuedexpct`
+  -Then add the `[]` square brackets and inside them
+  - Inside them we can add a condition to them, such as when a column is equal to -8
+    - e.g., `df_tmp$x1stuedexpct == -8`
+       - Think of this a bit like `filter()` from the tidyverse
+  - If we just print this, you'll see a load of `-8`, not that useful...
+    
+ 
+```{r}
+## This will just print a bunch of -8s
+df_tmp$x1stuedexpct[df_tmp$x1stuedexpct == -8]
+```
+     
+- But, instead of printing it, we can assign `NA` to it, which will replace all those `-8`s with `NA`
+  - We can do the same for `11` to while we are at it
+
+```{r}
+## replace student expectation values
+df_tmp$x1stuedexpct[df_tmp$x1stuedexpct == -8] <- NA
+df_tmp$x1stuedexpct[df_tmp$x1stuedexpct == 11] <- NA
+
+```
+
+- If you think back to our previous lesson, we can be a little more slick than this though
+  - If we change the statement to `%in% c(-8, -9, 11)` it will do it all at once
+
+```{r}
+## replace parent expectation values
+df_tmp$x1paredexpct[df_tmp$x1paredexpct %in% c(-8, -9, 11)] <- NA
+```
+
+Let's confirm using `table()` again. The values that were in `-8`, `-9`, and `11` should now be summed under `NA`.
+
+```{r}
+## see unique values for student expectation (confirm changes)
+table(df_tmp$x1stuedexpct, useNA = "ifany")
+
+## see unique values for parental expectation (confirm changes)
+table(df_tmp$x1paredexpct, useNA = "ifany")
+```
+
+### Adding new variables (columns)
+
+- Adding a new variable to our data frame is just like modifying an existing column
+- The only difference is that instead of putting an existing column name after the first `$` sign, we'll make up a new name
+- This tells R to add a new column to our data frame
+
+- As with the tidyverse version, we'll use the `ifelse()` function to create a new variable that is the higher of student or parental expectations
+
+```{r}
+## add new column
+df_tmp$high_expct <- ifelse(df_tmp$x1stuedexpct > df_tmp$x1paredexpct, # test
+                            df_tmp$x1stuedexpct,                       # if TRUE
+                            df_tmp$x1paredexpct)                       # if FALSE
+
+## show first 10 rows
+head(df_tmp, n = 10)
+```
+
+- Just like in the original lesson, it doesn't handle `NA` values how we want it to
+  - Look at student `10002` in the second row:
+    - While the student doesn't have an expectation (or said "I don't know"), the parent does. 
+      - However, our new variable records `NA`. Let's fix it with this test:
+
+> If `high_expct` **is missing** **and** `x1stuedexpct` **is not missing**, replace with
+> that; otherwise replace with itself (leave alone). Repeat, but for
+> `x1paredexpct`. If still `NA`, then we can assume both student and
+> parent expectations were missing.
+  
+Translating the bold words to R code: 
+
+- **is missing**: `is.na()`
+- **and**: `&`
+- **is not missing**: `!is.na()` (`!` means **NOT**)
+
+we get:
+
+```{r}
+## correct for NA values
+
+## NB: We have to include [is.na(df_tmp$high_expct)] each time so that
+## everything lines up
+
+## step 1 student
+df_tmp$high_expct[is.na(df_tmp$high_expct)] <- ifelse(
+    ## test
+    !is.na(df_tmp$x1stuedexpct[is.na(df_tmp$high_expct)]), 
+    ## if TRUE do this...
+    df_tmp$x1stuedexpct[is.na(df_tmp$high_expct)],
+    ## ... else do that
+    df_tmp$high_expct[is.na(df_tmp$high_expct)]
+)
+
+## step 2 parent
+df_tmp$high_expct[is.na(df_tmp$high_expct)] <- ifelse(
+    ## test
+    !is.na(df_tmp$x1paredexpct[is.na(df_tmp$high_expct)]),
+    ## if TRUE do this...
+    df_tmp$x1paredexpct[is.na(df_tmp$high_expct)],
+    ## ... else do that
+    df_tmp$high_expct[is.na(df_tmp$high_expct)]
+)
+```
+
+- That's a lot of text!
+- What's happening is that we are trying to replace a vector of values with another vector of values, which need to line up and be the same length
+  - That's why we start with `df_tmp$x1stuedexpct[is.na(df_tmp$high_expct)]`
+    - When our `high_expct` column has missing values, we want to replace with non-missing `x1stuedexpct` values _in the same row_
+      - That means we also need to subset that column to only include values in rows that have missing `high_expct` values
+        - Because we must do this each time, our script gets pretty long and unwieldy.
+
+Let's check to make sure it worked as intended.
+
+
+```{r}
+## show first 10 rows
+head(df_tmp, n = 10)
+```
+
+- Looking at the second observation again, it looks like we've fixed our `NA` issue
+
+## **Filter** observations (rows)
+
+- Let's check the counts of our new variable:
+
+```{r}
+## -----------------
+## filter
+## -----------------
+
+## get summary of our new variable
+table(df_tmp$high_expct, useNA = "ifany")
+```
+
+- Since we're can't use the missing values we'll drop those observations from our data frame
+- Just like when we selected columns above, we'll use the `[]` square brackets notation
+  - As with dplyr's `filter()`, we want to _filter in_ what we want (i.e., when it's not NA)
+- Since we want to filter rows, we set this condition before the comma in the square brackets
+  - Because we want all the columns, we leave the space after the comma blank
+
+```{r}
+## filter in values that aren't missing
+df_tmp <- df_tmp[!is.na(df_tmp$high_expct),]
+
+## show first 10 rows
+head(df_tmp, n = 10)
+```
+
+- It looks like we've dropped the rows with missing values in our new variable (or, more technically, _kept_ those without missing values)
+- Since we haven't removed rows until now, to double check, we can compare the number of rows in the original data frame, `df`, to what we have now
+
+```{r}
+## is the original # of rows - current # or rows == NA in count?
+nrow(df) - nrow(df_tmp)
+```
+
+- Comparing the difference, we can see it's the same as the number of missing values in our new column
+  - While not a formal test, it does support what we expected
+    - In other words, if the number were different, we'd definitely want to go back and investigate
+
+
+## **Summarize** data
+
+Now we're ready to get the average of expectations that we need. For
+an overall average, we can just use the `mean()` function.
+
+```{r}
+## -----------------
+## summarize
+## -----------------
+
+## get average (without storing)
+mean(df_tmp$high_expct)
+```
+
+- Overall, we can see that students and parents have high post-secondary expectations on average: to earn some graduate credential beyond a bachelor's degree
+- However, this isn't what we want. We want the values across census regions.
+
+```{r}
+## check our census regions
+table(df_tmp$x1region, useNA = "ifany")
+```
+
+- We're not missing any census data, which is good!
+- To calculate our average expectations, we need to use the `aggregate` function
+- This function allows to compute a `FUN`ction `by` a group
+  - We'll use it to get our summary.
+
+```{r}
+## get average (assigning this time)
+df_tmp <- aggregate(df_tmp["high_expct"],                # var of interest
+                    by = list(region = df_tmp$x1region), # by group
+                    FUN = mean)                          # function to run
+
+## show
+df_tmp
+```
+
+- Success! Expectations are similar across the country, but not the same by region.
+
+## **Write** out updated data
+
+```{r, include = FALSE, purl = TRUE}
+## ---------------------------
+## output
+## ---------------------------
+```
+
+- We can use this new data frame as a table in its own right or to make a figure
+- For now, however, we'll simply save it using the opposite of `read.csv()` --- `write.csv()`
+
+```{r}
+## write with useful name
+write.csv(df_tmp, file.path("data", "high_expct_mean_region.csv"))
+```
+
+- And with that, we've met our task: we can show average educational expectations by region
+- To be very precise, we can show the higher of student and parental educational expectations among those who answered the question by region
+  - This caveat doesn't necessarily make our analysis less useful, but rather sets its scope.
+- Furthermore, we've kept our original data as is (we didn't overwrite it) for future analyses while saving the results of this analysis for quick reference
+
+```{r, include = FALSE, purl = TRUE}
+## -----------------------------------------------------------------------------
+## end script
+## -----------------------------------------------------------------------------
+```
+
+# Assignment
+
+- Using the `hsls_small.csv` data set answer the following questions
+  - Hint: You're going to need the code book to identify the necessary variables
+- For this assignment, you cannot use the `tidyverse` or any other packages
+- Although it's now part of vanilla R, you can't use a `|>` pipe either
+- The purpose of this assignment is learn how to write more traditional-style computer code
+- Although you've already done this task with tidyverse, this is probably still the hardest extra credit, good luck!
+
+> ##### Hint 
+> Calculating the percentages is the trickiest part of this assignment, with and without `tidyverse`, as we don't directly talk about it in the lesson. The output of the `table()` function should give you the information you need, remember you can access specifc elements of any objects (things you assign)  with `[]`.
+
+## Questions
+
+1. 
+  i. What is the average standardized math test score?
+  ii. How does this differ by gender?
+2. Among those students who are under 185% of the federal poverty line in the base year of the survey, what is the median household income category? (include what that category represents)
+3. 
+  i. Of the students who earned a high school credential (traditional diploma or GED), what percentage earned a GED or equivalency?
+  ii. How does this differ by region?
+4. 
+  i. What percentage of students ever attended a post-secondary institution by February 2016? 
+  ii. Optional: Give the cross tabulation for both family incomes above/below $35,000 and region  
+    - This means you should have percentages for 8 groups: above/below $35k within each region
+  
+Once complete, turn in the .R script (no data etc.) to Canvas by the due date (Sunday 11:59pm following the final lesson). Good faith efforts (as determined by the instructor) at extra credit assignments will earn full credit if submitted on time.
+
+
+:::
