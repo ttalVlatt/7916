@@ -20,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -487,16 +521,18 @@ ul.task-list li input[type="checkbox"] {
 <li>Go to “Your Repositories” and select the repo you just created</li>
 <li>Select the green “Code” button</li>
 <li>On there, under “Clone” and keep it on “HTTPS”</li>
-<li>Copy the address that should look like “https://github.com/<username>/<repo>.git</repo></username></li>
+<li>Copy the address that should look like <code>https://github.com/&lt;Username&gt;/&lt;Repo&gt;.git</code></li>
 <li>On posit.cloud select “New Project” and then “From GitHub Repository”</li>
 <li>Paste the URL you copied in the URL box and select a name for the project</li>
 <li>Go back to your repo on GitHub and reselect the green “Code” button</li>
 <li>This time select “SSH” and copy the address that should look like <code>git@github.com:&lt;Username&gt;/&lt;Repo&gt;.git</code></li>
 <li>Once the project is opened, go to the terminal (next to the console)</li>
-<li>Type <code>git remote set-url origin git@github.com:&lt;Username&gt;/&lt;Repo&gt;.git</code> (you can copy from the block below)</li>
+<li>Type <code>git remote set-url origin git@github.com:&lt;Username&gt;/&lt;Repo&gt;.git</code> replacing <code>&lt;Username&gt;</code> and <code>&lt;Repo&gt;</code> with the correct names (you can copy from the block below)</li>
 <li>Done!</li>
 </ol>
-<pre><code>git remote set-url origin git@github.com:&lt;Username&gt;/&lt;Repo&gt;.git</code></pre>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>git remote set<span class="sc">-</span>url origin git<span class="sc">@</span>github.com<span class="sc">:</span><span class="er">&lt;</span>Username<span class="sc">&gt;</span><span class="er">/&lt;</span>Repo<span class="sc">&gt;</span>.git</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 <ul>
 <li>Okay, with git and GitHub set up, the hard part is over! Now we will just go over how to use what we set up
 <ul>
@@ -646,7 +682,10 @@ ul.task-list li input[type="checkbox"] {
 <ul>
 <li>To use git effectively, you should be pushing up every time you complete a significant chunk of work</li>
 </ul>
-<p>Your submission should be a URL link on Canvas to a GitHub repo containing your report code - If you made the repo private with GitHub Pro, you will need to share it with me</p>
+<p>Your submission should be a URL link on Canvas to a GitHub repo containing your report code</p>
+<ul>
+<li>If you made the repo private with GitHub Pro, you will need to share it with me</li>
+</ul>
 <p>Once complete, turn in the url link of your GitHub repo to Canvas by the due date (Sunday 11:59pm following the final lesson). Good faith efforts (as determined by the instructor) at extra credit assignments will earn full credit if submitted on time.</p>
 </div>
 </div>
