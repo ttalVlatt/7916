@@ -1,0 +1,247 @@
+---
+title: "I: Git & GitHub"
+image: apple-touch-icon.png
+---
+
+:::{.panel-tabset}
+
+# Lesson
+
+- This extra-credit lesson serves as a gentle introduction to `git`
+
+>If you think of OneDrive, Google Drive, etc. as a nice automatic sedan, easy to drive, but you can't control everything, `git` is like a stick shift sports car, it is way more capable, but requires some getting used to! - B.T. Skinner (paraphrased)
+
+- There are so many things `git` can do beyond other cloud storage systems, but for this lesson we are going to focus on one of the most fundamental benefits, version control
+  - Version control is one of `git`'s best features and helps avoid situations like...
+
+[![Credit: Jorge Chan](https://pbs.twimg.com/media/B9HgQmDIEAALfb4.jpg)](http://www.phdcomics.com/comics/archive.php?comicid=1531)
+
+- In short, instead of overwriting your file when you save like most cloud systems do, `git` actually just saves the changes from the last time you saved that file
+  - Don't worry about the technicalities now, just know that, not only is work saved with git and GitHub backed up, but if we want to go back in time to an old version, we can!
+- The goal of this lesson is to have you set up your final project as a `git` project so you can keep track of your code changes as you go
+
+## Installing git
+
+- The first thing you are going to need to do is install `git`
+
+From the git website [http://git-scm.com/](http://git-scm.com/)
+
+> Git is a free and open source distributed version control system designed to handle everything from small to very large projects with speed and efficiency. 
+
+- If you're using a Mac, there's a decent chance git is already installed, you may already have git on Windows if you've used something that installed it in the past
+  - To check if you have git copy this command into the terminal (note: not the console, the terminal which is next to console in RStudio)
+    - Once installed, you could keep using the terminal for git, but RStudio has a much more beginner friendly point-and-click system we will use instead
+  
+```{}
+which git
+```
+
+If it provides a file path to something called git, you have git, move on!
+
+### If you need to install `git`
+- There's a great resource ["Happy git with R" by Jenny Bryan](https://happygitwithr.com/) which cover a whole range of git topics beyond what we need today
+  - ["Happy git with R"'s installation page](https://happygitwithr.com/install-git.html) has pretty clear instructions for installing git
+  - Note: You should always choose "Option 1" unless you 
+  
+```{=html}
+<iframe width="900" height="600" src="https://happygitwithr.com/install-git.html"></iframe>
+```
+
+- Hopefully with those instructions you managed to get `git` installed if it wasn't already, which is honestly the hardest part of this lesson!
+
+## Creating a GitHub Account
+
+- `git` is a language which handles the version control, if you just wanted to use version control and store is all locally, `git` is all you need
+- However, the real advantage of `git` is that you keep the version control both on your computer and in a "remote" repository (similar to OneDrive etc.)
+- There are plenty of git clients that offer this service, but by far the biggest is GitHub, which is what we will use
+- So you need to create an account, which is just like signing up for any other online account
+
+1. Go to [https://github.com](https://github.com)
+2. Click "sign up" and follow the prompts on screen...
+3. Done!
+
+> FYI: If you plan to use GitHub regularly, students are eligible for free GitHub Pro, which I have, find our more [here](https://education.github.com/benefits). This will allow you to create private GitHub repos, by default, all GitHub repos are public (which is how all open source stuff like R works)
+
+## Creating a New GitHub Repo
+
+- There are two ways you can create a new GitHub repo
+  1. Create a repo on your computer, then start tracking it with git, then link it to GitHub
+  2. Create a repo on GitHub and `clone` it to your computer
+    - IMHO, this is far easier, so it' what we will do!
+    
+### Step One: Create Repo on GitHub
+
+- When on [https://github.com](https://github.com)
+  1. Navigate to "Your Repositories"
+  2. Click the green "new" button
+  3. Choose a name for the new repo
+  4. Under "Add .gitignore" select the R template
+  5. Everything else is optional, so don't worry about it for now
+    - Note: If you signed up for GitHub pro, you can make the repo private
+      - If you do, make sure to add me [@ttalVlatt](https://github.com/ttalVlatt) so I can see it to give you credit
+  6. You should be taken to your shiny new repo, yay!    
+      
+### Step Two: Setup GitHub SSH Access
+
+- This is how your computer will have access to edit your repo
+- It sounds scary, but luckily RStudio make it easy-peasy!
+  1. In RStudio go to "Tools" and then "Global Options"
+  2. Select "Git/SVN" from the left hand menu
+  3. Under "SSH Key" select "Create SSH Key"
+  4. Leave the optional pass phrase boxes blank and click "create"
+  5. Close the pop-up box that appears
+  6. Back on the "Git/SVN" page select "View Public Key"
+  7. Copy that to your clipboard
+  8. Go to GitHub.com
+  9. Go to "Settings" on the menu under your profile icon
+  10. Select "SSH and GPG Keys" from the left-hand menu
+  11. Select the green "New SSH Key"
+  12. Give the key a name
+    - If you're using RStudio on your computer, this will be set for a while, so just call it "MacBook Pro" or something similar
+    - If you're using RStudio Cloud, you need a new key for each project, so name it accordingly
+  13. Paste the SSH Key you copied from RStudio into the "key" box
+  14. Leave it set as "authentication key"
+  15. Click "Add New SSH Key" and you're done!
+  
+## Cloning a Repo Down to Your Computer
+
+- This step is a little different depending on if you're using RStudio on your computer or the cloud, so I will outline each separately
+
+### RStudio on Your Computer
+
+1. Go to [https://github.com/](https://github.com/)
+2. Go to "Your Repositories" and select the repo you just created
+3. Select the green "Code" button
+4. On there, under "Clone" select "SSH"
+5. Copy the address that should look like `git@github.com:<Username>/<Repo>.git`
+6. Click on the blue cube in the top right (where we set up projects before)
+7. Click on "New Project" then "Version Control"
+8. Paste what you copied from GitHub as the URL
+9. Choose a file name and location that make sense (this is where the repo will be kept)
+10. Done!
+
+### posit.cloud
+
+1. Go to [https://github.com/](https://github.com/)
+2. Go to "Your Repositories" and select the repo you just created
+3. Select the green "Code" button
+4. On there, under "Clone" and keep it on "HTTPS" 
+5. Copy the address that should look like `https://github.com/<Username>/<Repo>.git`
+6. On posit.cloud select "New Project" and then "From GitHub Repository"
+7. Paste the URL you copied in the URL box and select a name for the project
+8. Go back to your repo on GitHub and reselect the green "Code" button
+9. This time select "SSH" and copy the address that should look like `git@github.com:<Username>/<Repo>.git`
+10. Once the project is opened, go to the terminal (next to the console)
+11. Type `git remote set-url origin git@github.com:<Username>/<Repo>.git` replacing `<Username>` and `<Repo>` with the correct names (you can copy from the block below)
+12. Done!
+
+```{r, eval=FALSE}
+git remote set-url origin git@github.com:<Username>/<Repo>.git
+```
+
+- Okay, with git and GitHub set up, the hard part is over! Now we will just go over how to use what we set up
+  - Keep in mind, we are just going to cover one purpose git, this is just the beginning
+
+## Using `git` for Version Control and Backup
+
+- Getting a change from your computer to GitHub has three steps
+  1. "Stage" the change, which tells `git` to pay attention to the change
+  2. "Commit" the change, which saves it to your local (on computer) version of git
+  3. "Push" the change, which save it to your remote (GitHub) version of git
+  
+#### Let's see what that looks like in RStudio
+
+- In the top right corner panel of RStudio (same area as the "Environment") there's a "Git" tab, select it
+- You'll see a few things here
+  - Along the top are some buttons for the core git commands of "Commit", "Pull", and "Push"
+  - Right now, there is probably nothing in the main area of the panel
+    - Go ahead and make a new `.R` script (doesn't need to be anything in it) and save it in the project folder
+  - Now you'll see it in the main area of the "Git" panel
+    - Any changes you make to the repo will appear here, new files, changed files, deleted files, etc.
+
+To backup these changes to GitHub, follow these steps
+1. Click the white square box left of the file in the "Git" main panel
+  - This "stages" the change, i.e., tells `git` to pay attention to it
+2. Click "Commit"
+  - This will open a new box/window
+  - In the top right hand box you can (and should) add an informative message about the change you made
+    - E.g. "Created a test script"
+  - Then hit the "Commit" button right underneath that
+3. Finally, hit "Push"
+  - You can do this in the same window, or at the top of the Git panel, it doesn't matter
+  - This "pushes" the changes you just "committed" up to GitHub
+  - The very first time you do this, you may get a warning that the key isn't know
+    - Type "yes" as your response, you won't see this again unless you make a new key
+    
+- You can `stage`, `commit`, and `push` lots of change at once, or one by one
+  - The big difference is that the less each individual commit and push does, the less you have to reverse
+    - For that reason, always push up things you're sure about first, then things your not, in separate commits
+
+- This process may seem like a lot, but, it will become second nature once you start using it
+  - The ability to version control your code and easily track back to specific points is alone more than worth it
+    - That's not to mention this is only an intro, `git` can do so much more as you get familiar with it
+  - Plus, if you can use `git` you will stand out from the crowd in serious data management jobs
+
+#### Sidenote: The Need to `pull`
+
+- Another `git` command that is super common is `pull`, this will just check for any changes in the GitHub copy of your repo and pull them down
+  - If you keep things simple and only push changes to this project from one computer, there should never be anything to `pull` down
+    - You can always hit the button if you're curious, it will just say "already up to date"
+  - If you set this up on more than one computer, or start collaborating with someone else, you'll need to `commit` and `push` when you're finished working then `pull` from  before you start work
+  
+- Now we've covered some of the basics, I just to suggest a few rules you stick by with `git`
+
+## `git` Ground Rules
+
+1. Generally, git is best suited for plain text based files, like `.R` scripts and `.qmd` files
+  - `git` can and will track other files, but it's primarily meant for code, that is where version control is most powerful
+  - Particularly is a non-code file is large, it is best to ignore it with `.gitignore` which we will talk about below
+2. `push` regularly and often
+  - Whenever you finish something, it's generally a good idea to `push` those change up to GitHub
+  - This makes each version `git` stores more granular, so you can undo one thing without undoing a bunch of things. That will make more sense over time, but for, just `push`
+3. `pull` at the start of each work session
+  - This isn't important if you're using `git` in the simple way we are, but the second you start collaberating with `git` or even using on multiple computers, always `pull` first
+  - This will add any changes that have been `push`-ed to your files before you edit them, avoiding conflicts and making everyone's lives easier
+4. Write useful `commit` messages
+  - Everytime you `commit` then `push` you have to write a message, if we have to go back in time, this is how you will find the point to go back to, so don't say make them descriptive
+5. Don't panic
+  - Sometimes, `git` can get messed up, particularly when collaborating with others
+  - The beuaty is that with version control, we can always go back and fix things
+  - If you run into `git` issues, I am happy to help, and if I can't I know plenty of people who can!
+6. Never, ever, ever, put private or restricted information in `git` or GitHub
+  - By default GitHub repos are public, and even if they're private, they are not approved places for private or restricted data
+  - Even if you're just backing up code that uses restricted data, you should check-in with your data security/IT team to make sure you're following institutional rules
+  
+## Summary
+
+- If you've made it to here, congratulations, you're now officially a `git` user
+  - I encourage you to keep at it, the more you use it, the easier it becomes
+- Using `git` as a version control and backup for a single computer is the simplest way to use `git` and more than enough for a lot of people
+  - If you get comfortable with `git`, it can do so much more
+    - Working across multiple computers
+    - Collaborating with other researchers
+    - Creating `branches` of work to try out new approaches
+    - `fork`-ing existing repos to make a new version of something someone else did
+    - `pull request`-ing something you `fork`-ed and improved/fixed to get your change added to   the main project
+    - Hosting websites with `gh-pages` (like this one!)
+    - A whole lot more!
+
+# Assignment
+
+To earn these extra credit points, ultimately, you need to show you have used GitHub as a version control for your final project code.
+
+To do this, there are four main steps, all of which are covered in the lesson section.
+
+1. Set up a GitHub account
+2. Set up the SHH authorization so you can push/pull GitHub from RStudio
+3. Set up a repo on GitHub and clone it down to your computer 
+4. Utilize the git functionality to version control that R project
+  - To use git effectively, you should be pushing up every time you complete a significant chunk of work
+
+Your submission should be a URL link on Canvas to a GitHub repo containing your report code
+  
+  - If you made the repo private with GitHub Pro, you will need to share it with me
+  
+Once complete, turn in the url link of your GitHub repo to Canvas by the due date (Sunday 11:59pm following the final lesson). Good faith efforts (as determined by the instructor) at extra credit assignments will earn full credit if submitted on time.
+
+:::
