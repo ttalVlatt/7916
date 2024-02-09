@@ -8,19 +8,18 @@ execute:
   warning: false
 ---
 
-:::{.panel-tabset}
-
+::: panel-tabset
 # Lesson
 
 [{{< fa code >}} Quarto Template](/site-attachments/quarto-template.qmd)
 
-- In this lesson, we are going to cover the basics of creating fully reproducible reports with Quarto
-- You may have heard about RMarkdown `.Rmd` in other classes
-- Quarto is the replacement for RMarkdown
-  - It can do anything RMarkdown can do and a whole whole lot more!
-  - Plus, it's easier to use!
-  - Quarto is still somewhat new, version 1.4 just came out you probably all still have 1.3 (it comes with RStudio as it's made by the same company, Posit)
-  
+-   In this lesson, we are going to cover the basics of creating fully reproducible reports with Quarto
+-   You may have heard about RMarkdown `.Rmd` in other classes
+-   Quarto is the replacement for RMarkdown
+    -   It can do anything RMarkdown can do and a whole whole lot more!
+    -   Plus, it's easier to use!
+    -   Quarto is still somewhat new, version 1.4 just came out you probably all still have 1.3 (it comes with RStudio as it's made by the same company, Posit)
+
 ```{r, eval=FALSE}
 ## You should have these packages already, we installed them our first lesson
 ## but if you're not sure, run this code just in case
@@ -29,95 +28,104 @@ install.packages(c("knitr", "rmarkdown", "quarto"))
 
 ## Quarto Documentation
 
-- Quarto also comes with one of the best sets of documentation I've come across on their website, [check it out here](https://quarto.org)
-  - Fun fact, the whole website is a massive Quarto project, which is kind of meta!
-- Rather than trying to re-explain something they put so clearly, we will look to this site for guidance throughout this lesson
+-   Quarto also comes with one of the best sets of documentation I've come across on their website, [check it out here](https://quarto.org)
+    -   Fun fact, the whole website is a massive Quarto project, which is kind of meta!
+-   Rather than trying to re-explain something they put so clearly, we will look to this site for guidance throughout this lesson
 
 ## Why Quarto over Word?
 
-- Up until now, you've likely written most of your assignments using a Microsoft Word or something similar
-- There are a few major reasons Quarto has most replaced Word for 90% of my work
-  1. Integration with code/analysis
-    - This is the main one
-    - As you'll see in this lesson, Quarto seamlessly integrates text with code output
-      - So any tables and plots you create will be integrated into the report
-        - No more spending hours copying your output from one screen to another and likely typing some of it wrong!
-      - You can even have the text you type update
-    - As a result, if when reviewing your final paper you spot an error right at the start of your analysis, as you often will (I did with my first publication), you just correct it and everything else automatically updates
-  2. Reproducibility/Transparancy
-    - As the code and text are integrated, it makes it easier to share and reproduce your results, there's no way someone could fake a figure/table without it being obvious
-  3. Zotero integration
-    - We can't really demonstrate it this lesson, but the way Quarto's visual editor integrates with Zotero on your laptop is supurb
-    - Zotero is an open source reference manager
-      - If you aren't using a reference manager, you 110% should be
-        - Zotero is a fantastic choice, as it's open-source and free, [check it out here](https://www.zotero.org)
-    - If you have zotero on your computer, to cite anything in your Zotero library, you just type `@` and you can search and add any article you have saved
-  4. Version control with git
-    - As Quarto `.qmd` files are plain text/code files, they're very small and work well with git for version control
-      - See the [git extra credit lesson](x-01-git.qmd) for more information on git
-  5. One file, variety of formats
-    - Sometimes, you need to share your work in a variety of formats
-      - Word and PDF is pretty easy, you can just save as...
-      - But what if you're asked to publish your research to a website?
-      - What if you want to work on [HiPerGator](https://www.rc.ufl.edu/get-started/hipergator/) so need your work in as `.ipynb` Jupyter Notebook?
-    - Quarto enables you to take the same work and switch formats easily and even publish to multiple formats at the same time
-    - You can also make presentations from as PowerPoint, PDF, or my new favorite, RevealJS
-      - Again, if you fix a mistake, all your tables and plots will be corrected automatically, a lifesaver 2 hours before you go on stage at ASHE!
+-   Up until now, you've likely written most of your assignments using a Microsoft Word or something similar
+
+-   There are a few major reasons Quarto has most replaced Word for 90% of my work
+
+    1.  Integration with code/analysis
+
+    -   This is the main one
+    -   As you'll see in this lesson, Quarto seamlessly integrates text with code output
+        -   So any tables and plots you create will be integrated into the report
+            -   No more spending hours copying your output from one screen to another and likely typing some of it wrong!
+        -   You can even have the text you type update
+    -   As a result, if when reviewing your final paper you spot an error right at the start of your analysis, as you often will (I did with my first publication), you just correct it and everything else automatically updates
+
+    2.  Reproducibility/Transparency
+
+    -   As the code and text are integrated, it makes it easier to share and reproduce your results, there's no way someone could fake a figure/table without it being obvious
+
+    3.  Zotero integration
+
+    -   The way Quarto's visual editor integrates with Zotero on your laptop is superb, Word does integrate with Zotero as well, but it's not as smooth
+    -   Zotero is an open source reference manager
+        -   If you aren't using a reference manager, you 110% should be
+            -   Zotero is a fantastic choice, as it's open-source and free, [check it out here](https://www.zotero.org)
+    -   If you have zotero on your computer, to cite anything in your Zotero library, you just type `@` and you can search and add any article you have saved
+
+    4.  Version control with git
+
+    -   As Quarto `.qmd` files are plain text/code files, they're very small and work well with git for version control
+        -   See the [git extra credit lesson](x-01-git.qmd) for more information on git
+
+    5.  One file, variety of formats
+
+    -   Sometimes, you need to share your work in a variety of formats
+        -   Word and PDF is pretty easy, you can just save as...
+        -   But what if you're asked to publish your research to a website?
+        -   What if you want to work on [HiPerGator](https://www.rc.ufl.edu/get-started/hipergator/) so need your work in as `.ipynb` Jupyter Notebook?
+    -   Quarto enables you to take the same work and switch formats easily and even publish to multiple formats at the same time
+    -   You can also make presentations from as PowerPoint, PDF, or my new favorite, RevealJS
+        -   Again, if you fix a mistake, all your tables and plots will be corrected automatically, a lifesaver 2 hours before you go on stage at ASHE!
 
 ## Text Portions of a Quarto Report
 
-- No matter how good your data viz skills are, the majority of most reports are still going to be text
-- Text in Quarto reports is written as markdown text (that's what the `md` part of `.qmd` stands for)
-- [Markdown](https://en.wikipedia.org/wiki/Markdown) is a relatively simple plain text way of formatting text
-- Quarto provide a great overview of markdown basics on their site [here](https://quarto.org/docs/authoring/markdown-basics.html), let's take a look
+-   No matter how good your data viz skills are, the majority of most reports are still going to be text
+-   Text in Quarto reports is written as markdown text (that's what the `md` part of `.qmd` stands for)
+-   [Markdown](https://en.wikipedia.org/wiki/Markdown) is a relatively simple plain text way of formatting text
+-   Quarto provide a great overview of markdown basics on their site [here](https://quarto.org/docs/authoring/markdown-basics.html), let's take a look
 
 ```{=html}
 <iframe width="900" height="600" src="https://quarto.org/docs/authoring/markdown-basics.html"></iframe>
 ```
-
 ### Quarto Visual Editor
 
-- However, Quarto also has a visual editor, which looks like a simplified Microsoft Word, with point and click options for everything
-  - You can toggle between `source` and `visual` modes at the top left of any `.qmd` file in RStudio
-  - All the visual editor does is write actual markdown based on what you clicked
-    - If you want to learn markdown, flipping between the two is a great way to do that
-- In my day to day life
-      - If you start using Quarto on a regular basis, you'll inevitably become familiar with markdown basics, as it is so much faster!
-  - If I'm writing extended passages of text, I usually use the visual editor (primarily for the Zotero referencing feature I metioned above)
-    - If you know markdown syntax (e.g., headings, bold, etc.), you can type it into the visual editor rather than clicking on options
-  - If I'm writing, I generally prefer the source editor
-- For this class, you should be able to use the visual editor for most of your needs, no need to learn markdown!
+-   However, Quarto also has a visual editor, which looks like a simplified Microsoft Word, with point and click options for everything
+    -   You can toggle between `source` and `visual` modes at the top left of any `.qmd` file in RStudio
+    -   All the visual editor does is write actual markdown based on what you clicked
+        -   If you want to learn markdown, flipping between the two is a great way to do that
+-   In my day to day life I use them both
+    -   If I'm writing extended passages of text, I usually use the visual editor (primarily for the Zotero referencing feature I mentioned above)
+        -   If you know markdown syntax (e.g., headings, bold, etc.), you can type it into the visual editor rather than clicking on options
+    -   If I'm writing code, I generally prefer the source editor
+-   For this class, you should be able to use the visual editor for most of your needs, no need to learn markdown unless you want to!
 
-> ## Quick Excercise
-> 1. Inside the Quarto template you downloaded at the top of the lesson write a few sentances descrbing your proposal for your reproducible report
-> 2. Add an appropriate header (e.g., "Introduction")
-> 3. Add **bold face** around your dependent variable
-> 4. Make your data source name *italic*
+> ## Quick Exercise
+>
+> 1.  Inside the Quarto template you downloaded at the top of the lesson write a few sentences describing your proposal for your reproducible report
+> 2.  Add an appropriate header (e.g., "Introduction")
+> 3.  Add **bold face** around your dependent variable
+> 4.  Make your data source name *italic*
 
 ## Code Portions of a Quarto Document
 
-- The text is all well and good, but, the real power of Quarto comes from the ability to integrate code into work
-- There are two main ways of doing this
-  - Inline code chunks
-  - Sourcing `.R` scripts
+-   The text is all well and good, but, the real power of Quarto comes from the ability to integrate code into work
+-   There are two main ways of doing this
+    -   Inline code chunks
+    -   Sourcing `.R` scripts
 
 ### Inline Code Chunks
 
-- For shorter chunks of code such as printing tables and plots, or short calculations, you can create code chunks in the `.qmd` file
-  - These are like you cut an `.R` script up into little pieces and put them in between text
-  - They still run like one continuous `.R` script, from top to bottom
-    - Anything you `<-` assign in an earlier chunk will be available in later chunks
-  - The results/output of code in a chunk will print where the chunk is in the text in the rendered document
-  - You can add a code chunk by clicking on the insert code button along the top, or, by keyboard shortcut
-    - command + option + I on Mac
-    - ctrl + alt + I on PC
-      - Once inserted, you can name chunks for [cross-referencing](https://quarto.org/docs/authoring/cross-references.html) and [set executation options](https://quarto.org/docs/computations/execution-options.html) to change if/how they output results, both of which are beyond the scope of this class
-    
-- Let's start out by reading in data, then making a simple ggplot of math test scores
-  - Since we want to see the results, we will just call it rather than assigning it to an object
-  - Note: We need to load packages in our quarto script every time
-    - Unless they are loaded by a script we source (see below) 
-  
+-   For shorter chunks of code such as printing tables and plots, or short calculations, you can create code chunks in the `.qmd` file
+    -   These are like you cut an `.R` script up into little pieces and put them in between text
+    -   They still run like one continuous `.R` script, from top to bottom
+        -   Anything you `<-` assign in an earlier chunk will be available in later chunks
+    -   The results/output of code in a chunk will print where the chunk is in the text in the rendered document
+    -   You can add a code chunk by clicking on the insert code button along the top, or, by keyboard shortcut
+        -   command + option + I on Mac
+        -   ctrl + alt + I on PC
+            -   Once inserted, you can name chunks for [cross-referencing](https://quarto.org/docs/authoring/cross-references.html) and [set executation options](https://quarto.org/docs/computations/execution-options.html) to change if/how they output results, both of which are beyond the scope of this class
+-   Let's start out by reading in data, then making a simple ggplot of math test scores
+    -   Since we want to see the results, we will just call it rather than assigning it to an object
+    -   Note: We need to load packages in our quarto script every time
+        -   Unless they are loaded by a script we source (see below)
+
 ```{r basicplot}
 library(tidyverse)
 
@@ -127,10 +135,11 @@ ggplot(data = df) +
   geom_histogram(mapping = aes(x = x1txmtscor))
 ```
 
-> ## Quick Excercise
-> 1. Add a new code chunk to your Quarto document
-> 2. Read in the `all-schools.csv` from the `sch-test` folder
-> 3. Make a line ggplot for math scores with colored lines for each school
+> ## Quick Exercise
+>
+> 1.  Add a new code chunk to your Quarto document
+> 2.  Read in the `all-schools.csv` from the `sch-test` folder
+> 3.  Make a line ggplot for math scores with colored lines for each school
 
 ```{r mathplot, echo=FALSE, purl=FALSE}
 df_2 <- read_csv(file.path("data", "sch-test", "all-schools.csv"))
@@ -143,23 +152,23 @@ ggplot(df_2) +
 
 ```
 
-- Okay, those are printing, but last week we put so much work into creating a pretty plot, do I really have to copy all that code?
-  - The answer is no!
+-   Okay, those are printing, but last week we put so much work into creating a pretty plot, do I really have to copy all that code?
+    -   The answer is no!
 
 ## Sourcing scripts
 
-- Technically, you could do everything in code chunks, from data joining and cleaning right through to analysis
-  - But, this will get really long, and make it harder to skip around and navigate the text of your document while you're editing
-- A better solution is to `source()` plain `R` scripts that have already been written
-- When you do this, any objects created in those scripts will then be in the environment and able to be added seamlessly to your Quarto document
-- To demonstrate, let's `source()` our R script from last week's lesson
-  - There are two things that need to be right for this to work
-    - The script has to be able to be run top to bottom with no errors
-      - Anything that creates an error needs to be `##` commented out
-    - You need to know where the file is
-      - In our case, because we used a slightly messy kitchen approach (see our [setup lesson on reading data](02-set-data.qmd) for a reminder) all our scripts should be in the top level of your project folder, so you should be able to source them by name
-        - If they're somewhere else, you can use `file.path()` like we use for data etc.
-      
+-   Technically, you could do everything in code chunks, from data joining and cleaning right through to analysis
+    -   But, this will get really long, and make it harder to skip around and navigate the text of your document while you're editing
+-   A better solution is to `source()` plain `R` scripts that have already been written
+-   When you do this, any objects created in those scripts will then be in the environment and able to be added seamlessly to your Quarto document
+-   To demonstrate, let's `source()` our R script from last week's lesson
+    -   There are two things that need to be right for this to work
+        -   The script has to be able to be run top to bottom with no errors
+            -   Anything that creates an error needs to be `##` commented out
+        -   You need to know where the file is
+            -   In our case, because we used a slightly messy kitchen approach (see our [setup lesson on reading data](02-set-data.qmd) for a reminder) all our scripts should be in the top level of your project folder, so you should be able to source them by name
+                -   If they're somewhere else, you can use `file.path()` like we use for data etc.
+
 ```{r sourcereal, echo=FALSE, include=TRUE, purl=FALSE}
 source(file.path("_site", "r-scripts", "06-viz-ii.R"))
 ```
@@ -168,22 +177,23 @@ source(file.path("_site", "r-scripts", "06-viz-ii.R"))
 source("06-viz-ii.R")
 ```
 
-- Now, with that script sourced, we can call objects we created in that script, and they will appear in our Quarto document
-  - For example, if we `source()` a script that joins and cleans data and leaves it assigned to an object `df_clean`, we can then call `df_clean` in a code chunk and it will be waiting
-  - Remember right at the end of last week we saved our final plot to `patch` and I said why was a surprise, this is why!
-    - We simply call `patch` and our fancy patchwork will print out beneath the chunk
-      - Note, since we loaded the `patchwork` library in the script we sourced, we don't need to load it here
+-   Now, with that script sourced, we can call objects we created in that script, and they will appear in our Quarto document
+    -   For example, if we `source()` a script that joins and cleans data and leaves it assigned to an object `df_clean`, we can then call `df_clean` in a code chunk and it will be waiting
+    -   Remember right at the end of last week we saved our final plot to `patch` and I said why was a surprise, this is why!
+        -   We simply call `patch` and our fancy patchwork will print out beneath the chunk
+            -   Note, since we loaded the `patchwork` library in the script we sourced, we don't need to load it here
 
 ```{r patch}
 patch
 ```
 
-- This logic is really useful to keep long streams of code out of your Quarto document
-- You also probably have lot's of code already written in an `.R` script, and this is much easier than copy and pasting it all
+-   This logic is really useful to keep long streams of code out of your Quarto document
+-   You also probably have lot's of code already written in an `.R` script, and this is much easier than copy and pasting it all
 
-> ## Quick Excercise
-> 1. `source()` `04-wrangle-ii.R`
-> 2. print out the data object we made called `df_long`
+> ## Quick Exercise
+>
+> 1.  `source()` `04-wrangle-ii.R`
+> 2.  print out the data object we made called `df_long`
 
 ```{r sourcereal2, echo=FALSE, include=FALSE, purl=FALSE}
 source(file.path("_site", "r-scripts", "04-wrangle-ii.R"))
@@ -193,129 +203,142 @@ source(file.path("_site", "r-scripts", "04-wrangle-ii.R"))
 print(df_long)
 ```
 
-- That covers the basics of quarto document content! No matter what output you choose, this all stays the same!
+-   That covers the basics of quarto document content! No matter what output you choose, this all stays the same!
 
 ## YAML Header Options
 
-- The final thing to be aware of is the `YAML` header, that stuff at the top of the `.qmd` file
-- In your template, I have set some basic things up that you can change
-  - There are so, so, so, many options, many of which change with the format you are using
-  - Some basic ones to be aware of for now are
-    - `title:` kind of self-explanatory
-    - `author:` again, kind of self-explanatory
-    - `date:` this can take a specific date, or, it "today" will use the current date when you render the document
-    - `editor: visual` defaults to the visual editor, easier for now
-    - `editor_options:` 
-        - `chunk_output_type: console` Just means that when editing the document and running code chunks, the output will appear in the console (like it always has with R scripts) rather than appearing as a preview in the script
-          - This is a personal preference, feel free to play around!
-    - `format`: this is power of Quarto, there are so many options which will be discussed next
-    - `execute:` these are the default way we want code chunks to output
-        - `echo: FALSE` means don't print out the code (e.g., this site use `echo: TRUE`)
-        - `message: FALSE` means don't print out information like when tidyverse reads in data
-          - There's a bunch more of these options, setting them in the YAML Header makes that the default behavior for the document, you can set them at the chunk level to only apply to that chunk
-          - You don't need to alter these for this class, but if you want to learn more, see [executation options documentation](https://quarto.org/docs/computations/execution-options.html)
+-   The final thing to be aware of is the `YAML` header, that stuff at the top of the `.qmd` file
+-   In your template, I have set some basic things up that you can change
+    -   There are so, so, so, many options, many of which change with the format you are using
+    -   Some basic ones to be aware of for now are
+        -   `title:` kind of self-explanatory
+        -   `author:` again, kind of self-explanatory
+        -   `date:` this can take a specific date, or, it "today" will use the current date when you render the document
+        -   `editor: visual` defaults to the visual editor, easier for now
+        -   `editor_options:`
+            -   `chunk_output_type: console` Just means that when editing the document and running code chunks, the output will appear in the console (like it always has with R scripts) rather than appearing as a preview in the script
+                -   This is a personal preference, feel free to play around!
+        -   `format`: this is power of Quarto, there are so many options which will be discussed next
+        -   `execute:` these are the default way we want code chunks to output
+            -   `echo: FALSE` means don't print out the code (e.g., this site use `echo: TRUE`)
+            -   `message: FALSE` means don't print out information like when tidyverse reads in data
+                -   There's a bunch more of these options, setting them in the YAML Header makes that the default behavior for the document, you can set them at the chunk level to only apply to that chunk
+                -   You don't need to alter these for this class, but if you want to learn more, see [executation options documentation](https://quarto.org/docs/computations/execution-options.html)
 
-
-> ## Quick Excercise
-> 1. Change the title to something appropriate for your final report
-> 2. Change the author to your name
+> ## Quick Exercise
+>
+> 1.  Change the title to something appropriate for your final report
+> 2.  Change the author to your name
 
 ## Quarto Output Formats
 
-- As I said at the start of this lesson, Quarto has so many different output formats you can choose from
-  - The majority fall into three main categories
-    - `html`
-    - `pdf`
-    - Microsoft Office (`docx` and `pptx`)
-  - We will mostly focus of office output for this class, but I will give a quick overview of the others first
-  
+-   As I said at the start of this lesson, Quarto has so many different output formats you can choose from
+    -   The majority fall into three main categories
+        -   `html`
+        -   `pdf`
+        -   Microsoft Office (`docx` and `pptx`)
+    -   We will mostly focus of office output for this class, but I will give a quick overview of the others first
+
 ### `html`
 
-- `html` is the file format that web browsers read for almost every website you visit
-- This is probably my favorite output style, as it's far less limited than the other types
-  - Fun fact: this entire website is built with Quarto as html output
-    - Click on the little GitHub icon in the lower right corner to see to `.qmd` files
-  - You can include fancy content like interactive graphics
-- Unfortunately, the majority of work in academia (for now at least) still relies on traditional paper-based document formats, so we can't justify spending much time on this today
-- If you want to learn more about `html` output, start with the Quarto documentation on [Quarto Websites](https://quarto.org/docs/websites/) and [Reveal.js Presentations](https://quarto.org/docs/presentations/revealjs/)
+-   `html` is the file format that web browsers read for almost every website you visit
+-   This is probably my favorite output style, as it's far less limited than the other types
+    -   Fun fact: this entire website is built with Quarto as html output
+        -   Click on the little GitHub icon in the lower right corner to see to `.qmd` files
+    -   You can include fancy content like interactive graphics
+-   Unfortunately, the majority of work in academia (for now at least) still relies on traditional paper-based document formats, so we can't justify spending much time on this today
+-   If you want to learn more about `html` output, start with the Quarto documentation on [Quarto Websites](https://quarto.org/docs/websites/) and [Reveal.js Presentations](https://quarto.org/docs/presentations/revealjs/)
 
 ### `pdf`
 
-- The first paper-based document format is straight to `.pdf`
-- Traditionally, this has been dominated by [LaTeX](https://www.latex-project.org)
-  - Students under Dr. Skinner's version of the class used this
-  - Personally, I find LaTeX slow, unintuitive, and inflexible
-- In Quarto 1.4 (the version that came out a couple of weeks ago), support for a new much more user-friendly pdf generator [typst](https://typst.app) has been added
-  - I haven't had chance to play around with this yet, but from first impressions I'm hopefull!
-- You can also create pdfs straight from Quarto via word using an R script like [this](site-attachments/docx2pdf.R) which I use for the syllabus
+-   The first paper-based document format is straight to `.pdf`
+-   Traditionally, this has been dominated by [LaTeX](https://www.latex-project.org)
+    -   Students under Dr. Skinner's version of the class used this
+    -   Personally, I find LaTeX slow, unintuitive, and inflexible
+-   In Quarto 1.4 (the version that came out a couple of weeks ago), support for a new much more user-friendly pdf generator [typst](https://typst.app) has been added
+    -   I haven't had chance to play around with this yet, but from first impressions I'm hopefull!
+-   You can also create pdfs straight from Quarto via word using an R script like [this](site-attachments/docx2pdf.R) which I use for the syllabus
 
 ### `docx`
 
-- `docx` output is, IMHO, the best starting place
-- When you render your Quarto document, the result is a `.docx` file that you can then open in word or send to a supervisor/advisor
-  - For example, if I'm running the data analysis for a project, I can create all the plots and tables, write up the methods section, then pass to my advisor to fill in the literature sections
-    - Sure, straight to `.pdf` is nice is everyone is working in Quarto, but often (sadly) they won't be
-      - `.docx` is a just more practical option a lot of the time
-    - You still get a document rendered with all the tables and plots which will update if the data changes upstream
-- Plus, even if you craft the entire document in Quarto, it can be nice to have the option to run Grammarly on it in word, or tweak one little layout feature you can't figure out how to get right in Quarto
-- This is the output format I'd like you to use for your reproducible reports (unless you can convince me you need a different output)
-  - So let's take a look through the [Quarto documentation for `.docx` output](https://quarto.org/docs/reference/formats/docx.html)
-  
+-   `docx` output is, IMHO, the best starting place
+-   When you render your Quarto document, the result is a `.docx` file that you can then open in word or send to a supervisor/adviser
+    -   For example, if I'm running the data analysis for a project, I can create all the plots and tables, write up the methods section, then pass to my adviser to fill in the literature sections
+        -   Sure, straight to `.pdf` is nice is everyone is working in Quarto, but often (sadly) they won't be
+            -   `.docx` is a just more practical option a lot of the time
+        -   You still get a document rendered with all the tables and plots which will update if the data changes upstream
+-   Plus, even if you craft the entire document in Quarto, it can be nice to have the option to run Grammarly on it in word, or tweak one little layout feature you can't figure out how to get right in Quarto
+-   This is the output format I'd like you to use for your reproducible reports (unless you can convince me you need a different output)
+    -   So let's take a look through the [Quarto documentation for `.docx` output](https://quarto.org/docs/reference/formats/docx.html)
+
 ```{=html}
 <iframe width="900" height="600" src="https://quarto.org/docs/reference/formats/docx.html"></iframe>
 ```
-
-As I say, the Quarto documentation is fantastic, I'm not asking you to do anything beyond the default docx output for the class
-  - But, if you want to, `docx` output is formatted by a template `docx` file, read more about those in the [Word templates documentation](https://quarto.org/docs/output-formats/ms-word-templates.html)
+As I say, the Quarto documentation is fantastic, I'm not asking you to do anything beyond the default docx output for the class - But, if you want to, `docx` output is formatted by a template `docx` file, read more about those in the [Word templates documentation](https://quarto.org/docs/output-formats/ms-word-templates.html)
 
 ## Rendering Quarto Reports
 
-- To see the magic happen, we simply have to hit the "Render" button at the top of the Quarto file
-  - This will go from top to bottom of our file turning the text/markdown sections into formatted text, and the code output to 
+-   To see the magic happen, we simply have to hit the "Render" button at the top of the Quarto file
+    -   This will go from top to bottom of our file turning the text/markdown sections into formatted text, and the code output to
 
 ### A Common Trap when Rendering Quarto Reports
 
-- One thing that people always get tripped up on is when something runs while editing the Quarto document, and doesn't when rendering/running it
-  - The main thing to be aware of is that when it starts to render, it will work with an entirely clean environment
-    - If you have anything (a plot, a dataframe) saved in your environment you can access that when running the chunks one by one
-      - When it renders, anything you call needs to created, either by `source()`-ing a script that makes it, or by making it within an earlier code chunk
-      - If you move chunks around, make sure you don't try and call something before it's been assigned!
+-   One thing that people always get tripped up on is when something runs while editing the Quarto document, and doesn't when rendering/running it
+    -   The main thing to be aware of is that when it starts to render, it will work with an entirely clean environment
+        -   If you have anything (a plot, a dataframe) saved in your environment you can access that when running the chunks one by one
+            -   When it renders, anything you call needs to created, either by `source()`-ing a script that makes it, or by making it within an earlier code chunk
+            -   If you move chunks around, make sure you don't try and call something before it's been assigned!
 
+## Tips for Technical Writing & Citations
+
+-   One of the most frustrating things in Microsoft Word is technical aspects of writing such as equations needed for quantitative research articles
+    -   By no means do you need to write equations in your project for this class, but this is something you'll need in future stats classes
+-   As always, the [Quarto documentation](https://quarto.org/docs/visual-editor/technical.html) does a great job of explaining the basics of technical writing, so let's take a look!
+    -   I mentioned this above, but this page also discusses the Zotero integration in a bit more depth as well
+
+```{=html}
+<iframe width="900" height="600" src="https://quarto.org/docs/visual-editor/technical.html"></iframe>
+```
 # Assignment
 
-- Good news! Through the quick exercises in this class, you should have some of this assignment done!
+-   Good news! Through the quick exercises in this class, you should have some of this assignment done!
 
 In a Quarto Document (you should continue using the template you started today)
 
 *Should already be done*
 
-1.
-  i. Write a few sentences describing your proposal for your reproducible report
-  ii. Add an appropriate header (e.g., "Introduction")
-  iii. Add **bold face** around your dependent variable
-  iv. Make your data source name *italic*
-  v. Change the YAML Header title to something appropriate for your final report
-  vi. Change the YAML Header author to your name
+1.  
+
+    i.  Write a few sentences describing your proposal for your reproducible report
+    ii. Add an appropriate header (e.g., "Introduction")
+    iii. Add **bold face** around your dependent variable
+    iv. Make your data source name *italic*
+    v.  Change the YAML Header title to something appropriate for your final report
+    vi. Change the YAML Header author to your name
 
 *New steps*
 
-2.
-  i. Read in at least one data file you intend to use for your final project
-  ii. Write a few sentences describing where you got the data from
-  iii. Add an appropriate header (e.g., "Data")
-  iv. Summarize one or more continuous variable including 
-    - mean
-    - standard deviation
-    - minimum
-    - maximum
-  v. Summarize one or more categorical variables including
-    - count for each category
-    - percentage of count for each category
-      - Hint: Remember the easier way of getting percentages from assignment 3 solution
-  vi. Save the file as `report.qmd`
+2.  
+
+    i.  Read in at least one data file you intend to use for your final project
+    ii. Write a few sentences describing where you got the data from
+    iii. Add an appropriate header (e.g., "Data")
+    iv. Summarize one or more continuous variable including
+
+    -   mean
+    -   standard deviation
+    -   minimum
+    -   maximum
+
+    v.  Summarize one or more categorical variables including
+
+    -   count for each category
+    -   percentage of count for each category
+        -   Hint: Remember the easier way of getting percentages from assignment 3 solution
+
+    vi. Save the file as `report.qmd`
 
 Congratulations, you've officially started the Quarto document for your final project!
 
 Once complete, turn in the .qmd script (no data etc.) to Canvas by the due date (Sunday 11:59pm following the lesson). Assignments will be graded on the following Monday (time permitting) in line with the grading policy outlined in the syllabus.
-
 :::
