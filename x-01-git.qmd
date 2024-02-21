@@ -11,6 +11,9 @@ image: apple-touch-icon.png
 
 >If you think of OneDrive, Google Drive, etc. as a nice automatic sedan, easy to drive, but you can't control everything, `git` is like a stick shift sports car, it is way more capable, but requires some getting used to! - B.T. Skinner (paraphrased)
 
+- Before we get started, a quick terminology definition, "git repo" or "repo" just means a folder that uses `git`
+  - "Your repo" `==` "Your folder for the git project"
+
 - There are so many things `git` can do beyond other cloud storage systems, but for this lesson we are going to focus on one of the most fundamental benefits, version control
   - Version control is one of `git`'s best features and helps avoid situations like...
 
@@ -181,6 +184,13 @@ To backup these changes to GitHub, follow these steps
   - The ability to version control your code and easily track back to specific points is alone more than worth it
     - That's not to mention this is only an intro, `git` can do so much more as you get familiar with it
   - Plus, if you can use `git` you will stand out from the crowd in serious data management jobs
+
+#### The Need to `.gitignore`
+
+- When something appears in the RStudio "Git" panel that you don't want to `push` you can right-click and hit the "ignore" option
+  - This will add that file to a `.gitignore` file in your repo, and means `git` will never try and track that file again
+  - You can also add file names and/or patterns directly to the `.gitignore` file
+- This is useful for anything you don't want sharing (as GitHub repos are public by default), or anything too large for `git` (big data sets etc.)
 
 #### Sidenote: The Need to `pull`
 
