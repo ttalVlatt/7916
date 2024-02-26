@@ -754,16 +754,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code># A tibble: 100 × 4
       id   age sibage parage
    &lt;int&gt; &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;
- 1     1    13     12     47
- 2     2    20     12     55
- 3     3    16     10    -99
- 4     4    16      5    -98
- 5     5    13    -98     53
- 6     6    18      7     51
- 7     7    11     12     53
- 8     8    13      5     45
- 9     9    18     10     47
-10    10    12     11     52
+ 1     1   -97      5     49
+ 2     2    12      6     51
+ 3     3    11      8     54
+ 4     4    20     11    -99
+ 5     5    11      5     48
+ 6     6    20      5     45
+ 7     7    17     10     45
+ 8     8    15     10     53
+ 9     9    13      8     48
+10    10    12     10    -99
 # ℹ 90 more rows</code></pre>
 </div>
 </div>
@@ -788,17 +788,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code># A tibble: 11 × 2
      age     n
    &lt;dbl&gt; &lt;int&gt;
- 1   -97     9
- 2    11     7
- 3    12     9
+ 1   -97    12
+ 2    11    14
+ 3    12    12
  4    13     8
- 5    14     9
- 6    15    11
- 7    16     7
- 8    17    13
- 9    18    11
-10    19     5
-11    20    11</code></pre>
+ 5    14     7
+ 6    15     8
+ 7    16     6
+ 8    17     7
+ 9    18     8
+10    19     9
+11    20     9</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="do">## missing values in age are coded as -97</span></span>
 <span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> df <span class="sc">|&gt;</span></span>
@@ -811,17 +811,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code># A tibble: 11 × 2
      age     n
    &lt;dbl&gt; &lt;int&gt;
- 1    11     7
- 2    12     9
+ 1    11    14
+ 2    12    12
  3    13     8
- 4    14     9
- 5    15    11
- 6    16     7
- 7    17    13
- 8    18    11
- 9    19     5
-10    20    11
-11    NA     9</code></pre>
+ 4    14     7
+ 5    15     8
+ 6    16     6
+ 7    17     7
+ 8    18     8
+ 9    19     9
+10    20     9
+11    NA    12</code></pre>
 </div>
 </div>
 <p>It worked! All the values that were -97 before, are now in the <code>NA</code> table column. Importantly, none of the other values changed.</p>
