@@ -410,7 +410,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>As a result, if when reviewing your final paper you spot an error right at the start of your analysis, as you often will (I did with my first publication), you just correct it and everything else automatically updates</li>
 </ul>
 <ol start="2" type="1">
-<li>Reproducibility/Transparancy</li>
+<li>Reproducibility/Transparency</li>
 </ol>
 <ul>
 <li>As the code and text are integrated, it makes it easier to share and reproduce your results, there’s no way someone could fake a figure/table without it being obvious</li>
@@ -476,20 +476,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>If you want to learn markdown, flipping between the two is a great way to do that</li>
 </ul></li>
 </ul></li>
-<li>In my day to day life - If you start using Quarto on a regular basis, you’ll inevitably become familiar with markdown basics, as it is so much faster!
+<li>In my day to day life I use them both
 <ul>
-<li>If I’m writing extended passages of text, I usually use the visual editor (primarily for the Zotero referencing feature I metioned above)
+<li>If I’m writing extended passages of text, I usually use the visual editor (primarily for the Zotero referencing feature I mentioned above)
 <ul>
 <li>If you know markdown syntax (e.g., headings, bold, etc.), you can type it into the visual editor rather than clicking on options</li>
 </ul></li>
-<li>If I’m writing, I generally prefer the source editor</li>
+<li>If I’m writing code, I generally prefer the source editor</li>
 </ul></li>
-<li>For this class, you should be able to use the visual editor for most of your needs, no need to learn markdown!</li>
+<li>For this class, you should be able to use the visual editor for most of your needs, no need to learn markdown unless you want to!</li>
 </ul>
 <blockquote class="blockquote">
-<h2 id="quick-excercise" data-anchor-id="quarto-visual-editor">Quick Excercise</h2>
+<h2 id="quick-exercise" data-anchor-id="quarto-visual-editor">Quick Exercise</h2>
 <ol type="1">
-<li>Inside the Quarto template you downloaded at the top of the lesson write a few sentances descrbing your proposal for your reproducible report</li>
+<li>Inside the Quarto template you downloaded at the top of the lesson write a few sentences describing your proposal for your reproducible report</li>
 <li>Add an appropriate header (e.g., “Introduction”)</li>
 <li>Add <strong>bold face</strong> around your dependent variable</li>
 <li>Make your data source name <em>italic</em></li>
@@ -552,7 +552,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <blockquote class="blockquote">
-<h2 id="quick-excercise-1" data-anchor-id="inline-code-chunks">Quick Excercise</h2>
+<h2 id="quick-exercise-1" data-anchor-id="inline-code-chunks">Quick Exercise</h2>
 <ol type="1">
 <li>Add a new code chunk to your Quarto document</li>
 <li>Read in the <code>all-schools.csv</code> from the <code>sch-test</code> folder</li>
@@ -634,7 +634,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>You also probably have lot’s of code already written in an <code>.R</code> script, and this is much easier than copy and pasting it all</li>
 </ul>
 <blockquote class="blockquote">
-<h2 id="quick-exercise">Quick Exercise</h2>
+<h2 id="quick-exercise-2">Quick Exercise</h2>
 <ol type="1">
 <li><code>source()</code> <code>04-wrangle-ii.R</code></li>
 <li>print out the data object we made called <code>df_long</code></li>
@@ -697,7 +697,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul></li>
 </ul>
 <blockquote class="blockquote">
-<h2 id="quick-exercise-1">Quick Exercise</h2>
+<h2 id="quick-exercise-3">Quick Exercise</h2>
 <ol type="1">
 <li>Change the title to something appropriate for your final report</li>
 <li>Change the author to your name</li>
@@ -754,9 +754,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 data-anchor-id="docx"><code>docx</code></h3>
 <ul>
 <li><code>docx</code> output is, IMHO, the best starting place</li>
-<li>When you render your Quarto document, the result is a <code>.docx</code> file that you can then open in word or send to a supervisor/advisor
+<li>When you render your Quarto document, the result is a <code>.docx</code> file that you can then open in word or send to a supervisor/adviser
 <ul>
-<li>For example, if I’m running the data analysis for a project, I can create all the plots and tables, write up the methods section, then pass to my advisor to fill in the literature sections
+<li>For example, if I’m running the data analysis for a project, I can create all the plots and tables, write up the methods section, then pass to my adviser to fill in the literature sections
 <ul>
 <li>Sure, straight to <code>.pdf</code> is nice is everyone is working in Quarto, but often (sadly) they won’t be
 <ul>
@@ -797,220 +797,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul></li>
 </ul></li>
 </ul></li>
-</ul>
-</section>
-</section>
-<section id="basic-tables-and-kables" class="level2">
-<h2 data-anchor-id="basic-tables-and-kables">Basic Tables and <code>Kable()</code>s</h2>
-<ul>
-<li><p>One of the most common things you need when writing reports and/or papers are tables, whether than be descriptive statistics, results of a regression model, or even qualitative information about participants</p></li>
-<li><p>There are many ways of creating tables in R</p>
-<ul>
-<li><p>If you want to get fancy with customization, <code>gt</code> and <code>gtsummary</code> offer more advanced customization options</p></li>
-<li><p>If you’re looking for easy and consistent output from regressions and other models <code>stargazer</code> might be what you’re looking for</p></li>
-<li><p>But for now, we will focus on basic markdown tables and <code>kable</code></p>
-<ul>
-<li><code>kableextra</code> is also an option if you want to customize <code>kable</code>s outside what the basic package allows</li>
-</ul></li>
-</ul></li>
-</ul>
-<section id="basic-markdown-tables" class="level3">
-<h3 data-anchor-id="basic-markdown-tables">Basic Markdown Tables</h3>
-<ul>
-<li><p>Basic markdown tables are somewhat like tables in word, you manually fill them in</p>
-<ul>
-<li>You could use inline code in one, but you will see why that would rarely be necessary when we look at <code>kable</code></li>
-</ul></li>
-<li><p>Before Quarto’s visual editor, making basic markdown tables was a real pain</p>
-<ul>
-<li><p>They basically involve using a series of ————, ::::, and |||| to craft a table</p>
-<ul>
-<li>If you’re interested you can see more on the <a href="https://quarto.org/docs/authoring/tables.html">Quarto table documentation</a></li>
-</ul></li>
-<li><p>With the visual editor, however, you can just click on “Table” from the drop down menu, and write out the contents of your table</p></li>
-</ul></li>
-<li><p>This is great for certain things, such as a table where we describe something qualitatively, such as syllabus for this class (which uses a markdown table).</p></li>
-</ul>
-</section>
-<section id="tables-from-data-frames-with-kable" class="level3">
-<h3 data-anchor-id="tables-from-data-frames-with-kable">Tables from data frames with <code>kable</code></h3>
-<ul>
-<li>So far in this class, there have been plenty of times we have used tables to answer questions, when we have had them print out the console, e.g.</li>
-</ul>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Read in using .dta so we have nice labels</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> haven<span class="sc">::</span><span class="fu">read_dta</span>(<span class="st">"data/hsls-small.dta"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>(x1txmtscor)</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span></span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="fu">mean</span>(x1txmtscor))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 1 × 1
-  `mean(x1txmtscor)`
-               &lt;dbl&gt;
-1               51.1</code></pre>
-</div>
-</div>
-<ul>
-<li><p>This is kind of a table, but, when we render our Quarto document it doesn’t look great</p></li>
-<li><p>Luckily, the fix is really easy</p>
-<ul>
-<li><p>First, we load the <code>knitr</code> package</p></li>
-<li><p>Second, we just pipe our output into <code>kable()</code></p></li>
-</ul></li>
-</ul>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(knitr)</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="fu">mean</span>(x1txmtscor)) <span class="sc">|&gt;</span></span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<table class="table table-sm table-striped small">
-<thead>
-<tr class="header">
-<th style="text-align: right;">mean(x1txmtscor)</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: right;">51.10957</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<ul>
-<li><p><code>kable()</code> is relatively basic in terms of customization, but, it can do most things you’re going to need</p></li>
-<li><p>For now, we will address the two most obvious issues with this table, the column names and the rounding (or lack thereof)</p>
-<ul>
-<li>We just need to add two simple arguments to our <code>kable()</code></li>
-</ul></li>
-</ul>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="fu">mean</span>(x1txmtscor)) <span class="sc">|&gt;</span></span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>(<span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">"Mean of Math Score"</span>),</span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">digits =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<table class="table table-sm table-striped small">
-<thead>
-<tr class="header">
-<th style="text-align: right;">Mean of Math Score</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: right;">51.11</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<ul>
-<li><code>kable()</code> will turn any data you pass to it into a table, let’s make a slightly more interesting summary table
-<ul>
-<li>Notice, we will use <code>as_factor()</code> to get the labels to show up
-<ul>
-<li><code>factor()</code> allows us to make a factor and apply our own labels</li>
-<li><code>as_factor()</code> works with <code>haven</code> labeled data and gets the labels out</li>
-</ul></li>
-</ul></li>
-</ul>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span> </span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(<span class="fu">as_factor</span>(x1region), <span class="fu">as_factor</span>(x1sex)) <span class="sc">|&gt;</span></span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">mean =</span> <span class="fu">mean</span>(x1txmtscor),</span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">median =</span> <span class="fu">median</span>(x1txmtscor),</span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>            <span class="at">min =</span> <span class="fu">min</span>(x1txmtscor),</span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>            <span class="at">max =</span> <span class="fu">max</span>(x1txmtscor)) <span class="sc">|&gt;</span></span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>(<span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">"Region"</span>, <span class="st">"Sex"</span>, <span class="st">"Mean"</span>, <span class="st">"Median"</span>, <span class="st">"Min"</span>, <span class="st">"Max"</span>),</span>
-<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>        <span class="at">digits =</span> <span class="dv">2</span>,</span>
-<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>        <span class="at">caption =</span> <span class="st">"Math Score by Region and Sex"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<table class="table table-sm table-striped small">
-<caption>Math Score by Region and Sex</caption>
-<thead>
-<tr class="header">
-<th style="text-align: left;">Region</th>
-<th style="text-align: left;">Sex</th>
-<th style="text-align: right;">Mean</th>
-<th style="text-align: right;">Median</th>
-<th style="text-align: right;">Min</th>
-<th style="text-align: right;">Max</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">Northeast</td>
-<td style="text-align: left;">Male</td>
-<td style="text-align: right;">52.13</td>
-<td style="text-align: right;">51.97</td>
-<td style="text-align: right;">24.9468</td>
-<td style="text-align: right;">82.1876</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Northeast</td>
-<td style="text-align: left;">Female</td>
-<td style="text-align: right;">52.22</td>
-<td style="text-align: right;">52.00</td>
-<td style="text-align: right;">25.5304</td>
-<td style="text-align: right;">78.9298</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Midwest</td>
-<td style="text-align: left;">Male</td>
-<td style="text-align: right;">51.23</td>
-<td style="text-align: right;">51.18</td>
-<td style="text-align: right;">24.0999</td>
-<td style="text-align: right;">82.1876</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Midwest</td>
-<td style="text-align: left;">Female</td>
-<td style="text-align: right;">51.22</td>
-<td style="text-align: right;">50.94</td>
-<td style="text-align: right;">24.7966</td>
-<td style="text-align: right;">82.1876</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">South</td>
-<td style="text-align: left;">Male</td>
-<td style="text-align: right;">51.01</td>
-<td style="text-align: right;">51.02</td>
-<td style="text-align: right;">24.0180</td>
-<td style="text-align: right;">82.1876</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">South</td>
-<td style="text-align: left;">Female</td>
-<td style="text-align: right;">51.07</td>
-<td style="text-align: right;">50.86</td>
-<td style="text-align: right;">24.5797</td>
-<td style="text-align: right;">81.0926</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">West</td>
-<td style="text-align: left;">Male</td>
-<td style="text-align: right;">50.04</td>
-<td style="text-align: right;">49.80</td>
-<td style="text-align: right;">24.0744</td>
-<td style="text-align: right;">82.1876</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">West</td>
-<td style="text-align: left;">Female</td>
-<td style="text-align: right;">50.26</td>
-<td style="text-align: right;">50.19</td>
-<td style="text-align: right;">25.0437</td>
-<td style="text-align: right;">78.9298</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<ul>
-<li>Much better!</li>
 </ul>
 </section>
 </section>

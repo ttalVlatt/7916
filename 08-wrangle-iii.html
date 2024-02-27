@@ -405,7 +405,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 ✔ dplyr     1.1.4     ✔ readr     2.1.5
 ✔ forcats   1.0.0     ✔ stringr   1.5.1
 ✔ ggplot2   3.4.4     ✔ tibble    3.2.1
-✔ lubridate 1.9.3     ✔ tidyr     1.3.1
+✔ lubridate 1.9.3     ✔ tidyr     1.3.0
 ✔ purrr     1.0.2     
 ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
 ✖ dplyr::filter() masks stats::filter()
@@ -939,16 +939,16 @@ Caused by warning:
 <pre><code># A tibble: 83 × 2
    time_since_close_jan time_since_close_now
    &lt;drtn&gt;               &lt;drtn&gt;              
- 1 4569 days            6086 days           
- 2 4295 days            5812 days           
- 3 4505 days            6022 days           
- 4 4659 days            6176 days           
- 5 4383 days            5900 days           
- 6 4537 days            6054 days           
- 7 4232 days            5749 days           
- 8 4505 days            6022 days           
- 9 4628 days            6145 days           
-10 4323 days            5840 days           
+ 1 4569 days            6087 days           
+ 2 4295 days            5813 days           
+ 3 4505 days            6023 days           
+ 4 4659 days            6177 days           
+ 5 4383 days            5901 days           
+ 6 4537 days            6055 days           
+ 7 4232 days            5750 days           
+ 8 4505 days            6023 days           
+ 9 4628 days            6146 days           
+10 4323 days            5841 days           
 # ℹ 73 more rows</code></pre>
 </div>
 </div>
@@ -956,12 +956,12 @@ Caused by warning:
 </section>
 </div>
 <div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
-<p>Use the IPEDS data sets, <code>hd2007.csv</code>and <code>ic2007mission.csv</code>, to answer the questions below. You may need to look up and download the data dictionaries for each file. Click the “continue” button on <a href="https://nces.ed.gov/ipeds/datacenter/DataFiles.aspx?goToReportId=7">this page</a> to see the data and accompanying dictionary files. <a href="./edh7916/lessons/getting_data.html">You can also use the supplementary lesson on getting higher education data for help.</a></p>
-<p>You <strong>do not</strong> need to save the final output as a data file: just having the final result print to the console is fine. For each question, I would like you to try to pipe all the commands together. Throughout, you <strong>should</strong> account for missing values to the best of your ability by dropping them.</p>
+<p>Use the IPEDS data sets, <code>hd2007.csv</code>and <code>ic2007mission.csv</code>, to answer the questions below. You may need to look up and download the data dictionaries for each file, which you can find on <a href="https://nces.ed.gov/ipeds/datacenter/DataFiles.aspx">this page</a>. <a href="./02-set-data.html">You can also use the lesson on getting higher education data for help</a></p>
 <p>For each question, show your data work and then answer the question in a short (1-2 sentence(s)) comment.</p>
 <section id="questions" class="level2">
 <h2 data-anchor-id="questions">Questions</h2>
 <p><strong>NB</strong> To answer the questions, you will need to join the two IPEDS data sets using the common <code>unitid</code> key. Note that column names in <code>hd2007.csv</code> are uppercase (<code>UNITID</code>) while those in <code>ic2007mission.csv</code> are lowercase (<code>unitid</code>). There are a few ways to join when the keys don’t exactly match. One is to set all column names to the same case. If you want to use <code>left_join()</code> starting with <code>hd2007.csv</code>, you can first use the the dplyr verb <code>rename_all(tolower)</code> in your chain to lower all column names. <a href="https://dplyr.tidyverse.org/reference/join.html">See the help file for <code>left_join()</code></a> for other ways to join <code>by</code> different variable names.</p>
+<p>I also find these cheat sheets extremely helpful - <a href="https://rstudio.github.io/cheatsheets/strings.pdf">Working with stringr and regex</a> - <a href="https://rstudio.github.io/cheatsheets/lubridate.pdf">Working with dates</a> - You can find all posit cheat sheets <a href="https://rstudio.github.io/cheatsheets/">here</a></p>
 <ol type="1">
 <li>How many chief administrator names start with “Dr.”?<br>
 <strong>NB</strong> Many chief administrators are listed on more than one line due to branch campuses. Make sure to take this into account by keeping only distinct names.</li>
@@ -982,13 +982,7 @@ Caused by warning:
 <li>How many days were there between the first school to close and the last?</li>
 </ol></li>
 </ol>
-<section id="submission-details" class="level4">
-<h4 data-anchor-id="submission-details">Submission details</h4>
-<ul>
-<li>Save your script (<code>&lt;lastname&gt;_assignment_8.R</code>) in your <code>scripts</code> directory.</li>
-<li>Push changes to your repo (the new script and new folder) to GitHub prior to the next class session.</li>
-</ul>
-</section>
+<p>Once complete, turn in the .R script (no data etc.) to Canvas by the due date (Sunday 11:59pm following the lesson). Assignments will be graded on the following Monday (time permitting) in line with the grading policy outlined in the syllabus.</p>
 </section>
 </div>
 </div>
