@@ -324,6 +324,10 @@ As I say, the Quarto documentation is fantastic, I'm not asking you to do anythi
 -   So far in this class, there have been plenty of times we have used tables to answer questions, when we have had them print out the console, e.g.
 
 ```{r}
+## Read in using .dta so we have nice labels
+df <- haven::read_dta("data/hsls-small.dta") |>
+  drop_na(x1txmtscor)
+
 df |>
   summarize(mean(x1txmtscor))
 ```
@@ -358,10 +362,13 @@ df |>
 ```
 
 -   `kable()` will turn any data you pass to it into a table, let's make a slightly more interesting summary table
+    -   Notice, we will use `as_factor()` to get the labels to show up
+        -   `factor()` allows us to make a factor and apply our own labels
+        -   `as_factor()` works with `haven` labeled data and gets the labels out
 
 ```{r}
 df |> 
-  group_by(x1region, x1sex) |>
+  group_by(as_factor(x1region), as_factor(x1sex)) |>
   summarize(mean = mean(x1txmtscor),
             median = median(x1txmtscor),
             min = min(x1txmtscor),
