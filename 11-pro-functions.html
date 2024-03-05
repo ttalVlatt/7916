@@ -73,6 +73,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/quarto-contrib/fontawesome6-0.1.0/all.css" rel="stylesheet">
+<link href="site_libs/quarto-contrib/fontawesome6-0.1.0/latex-fontsize.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -361,6 +363,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" aria-current="page">Lesson</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">Assignment</a></li></ul>
 <div class="tab-content">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
+<p><a href="./r-scripts/11-pro-functions.R"><i class="fa-solid fa-code" aria-label="code"></i> R Code</a></p>
 <ul>
 <li><p>In this lesson, we are going to cover two fundamental ideas to more advanced programming</p>
 <ul>
@@ -1035,16 +1038,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code># A tibble: 100 × 4
       id   age sibage parage
    &lt;int&gt; &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;
- 1     1    12      7    -98
- 2     2    15      5     51
- 3     3    13      6     47
- 4     4    20     11     46
- 5     5    15      6     53
- 6     6   -97      9     54
- 7     7    18      7     55
- 8     8    11     11     53
- 9     9    19      7    -99
-10    10    14      8    -98
+ 1     1   -97     11     47
+ 2     2    14    -98     47
+ 3     3    13      6     55
+ 4     4    14     11     48
+ 5     5    14    -98     54
+ 6     6    17     12     45
+ 7     7    20      6    -99
+ 8     8    17     12     52
+ 9     9    20      7     53
+10    10    16      7     48
 # ℹ 90 more rows</code></pre>
 </div>
 </div>
@@ -1069,17 +1072,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code># A tibble: 11 × 2
      age     n
    &lt;dbl&gt; &lt;int&gt;
- 1   -97    12
- 2    11     8
- 3    12     9
- 4    13    15
- 5    14    11
- 6    15     6
- 7    16     4
- 8    17     8
- 9    18     6
-10    19    10
-11    20    11</code></pre>
+ 1   -97    16
+ 2    11    10
+ 3    12    11
+ 4    13    10
+ 5    14     8
+ 6    15     9
+ 7    16     8
+ 8    17     5
+ 9    18     4
+10    19     6
+11    20    13</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="do">## missing values in age are coded as -97</span></span>
 <span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> df <span class="sc">|&gt;</span></span>
@@ -1092,17 +1095,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code># A tibble: 11 × 2
      age     n
    &lt;dbl&gt; &lt;int&gt;
- 1    11     8
- 2    12     9
- 3    13    15
- 4    14    11
- 5    15     6
- 6    16     4
- 7    17     8
- 8    18     6
- 9    19    10
-10    20    11
-11    NA    12</code></pre>
+ 1    11    10
+ 2    12    11
+ 3    13    10
+ 4    14     8
+ 5    15     9
+ 6    16     8
+ 7    17     5
+ 8    18     4
+ 9    19     6
+10    20    13
+11    NA    16</code></pre>
 </div>
 </div>
 <p>It worked! All the values that were -97 before, are now in the <code>NA</code> table column. Importantly, none of the other values changed.</p>
