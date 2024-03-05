@@ -361,13 +361,57 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" aria-current="page">Lesson</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">Assignment</a></li></ul>
 <div class="tab-content">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
-<p>This lesson covers two core programming processes: control flow and writing functions.</p>
-<p>Like other programming languages, R reads scripts from top to bottom, implementing each command or function as it comes. But like other languages, it also has special functions that you can use to change how R moves through the script — to <em>control the flow</em> of the analysis process. With these special functions, you can selectively implement and repeat sections of code.</p>
-<p>R also allows you to write your own functions. While most of your data analyses will use functions from base R or a library you load, you may find it useful to write your own functions from time to time. You might use your <em>user-written functions</em> to perform specialized tasks or simply as wrappers for sections of code that you otherwise might repeat multiple times.</p>
-<p>This lesson is divided into three sections. In the first section, we’ll go through some common control flow processes. In the second section, we’ll go over the process for building our own functions. In the last section, we’ll work through two examples of how functional programming can streamline a data analysis workflow.</p>
-<p>But before moving on, we’ll quickly talk about the guiding principle behind this lesson.</p>
-<section id="dry-vs-wet-programming" class="level2">
-<h2 data-anchor-id="dry-vs-wet-programming"><strong>DRY</strong> vs <strong>WET</strong> programming</h2>
+<ul>
+<li><p>In this lesson, we are going to cover two fundamental ideas to more advanced programming</p>
+<ul>
+<li><p>Loops</p>
+<ul>
+<li>Do something (or multiple things) for each value in a list</li>
+</ul></li>
+<li><p>Creating Functions</p>
+<ul>
+<li>Do something (or multiple things) using things I give you</li>
+</ul></li>
+</ul></li>
+</ul>
+<section id="review-of-assignment--" class="level2">
+<h2 data-anchor-id="review-of-assignment--">Review of Assignment <code>&lt;-</code></h2>
+<ul>
+<li><p>In essence, both of these skills are built off something we have been doing this whole class, assignment</p></li>
+<li><p>We have assigned data</p></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> haven<span class="sc">::</span><span class="fu">read_dta</span>(<span class="st">"data/hsls-small.dta"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li>We have assigned plots</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>plot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(df) <span class="sc">+</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="fu">aes</span>(<span class="at">x =</span> x1txmtscor))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li>We have assigned summary tables</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>df_sum <span class="ot">&lt;-</span> df <span class="sc">|&gt;</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">mean =</span> <span class="fu">mean</span>(x1txmtscor, <span class="at">na.rm =</span> T))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li>We even assigned results</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>uf_age <span class="ot">&lt;-</span> <span class="dv">2024</span> <span class="sc">-</span> <span class="dv">1853</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li><p>Everything we are going to cover today comes back to this basic principle, things being assigned names</p>
+<ul>
+<li>We will be working with more than one assigned or named thing at once, which gets confusing at first, but it always comes back to this idea</li>
+</ul></li>
+</ul>
+</section>
+<section id="why-write-loops-functions-dry-vs-wet-code" class="level2">
+<h2 data-anchor-id="why-write-loops-functions-dry-vs-wet-code"><strong>Why Write Loops &amp; Functions: DRY</strong> vs <strong>WET</strong> Code</h2>
 <p>The watchwords for this lesson are <a href="https://en.wikipedia.org/wiki/Don%27t_repeat_yourself">DRY vs WET</a>:</p>
 <ul>
 <li><strong>DRY</strong>: <em>Don’t repeat yourself</em></li>
@@ -386,156 +430,416 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 data-anchor-id="setup">Setup</h2>
 <p>We’ll use a combination of nonce data and the school test score data we’ve used in a past lesson. We won’t read in the school test score data until the last section, but we’ll continue following our good organizational practice by setting the directory paths at the top of our script.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="do">## ---------------------------</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="do">## libraries</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="do">## ---------------------------</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
-✔ dplyr     1.1.4     ✔ readr     2.1.5
-✔ forcats   1.0.0     ✔ stringr   1.5.1
-✔ ggplot2   3.4.4     ✔ tibble    3.2.1
-✔ lubridate 1.9.3     ✔ tidyr     1.3.0
-✔ purrr     1.0.2     
-── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
-✖ dplyr::filter() masks stats::filter()
-✖ dplyr::lag()    masks stats::lag()
-ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
-</div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="do">## ---------------------------</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="do">## libraries</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="do">## ---------------------------</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="part-1-control-flow" class="level2">
-<h2 data-anchor-id="part-1-control-flow">Part 1: Control flow</h2>
-<p>As stated above, by <em>control flow</em>, I simply mean the functions that help you change how your script is read. Repeating commands often involves a <em>loop</em>, which is what it sounds like: upon reaching a loop, R will repeat the code inside the loop (<em>looping back up the beginning of the section</em>) for a certain number of times or until some condition is met. Once completed, R will go back to reading each line in order like normal.</p>
-<p>If you google around, you may find that loops have a bad reputation in R, mostly for being slow. But they aren’t <em>that</em> slow and they are easy to write and understand.</p>
-<section id="for" class="level3">
-<h3 data-anchor-id="for">for</h3>
-<p>The <code>for()</code> function allows you to build the aptly named <strong>for loops</strong>. There are few ways to use <code>for()</code>, but its construction is the same: <code>for (variable in sequence)</code>.</p>
-<p>Reading it backwards, the <code>sequence</code> is just the set of numbers or objects that we’re going to work through. The <code>variable</code> is a new variable that will temporarily hold a value from the sequence in each run through the loop. When the <code>sequence</code> is finished, so is the loop.</p>
-<p>First, let’s loop through a sequence of 10 numbers, printing each one at a time as we work through the loop.</p>
+<section id="for-loops" class="level2">
+<h2 data-anchor-id="for-loops"><code>for()</code> Loops</h2>
+<ul>
+<li><p>The idea of loops if relatively simple</p>
+<ul>
+<li><p>Take a list of things</p>
+<ul>
+<li><code>for(i in matts_list) {</code></li>
+</ul></li>
+<li><p>Do a set of things</p>
+<ul>
+<li><code>print(i) }</code></li>
+</ul></li>
+</ul></li>
+<li><p>Wait, but what’s <code>i</code></p>
+<ul>
+<li><p><code>i</code> is the most common word to use here, but we could call it anything</p>
+<ul>
+<li>It is just the name we are assigning to the item (think <code>i</code> for item) in the list</li>
+</ul></li>
+</ul></li>
+<li><p>Okay, but what’s <code>{</code> and <code>}</code></p>
+<ul>
+<li>Since we are doing one or more things for each <code>i</code> in the list</li>
+</ul></li>
+</ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="do">## make vector of numbers between 1 and 10</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>num_sequence <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="do">## loop through, printing each num_sequence value, one at a time</span></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> num_sequence) {</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">print</span>(i)</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>matts_list <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Let's"</span>, <span class="st">"go"</span>, <span class="st">"Gators"</span>, <span class="st">"!"</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> matts_list) { <span class="fu">print</span>(i) }</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 1
-[1] 2
-[1] 3
-[1] 4
-[1] 5
-[1] 6
-[1] 7
-[1] 8
-[1] 9
-[1] 10</code></pre>
+<pre><code>[1] "Let's"
+[1] "go"
+[1] "Gators"
+[1] "!"</code></pre>
 </div>
 </div>
-<p>Notice the braces <code>{}</code> that come after <code>for()</code>. This is the code in the loop that will be repeated as long as the loop is run. With each loop, <code>i</code> takes on the next value in the <code>num_sequence</code>. This is why we see 1 through 10 printed to the console.</p>
-<p>Let’s do it again, but this time with characters.</p>
+<ul>
+<li>But, we can use anything we want instead of <code>i</code></li>
+</ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="do">## character vector using letters object from R base</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>chr_sequence <span class="ot">&lt;-</span> letters[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>]</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="do">## loop through, printing each chr_sequence value, one at a time</span></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> chr_sequence) {</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">print</span>(i)</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(word <span class="cf">in</span> matts_list) { <span class="fu">print</span>(word) }</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "a"
-[1] "b"
-[1] "c"
-[1] "d"
-[1] "e"
-[1] "f"
-[1] "g"
-[1] "h"
-[1] "i"
-[1] "j"</code></pre>
+<pre><code>[1] "Let's"
+[1] "go"
+[1] "Gators"
+[1] "!"</code></pre>
 </div>
 </div>
-<p>Once more, with each loop, <code>i</code> takes on each <code>chr_sequence</code> value in turn and <code>print()</code> prints it to the console.</p>
+<ul>
+<li>Literally anything</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(gator_egg <span class="cf">in</span> matts_list) { <span class="fu">print</span>(gator_egg) }</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Let's"
+[1] "go"
+[1] "Gators"
+[1] "!"</code></pre>
+</div>
+</div>
+<ul>
+<li><p>All we are doing is assigning a name to the item in the list</p></li>
+<li><p>We can do the name thing with numbers</p></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>gators_points_23 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">11</span>, <span class="dv">49</span>, <span class="dv">29</span>, <span class="dv">22</span>, <span class="dv">14</span>, <span class="dv">38</span>, <span class="dv">41</span>, <span class="dv">20</span>, <span class="dv">36</span>, <span class="dv">35</span>, <span class="dv">31</span>, <span class="dv">15</span>)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> gators_points_23) { <span class="fu">print</span>(i) }</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 11
+[1] 49
+[1] 29
+[1] 22
+[1] 14
+[1] 38
+[1] 41
+[1] 20
+[1] 36
+[1] 35
+[1] 31
+[1] 15</code></pre>
+</div>
+</div>
+<ul>
+<li>Again, we can literally use anything as the name</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(billy_napier <span class="cf">in</span> gators_points_23) { <span class="fu">print</span>(billy_napier) }</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 11
+[1] 49
+[1] 29
+[1] 22
+[1] 14
+[1] 38
+[1] 41
+[1] 20
+[1] 36
+[1] 35
+[1] 31
+[1] 15</code></pre>
+</div>
+</div>
 <blockquote class="blockquote">
 <h4 id="quick-exercise">Quick exercise</h4>
-<p>Can you modify the above loop so that it works through both the <code>num_sequence</code> and <code>chr_sequence</code> in the same loop? (HINT: how might you combine/concatenate the two sequences?)</p>
+<p>Create a list of the names of every school you’ve attended, then use a for loop to print them out</p>
 </blockquote>
+</section>
+<section id="adding-if-and-else-to-loops" class="level2">
+<h2 data-anchor-id="adding-if-and-else-to-loops">Adding <code>if()</code> and <code>else()</code> to Loops</h2>
+<ul>
+<li><p>Loops that print things are all well and good, but really we want to be able to do a little more than that</p></li>
+<li><p>We are going to use <code>if()</code> and <code>else()</code> to that</p>
+<ul>
+<li><p>Remember <code>ifelse()</code> from Data Wrangling?</p></li>
+<li><p>This is just splitting that up, <code>if()</code> something if true, do this, <code>else()</code> do that</p>
+<ul>
+<li>Let’s just start with an <code>if()</code></li>
+</ul></li>
+</ul></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> gators_points_23) {</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span>(i <span class="sc">&gt;</span> <span class="dv">30</span>) {</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">print</span>(i)</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 49
+[1] 38
+[1] 41
+[1] 36
+[1] 35
+[1] 31</code></pre>
+</div>
+</div>
+<ul>
+<li><p>Notice we only got scores if they were above 30</p></li>
+<li><p>Next, we can add an <code>else()</code> to say what to do if the score was not above 30</p></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> gators_points_23) {</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span>(i <span class="sc">&gt;</span> <span class="dv">30</span>) {</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">print</span>(i)</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> {</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">print</span>(i)</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 11
+[1] 49
+[1] 29
+[1] 22
+[1] 14
+[1] 38
+[1] 41
+[1] 20
+[1] 36
+[1] 35
+[1] 31
+[1] 15</code></pre>
+</div>
+</div>
+<blockquote class="blockquote">
+<p>Quick Question: Is that the same list we had before? Why or why not?</p>
+</blockquote>
+<ul>
+<li><p>Let’s see how we can make it different</p>
+<ul>
+<li><p>We are going to use a new command <code>paste()</code> which combines strings, then <code>print()</code> that</p>
+<ul>
+<li>Top tip: You’re going to want to use <code>paste()</code> in your homework as well</li>
+</ul></li>
+</ul></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> gators_points_23) {</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span>(i <span class="sc">&gt;</span> <span class="dv">30</span>) {</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">paste</span>(<span class="st">"Yay the Gators scored"</span>, i, <span class="st">"points, which is more than 30!"</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> {</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">print</span>(i)</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 11
+[1] "Yay the Gators scored 49 points, which is more than 30!"
+[1] 29
+[1] 22
+[1] 14
+[1] "Yay the Gators scored 38 points, which is more than 30!"
+[1] "Yay the Gators scored 41 points, which is more than 30!"
+[1] 20
+[1] "Yay the Gators scored 36 points, which is more than 30!"
+[1] "Yay the Gators scored 35 points, which is more than 30!"
+[1] "Yay the Gators scored 31 points, which is more than 30!"
+[1] 15</code></pre>
+</div>
+</div>
+<ul>
+<li>Then we can extend that same logic to the <code>else()</code> statement</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> gators_points_23) {</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span>(i <span class="sc">&gt;</span> <span class="dv">30</span>) {</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">paste</span>(<span class="st">"Yay, the Gators scored"</span>, i, <span class="st">"points, which is more than 30!"</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> {</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">paste</span>(<span class="st">"Sad times, the Gators only scored"</span>, i, <span class="st">"points..."</span>) <span class="sc">|&gt;</span> <span class="fu">print</span>()</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Sad times, the Gators only scored 11 points..."
+[1] "Yay, the Gators scored 49 points, which is more than 30!"
+[1] "Sad times, the Gators only scored 29 points..."
+[1] "Sad times, the Gators only scored 22 points..."
+[1] "Sad times, the Gators only scored 14 points..."
+[1] "Yay, the Gators scored 38 points, which is more than 30!"
+[1] "Yay, the Gators scored 41 points, which is more than 30!"
+[1] "Sad times, the Gators only scored 20 points..."
+[1] "Yay, the Gators scored 36 points, which is more than 30!"
+[1] "Yay, the Gators scored 35 points, which is more than 30!"
+[1] "Yay, the Gators scored 31 points, which is more than 30!"
+[1] "Sad times, the Gators only scored 15 points..."</code></pre>
+</div>
+</div>
+<ul>
+<li><p>This may seem a little silly right now, but this fun example was just meant to show the basics of we are doing</p></li>
+<li><p>We will cover these in a more serious way at the end of the lesson</p></li>
+</ul>
+</section>
+<section id="writing-your-own-functions" class="level2">
+<h2 data-anchor-id="writing-your-own-functions">Writing Your Own Functions</h2>
+<ul>
+<li><p>Functions work much the same way as loops, whatever we say inside <code>{ }</code> is done</p></li>
+<li><p>The difference is that instead of doing it for each item in a list, we do it for a single input</p></li>
+<li><p>We also have to use the function for it to work</p>
+<ul>
+<li>We have been using functions all semester <code>filter()</code>, <code>summarize()</code>, <code>mutate()</code> are all functions just like the one we are going to make</li>
+</ul></li>
+<li><p>To demonstrate, let’s make a function that prints a welcome message for students arriving at UF</p></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>welcome <span class="ot">&lt;-</span> <span class="cf">function</span>() { <span class="fu">print</span>(<span class="st">"Welcome to UF!"</span>) }</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="fu">welcome</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Welcome to UF!"</code></pre>
+</div>
+</div>
+<ul>
+<li><p>To do this, we need some data, so I am just going to make some up</p>
+<ul>
+<li><code>tribble()</code> is just a way of making a tidyverse data frame, don’t worry about it for now, it’s not the main idea for the lesson</li>
+</ul></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>fake_data <span class="ot">&lt;-</span> <span class="fu">tribble</span>(<span class="sc">~</span>ufid, <span class="sc">~</span>name, <span class="sc">~</span>dorm, <span class="sc">~</span>first_class, <span class="sc">~</span>meal_plan, <span class="sc">~</span>roommate,</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>                     <span class="dv">1853</span>, <span class="st">"Jack"</span>, <span class="st">"Cyprus"</span>, <span class="st">"BIO-1001"</span>, <span class="dv">1</span>, <span class="st">"Mike"</span>,</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>                     <span class="dv">1854</span>, <span class="st">"Hailey"</span>, <span class="st">"Simpson"</span>, <span class="st">"BIO-1001"</span>, <span class="dv">0</span>, <span class="st">"Jessica"</span>,</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>                     <span class="dv">1855</span>, <span class="st">"Tamika"</span>, <span class="st">"Simpson"</span>, <span class="st">"CHEM-1002"</span>, <span class="dv">1</span>, <span class="st">"Hannah"</span>,</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>                     <span class="dv">1856</span>, <span class="st">"Jessica"</span>, <span class="st">"Simpson"</span>, <span class="st">"ARCH-1003"</span>, <span class="dv">1</span>, <span class="st">"Hailey"</span>,</span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>                     <span class="dv">1857</span>, <span class="st">"Mike"</span>, <span class="st">"Cyrpus"</span>, <span class="st">"STA-1002"</span>, <span class="dv">0</span>, <span class="st">"Jack"</span>,</span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>                     <span class="dv">1858</span>, <span class="st">"Hannah"</span>, <span class="st">"Simpson"</span>, <span class="st">"EDF-1005"</span>, <span class="dv">1</span>, <span class="st">"Tamika"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li><p>For our function to be able to work, it needs to be able to take an input, in this case UFID</p>
+<ul>
+<li>You can imagine a much more sophisticated version of this could be used for automated dorm check in</li>
+</ul></li>
+<li><p>Let’s run our same function again, but adding <code>ufid</code> to the brackets, saying that it takes <code>ufid</code> as the only input</p></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>welcome <span class="ot">&lt;-</span> <span class="cf">function</span>(id) { <span class="fu">print</span>(<span class="st">"Welcome to UF!"</span>) }</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="fu">welcome</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Welcome to UF!"</code></pre>
+</div>
+</div>
+<blockquote class="blockquote">
+<p>Quick question: It ran, but why did this not change anything?</p>
+</blockquote>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>welcome <span class="ot">&lt;-</span> <span class="cf">function</span>(id) {</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>  student <span class="ot">&lt;-</span> fake_data <span class="sc">|&gt;</span> <span class="fu">filter</span>(ufid <span class="sc">==</span> id)</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(student)</span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a><span class="fu">welcome</span>(<span class="dv">1853</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 6
+   ufid name  dorm   first_class meal_plan roommate
+  &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;           &lt;dbl&gt; &lt;chr&gt;   
+1  1853 Jack  Cyprus BIO-1001            1 Mike    </code></pre>
+</div>
+</div>
+<ul>
+<li>Okay so that ran, but it spat a data frame, how can we make it more of a welcome message?</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>welcome <span class="ot">&lt;-</span> <span class="cf">function</span>(id) {</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>  student <span class="ot">&lt;-</span> fake_data <span class="sc">|&gt;</span> <span class="fu">filter</span>(ufid <span class="sc">==</span> id)</span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>  name <span class="ot">&lt;-</span> student <span class="sc">|&gt;</span> <span class="fu">pull</span>(name)</span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">paste</span>(<span class="st">"Welcome to UF"</span>, name)</span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a><span class="fu">welcome</span>(<span class="dv">1853</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Welcome to UF Jack"</code></pre>
+</div>
+</div>
+<ul>
+<li><p>Okay, now we’re getting somewhere!</p></li>
+<li><p>Let’s add a bit more info to say where they live and what their first class will be</p></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>welcome <span class="ot">&lt;-</span> <span class="cf">function</span>(id) {</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>  student <span class="ot">&lt;-</span> fake_data <span class="sc">|&gt;</span> <span class="fu">filter</span>(ufid <span class="sc">==</span> id)</span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>  name <span class="ot">&lt;-</span> student <span class="sc">|&gt;</span> <span class="fu">pull</span>(name)</span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>  dorm <span class="ot">&lt;-</span> student <span class="sc">|&gt;</span> <span class="fu">pull</span>(dorm)</span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>  first_class <span class="ot">&lt;-</span> student <span class="sc">|&gt;</span> <span class="fu">pull</span>(first_class)</span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">paste</span>(<span class="st">"Welcome to UF"</span>, name, <span class="st">"you will be living in"</span>, dorm, <span class="st">"and your first class is"</span>, first_class)</span>
+<span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb33-11"><a href="#cb33-11" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb33-12"><a href="#cb33-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-13"><a href="#cb33-13" aria-hidden="true" tabindex="-1"></a><span class="fu">welcome</span>(<span class="dv">1853</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Welcome to UF Jack you will be living in Cyprus and your first class is BIO-1001"</code></pre>
+</div>
+</div>
+<blockquote class="blockquote">
+<p>Quick exercise: Add to the above block of code, to also say who their roommate is</p>
+</blockquote>
+</section>
+<section id="practical-example-batch-reading-files" class="level2">
+<h2 data-anchor-id="practical-example-batch-reading-files">Practical Example: Batch Reading Files</h2>
+<ul>
+<li>I didn’t get time to get to this, so, time permitting we are going to do it on-the-fly!</li>
+</ul>
+</section>
+<section id="summary" class="level2">
+<h2 data-anchor-id="summary">Summary</h2>
+<ul>
+<li><p>In this lesson we have mostly <code>print()</code>-ed our output in this lesson, because it’s one of the easiest ways to see what’s going on</p></li>
+<li><p>But, you can use functions and loops for other things too, like modifying variables, reading data, etc.</p>
+<ul>
+<li>This said, whenever I am writing a loop, I usually start by <code>print()</code>-ing what I am looping through, then make is more sophisticated from there</li>
+</ul></li>
+<li><p>Loops and Functions were something that I didn’t fully grasp until I had been using <code>R</code> for about a year, so I don’t expect you to get everything</p>
+<ul>
+<li>While confusing, they are super useful in the real world</li>
+</ul></li>
+<li><p>Time permitting, let’s take a look a few examples of my code that uses loops and functions!</p></li>
+</ul>
+</section>
+<section id="old-content-below" class="level2">
+<h2 data-anchor-id="old-content-below">Old Content Below</h2>
+<section id="for-loops-using-the-index" class="level3">
+<h3 data-anchor-id="for-loops-using-the-index"><code>for()</code> Loops Using the Index</h3>
+<ul>
+<li>There are some instances where we want to use</li>
+</ul>
 <p>Another way to make a for loop is work through a vector by its indices, that is, instead of pulling out each item directly and storing it in <code>i</code>, we can use <code>i</code> as an <em>index counter</em> and then call items based on their index: <code>chr_sequence[i]</code>. Here’s an example.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="do">## for loop by indices</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(chr_sequence)) {</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">print</span>(chr_sequence[i])</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] "a"
-[1] "b"
-[1] "c"
-[1] "d"
-[1] "e"
-[1] "f"
-[1] "g"
-[1] "h"
-[1] "i"
-[1] "j"</code></pre>
-</div>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ## for loop by indices</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="co"># for (i in 1:length(chr_sequence)) {</span></span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a><span class="co">#     print(chr_sequence[i])</span></span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a><span class="co"># }</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>To understand what’s happening, let’s break the code into pieces to make it clearer.</p>
 <p>Inside the <code>for()</code> parentheses, we have <code>i in 1:length(chr_sequence)</code>. We know what <code>i in</code> means since it’s like what we’ve seen before. What’s <code>1:length(chr_sequence)</code>? First, it looks like the colon construction we’ve seen before, <code>&lt;start&gt;:&lt;end&gt;</code>, which means give the full sequence of values from <code>&lt;start&gt;</code> through <code>&lt;end&gt;</code>.</p>
 <p>Since we made it above, we know that there are ten letters in <code>chr_sequence</code>. We could just use <code>1:10</code>. However, this violates our <a href="https://en.wikipedia.org/wiki/Magic_number_(programming)">no magic numbers</a> rule (what happens if we want to add or subtract letters from the list later?).</p>
 <p>We can get around this issue by using the base-R function, <code>length()</code>, which will return the number of items in a one-dimensional object. Since we know that <code>length(chr_sequence)</code> is equal to <code>10</code>, that means that <code>1:length(chr_sequence)</code> is the same thing as saying <code>1:10</code>. It’s just another more flexible way to get the end number of our sequence. We can show this by just printing <code>i</code> again.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="do">## for loop by indices (just show indices)</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(chr_sequence)) {</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">print</span>(i)</span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 1
-[1] 2
-[1] 3
-[1] 4
-[1] 5
-[1] 6
-[1] 7
-[1] 8
-[1] 9
-[1] 10</code></pre>
-</div>
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="do">## for loop by indices (just show indices)</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="co"># for (i in 1:length(chr_sequence)) {</span></span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a><span class="co">#     print(i)</span></span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a><span class="co"># }</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Back to the original function, we see that inside the braces (<code>{}</code>), we have <code>print(chr_sequence[i])</code>. If you’ve taken a look at the <a href="./edh7916/lessons/dw_one_base_r.html">supplemental lesson for base R</a>, you know that brackets (<code>[]</code>) are way of pulling out specific values from a vector. For example, if you have a vector of 3 items, <em>e.g.</em>, <code>x &lt;- c("a", "b", "c")</code>, you can select the 2nd item by using square brackets and an index value: <code>x[2]</code>. While an index value is a number (think of it like a street address or room number in a hall), we can also use variables that represent numbers, which is useful for programming. Here’s a non-looped test:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="do">## confirm that we can use variables as indices</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>i <span class="ot">&lt;-</span> <span class="dv">1</span>                     <span class="co"># set i == 1</span></span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>chr_sequence[i]      </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] "a"</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>i <span class="ot">&lt;-</span> <span class="dv">2</span>                     <span class="co"># now set i == 2</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>chr_sequence[i]            <span class="co"># notice that code is exactly the same here</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] "b"</code></pre>
-</div>
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="do">## confirm that we can use variables as indices</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="co"># i &lt;- 1                     # set i == 1</span></span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a><span class="co"># chr_sequence[i]      </span></span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a><span class="co"># i &lt;- 2                     # now set i == 2</span></span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a><span class="co"># chr_sequence[i]            # notice that code is exactly the same here</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We know that <code>i</code> is going to take on values 1 through 10 in the loop, which means the <code>print()</code> function will get <code>chr_sequence[1]</code>, <code>chr_sequence[2]</code>, and so on. Because of the brackets, these will turn into…<code>a</code>, <code>b</code>, and so on. We should get the same thing as before! Let’s put all the pieces together and run again:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="do">## for loop by indices (once again)</span></span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(chr_sequence)) {</span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">print</span>(chr_sequence[i])</span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] "a"
-[1] "b"
-[1] "c"
-[1] "d"
-[1] "e"
-[1] "f"
-[1] "g"
-[1] "h"
-[1] "i"
-[1] "j"</code></pre>
-</div>
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="do">## for loop by indices (once again)</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="co"># for (i in 1:length(chr_sequence)) {</span></span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a><span class="co">#     print(chr_sequence[i])</span></span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a><span class="co"># }</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Success!</p>
 <p>Whether you decide to loop using actual values from the sequence or indices will usually depend on the code you want to run in the loop. Sometimes one way works better and other times the other. Just do whatever works best for you at that time.</p>
@@ -549,13 +853,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>The <code>while()</code> function is similar to <code>for()</code> except that it doesn’t have a predetermined stopping point. As long the expression inside the parentheses is <code>TRUE</code>, the loop will keep going. Only when it becomes <code>FALSE</code> will it stop.</p>
 <p>One way to use a <code>while()</code> loop is to set up a counter. When the counter reaches some value, the expression inside the <code>while()</code> parentheses is no longer true and the loop stops.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="do">## set up a counter</span></span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>i <span class="ot">&lt;-</span> <span class="dv">1</span></span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="do">## with each loop, add one to i</span></span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span>(i <span class="sc">&lt;</span> <span class="dv">11</span>) {</span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">print</span>(i)</span>
-<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>    i <span class="ot">&lt;-</span> i <span class="sc">+</span> <span class="dv">1</span></span>
-<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="do">## set up a counter</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>i <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a><span class="do">## with each loop, add one to i</span></span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span>(i <span class="sc">&lt;</span> <span class="dv">11</span>) {</span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">print</span>(i)</span>
+<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a>    i <span class="ot">&lt;-</span> i <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 1
 [1] 2
@@ -578,23 +882,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 data-anchor-id="if">if</h3>
 <p>We’ve already used a version of if, <code>ifelse()</code>, quite a bit. We can use <strong>if</strong> statements in our script to decide whether a section of code should be run or skipped. We can also use <code>if()</code> inside a <code>for()</code> loop to set a condition that changes behavior on some iterations of the loop.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="do">## only print if number is not 5</span></span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> num_sequence) {</span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (i <span class="sc">!=</span> <span class="dv">5</span>) {</span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>        <span class="fu">print</span>(i)</span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 1
-[1] 2
-[1] 3
-[1] 4
-[1] 6
-[1] 7
-[1] 8
-[1] 9
-[1] 10</code></pre>
-</div>
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="do">## only print if number is not 5</span></span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a><span class="co"># for (i in num_sequence) {</span></span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a><span class="co">#     if (i != 5) {</span></span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a><span class="co">#         print(i)</span></span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a><span class="co">#     }</span></span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a><span class="co"># }</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Notice how <code>5</code> wasn’t printed to the console. It worked!</p>
 <blockquote class="blockquote">
@@ -603,28 +896,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </blockquote>
 <p>We can add one or more <code>else if() / else()</code> partners to <code>if()</code> if we need, for example, option <strong>B</strong> to happen if option <strong>A</strong> does not.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="do">## if/else loop</span></span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> num_sequence) {</span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (i <span class="sc">!=</span> <span class="dv">3</span> <span class="sc">&amp;</span> i <span class="sc">!=</span> <span class="dv">5</span>) {</span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>        <span class="fu">print</span>(i)</span>
-<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>    } <span class="cf">else</span> <span class="cf">if</span> (i <span class="sc">==</span> <span class="dv">3</span>) {</span>
-<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>        <span class="fu">print</span>(<span class="st">'three'</span>)</span>
-<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>    } <span class="cf">else</span> {</span>
-<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>        <span class="fu">print</span>(<span class="st">'five'</span>)</span>
-<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 1
-[1] 2
-[1] "three"
-[1] 4
-[1] "five"
-[1] 6
-[1] 7
-[1] 8
-[1] 9
-[1] 10</code></pre>
-</div>
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ## if/else loop</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a><span class="co"># for (i in num_sequence) {</span></span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a><span class="co">#     if (i != 3 &amp; i != 5) {</span></span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a><span class="co">#         print(i)</span></span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a><span class="co">#     } else if (i == 3) {</span></span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a><span class="co">#         print('three')</span></span>
+<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a><span class="co">#     } else {</span></span>
+<span id="cb42-8"><a href="#cb42-8" aria-hidden="true" tabindex="-1"></a><span class="co">#         print('five')</span></span>
+<span id="cb42-9"><a href="#cb42-9" aria-hidden="true" tabindex="-1"></a><span class="co">#     }</span></span>
+<span id="cb42-10"><a href="#cb42-10" aria-hidden="true" tabindex="-1"></a><span class="co"># }</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>As with dplyr verbs, the small number of control functions (and there are some others) can be combined in an infinite number of ways to help you control how your script is read. If you find, however, that your script keeps getting more complex, with multiple nested loops and <code>ifelse()</code> exceptions, it might be time to either rethink your approach or to write your own functions that can handle expectations in a clearer way.</p>
 </section>
@@ -635,45 +916,45 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>To make a function, you use the <code>function()</code> function. Put the code that you want your function to run in the braces <code>{}</code>. Any arguments that you want your function to take should be in the parentheses <code>()</code> right after the word <code>function</code>. The name of your function is the name of the object you assign it to.</p>
 <p>Let’s make one. The function below, <code>say_hi()</code>, doesn’t take any arguments and prints a simple string when called. After you’ve built it, call your function using its name, not forgetting to include the parentheses.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="do">## function to say hi!</span></span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>say_hi <span class="ot">&lt;-</span> <span class="cf">function</span>() {</span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">print</span>(<span class="st">"Hi!"</span>)</span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a><span class="do">## call it</span></span>
-<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a><span class="fu">say_hi</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="do">## function to say hi!</span></span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>say_hi <span class="ot">&lt;-</span> <span class="cf">function</span>() {</span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">print</span>(<span class="st">"Hi!"</span>)</span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a><span class="do">## call it</span></span>
+<span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a><span class="fu">say_hi</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "Hi!"</code></pre>
 </div>
 </div>
 <p>Let’s make another one with an argument so that it’s more flexible. Let’s have our function take a name and print it. We’ll use the base-R function, <code>paste0()</code>, to combine all the string parts into one string. <code>paste0()</code> is like <code>paste()</code>, but it assumes we don’t want any space between the pieces. That works for us here because we’ll add our spaces manually.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="do">## function to say hi!</span></span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>say_hi <span class="ot">&lt;-</span> <span class="cf">function</span>(name) {</span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>    <span class="do">## combine (notice we add space after comma)</span></span>
-<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>    out_string <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">"Hi, "</span>, name, <span class="st">"!"</span>)</span>
-<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>    <span class="do">## print output string</span></span>
-<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">print</span>(out_string)</span>
-<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a><span class="do">## call it</span></span>
-<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a><span class="fu">say_hi</span>(<span class="st">"Leo"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="do">## function to say hi!</span></span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>say_hi <span class="ot">&lt;-</span> <span class="cf">function</span>(name) {</span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>    <span class="do">## combine (notice we add space after comma)</span></span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a>    out_string <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">"Hi, "</span>, name, <span class="st">"!"</span>)</span>
+<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a>    <span class="do">## print output string</span></span>
+<span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">print</span>(out_string)</span>
+<span id="cb45-7"><a href="#cb45-7" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb45-8"><a href="#cb45-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-9"><a href="#cb45-9" aria-hidden="true" tabindex="-1"></a><span class="do">## call it</span></span>
+<span id="cb45-10"><a href="#cb45-10" aria-hidden="true" tabindex="-1"></a><span class="fu">say_hi</span>(<span class="st">"Leo"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "Hi, Leo!"</code></pre>
 </div>
 </div>
 <p>This time, we want it to print out a sequence of numbers, but we want to be able to change the number each time we call it.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="do">## new function to print sequence of numbers</span></span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>print_nums <span class="ot">&lt;-</span> <span class="cf">function</span>(num_vector) {</span>
-<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>    <span class="do">## this code looks familiar...</span></span>
-<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (i <span class="cf">in</span> num_vector) {</span>
-<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>        <span class="fu">print</span>(i)</span>
-<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a><span class="do">## try it out!</span></span>
-<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a><span class="fu">print_nums</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="do">## new function to print sequence of numbers</span></span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>print_nums <span class="ot">&lt;-</span> <span class="cf">function</span>(num_vector) {</span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>    <span class="do">## this code looks familiar...</span></span>
+<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (i <span class="cf">in</span> num_vector) {</span>
+<span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a>        <span class="fu">print</span>(i)</span>
+<span id="cb47-6"><a href="#cb47-6" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb47-7"><a href="#cb47-7" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb47-8"><a href="#cb47-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-9"><a href="#cb47-9" aria-hidden="true" tabindex="-1"></a><span class="do">## try it out!</span></span>
+<span id="cb47-10"><a href="#cb47-10" aria-hidden="true" tabindex="-1"></a><span class="fu">print_nums</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 1
 [1] 2
@@ -689,13 +970,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>Notice how the variable <code>num_vector</code> is repeated in both the main function argument and inside the <code>for</code> parentheses. The <code>for()</code> function sees <code>num_vector</code> and looks for it in the main function. It finds it because the <code>num_vector</code> you give the main function, <code>print_nums()</code>, is passed through to the code inside. Now <code>for()</code> can see it and use it! Let’s try a few more inputs:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="do">## v1</span></span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print_nums</span>(<span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="do">## v1</span></span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print_nums</span>(<span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 1</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="do">## v2</span></span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print_nums</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="do">## v2</span></span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print_nums</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 1
 [1] 2
@@ -703,8 +984,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 [1] 4
 [1] 5</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="do">## v3</span></span>
-<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print_nums</span>(<span class="fu">seq</span>(<span class="dv">1</span>, <span class="dv">20</span>, <span class="at">by =</span> <span class="dv">2</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="do">## v3</span></span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print_nums</span>(<span class="fu">seq</span>(<span class="dv">1</span>, <span class="dv">20</span>, <span class="at">by =</span> <span class="dv">2</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 1
 [1] 3
@@ -732,95 +1013,95 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Now that we’ve seen some control flow and programming methods, let’s move to a more realistic use case. In this first example, we’ll make a function that fills in missing values, a common task we’ve had. First, we’ll generate some fake data with missing values.</p>
 <p>Note that since we’re using R’s <code>sample()</code> function, your data will look a little different from mine due to randomness in the sample, but everything will work the same.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="do">## create a data frame with around 10% missing values (-97,-98,-99) in</span></span>
-<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="do">## three columns</span></span>
-<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="st">"id"</span> <span class="ot">=</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>,</span>
-<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>             <span class="st">"age"</span> <span class="ot">=</span> <span class="fu">sample</span>(<span class="fu">c</span>(<span class="fu">seq</span>(<span class="dv">11</span>,<span class="dv">20</span>,<span class="dv">1</span>), <span class="sc">-</span><span class="dv">97</span>),</span>
-<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>                            <span class="at">size =</span> <span class="dv">100</span>,</span>
-<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>                            <span class="at">replace =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a>                            <span class="at">prob =</span> <span class="fu">c</span>(<span class="fu">rep</span>(.<span class="dv">09</span>, <span class="dv">10</span>), .<span class="dv">1</span>)),</span>
-<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a>             <span class="st">"sibage"</span> <span class="ot">=</span> <span class="fu">sample</span>(<span class="fu">c</span>(<span class="fu">seq</span>(<span class="dv">5</span>,<span class="dv">12</span>,<span class="dv">1</span>), <span class="sc">-</span><span class="dv">98</span>),</span>
-<span id="cb35-9"><a href="#cb35-9" aria-hidden="true" tabindex="-1"></a>                               <span class="at">size =</span> <span class="dv">100</span>,</span>
-<span id="cb35-10"><a href="#cb35-10" aria-hidden="true" tabindex="-1"></a>                               <span class="at">replace =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb35-11"><a href="#cb35-11" aria-hidden="true" tabindex="-1"></a>                               <span class="at">prob =</span> <span class="fu">c</span>(<span class="fu">rep</span>(.<span class="dv">115</span>, <span class="dv">8</span>), .<span class="dv">08</span>)),</span>
-<span id="cb35-12"><a href="#cb35-12" aria-hidden="true" tabindex="-1"></a>             <span class="st">"parage"</span> <span class="ot">=</span> <span class="fu">sample</span>(<span class="fu">c</span>(<span class="fu">seq</span>(<span class="dv">45</span>,<span class="dv">55</span>,<span class="dv">1</span>), <span class="fu">c</span>(<span class="sc">-</span><span class="dv">98</span>,<span class="sc">-</span><span class="dv">99</span>)),</span>
-<span id="cb35-13"><a href="#cb35-13" aria-hidden="true" tabindex="-1"></a>                               <span class="at">size =</span> <span class="dv">100</span>,</span>
-<span id="cb35-14"><a href="#cb35-14" aria-hidden="true" tabindex="-1"></a>                               <span class="at">replace =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb35-15"><a href="#cb35-15" aria-hidden="true" tabindex="-1"></a>                               <span class="at">prob =</span> <span class="fu">c</span>(<span class="fu">rep</span>(.<span class="dv">085</span>, <span class="dv">11</span>), <span class="fu">c</span>(.<span class="dv">12</span>, .<span class="dv">12</span>)))</span>
-<span id="cb35-16"><a href="#cb35-16" aria-hidden="true" tabindex="-1"></a>             ) </span>
-<span id="cb35-17"><a href="#cb35-17" aria-hidden="true" tabindex="-1"></a><span class="do">## show</span></span>
-<span id="cb35-18"><a href="#cb35-18" aria-hidden="true" tabindex="-1"></a>df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="do">## create a data frame with around 10% missing values (-97,-98,-99) in</span></span>
+<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a><span class="do">## three columns</span></span>
+<span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="st">"id"</span> <span class="ot">=</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>,</span>
+<span id="cb55-4"><a href="#cb55-4" aria-hidden="true" tabindex="-1"></a>             <span class="st">"age"</span> <span class="ot">=</span> <span class="fu">sample</span>(<span class="fu">c</span>(<span class="fu">seq</span>(<span class="dv">11</span>,<span class="dv">20</span>,<span class="dv">1</span>), <span class="sc">-</span><span class="dv">97</span>),</span>
+<span id="cb55-5"><a href="#cb55-5" aria-hidden="true" tabindex="-1"></a>                            <span class="at">size =</span> <span class="dv">100</span>,</span>
+<span id="cb55-6"><a href="#cb55-6" aria-hidden="true" tabindex="-1"></a>                            <span class="at">replace =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb55-7"><a href="#cb55-7" aria-hidden="true" tabindex="-1"></a>                            <span class="at">prob =</span> <span class="fu">c</span>(<span class="fu">rep</span>(.<span class="dv">09</span>, <span class="dv">10</span>), .<span class="dv">1</span>)),</span>
+<span id="cb55-8"><a href="#cb55-8" aria-hidden="true" tabindex="-1"></a>             <span class="st">"sibage"</span> <span class="ot">=</span> <span class="fu">sample</span>(<span class="fu">c</span>(<span class="fu">seq</span>(<span class="dv">5</span>,<span class="dv">12</span>,<span class="dv">1</span>), <span class="sc">-</span><span class="dv">98</span>),</span>
+<span id="cb55-9"><a href="#cb55-9" aria-hidden="true" tabindex="-1"></a>                               <span class="at">size =</span> <span class="dv">100</span>,</span>
+<span id="cb55-10"><a href="#cb55-10" aria-hidden="true" tabindex="-1"></a>                               <span class="at">replace =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb55-11"><a href="#cb55-11" aria-hidden="true" tabindex="-1"></a>                               <span class="at">prob =</span> <span class="fu">c</span>(<span class="fu">rep</span>(.<span class="dv">115</span>, <span class="dv">8</span>), .<span class="dv">08</span>)),</span>
+<span id="cb55-12"><a href="#cb55-12" aria-hidden="true" tabindex="-1"></a>             <span class="st">"parage"</span> <span class="ot">=</span> <span class="fu">sample</span>(<span class="fu">c</span>(<span class="fu">seq</span>(<span class="dv">45</span>,<span class="dv">55</span>,<span class="dv">1</span>), <span class="fu">c</span>(<span class="sc">-</span><span class="dv">98</span>,<span class="sc">-</span><span class="dv">99</span>)),</span>
+<span id="cb55-13"><a href="#cb55-13" aria-hidden="true" tabindex="-1"></a>                               <span class="at">size =</span> <span class="dv">100</span>,</span>
+<span id="cb55-14"><a href="#cb55-14" aria-hidden="true" tabindex="-1"></a>                               <span class="at">replace =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb55-15"><a href="#cb55-15" aria-hidden="true" tabindex="-1"></a>                               <span class="at">prob =</span> <span class="fu">c</span>(<span class="fu">rep</span>(.<span class="dv">085</span>, <span class="dv">11</span>), <span class="fu">c</span>(.<span class="dv">12</span>, .<span class="dv">12</span>)))</span>
+<span id="cb55-16"><a href="#cb55-16" aria-hidden="true" tabindex="-1"></a>             ) </span>
+<span id="cb55-17"><a href="#cb55-17" aria-hidden="true" tabindex="-1"></a><span class="do">## show</span></span>
+<span id="cb55-18"><a href="#cb55-18" aria-hidden="true" tabindex="-1"></a>df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 100 × 4
       id   age sibage parage
    &lt;int&gt; &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;
- 1     1    20      9     46
- 2     2    12     11    -98
- 3     3    17      9     51
- 4     4    13      9     49
- 5     5    16     10     51
- 6     6    17      7     52
- 7     7    14     10     49
- 8     8    13     11    -99
- 9     9   -97     11     54
-10    10    11      6     50
+ 1     1    12      7    -98
+ 2     2    15      5     51
+ 3     3    13      6     47
+ 4     4    20     11     46
+ 5     5    15      6     53
+ 6     6   -97      9     54
+ 7     7    18      7     55
+ 8     8    11     11     53
+ 9     9    19      7    -99
+10    10    14      8    -98
 # ℹ 90 more rows</code></pre>
 </div>
 </div>
 <p>We could fix these manually like we have been in past lessons and assignments, but it would be nice have a shorthand function. The function needs to flexible though, because the missing data values are coded differently in each column.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="do">## function to fix missing values</span></span>
-<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>fix_missing <span class="ot">&lt;-</span> <span class="cf">function</span>(x, miss_val) {</span>
-<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>    <span class="do">## use ifelse(&lt; test &gt;, &lt; do this if TRUE &gt;, &lt; do that if FALSE &gt;)</span></span>
-<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>    x <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(x <span class="sc">%in%</span> miss_val,        <span class="co"># is x == any value in miss_val?</span></span>
-<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>                <span class="cn">NA</span>,                     <span class="co"># TRUE: replace with NA</span></span>
-<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a>                x)                      <span class="co"># FALSE: return original value as is</span></span>
-<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a>    <span class="do">## return corrected x</span></span>
-<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(x)</span>
-<span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="do">## function to fix missing values</span></span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a>fix_missing <span class="ot">&lt;-</span> <span class="cf">function</span>(x, miss_val) {</span>
+<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a>    <span class="do">## use ifelse(&lt; test &gt;, &lt; do this if TRUE &gt;, &lt; do that if FALSE &gt;)</span></span>
+<span id="cb57-4"><a href="#cb57-4" aria-hidden="true" tabindex="-1"></a>    x <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(x <span class="sc">%in%</span> miss_val,        <span class="co"># is x == any value in miss_val?</span></span>
+<span id="cb57-5"><a href="#cb57-5" aria-hidden="true" tabindex="-1"></a>                <span class="cn">NA</span>,                     <span class="co"># TRUE: replace with NA</span></span>
+<span id="cb57-6"><a href="#cb57-6" aria-hidden="true" tabindex="-1"></a>                x)                      <span class="co"># FALSE: return original value as is</span></span>
+<span id="cb57-7"><a href="#cb57-7" aria-hidden="true" tabindex="-1"></a>    <span class="do">## return corrected x</span></span>
+<span id="cb57-8"><a href="#cb57-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(x)</span>
+<span id="cb57-9"><a href="#cb57-9" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Our <code>fix_missing()</code> function should meet our needs. It takes the same <code>ifelse()</code> function we’ve used before, but instead of using the name of the object (like <code>df</code>), uses an argument name <code>x</code> that we can set each time. It does the same for <code>miss_val</code>. Instead of choosing a hard-coded value (a <a href="https://en.wikipedia.org/wiki/Magic_number_(programming)">magic number</a>), we can change it each time we call the function. Let’s try it out.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="do">## check</span></span>
-<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span></span>
-<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">count</span>(age)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="do">## check</span></span>
+<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span></span>
+<span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">count</span>(age)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 11 × 2
      age     n
    &lt;dbl&gt; &lt;int&gt;
  1   -97    12
- 2    11    11
- 3    12     8
- 4    13    14
- 5    14     8
+ 2    11     8
+ 3    12     9
+ 4    13    15
+ 5    14    11
  6    15     6
- 7    16     9
- 8    17    12
- 9    18    11
-10    19     3
-11    20     6</code></pre>
+ 7    16     4
+ 8    17     8
+ 9    18     6
+10    19    10
+11    20    11</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="do">## missing values in age are coded as -97</span></span>
-<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> df <span class="sc">|&gt;</span></span>
-<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">age =</span> <span class="fu">fix_missing</span>(age, <span class="sc">-</span><span class="dv">97</span>))</span>
-<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a><span class="do">## recheck</span></span>
-<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span></span>
-<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">count</span>(age)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="do">## missing values in age are coded as -97</span></span>
+<span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> df <span class="sc">|&gt;</span></span>
+<span id="cb60-3"><a href="#cb60-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">age =</span> <span class="fu">fix_missing</span>(age, <span class="sc">-</span><span class="dv">97</span>))</span>
+<span id="cb60-4"><a href="#cb60-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb60-5"><a href="#cb60-5" aria-hidden="true" tabindex="-1"></a><span class="do">## recheck</span></span>
+<span id="cb60-6"><a href="#cb60-6" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span></span>
+<span id="cb60-7"><a href="#cb60-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">count</span>(age)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 11 × 2
      age     n
    &lt;dbl&gt; &lt;int&gt;
- 1    11    11
- 2    12     8
- 3    13    14
- 4    14     8
+ 1    11     8
+ 2    12     9
+ 3    13    15
+ 4    14    11
  5    15     6
- 6    16     9
- 7    17    12
- 8    18    11
- 9    19     3
-10    20     6
+ 6    16     4
+ 7    17     8
+ 8    18     6
+ 9    19    10
+10    20    11
 11    NA    12</code></pre>
 </div>
 </div>
@@ -836,8 +1117,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h4 data-anchor-id="read-in-all-files-in-folder">Read in all files in folder</h4>
 <p>In our lesson on appending, joining, and merging, we read in a few administrative test score files. In that lesson, we read in each file individually and then appended them.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="do">## read in all Bend Gate test score files</span></span>
-<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>df_1 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="fu">file.path</span>(<span class="st">"data"</span>, <span class="st">"sch-test"</span>, <span class="st">"by-school"</span>, <span class="st">"bend-gate-1980.csv"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="do">## read in all Bend Gate test score files</span></span>
+<span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a>df_1 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="fu">file.path</span>(<span class="st">"data"</span>, <span class="st">"sch-test"</span>, <span class="st">"by-school"</span>, <span class="st">"bend-gate-1980.csv"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Rows: 1 Columns: 5
 ── Column specification ────────────────────────────────────────────────────────
@@ -848,7 +1129,7 @@ dbl (4): year, math, read, science
 ℹ Use `spec()` to retrieve the full column specification for this data.
 ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>df_2 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="fu">file.path</span>(<span class="st">"data"</span>, <span class="st">"sch-test"</span>, <span class="st">"by-school"</span>, <span class="st">"bend-gate-1981.csv"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a>df_2 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="fu">file.path</span>(<span class="st">"data"</span>, <span class="st">"sch-test"</span>, <span class="st">"by-school"</span>, <span class="st">"bend-gate-1981.csv"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Rows: 1 Columns: 5
 ── Column specification ────────────────────────────────────────────────────────
@@ -859,7 +1140,7 @@ dbl (4): year, math, read, science
 ℹ Use `spec()` to retrieve the full column specification for this data.
 ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>df_3 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="fu">file.path</span>(<span class="st">"data"</span>, <span class="st">"sch-test"</span>, <span class="st">"by-school"</span>, <span class="st">"bend-gate-1982.csv"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a>df_3 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="fu">file.path</span>(<span class="st">"data"</span>, <span class="st">"sch-test"</span>, <span class="st">"by-school"</span>, <span class="st">"bend-gate-1982.csv"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Rows: 1 Columns: 5
 ── Column specification ────────────────────────────────────────────────────────
@@ -870,7 +1151,7 @@ dbl (4): year, math, read, science
 ℹ Use `spec()` to retrieve the full column specification for this data.
 ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>df_4 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="fu">file.path</span>(<span class="st">"data"</span>, <span class="st">"sch-test"</span>, <span class="st">"by-school"</span>, <span class="st">"bend-gate-1983.csv"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb68"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a>df_4 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="fu">file.path</span>(<span class="st">"data"</span>, <span class="st">"sch-test"</span>, <span class="st">"by-school"</span>, <span class="st">"bend-gate-1983.csv"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Rows: 1 Columns: 5
 ── Column specification ────────────────────────────────────────────────────────
@@ -881,7 +1162,7 @@ dbl (4): year, math, read, science
 ℹ Use `spec()` to retrieve the full column specification for this data.
 ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>df_5 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="fu">file.path</span>(<span class="st">"data"</span>, <span class="st">"sch-test"</span>, <span class="st">"by-school"</span>, <span class="st">"bend-gate-1984.csv"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb70"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a>df_5 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="fu">file.path</span>(<span class="st">"data"</span>, <span class="st">"sch-test"</span>, <span class="st">"by-school"</span>, <span class="st">"bend-gate-1984.csv"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Rows: 1 Columns: 5
 ── Column specification ────────────────────────────────────────────────────────
@@ -892,7 +1173,7 @@ dbl (4): year, math, read, science
 ℹ Use `spec()` to retrieve the full column specification for this data.
 ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>df_6 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="fu">file.path</span>(<span class="st">"data"</span>, <span class="st">"sch-test"</span>, <span class="st">"by-school"</span>, <span class="st">"bend-gate-1985.csv"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb72"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a>df_6 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="fu">file.path</span>(<span class="st">"data"</span>, <span class="st">"sch-test"</span>, <span class="st">"by-school"</span>, <span class="st">"bend-gate-1985.csv"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Rows: 1 Columns: 5
 ── Column specification ────────────────────────────────────────────────────────
@@ -903,11 +1184,11 @@ dbl (4): year, math, read, science
 ℹ Use `spec()` to retrieve the full column specification for this data.
 ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="do">## append</span></span>
-<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(df_1, df_2, df_3, df_4, df_5, df_6)</span>
-<span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb54-4"><a href="#cb54-4" aria-hidden="true" tabindex="-1"></a><span class="do">## show</span></span>
-<span id="cb54-5"><a href="#cb54-5" aria-hidden="true" tabindex="-1"></a>df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb74"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a><span class="do">## append</span></span>
+<span id="cb74-2"><a href="#cb74-2" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(df_1, df_2, df_3, df_4, df_5, df_6)</span>
+<span id="cb74-3"><a href="#cb74-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb74-4"><a href="#cb74-4" aria-hidden="true" tabindex="-1"></a><span class="do">## show</span></span>
+<span id="cb74-5"><a href="#cb74-5" aria-hidden="true" tabindex="-1"></a>df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 6 × 5
   school     year  math  read science
@@ -924,12 +1205,12 @@ dbl (4): year, math, read, science
 <p>Let’s combine a number of the skills we’ve learned to this point — functions, regular expressions, and pipes — to read and bind all the test score files in a more functional (and less buggy) manner.</p>
 <p>First, we’ll store the names of the files in an object using <code>list.files()</code>. We’ve used the <code>list.files()</code> function a few times in class when checking that we were in the correct working directory. In those situations, we’ve just printed the output to the console. But as with all things R, we can save that output in an object instead and put it to good use.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="do">## get names (with full path) of all school test score files</span></span>
-<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a>files <span class="ot">&lt;-</span> <span class="fu">list.files</span>(<span class="fu">file.path</span>(<span class="st">"data"</span>, <span class="st">"sch-test"</span>, <span class="st">"by-school"</span>), <span class="at">full.names =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb56-4"><a href="#cb56-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb56-5"><a href="#cb56-5" aria-hidden="true" tabindex="-1"></a><span class="do">## show</span></span>
-<span id="cb56-6"><a href="#cb56-6" aria-hidden="true" tabindex="-1"></a>files</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb76"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a><span class="do">## get names (with full path) of all school test score files</span></span>
+<span id="cb76-2"><a href="#cb76-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb76-3"><a href="#cb76-3" aria-hidden="true" tabindex="-1"></a>files <span class="ot">&lt;-</span> <span class="fu">list.files</span>(<span class="fu">file.path</span>(<span class="st">"data"</span>, <span class="st">"sch-test"</span>, <span class="st">"by-school"</span>), <span class="at">full.names =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb76-4"><a href="#cb76-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb76-5"><a href="#cb76-5" aria-hidden="true" tabindex="-1"></a><span class="do">## show</span></span>
+<span id="cb76-6"><a href="#cb76-6" aria-hidden="true" tabindex="-1"></a>files</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> [1] "data/sch-test/by-school/bend-gate-1980.csv"   
  [2] "data/sch-test/by-school/bend-gate-1981.csv"   
@@ -964,17 +1245,17 @@ dbl (4): year, math, read, science
 <p>Now that we have an object, we can read in the files using a loop. We’ll need something to store them in along the way. We’ll use a blank list. We’ve not used lists before, but think of them as special vectors, which we have used.</p>
 <p>Once we have a list, we’ll read in each file, but instead of storing it in an object like <code>df</code>, we’ll put it in the list. Since we’ll be reading in a large number of data files in the next few steps, we’ll also include the argument <code>show_col_types = FALSE</code> so that <code>read_csv()</code> doesn’t print information for each file (our assumption is that we’ve already spot checked a few files and know what we’re getting).</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="do">## init list</span></span>
-<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a>df_list <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
-<span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb58-4"><a href="#cb58-4" aria-hidden="true" tabindex="-1"></a><span class="do">## use loop to read in files</span></span>
-<span id="cb58-5"><a href="#cb58-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(files)) {</span>
-<span id="cb58-6"><a href="#cb58-6" aria-hidden="true" tabindex="-1"></a>    <span class="do">## read in file (f) and store in list (note double brackets for list)</span></span>
-<span id="cb58-7"><a href="#cb58-7" aria-hidden="true" tabindex="-1"></a>    df_list[[i]] <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(files[i], <span class="at">show_col_types =</span> <span class="cn">FALSE</span>)    </span>
-<span id="cb58-8"><a href="#cb58-8" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb58-9"><a href="#cb58-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb58-10"><a href="#cb58-10" aria-hidden="true" tabindex="-1"></a><span class="do">## show first 3 items</span></span>
-<span id="cb58-11"><a href="#cb58-11" aria-hidden="true" tabindex="-1"></a>df_list[<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb78"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a><span class="do">## init list</span></span>
+<span id="cb78-2"><a href="#cb78-2" aria-hidden="true" tabindex="-1"></a>df_list <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb78-3"><a href="#cb78-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb78-4"><a href="#cb78-4" aria-hidden="true" tabindex="-1"></a><span class="do">## use loop to read in files</span></span>
+<span id="cb78-5"><a href="#cb78-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(files)) {</span>
+<span id="cb78-6"><a href="#cb78-6" aria-hidden="true" tabindex="-1"></a>    <span class="do">## read in file (f) and store in list (note double brackets for list)</span></span>
+<span id="cb78-7"><a href="#cb78-7" aria-hidden="true" tabindex="-1"></a>    df_list[[i]] <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(files[i], <span class="at">show_col_types =</span> <span class="cn">FALSE</span>)    </span>
+<span id="cb78-8"><a href="#cb78-8" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb78-9"><a href="#cb78-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb78-10"><a href="#cb78-10" aria-hidden="true" tabindex="-1"></a><span class="do">## show first 3 items</span></span>
+<span id="cb78-11"><a href="#cb78-11" aria-hidden="true" tabindex="-1"></a>df_list[<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[[1]]
 # A tibble: 1 × 5
@@ -997,12 +1278,12 @@ dbl (4): year, math, read, science
 </div>
 <p>Now that the items are in a list, we can again use <code>bind_rows()</code>, which, in addition to individual objects, can take a single list of objects.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="do">## bind our list to single data frame</span></span>
-<span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> df_list <span class="sc">|&gt;</span></span>
-<span id="cb60-3"><a href="#cb60-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">bind_rows</span>()</span>
-<span id="cb60-4"><a href="#cb60-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb60-5"><a href="#cb60-5" aria-hidden="true" tabindex="-1"></a><span class="do">## show</span></span>
-<span id="cb60-6"><a href="#cb60-6" aria-hidden="true" tabindex="-1"></a>df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb80"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a><span class="do">## bind our list to single data frame</span></span>
+<span id="cb80-2"><a href="#cb80-2" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> df_list <span class="sc">|&gt;</span></span>
+<span id="cb80-3"><a href="#cb80-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">bind_rows</span>()</span>
+<span id="cb80-4"><a href="#cb80-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb80-5"><a href="#cb80-5" aria-hidden="true" tabindex="-1"></a><span class="do">## show</span></span>
+<span id="cb80-6"><a href="#cb80-6" aria-hidden="true" tabindex="-1"></a>df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 24 × 5
    school        year  math  read science
@@ -1032,11 +1313,11 @@ dbl (4): year, math, read, science
 <p>What if we only want files for Spottsville? Overall, the code is exactly the same except that we want our list to only contain the <code>spottsville_*.csv</code> files. How can we do that? With regular expressions!</p>
 <p>Notice that the second argument in <code>list.files()</code> is <code>pattern</code> with a default value of <code>NULL</code>. This means it doesn’t do any filtering if we leave it out. But if we want to filter which files are stored in <code>files</code>, we should use it.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="do">## filter files to be read in using pattern</span></span>
-<span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a>files_sp <span class="ot">&lt;-</span> <span class="fu">list.files</span>(<span class="fu">file.path</span>(<span class="st">"data"</span>, <span class="st">"sch-test"</span>, <span class="st">"by-school"</span>), <span class="at">pattern =</span> <span class="st">"spottsville"</span>, <span class="at">full.names =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb62-3"><a href="#cb62-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb62-4"><a href="#cb62-4" aria-hidden="true" tabindex="-1"></a><span class="do">## check</span></span>
-<span id="cb62-5"><a href="#cb62-5" aria-hidden="true" tabindex="-1"></a>files_sp</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb82"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb82-1"><a href="#cb82-1" aria-hidden="true" tabindex="-1"></a><span class="do">## filter files to be read in using pattern</span></span>
+<span id="cb82-2"><a href="#cb82-2" aria-hidden="true" tabindex="-1"></a>files_sp <span class="ot">&lt;-</span> <span class="fu">list.files</span>(<span class="fu">file.path</span>(<span class="st">"data"</span>, <span class="st">"sch-test"</span>, <span class="st">"by-school"</span>), <span class="at">pattern =</span> <span class="st">"spottsville"</span>, <span class="at">full.names =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb82-3"><a href="#cb82-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb82-4"><a href="#cb82-4" aria-hidden="true" tabindex="-1"></a><span class="do">## check</span></span>
+<span id="cb82-5"><a href="#cb82-5" aria-hidden="true" tabindex="-1"></a>files_sp</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "data/sch-test/by-school/spottsville-1980.csv"
 [2] "data/sch-test/by-school/spottsville-1981.csv"
@@ -1049,21 +1330,21 @@ dbl (4): year, math, read, science
 <p>Luckily, our regular expression pattern can simply be <code>"spottsville"</code>. Were our files less consistently named, we might have had trouble (name those files well!).</p>
 <p>The rest of the code should be as it was before (with the small addition of <code>_sp</code> in various names to keep distinct from our first attempt).</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="do">## init list</span></span>
-<span id="cb64-2"><a href="#cb64-2" aria-hidden="true" tabindex="-1"></a>df_sp_list <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
-<span id="cb64-3"><a href="#cb64-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-4"><a href="#cb64-4" aria-hidden="true" tabindex="-1"></a><span class="do">## use loop to read in files</span></span>
-<span id="cb64-5"><a href="#cb64-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(files_sp)) {</span>
-<span id="cb64-6"><a href="#cb64-6" aria-hidden="true" tabindex="-1"></a>    <span class="do">## read in file (f) and store in list</span></span>
-<span id="cb64-7"><a href="#cb64-7" aria-hidden="true" tabindex="-1"></a>    df_sp_list[[i]] <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(files_sp[i], <span class="at">show_col_types =</span> <span class="cn">FALSE</span>)    </span>
-<span id="cb64-8"><a href="#cb64-8" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb64-9"><a href="#cb64-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-10"><a href="#cb64-10" aria-hidden="true" tabindex="-1"></a><span class="do">## bind our list to single data frame</span></span>
-<span id="cb64-11"><a href="#cb64-11" aria-hidden="true" tabindex="-1"></a>df_sp <span class="ot">&lt;-</span> df_sp_list <span class="sc">|&gt;</span></span>
-<span id="cb64-12"><a href="#cb64-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">bind_rows</span>()</span>
-<span id="cb64-13"><a href="#cb64-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-14"><a href="#cb64-14" aria-hidden="true" tabindex="-1"></a><span class="do">## show</span></span>
-<span id="cb64-15"><a href="#cb64-15" aria-hidden="true" tabindex="-1"></a>df_sp</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb84"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb84-1"><a href="#cb84-1" aria-hidden="true" tabindex="-1"></a><span class="do">## init list</span></span>
+<span id="cb84-2"><a href="#cb84-2" aria-hidden="true" tabindex="-1"></a>df_sp_list <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb84-3"><a href="#cb84-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb84-4"><a href="#cb84-4" aria-hidden="true" tabindex="-1"></a><span class="do">## use loop to read in files</span></span>
+<span id="cb84-5"><a href="#cb84-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(files_sp)) {</span>
+<span id="cb84-6"><a href="#cb84-6" aria-hidden="true" tabindex="-1"></a>    <span class="do">## read in file (f) and store in list</span></span>
+<span id="cb84-7"><a href="#cb84-7" aria-hidden="true" tabindex="-1"></a>    df_sp_list[[i]] <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(files_sp[i], <span class="at">show_col_types =</span> <span class="cn">FALSE</span>)    </span>
+<span id="cb84-8"><a href="#cb84-8" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb84-9"><a href="#cb84-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb84-10"><a href="#cb84-10" aria-hidden="true" tabindex="-1"></a><span class="do">## bind our list to single data frame</span></span>
+<span id="cb84-11"><a href="#cb84-11" aria-hidden="true" tabindex="-1"></a>df_sp <span class="ot">&lt;-</span> df_sp_list <span class="sc">|&gt;</span></span>
+<span id="cb84-12"><a href="#cb84-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">bind_rows</span>()</span>
+<span id="cb84-13"><a href="#cb84-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb84-14"><a href="#cb84-14" aria-hidden="true" tabindex="-1"></a><span class="do">## show</span></span>
+<span id="cb84-15"><a href="#cb84-15" aria-hidden="true" tabindex="-1"></a>df_sp</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 6 × 5
   school       year  math  read science
@@ -1083,11 +1364,9 @@ Comment out purrr section, if going to be taught needs own lesson
 #### Use `purrr::map()`
 
 
-
 ::: {.cell}
 
 :::
-
 
 Finally, let's look at the fully tidyverse way of solving this
 problem. We'll use the [purrr library](https://purrr.tidyverse.org),
@@ -1113,7 +1392,6 @@ thing we want to do (function):
 What's nice about purrr functions is that they work directly with
 other tidyverse functions via pipes, `|>`. This bit of code
 reproduces what the first loop did to read in and bind all files:
-
 
 ::: {.cell}
 
@@ -1150,7 +1428,6 @@ df
 :::
 :::
 
-
 What's happening here? One at a time;
 
 1. every item in `files` becomes `.x` 
@@ -1173,49 +1450,36 @@ learning more about.
 
 
 
-
-
 -->
 </section>
 </section>
 </section>
 </div>
 <div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
-<p>For this assignment, you will use a combination of the files we’ve used so far in class. Be sure to set your data directories at the top of the file (assuming that we’re working in the <code>scripts</code> subdirectory). Because some of the questions involve reading in the data, you can break our one organizing rule that says to read in data at the top — instead just read in the data as needed for each question</p>
-<p>You <strong>do not</strong> need to save the final output as a data file: just having the final result print to the console is fine. For each question, I would like you to try to pipe all the commands together. Throughout, you <strong>should</strong> account for missing values to the best of your ability by dropping them.</p>
-<section id="questions" class="level2">
-<h2 data-anchor-id="questions">Questions</h2>
 <ol type="1">
 <li><p>Using a loop, do the following:</p>
-<ol type="i">
-<li>Read in each of the individual school test files for Bend Gate and Niagara only. (<strong>HINT</strong> The vertical pipe operator, <code>|</code>, means <strong>OR</strong> in regular expression patterns.)<br>
-</li>
-<li>Within each iteration of the loop, add a column to the data frame that is called <code>relative_path</code> and contains the string relative path to the data file you just read in (<em>e.g.</em>, if the file is located at <code>data/sch_test/by_school/bend_gate_1980.csv</code>, then <code>relative_path ==    "data/schools/by_test/bend_gate_1980.csv"</code> in that row).<br>
-</li>
-<li>Bind all the data sets together.</li>
-</ol></li>
-<li><p>Read in <code>hsls_small.csv</code> and do the following:</p>
-<ol type="i">
-<li>Using the user-written function <code>fix_missing()</code>, convert missing values in <code>x1ses</code> to <code>NA</code>.<br>
-</li>
-<li>Subset the full data frame to the first 50 rows and pull out the test scores into a vector using the following code:<br>
-<code>r       test_scr &lt;- df |&gt;           filter(row_number() &lt;= 50) |&gt;           pull(x1txmtscor)</code></li>
-<li>Using a <code>for()</code> loop, print out the index of the missing values (when <code>test_scr</code> equals <code>-8</code>).</li>
-<li>Repeat the same code, but add an <code>else()</code> companion to the initial <code>if()</code> statement that prints the value if non-missing.</li>
-<li>Add an <code>else if()</code> between the initial <code>if()</code> and final <code>else()</code> in your loop that prints <code>"Flag: low score"</code> if the score is less than 40. Also, change your first <code>if()</code> statement to print <code>"Flag: missing value"</code> instead of the index if the value is missing.</li>
-<li>Write your own function to compare two values and return the higher of the two. It should be called <code>return_higher()</code>, take two arguments, and return the higher of two values.</li>
-</ol>
-<p>Once you’ve created it, use it in a dplyr chain to create a new column in the data frame called <code>high_expct</code> that is the represents the higher of <code>x1stuedexpct</code> and <code>x1paredexpct</code>. Don’t forget to account for missing values!</p>
-<p><strong>HINT</strong> If stuck on what the inside of your function should look like, go back to the lesson in which we did this already — can you repurpose that code in some way?</p></li>
-</ol>
-<section id="submission-details" class="level4">
-<h4 data-anchor-id="submission-details">Submission details</h4>
 <ul>
-<li>Save your script (<code>&lt;lastname&gt;_assignment_9.R</code>) in your <code>scripts</code> directory.</li>
-<li>Push changes to your repo (the new script and new folder) to GitHub prior to the next class session.</li>
-</ul>
-</section>
-</section>
+<li><p>Read in each of the individual school test files for Bend Gate and Niagara only. (<strong>HINT</strong> The vertical pipe operator, <code>|</code>, means <strong>OR</strong> in regular expression patterns.)</p></li>
+<li><p>Add some code to the loop which add a column to the data frame that is called <code>relative_path</code> and contains the string relative path to the data file you just read in (<em>e.g.</em>, if the file is located at <code>data/sch_test/by_school/bend_gate_1980.csv</code>, then <code>relative_path ==    "data/schools/by_test/bend_gate_1980.csv"</code> in that row).</p></li>
+<li><p>Bind all the data sets together; either</p>
+<ul>
+<li><p>Slick option: Do this in the loop; or</p></li>
+<li><p>Less slick option: Do this after the loop</p></li>
+</ul></li>
+</ul></li>
+<li><p>Read in <code>hsls-small.dta</code></p></li>
+<li><p>Write your own function that</p>
+<ul>
+<li><p>Takes a <code>stu_id</code> as the input</p></li>
+<li><p><code>paste()</code>s back a sentence which says <code>if()</code> they ever attended college <code>else()</code> whether their parent expected them to go to college</p>
+<ul>
+<li><p>If a student went to college it should return something like “this student went to college”</p></li>
+<li><p>If they didn’t, it should return something like “this student did not go to college, their students did/did not expect them to”</p></li>
+</ul></li>
+<li><p>Optional: <code>if()</code> the student went to college, add a second sentence that says how many months they had between high school and going to college</p></li>
+</ul></li>
+</ol>
+<p>Once complete, turn in the .R script (no data etc.) to Canvas by the due date (Sunday 11:59pm following the lesson). Assignments will be graded on the following Monday (time permitting) in line with the grading policy outlined in the syllabus.</p>
 </div>
 </div>
 </div>
