@@ -787,7 +787,173 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="practical-example-batch-reading-files" class="level2">
 <h2 data-anchor-id="practical-example-batch-reading-files">Practical Example: Batch Reading Files</h2>
 <ul>
-<li>I didn’t get time to get to this, so, time permitting we are going to do it on-the-fly!</li>
+<li>Remember, to use a loop, we need a list to loop through</li>
+<li>To get that, let’s use the <code>list.files()</code> function
+<ul>
+<li>By default, this will list files in the current working directory</li>
+<li>If we want to list files in a different folder, we need to say where using a relative path from the working directory
+<ul>
+<li>For this, we want to list the by school files we used in Data Wrangling II, so we give it a path to that folder</li>
+</ul></li>
+<li>We also include the argument <code>full.names = TRUE</code></li>
+</ul></li>
+</ul>
+<blockquote class="blockquote">
+<h3 id="quick-exercise-1">Quick Exercise</h3>
+<p>Try removing the <code>full.names = TRUE</code> see what the differences are, and think why we need to include it</p>
+</blockquote>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>files <span class="ot">&lt;-</span> <span class="fu">list.files</span>(<span class="st">"data/sch-test/by-school"</span>,</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>                    <span class="at">full.names =</span> T)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li>As a starting point, let’s print out what this list looks like using a loop just like before</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> files) {</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(i)</span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "data/sch-test/by-school/bend-gate-1980.csv"
+[1] "data/sch-test/by-school/bend-gate-1981.csv"
+[1] "data/sch-test/by-school/bend-gate-1982.csv"
+[1] "data/sch-test/by-school/bend-gate-1983.csv"
+[1] "data/sch-test/by-school/bend-gate-1984.csv"
+[1] "data/sch-test/by-school/bend-gate-1985.csv"
+[1] "data/sch-test/by-school/east-heights-1980.csv"
+[1] "data/sch-test/by-school/east-heights-1981.csv"
+[1] "data/sch-test/by-school/east-heights-1982.csv"
+[1] "data/sch-test/by-school/east-heights-1983.csv"
+[1] "data/sch-test/by-school/east-heights-1984.csv"
+[1] "data/sch-test/by-school/east-heights-1985.csv"
+[1] "data/sch-test/by-school/niagara-1980.csv"
+[1] "data/sch-test/by-school/niagara-1981.csv"
+[1] "data/sch-test/by-school/niagara-1982.csv"
+[1] "data/sch-test/by-school/niagara-1983.csv"
+[1] "data/sch-test/by-school/niagara-1984.csv"
+[1] "data/sch-test/by-school/niagara-1985.csv"
+[1] "data/sch-test/by-school/spottsville-1980.csv"
+[1] "data/sch-test/by-school/spottsville-1981.csv"
+[1] "data/sch-test/by-school/spottsville-1982.csv"
+[1] "data/sch-test/by-school/spottsville-1983.csv"
+[1] "data/sch-test/by-school/spottsville-1984.csv"
+[1] "data/sch-test/by-school/spottsville-1985.csv"</code></pre>
+</div>
+</div>
+<ul>
+<li><p>Okay, that looks like what we want, a list of files to read in</p></li>
+<li><p>Now let’s try reading these</p></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> files) {</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">read_csv</span>(i)</span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li><p>Okay, that read the files, but we didn’t save them anywhere, we to assign them</p></li>
+<li><p>Now, this gets a little tricky, as anything we assign with <code>&lt;-</code> in a loop only exists in a loop, so we two extra steps</p>
+<ul>
+<li><p>First, we read it in mostly like normal, into something called <code>file</code> , which is temporary and only exists within the loop</p></li>
+<li><p>Second, we make another temporary object, which is the name we want to assign the data frame to</p>
+<ul>
+<li>For now, let’s just use <code>df_&lt;name of the file&gt;</code></li>
+</ul></li>
+<li><p>Third, we use <code>assign()</code>, which basically does what <code>&lt;-</code> would do in normal circumstances, but keep the object after the loop</p>
+<ul>
+<li><code>name &lt;- read_csv()</code> becomes <code>file &lt;- read_csv()</code> then <code>assign(name, file)</code></li>
+</ul></li>
+</ul></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> files) {</span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>  file <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(i)</span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>  name <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">"df_"</span>, i)</span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">assign</span>(name, file)</span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li><p>Cool! That seems to have worked, but, our <code>df_</code> names are really really long, which probably isn’t that useful for future analysis</p></li>
+<li><p>So, instead of simply pasting together <code>df_</code> and <code>i</code>, let’s use our friend regular expressions to get something more usable</p>
+<ul>
+<li><p>Get the school name (anything that matches the options we give)</p></li>
+<li><p>Get the year (any digits)</p></li>
+<li><p>Paste those together with <code>df_</code> to get our nicer object names</p></li>
+</ul></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> files) {</span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>  school <span class="ot">&lt;-</span> <span class="fu">str_extract</span>(i, <span class="st">"niagara|bend|east|spot"</span>)</span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>  year <span class="ot">&lt;-</span> <span class="fu">str_extract</span>(i, <span class="st">"</span><span class="sc">\\</span><span class="st">d+"</span>)</span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>  name <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">"df_"</span>, school, year)</span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>  file <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(i)</span>
+<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">assign</span>(name, file)</span>
+<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li><p>Much better!</p></li>
+<li><p>One last thing, instead of reading each of those into a new data frame, we could <code>bind</code> them all together</p>
+<ul>
+<li>Note: This is only appropriate here due to the nature of the school data, with each data frame having the school name and year in it, other times we may want to <code>join</code> data instead. Review <a href="./04-wrangle-ii.html">Data Wrangling II</a> for a refresher on how to <code>bind</code> and <code>join</code> data appropriately</li>
+</ul></li>
+<li><p>To do this, we first need to set up an empty data frame (a.k.a., “tibble”), as otherwise we will get an error the first time through the loop, as we would be attempting to <code>bind</code> something that doesn’t exist</p></li>
+<li><p>Then, we simply run the loop like before, but use <code>bind_rows()</code> to stack each <code>file</code> onto the existing list</p></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>df_bind <span class="ot">&lt;-</span> <span class="fu">tibble</span>()</span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> files) {</span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>  file <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(i)</span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>  df_bind <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(df_bind, file)</span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li><p>Great, that worked!</p></li>
+<li><p>Finally, what if we wanted to this only for certain schools?</p></li>
+</ul>
+<blockquote class="blockquote">
+<p>Hint: this might be useful in the homework</p>
+</blockquote>
+<ul>
+<li><p>With a loop, we do something for each item in the list</p></li>
+<li><p>So do something only for certain schools, we want to change the list, not the loop</p>
+<ul>
+<li><p>In this case, we can add a <code>pattern</code> to our <code>list.files()</code> function saying to only list files that match that pattern</p>
+<ul>
+<li>This could be some fancy regex, but in our case, we just need any files that have the word “niagara” it their name</li>
+</ul></li>
+</ul></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>files_niagara <span class="ot">&lt;-</span> <span class="fu">list.files</span>(<span class="st">"data/sch-test/by-school"</span>,</span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>                            <span class="at">full.names =</span> T,</span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>                            <span class="at">pattern =</span> <span class="st">"niagara"</span>)</span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>df_niagara <span class="ot">&lt;-</span> <span class="fu">tibble</span>()</span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> files_niagara) {</span>
+<span id="cb42-8"><a href="#cb42-8" aria-hidden="true" tabindex="-1"></a>  file <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(i)</span>
+<span id="cb42-9"><a href="#cb42-9" aria-hidden="true" tabindex="-1"></a>  df_niagara <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(df_niagara, file)</span>
+<span id="cb42-10"><a href="#cb42-10" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li>Let’s see what our final output looks like</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(df_niagara)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 5
+  school   year  math  read science
+  &lt;chr&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;
+1 Niagara  1980   514   292     787
+2 Niagara  1981   499   268     762
+3 Niagara  1982   507   310     771
+4 Niagara  1983   497   301     814
+5 Niagara  1984   483   311     818
+6 Niagara  1985   489   275     805</code></pre>
+</div>
+</div>
+<ul>
+<li>Perfect!</li>
 </ul>
 </section>
 <section id="summary" class="level2">
@@ -802,660 +968,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <ul>
 <li>While confusing, they are super useful in the real world</li>
 </ul></li>
+<li><p>You might see some variations of the loops we learned today such as</p>
+<ul>
+<li><p><code>while()</code> loops</p></li>
+<li><p><code>for()</code> loops that use the index (line) number of the list instead</p></li>
+<li><p>What’s important is that the underlying logic remains the same</p></li>
+</ul></li>
 <li><p>Time permitting, let’s take a look a few examples of my code that uses loops and functions!</p></li>
 </ul>
-</section>
-<section id="old-content-below" class="level2">
-<h2 data-anchor-id="old-content-below">Old Content Below</h2>
-<section id="for-loops-using-the-index" class="level3">
-<h3 data-anchor-id="for-loops-using-the-index"><code>for()</code> Loops Using the Index</h3>
-<ul>
-<li>There are some instances where we want to use</li>
-</ul>
-<p>Another way to make a for loop is work through a vector by its indices, that is, instead of pulling out each item directly and storing it in <code>i</code>, we can use <code>i</code> as an <em>index counter</em> and then call items based on their index: <code>chr_sequence[i]</code>. Here’s an example.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ## for loop by indices</span></span>
-<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="co"># for (i in 1:length(chr_sequence)) {</span></span>
-<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a><span class="co">#     print(chr_sequence[i])</span></span>
-<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a><span class="co"># }</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>To understand what’s happening, let’s break the code into pieces to make it clearer.</p>
-<p>Inside the <code>for()</code> parentheses, we have <code>i in 1:length(chr_sequence)</code>. We know what <code>i in</code> means since it’s like what we’ve seen before. What’s <code>1:length(chr_sequence)</code>? First, it looks like the colon construction we’ve seen before, <code>&lt;start&gt;:&lt;end&gt;</code>, which means give the full sequence of values from <code>&lt;start&gt;</code> through <code>&lt;end&gt;</code>.</p>
-<p>Since we made it above, we know that there are ten letters in <code>chr_sequence</code>. We could just use <code>1:10</code>. However, this violates our <a href="https://en.wikipedia.org/wiki/Magic_number_(programming)">no magic numbers</a> rule (what happens if we want to add or subtract letters from the list later?).</p>
-<p>We can get around this issue by using the base-R function, <code>length()</code>, which will return the number of items in a one-dimensional object. Since we know that <code>length(chr_sequence)</code> is equal to <code>10</code>, that means that <code>1:length(chr_sequence)</code> is the same thing as saying <code>1:10</code>. It’s just another more flexible way to get the end number of our sequence. We can show this by just printing <code>i</code> again.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="do">## for loop by indices (just show indices)</span></span>
-<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="co"># for (i in 1:length(chr_sequence)) {</span></span>
-<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a><span class="co">#     print(i)</span></span>
-<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a><span class="co"># }</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>Back to the original function, we see that inside the braces (<code>{}</code>), we have <code>print(chr_sequence[i])</code>. If you’ve taken a look at the <a href="./edh7916/lessons/dw_one_base_r.html">supplemental lesson for base R</a>, you know that brackets (<code>[]</code>) are way of pulling out specific values from a vector. For example, if you have a vector of 3 items, <em>e.g.</em>, <code>x &lt;- c("a", "b", "c")</code>, you can select the 2nd item by using square brackets and an index value: <code>x[2]</code>. While an index value is a number (think of it like a street address or room number in a hall), we can also use variables that represent numbers, which is useful for programming. Here’s a non-looped test:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="do">## confirm that we can use variables as indices</span></span>
-<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="co"># i &lt;- 1                     # set i == 1</span></span>
-<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a><span class="co"># chr_sequence[i]      </span></span>
-<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a><span class="co"># i &lt;- 2                     # now set i == 2</span></span>
-<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a><span class="co"># chr_sequence[i]            # notice that code is exactly the same here</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>We know that <code>i</code> is going to take on values 1 through 10 in the loop, which means the <code>print()</code> function will get <code>chr_sequence[1]</code>, <code>chr_sequence[2]</code>, and so on. Because of the brackets, these will turn into…<code>a</code>, <code>b</code>, and so on. We should get the same thing as before! Let’s put all the pieces together and run again:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="do">## for loop by indices (once again)</span></span>
-<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="co"># for (i in 1:length(chr_sequence)) {</span></span>
-<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a><span class="co">#     print(chr_sequence[i])</span></span>
-<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a><span class="co"># }</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>Success!</p>
-<p>Whether you decide to loop using actual values from the sequence or indices will usually depend on the code you want to run in the loop. Sometimes one way works better and other times the other. Just do whatever works best for you at that time.</p>
-<blockquote class="blockquote">
-<h4 id="quick-exercise-1">Quick exercise</h4>
-<p>Add another print statement to the last loop that shows the value of <code>i</code> with each loop.</p>
-</blockquote>
-</section>
-<section id="while" class="level3">
-<h3 data-anchor-id="while">while</h3>
-<p>The <code>while()</code> function is similar to <code>for()</code> except that it doesn’t have a predetermined stopping point. As long the expression inside the parentheses is <code>TRUE</code>, the loop will keep going. Only when it becomes <code>FALSE</code> will it stop.</p>
-<p>One way to use a <code>while()</code> loop is to set up a counter. When the counter reaches some value, the expression inside the <code>while()</code> parentheses is no longer true and the loop stops.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="do">## set up a counter</span></span>
-<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>i <span class="ot">&lt;-</span> <span class="dv">1</span></span>
-<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a><span class="do">## with each loop, add one to i</span></span>
-<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span>(i <span class="sc">&lt;</span> <span class="dv">11</span>) {</span>
-<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">print</span>(i)</span>
-<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a>    i <span class="ot">&lt;-</span> i <span class="sc">+</span> <span class="dv">1</span></span>
-<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 1
-[1] 2
-[1] 3
-[1] 4
-[1] 5
-[1] 6
-[1] 7
-[1] 8
-[1] 9
-[1] 10</code></pre>
-</div>
-</div>
-<p>Using a <code>while()</code> loop with a counter is often the same as using a <code>for()</code> loop with a sequence. If that’s the case, it’s probably better just to use a <code>for()</code> loop.</p>
-<p><code>while()</code> loops are most useful when it’s not clear from the start when the loop should stop. Imagine you have an algorithm that should only stop when a certain number is reached. If the time it takes to reach the number changes depending on the input, then a <code>for()</code> loop probably won’t work, but a <code>while()</code> loop will.</p>
-<p>You have to careful, however, with <code>while()</code> loops. If you forget to increment the counter (like I did the first time I set up this example), the loop won’t ever stop because <code>i</code> will never get larger and will always be less than 11! If your <code>while()</code> loop will only stop when a certain condition is met, it’s still a good idea to build in a pre-specified number of trials. If your loop has tried <em>X</em> times to meet the condition and still hasn’t done so, it should stop with an error or return what it has so far (depending on your needs).</p>
-<p>You have been warned!</p>
-</section>
-<section id="if" class="level3">
-<h3 data-anchor-id="if">if</h3>
-<p>We’ve already used a version of if, <code>ifelse()</code>, quite a bit. We can use <strong>if</strong> statements in our script to decide whether a section of code should be run or skipped. We can also use <code>if()</code> inside a <code>for()</code> loop to set a condition that changes behavior on some iterations of the loop.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="do">## only print if number is not 5</span></span>
-<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a><span class="co"># for (i in num_sequence) {</span></span>
-<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a><span class="co">#     if (i != 5) {</span></span>
-<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a><span class="co">#         print(i)</span></span>
-<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a><span class="co">#     }</span></span>
-<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a><span class="co"># }</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>Notice how <code>5</code> wasn’t printed to the console. It worked!</p>
-<blockquote class="blockquote">
-<h4 id="quick-exercise-2">Quick exercise</h4>
-<p>Change the condition to print only numbers below 3 and above 7.</p>
-</blockquote>
-<p>We can add one or more <code>else if() / else()</code> partners to <code>if()</code> if we need, for example, option <strong>B</strong> to happen if option <strong>A</strong> does not.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ## if/else loop</span></span>
-<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a><span class="co"># for (i in num_sequence) {</span></span>
-<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a><span class="co">#     if (i != 3 &amp; i != 5) {</span></span>
-<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a><span class="co">#         print(i)</span></span>
-<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a><span class="co">#     } else if (i == 3) {</span></span>
-<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a><span class="co">#         print('three')</span></span>
-<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a><span class="co">#     } else {</span></span>
-<span id="cb42-8"><a href="#cb42-8" aria-hidden="true" tabindex="-1"></a><span class="co">#         print('five')</span></span>
-<span id="cb42-9"><a href="#cb42-9" aria-hidden="true" tabindex="-1"></a><span class="co">#     }</span></span>
-<span id="cb42-10"><a href="#cb42-10" aria-hidden="true" tabindex="-1"></a><span class="co"># }</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>As with dplyr verbs, the small number of control functions (and there are some others) can be combined in an infinite number of ways to help you control how your script is read. If you find, however, that your script keeps getting more complex, with multiple nested loops and <code>ifelse()</code> exceptions, it might be time to either rethink your approach or to write your own functions that can handle expectations in a clearer way.</p>
-</section>
-</section>
-<section id="part-2-writing-functions" class="level2">
-<h2 data-anchor-id="part-2-writing-functions">Part 2: Writing functions</h2>
-<p>You can write your own functions in R and should! They don’t need to be complex. In fact, they tend to be best when kept simple. Mostly, you want a function to do one thing really well.</p>
-<p>To make a function, you use the <code>function()</code> function. Put the code that you want your function to run in the braces <code>{}</code>. Any arguments that you want your function to take should be in the parentheses <code>()</code> right after the word <code>function</code>. The name of your function is the name of the object you assign it to.</p>
-<p>Let’s make one. The function below, <code>say_hi()</code>, doesn’t take any arguments and prints a simple string when called. After you’ve built it, call your function using its name, not forgetting to include the parentheses.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="do">## function to say hi!</span></span>
-<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>say_hi <span class="ot">&lt;-</span> <span class="cf">function</span>() {</span>
-<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">print</span>(<span class="st">"Hi!"</span>)</span>
-<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a><span class="do">## call it</span></span>
-<span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a><span class="fu">say_hi</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] "Hi!"</code></pre>
-</div>
-</div>
-<p>Let’s make another one with an argument so that it’s more flexible. Let’s have our function take a name and print it. We’ll use the base-R function, <code>paste0()</code>, to combine all the string parts into one string. <code>paste0()</code> is like <code>paste()</code>, but it assumes we don’t want any space between the pieces. That works for us here because we’ll add our spaces manually.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="do">## function to say hi!</span></span>
-<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>say_hi <span class="ot">&lt;-</span> <span class="cf">function</span>(name) {</span>
-<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>    <span class="do">## combine (notice we add space after comma)</span></span>
-<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a>    out_string <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">"Hi, "</span>, name, <span class="st">"!"</span>)</span>
-<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a>    <span class="do">## print output string</span></span>
-<span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">print</span>(out_string)</span>
-<span id="cb45-7"><a href="#cb45-7" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb45-8"><a href="#cb45-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-9"><a href="#cb45-9" aria-hidden="true" tabindex="-1"></a><span class="do">## call it</span></span>
-<span id="cb45-10"><a href="#cb45-10" aria-hidden="true" tabindex="-1"></a><span class="fu">say_hi</span>(<span class="st">"Leo"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] "Hi, Leo!"</code></pre>
-</div>
-</div>
-<p>This time, we want it to print out a sequence of numbers, but we want to be able to change the number each time we call it.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="do">## new function to print sequence of numbers</span></span>
-<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>print_nums <span class="ot">&lt;-</span> <span class="cf">function</span>(num_vector) {</span>
-<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>    <span class="do">## this code looks familiar...</span></span>
-<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (i <span class="cf">in</span> num_vector) {</span>
-<span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a>        <span class="fu">print</span>(i)</span>
-<span id="cb47-6"><a href="#cb47-6" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb47-7"><a href="#cb47-7" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb47-8"><a href="#cb47-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb47-9"><a href="#cb47-9" aria-hidden="true" tabindex="-1"></a><span class="do">## try it out!</span></span>
-<span id="cb47-10"><a href="#cb47-10" aria-hidden="true" tabindex="-1"></a><span class="fu">print_nums</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 1
-[1] 2
-[1] 3
-[1] 4
-[1] 5
-[1] 6
-[1] 7
-[1] 8
-[1] 9
-[1] 10</code></pre>
-</div>
-</div>
-<p>Notice how the variable <code>num_vector</code> is repeated in both the main function argument and inside the <code>for</code> parentheses. The <code>for()</code> function sees <code>num_vector</code> and looks for it in the main function. It finds it because the <code>num_vector</code> you give the main function, <code>print_nums()</code>, is passed through to the code inside. Now <code>for()</code> can see it and use it! Let’s try a few more inputs:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="do">## v1</span></span>
-<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print_nums</span>(<span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 1</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="do">## v2</span></span>
-<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print_nums</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 1
-[1] 2
-[1] 3
-[1] 4
-[1] 5</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="do">## v3</span></span>
-<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print_nums</span>(<span class="fu">seq</span>(<span class="dv">1</span>, <span class="dv">20</span>, <span class="at">by =</span> <span class="dv">2</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 1
-[1] 3
-[1] 5
-[1] 7
-[1] 9
-[1] 11
-[1] 13
-[1] 15
-[1] 17
-[1] 19</code></pre>
-</div>
-</div>
-<blockquote class="blockquote">
-<h4 id="quick-exercise-3">Quick exercise</h4>
-<p>What happens if you forget to put an argument in your new function? How do you think you might set a default argument for <code>num_vector</code>? Could you set it equal to something?</p>
-</blockquote>
-<p>One last thing to keep in mind about functions is that they follow Vegas rules: <em>what happens inside the function, stays inside the function</em>. A more technical way of stating this is that the function has its own <a href="https://en.wikipedia.org/wiki/Scope_(computer_science)">scope</a> and objects created / processes run within that scope stay within that scope. That’s why even though we created an object called <code>out_string</code> in our <code>say_hi()</code> function, we can’t call it directly from the console. It only exists while the function is running and goes away once the function completes.</p>
-<p>Even if we repeat an object name that exists in our <strong>global</strong> (working) environment inside our function, the value we give it inside the function will override the global value within the function. But once the function is finished, the global value will again take precedence. Don’t worry to much about scoping (<a href="https://bookdown.org/rdpeng/rprogdatascience/scoping-rules-of-r.html">here’s more information if you are interested</a>), but just be aware that it’s generally good practice that if you want an object for use inside your function, you should either create it there or make it an argument.</p>
-</section>
-<section id="part-3-practical-examples" class="level2">
-<h2 data-anchor-id="part-3-practical-examples">Part 3: Practical examples</h2>
-<section id="example-1-missing-data" class="level3">
-<h3 data-anchor-id="example-1-missing-data">Example 1: missing data</h3>
-<p>Now that we’ve seen some control flow and programming methods, let’s move to a more realistic use case. In this first example, we’ll make a function that fills in missing values, a common task we’ve had. First, we’ll generate some fake data with missing values.</p>
-<p>Note that since we’re using R’s <code>sample()</code> function, your data will look a little different from mine due to randomness in the sample, but everything will work the same.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="do">## create a data frame with around 10% missing values (-97,-98,-99) in</span></span>
-<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a><span class="do">## three columns</span></span>
-<span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="st">"id"</span> <span class="ot">=</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>,</span>
-<span id="cb55-4"><a href="#cb55-4" aria-hidden="true" tabindex="-1"></a>             <span class="st">"age"</span> <span class="ot">=</span> <span class="fu">sample</span>(<span class="fu">c</span>(<span class="fu">seq</span>(<span class="dv">11</span>,<span class="dv">20</span>,<span class="dv">1</span>), <span class="sc">-</span><span class="dv">97</span>),</span>
-<span id="cb55-5"><a href="#cb55-5" aria-hidden="true" tabindex="-1"></a>                            <span class="at">size =</span> <span class="dv">100</span>,</span>
-<span id="cb55-6"><a href="#cb55-6" aria-hidden="true" tabindex="-1"></a>                            <span class="at">replace =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb55-7"><a href="#cb55-7" aria-hidden="true" tabindex="-1"></a>                            <span class="at">prob =</span> <span class="fu">c</span>(<span class="fu">rep</span>(.<span class="dv">09</span>, <span class="dv">10</span>), .<span class="dv">1</span>)),</span>
-<span id="cb55-8"><a href="#cb55-8" aria-hidden="true" tabindex="-1"></a>             <span class="st">"sibage"</span> <span class="ot">=</span> <span class="fu">sample</span>(<span class="fu">c</span>(<span class="fu">seq</span>(<span class="dv">5</span>,<span class="dv">12</span>,<span class="dv">1</span>), <span class="sc">-</span><span class="dv">98</span>),</span>
-<span id="cb55-9"><a href="#cb55-9" aria-hidden="true" tabindex="-1"></a>                               <span class="at">size =</span> <span class="dv">100</span>,</span>
-<span id="cb55-10"><a href="#cb55-10" aria-hidden="true" tabindex="-1"></a>                               <span class="at">replace =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb55-11"><a href="#cb55-11" aria-hidden="true" tabindex="-1"></a>                               <span class="at">prob =</span> <span class="fu">c</span>(<span class="fu">rep</span>(.<span class="dv">115</span>, <span class="dv">8</span>), .<span class="dv">08</span>)),</span>
-<span id="cb55-12"><a href="#cb55-12" aria-hidden="true" tabindex="-1"></a>             <span class="st">"parage"</span> <span class="ot">=</span> <span class="fu">sample</span>(<span class="fu">c</span>(<span class="fu">seq</span>(<span class="dv">45</span>,<span class="dv">55</span>,<span class="dv">1</span>), <span class="fu">c</span>(<span class="sc">-</span><span class="dv">98</span>,<span class="sc">-</span><span class="dv">99</span>)),</span>
-<span id="cb55-13"><a href="#cb55-13" aria-hidden="true" tabindex="-1"></a>                               <span class="at">size =</span> <span class="dv">100</span>,</span>
-<span id="cb55-14"><a href="#cb55-14" aria-hidden="true" tabindex="-1"></a>                               <span class="at">replace =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb55-15"><a href="#cb55-15" aria-hidden="true" tabindex="-1"></a>                               <span class="at">prob =</span> <span class="fu">c</span>(<span class="fu">rep</span>(.<span class="dv">085</span>, <span class="dv">11</span>), <span class="fu">c</span>(.<span class="dv">12</span>, .<span class="dv">12</span>)))</span>
-<span id="cb55-16"><a href="#cb55-16" aria-hidden="true" tabindex="-1"></a>             ) </span>
-<span id="cb55-17"><a href="#cb55-17" aria-hidden="true" tabindex="-1"></a><span class="do">## show</span></span>
-<span id="cb55-18"><a href="#cb55-18" aria-hidden="true" tabindex="-1"></a>df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 100 × 4
-      id   age sibage parage
-   &lt;int&gt; &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;
- 1     1   -97     11     47
- 2     2    14    -98     47
- 3     3    13      6     55
- 4     4    14     11     48
- 5     5    14    -98     54
- 6     6    17     12     45
- 7     7    20      6    -99
- 8     8    17     12     52
- 9     9    20      7     53
-10    10    16      7     48
-# ℹ 90 more rows</code></pre>
-</div>
-</div>
-<p>We could fix these manually like we have been in past lessons and assignments, but it would be nice have a shorthand function. The function needs to flexible though, because the missing data values are coded differently in each column.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="do">## function to fix missing values</span></span>
-<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a>fix_missing <span class="ot">&lt;-</span> <span class="cf">function</span>(x, miss_val) {</span>
-<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a>    <span class="do">## use ifelse(&lt; test &gt;, &lt; do this if TRUE &gt;, &lt; do that if FALSE &gt;)</span></span>
-<span id="cb57-4"><a href="#cb57-4" aria-hidden="true" tabindex="-1"></a>    x <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(x <span class="sc">%in%</span> miss_val,        <span class="co"># is x == any value in miss_val?</span></span>
-<span id="cb57-5"><a href="#cb57-5" aria-hidden="true" tabindex="-1"></a>                <span class="cn">NA</span>,                     <span class="co"># TRUE: replace with NA</span></span>
-<span id="cb57-6"><a href="#cb57-6" aria-hidden="true" tabindex="-1"></a>                x)                      <span class="co"># FALSE: return original value as is</span></span>
-<span id="cb57-7"><a href="#cb57-7" aria-hidden="true" tabindex="-1"></a>    <span class="do">## return corrected x</span></span>
-<span id="cb57-8"><a href="#cb57-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(x)</span>
-<span id="cb57-9"><a href="#cb57-9" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>Our <code>fix_missing()</code> function should meet our needs. It takes the same <code>ifelse()</code> function we’ve used before, but instead of using the name of the object (like <code>df</code>), uses an argument name <code>x</code> that we can set each time. It does the same for <code>miss_val</code>. Instead of choosing a hard-coded value (a <a href="https://en.wikipedia.org/wiki/Magic_number_(programming)">magic number</a>), we can change it each time we call the function. Let’s try it out.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="do">## check</span></span>
-<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span></span>
-<span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">count</span>(age)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 11 × 2
-     age     n
-   &lt;dbl&gt; &lt;int&gt;
- 1   -97    16
- 2    11    10
- 3    12    11
- 4    13    10
- 5    14     8
- 6    15     9
- 7    16     8
- 8    17     5
- 9    18     4
-10    19     6
-11    20    13</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="do">## missing values in age are coded as -97</span></span>
-<span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> df <span class="sc">|&gt;</span></span>
-<span id="cb60-3"><a href="#cb60-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">age =</span> <span class="fu">fix_missing</span>(age, <span class="sc">-</span><span class="dv">97</span>))</span>
-<span id="cb60-4"><a href="#cb60-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb60-5"><a href="#cb60-5" aria-hidden="true" tabindex="-1"></a><span class="do">## recheck</span></span>
-<span id="cb60-6"><a href="#cb60-6" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span></span>
-<span id="cb60-7"><a href="#cb60-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">count</span>(age)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 11 × 2
-     age     n
-   &lt;dbl&gt; &lt;int&gt;
- 1    11    10
- 2    12    11
- 3    13    10
- 4    14     8
- 5    15     9
- 6    16     8
- 7    17     5
- 8    18     4
- 9    19     6
-10    20    13
-11    NA    16</code></pre>
-</div>
-</div>
-<p>It worked! All the values that were -97 before, are now in the <code>NA</code> table column. Importantly, none of the other values changed.</p>
-<blockquote class="blockquote">
-<h4 id="quick-exercise-4">Quick exercise</h4>
-<p>Correct the missing values in the other columns using our new function. <strong>NOTE</strong> that <code>parage</code> has missing values of <code>-98</code> and <code>-99</code>.</p>
-</blockquote>
-</section>
-<section id="example-2-batch-read-files" class="level3">
-<h3 data-anchor-id="example-2-batch-read-files">Example 2: batch read files</h3>
-<section id="read-in-all-files-in-folder" class="level4">
-<h4 data-anchor-id="read-in-all-files-in-folder">Read in all files in folder</h4>
-<p>In our lesson on appending, joining, and merging, we read in a few administrative test score files. In that lesson, we read in each file individually and then appended them.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="do">## read in all Bend Gate test score files</span></span>
-<span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a>df_1 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="fu">file.path</span>(<span class="st">"data"</span>, <span class="st">"sch-test"</span>, <span class="st">"by-school"</span>, <span class="st">"bend-gate-1980.csv"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Rows: 1 Columns: 5
-── Column specification ────────────────────────────────────────────────────────
-Delimiter: ","
-chr (1): school
-dbl (4): year, math, read, science
-
-ℹ Use `spec()` to retrieve the full column specification for this data.
-ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a>df_2 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="fu">file.path</span>(<span class="st">"data"</span>, <span class="st">"sch-test"</span>, <span class="st">"by-school"</span>, <span class="st">"bend-gate-1981.csv"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Rows: 1 Columns: 5
-── Column specification ────────────────────────────────────────────────────────
-Delimiter: ","
-chr (1): school
-dbl (4): year, math, read, science
-
-ℹ Use `spec()` to retrieve the full column specification for this data.
-ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a>df_3 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="fu">file.path</span>(<span class="st">"data"</span>, <span class="st">"sch-test"</span>, <span class="st">"by-school"</span>, <span class="st">"bend-gate-1982.csv"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Rows: 1 Columns: 5
-── Column specification ────────────────────────────────────────────────────────
-Delimiter: ","
-chr (1): school
-dbl (4): year, math, read, science
-
-ℹ Use `spec()` to retrieve the full column specification for this data.
-ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb68"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a>df_4 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="fu">file.path</span>(<span class="st">"data"</span>, <span class="st">"sch-test"</span>, <span class="st">"by-school"</span>, <span class="st">"bend-gate-1983.csv"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Rows: 1 Columns: 5
-── Column specification ────────────────────────────────────────────────────────
-Delimiter: ","
-chr (1): school
-dbl (4): year, math, read, science
-
-ℹ Use `spec()` to retrieve the full column specification for this data.
-ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb70"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a>df_5 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="fu">file.path</span>(<span class="st">"data"</span>, <span class="st">"sch-test"</span>, <span class="st">"by-school"</span>, <span class="st">"bend-gate-1984.csv"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Rows: 1 Columns: 5
-── Column specification ────────────────────────────────────────────────────────
-Delimiter: ","
-chr (1): school
-dbl (4): year, math, read, science
-
-ℹ Use `spec()` to retrieve the full column specification for this data.
-ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb72"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a>df_6 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="fu">file.path</span>(<span class="st">"data"</span>, <span class="st">"sch-test"</span>, <span class="st">"by-school"</span>, <span class="st">"bend-gate-1985.csv"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Rows: 1 Columns: 5
-── Column specification ────────────────────────────────────────────────────────
-Delimiter: ","
-chr (1): school
-dbl (4): year, math, read, science
-
-ℹ Use `spec()` to retrieve the full column specification for this data.
-ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb74"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a><span class="do">## append</span></span>
-<span id="cb74-2"><a href="#cb74-2" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(df_1, df_2, df_3, df_4, df_5, df_6)</span>
-<span id="cb74-3"><a href="#cb74-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb74-4"><a href="#cb74-4" aria-hidden="true" tabindex="-1"></a><span class="do">## show</span></span>
-<span id="cb74-5"><a href="#cb74-5" aria-hidden="true" tabindex="-1"></a>df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 6 × 5
-  school     year  math  read science
-  &lt;chr&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;
-1 Bend Gate  1980   515   281     808
-2 Bend Gate  1981   503   312     814
-3 Bend Gate  1982   514   316     816
-4 Bend Gate  1983   491   276     793
-5 Bend Gate  1984   502   310     788
-6 Bend Gate  1985   488   280     789</code></pre>
-</div>
-</div>
-<p>That was fine then, but when you see that much repeated code, you should immediately consider using a more functional programming approach. What if we wanted to read in all the files for the other schools as well? That would be a total of 24 very similar lines of code — ripe for introducing bugs.</p>
-<p>Let’s combine a number of the skills we’ve learned to this point — functions, regular expressions, and pipes — to read and bind all the test score files in a more functional (and less buggy) manner.</p>
-<p>First, we’ll store the names of the files in an object using <code>list.files()</code>. We’ve used the <code>list.files()</code> function a few times in class when checking that we were in the correct working directory. In those situations, we’ve just printed the output to the console. But as with all things R, we can save that output in an object instead and put it to good use.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb76"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a><span class="do">## get names (with full path) of all school test score files</span></span>
-<span id="cb76-2"><a href="#cb76-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb76-3"><a href="#cb76-3" aria-hidden="true" tabindex="-1"></a>files <span class="ot">&lt;-</span> <span class="fu">list.files</span>(<span class="fu">file.path</span>(<span class="st">"data"</span>, <span class="st">"sch-test"</span>, <span class="st">"by-school"</span>), <span class="at">full.names =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb76-4"><a href="#cb76-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb76-5"><a href="#cb76-5" aria-hidden="true" tabindex="-1"></a><span class="do">## show</span></span>
-<span id="cb76-6"><a href="#cb76-6" aria-hidden="true" tabindex="-1"></a>files</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code> [1] "data/sch-test/by-school/bend-gate-1980.csv"   
- [2] "data/sch-test/by-school/bend-gate-1981.csv"   
- [3] "data/sch-test/by-school/bend-gate-1982.csv"   
- [4] "data/sch-test/by-school/bend-gate-1983.csv"   
- [5] "data/sch-test/by-school/bend-gate-1984.csv"   
- [6] "data/sch-test/by-school/bend-gate-1985.csv"   
- [7] "data/sch-test/by-school/east-heights-1980.csv"
- [8] "data/sch-test/by-school/east-heights-1981.csv"
- [9] "data/sch-test/by-school/east-heights-1982.csv"
-[10] "data/sch-test/by-school/east-heights-1983.csv"
-[11] "data/sch-test/by-school/east-heights-1984.csv"
-[12] "data/sch-test/by-school/east-heights-1985.csv"
-[13] "data/sch-test/by-school/niagara-1980.csv"     
-[14] "data/sch-test/by-school/niagara-1981.csv"     
-[15] "data/sch-test/by-school/niagara-1982.csv"     
-[16] "data/sch-test/by-school/niagara-1983.csv"     
-[17] "data/sch-test/by-school/niagara-1984.csv"     
-[18] "data/sch-test/by-school/niagara-1985.csv"     
-[19] "data/sch-test/by-school/spottsville-1980.csv" 
-[20] "data/sch-test/by-school/spottsville-1981.csv" 
-[21] "data/sch-test/by-school/spottsville-1982.csv" 
-[22] "data/sch-test/by-school/spottsville-1983.csv" 
-[23] "data/sch-test/by-school/spottsville-1984.csv" 
-[24] "data/sch-test/by-school/spottsville-1985.csv" </code></pre>
-</div>
-</div>
-<blockquote class="blockquote">
-<h4 id="quick-exercise-5">Quick exercise</h4>
-<p>Rerun <code>list.files()</code> again, but set the <code>full.names</code> argument to the default value of <code>FALSE</code>. What does the output look like? Why is this a problem? (Once finished, be sure to set <code>full.names = TRUE</code> again and rerun.)</p>
-</blockquote>
-<p>Now that we have an object, we can read in the files using a loop. We’ll need something to store them in along the way. We’ll use a blank list. We’ve not used lists before, but think of them as special vectors, which we have used.</p>
-<p>Once we have a list, we’ll read in each file, but instead of storing it in an object like <code>df</code>, we’ll put it in the list. Since we’ll be reading in a large number of data files in the next few steps, we’ll also include the argument <code>show_col_types = FALSE</code> so that <code>read_csv()</code> doesn’t print information for each file (our assumption is that we’ve already spot checked a few files and know what we’re getting).</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb78"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a><span class="do">## init list</span></span>
-<span id="cb78-2"><a href="#cb78-2" aria-hidden="true" tabindex="-1"></a>df_list <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
-<span id="cb78-3"><a href="#cb78-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb78-4"><a href="#cb78-4" aria-hidden="true" tabindex="-1"></a><span class="do">## use loop to read in files</span></span>
-<span id="cb78-5"><a href="#cb78-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(files)) {</span>
-<span id="cb78-6"><a href="#cb78-6" aria-hidden="true" tabindex="-1"></a>    <span class="do">## read in file (f) and store in list (note double brackets for list)</span></span>
-<span id="cb78-7"><a href="#cb78-7" aria-hidden="true" tabindex="-1"></a>    df_list[[i]] <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(files[i], <span class="at">show_col_types =</span> <span class="cn">FALSE</span>)    </span>
-<span id="cb78-8"><a href="#cb78-8" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb78-9"><a href="#cb78-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb78-10"><a href="#cb78-10" aria-hidden="true" tabindex="-1"></a><span class="do">## show first 3 items</span></span>
-<span id="cb78-11"><a href="#cb78-11" aria-hidden="true" tabindex="-1"></a>df_list[<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[[1]]
-# A tibble: 1 × 5
-  school     year  math  read science
-  &lt;chr&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;
-1 Bend Gate  1980   515   281     808
-
-[[2]]
-# A tibble: 1 × 5
-  school     year  math  read science
-  &lt;chr&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;
-1 Bend Gate  1981   503   312     814
-
-[[3]]
-# A tibble: 1 × 5
-  school     year  math  read science
-  &lt;chr&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;
-1 Bend Gate  1982   514   316     816</code></pre>
-</div>
-</div>
-<p>Now that the items are in a list, we can again use <code>bind_rows()</code>, which, in addition to individual objects, can take a single list of objects.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb80"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a><span class="do">## bind our list to single data frame</span></span>
-<span id="cb80-2"><a href="#cb80-2" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> df_list <span class="sc">|&gt;</span></span>
-<span id="cb80-3"><a href="#cb80-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">bind_rows</span>()</span>
-<span id="cb80-4"><a href="#cb80-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb80-5"><a href="#cb80-5" aria-hidden="true" tabindex="-1"></a><span class="do">## show</span></span>
-<span id="cb80-6"><a href="#cb80-6" aria-hidden="true" tabindex="-1"></a>df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 24 × 5
-   school        year  math  read science
-   &lt;chr&gt;        &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;
- 1 Bend Gate     1980   515   281     808
- 2 Bend Gate     1981   503   312     814
- 3 Bend Gate     1982   514   316     816
- 4 Bend Gate     1983   491   276     793
- 5 Bend Gate     1984   502   310     788
- 6 Bend Gate     1985   488   280     789
- 7 East Heights  1980   501   318     782
- 8 East Heights  1981   487   323     813
- 9 East Heights  1982   496   294     818
-10 East Heights  1983   497   306     795
-# ℹ 14 more rows</code></pre>
-</div>
-</div>
-<p>Aside from being more aesthetically pleasing, this code is better because it:</p>
-<ul>
-<li>doesn’t rely on repeated lines of code with small changes</li>
-<li>is flexible</li>
-</ul>
-<p>Imagine you receive three more years of data for each school: 1986, 1987, 1988. As long as the files are in the same format, all you need to do is put the same directory as the other files and rerun your code. It will add them to the <code>files</code> vector and your loop will run just as before.</p>
-</section>
-<section id="read-in-only-some-files" class="level4">
-<h4 data-anchor-id="read-in-only-some-files">Read in only some files</h4>
-<p>What if we only want files for Spottsville? Overall, the code is exactly the same except that we want our list to only contain the <code>spottsville_*.csv</code> files. How can we do that? With regular expressions!</p>
-<p>Notice that the second argument in <code>list.files()</code> is <code>pattern</code> with a default value of <code>NULL</code>. This means it doesn’t do any filtering if we leave it out. But if we want to filter which files are stored in <code>files</code>, we should use it.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb82"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb82-1"><a href="#cb82-1" aria-hidden="true" tabindex="-1"></a><span class="do">## filter files to be read in using pattern</span></span>
-<span id="cb82-2"><a href="#cb82-2" aria-hidden="true" tabindex="-1"></a>files_sp <span class="ot">&lt;-</span> <span class="fu">list.files</span>(<span class="fu">file.path</span>(<span class="st">"data"</span>, <span class="st">"sch-test"</span>, <span class="st">"by-school"</span>), <span class="at">pattern =</span> <span class="st">"spottsville"</span>, <span class="at">full.names =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb82-3"><a href="#cb82-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb82-4"><a href="#cb82-4" aria-hidden="true" tabindex="-1"></a><span class="do">## check</span></span>
-<span id="cb82-5"><a href="#cb82-5" aria-hidden="true" tabindex="-1"></a>files_sp</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] "data/sch-test/by-school/spottsville-1980.csv"
-[2] "data/sch-test/by-school/spottsville-1981.csv"
-[3] "data/sch-test/by-school/spottsville-1982.csv"
-[4] "data/sch-test/by-school/spottsville-1983.csv"
-[5] "data/sch-test/by-school/spottsville-1984.csv"
-[6] "data/sch-test/by-school/spottsville-1985.csv"</code></pre>
-</div>
-</div>
-<p>Luckily, our regular expression pattern can simply be <code>"spottsville"</code>. Were our files less consistently named, we might have had trouble (name those files well!).</p>
-<p>The rest of the code should be as it was before (with the small addition of <code>_sp</code> in various names to keep distinct from our first attempt).</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb84"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb84-1"><a href="#cb84-1" aria-hidden="true" tabindex="-1"></a><span class="do">## init list</span></span>
-<span id="cb84-2"><a href="#cb84-2" aria-hidden="true" tabindex="-1"></a>df_sp_list <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
-<span id="cb84-3"><a href="#cb84-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb84-4"><a href="#cb84-4" aria-hidden="true" tabindex="-1"></a><span class="do">## use loop to read in files</span></span>
-<span id="cb84-5"><a href="#cb84-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(files_sp)) {</span>
-<span id="cb84-6"><a href="#cb84-6" aria-hidden="true" tabindex="-1"></a>    <span class="do">## read in file (f) and store in list</span></span>
-<span id="cb84-7"><a href="#cb84-7" aria-hidden="true" tabindex="-1"></a>    df_sp_list[[i]] <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(files_sp[i], <span class="at">show_col_types =</span> <span class="cn">FALSE</span>)    </span>
-<span id="cb84-8"><a href="#cb84-8" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb84-9"><a href="#cb84-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb84-10"><a href="#cb84-10" aria-hidden="true" tabindex="-1"></a><span class="do">## bind our list to single data frame</span></span>
-<span id="cb84-11"><a href="#cb84-11" aria-hidden="true" tabindex="-1"></a>df_sp <span class="ot">&lt;-</span> df_sp_list <span class="sc">|&gt;</span></span>
-<span id="cb84-12"><a href="#cb84-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">bind_rows</span>()</span>
-<span id="cb84-13"><a href="#cb84-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb84-14"><a href="#cb84-14" aria-hidden="true" tabindex="-1"></a><span class="do">## show</span></span>
-<span id="cb84-15"><a href="#cb84-15" aria-hidden="true" tabindex="-1"></a>df_sp</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 6 × 5
-  school       year  math  read science
-  &lt;chr&gt;       &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;
-1 Spottsville  1980   498   288     813
-2 Spottsville  1981   494   270     765
-3 Spottsville  1982   507   289     801
-4 Spottsville  1983   515   288     775
-5 Spottsville  1984   475   289     779
-6 Spottsville  1985   515   285     784</code></pre>
-</div>
-</div>
-<!--
-
-Comment out purrr section, if going to be taught needs own lesson
-
-#### Use `purrr::map()`
-
-
-::: {.cell}
-
-:::
-
-Finally, let's look at the fully tidyverse way of solving this
-problem. We'll use the [purrr library](https://purrr.tidyverse.org),
-which is loaded when we load tidyverse, and approaches functional
-programming more like other languages. Specifically, we'll use
-`map()`. [According the reference
-site](https://purrr.tidyverse.org/reference/index.html):
-
-> The `map(.x, .f)` functions transforms each element of the vector
-> `.x` with the function `.f`, returning a vector defined by the
-> suffix (`_lgl`,` _chr()` etc).
-
-Okay...
-
-Restated, `map()` works this way: for each item in an object (`.x`),
-do something (`.f`) --- the _something_ being a function. From our
-file reading loops above, we already have our object and our main
-thing we want to do (function):
-
-- **object** := file list (`files`)
-- **function** := `read_csv()`
-
-What's nice about purrr functions is that they work directly with
-other tidyverse functions via pipes, `|>`. This bit of code
-reproduces what the first loop did to read in and bind all files:
-
-::: {.cell}
-
-```{.r .cell-code}
-## use purrr::map() to read in all files; then pipe into bind rows
-df <- map(files,
-          ~ read_csv(.x, show_col_types = FALSE)) |>
-    bind_rows()
-
-## show
-df
-```
-
-::: {.cell-output .cell-output-stdout}
-
-```
-# A tibble: 24 × 5
-   school        year  math  read science
-   <chr>        <dbl> <dbl> <dbl>   <dbl>
- 1 Bend Gate     1980   515   281     808
- 2 Bend Gate     1981   503   312     814
- 3 Bend Gate     1982   514   316     816
- 4 Bend Gate     1983   491   276     793
- 5 Bend Gate     1984   502   310     788
- 6 Bend Gate     1985   488   280     789
- 7 East Heights  1980   501   318     782
- 8 East Heights  1981   487   323     813
- 9 East Heights  1982   496   294     818
-10 East Heights  1983   497   306     795
-# ℹ 14 more rows
-```
-
-
-:::
-:::
-
-What's happening here? One at a time;
-
-1. every item in `files` becomes `.x` 
-1. `read_csv(.x)` is run (in `map()`, the tilde, `~`, tells R that a
-function is coming next). Since the items in `files` are paths,
-`read_csv()` works as it always does.
-
-The output of `map()` is a list. Before, we had to initialize a blank
-list, `df_list()`. But this time we can just use a `|>` to send the
-output of `map()` (a list), to `bind_rows()` and assign the **final**
-result to `df`: our full data frame!
-
-This code is much more compact than our loops above. That said, it
-also is more abstract (read: less clear). In certain situations, using
-`map()` in place of a `for()` loop may be faster. But in general, you
-are just fine using loops. That said, functional programming via the
-purrr suite of functions can be very powerful and may be worth
-learning more about.
-
-
-
-
--->
-</section>
-</section>
 </section>
 </div>
 <div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
@@ -1480,6 +1000,7 @@ learning more about.
 <li><p>If they didn’t, it should return something like “this student did not go to college, their students did/did not expect them to”</p></li>
 </ul></li>
 <li><p>Optional: <code>if()</code> the student went to college, add a second sentence that says how many months they had between high school and going to college</p></li>
+<li><p>Super-Optional: Following from that, edit the second sentence to include how that student’s delay compares to the average delay (you can pick, mean or median)</p></li>
 </ul></li>
 </ol>
 <p>Once complete, turn in the .R script (no data etc.) to Canvas by the due date (Sunday 11:59pm following the lesson). Assignments will be graded on the following Monday (time permitting) in line with the grading policy outlined in the syllabus.</p>
