@@ -1038,25 +1038,42 @@ Caused by warning:
 <ul>
 <li><p>For this we need to use <code>interval(clean_date, christmas_07)</code> to look between two dates</p></li>
 <li><p>Then <code>time_length(, "day")</code> converts that to the number of days</p></li>
+<li><p>Then <code>abs()</code> to get the absolute value (otherwise dates long after Christmas 2007 will be kept as the interval is -63 days)</p></li>
+<li><p>This gets a little nested, so we can use more pipes <code>|&gt;</code> inside our <code>filter()</code> statement if that’s easier</p></li>
 </ul></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span> <span class="fu">filter</span>(<span class="fu">time_length</span>(<span class="fu">interval</span>(clean_date, christmas_07), <span class="st">"day"</span>) <span class="sc">&lt;</span> <span class="dv">30</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Nested version</span></span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span> <span class="fu">filter</span>(<span class="fu">abs</span>(<span class="fu">time_length</span>(<span class="fu">interval</span>(clean_date, christmas_07), <span class="st">"day"</span>)) <span class="sc">&lt;</span> <span class="dv">30</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 21 × 4
-   unitid instnm                                    closedat clean_date         
-    &lt;dbl&gt; &lt;chr&gt;                                     &lt;chr&gt;    &lt;dttm&gt;             
- 1 104522 DeVoe College of Beauty                   3/29/08  2008-03-29 00:00:00
- 2 119711 New College of California                 Jan-08   2008-01-01 00:00:00
- 3 137625 Suncoast II the Tampa Bay School of Mass… 5/31/08  2008-05-31 00:00:00
- 4 160144 Pat Goins Shreveport Beauty School        3/1/08   2008-03-01 00:00:00
- 5 189769 Career Blazers Learning Center            1/31/08  2008-01-31 00:00:00
- 6 189802 St Vincent Catholic Medical Center New Y… 3/1/08   2008-03-01 00:00:00
- 7 191870 Interboro Institute                       12/21/07 2007-12-21 00:00:00
- 8 201991 The Ohio Academy Paul Mitchell Partner S… Mar-08   2008-03-01 00:00:00
- 9 215895 Schuylkill Institute of Business Technol… 3/28/08  2008-03-28 00:00:00
-10 225867 Austin Business College                   12/28/07 2007-12-28 00:00:00
-# ℹ 11 more rows</code></pre>
+<pre><code># A tibble: 9 × 4
+  unitid instnm                             closedat clean_date         
+   &lt;dbl&gt; &lt;chr&gt;                              &lt;chr&gt;    &lt;dttm&gt;             
+1 119711 New College of California          Jan-08   2008-01-01 00:00:00
+2 191870 Interboro Institute                12/21/07 2007-12-21 00:00:00
+3 225867 Austin Business College            12/28/07 2007-12-28 00:00:00
+4 243902 Gaither and Company Beauty College 12/5/07  2007-12-05 00:00:00
+5 415561 Cortiva Institute-Colorado         12/31/07 2007-12-31 00:00:00
+6 436748 New Hampshire Career Institute     12/20/07 2007-12-20 00:00:00
+7 445586 Banner Institute-Chicago           Dec-07   2007-12-01 00:00:00
+8 446871 The Bryman School-East             Dec-07   2007-12-01 00:00:00
+9 447500 Salter School-Cambridge Campus     12/31/07 2007-12-31 00:00:00</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Internal pipes version</span></span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span> <span class="fu">filter</span>(<span class="fu">interval</span>(clean_date, christmas_07) <span class="sc">|&gt;</span> <span class="fu">time_length</span>(<span class="st">"day"</span>) <span class="sc">|&gt;</span> <span class="fu">abs</span>() <span class="sc">&lt;</span> <span class="dv">30</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 9 × 4
+  unitid instnm                             closedat clean_date         
+   &lt;dbl&gt; &lt;chr&gt;                              &lt;chr&gt;    &lt;dttm&gt;             
+1 119711 New College of California          Jan-08   2008-01-01 00:00:00
+2 191870 Interboro Institute                12/21/07 2007-12-21 00:00:00
+3 225867 Austin Business College            12/28/07 2007-12-28 00:00:00
+4 243902 Gaither and Company Beauty College 12/5/07  2007-12-05 00:00:00
+5 415561 Cortiva Institute-Colorado         12/31/07 2007-12-31 00:00:00
+6 436748 New Hampshire Career Institute     12/20/07 2007-12-20 00:00:00
+7 445586 Banner Institute-Chicago           Dec-07   2007-12-01 00:00:00
+8 446871 The Bryman School-East             Dec-07   2007-12-01 00:00:00
+9 447500 Salter School-Cambridge Campus     12/31/07 2007-12-31 00:00:00</code></pre>
 </div>
 </div>
 <blockquote class="blockquote">
@@ -1075,17 +1092,17 @@ Caused by warning:
 </ul></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span> </span>
-<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">semester =</span> <span class="fu">quarter</span>(clean_date)) <span class="sc">|&gt;</span></span>
-<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(semester)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span> </span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">quarter =</span> <span class="fu">quarter</span>(clean_date)) <span class="sc">|&gt;</span></span>
+<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(quarter)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 4 × 2
-  semester     n
-     &lt;int&gt; &lt;int&gt;
-1        1    11
-2        2    20
-3        3    32
-4        4    13</code></pre>
+  quarter     n
+    &lt;int&gt; &lt;int&gt;
+1       1    11
+2       2    20
+3       3    32
+4       4    13</code></pre>
 </div>
 </div>
 <ul>
@@ -1098,9 +1115,9 @@ Caused by warning:
 </ul></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span></span>
-<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">day =</span> <span class="fu">wday</span>(clean_date, <span class="at">label =</span> <span class="cn">TRUE</span>)) <span class="sc">|&gt;</span></span>
-<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(day)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span></span>
+<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">day =</span> <span class="fu">wday</span>(clean_date, <span class="at">label =</span> <span class="cn">TRUE</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(day)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 7 × 2
   day       n
