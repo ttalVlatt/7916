@@ -11,7 +11,7 @@ image: apple-touch-icon.png
 ```{r, include = FALSE, purl = TRUE}
 ## -----------------------------------------------------------------------------
 ##
-##' [PROJ: EDH7916: Data visualization with ggplot2]
+##' [PROJ: EDH 7916]
 ##' [FILE: 11-pro-functions.R]
 ##' [INIT: 5 March 2024]
 ##' [AUTH: Benjamin Skinner @btskinner]
@@ -78,11 +78,19 @@ The watchwords for this lesson are [DRY vs WET](https://en.wikipedia.org/wiki/Do
 -   **DRY**: *Don't repeat yourself*
 -   **WET**: *Write every time*
 
-Let's say you have a three-step analysis process for 20 files (read, lower names, add a column). Under a *WET* programming paradigm in which each command gets its own line of code, that's 60 lines of code. If the number of your files grows to 50, that's now 150 lines of code --- for just three tasks! When you write every time, you not only make your code longer and harder to parse, you also *increase* the likelihood that your code will contain bugs while simultaneously *decreasing* its scalability.
+Let's say you have a three-step analysis process for 20 files (read, lower names, add a column).
+Under a *WET* programming paradigm in which each command gets its own line of code, that's 60 lines of code.
+If the number of your files grows to 50, that's now 150 lines of code --- for just three tasks!
+When you write every time, you not only make your code longer and harder to parse, you also *increase* the likelihood that your code will contain bugs while simultaneously *decreasing* its scalability.
 
-If you need to repeat an analytic task (which may be a set of commands), then it's better to have one statement of that process that you repeat, perhaps in a loop or in a function. Don't repeat yourself --- say it once and have R repeat it for you!
+If you need to repeat an analytic task (which may be a set of commands), then it's better to have one statement of that process that you repeat, perhaps in a loop or in a function.
+Don't repeat yourself --- say it once and have R repeat it for you!
 
-The goal of DRY programming is not abstraction or slickness for its own sake. That runs counter to the clarity and replicability we've been working toward. Instead, we aspire to DRY code since it is more scalable and less buggy than WET code. To be clear, a function or loop can still have bugs, but the bugs it introduces are often *the same across repetitions* and fixed *at a single point of error*. That is, it's typically easier to *debug* when the bug has a single root cause than when it could be anywhere in 150 similar but *slightly* different lines of code.
+The goal of DRY programming is not abstraction or slickness for its own sake.
+That runs counter to the clarity and replicability we've been working toward.
+Instead, we aspire to DRY code since it is more scalable and less buggy than WET code.
+To be clear, a function or loop can still have bugs, but the bugs it introduces are often *the same across repetitions* and fixed *at a single point of error*.
+That is, it's typically easier to *debug* when the bug has a single root cause than when it could be anywhere in 150 similar but *slightly* different lines of code.
 
 As we work through the lesson examples, keep in the back of your mind:
 
@@ -91,7 +99,8 @@ As we work through the lesson examples, keep in the back of your mind:
 
 ## Setup
 
-We'll use a combination of nonce data and the school test score data we've used in a past lesson. We won't read in the school test score data until the last section, but we'll continue following our good organizational practice by setting the directory paths at the top of our script.
+We'll use a combination of nonce data and the school test score data we've used in a past lesson.
+We won't read in the school test score data until the last section, but we'll continue following our good organizational practice by setting the directory paths at the top of our script.
 
 ## `for()` Loops
 
@@ -193,7 +202,8 @@ for(i in gators_points_23) {
 }
 ```
 
-> Quick Question: Is that the same list we had before? Why or why not?
+> Quick Question: Is that the same list we had before?
+> Why or why not?
 
 -   Let's see how we can make it different
 
@@ -397,7 +407,8 @@ for(i in files) {
 }
 ```
 
--   Cool! That seems to have worked, but, our `df_` names are really really long, which probably isn't that useful for future analysis
+-   Cool!
+    That seems to have worked, but, our `df_` names are really really long, which probably isn't that useful for future analysis
 
 -   So, instead of simply pasting together `df_` and `i`, let's use our friend regular expressions to get something more usable
 
@@ -534,5 +545,6 @@ print(df_niagara)
 
     -   Super-Optional: Following from that, edit the second sentence to include how that student's delay compares to the average delay (you can pick, mean or median)
 
-Once complete, turn in the .R script (no data etc.) to Canvas by the due date (Sunday 11:59pm following the lesson). Assignments will be graded on the following Monday (time permitting) in line with the grading policy outlined in the syllabus.
+Once complete, turn in the .R script (no data etc.) to Canvas by the due date (Sunday 11:59pm following the lesson).
+Assignments will be graded on the following Monday (time permitting) in line with the grading policy outlined in the syllabus.
 :::
