@@ -503,7 +503,7 @@ dbl (43): UNITID, FIPS, OBEREG, GENTELE, OPEFLAG, SECTOR, ICLEVEL, CONTROL, ...
 # ℹ 546 more rows</code></pre>
 </div>
 </div>
-<p>We find over 500 unique titles. Just looking at the first 10 rows, we see that some titles are pretty similar — <em>President</em> vs.&nbsp;<em>CEO</em> vs. <em>President/CEO</em> — but not exactly the same. Let’s look again, but this time get counts of each distinct title and arrange from most common to least.</p>
+<p>We find over 500 unique titles. Just looking at the first 10 rows, we see that some titles are pretty similar — <em>President</em> vs.&nbsp;<em>CEO</em> vs.&nbsp;<em>President/CEO</em> — but not exactly the same. Let’s look again, but this time get counts of each distinct title and arrange from most common to least.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="do">## return the most common titles</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span></span>
@@ -786,21 +786,32 @@ dbl (43): UNITID, FIPS, OBEREG, GENTELE, OPEFLAG, SECTOR, ICLEVEL, CONTROL, ...
 <p>We’ve only scratched the surface of what regular expressions can do. If you face string data in the future, taking a little time to craft a regular expression can be well worth it.</p>
 </section>
 </section>
-<section id="part-2-working-with-dates" class="level2">
-<h2 data-anchor-id="part-2-working-with-dates">Part 2: Working with dates</h2>
-<p>In opening section, we’ve seen that dates often come in many different formats. While you can format and clean them using regular expressions, you may also want to format them such that R knows they are dates.</p>
-<p>Why?</p>
-<p>When dealing with something straightforward like years, it’s easy enough to store the years a regular numbers and then subtract the recent year from the past year to get a duration: <code>2020 - 2002</code> equals <code>18</code> years.</p>
-<p>But what if you have daily data for the school year and you want to know how many days a student had between a first and second test? What if the differences were more than a month of days and every student took the first and second tests on different days? What if you had a panel data set, with students across years, some of which were leap years? You can see how calculating the exact number days between tests for each student could quickly become difficult if trying to do it using regular numerical values.</p>
-<p>R makes this easier by having special time-based data types that will keep track of these issues for us and allow us to work with dates almost as we do with regular numbers.</p>
-<p>In our IPEDS data set, we can see that few institutions closed in 2007 and 2008. We’ll limit our next analyses to these institutions.</p>
+<section id="part-ii-working-with-dates" class="level2">
+<h2 data-anchor-id="part-ii-working-with-dates">Part II: Working with dates</h2>
+<ul>
+<li><p>Much like names, dates are often saved as text/strings, and can be messy and formatted differently</p>
+<ul>
+<li>For example, “2026-07-04”, “July 4th 2026”, “4th July 26”, and “04/07/26” all refer to the United State’s upcoming 250th birthday, but how do we make the computer understand they all mean that?</li>
+</ul></li>
+<li><p>What’s trickier is that even once we have dealt with the formatting, we sometimes need to be able to make calculations with dates</p>
+<ul>
+<li><p>For example, if we have students SAT scores from multiple attempts, somone might be interested in knowing how many days passed between attempts</p>
+<ul>
+<li>This involves knowing how many days are in each month (something I can never remember), if that year was a leap year, etc.</li>
+</ul></li>
+</ul></li>
+<li><p>In our IPEDS data see which institutions closed in 2007 and 2008 in the <code>closedat</code> column</p>
+<ul>
+<li><code>-2</code> means the institution didn’t close in this period, so let’s drop them</li>
+</ul></li>
+</ul>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="do">## subset to schools who closed during this period</span></span>
 <span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> df <span class="sc">|&gt;</span></span>
-<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(closedat <span class="sc">!=</span> <span class="sc">-</span><span class="dv">2</span>)</span>
-<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a><span class="do">## show first few rows</span></span>
-<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span> <span class="fu">select</span>(unitid, instnm, closedat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(closedat <span class="sc">!=</span> <span class="sc">-</span><span class="dv">2</span>) <span class="sc">|&gt;</span></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(unitid, instnm, closedat)</span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 83 × 3
    unitid instnm                                                  closedat
@@ -818,144 +829,313 @@ dbl (43): UNITID, FIPS, OBEREG, GENTELE, OPEFLAG, SECTOR, ICLEVEL, CONTROL, ...
 # ℹ 73 more rows</code></pre>
 </div>
 </div>
-<p>We can see that <code>closedat</code> is stored as a string. Based on our domain knowledge and context clues, we know that the dates are generally in a <code>MM/DD/YYYY</code> (American) format.</p>
-<p>We can use the lubridate command <code>mdy()</code> to make a new variable that contains the same information, but in a format that R recognizes as a date.</p>
+<section id="parse-ing-string-into-dates" class="level4">
+<h4><code>parse</code>-ing String into Dates</h4>
+<ul>
+<li><p>So, we can see <code>closedat</code> is a <code>&lt;chr&gt;</code> or string variable</p>
+<ul>
+<li>From a combination of looking at the values and knowing this is a US document, we can see most of these dates are month/day/year</li>
+</ul></li>
+<li><p>We are really only going to use one function from <code>lubridate</code> the <code>parse_date_time()</code> function</p>
+<ul>
+<li><p>There are other ways you can handle dates, some in base <code>R</code>, some other in <code>lubridate</code>, but this is a way that works well in most situations</p></li>
+<li><p>The function takes two main arguments</p>
+<ul>
+<li><p><code>x</code>: The string you are trying to turn into a date</p></li>
+<li><p><code>orders</code>: The format(s) the string date is written in</p>
+<ul>
+<li><p>This take one or more date formats to try</p></li>
+<li><p>Since we think most of our dates are “month, day, year” this will be <code>"mdy"</code></p></li>
+<li><p>You can see a full list of options <a href="https://lubridate.tidyverse.org/reference/index.html">on the lubridate reference page</a></p></li>
+<li><p>It tries these in order, seeing if it can “parse” or “figure out” the date looking for anything that divides dates up (” “,”/“,”-“) and/or spelt out date elements like”August”</p>
+<ul>
+<li>If it can work out the date with the the first format, it will move on, if not, it will try and others you gave it (in order) and then if it can’t make the string fit into any of those formats, it will “fail to parse”</li>
+</ul></li>
+</ul></li>
+</ul></li>
+<li><p>It then outputs a <code>&lt;dttm&gt;</code> (date time) type variable, which we are going to assign to a new variable <code>clean_date</code></p>
+<ul>
+<li><p>This involves a <em>lot</em> of well thought out code on the back-end, but makes our lives so much easier</p></li>
+<li><p>In case you’re interested, R actually stores every date and time as time since 00:00:00 on January 1st 1970 behind the scenes</p></li>
+</ul></li>
+</ul></li>
+<li><p>Let’s give this a go!</p></li>
+</ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="do">## create a new close date column </span></span>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="do">## create a new clean_date column </span></span>
 <span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> df <span class="sc">|&gt;</span></span>
-<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">closedat_dt =</span> <span class="fu">mdy</span>(closedat))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">clean_date =</span> <span class="fu">parse_date_time</span>(closedat,</span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>                                        <span class="at">orders =</span> <span class="st">"mdy"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning: There was 1 warning in `mutate()`.
-ℹ In argument: `closedat_dt = mdy(closedat)`.
+ℹ In argument: `clean_date = parse_date_time(closedat, orders = "mdy")`.
 Caused by warning:
 !  35 failed to parse.</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="do">## show</span></span>
-<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span> <span class="fu">select</span>(<span class="fu">starts_with</span>(<span class="st">"close"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 83 × 2
-   closedat closedat_dt
-   &lt;chr&gt;    &lt;date&gt;     
- 1 6/29/07  2007-06-29 
- 2 3/29/08  2008-03-29 
- 3 Sep-07   NA         
- 4 3/31/07  2007-03-31 
- 5 Jan-08   NA         
- 6 7/31/07  2007-07-31 
- 7 5/31/08  2008-05-31 
- 8 Sep-07   NA         
- 9 May-07   NA         
-10 3/1/08   2008-03-01 
+<pre><code># A tibble: 83 × 4
+   unitid instnm                                    closedat clean_date         
+    &lt;dbl&gt; &lt;chr&gt;                                     &lt;chr&gt;    &lt;dttm&gt;             
+ 1 103440 Sheldon Jackson College                   6/29/07  2007-06-29 00:00:00
+ 2 104522 DeVoe College of Beauty                   3/29/08  2008-03-29 00:00:00
+ 3 105242 Mundus Institute                          Sep-07   NA                 
+ 4 105880 Long Technical College-East Valley        3/31/07  2007-03-31 00:00:00
+ 5 119711 New College of California                 Jan-08   NA                 
+ 6 136996 Ross Medical Education Center             7/31/07  2007-07-31 00:00:00
+ 7 137625 Suncoast II the Tampa Bay School of Mass… 5/31/08  2008-05-31 00:00:00
+ 8 141583 Hawaii Business College                   Sep-07   NA                 
+ 9 150127 Ball Memorial Hospital School of Radiolo… May-07   NA                 
+10 160144 Pat Goins Shreveport Beauty School        3/1/08   2008-03-01 00:00:00
 # ℹ 73 more rows</code></pre>
 </div>
 </div>
-<p>Well, we are part of the way there. It seems that <code>mdy()</code> didn’t really work with dates like <code>Sep-2007</code>. What can we do?</p>
-<p>One solution is to add in a fake day for the ones that didn’t parse and then convert using <code>mdy()</code>. We’ll use regular expressions with an <code>str_replace()</code>.</p>
+<ul>
+<li>Okay, that worked for the majority of our colleges, but we some like <code>Sep-2007</code> that it didn’t like</li>
+</ul>
+<blockquote class="blockquote">
+<h3 id="quick-dicussion" data-anchor-id="parse-ing-string-into-dates">Quick Dicussion</h3>
+<p>Why wasn’t it able to “parse” <code>Sep-2007</code>?</p>
+<p>Do we know enough about when this institution closed? Why or why not?</p>
+<p>What might we be able to do with the information we have?</p>
+</blockquote>
+<ul>
+<li><p>Now, remember <code>orders</code> can take more than one value, so maybe we could try another date format that can pick up some of these dates</p>
+<ul>
+<li>Looking through the <a href="https://lubridate.tidyverse.org/reference/index.html">lubridate reference page</a>, I can see that <code>"my"</code> (month year) is a format it will take as well, so let’s try that</li>
+</ul></li>
+</ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="do">## convert MON-YYYY to MON-01-YYYY</span></span>
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Try adding another date format</span></span>
 <span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> df <span class="sc">|&gt;</span></span>
-<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">closedat_fix =</span> <span class="fu">str_replace</span>(closedat, <span class="st">"-"</span>, <span class="st">"-01-"</span>),</span>
-<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>           <span class="at">closedat_fix_dt =</span> <span class="fu">mdy</span>(closedat_fix))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">clean_date =</span> <span class="fu">parse_date_time</span>(closedat,</span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>                                        <span class="at">orders =</span> <span class="fu">c</span>(<span class="st">"mdy"</span>, <span class="st">"my"</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning: There was 1 warning in `mutate()`.
-ℹ In argument: `closedat_fix_dt = mdy(closedat_fix)`.
+ℹ In argument: `clean_date = parse_date_time(closedat, orders = c("mdy",
+  "my"))`.
 Caused by warning:
 !  7 failed to parse.</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="do">## show</span></span>
-<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span> <span class="fu">select</span>(<span class="fu">starts_with</span>(<span class="st">"close"</span>))                                </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 83 × 4
-   closedat closedat_dt closedat_fix closedat_fix_dt
-   &lt;chr&gt;    &lt;date&gt;      &lt;chr&gt;        &lt;date&gt;         
- 1 6/29/07  2007-06-29  6/29/07      2007-06-29     
- 2 3/29/08  2008-03-29  3/29/08      2008-03-29     
- 3 Sep-07   NA          Sep-01-07    2007-09-01     
- 4 3/31/07  2007-03-31  3/31/07      2007-03-31     
- 5 Jan-08   NA          Jan-01-08    2008-01-01     
- 6 7/31/07  2007-07-31  7/31/07      2007-07-31     
- 7 5/31/08  2008-05-31  5/31/08      2008-05-31     
- 8 Sep-07   NA          Sep-01-07    2007-09-01     
- 9 May-07   NA          May-01-07    2007-05-01     
-10 3/1/08   2008-03-01  3/1/08       2008-03-01     
+   unitid instnm                                    closedat clean_date         
+    &lt;dbl&gt; &lt;chr&gt;                                     &lt;chr&gt;    &lt;dttm&gt;             
+ 1 103440 Sheldon Jackson College                   6/29/07  2007-06-29 00:00:00
+ 2 104522 DeVoe College of Beauty                   3/29/08  2008-03-29 00:00:00
+ 3 105242 Mundus Institute                          Sep-07   2007-09-01 00:00:00
+ 4 105880 Long Technical College-East Valley        3/31/07  2007-03-31 00:00:00
+ 5 119711 New College of California                 Jan-08   2008-01-01 00:00:00
+ 6 136996 Ross Medical Education Center             7/31/07  2007-07-31 00:00:00
+ 7 137625 Suncoast II the Tampa Bay School of Mass… 5/31/08  2008-05-31 00:00:00
+ 8 141583 Hawaii Business College                   Sep-07   2007-09-01 00:00:00
+ 9 150127 Ball Memorial Hospital School of Radiolo… May-07   2007-05-01 00:00:00
+10 160144 Pat Goins Shreveport Beauty School        3/1/08   2008-03-01 00:00:00
 # ℹ 73 more rows</code></pre>
 </div>
 </div>
-<blockquote class="blockquote">
-<h4 id="quick-exercise-5">Quick exercise</h4>
-<p>We had 7 parsing errors. Can you figure out which rows failed to parse and guess why? <strong>HINT</strong> if <code>mdy()</code> failed to parse <code>closedat</code>, then the subsequent new columns are likely missing values.</p>
-</blockquote>
-<p>Now that we’ve successfully converted the string date into a proper date type, it’s easy to pull out the pieces of that date, including:</p>
 <ul>
-<li><strong>year</strong> with <code>year()</code></li>
-<li><strong>month</strong> with <code>month()</code></li>
-<li><strong>day</strong> with <code>day()</code></li>
-<li><strong>day of week</strong> with <code>wday()</code></li>
+<li><p>Okay, this time only <code>7 failed to parse</code> , so that’s a lot better</p></li>
+<li><p>Take a look at what it did with <code>Sep-2007</code></p>
+<ul>
+<li>Do we like this or not? Is it trustworthy?</li>
+</ul></li>
+<li><p>Let’s take a look at the 7 that didn’t go through this time</p></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="do">## add columns for</span></span>
-<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a><span class="do">## - year</span></span>
-<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a><span class="do">## - month</span></span>
-<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a><span class="do">## - day</span></span>
-<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a><span class="do">## - day of week (dow)</span></span>
-<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> df <span class="sc">|&gt;</span></span>
-<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">close_year =</span> <span class="fu">year</span>(closedat_fix_dt),</span>
-<span id="cb41-8"><a href="#cb41-8" aria-hidden="true" tabindex="-1"></a>           <span class="at">close_month =</span> <span class="fu">month</span>(closedat_fix_dt),</span>
-<span id="cb41-9"><a href="#cb41-9" aria-hidden="true" tabindex="-1"></a>           <span class="at">close_day =</span> <span class="fu">day</span>(closedat_fix_dt),</span>
-<span id="cb41-10"><a href="#cb41-10" aria-hidden="true" tabindex="-1"></a>           <span class="at">close_dow =</span> <span class="fu">wday</span>(closedat_fix_dt, <span class="at">label =</span> <span class="cn">TRUE</span>))</span>
-<span id="cb41-11"><a href="#cb41-11" aria-hidden="true" tabindex="-1"></a><span class="do">## show</span></span>
-<span id="cb41-12"><a href="#cb41-12" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span></span>
-<span id="cb41-13"><a href="#cb41-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(closedat_fix_dt, close_year, close_month, close_day, close_dow)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span></span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">is.na</span>(clean_date))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 83 × 5
-   closedat_fix_dt close_year close_month close_day close_dow
-   &lt;date&gt;               &lt;dbl&gt;       &lt;dbl&gt;     &lt;int&gt; &lt;ord&gt;    
- 1 2007-06-29            2007           6        29 Fri      
- 2 2008-03-29            2008           3        29 Sat      
- 3 2007-09-01            2007           9         1 Sat      
- 4 2007-03-31            2007           3        31 Sat      
- 5 2008-01-01            2008           1         1 Tue      
- 6 2007-07-31            2007           7        31 Tue      
- 7 2008-05-31            2008           5        31 Sat      
- 8 2007-09-01            2007           9         1 Sat      
- 9 2007-05-01            2007           5         1 Tue      
-10 2008-03-01            2008           3         1 Sat      
-# ℹ 73 more rows</code></pre>
+<pre><code># A tibble: 7 × 4
+  unitid instnm                                     closedat clean_date
+   &lt;dbl&gt; &lt;chr&gt;                                      &lt;chr&gt;    &lt;dttm&gt;    
+1 200794 Akron Machining Institute Inc              07/200   NA        
+2 231572 Braxton School                             2007     NA        
+3 262013 New York Institute of Technology-Central … 2007     NA        
+4 381343 CET-Reno                                   2007     NA        
+5 394846 CET-Santa Ana                              2007     NA        
+6 404532 Sharps Academy of Hair Styling             2007     NA        
+7 436793 Warren Woods Vocational Adult Education    2007     NA        </code></pre>
+</div>
+</div>
+<ul>
+<li>Hmm, those ones might be a little hard to approximate, so let’s drop them</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> df <span class="sc">|&gt;</span></span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>(clean_date)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="working-with-parse-ed-date-objects" class="level4">
+<h4>Working with <code>parse</code>-ed Date Objects</h4>
+<ul>
+<li><p>We have successfully turn as many of the close dates into date objects that R can understand, but why?</p>
+<ul>
+<li><p>We can now make comparisons and calculations <strong><em>so</em></strong> much more easily</p>
+<ul>
+<li>As we go through these example, just imagine having to do this by hand</li>
+</ul></li>
+</ul></li>
+</ul>
+<section id="numerical-calculations" class="level5">
+<h5>Numerical Calculations</h5>
+<ul>
+<li><p>Let’s say we wanted to quickly find the earliest date</p>
+<ul>
+<li>We wouldn’t have got far with the <code>&lt;chr&gt;</code> string date, but our <code>&lt;dttm&gt;</code> object R can understand and tell us the <code>min()</code> value of it</li>
+</ul></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span> <span class="fu">filter</span>(clean_date <span class="sc">==</span> <span class="fu">min</span>(clean_date))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 4
+  unitid instnm           closedat clean_date         
+   &lt;dbl&gt; &lt;chr&gt;            &lt;chr&gt;    &lt;dttm&gt;             
+1 365912 City College Inc 3/23/07  2007-03-23 00:00:00</code></pre>
 </div>
 </div>
 <blockquote class="blockquote">
-<h4 id="quick-exercise-6">Quick exercise</h4>
-<p>Can we trust our <code>close_dow</code> variable? Why?</p>
+<h3 id="quick-exercise-5" data-anchor-id="numerical-calculations">Quick Exercise</h3>
+<p>Find the school with the most recent closure date</p>
 </blockquote>
-<p>It’s also easy to calculate differences of time. We can use normal arithmetic — future date - past date — and R will take care of all the underlying calendar calculations for us (<em>e.g.</em>, days in a given month, leap years, <em>etc</em>).</p>
+</section>
+</section>
+<section id="comparing-to-reference-dates" class="level4">
+<h4>Comparing to Reference Dates</h4>
+<ul>
+<li><p>Or, lets say we want to see how many schools closed before Christmas Day 2007</p>
+<ul>
+<li><p>We can use <code>parse_date_time()</code> again to store December 25th 2007 as a date time object <code>christmas_07</code></p></li>
+<li><p>Then we can just filter schools whose date is less than that</p></li>
+</ul></li>
+</ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="do">## how long since the institution closed</span></span>
-<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a><span class="do">## - as of 1 January 2020</span></span>
-<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a><span class="do">## - as of today</span></span>
-<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> df <span class="sc">|&gt;</span></span>
-<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">time_since_close_jan =</span> <span class="fu">ymd</span>(<span class="st">"2020-01-01"</span>) <span class="sc">-</span> closedat_fix_dt,</span>
-<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a>           <span class="at">time_since_close_now =</span> <span class="fu">today</span>() <span class="sc">-</span> closedat_fix_dt)</span>
-<span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb43-8"><a href="#cb43-8" aria-hidden="true" tabindex="-1"></a><span class="do">## show</span></span>
-<span id="cb43-9"><a href="#cb43-9" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span> <span class="fu">select</span>(<span class="fu">starts_with</span>(<span class="st">"time_since_close"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>christmas_07 <span class="ot">&lt;-</span> <span class="fu">parse_date_time</span>(<span class="st">"Dec 25 2007"</span>, <span class="st">"mdy"</span>)</span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span> <span class="fu">filter</span>(clean_date <span class="sc">&lt;</span> christmas_07)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 83 × 2
-   time_since_close_jan time_since_close_now
-   &lt;drtn&gt;               &lt;drtn&gt;              
- 1 4569 days            6095 days           
- 2 4295 days            5821 days           
- 3 4505 days            6031 days           
- 4 4659 days            6185 days           
- 5 4383 days            5909 days           
- 6 4537 days            6063 days           
- 7 4232 days            5758 days           
- 8 4505 days            6031 days           
- 9 4628 days            6154 days           
-10 4323 days            5849 days           
-# ℹ 73 more rows</code></pre>
+<pre><code># A tibble: 60 × 4
+   unitid instnm                                    closedat clean_date         
+    &lt;dbl&gt; &lt;chr&gt;                                     &lt;chr&gt;    &lt;dttm&gt;             
+ 1 103440 Sheldon Jackson College                   6/29/07  2007-06-29 00:00:00
+ 2 105242 Mundus Institute                          Sep-07   2007-09-01 00:00:00
+ 3 105880 Long Technical College-East Valley        3/31/07  2007-03-31 00:00:00
+ 4 136996 Ross Medical Education Center             7/31/07  2007-07-31 00:00:00
+ 5 141583 Hawaii Business College                   Sep-07   2007-09-01 00:00:00
+ 6 150127 Ball Memorial Hospital School of Radiolo… May-07   2007-05-01 00:00:00
+ 7 161624 Accutech Career Institute                 Sep-07   2007-09-01 00:00:00
+ 8 170824 Marquette General Hospital                Aug-07   2007-08-01 00:00:00
+ 9 180124 College of Coiffure Art Ltd               6/25/07  2007-06-25 00:00:00
+10 186849 Harrison Career Institute-Vineland        Sep-07   2007-09-01 00:00:00
+# ℹ 50 more rows</code></pre>
 </div>
 </div>
-<p>As with strings and regular expressions, we’ve only scratched the surface of working with dates in R. For example, you can also work with times (hours, minutes, seconds, <em>etc</em>). Now that you’ve been introduced, however, you should have a starting point for working with panel and administrative data that includes strings and dates that you need to process before conducting your analyses.</p>
+<ul>
+<li><p>What about within 30 days of Christmas</p>
+<ul>
+<li><p>For this we need to use <code>interval(clean_date, christmas_07)</code> to look between two dates</p></li>
+<li><p>Then <code>time_length(, "day")</code> converts that to the number of days</p></li>
+</ul></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span> <span class="fu">filter</span>(<span class="fu">time_length</span>(<span class="fu">interval</span>(clean_date, christmas_07), <span class="st">"day"</span>) <span class="sc">&lt;</span> <span class="dv">30</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 21 × 4
+   unitid instnm                                    closedat clean_date         
+    &lt;dbl&gt; &lt;chr&gt;                                     &lt;chr&gt;    &lt;dttm&gt;             
+ 1 104522 DeVoe College of Beauty                   3/29/08  2008-03-29 00:00:00
+ 2 119711 New College of California                 Jan-08   2008-01-01 00:00:00
+ 3 137625 Suncoast II the Tampa Bay School of Mass… 5/31/08  2008-05-31 00:00:00
+ 4 160144 Pat Goins Shreveport Beauty School        3/1/08   2008-03-01 00:00:00
+ 5 189769 Career Blazers Learning Center            1/31/08  2008-01-31 00:00:00
+ 6 189802 St Vincent Catholic Medical Center New Y… 3/1/08   2008-03-01 00:00:00
+ 7 191870 Interboro Institute                       12/21/07 2007-12-21 00:00:00
+ 8 201991 The Ohio Academy Paul Mitchell Partner S… Mar-08   2008-03-01 00:00:00
+ 9 215895 Schuylkill Institute of Business Technol… 3/28/08  2008-03-28 00:00:00
+10 225867 Austin Business College                   12/28/07 2007-12-28 00:00:00
+# ℹ 11 more rows</code></pre>
+</div>
+</div>
+<blockquote class="blockquote">
+<h3 id="quick-exercise-6" data-anchor-id="comparing-to-reference-dates">Quick Exercise</h3>
+<ul>
+<li>Did any schools close within a week of Christmas?</li>
+</ul>
+</blockquote>
+</section>
+<section id="extracting-info-from-dates" class="level4">
+<h4>Extracting Info From Dates</h4>
+<ul>
+<li><p>What is we want to see which fiscal quarter more schools closed in?</p>
+<ul>
+<li>The handy <code>quarter()</code> function tell us that</li>
+</ul></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span> </span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">semester =</span> <span class="fu">quarter</span>(clean_date)) <span class="sc">|&gt;</span></span>
+<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(semester)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 4 × 2
+  semester     n
+     &lt;int&gt; &lt;int&gt;
+1        1    11
+2        2    20
+3        3    32
+4        4    13</code></pre>
+</div>
+</div>
+<ul>
+<li><p>What about the day of the week they closed on?</p>
+<ul>
+<li><p>Similarly <code>wday()</code> can tell us that</p>
+<ul>
+<li>We need to say <code>label = TRUE</code> to get “Sun” instead of 1</li>
+</ul></li>
+</ul></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span></span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">day =</span> <span class="fu">wday</span>(clean_date, <span class="at">label =</span> <span class="cn">TRUE</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(day)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 7 × 2
+  day       n
+  &lt;ord&gt; &lt;int&gt;
+1 Sun       6
+2 Mon       9
+3 Tue       7
+4 Wed       7
+5 Thu       6
+6 Fri      15
+7 Sat      26</code></pre>
+</div>
+</div>
+<blockquote class="blockquote">
+<h3 id="quick-question" data-anchor-id="extracting-info-from-dates">Quick Question</h3>
+<ul>
+<li>Can we 100% trust these week day counts? Why or why not?</li>
+</ul>
+</blockquote>
+</section>
+</section>
+<section id="summary" class="level2">
+<h2 data-anchor-id="summary">Summary</h2>
+<ul>
+<li><p>In this lesson we’ve looked at working with both generic strings and with dates</p>
+<ul>
+<li><p>For both of these we have only begun to scratch the surface, but it should have given you enough of an idea to go out and get your hands dirty</p></li>
+<li><p>If you found this interesting, Dr.&nbsp;Jinnie Shin teaches a class on Natural Language Processing in the Fall, which gets into how make the computer begin to understand text</p></li>
+</ul></li>
+<li><p>These are both messy types of data and you’re often going to have to make subjective decisions (e.g., how to handle <code>Sep-2007</code>)</p>
+<ul>
+<li>What’s most important is that you document/comment what you did and why you did it</li>
+</ul></li>
+<li><p>As you will see over the next few weeks, while this stuff can be tricky, working with strings efficiently can be really powerful in more advanced programming</p></li>
+</ul>
 </section>
 </div>
 <div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
