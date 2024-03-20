@@ -338,19 +338,11 @@ ul.task-list li input[type="checkbox"] {
 </ul></li>
 <li>The primary focus of this report is reproducibility
 <ul>
-<li>Your data must be publicly available with no IRB restrictions, as you will not submit it. Instead either;
-<ul>
-<li>Your data will be downloaded automatically as part of your report rendering process (ideal)</li>
-<li>You will provide clear step by step instructions for me to
-<ol type="1">
-<li>Go and download your data</li>
-<li>Save it so that I can replicate your report</li>
-</ol></li>
-</ul></li>
+<li>Your data must be publicly available with no IRB restrictions, as you will not submit it, I will go and collect it (unless you download it as part of the project code)</li>
 </ul></li>
 </ul>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" aria-current="page">Proposal (5 points)</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">Initial Analyses (10 points)</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-3" role="tab" aria-controls="tabset-1-3" aria-selected="false">Presentation (5 Points)</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-4-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-4" role="tab" aria-controls="tabset-1-4" aria-selected="false">Final Report (20 Points)</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-5-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-5" role="tab" aria-controls="tabset-1-5" aria-selected="false"></a></li></ul>
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" aria-current="page">Proposal (5 points)</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">Initial Analyses (10 points)</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-3" role="tab" aria-controls="tabset-1-3" aria-selected="false">Presentation (5 Points)</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-4-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-4" role="tab" aria-controls="tabset-1-4" aria-selected="false">Final Report (20 Points)</a></li></ul>
 <div class="tab-content">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
 <p>This assignment should be submitted as a text entry directly on Canvas consisting of;</p>
@@ -371,7 +363,8 @@ ul.task-list li input[type="checkbox"] {
 <p>This should be submitted to Canvas by the due date listed.</p>
 </div>
 <div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
-<p>For your initial analyses, I need the following in either a cleanly formatted R (<code>.R</code>) script or Quarto (<code>.qmd</code>) file:</p>
+<p>For your initial analyses, the most important thing is that you submit code that sources/renders in full, this assignment will not be successfully completed until that happens, you may have to resubmit multiple times.</p>
+<p>Submit the following in either a cleanly formatted R (<code>.R</code>) script or Quarto (<code>.qmd</code>) file:</p>
 <ol type="1">
 <li>Comments (if an R script) or text (if a Quarto script) that describe
 <ul>
@@ -390,7 +383,7 @@ ul.task-list li input[type="checkbox"] {
 <li>Joins in additional data files</li>
 </ul></li>
 </ul></li>
-<li>Code that creates following:
+<li>Code that creates at least three of the following:
 <ul>
 <li><p>A plot that shows the overall distribution of your dependent/outcome variable</p>
 <ul>
@@ -446,7 +439,7 @@ ul.task-list li input[type="checkbox"] {
 <ul>
 <li><p>The output <code>format:</code> should be either <code>docx</code>, <code>pdf</code> (traditional way using <code>LaTeX</code>), or <code>typst</code> (brand new way to create a <code>.pdf</code>)</p>
 <ul>
-<li><p>I would strong recommend <code>docx</code> for most students</p>
+<li><p>I would strongly recommend <code>docx</code> for most students</p>
 <ul>
 <li>See the <a href="https://quarto.org/docs/output-formats/ms-word.html">Quarto documentation for word output</a></li>
 </ul></li>
@@ -493,11 +486,10 @@ ul.task-list li input[type="checkbox"] {
 <li>There should <strong>NOT</strong> be any lengthy literature review in this assignment, this is it</li>
 </ul></li>
 <li>Why your chose your data source and what the data represents</li>
-<li>What kind of analysis you did and why in layman’s terms (not an R or stats expert)</li>
+<li>What analysis you did and why, in layman’s terms (not an R or stats expert)</li>
 <li>What each individual plot and table shows</li>
 <li>What you found overall</li>
 <li>Any limitations or future research</li>
-<li>Any citations (if necessary)</li>
 </ul></li>
 </ul>
 </section>
@@ -518,17 +510,23 @@ ul.task-list li input[type="checkbox"] {
 </thead>
 <tbody>
 <tr class="odd">
+<td>Does it run?</td>
+<td><ul>
+<li>If I hit render, does the code run and produce the output report without errors?</li>
+</ul></td>
+<td>4</td>
+</tr>
+<tr class="even">
 <td>Data Wrangling: Reading &amp; Cleaning</td>
 <td><ul>
 <li><p>Are the “instructions to run” provided and correct?</p></li>
 <li><p>Is the data read in correctly?</p></li>
-<li><p>Is the data joined correctly where necessary?</p></li>
-<li><p>Is the data reshaped correctly where necessary?</p></li>
+<li><p>Is the data joined and/or reshaped correctly where necessary?</p></li>
 <li><p>Is the data cleaned where necessary with reasonable justification provided for subjective decisions?</p></li>
 </ul></td>
-<td>5</td>
+<td>4</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>Data Wrangling: Analysis</td>
 <td><ul>
 <li><p>Is there at least 1 overall descriptive statistics <code>summarize</code> table in the report?</p></li>
@@ -536,9 +534,9 @@ ul.task-list li input[type="checkbox"] {
 <li><p>Do the summary tables show interesting and relevant information to the report topic?</p></li>
 <li><p>Is the code to produce the summary tables free of mistakes?</p></li>
 </ul></td>
-<td>5</td>
+<td>4</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>Data Visualization</td>
 <td><ul>
 <li><p>Are there at least 3 <code>ggplot2</code> plots in the report?</p></li>
@@ -546,24 +544,21 @@ ul.task-list li input[type="checkbox"] {
 <li><p>Are the plots aesthetically pleasing with good plot design, color choices, and labels?</p></li>
 <li><p>Is the code to produce the summary tables free of mistakes?</p></li>
 </ul></td>
-<td>5</td>
+<td>4</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>Written Content</td>
 <td><ul>
 <li><p>Does the written content address the points outlined above?</p></li>
 <li><p>Does the report make a convincing argument?</p></li>
-<li><p>Is the text of the report generally well written?</p></li>
+<li><p>Is the text of the report generally well written and in layman’s terms?</p></li>
 <li><p>Is the text of the report well structured with subheadings?</p></li>
 </ul></td>
-<td>5</td>
+<td>4</td>
 </tr>
 </tbody>
 </table>
 </section>
-</div>
-<div id="tabset-1-5" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-5-tab">
-
 </div>
 </div>
 </div>
