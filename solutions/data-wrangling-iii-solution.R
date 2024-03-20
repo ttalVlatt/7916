@@ -34,22 +34,9 @@ df <- df_hd |>
 df |>
   mutate(chfnm_lower = str_to_lower(CHFNM)) |> # lower case the name
   filter(str_detect(chfnm_lower, "(^|\\s)dr(a)?(,|\\.|\\s)")) |> # keep anything that after either the start (^) or a " " has "dr" then maybe "a" (for Spanish dra) followed by either "," "." or " " 
-  # keep only if there's "dr" maybe an "a" then either 
   group_by(chfnm_lower, STABBR) |> # group by unique chief admin names (due to branch campuses) also group by state, to minimize chance of two different people with the same name being counted as one. Is there a better way to check for branch campuses?
   slice(1) |> # slice the one row of these (to remove duplicates)
   ungroup() |> # remove the grouping as we only wanted slice() to be grouped
-  select(chfnm_lower) |> # keep only the chief admin name
-  count(chfnm_lower) |> # get counts of the names (should be a column of ones)
-  summarize(sum(n)) # count up the number ones
-
-df |>
-  mutate(chfnm_lower = str_to_lower(CHFNM)) |> # lower case the name
-  filter(str_detect(chfnm_lower, "(^|\\s)dr(a)?(,|\\.|\\s)")) |> # keep anything that after either the start (^) or a " " has "dr" then maybe "a" (for Spanish dra) followed by either "," "." or " " 
-  # keep only if there's "dr" maybe an "a" then either 
-  #group_by(chfnm_lower, STABBR) |> # group by unique chief admin names (due to branch campuses) also group by state, to minimize chance of two different people with the same name being counted as one. Is there a better way to check for branch campuses?
-  #slice(1) |> # slice the one row of these (to remove duplicates)
-  #ungroup() |> # remove the grouping as we only wanted slice() to be grouped
-  distinct(chfnm_lower) |>
   select(chfnm_lower) |> # keep only the chief admin name
   count(chfnm_lower) |> # get counts of the names (should be a column of ones)
   summarize(sum(n)) # count up the number ones
