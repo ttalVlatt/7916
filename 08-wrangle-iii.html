@@ -1191,6 +1191,187 @@ Caused by warning:
 </ol>
 <p>Once complete, turn in the .R script (no data etc.) to Canvas by the due date (Sunday 11:59pm following the lesson). Assignments will be graded on the following Monday (time permitting) in line with the grading policy outlined in the syllabus.</p>
 </section>
+<section id="solution" class="level2">
+<h2 data-anchor-id="solution">Solution</h2>
+<p><a href="./solutions/data-wrangling-iii-solution.R"><i class="fa-solid fa-code" aria-label="code"></i> R Solution Code</a></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="do">## -----------------------------------------------------------------------------</span></span>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a><span class="do">##</span></span>
+<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a><span class="do">##' [PROJ: EDH 7916]</span></span>
+<span id="cb56-4"><a href="#cb56-4" aria-hidden="true" tabindex="-1"></a><span class="do">##' [FILE: Data Wrangling III Solution]</span></span>
+<span id="cb56-5"><a href="#cb56-5" aria-hidden="true" tabindex="-1"></a><span class="do">##' [INIT: March 18 2024]</span></span>
+<span id="cb56-6"><a href="#cb56-6" aria-hidden="true" tabindex="-1"></a><span class="do">##' [AUTH: Matt Capaldi] @ttalVlatt</span></span>
+<span id="cb56-7"><a href="#cb56-7" aria-hidden="true" tabindex="-1"></a><span class="do">##</span></span>
+<span id="cb56-8"><a href="#cb56-8" aria-hidden="true" tabindex="-1"></a><span class="do">## -----------------------------------------------------------------------------</span></span>
+<span id="cb56-9"><a href="#cb56-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-10"><a href="#cb56-10" aria-hidden="true" tabindex="-1"></a><span class="fu">setwd</span>(this.path<span class="sc">::</span><span class="fu">here</span>())</span>
+<span id="cb56-11"><a href="#cb56-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-12"><a href="#cb56-12" aria-hidden="true" tabindex="-1"></a><span class="do">## ---------------------------</span></span>
+<span id="cb56-13"><a href="#cb56-13" aria-hidden="true" tabindex="-1"></a><span class="do">##' [Libraries]</span></span>
+<span id="cb56-14"><a href="#cb56-14" aria-hidden="true" tabindex="-1"></a><span class="do">## ---------------------------</span></span>
+<span id="cb56-15"><a href="#cb56-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-16"><a href="#cb56-16" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb56-17"><a href="#cb56-17" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span>
+<span id="cb56-18"><a href="#cb56-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-19"><a href="#cb56-19" aria-hidden="true" tabindex="-1"></a><span class="do">## ---------------------------</span></span>
+<span id="cb56-20"><a href="#cb56-20" aria-hidden="true" tabindex="-1"></a><span class="do">##' [Input]</span></span>
+<span id="cb56-21"><a href="#cb56-21" aria-hidden="true" tabindex="-1"></a><span class="do">## ---------------------------</span></span>
+<span id="cb56-22"><a href="#cb56-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-23"><a href="#cb56-23" aria-hidden="true" tabindex="-1"></a>df_hd <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/hd2007.csv"</span>)</span>
+<span id="cb56-24"><a href="#cb56-24" aria-hidden="true" tabindex="-1"></a>df_mission <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/ic2007mission.csv"</span>)</span>
+<span id="cb56-25"><a href="#cb56-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-26"><a href="#cb56-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-27"><a href="#cb56-27" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> df_hd <span class="sc">|&gt;</span></span>
+<span id="cb56-28"><a href="#cb56-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(df_mission, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"UNITID"</span> <span class="ot">=</span> <span class="st">"unitid"</span>)) <span class="co"># Could also just rename column to lower case</span></span>
+<span id="cb56-29"><a href="#cb56-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-30"><a href="#cb56-30" aria-hidden="true" tabindex="-1"></a><span class="do">## ---------------------------</span></span>
+<span id="cb56-31"><a href="#cb56-31" aria-hidden="true" tabindex="-1"></a><span class="do">##' [Q1]</span></span>
+<span id="cb56-32"><a href="#cb56-32" aria-hidden="true" tabindex="-1"></a><span class="do">## ---------------------------</span></span>
+<span id="cb56-33"><a href="#cb56-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-34"><a href="#cb56-34" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span></span>
+<span id="cb56-35"><a href="#cb56-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">chfnm_lower =</span> <span class="fu">str_to_lower</span>(CHFNM)) <span class="sc">|&gt;</span> <span class="co"># lower case the name</span></span>
+<span id="cb56-36"><a href="#cb56-36" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">str_detect</span>(chfnm_lower, <span class="st">"(^|</span><span class="sc">\\</span><span class="st">s)dr(a)?(,|</span><span class="sc">\\</span><span class="st">.|</span><span class="sc">\\</span><span class="st">s)"</span>)) <span class="sc">|&gt;</span> <span class="co"># keep anything that after either the start (^) or a " " has "dr" then maybe "a" (for Spanish dra) followed by either "," "." or " " </span></span>
+<span id="cb56-37"><a href="#cb56-37" aria-hidden="true" tabindex="-1"></a>  <span class="co"># keep only if there's "dr" maybe an "a" then either </span></span>
+<span id="cb56-38"><a href="#cb56-38" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(chfnm_lower, STABBR) <span class="sc">|&gt;</span> <span class="co"># group by unique chief admin names (due to branch campuses) also group by state, to minimize chance of two different people with the same name being counted as one. Is there a better way to check for branch campuses?</span></span>
+<span id="cb56-39"><a href="#cb56-39" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice</span>(<span class="dv">1</span>) <span class="sc">|&gt;</span> <span class="co"># slice the one row of these (to remove duplicates)</span></span>
+<span id="cb56-40"><a href="#cb56-40" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">|&gt;</span> <span class="co"># remove the grouping as we only wanted slice() to be grouped</span></span>
+<span id="cb56-41"><a href="#cb56-41" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(chfnm_lower) <span class="sc">|&gt;</span> <span class="co"># keep only the chief admin name</span></span>
+<span id="cb56-42"><a href="#cb56-42" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(chfnm_lower) <span class="sc">|&gt;</span> <span class="co"># get counts of the names (should be a column of ones)</span></span>
+<span id="cb56-43"><a href="#cb56-43" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="fu">sum</span>(n)) <span class="co"># count up the number ones</span></span>
+<span id="cb56-44"><a href="#cb56-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-45"><a href="#cb56-45" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span></span>
+<span id="cb56-46"><a href="#cb56-46" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">chfnm_lower =</span> <span class="fu">str_to_lower</span>(CHFNM)) <span class="sc">|&gt;</span> <span class="co"># lower case the name</span></span>
+<span id="cb56-47"><a href="#cb56-47" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">str_detect</span>(chfnm_lower, <span class="st">"(^|</span><span class="sc">\\</span><span class="st">s)dr(a)?(,|</span><span class="sc">\\</span><span class="st">.|</span><span class="sc">\\</span><span class="st">s)"</span>)) <span class="sc">|&gt;</span> <span class="co"># keep anything that after either the start (^) or a " " has "dr" then maybe "a" (for Spanish dra) followed by either "," "." or " " </span></span>
+<span id="cb56-48"><a href="#cb56-48" aria-hidden="true" tabindex="-1"></a>  <span class="co"># keep only if there's "dr" maybe an "a" then either </span></span>
+<span id="cb56-49"><a href="#cb56-49" aria-hidden="true" tabindex="-1"></a>  <span class="co">#group_by(chfnm_lower, STABBR) |&gt; # group by unique chief admin names (due to branch campuses) also group by state, to minimize chance of two different people with the same name being counted as one. Is there a better way to check for branch campuses?</span></span>
+<span id="cb56-50"><a href="#cb56-50" aria-hidden="true" tabindex="-1"></a>  <span class="co">#slice(1) |&gt; # slice the one row of these (to remove duplicates)</span></span>
+<span id="cb56-51"><a href="#cb56-51" aria-hidden="true" tabindex="-1"></a>  <span class="co">#ungroup() |&gt; # remove the grouping as we only wanted slice() to be grouped</span></span>
+<span id="cb56-52"><a href="#cb56-52" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>(chfnm_lower) <span class="sc">|&gt;</span></span>
+<span id="cb56-53"><a href="#cb56-53" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(chfnm_lower) <span class="sc">|&gt;</span> <span class="co"># keep only the chief admin name</span></span>
+<span id="cb56-54"><a href="#cb56-54" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(chfnm_lower) <span class="sc">|&gt;</span> <span class="co"># get counts of the names (should be a column of ones)</span></span>
+<span id="cb56-55"><a href="#cb56-55" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="fu">sum</span>(n)) <span class="co"># count up the number ones</span></span>
+<span id="cb56-56"><a href="#cb56-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-57"><a href="#cb56-57" aria-hidden="true" tabindex="-1"></a><span class="do">## Below is how I compared our in class regex with Ben's and my final answer</span></span>
+<span id="cb56-58"><a href="#cb56-58" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-59"><a href="#cb56-59" aria-hidden="true" tabindex="-1"></a>inclass_names <span class="ot">&lt;-</span> df <span class="sc">|&gt;</span></span>
+<span id="cb56-60"><a href="#cb56-60" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">chfnm_lower =</span> <span class="fu">str_to_lower</span>(CHFNM)) <span class="sc">|&gt;</span> <span class="co"># lower case the name</span></span>
+<span id="cb56-61"><a href="#cb56-61" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">str_detect</span>(chfnm_lower, <span class="st">"dr</span><span class="sc">\\</span><span class="st">.?</span><span class="sc">\\</span><span class="st">s"</span>)) <span class="sc">|&gt;</span> <span class="co"># keep anything "dr" maybe a "." then " "</span></span>
+<span id="cb56-62"><a href="#cb56-62" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(chfnm_lower)</span>
+<span id="cb56-63"><a href="#cb56-63" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-64"><a href="#cb56-64" aria-hidden="true" tabindex="-1"></a>bens_names <span class="ot">&lt;-</span> df <span class="sc">|&gt;</span></span>
+<span id="cb56-65"><a href="#cb56-65" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">chfnm_lower =</span> <span class="fu">str_to_lower</span>(CHFNM)) <span class="sc">|&gt;</span> <span class="co"># lower case the name</span></span>
+<span id="cb56-66"><a href="#cb56-66" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">str_detect</span>(chfnm_lower, <span class="st">"^dr</span><span class="sc">\\</span><span class="st">.?[^ew]"</span>)) <span class="sc">|&gt;</span> <span class="co"># keep anything that starts (^) "dr" maybe a "." then anything but "ew" (to exclude drew or andrew)</span></span>
+<span id="cb56-67"><a href="#cb56-67" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(chfnm_lower)</span>
+<span id="cb56-68"><a href="#cb56-68" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-69"><a href="#cb56-69" aria-hidden="true" tabindex="-1"></a>bens_names[<span class="sc">!</span>bens_names <span class="sc">%in%</span> inclass_names]</span>
+<span id="cb56-70"><a href="#cb56-70" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-71"><a href="#cb56-71" aria-hidden="true" tabindex="-1"></a>matts_names <span class="ot">&lt;-</span> df <span class="sc">|&gt;</span></span>
+<span id="cb56-72"><a href="#cb56-72" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">chfnm_lower =</span> <span class="fu">str_to_lower</span>(CHFNM)) <span class="sc">|&gt;</span> <span class="co"># lower case the name</span></span>
+<span id="cb56-73"><a href="#cb56-73" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">str_detect</span>(chfnm_lower, <span class="st">"(^|</span><span class="sc">\\</span><span class="st">s)dr(a)?(,|</span><span class="sc">\\</span><span class="st">.|</span><span class="sc">\\</span><span class="st">s)"</span>)) <span class="sc">|&gt;</span> <span class="co"># keep anything that after either the start (^) or a " " has "dr" then maybe "a" (for Spanish dra) followed by either "," "." or " "</span></span>
+<span id="cb56-74"><a href="#cb56-74" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(chfnm_lower)</span>
+<span id="cb56-75"><a href="#cb56-75" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-76"><a href="#cb56-76" aria-hidden="true" tabindex="-1"></a>matts_names[<span class="sc">!</span>matts_names <span class="sc">%in%</span> bens_names]</span>
+<span id="cb56-77"><a href="#cb56-77" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-78"><a href="#cb56-78" aria-hidden="true" tabindex="-1"></a><span class="do">## The differences between Ben's and my answer get to an important</span></span>
+<span id="cb56-79"><a href="#cb56-79" aria-hidden="true" tabindex="-1"></a><span class="do">## research point, technically Ben's answer is what was asked, but in many situations</span></span>
+<span id="cb56-80"><a href="#cb56-80" aria-hidden="true" tabindex="-1"></a><span class="do">## you were given that question, they would want "rev. dr" and "rabbi dr" included</span></span>
+<span id="cb56-81"><a href="#cb56-81" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-82"><a href="#cb56-82" aria-hidden="true" tabindex="-1"></a><span class="do">## ---------------------------</span></span>
+<span id="cb56-83"><a href="#cb56-83" aria-hidden="true" tabindex="-1"></a><span class="do">##' [Q2]</span></span>
+<span id="cb56-84"><a href="#cb56-84" aria-hidden="true" tabindex="-1"></a><span class="do">## ---------------------------</span></span>
+<span id="cb56-85"><a href="#cb56-85" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-86"><a href="#cb56-86" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span></span>
+<span id="cb56-87"><a href="#cb56-87" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">chfnm_lower =</span> <span class="fu">str_to_lower</span>(CHFNM)) <span class="sc">|&gt;</span> <span class="co"># lower case the name</span></span>
+<span id="cb56-88"><a href="#cb56-88" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">str_detect</span>(chfnm_lower, <span class="st">"ph</span><span class="sc">\\</span><span class="st">.?</span><span class="sc">\\</span><span class="st">s?d</span><span class="sc">\\</span><span class="st">.?</span><span class="sc">\\</span><span class="st">s?$"</span>)) <span class="sc">|&gt;</span> <span class="co"># keep only if there's "dr" maybe a ".", then a space</span></span>
+<span id="cb56-89"><a href="#cb56-89" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(chfnm_lower, STABBR) <span class="sc">|&gt;</span> <span class="co"># group by unique chief admin names (due to branch campuses) also group by state to minimize chance of two different people with the same name (ideally, you'd be more sophisticated and check for branch campuses directly)</span></span>
+<span id="cb56-90"><a href="#cb56-90" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice</span>(<span class="dv">1</span>) <span class="sc">|&gt;</span> <span class="co"># slice the one row of these (to remove duplicates)</span></span>
+<span id="cb56-91"><a href="#cb56-91" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">|&gt;</span> <span class="co"># remove the grouping as we only wanted slice() to be grouped</span></span>
+<span id="cb56-92"><a href="#cb56-92" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(chfnm_lower) <span class="sc">|&gt;</span> <span class="co"># get counts of the names (should be a column of ones)</span></span>
+<span id="cb56-93"><a href="#cb56-93" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="fu">sum</span>(n)) <span class="co"># count up the number ones</span></span>
+<span id="cb56-94"><a href="#cb56-94" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-95"><a href="#cb56-95" aria-hidden="true" tabindex="-1"></a><span class="do">## ---------------------------</span></span>
+<span id="cb56-96"><a href="#cb56-96" aria-hidden="true" tabindex="-1"></a><span class="do">##' [Q3]</span></span>
+<span id="cb56-97"><a href="#cb56-97" aria-hidden="true" tabindex="-1"></a><span class="do">## ---------------------------</span></span>
+<span id="cb56-98"><a href="#cb56-98" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-99"><a href="#cb56-99" aria-hidden="true" tabindex="-1"></a><span class="do">##'[i]</span></span>
+<span id="cb56-100"><a href="#cb56-100" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-101"><a href="#cb56-101" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span></span>
+<span id="cb56-102"><a href="#cb56-102" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">mission_lower =</span> <span class="fu">str_to_lower</span>(mission), <span class="co"># lower case the mission</span></span>
+<span id="cb56-103"><a href="#cb56-103" aria-hidden="true" tabindex="-1"></a>         <span class="at">instnm_lower =</span> <span class="fu">str_to_lower</span>(INSTNM)) <span class="sc">|&gt;</span> <span class="co"># lower case the institution name</span></span>
+<span id="cb56-104"><a href="#cb56-104" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">str_detect</span>(mission_lower, instnm_lower)) <span class="sc">|&gt;</span> <span class="co"># search for the name in the mission</span></span>
+<span id="cb56-105"><a href="#cb56-105" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(mission_lower) <span class="sc">|&gt;</span> <span class="co"># get counts of the names (should be a column of ones)</span></span>
+<span id="cb56-106"><a href="#cb56-106" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="fu">sum</span>(n)) <span class="co"># count up the number ones</span></span>
+<span id="cb56-107"><a href="#cb56-107" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb56-108"><a href="#cb56-108" aria-hidden="true" tabindex="-1"></a><span class="do">##'[ii]</span></span>
+<span id="cb56-109"><a href="#cb56-109" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-110"><a href="#cb56-110" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span></span>
+<span id="cb56-111"><a href="#cb56-111" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">mission_lower =</span> <span class="fu">str_to_lower</span>(mission)) <span class="sc">|&gt;</span> <span class="co"># lower case the mission</span></span>
+<span id="cb56-112"><a href="#cb56-112" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">str_detect</span>(mission_lower, <span class="st">"civic"</span>)) <span class="sc">|&gt;</span> <span class="co"># look for the word "civic</span></span>
+<span id="cb56-113"><a href="#cb56-113" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(mission_lower) <span class="sc">|&gt;</span> <span class="co"># get counts of the names (should be a column of ones)</span></span>
+<span id="cb56-114"><a href="#cb56-114" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="fu">sum</span>(n)) <span class="co"># count up the number ones</span></span>
+<span id="cb56-115"><a href="#cb56-115" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-116"><a href="#cb56-116" aria-hidden="true" tabindex="-1"></a><span class="do">##'[iii]</span></span>
+<span id="cb56-117"><a href="#cb56-117" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-118"><a href="#cb56-118" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span></span>
+<span id="cb56-119"><a href="#cb56-119" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">mission_lower =</span> <span class="fu">str_to_lower</span>(mission)) <span class="sc">|&gt;</span> <span class="co"># lower case mission</span></span>
+<span id="cb56-120"><a href="#cb56-120" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">str_detect</span>(mission_lower, <span class="st">"future"</span>)) <span class="sc">|&gt;</span> <span class="co"># look for the word "future"</span></span>
+<span id="cb56-121"><a href="#cb56-121" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(STABBR) <span class="sc">|&gt;</span> <span class="co"># before we count this time, group by state</span></span>
+<span id="cb56-122"><a href="#cb56-122" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(mission_lower) <span class="sc">|&gt;</span> <span class="co"># get counts of the names (should be a column of ones)</span></span>
+<span id="cb56-123"><a href="#cb56-123" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">n =</span> <span class="fu">sum</span>(n)) <span class="sc">|&gt;</span> <span class="co"># count up the number ones</span></span>
+<span id="cb56-124"><a href="#cb56-124" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(n)) <span class="sc">|&gt;</span> <span class="co"># arrange in descending order of the count</span></span>
+<span id="cb56-125"><a href="#cb56-125" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">3</span>) <span class="co"># keep the top three rows</span></span>
+<span id="cb56-126"><a href="#cb56-126" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-127"><a href="#cb56-127" aria-hidden="true" tabindex="-1"></a><span class="do">##'[iv]</span></span>
+<span id="cb56-128"><a href="#cb56-128" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-129"><a href="#cb56-129" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span></span>
+<span id="cb56-130"><a href="#cb56-130" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">mission_lower =</span> <span class="fu">str_to_lower</span>(mission)) <span class="sc">|&gt;</span> <span class="co"># lower case the mission</span></span>
+<span id="cb56-131"><a href="#cb56-131" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">str_detect</span>(mission_lower, <span class="st">"skill"</span>)) <span class="sc">|&gt;</span> <span class="co"># look for the word skill</span></span>
+<span id="cb56-132"><a href="#cb56-132" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(CONTROL) <span class="sc">|&gt;</span> <span class="co"># before we count, group by control</span></span>
+<span id="cb56-133"><a href="#cb56-133" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(mission_lower) <span class="sc">|&gt;</span> <span class="co"># get counts of the names (should be a column of ones)</span></span>
+<span id="cb56-134"><a href="#cb56-134" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">n =</span> <span class="fu">sum</span>(n)) <span class="sc">|&gt;</span> <span class="co"># count up the number ones</span></span>
+<span id="cb56-135"><a href="#cb56-135" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(n)) <span class="co"># arrange in descending order</span></span>
+<span id="cb56-136"><a href="#cb56-136" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-137"><a href="#cb56-137" aria-hidden="true" tabindex="-1"></a><span class="do">## ---------------------------</span></span>
+<span id="cb56-138"><a href="#cb56-138" aria-hidden="true" tabindex="-1"></a><span class="do">##' [Q4]</span></span>
+<span id="cb56-139"><a href="#cb56-139" aria-hidden="true" tabindex="-1"></a><span class="do">## ---------------------------</span></span>
+<span id="cb56-140"><a href="#cb56-140" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-141"><a href="#cb56-141" aria-hidden="true" tabindex="-1"></a>df_close <span class="ot">&lt;-</span> df <span class="sc">|&gt;</span></span>
+<span id="cb56-142"><a href="#cb56-142" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(UNITID, INSTNM, CLOSEDAT) <span class="sc">|&gt;</span> <span class="co"># Keep only the columns we need</span></span>
+<span id="cb56-143"><a href="#cb56-143" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(CLOSEDAT <span class="sc">!=</span> <span class="st">"-2"</span>) <span class="sc">|&gt;</span> <span class="co"># Get rid of any colleges that haven't closed</span></span>
+<span id="cb56-144"><a href="#cb56-144" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">clean_date =</span> <span class="fu">parse_date_time</span>(CLOSEDAT, <span class="do">## Create clean_date by turning CLOSEDAT into a date_time object</span></span>
+<span id="cb56-145"><a href="#cb56-145" aria-hidden="true" tabindex="-1"></a>                                      <span class="at">orders =</span> <span class="fu">c</span>(<span class="st">"mdy"</span>, <span class="st">"my"</span>))) <span class="do">## Try month/day/year format first, then just month/year (assumes 1st of month)</span></span>
+<span id="cb56-146"><a href="#cb56-146" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-147"><a href="#cb56-147" aria-hidden="true" tabindex="-1"></a><span class="do">## Print out the 7 that "failed to parse"</span></span>
+<span id="cb56-148"><a href="#cb56-148" aria-hidden="true" tabindex="-1"></a>df_close <span class="sc">|&gt;</span></span>
+<span id="cb56-149"><a href="#cb56-149" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">is.na</span>(clean_date))</span>
+<span id="cb56-150"><a href="#cb56-150" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-151"><a href="#cb56-151" aria-hidden="true" tabindex="-1"></a><span class="do">## After inspection, we can't approximate the 7 that failed to parse accurately, so drop them</span></span>
+<span id="cb56-152"><a href="#cb56-152" aria-hidden="true" tabindex="-1"></a>df_close <span class="ot">&lt;-</span> df_close <span class="sc">|&gt;</span></span>
+<span id="cb56-153"><a href="#cb56-153" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>(clean_date)</span>
+<span id="cb56-154"><a href="#cb56-154" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-155"><a href="#cb56-155" aria-hidden="true" tabindex="-1"></a><span class="do">## Now the clean_date is a lubridate object, we can just treat it like a numeric variable</span></span>
+<span id="cb56-156"><a href="#cb56-156" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-157"><a href="#cb56-157" aria-hidden="true" tabindex="-1"></a><span class="do">##'[i]</span></span>
+<span id="cb56-158"><a href="#cb56-158" aria-hidden="true" tabindex="-1"></a><span class="do">##' Option One: Use the date written</span></span>
+<span id="cb56-159"><a href="#cb56-159" aria-hidden="true" tabindex="-1"></a>df_close <span class="sc">|&gt;</span></span>
+<span id="cb56-160"><a href="#cb56-160" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">time_from_today =</span> <span class="fu">parse_date_time</span>(<span class="st">"Feb 1 2020"</span>, <span class="st">"mdy"</span>) <span class="sc">-</span> clean_date) <span class="sc">|&gt;</span> <span class="co"># same logic as above, create a date_time object for Feb 1 2020 (format is month/day/year) get the difference from clean_date </span></span>
+<span id="cb56-161"><a href="#cb56-161" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_max</span>(time_from_today) <span class="co"># slice off the row with the most days from today</span></span>
+<span id="cb56-162"><a href="#cb56-162" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-163"><a href="#cb56-163" aria-hidden="true" tabindex="-1"></a><span class="do">## Option Two: Use the date/time right now</span></span>
+<span id="cb56-164"><a href="#cb56-164" aria-hidden="true" tabindex="-1"></a>df_close <span class="sc">|&gt;</span></span>
+<span id="cb56-165"><a href="#cb56-165" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">time_from_today =</span> <span class="fu">now</span>() <span class="sc">-</span> clean_date) <span class="sc">|&gt;</span> <span class="co"># now() just gets date/time when run</span></span>
+<span id="cb56-166"><a href="#cb56-166" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_max</span>(time_from_today) <span class="co"># slice off the row with the most days from today</span></span>
+<span id="cb56-167"><a href="#cb56-167" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-168"><a href="#cb56-168" aria-hidden="true" tabindex="-1"></a><span class="do">##'[ii]</span></span>
+<span id="cb56-169"><a href="#cb56-169" aria-hidden="true" tabindex="-1"></a>df_close <span class="sc">|&gt;</span></span>
+<span id="cb56-170"><a href="#cb56-170" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">answer =</span> <span class="fu">max</span>(clean_date) <span class="sc">-</span> <span class="fu">min</span>(clean_date)) <span class="co"># We can also just use max() and min() like any other variable</span></span>
+<span id="cb56-171"><a href="#cb56-171" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-172"><a href="#cb56-172" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-173"><a href="#cb56-173" aria-hidden="true" tabindex="-1"></a><span class="do">## -----------------------------------------------------------------------------</span></span>
+<span id="cb56-174"><a href="#cb56-174" aria-hidden="true" tabindex="-1"></a><span class="do">##' *</span><span class="re">END</span><span class="do"> SCRIPT*</span></span>
+<span id="cb56-175"><a href="#cb56-175" aria-hidden="true" tabindex="-1"></a><span class="do">## -----------------------------------------------------------------------------</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
 </div>
 </div>
 </div>
