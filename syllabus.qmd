@@ -5,9 +5,25 @@ filters:
 format:
   html:
     toc: false
-  docx:
-    reference-doc: site-attachments/Pandoc-Style-Syllabus.docx
-  pdf: default # Placeholder will be overwritten by docx-to-pdf.py
+  #docx:
+    #reference-doc: site-attachments/Pandoc-Style-Syllabus.docx
+  #pdf: default # Placeholder will be overwritten by docx-to-pdf.py
+  typst:
+    papersize: us-letter
+    margin:
+      top: 2.5cm
+      bottom: 2cm
+      x: 2cm
+    mainfont: Arial
+    font-paths: site-attachments
+    include-before-body:
+      - text: |
+          #show heading.where(level: 1): set align(center)
+          #show heading.where(level: 2): set align(center)
+          #show link: underline
+          #set page(header: align(right, pad(top: 30pt, image("site-attachments/UF-CoE-Logo.png"))))
+
+# #set page(header: locate(loc => if [#loc.page()] == [1] { align(right, pad(top: 30pt, image("site-attachments/UF-CoE-Logo.png"))) } else { [header other pages] } ) )  
 #format-links: [pdf] # Means only the pdf link will be displayed, still need docx to be made
 ---
 
@@ -30,7 +46,12 @@ format:
 
 ### Course Description
 
-Contemporary higher education researchers have a wide variety of quantitative tools at their disposal. Yet as the number and sophistication of these tools grows, so too do expectations about the quality of final analyses. Furthermore, increasing scrutiny of non-replicable results demands that researchers follow a proper workflow to mitigate errors. In this course, students will learn the fundamentals of a quantitative research workflow and apply these lessons using common open-source tools. We will cover key skills for crafting reports & publications including project organization, data wrangling/cleaning, and data visualization. Throughout, students will use coding best-practices so that their workflow may be shared and easily reproduced.
+Contemporary higher education researchers have a wide variety of quantitative tools at their disposal.
+Yet as the number and sophistication of these tools grows, so too do expectations about the quality of final analyses.
+Furthermore, increasing scrutiny of non-replicable results demands that researchers follow a proper workflow to mitigate errors.
+In this course, students will learn the fundamentals of a quantitative research workflow and apply these lessons using common open-source tools.
+We will cover key skills for crafting reports & publications including project organization, data wrangling/cleaning, and data visualization.
+Throughout, students will use coding best-practices so that their workflow may be shared and easily reproduced.
 
 ### Course Objectives
 
@@ -56,7 +77,11 @@ Students will learn
 
 ### Required tools, software, and registrations
 
-Students will be expected to bring a laptop to class. It does not matter whether the machine runs MacOS, Windows, or Linux; however, the student's machine needs to be relatively up to date and in good running order. It needs to be able to connect to the internet during class. All software is freely available to UF students. Students need to download and install the following software on their machines:
+Students will be expected to bring a laptop to class.
+It does not matter whether the machine runs MacOS, Windows, or Linux; however, the student's machine needs to be relatively up to date and in good running order.
+It needs to be able to connect to the internet during class.
+All software is freely available to UF students.
+Students need to download and install the following software on their machines:
 
 -   R : [cran.r-project.org](https://cran.r-project.org)
     -   NOTE: if you have installed R on your machine in the past, make sure that you have the most up-to-date version (new versions are released about once a quarter)
@@ -71,54 +96,54 @@ Students will be expected to bring a laptop to class. It does not matter whether
 
 ### Schedule
 
-+------+--------+----------------------------------------+------------------------------------------------+
-| Week | Date   | Lesson(s)                              | Due (Sunday 11:59pm)                           |
-+======+========+========================================+================================================+
-| 1    | Jan-09 | -   Welcome                            | None                                           |
-|      |        |                                        |                                                |
-|      |        | -   Syllabus                           |                                                |
-|      |        |                                        |                                                |
-|      |        | -   Installing R & R Studio            |                                                |
-+------+--------+----------------------------------------+------------------------------------------------+
-| 2    | Jan-16 | -   Excel Basics & Limitations         | -   Assignment 1                               |
-|      |        |                                        |                                                |
-|      |        | -   Reading Data Into R                |                                                |
-|      |        |                                        |                                                |
-|      |        | -   Intro to IPEDS                     |                                                |
-+------+--------+----------------------------------------+------------------------------------------------+
-| 3    | Jan-23 | -   Data Wrangling I                   | -   Assignment 2                               |
-+------+--------+----------------------------------------+------------------------------------------------+
-| 4    | Jan-30 | -   Data Wrangling II                  | -   Assignment 3                               |
-+------+--------+----------------------------------------+------------------------------------------------+
-| 5    | Feb-6  | -   Data Visualization I               | -   Assignment 4                               |
-|      |        |                                        |                                                |
-|      |        |                                        | -   Reproducible Report: Proposal              |
-+------+--------+----------------------------------------+------------------------------------------------+
-| 6    | Feb-13 | -   Data Visualization II              | -   Assignment 5 (Graph replication challenge) |
-+------+--------+----------------------------------------+------------------------------------------------+
-| 7    | Feb-20 | -   Introduction to Quarto             | -   Assignment 6                               |
-+------+--------+----------------------------------------+------------------------------------------------+
-| 8    | Feb-27 | -   Data Wrangling III                 | -   Assignment 7                               |
-+------+--------+----------------------------------------+------------------------------------------------+
-| 9    | Mar-5  | -   Functional Programming             | -   Assignment 8                               |
-+------+--------+----------------------------------------+------------------------------------------------+
-| 10   | Mar-12 | **Spring Break**                       | None, enjoy the break!                         |
-+------+--------+----------------------------------------+------------------------------------------------+
-| 11   | Mar-19 | -   Data Wrangling IV                  | -   Reproducible Report: Initial Analysis      |
-+------+--------+----------------------------------------+------------------------------------------------+
-| 12   | Mar-26 | -   Data Visualization III             | -   Assignment 9                               |
-+------+--------+----------------------------------------+------------------------------------------------+
-| 13   | Apr-2  | -   Methods & Applications             | -   Assignment 10                              |
-+------+--------+----------------------------------------+------------------------------------------------+
-| 14   | Apr-9  | -   Modeling Basics                    | -   Reproducible Report: Draft (Optional)      |
-+------+--------+----------------------------------------+------------------------------------------------+
-| 15   | Apr-16 | -   Reproducible Report: Presentations | -   Reproducible Report: Presentation          |
-|      |        | -   Reproducible Report: Lab Time      |                                                |
-+------+--------+----------------------------------------+------------------------------------------------+
-| 16   | Apr-23 | -   Course Summary                     | -   Reproducible Report                        |
-|      |        |                                        | -   Extra-Credit Assignments (Optional)        |
-|      |        | -   Reproducible Report: Lab Time      |                                                |
-+------+--------+----------------------------------------+------------------------------------------------+
++----------+----------+----------------------------------------+------------------------------------------------+
+| Week     | Date     | Lesson(s)                              | Due (Sunday 11:59pm)                           |
++==========+==========+========================================+================================================+
+| 1        | Jan-09   | -   Welcome                            | None                                           |
+|          |          |                                        |                                                |
+|          |          | -   Syllabus                           |                                                |
+|          |          |                                        |                                                |
+|          |          | -   Installing R & R Studio            |                                                |
++----------+----------+----------------------------------------+------------------------------------------------+
+| 2        | Jan-16   | -   Excel Basics & Limitations         | -   Assignment 1                               |
+|          |          |                                        |                                                |
+|          |          | -   Reading Data Into R                |                                                |
+|          |          |                                        |                                                |
+|          |          | -   Intro to IPEDS                     |                                                |
++----------+----------+----------------------------------------+------------------------------------------------+
+| 3        | Jan-23   | -   Data Wrangling I                   | -   Assignment 2                               |
++----------+----------+----------------------------------------+------------------------------------------------+
+| 4        | Jan-30   | -   Data Wrangling II                  | -   Assignment 3                               |
++----------+----------+----------------------------------------+------------------------------------------------+
+| 5        | Feb-6    | -   Data Visualization I               | -   Assignment 4                               |
+|          |          |                                        |                                                |
+|          |          |                                        | -   Reproducible Report: Proposal              |
++----------+----------+----------------------------------------+------------------------------------------------+
+| 6        | Feb-13   | -   Data Visualization II              | -   Assignment 5 (Graph replication challenge) |
++----------+----------+----------------------------------------+------------------------------------------------+
+| 7        | Feb-20   | -   Introduction to Quarto             | -   Assignment 6                               |
++----------+----------+----------------------------------------+------------------------------------------------+
+| 8        | Feb-27   | -   Data Wrangling III                 | -   Assignment 7                               |
++----------+----------+----------------------------------------+------------------------------------------------+
+| 9        | Mar-5    | -   Functional Programming             | -   Assignment 8                               |
++----------+----------+----------------------------------------+------------------------------------------------+
+| 10       | Mar-12   | **Spring Break**                       | None, enjoy the break!                         |
++----------+----------+----------------------------------------+------------------------------------------------+
+| 11       | Mar-19   | -   Data Wrangling IV                  | -   Reproducible Report: Initial Analysis      |
++----------+----------+----------------------------------------+------------------------------------------------+
+| 12       | Mar-26   | -   Data Visualization III             | -   Assignment 9                               |
++----------+----------+----------------------------------------+------------------------------------------------+
+| 13       | Apr-2    | -   Methods & Applications             | -   Assignment 10                              |
++----------+----------+----------------------------------------+------------------------------------------------+
+| 14       | Apr-9    | -   Modeling Basics                    | -   Reproducible Report: Draft (Optional)      |
++----------+----------+----------------------------------------+------------------------------------------------+
+| 15       | Apr-16   | -   Reproducible Report: Presentations | -   Reproducible Report: Presentation          |
+|          |          | -   Reproducible Report: Lab Time      |                                                |
++----------+----------+----------------------------------------+------------------------------------------------+
+| 16       | Apr-23   | -   Course Summary                     | -   Reproducible Report                        |
+|          |          |                                        | -   Extra-Credit Assignments (Optional)        |
+|          |          | -   Reproducible Report: Lab Time      |                                                |
++----------+----------+----------------------------------------+------------------------------------------------+
 
 : Class Schedule {tbl-colwidths="\[15,15,40,30\]"}
 
@@ -140,7 +165,8 @@ There are a total of 100 points for the class, plus extra credit opportunities.
 
 #### Lesson Assignments (50 points)
 
-There are 10 lesson assignments (see assignment tab on each lesson for details and Canvas for due dates), each worth 5 points. Assignments are always due by **Sunday 11:59pm** following the lesson.
+There are 10 lesson assignments (see assignment tab on each lesson for details and Canvas for due dates), each worth 5 points.
+Assignments are always due by **Sunday 11:59pm** following the lesson.
 
 You will receive one of the following grades
 
@@ -158,7 +184,8 @@ You will receive one of the following grades
 
         -   If you are struggling and haven't been able to complete the assignment, it is far better to turn in an incomplete assignment, get 2.5/5 with a chance to improve to 4/5 than miss the deadline
 
-This grading system is designed to encourage you to revisit concepts that didn't click the first time, not to be punitive. There are opportunities for extra credit to make up for lost points.
+This grading system is designed to encourage you to revisit concepts that didn't click the first time, not to be punitive.
+There are opportunities for extra credit to make up for lost points.
 
 #### Reproducible Report (40 points)
 
@@ -176,9 +203,14 @@ Your final project grade comes from four elements
 
 #### Class Participation (10 points)
 
-We will use class time to work through lesson modules together. Students are expected to follow along with the presentation and run code on their own machine. Students are also expected to answer questions, participate in discussions, and work through example problems throughout the class session.
+We will use class time to work through lesson modules together.
+Students are expected to follow along with the presentation and run code on their own machine.
+Students are also expected to answer questions, participate in discussions, and work through example problems throughout the class session.
 
-Two or more unaccetpable absences could negatively affect your participation grade. Acceptable reasons for absences include illness, serious family emergency, professional conferences, severe weather conditions, religious holidays, and other university-approved reasons. Please let us know if you unable to make class for any reason. Due to the nature of the class and the need for trouble-shooting on your computer, Zoom attendance is not typically an option.
+Two or more unaccetpable absences could negatively affect your participation grade.
+Acceptable reasons for absences include illness, serious family emergency, professional conferences, severe weather conditions, religious holidays, and other university-approved reasons.
+Please let us know if you unable to make class for any reason.
+Due to the nature of the class and the need for trouble-shooting on your computer, Zoom attendance is not typically an option.
 
 #### Extra-Credit Assignments
 
@@ -237,25 +269,40 @@ See [UF Graduate School policies](https://gradcatalog.ufl.edu/graduate/regulatio
 
 UF students are bound by The Honor Pledge which states,
 
-> We, the members of the University of Florida community, pledge to hold ourselves and our peers to the highest standards of honor and integrity by abiding by the Honor Code. On all work submitted for credit by students at the University of Florida, the following pledge is either required or implied: "On my honor, I have neither given nor received unauthorized aid in doing this assignment."
+> We, the members of the University of Florida community, pledge to hold ourselves and our peers to the highest standards of honor and integrity by abiding by the Honor Code.
+> On all work submitted for credit by students at the University of Florida, the following pledge is either required or implied: "On my honor, I have neither given nor received unauthorized aid in doing this assignment."
 
-The [Honor Code](https://sccr.dso.ufl.edu/policies/student-honor-code-student-conduct-code/) specifies a number of behaviors that are in violation of this code and the possible sanctions. Furthermore, you are obligated to report any condition that facilitates academic misconduct to appropriate personnel. If you have any questions or concerns, please consult with the instructor or TAs in this class.
+The [Honor Code](https://sccr.dso.ufl.edu/policies/student-honor-code-student-conduct-code/) specifies a number of behaviors that are in violation of this code and the possible sanctions.
+Furthermore, you are obligated to report any condition that facilitates academic misconduct to appropriate personnel.
+If you have any questions or concerns, please consult with the instructor or TAs in this class.
 
 ### Accommodations
 
-Students with disabilities who experience learning barriers and would like to request academic accommodations should [connect with the disability Resource Center](https://disability.ufl.edu/students/get-started/). It is important for students to share their accommodation letter with their instructor and discuss their access needs, as early as possible in the semester.
+Students with disabilities who experience learning barriers and would like to request academic accommodations should [connect with the disability Resource Center](https://disability.ufl.edu/students/get-started/).
+It is important for students to share their accommodation letter with their instructor and discuss their access needs, as early as possible in the semester.
 
 ### Course evaluations
 
-Students are expected to provide professional and respectful feedback on the quality of instruction in this course by completing course evaluations online via GatorEvals. Guidance on how to give feedback in a professional and respectful manner is available [here](https://gatorevals.aa.ufl.edu/students/). Students will be notified when the evaluation period opens, and can complete evaluations through the email they receive from GatorEvals, in their Canvas course menu under GatorEvals, or [here](https://ufl.bluera.com/ufl/). Summaries of course evaluation results are available to students [here](https://gatorevals.aa.ufl.edu/public-results/).
+Students are expected to provide professional and respectful feedback on the quality of instruction in this course by completing course evaluations online via GatorEvals.
+Guidance on how to give feedback in a professional and respectful manner is available [here](https://gatorevals.aa.ufl.edu/students/).
+Students will be notified when the evaluation period opens, and can complete evaluations through the email they receive from GatorEvals, in their Canvas course menu under GatorEvals, or [here](https://ufl.bluera.com/ufl/).
+Summaries of course evaluation results are available to students [here](https://gatorevals.aa.ufl.edu/public-results/).
 
 ### In-class recording
 
-Students are allowed to record video or audio of class lectures. However, the purposes for which these recordings may be used are strictly controlled. The only allowable purposes are (1) for personal educational use, (2) in connection with a complaint to the university, or (3) as evidence in, or in preparation for, a criminal or civil proceeding. All other purposes are prohibited. Specifically, students may not publish recorded lectures without the written consent of the instructor.
+Students are allowed to record video or audio of class lectures.
+However, the purposes for which these recordings may be used are strictly controlled.
+The only allowable purposes are (1) for personal educational use, (2) in connection with a complaint to the university, or (3) as evidence in, or in preparation for, a criminal or civil proceeding.
+All other purposes are prohibited.
+Specifically, students may not publish recorded lectures without the written consent of the instructor.
 
-A "class lecture" is an educational presentation intended to inform or teach enrolled students about a particular subject, including any instructor-led discussions that form part of the presentation, and delivered by any instructor hired or appointed by the University, or by a guest instructor, as part of a University of Florida course. A class lecture does not include lab sessions, student presentations, clinical presentations such as patient history, academic exercises involving solely student participation, assessments (quizzes, tests, exams), field trips, private conversations between students in the class or between a student and the faculty or lecturer during a class session.
+A "class lecture" is an educational presentation intended to inform or teach enrolled students about a particular subject, including any instructor-led discussions that form part of the presentation, and delivered by any instructor hired or appointed by the University, or by a guest instructor, as part of a University of Florida course.
+A class lecture does not include lab sessions, student presentations, clinical presentations such as patient history, academic exercises involving solely student participation, assessments (quizzes, tests, exams), field trips, private conversations between students in the class or between a student and the faculty or lecturer during a class session.
 
-Publication without permission of the instructor is prohibited. To "publish" means to share, transmit, circulate, distribute, or provide access to a recording, regardless of format or medium, to an- other person (or persons), including but not limited to another student within the same class section. Additionally, a recording, or transcript of a recording, is considered published if it is posted on or uploaded to, in whole or in part, any media platform, including but not limited to social media, book, magazine, newspaper, leaflet, or third party note/tutoring services. A student who publishes a recording without written consent may be subject to a civil cause of action instituted by a person injured by the publication and/or discipline under UF Regulation 4.040 Student Honor Code and Student Conduct Code.
+Publication without permission of the instructor is prohibited.
+To "publish" means to share, transmit, circulate, distribute, or provide access to a recording, regardless of format or medium, to an- other person (or persons), including but not limited to another student within the same class section.
+Additionally, a recording, or transcript of a recording, is considered published if it is posted on or uploaded to, in whole or in part, any media platform, including but not limited to social media, book, magazine, newspaper, leaflet, or third party note/tutoring services.
+A student who publishes a recording without written consent may be subject to a civil cause of action instituted by a person injured by the publication and/or discipline under UF Regulation 4.040 Student Honor Code and Student Conduct Code.
 
 ```{=html}
 <!--
