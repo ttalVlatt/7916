@@ -9,8 +9,7 @@ editor_options:
   chunk_output_type: console
 ---
 
-:::{.panel-tabset}
-
+::: panel-tabset
 # Lesson
 
 [{{< fa code >}} R Code](/r-scripts/06-viz-ii.R)
@@ -27,22 +26,24 @@ editor_options:
 ## -----------------------------------------------------------------------------
 ```
 
-- Well-constructed figures can make a huge difference in how your work
-is received
-- First, they look nice!
-- But more importantly, a well-constructed figure, just like a well-constructed sentence, can more accurately and more succinctly convey key information to the reader
+-   Well-constructed figures can make a huge difference in how your work is received
 
+-   First, they look nice!
 
-- We've already learned the basics of plotting in the [first data visualization lesson](05-viz-i.qmd)
-- But, we didn't spend much time making our figures look as nice as we could have
-- The sky is limit with graphics in R, but with just a little bit of extra effort, you can make very nice figures.
+-   But more importantly, a well-constructed figure, just like a well-constructed sentence, can more accurately and more succinctly convey key information to the reader
+
+-   We've already learned the basics of plotting in the [first data visualization lesson](05-viz-i.qmd)
+
+-   But, we didn't spend much time making our figures look as nice as we could have
+
+-   The sky is limit with graphics in R, but with just a little bit of extra effort, you can make very nice figures.
 
 That's what we're doing in this lesson.
 
 ## Libraries
 
-- In addition to tidyverse, we'll add a new library, [patchwork](https://patchwork.data-imaginist.com), that we'll use toward the end of the lesson.
-- If you haven't already downloaded it, be sure to install it first using `install.packages("patchwork")`.
+-   In addition to tidyverse, we'll add a new library, [patchwork](https://patchwork.data-imaginist.com), that we'll use toward the end of the lesson.
+-   If you haven't already downloaded it, be sure to install it first using `install.packages("patchwork")`.
 
 ```{r chunk2}
 ## ---------------------------
@@ -53,7 +54,7 @@ library(tidyverse)
 library(patchwork)
 ```
 
-- Finally, we'll load the data file we'll be using, `hsls_small.csv`
+-   Finally, we'll load the data file we'll be using, `hsls_small.csv`
 
 ```{r chunk3}
 ## ---------------------------
@@ -65,15 +66,17 @@ df <- read_csv(file.path("data", "hsls-small.csv"))
 
 ## Initial plot with no formatting
 
-- Rather than make a variety of plots, we'll focus on making and incrementally improving a single figure (with some slight variations along the way)
-- In general, we'll be looking at math test scores via the `x1txtmscor` data column
+-   Rather than make a variety of plots, we'll focus on making and incrementally improving a single figure (with some slight variations along the way)
 
-- First, we need to clean our variable of interest
-  - As you may recall from an earlier lesson, `x1txmtscor` is a normed variable with a mean of 50 and standard deviation of 10.
-    - That means any negative values are missing data, which for our purposes, will be dropped
-    
-> Quick Question:
-We didn't have to do this last week as default behavior when plotting is simply to drop missing values, which worked fine using the `.dta` version of this file. Why wouldn't that work with the `.csv` version of the same data?
+-   In general, we'll be looking at math test scores via the `x1txtmscor` data column
+
+-   First, we need to clean our variable of interest
+
+    -   As you may recall from an earlier lesson, `x1txmtscor` is a normed variable with a mean of 50 and standard deviation of 10.
+        -   That means any negative values are missing data, which for our purposes, will be dropped
+
+> Quick Question: We didn't have to do this last week as default behavior when plotting is simply to drop missing values, which worked fine using the `.dta` version of this file.
+> Why wouldn't that work with the `.csv` version of the same data?
 
 ```{r chunk4}
 ## -----------------------------------------------------------------------------
@@ -85,14 +88,14 @@ df <- df |>
   filter(x1txmtscor != -8)
 ```
 
-- First, let's make a plain histogram with no settings
-- Last week we never assigned the plot to an object, we always just had it print out
-- This week, as we are going to be focusing on one plot, editing and adding to it, we are always going to assign the plot to `p` and then print it out
-  - Remember: ggplots are layered
-    - If we want to change the base layers, we will have to start again and overwrite `p`
-    - If we want to add more detail to `p` we can just add those layers like `p + <layer>`
-      - If we want to overwrite something that is already in `p`, we just specify it again
-        - Anything we don't say will be left as is
+-   First, let's make a plain histogram with no settings
+-   Last week we never assigned the plot to an object, we always just had it print out
+-   This week, as we are going to be focusing on one plot, editing and adding to it, we are always going to assign the plot to `p` and then print it out
+    -   Remember: ggplots are layered
+        -   If we want to change the base layers, we will have to start again and overwrite `p`
+        -   If we want to add more detail to `p` we can just add those layers like `p + <layer>`
+            -   If we want to overwrite something that is already in `p`, we just specify it again
+                -   Anything we don't say will be left as is
 
 ```{r chunk5}
 ## create histogram using ggplot
@@ -103,14 +106,14 @@ p <- ggplot(data = df) +
 p
 ```
 
-So there it is. Let's make it better.
+So there it is.
+Let's make it better.
 
 ## Titles and captions
 
-- The easiest things to improve on a figure are the title, subtitle, axis labels, and caption
-- As with a lot of ggplot2 commands, there are a few different ways to set these labels, but the most straightforward way is to use the `labs()` function    
-  - This can be added as another layer to our existing plot `p`
-
+-   The easiest things to improve on a figure are the title, subtitle, axis labels, and caption
+-   As with a lot of ggplot2 commands, there are a few different ways to set these labels, but the most straightforward way is to use the `labs()` function
+    -   This can be added as another layer to our existing plot `p`
 
 ```{r chunk6}
 ## -----------------------------------------------------------------------------
@@ -129,20 +132,18 @@ p <- p +
 p
 ```
 
-- Rather than accurately labeling the figure, I've repeated the arguments in strings so that it's clearer where every piece goes
-  - The title is of course on top
-  - With the subtitle in a smaller font just below
-  - The _x_ and _y_ axis labels go with their respective axes
-  - The caption is right-aligned below the figure
-- You don't have to use all of these options for every figure
-- If you don't want to use one, you have a couple of options:
-  1. If the argument would otherwise be blank (title, subtitle, and caption), you can just leave the argument out of `labs()`
-  2. If the argument will be filled, as is the case on the axes (ggplot will use the variable name by default), you can use `NULL`
-   
-
-- To make our figure nicer, we'll add a title, axis labels, and caption describing the data source
-  - We don't really need a subtitle and since there's no default value, we'll just leave it out
-  - Notice: `p` right now still has the placeholder `labs()` arguments, so we can just call it and overwrite `labs` with a new call
+-   Rather than accurately labeling the figure, I've repeated the arguments in strings so that it's clearer where every piece goes
+    -   The title is of course on top
+    -   With the subtitle in a smaller font just below
+    -   The *x* and *y* axis labels go with their respective axes
+    -   The caption is right-aligned below the figure
+-   You don't have to use all of these options for every figure
+-   If you don't want to use one, you have a couple of options:
+    1.  If the argument would otherwise be blank (title, subtitle, and caption), you can just leave the argument out of `labs()`
+    2.  If the argument will be filled, as is the case on the axes (ggplot will use the variable name by default), you can use `NULL`
+-   To make our figure nicer, we'll add a title, axis labels, and caption describing the data source
+    -   We don't really need a subtitle and since there's no default value, we'll just leave it out
+    -   Notice: `p` right now still has the placeholder `labs()` arguments, so we can just call it and overwrite `labs` with a new call
 
 ```{r chunk7}
 ## ---------------------------
@@ -160,7 +161,8 @@ p <- p +
 p
 ```
 
-> Quick question: What about these labels is a little silly? Try to fix it so it looks like the below 
+> Quick question: What about these labels is a little silly?
+> Try to fix it so it looks like the below
 
 ```{r chunk8, purl=F, echo=F}
 
@@ -176,35 +178,36 @@ With that fixed, now we'll move to improving the axis scales!
 
 ## Axis formatting
 
-- In general, the default tick mark spacing and accompanying labels are pretty good
-- But sometimes we want to change them, sometimes to have fewer ticks and sometimes to have more
-- For this figure, we could use more ticks on the _x_ axis to make differences in math test score clearer
-- While we're at, we'll increase the number of tick marks on the _y_ axis too.
+-   In general, the default tick mark spacing and accompanying labels are pretty good
 
-- To change these values, we need to use `scale_< aesthetic >_< distribution >` function 
-  - These may seem strange at first, but they follow a logic. Specifically:
-    - `< aesthetic >`: _x_, _y_, _fill_, _colour_, etc (what is being changed?)
-    - `< distribution >`: is the underlying variable _continuous_, _discrete_, or do you want to make a _manual_ change?
-  
-To change our _x_ and _y_ tick marks we will use:
+-   But sometimes we want to change them, sometimes to have fewer ticks and sometimes to have more
 
-- `scale_x_continuous()`
-- `scale_y_continuous()`
-  - We use `x` and `y` because those are the aesthetics being adjusted
-  - we use `continuous` in both cases because `math_test` on the _x_ axis and the histogram `counts` on the _y_ axis are both continuous variables
+-   For this figure, we could use more ticks on the *x* axis to make differences in math test score clearer
 
+-   While we're at, we'll increase the number of tick marks on the *y* axis too.
 
-- There are a LOT of options within these `scale_` functions
-- They depend on what kind of aesthetic you're adjusting
-  - For now we will focus on using two
-    - `breaks`: where the major lines are going (they get numbers on the axis)
-    - `minor_breaks`: where the minor lines are going (they don't get numbers on the axis)
-  
-- Both `breaks` and `minor_breaks` take a vector of numbers
-- We can put each number in manually using `c()` (_e.g._, `c(0, 10, 20, 30, 40)`), but a better way is to use R's `seq()` function: 
-  - `seq(start, end, by)`
-- Notice that within each `scale_*()` function, we use the same `start` and `stop` values for both `minor` and `major` breaks, just change the `by` option
-  - This will give us axis numbers at spaced intervals with thinner, unnumbered lines between.
+-   To change these values, we need to use `scale_< aesthetic >_< distribution >` function
+
+    -   These may seem strange at first, but they follow a logic. Specifically:
+        -   `< aesthetic >`: *x*, *y*, *fill*, *colour*, etc (what is being changed?)
+        -   `< distribution >`: is the underlying variable *continuous*, *discrete*, or do you want to make a *manual* change?
+
+To change our *x* and *y* tick marks we will use:
+
+-   `scale_x_continuous()`
+-   `scale_y_continuous()`
+    -   We use `x` and `y` because those are the aesthetics being adjusted
+    -   we use `continuous` in both cases because `math_test` on the *x* axis and the histogram `counts` on the *y* axis are both continuous variables
+-   There are a LOT of options within these `scale_` functions
+-   They depend on what kind of aesthetic you're adjusting
+    -   For now we will focus on using two
+        -   `breaks`: where the major lines are going (they get numbers on the axis)
+        -   `minor_breaks`: where the minor lines are going (they don't get numbers on the axis)
+-   Both `breaks` and `minor_breaks` take a vector of numbers
+-   We can put each number in manually using `c()` (*e.g.*, `c(0, 10, 20, 30, 40)`), but a better way is to use R's `seq()` function:
+    -   `seq(start, end, by)`
+-   Notice that within each `scale_*()` function, we use the same `start` and `stop` values for both `minor` and `major` breaks, just change the `by` option
+    -   This will give us axis numbers at spaced intervals with thinner, unnumbered lines between.
 
 ```{r chunk9}
 ## -----------------------------------------------------------------------------
@@ -222,9 +225,9 @@ p <- p +
 p
 ```
 
-- We certainly have more lines now. Maybe too many on the _y_ axis, which is a sort of low-information axis
-  - do we need really _that_ much detail for histogram counts?
-- Let's keep what we have for the _x_ axis and increase the `by` values of the _y_ axis
+-   We certainly have more lines now. Maybe too many on the *y* axis, which is a sort of low-information axis
+    -   do we need really *that* much detail for histogram counts?
+-   Let's keep what we have for the *x* axis and increase the `by` values of the *y* axis
 
 ```{r chunk10}
 ## ---------------------------
@@ -237,22 +240,22 @@ p <- p +
 
 ```
 
-- That seems like a better balance. We'll stick with that and move on to legend labels
+-   That seems like a better balance. We'll stick with that and move on to legend labels
 
 ## Legend labels
 
-- Let's make our histogram a little more complex by separating math scores by parental education
-  - Specifically, we'll use a binary variable that represents, _did either parent attend college_?
-- First, we need to create a new variable, `pared_coll`, from the ordinal variable, `x1paredu`
-  - Also, we are going make it a `factor()` so R knows the 0 and 1 don't mean numbers, they mean cateogories
-    - We did this last week, but this time we are going add labels too
-      - Specifically, we want to `levels` and `labels` arguments
-    - These pair up to make a labelled factor
-      - `levels` should be a list of the values you have in the column
-        - In this case just 0 and 1, so `levels = c(0,1)`
-      - `labels` should be a list of the labels you want to use
-        - These should be strings (in "") <int>in the same order as the `levels` you want to tie them to<\int>
-        - In this case, we can say `labels = c("No college","College")` to match the `levels = c(0,1)`
+-   Let's make our histogram a little more complex by separating math scores by parental education
+    -   Specifically, we'll use a binary variable that represents, *did either parent attend college*?
+-   First, we need to create a new variable, `pared_coll`, from the ordinal variable, `x1paredu`
+    -   Also, we are going make it a `factor()` so R knows the 0 and 1 don't mean numbers, they mean cateogories
+        -   We did this last week, but this time we are going add labels too
+            -   Specifically, we want to `levels` and `labels` arguments
+        -   These pair up to make a labelled factor
+            -   `levels` should be a list of the values you have in the column
+                -   In this case just 0 and 1, so `levels = c(0,1)`
+            -   `labels` should be a list of the labels you want to use
+                -   These should be strings (in "") <int>in the same order as the `levels` you want to tie them to\<\int\>
+                -   In this case, we can say `labels = c("No college","College")` to match the `levels = c(0,1)`
 
 ```{r chunk11}
 ## -----------------------------------------------------------------------------
@@ -267,9 +270,9 @@ df <- df |>
                              labels = c("No college", "College")))
 ```
 
-- Now we'll make our same histogram, but add the `fill` aesthetic
-  - Note: since we are changing our underlying plot data, it's best to start again and store the plot in `p2`
-  
+-   Now we'll make our same histogram, but add the `fill` aesthetic
+    -   Note: since we are changing our underlying plot data, it's best to start again and store the plot in `p2`
+
 > Quick question: I also added one other new line, who can remember what `alpha = 0.66` does?
 
 ```{r chunk12}
@@ -292,7 +295,7 @@ p2 <- ggplot(data = df) +
 p2
 ```
 
-- Close! But, factor(pared_coll) isn't the best name for our legend...
+-   Close! But, factor(pared_coll) isn't the best name for our legend...
 
 > Quick question: try adding something that will fix this issue and make it look like below
 
@@ -305,16 +308,16 @@ p2
 
 ## Color Scales
 
-- Personally, this graph still looks a little ugly
-  - I (and a lot of people) are red-green colorblind
-    - R chooses shades that aren't too bad for this, but it's still not great
-  - When we changed the color of a plot last week, it was purely decorative, so it went inside the `geom_` function
-  - This time, we want to change the colors associated with as `aes()` element, so, we are changing a `scale_`
-    - Specifically `scale_fill` and we are going to choose manual colors, so `scale_fill_manual()`
-      - This takes `values = c(<list of colors the same length as factor>)`
-        - In this case our fill variable has two levels, so we need two colors
-          - For school spirit, let's pick a shade of orange and blue
-            - Tip: You can add 1,2,3, or 4 next to a color in R to make it darker
+-   Personally, this graph still looks a little ugly
+    -   I (and a lot of people) are red-green colorblind
+        -   R chooses shades that aren't too bad for this, but it's still not great
+    -   When we changed the color of a plot last week, it was purely decorative, so it went inside the `geom_` function
+    -   This time, we want to change the colors associated with as `aes()` element, so, we are changing a `scale_`
+        -   Specifically `scale_fill` and we are going to choose manual colors, so `scale_fill_manual()`
+            -   This takes `values = c(<list of colors the same length as factor>)`
+                -   In this case our fill variable has two levels, so we need two colors
+                    -   For school spirit, let's pick a shade of orange and blue
+                        -   Tip: You can add 1,2,3, or 4 next to a color in R to make it darker
 
 ```{r chunk14}
 ## ---------------------------
@@ -333,10 +336,9 @@ Much better!
 
 ## `facet_wrap()`
 
-- Now, what if we want to see how this trend varies by region?
-- Remember from last week, we can use `facet_wrap()` to split data and make separate plots for each level of a variable
-  - `facet_wrap()` uses a `~` tilde to mean "facet by this variable"
-  
+-   Now, what if we want to see how this trend varies by region?
+-   Remember from last week, we can use `facet_wrap()` to split data and make separate plots for each level of a variable
+    -   `facet_wrap()` uses a `~` tilde to mean "facet by this variable"
 
 ```{r chunk15}
 ## Add a facet wrap for region
@@ -347,7 +349,7 @@ p2 <- p2 +
 p2
 ```
 
-- Okay, not a bunch of difference between sexes here, but this is interesting
+-   Okay, not a bunch of difference between sexes here, but this is interesting
 
 > Quick question: without going back and changing the data (i.e., within the `facet_wrap` command, turn the `x1sex` variable into a factor with labels of the correct names)
 
@@ -363,7 +365,7 @@ p2 <- p2 +
 p2
 ```
 
-- Okay, really getting close, but now that scale we set earlier is cramped...
+-   Okay, really getting close, but now that scale we set earlier is cramped...
 
 > Quick task: add a new `scale_x_continuous()` to overwrite the "breaks" we set earlier with a sequence from 0 to 100 by 10, like below
 
@@ -376,19 +378,17 @@ p2 <- p2 +
 p2
 ```
 
-- Okay, I think this is starting to come together!
+-   Okay, I think this is starting to come together!
 
 ## Themes
 
-- Now that we have our figure mostly set up, we can adjust some of the overall appearence using `theme()` arguments
+-   Now that we have our figure mostly set up, we can adjust some of the overall appearence using `theme()` arguments
 
 ### Preset Themes
 
-- There are a number of [preset themes in ggplot2](https://ggplot2.tidyverse.org/reference/index#themes)
-  - I encourgae you to play around with these for the plots in your report
-  
-  
-- First, let's take a look at `theme_bw()`
+-   There are a number of [preset themes in ggplot2](https://ggplot2.tidyverse.org/reference/index#themes)
+    -   I encourgae you to play around with these for the plots in your report
+-   First, let's take a look at `theme_bw()`
 
 ```{r chunk18}
 ## -----------------------------------------------------------------------------
@@ -403,7 +403,7 @@ p2 <- p2 +
 p2
 ```
 
-- How about `theme_linedraw()`?
+-   How about `theme_linedraw()`?
 
 ```{r chunk19}
 
@@ -414,18 +414,18 @@ p2 <- p2 +
 p2
 ```
 
-- Yes, I think that looks pretty smart now!
+-   Yes, I think that looks pretty smart now!
 
 ### Editing Specific Theme Elements
 
-- This is where you can really dive into the depths of customization
-  - Unlike some proprietary analysis software *cough*, if you want to change something, you can (with some patience for tinkering around in the theme options)
-- We don't have time to do much of this here, but for demonstration's sake, let's change one wildly specific thing
-  - Let's tinker with the x axis ticks
-    - Make them a little thicker to 0.8 units
-      - ggplot units are how you resize most things in ggplot, easiest way to pick a number is to test a value and adjust from there
-    - Make them round-ended pill shapes
-  
+-   This is where you can really dive into the depths of customization
+    -   Unlike some proprietary analysis software *cough*, if you want to change something, you can (with some patience for tinkering around in the theme options)
+-   We don't have time to do much of this here, but for demonstration's sake, let's change one wildly specific thing
+    -   Let's tinker with the x axis ticks
+        -   Make them a little thicker to 0.8 units
+            -   ggplot units are how you resize most things in ggplot, easiest way to pick a number is to test a value and adjust from there
+        -   Make them round-ended pill shapes
+
 ```{r chunk20}
 
 p2 <- p2 +
@@ -436,38 +436,39 @@ p2 <- p2 +
 p2
 ```
 
-- Editing theme elements is always the same, you need to play around to learn this on your own, but the general gist is
+-   Editing theme elements is always the same, you need to play around to learn this on your own, but the general gist is
 
-1. Add a `theme()` argument
-  - Always below any preset themes, as those will overwrite anything you set
-2. Inside `theme()` there are many many options which you can see listed [here](https://ggplot2.tidyverse.org/reference/theme.html)
-3. Pick one of more and assign to it `=` an `element_`
-4. `element_` come in different types including `element_line()` like we used above `element_text()`, `element_rect()`, and others
-5. Each of these has specific options you can customize as you wish
+1.  Add a `theme()` argument
 
-- As I say, there is a world of possibilities in customization, depending on how much time you want to dedicate!
+-   Always below any preset themes, as those will overwrite anything you set
 
+2.  Inside `theme()` there are many many options which you can see listed [here](https://ggplot2.tidyverse.org/reference/theme.html)
+3.  Pick one of more and assign to it `=` an `element_`
+4.  `element_` come in different types including `element_line()` like we used above `element_text()`, `element_rect()`, and others
+5.  Each of these has specific options you can customize as you wish
+
+-   As I say, there is a world of possibilities in customization, depending on how much time you want to dedicate!
 
 ## Multiple plots with patchwork
 
-- In this final section, we'll practice putting multiple figures
-together
-- All the plots we've made so far have been one single ggplot object, but, we can put more than one together if we want
-- We use the [patchwork library](https://patchwork.data-imaginist.com/index.html)!
+-   In this final section, we'll practice putting multiple figures together
 
+-   All the plots we've made so far have been one single ggplot object, but, we can put more than one together if we want
 
-- We technically have our original `p` plot saved, but we've made such progress since then, let's whip up a nicer second plot and assign it to `p3`
-- I've included a couple of new things here, but it should be mostly familiar
-  - `scale_fill_viridis_d()` sets color-blind friendly palettes, especially useful when you have a categorical variable
-    - Gradient color sets (greyscale, shades of red, etc.) are pretty color-blind friendly, as without any color, they all will look like greyscale
-      - This is also just useful for printing in black and white!
-      - Typically though, gradient colors imply increasing/decreasing values of a continuous variable (e.g., darker red means more GOP on election maps)
-    - The viridis palettes in R have been designed to look like discrete color scales, i.e., they don't look just like one color getting darker to most readers
-      - But they also use shading/darkness/lightness of the colors, which means if printed in black and white, or read by someone who can't see colors, they still work
-    - For this reason, I try to use these for categorical variables in reports, unless I get carried away with school spirit!
-  - `begin` and `end` just allow you to trim the more extreme ends of the color palette off
-        - This is useful in situations like this when you only have two categories and don't want them to look totally black and white
-  
+-   We use the [patchwork library](https://patchwork.data-imaginist.com/index.html)!
+
+-   We technically have our original `p` plot saved, but we've made such progress since then, let's whip up a nicer second plot and assign it to `p3`
+
+-   I've included a couple of new things here, but it should be mostly familiar
+
+    -   `scale_fill_viridis_d()` sets color-blind friendly palettes, especially useful when you have a categorical variable
+        -   Gradient color sets (greyscale, shades of red, etc.) are pretty color-blind friendly, as without any color, they all will look like greyscale
+            -   This is also just useful for printing in black and white!
+            -   Typically though, gradient colors imply increasing/decreasing values of a continuous variable (e.g., darker red means more GOP on election maps)
+        -   The viridis palettes in R have been designed to look like discrete color scales, i.e., they don't look just like one color getting darker to most readers
+            -   But they also use shading/darkness/lightness of the colors, which means if printed in black and white, or read by someone who can't see colors, they still work
+        -   For this reason, I try to use these for categorical variables in reports, unless I get carried away with school spirit!
+    -   `begin` and `end` just allow you to trim the more extreme ends of the color palette off - This is useful in situations like this when you only have two categories and don't want them to look totally black and white
 
 ```{r chunk21}
 ## -----------------------------------------------------------------------------
@@ -490,10 +491,9 @@ p3 <- ggplot(df) +
 p3
 ```
 
-- Now that we have our new figure, let's paste it side by side (left-right) with our first figure
-- Once we've loaded the patchwork library (like we already did at the top of the script), we can use a `+` sign between out two ggplot objects
-  - `p2 + p3`
-
+-   Now that we have our new figure, let's paste it side by side (left-right) with our first figure
+-   Once we've loaded the patchwork library (like we already did at the top of the script), we can use a `+` sign between out two ggplot objects
+    -   `p2 + p3`
 
 ```{r chunk22}
 ## ---------------------------
@@ -504,17 +504,17 @@ p3
 p2 + p3
 ```
 
-- This is super squished, and even if we zoom in it's not great...
-  - Let's try on top of each other instead
-    - In patchwork, this is `/` rather than `+`
+-   This is super squished, and even if we zoom in it's not great...
+    -   Let's try on top of each other instead
+        -   In patchwork, this is `/` rather than `+`
 
 ```{r chunk23}
 p2 / p3
 ```
 
-- Cool! But there's still a few things I don't like...
-  - The orange and blue clashes against the viridis colors
-    - So let's edit `p2` to also use the magma viridis scale too
+-   Cool! But there's still a few things I don't like...
+    -   The orange and blue clashes against the viridis colors
+        -   So let's edit `p2` to also use the magma viridis scale too
 
 ```{r chunk24}
 p2 <- p2 +
@@ -523,23 +523,23 @@ p2 <- p2 +
 p2 / p3
 ```
 
-- That's definitely better! If I'm getting picky, the boxplot is a little stretched though, as it's trying to fill the length of two histograms
-  - If you want to specify a layout, you can do it using `plot_layout()` which takes a string of letters and \#s 
-    - A, B, C, etc. refer to the plots in the order you add them to the patchwork
-    - \# Can be used to add space
-    - So let's create a design the histograms on top take up 5 spaces, and the boxplot takes up 3, with a spacer on either side
+-   That's definitely better! If I'm getting picky, the boxplot is a little stretched though, as it's trying to fill the length of two histograms
+    -   If you want to specify a layout, you can do it using `plot_layout()` which takes a string of letters and #s
+        -   A, B, C, etc. refer to the plots in the order you add them to the patchwork
+        -   \# Can be used to add space
+        -   So let's create a design the histograms on top take up 5 spaces, and the boxplot takes up 3, with a spacer on either side
 
 ```{r chunk25}
 p2 / p3 + plot_layout(design = "AAAAA
                                 #BBB#")
 ```
 
-- Pretty good, but when can do even better...
-  - We can add a `guide_area()` for all legend keys to go
-  - We then need to add that as C in our patchwork design
-  - Then inside `plot_layout()` specify `guides = "collect"` which will try and put all the legends in one place
-    - If our legends matched exactly, it would only keep one, but as the boxplot lines are part of the legend, they technically cannot be collapsed
-      - If you really wanted, removing the lines from the boxplot legend would definitely by possible, but for the sake of the class, we will accept what we have!
+-   Pretty good, but when can do even better...
+    -   We can add a `guide_area()` for all legend keys to go
+    -   We then need to add that as C in our patchwork design
+    -   Then inside `plot_layout()` specify `guides = "collect"` which will try and put all the legends in one place
+        -   If our legends matched exactly, it would only keep one, but as the boxplot lines are part of the legend, they technically cannot be collapsed
+            -   If you really wanted, removing the lines from the boxplot legend would definitely by possible, but for the sake of the class, we will accept what we have!
 
 ```{r chunk26}
 p2 / p3 + guide_area() + plot_layout(design = "AAAAA
@@ -547,7 +547,7 @@ p2 / p3 + guide_area() + plot_layout(design = "AAAAA
                                      guides= "collect")
 ```
 
-- Getting somewhere now... But the caption we added to `p2` is getting in the way, the title isn't that great, and maybe some subtitles for each plot would be useful 
+-   Getting somewhere now... But the caption we added to `p2` is getting in the way, the title isn't that great, and maybe some subtitles for each plot would be useful
 
 > Quick excercise: Remove the title and caption labels from p2, add subtitles to p2 and p3, then replot the patchwork
 
@@ -565,8 +565,8 @@ p2 / p3 + guide_area() + plot_layout(design = "AAAAA
                                      guides= "collect")
 ```
 
-- Okay, now finally, we can add some overall labess to our patchwork with `plot_annotation()`
-  - These work very similarly to the ggplot `labs()`
+-   Okay, now finally, we can add some overall labess to our patchwork with `plot_annotation()`
+    -   These work very similarly to the ggplot `labs()`
 
 ```{r chunk28}
 p2 / p3 + guide_area() + plot_layout(design = "AAAAA
@@ -576,10 +576,10 @@ p2 / p3 + guide_area() + plot_layout(design = "AAAAA
                   caption = "Data: High School Longitudinal Study, 2009")
 ```
 
-- There we go, now the title better reflects our patchwork, and the caption sits below both plots as it should
-- As a note, we can also assign a whole patchwork to an object if we want
-  - Let's assign this plot to an object called `patch`
-    - What we are going to do with it is a surprise for next week
+-   There we go, now the title better reflects our patchwork, and the caption sits below both plots as it should
+-   As a note, we can also assign a whole patchwork to an object if we want
+    -   Let's assign this plot to an object called `patch`
+        -   What we are going to do with it is a surprise for next week
 
 ```{r chunk29}
 patch <- p2 / p3 + guide_area() + plot_layout(design = "AAAAA
@@ -589,15 +589,15 @@ patch <- p2 / p3 + guide_area() + plot_layout(design = "AAAAA
                   caption = "Data: High School Longitudinal Study, 2009")
 ```
 
-- Generally, our plot shows there's a bit of difference in math test scores by parental education, but that doesn't differ much by sex
+-   Generally, our plot shows there's a bit of difference in math test scores by parental education, but that doesn't differ much by sex
 
 ## Summary
 
-- There is infinitely more customization you can do with both `ggplot2` and `patchwork`, but this lesson has touched on a good amount of the basics!
-- We can always do more, of course, but remember that a figure doesn't need to be complicated to be good
-  - In fact, simpler is often better
-- The main thing is that it is clean and clear and tells the story you want the reader to hear
-- What exactly that looks like is up to you and your project!
+-   There is infinitely more customization you can do with both `ggplot2` and `patchwork`, but this lesson has touched on a good amount of the basics!
+-   We can always do more, of course, but remember that a figure doesn't need to be complicated to be good
+    -   In fact, simpler is often better
+-   The main thing is that it is clean and clear and tells the story you want the reader to hear
+-   What exactly that looks like is up to you and your project!
 
 ```{r, echo = FALSE, purl = TRUE}
 
@@ -606,24 +606,24 @@ patch <- p2 / p3 + guide_area() + plot_layout(design = "AAAAA
 ## -----------------------------------------------------------------------------
 ```
 
-
 # Assignment
 
 ## `ggplot2` Challenge!
 
 [{{< fa database >}} Data](data/ggplot2-challenge-data.csv)
 
-- This week, your assignment is to use the `ggplot2-challenge-data.csv` (download above) to recreate the below plot
-- To successfully complete the assignment, write ggplot2 code that creates a plot that closely resembles the below plot
-  - For the full 5 points, the information portrayed needs to be identical with reasonably similar aesthetics
-  - If you want to go the extra mile, there is a coveted [ggplot2 magnet](https://swag.posit.co/product/ggplot2-magnet/48?cp=true&sa=true&sbp=false&q=false) prize for the student who most closely copies the plot
-  - You're still welcome to work together, but, I only have 2 magnets... So any ties beyond that will have a slight delay in receiving their prize...
+-   This week, your assignment is to use the `ggplot2-challenge-data.csv` (download above) to recreate the below plot
+-   To successfully complete the assignment, write ggplot2 code that creates a plot that closely resembles the below plot
+    -   For the full 5 points, the information portrayed needs to be identical with reasonably similar aesthetics
+    -   If you want to go the extra mile, there is a coveted [ggplot2 magnet](https://swag.posit.co/product/ggplot2-magnet/48?cp=true&sa=true&sbp=false&q=false) prize for the student who most closely copies the plot
+    -   You're still welcome to work together, but, I only have 2 magnets... So any ties beyond that will have a slight delay in receiving their prize...
 
 > Hint: the data is already cleaned, but, there are still a couple of data wrangling tasks you'll need to do before you can make the plot
 
 ![ggplot2 Challenge Plot](site-attachments/ggplot2-challenge.png)
 
-Once complete, turn in the .R script (no data etc.) to Canvas by the due date (Sunday 11:59pm following the lesson). Assignments will be graded on the following Monday (time permitting) in line with the grading policy outlined in the syllabus.
+Once complete, turn in the .R script (no data etc.) to Canvas by the due date (Sunday 11:59pm following the lesson).
+Assignments will be graded on the following Monday (time permitting) in line with the grading policy outlined in the syllabus.
 
 ::: {.content-hidden unless-meta="solution"}
 ## Solution
@@ -636,5 +636,4 @@ Once complete, turn in the .R script (no data etc.) to Canvas by the due date (S
 #| file: solutions/data-viz-ii-solution.R
 ```
 :::
-
 :::
