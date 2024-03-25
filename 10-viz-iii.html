@@ -633,7 +633,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
 <blockquote class="blockquote">
 <h3 id="quick-excercise">Quick Excercise</h3>
-<p>Using the <a href="https://api.census.gov/data/2021/acs/acs5/profile/variables.html">API variable key we used above</a>, add another variable to your <code>get_acs()</code> using <code>c()</code></p>
+<p>Using the <a href="https://api.census.gov/data/2021/acs/acs5/profile/variables.html">API variable dictionary we used above</a>, add another variable to your <code>get_acs()</code> using <code>c()</code></p>
 </blockquote>
 <p>Okay, let see what the top of our new data looks like.</p>
 <div class="cell">
@@ -1499,8 +1499,29 @@ Geodetic CRS:  NAD83
 </ul>
 <blockquote class="blockquote">
 <h3 id="quick-exercise-3">Quick Exercise</h3>
-<p>Picking a different projection from the <a href="https://spatialreference.org/ref/epsg/">list of ESPG projections</a> and see what changes (perhaps try a projection for a different part of the world</p>
+<ol type="1">
+<li>Picking a different projection from the <a href="https://spatialreference.org/ref/epsg/">list of ESPG projections</a> and see what changes
+<ul>
+<li>Perhaps try a projection for a different part of the world
+<ul>
+<li>Below I tried <a href="https://epsg.io/6684">ESPG 6684</a> for Seoul, South Korea</li>
+</ul></li>
+</ul></li>
+</ol>
 </blockquote>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> <span class="fu">shift_geometry</span>(df_st) <span class="sc">|&gt;</span> <span class="fu">st_transform</span>(<span class="dv">6684</span>),</span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>          <span class="fu">aes</span>(),</span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>          <span class="at">size =</span> <span class="fl">0.1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="10-viz-iii_files/figure-html/us_map_wrong_crs-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
 <ul>
 <li>Finally, let’s please the <a href="https://westwing.fandom.com/wiki/Organization_of_Cartographers_for_Social_Equality">Organization of Cartographers for Social Equality</a> and look at the Peters projection
 <ul>
@@ -1512,18 +1533,18 @@ Geodetic CRS:  NAD83
 </ul></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="do">## change CRS to requirements for Peters projection</span></span>
-<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="do">## h/t https://gis.stackexchange.com/questions/194295/getting-borders-as-svg-using-peters-projection</span></span>
-<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>pp_crs <span class="ot">&lt;-</span> <span class="st">"+proj=cea +lon_0=0 +x_0=0 +y_0=0 +lat_ts=45 +ellps=WGS84 +datum=WGS84 +units=m +no_defs"</span></span>
-<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
-<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> <span class="fu">shift_geometry</span>(df_st) <span class="sc">|&gt;</span> <span class="fu">st_transform</span>(pp_crs),</span>
-<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>          <span class="fu">aes</span>(),</span>
-<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a>          <span class="at">size =</span> <span class="fl">0.1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="do">## change CRS to requirements for Peters projection</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="do">## h/t https://gis.stackexchange.com/questions/194295/getting-borders-as-svg-using-peters-projection</span></span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>pp_crs <span class="ot">&lt;-</span> <span class="st">"+proj=cea +lon_0=0 +x_0=0 +y_0=0 +lat_ts=45 +ellps=WGS84 +datum=WGS84 +units=m +no_defs"</span></span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> <span class="fu">shift_geometry</span>(df_st) <span class="sc">|&gt;</span> <span class="fu">st_transform</span>(pp_crs),</span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a>          <span class="fu">aes</span>(),</span>
+<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a>          <span class="at">size =</span> <span class="fl">0.1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="10-viz-iii_files/figure-html/unnamed-chunk-21-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="10-viz-iii_files/figure-html/ocse_peters-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
