@@ -1310,9 +1310,11 @@ GEOGCRS["WGS 84",
   |                                                                            
   |                                                                      |   0%
   |                                                                            
-  |=========================                                             |  36%
+  |==                                                                    |   3%
   |                                                                            
-  |===================================================                   |  73%
+  |============================                                          |  40%
+  |                                                                            
+  |=====================================================                 |  76%
   |                                                                            
   |======================================================================| 100%</code></pre>
 </div>
@@ -1451,6 +1453,8 @@ Geodetic CRS:  NAD83
 <ul>
 <li>Although not always a good idea, if you’re looking to plot the 50 states in an easy-to-read manner, this can be a really useful tool
 <ul>
+<li>Note: it does not move other U.S. territories like Guam by default, so you may have colleges and schools out there you need to deal with</li>
+</ul></li>
 <li><strong>Never do spatial analysis on data you’ve done this to, it will be severely off</strong>
 <ul>
 <li>I recommend only ever using it inside <code>geom_sf()</code>
@@ -1458,7 +1462,6 @@ Geodetic CRS:  NAD83
 <li>This way you never change your data
 <ul>
 <li>You don’t want to accidentally say Hawaii is closer to Austin than Oklahoma City is…</li>
-</ul></li>
 </ul></li>
 </ul></li>
 </ul></li>
