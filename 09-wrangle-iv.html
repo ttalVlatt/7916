@@ -502,7 +502,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 - For the sake of demonstration, let me show how to do this for instruction without our first "tidyverse trick"
   - Fun fact: I did something very close to this in my final project when I took this class!
 
-
 ::: {.cell}
 
 ```{.r .cell-code}
@@ -523,7 +522,6 @@ rebind <- bind_rows(pub, np, fp)
 ```
 :::
 
-
 - Quite a lot of code, and that is a relatively simple case
 
 -->
@@ -539,7 +537,6 @@ rebind <- bind_rows(pub, np, fp)
 <!--
 
 - Let's check, are they the same?
-
 
 ::: {.cell}
 
@@ -563,7 +560,6 @@ all.equal(rebind, coalesce)
 
 :::
 :::
-
 
 Yep! So let's do all the columns and get a clean data frame
 
@@ -617,7 +613,6 @@ Yep! So let's do all the columns and get a clean data frame
 
 - Without the helper function
 
-
 ::: {.cell}
 
 ```{.r .cell-code}
@@ -655,7 +650,6 @@ df_0 |>
 :::
 :::
 
-
 -->
 <div class="cell">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>df_0 <span class="ot">&lt;-</span> df_18_clean <span class="sc">|&gt;</span></span>
@@ -680,12 +674,13 @@ df_0 |>
 </div>
 </div>
 <ul>
-<li>Let’s walk through this code
+<li><p>Let’s walk through this code</p>
 <ol type="1">
 <li>Assign our results to a new object called <code>df_0</code></li>
 <li>Take <code>df_18_clean</code> and pipe it into filter</li>
 <li>Inside <code>filter()</code> we have our <code>if_any</code> helper function, which has two arguments</li>
 </ol>
+<!-- -->
 <ol type="i">
 <li><code>.cols</code> which columns to look across - Here we have just gone for all columns with <code>everything()</code>, but you could input a list of specific column names, or another selection function like <code>where(is.numeric))</code></li>
 <li><code>.fns</code> function to test the columns against - Here we have use <code>~ . == 0</code>
@@ -1083,8 +1078,6 @@ df_0 |>
 
 
 
-
-
 - In [Data Wrangling I](03-wrangle-i.qmd) we were given the following task
 
 > Using HSLS09 data, figure out average differences in college degree expectations
@@ -1093,7 +1086,6 @@ df_0 |>
 > observation has both.
 
 - Our final piped together code to answer the question looked like this
-
 
 ::: {.cell}
 
@@ -1135,14 +1127,12 @@ df |>
 :::
 :::
 
-
 - Now, let's see what that looks like in `SQL`
 - First, we have to simulate an `SQL` database for `dbplyr`
   - This tells `dbplyr` exactly how to translate our code
   - For today's class, we will simulate a Microsoft Access database with the `simulate_access()` command
 - Second, instead of a normal `df`, we want R to pretend that `df` is a table in a database, which we do with the `memdb_frame()` command
   - If you're curious what this command does, try `print(df)` and `print(db)` to see the difference
-
 
 
 
@@ -1155,12 +1145,10 @@ db <- memdb_frame(df)
 ```
 :::
 
-
 - Now, let's use `dbplyr`'s `show_query()` function to see what this task would look like in `SQL`
   - It's a little overwhelming, particularly because it's nested code (show some appreciation for the `|>` pipe)
     - Honestly, you wouldn't often do something with this many steps in `SQL`
   - But, as we walk through it piece by piece, you will see a lot of similarities to the `R` code we wrote
-
 
 ::: {.cell}
 
@@ -1236,15 +1224,11 @@ GROUP BY `x1region`
 :::
 :::
 
-
 #### Step-by-Step Breakdown
 
 
 
-
-
 1. First, we selected our four variables from `dbplyr_001` (which is our database `db`)
-
 
 ::: {.cell}
 
@@ -1267,10 +1251,8 @@ FROM `dbplyr_002`
 :::
 :::
 
-
 2. Second, we add in `CASE WHEN` statements, that work in place of our `ifelse()` statements to replace -8 -9 and 11 with `NA` (`NULL` in SQL-speak)
   - These actually work just like the `case_when()` function we covered in the first part of the class
-
 
 ::: {.cell}
 
@@ -1302,11 +1284,9 @@ FROM `dbplyr_002`
 :::
 :::
 
-
 3. Okay, all we have done here is add in the line that creates our `high_exp` variable (see the first full line of code)
   - The confusing part is that `dbplyr` has created `q01` and `SELECT`-ed everything `.*` from it
     - This (and any of time you see `q01`) is just a bit like if we assigned something into a new object midway through processing
-
 
 ::: {.cell}
 
@@ -1345,11 +1325,9 @@ FROM (
 :::
 :::
 
-
 4. Here's where things become hard to untangle, mostly because `dbplyr` keeps assigning the results to `q01` then `SELECT`-ing everything back
   - If you made it this far, you've got the main point of this exercise, so don't worry if this becomes too confusing
   - This step we added the first two longer blocks of code that `SELECT` our variables again (as the previous step's output was saved back to `q01`) then perform a `CASE WHEN` that's equivalent to our `ifelse()` statements that took the non-`NA` value if from parent/student expectations if the other was `NA` (`NULL` in SQL-speak)
-
 
 ::: {.cell}
 
@@ -1411,7 +1389,6 @@ FROM (
 :::
 :::
 
-
 5. Here we added 2 lines of substance (`FROM (` just links to rest of the code)
 - First line: `SELECT q01.*`
   - Select everything from q01 (a temporary object saved from the last step)
@@ -1419,7 +1396,6 @@ FROM (
   - Same as `filter(!is.na(high_exp))`
 - Note: the reason it's the first and last lines is that everything we have done so far is nested in the middle
   - Revisit the introduction to the `|>` pipe in [Data Wrangling I](03-wrangle-i.qmd) for refresher on nested code
-
 
 
 ::: {.cell}
@@ -1488,13 +1464,11 @@ WHERE (NOT((`high_exp` IS NULL)))
 :::
 :::
 
-
 6. Finally, we want to get our mean expectation by region, so we add 2 lines of substance again
   - Last line: ``GROUP BY `x1region``
     - Group the data by region
   - First line: ``SELECT `x1region`, AVG(`high_exp`) AS `mean_exp``
     - Taking `x1region` as the first column and the `AVG` (mean) of `high_exp` as the second column
-
 
 ::: {.cell}
 
@@ -1569,7 +1543,6 @@ GROUP BY `x1region`
 :::
 :::
 
-
 - There we have it, a walk through our first data wrangling session translated into `SQL`
   - By no means are expected to have any working knowledge of `SQL` from this
   - The point is to demonstrate how similar they are, and get your toes wet if you're interested in developing `SQL` skills (as any future institutional researchers should be)
@@ -1580,10 +1553,7 @@ GROUP BY `x1region`
 
 
 
-
-
 - Finally, let's read in our an extra-wide version of our data into `df_3` and turn it into a simulated database
-
 
 ::: {.cell}
 
@@ -1616,10 +1586,8 @@ print(db_3)
 :::
 :::
 
-
 - Now using the `contains()` function to `pivot_longer()` any columns with 19 in the name (all but school name)
 - We then take the column names and split (`names_sep`) them by the `_` putting the first half into new column `test` and the second half into new column `year`, with the values from all cells going into new column `score`
-
 
 ::: {.cell}
 
@@ -1754,7 +1722,6 @@ FROM `dbplyr_003`
 
 :::
 :::
-
 
 - Similarly to our previous pivot longer, we see the `SQL` effectively just creates a series of queries, one for each year/subject combination, then `UNION ALL` stacks them all together
 
