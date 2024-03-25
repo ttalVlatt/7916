@@ -85,7 +85,7 @@ Our data looks something like this
 
 : Depiction of Sparse DataFrame
 
-- Hmm, sounds like this could get tricky... Luckily `tidyverse` is here to help!
+-   Hmm, sounds like this could get tricky... Luckily `tidyverse` is here to help!
 
 ### `coelesce()` Data Split Across Columns
 
@@ -95,12 +95,11 @@ Our data looks something like this
 ## ---------------------------
 ```
 
-- Let's say we want to combine this information into one variable to show how much all institutions spend on instruction, research, and student services, respectively
-  - Side note: If combining variables like this in your own work, check the code book to ensure you know what you're combining and why
-  - In this case, the variables we will be combining appear to be close equivalents
-  
-- First things first, let's `select()` the relevant variables from the larger data set using the IPEDS dictionary files
-  - Quick question: How did I find the variable names to use below? 
+-   Let's say we want to combine this information into one variable to show how much all institutions spend on instruction, research, and student services, respectively
+    -   Side note: If combining variables like this in your own work, check the code book to ensure you know what you're combining and why
+    -   In this case, the variables we will be combining appear to be close equivalents
+-   First things first, let's `select()` the relevant variables from the larger data set using the IPEDS dictionary files
+    -   Quick question: How did I find the variable names to use below?
 
 ```{r}
 df_18 <- df_18 |>
@@ -113,6 +112,7 @@ print(df_18[100:105,])
 print(df_18[3000:3005,])
 ```
 
+````{=html}
 <!--
 
 - For the sake of demonstration, let me show how to do this for instruction without our first "tidyverse trick"
@@ -140,11 +140,13 @@ rebind <- bind_rows(pub, np, fp)
 - Quite a lot of code, and that is a relatively simple case
 
 -->
+````
 
-- Luckily, tidyverse has a command to help us, `coalesce()` 
-  - Returns the first non-missing value across any number of columns
-    - This works perfectly in situations like this, when you only have one data point for each row, it could just be in any column
+-   Luckily, tidyverse has a command to help us, `coalesce()`
+    -   Returns the first non-missing value across any number of columns
+        -   This works perfectly in situations like this, when you only have one data point for each row, it could just be in any column
 
+````{=html}
 <!--
 
 - Let's check, are they the same?
@@ -156,6 +158,7 @@ all.equal(rebind, coalesce)
 Yep! So let's do all the columns and get a clean data frame
 
 -->
+````
 
 let's do all the columns and get a clean data frame
 
@@ -170,8 +173,8 @@ print(df_18_clean[100:105,])
 print(df_18_clean[3000:3005,])
 ```
 
-- This is a real time saver if working with IPEDS finance data
-- Another use case for this might be if you had 30 columns one for each test date and rows for student scores, they all took the test on one of the dates, you want a single column for student scores, but it could have been recorded in any of the date columns
+-   This is a real time saver if working with IPEDS finance data
+-   Another use case for this might be if you had 30 columns one for each test date and rows for student scores, they all took the test on one of the dates, you want a single column for student scores, but it could have been recorded in any of the date columns
 
 ### Finding `if_any()` Issues
 
@@ -181,10 +184,11 @@ print(df_18_clean[3000:3005,])
 ## ---------------------------
 ```
 
-- Although compliance is a federal requirement, completeness of reporting remains a struggle when using IPEDS data
-- From the snapshots of the data we have seen so far, it seems that there's a good number of $0 reports for these values
-- Let's try and get a data frame containing only institutions that reported $0 for one of these spending categories
+-   Although compliance is a federal requirement, completeness of reporting remains a struggle when using IPEDS data
+-   From the snapshots of the data we have seen so far, it seems that there's a good number of \$0 reports for these values
+-   Let's try and get a data frame containing only institutions that reported \$0 for one of these spending categories
 
+````{=html}
 <!--
 
 - Without the helper function
@@ -203,6 +207,7 @@ df_0 |>
 ```
 
 -->
+````
 
 ```{r}
 df_0 <- df_18_clean |>
@@ -211,17 +216,19 @@ df_0 <- df_18_clean |>
 print(df_0)
 ```
 
-- Let's walk through this code
-  1. Assign our results to a new object called `df_0`
-  2. Take `df_18_clean` and pipe it into filter
-  3. Inside `filter()` we have our `if_any` helper function, which has two arguments
-    i. `.cols` which columns to look across
-      - Here we have just gone for all columns with `everything()`, but you could input a list of specific column names, or another selection function like `where(is.numeric))`
-    ii. `.fns` function to test the columns against
-      - Here we have use `~ . == 0`
-        - We haven't used `purrr` from `tidyverse` in this class, but the `~` comes from there, in short, it starts a very simple function for us
-          - The function takes any value `.` and asks if it equals 0 `== 0`
-          - If the function returns `TRUE` (as in it equals 0) for any column, that row will be `filter()`-ed in 
+-   Let's walk through this code
+
+    1.  Assign our results to a new object called `df_0`
+    2.  Take `df_18_clean` and pipe it into filter
+    3.  Inside `filter()` we have our `if_any` helper function, which has two arguments
+
+    <!-- -->
+
+    i.  `.cols` which columns to look across - Here we have just gone for all columns with `everything()`, but you could input a list of specific column names, or another selection function like `where(is.numeric))`
+    ii. `.fns` function to test the columns against - Here we have use `~ . == 0`
+        -   We haven't used `purrr` from `tidyverse` in this class, but the `~` comes from there, in short, it starts a very simple function for us
+            -   The function takes any value `.` and asks if it equals 0 `== 0`
+            -   If the function returns `TRUE` (as in it equals 0) for any column, that row will be `filter()`-ed in
 
 ### Working `across()` Multiple Columns
 
@@ -231,17 +238,16 @@ print(df_0)
 ## ---------------------------
 ```
 
-- Now let's explore that data a little more with `if_any()`'s sister function `across()`
-  - Internally `if_any()` and `across()` are set up the same
-    - They both take
-      i. `.cols` which columns to look across
-      ii. `.fns` function to test the columns against
-  - The difference between them comes down to which function they work in
-    - `if_any()` is used in a handful of functions like `filter()`
-    - `across` is used in most functions like `summarize()` and `mutate()`
-      - If you try to use `across()` where you aren't meant to `tidyverse` will throw you a warning
-      
-- Here, we will use the `across` function inside `count()` to get a breakdown of which spending categories are unreported most often
+-   Now let's explore that data a little more with `if_any()`'s sister function `across()`
+    -   Internally `if_any()` and `across()` are set up the same
+        -   They both take
+            i.  `.cols` which columns to look across
+            ii. `.fns` function to test the columns against
+    -   The difference between them comes down to which function they work in
+        -   `if_any()` is used in a handful of functions like `filter()`
+        -   `across` is used in most functions like `summarize()` and `mutate()`
+            -   If you try to use `across()` where you aren't meant to `tidyverse` will throw you a warning
+-   Here, we will use the `across` function inside `count()` to get a breakdown of which spending categories are unreported most often
 
 ```{r}
 df_0 |>
@@ -249,16 +255,13 @@ df_0 |>
   count(across(everything(), ~ . == 0))
 ```
 
-- The internal logic of the `across()` here is identical to the `if_any()` above
-  - `everything()` works across all columns, `~ . == 0` is a simple function to test if any value equals 0
-- `across()` just works in the `count()` function
-  - Outputs a count table counting combinations of the variables equaling 0
-    - By far the most common variable to report zero is research spending, with 4411 reporting only that variable as 0
-    - 25 schools reported 0 for all three variables
-    
-    
-
-- Although we've only been working across 3 variables in these examples, the power of these commands is that they can work across an unlimited number of columns, so the bigger your data, the more should be thinking `across()` and `if_any()`
+-   The internal logic of the `across()` here is identical to the `if_any()` above
+    -   `everything()` works across all columns, `~ . == 0` is a simple function to test if any value equals 0
+-   `across()` just works in the `count()` function
+    -   Outputs a count table counting combinations of the variables equaling 0
+        -   By far the most common variable to report zero is research spending, with 4411 reporting only that variable as 0
+        -   25 schools reported 0 for all three variables
+-   Although we've only been working across 3 variables in these examples, the power of these commands is that they can work across an unlimited number of columns, so the bigger your data, the more should be thinking `across()` and `if_any()`
 
 ### Moving Beyond `ifelse()` with `case_when()`
 
@@ -268,16 +271,21 @@ df_0 |>
 ## ---------------------------
 ```
 
-- Keeping digging into differences in spending categories, next, let's say we want to create a new variable that says which order the three spending categories were for each school
+-   Keeping digging into differences in spending categories, next, let's say we want to create a new variable that says which order the three spending categories were for each school
 
-- Let's walk through the `case_when()` code
-  1. Much like we used `ifelse()` inside mutate to make a new variable in [Data Wranling I](03-wrangle-i.qmd), we can use `case_when()` when we have more than a binary test
-    - `case_when()` goes down the list of conditions in order until it finds one that it answers `TRUE` at which point it returns the value on the right hand side of the `~`
-    - Here we have listed out all possible orders of spending categories with a label for each scenario
-  2. Unlike `ifelse()` there is a unique danger that would don't cover every eventuality with your conditions
-    - This is why I like to end with `TRUE`, as that will be `TRUE` no matter what
-      - I then assign some kind of catch-all phrase that makes me know I made an error (it will just `NA` if you don't do this)
-  3. To check if a `case_when()` worked, I like to pipe it into a `count()` for the new variable we made
+-   Let's walk through the `case_when()` code
+
+    1.  Much like we used `ifelse()` inside mutate to make a new variable in [Data Wranling I](03-wrangle-i.qmd), we can use `case_when()` when we have more than a binary test
+
+    -   `case_when()` goes down the list of conditions in order until it finds one that it answers `TRUE` at which point it returns the value on the right hand side of the `~`
+    -   Here we have listed out all possible orders of spending categories with a label for each scenario
+
+    2.  Unlike `ifelse()` there is a unique danger that would don't cover every eventuality with your conditions
+
+    -   This is why I like to end with `TRUE`, as that will be `TRUE` no matter what
+        -   I then assign some kind of catch-all phrase that makes me know I made an error (it will just `NA` if you don't do this)
+
+    3.  To check if a `case_when()` worked, I like to pipe it into a `count()` for the new variable we made
 
 ```{r}
 df_18_clean |>
@@ -291,17 +299,18 @@ df_18_clean |>
   count(highest_cat)
 ```
 
-- Looks like I missed something in my `case_when()`, can anyone guess what it is?
+-   Looks like I missed something in my `case_when()`, can anyone guess what it is?
 
-- What would happen to this school
-  - inst_spend 35,000,000
-  - rsch_spend 20,000,000
-  - serv_spend 20,000,000
-    - As I have only specified for all order of categories being "greater than" the other, situations where two categories are equal slip through the cracks
-      - This was a genuine mistake when writing the lesson, precisely why I always include that catch all
-      
-- Let's see how our results change if I use "greater than or equal to" signs
-      
+-   What would happen to this school
+
+    -   inst_spend 35,000,000
+    -   rsch_spend 20,000,000
+    -   serv_spend 20,000,000
+        -   As I have only specified for all order of categories being "greater than" the other, situations where two categories are equal slip through the cracks
+            -   This was a genuine mistake when writing the lesson, precisely why I always include that catch all
+
+-   Let's see how our results change if I use "greater than or equal to" signs
+
 ```{r}
 df_18_clean |>
   mutate(highest_cat = case_when(inst_spend >= rsch_spend & rsch_spend >= serv_spend ~ "inst_rsch_serv",
@@ -314,43 +323,43 @@ df_18_clean |>
   count(highest_cat)
 ```
 
-- No missing conditions this time, hooray!
+-   No missing conditions this time, hooray!
 
-- Also, I'm definitely surprised how few institutions spend most on research, and just how many spend instruction > services > research
-  - Does this surprise you as well?
+-   Also, I'm definitely surprised how few institutions spend most on research, and just how many spend instruction \> services \> research
+
+    -   Does this surprise you as well?
 
 ### Tidyverse Tricks Summary
 
-- I hope some of these more advanced `tidyverse` commands will prove helpful, particularly as you move into the world of bigger data sets with more variables!
-- Next, we are going to revisit some code from [Data Wrangling I](03-wrangle-i.qmd) and [Data Wrangling II](04-wrangle-ii.qmd) and see how it translates to `SQL`
+-   I hope some of these more advanced `tidyverse` commands will prove helpful, particularly as you move into the world of bigger data sets with more variables!
+-   Next, we are going to revisit some code from [Data Wrangling I](03-wrangle-i.qmd) and [Data Wrangling II](04-wrangle-ii.qmd) and see how it translates to `SQL`
 
 ## From `tidyverse` to `SQL`
 
-- For this section, we are going to see how tasks from [Data Wrangling II](04-wrangle-ii.qmd) could be performed using `SQL`, a common tool used to work with databases
+-   For this section, we are going to see how tasks from [Data Wrangling II](04-wrangle-ii.qmd) could be performed using `SQL`, a common tool used to work with databases
 
 ### What is `SQL`?
 
-- SQL, short for Structured Query Language, is a way of retrieving, modifying, and storing data from databases. For a solid background page on `SQL` see [this overview from AWS](https://aws.amazon.com/what-is/sql/)
-- One of thing that confuses people about SQL is that there's the base language of SQL that all SQL-based products share and then multiple commercial product implementations of SQL that take the base language and add additional and unique functions
-  - The `dbplyr` package we are going to use below attempts to mimic the implementation we tell it to
-- A key difference between `R` and `SQL` is that we don't have the option to assign our results to an object like we do with `R`
-  - Instead, an `SQL` query is simply the code to retrieve the data, what happens to that data (e.g., does it show up on your screen, is it saved somewhere, etc.) will be determined by the `SQL`-based software you're using
+-   SQL, short for Structured Query Language, is a way of retrieving, modifying, and storing data from databases. For a solid background page on `SQL` see [this overview from AWS](https://aws.amazon.com/what-is/sql/)
+-   One of thing that confuses people about SQL is that there's the base language of SQL that all SQL-based products share and then multiple commercial product implementations of SQL that take the base language and add additional and unique functions
+    -   The `dbplyr` package we are going to use below attempts to mimic the implementation we tell it to
+-   A key difference between `R` and `SQL` is that we don't have the option to assign our results to an object like we do with `R`
+    -   Instead, an `SQL` query is simply the code to retrieve the data, what happens to that data (e.g., does it show up on your screen, is it saved somewhere, etc.) will be determined by the `SQL`-based software you're using
 
 ### How does `SQL` Relate to this Class?
 
-- First, `SQL` is a really important tool for data management jobs in higher education. Larger institutions like UF almost certainly store their institutional data in a database that uses `SQL`
-  - However, it is rarely taught in Higher Ed degree programs, so, this little intro already sets you up for success
-- Second, the `tidyverse` language we have been learning this semester is in many ways similar to `SQL`
-  - In fact, a lot of the functions and function names in `tidyverse` come directly from `SQL`
-  - There's an entire package `dbplyr` which can translate our standard `dplyr` commands to `SQL` queries
-    - That's what we are going to play around with today!
-    
+-   First, `SQL` is a really important tool for data management jobs in higher education. Larger institutions like UF almost certainly store their institutional data in a database that uses `SQL`
+    -   However, it is rarely taught in Higher Ed degree programs, so, this little intro already sets you up for success
+-   Second, the `tidyverse` language we have been learning this semester is in many ways similar to `SQL`
+    -   In fact, a lot of the functions and function names in `tidyverse` come directly from `SQL`
+    -   There's an entire package `dbplyr` which can translate our standard `dplyr` commands to `SQL` queries
+        -   That's what we are going to play around with today!
 
 ### Data Wrangling II in `SQL`
 
-- To explore `SQL` in a familiar environment, we are going to re-visit [Data Wrangling II](04-wrangle-ii.qmd)
-  - While more complicated data wrangling is certainly possible in `SQL` the most common use in education is to pull or "query" data out of institutional databases with some simple summaries or joins
-  - 
+-   To explore `SQL` in a familiar environment, we are going to re-visit [Data Wrangling II](04-wrangle-ii.qmd)
+    -   While more complicated data wrangling is certainly possible in `SQL` the most common use in education is to pull or "query" data out of institutional databases with some simple summaries or joins
+    -   
 
 ```{r, include = FALSE, purl = TRUE}
 ## ---------------------------
@@ -358,11 +367,11 @@ df_18_clean |>
 ## ---------------------------
 ```
 
-- First, we have to simulate an `SQL` database for `dbplyr`
-  - This tells `dbplyr` exactly how to translate our code
-  - For today's class, we will simulate a Microsoft Access database with the `simulate_access()` command
-- Second, instead of a normal `df`, we want R to pretend that `df` is a table in a database, which we do with the `memdb_frame()` command
-  - If you're curious what this command does, try `print(df)` and `print(db)` to see the difference
+-   First, we have to simulate an `SQL` database for `dbplyr`
+    -   This tells `dbplyr` exactly how to translate our code
+    -   For today's class, we will simulate a Microsoft Access database with the `simulate_access()` command
+-   Second, instead of a normal `df`, we want R to pretend that `df` is a table in a database, which we do with the `memdb_frame()` command
+    -   If you're curious what this command does, try `print(df)` and `print(db)` to see the difference
 
 ```{r, include = FALSE, purl = TRUE}
 ## ---------------------------
@@ -388,7 +397,7 @@ db <- memdb_frame(df)
 ## ---------------------------
 ```
 
-- Our first command is pretty simple, we want to group our data by year then calculate the mean test score, which will give us average test scores for each year
+-   Our first command is pretty simple, we want to group our data by year then calculate the mean test score, which will give us average test scores for each year
 
 ```{r}
 #| class-output: SQL
@@ -403,10 +412,10 @@ df_sum <- db |>
   show_query()
 ```
 
-- We start with `SELECT`
-  - We list out what we want, which is the `year` variable and `AVG()`s of math, reading, and science test scores
-- We are taking them from our simulated databases `dbplyr_002` which we want `GROUP BY`-ed year
-  - As `SQL` code is nested, we can't read it top to bottom, the `GROUP BY` takes place as we pull the data out of `dbplyr_002` before we calculate the `AVG()`
+-   We start with `SELECT`
+    -   We list out what we want, which is the `year` variable and `AVG()`s of math, reading, and science test scores
+-   We are taking them from our simulated databases `dbplyr_002` which we want `GROUP BY`-ed year
+    -   As `SQL` code is nested, we can't read it top to bottom, the `GROUP BY` takes place as we pull the data out of `dbplyr_002` before we calculate the `AVG()`
 
 #### Left-Join
 
@@ -415,8 +424,8 @@ df_sum <- db |>
 ##' [Left-Join]
 ## ---------------------------
 ```
-  
-- Next, we want to join these averages back into the the main data frame
+
+-   Next, we want to join these averages back into the the main data frame
 
 ```{r}
 #| class-output: SQL
@@ -426,9 +435,9 @@ df_joined <- db |>
   show_query()
 ```
 
-- We see our preceding query nested inside our new query from the second `SELECT` statement to the `GROUP BY` statement
-  - That all sits become `RHS`  inside our `LEFT JOIN` statement
-- We see this is joined `ON` the `year` variable with the original data `dbplyr_002`
+-   We see our preceding query nested inside our new query from the second `SELECT` statement to the `GROUP BY` statement
+    -   That all sits become `RHS` inside our `LEFT JOIN` statement
+-   We see this is joined `ON` the `year` variable with the original data `dbplyr_002`
 
 #### Pivot-Longer
 
@@ -438,7 +447,7 @@ df_joined <- db |>
 ## ---------------------------
 ```
 
-- Our next query pivots the data longer, which remember from our original lesson take the math, reading, and science score columns, and turns them into one column for score type and column for score
+-   Our next query pivots the data longer, which remember from our original lesson take the math, reading, and science score columns, and turns them into one column for score type and column for score
 
 ```{r}
 #| class-output: SQL
@@ -452,9 +461,9 @@ df_long <- db |>
   show_query()
 ```
 
-- What we see here is a bit different, as it's manual
-- First we `SELECT` school and year as they are, math as `test` and `math` as `score`
-- This then `UNION ALL`-ed (think `bind_rows` style stacking) with the same query for `reading` and then again for `science`
+-   What we see here is a bit different, as it's manual
+-   First we `SELECT` school and year as they are, math as `test` and `math` as `score`
+-   This then `UNION ALL`-ed (think `bind_rows` style stacking) with the same query for `reading` and then again for `science`
 
 #### Pivot-Wider
 
@@ -464,7 +473,7 @@ df_long <- db |>
 ## ---------------------------
 ```
 
-- Next, let's pivot that data back wide
+-   Next, let's pivot that data back wide
 
 ```{r}
 #| class-output: SQL
@@ -476,16 +485,18 @@ df_wide <- df_long |>
   show_query()
 ```
 
-- Our first `SELECT` statement asks for school and year, then...
-- We use `CASE WHEN` for each type of test, creating a new variable for each subject `WHEN` the test type equaled that subject
-- Beneath that, we see our previous query that creates the long data that we pivoted back wider
+-   Our first `SELECT` statement asks for school and year, then...
+-   We use `CASE WHEN` for each type of test, creating a new variable for each subject `WHEN` the test type equaled that subject
+-   Beneath that, we see our previous query that creates the long data that we pivoted back wider
 
 # Assignment
 
-There is no homework assignment associated with this lesson. Instead, your initial analysis for your reproducible report is due Sunday at 11:59pm. See the [final project](99-final.qmd) for details.
-
+There is no homework assignment associated with this lesson.
+Instead, your initial analysis for your reproducible report is due Sunday at 11:59pm.
+See the [final project](99-final.qmd) for details.
 :::
 
+````{=html}
 <!--
 
 ### Data Wrangling I in `SQL`
@@ -741,4 +752,4 @@ df_long_fix <- db_3 |>
 
 
 -->
-
+````
