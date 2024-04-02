@@ -18,6 +18,8 @@ solution: false
 ## -----------------------------------------------------------------------------
 ```
 
+[{{< fa code >}} R ](/r-scripts/04-wrangle-ii.R)[Code](/r-scripts/10-viz-iii.R)
+
 -   This is a lesson I originally wrote as a TA for this class with Dr. Skinner in Spring 2023
 
     -   It is modeled on a real map-making project I was tasked with in my Graduate Assistantship the previous summer, so is an example of the kind of task you may be asked to do
@@ -479,6 +481,7 @@ We have made a map!
 ```{r base_map_qe}
 #| echo: false
 #| warning: false
+#| purl: false
 base_map +
   scale_fill_gradient(low = "#ffd8a9", high = "#b36200") +
   theme_void()
@@ -623,6 +626,7 @@ point_map
 ```{r point_map_fix}
 #| warning: false
 #| echo: false
+#| purl: false
 ## show new map
 point_map +
   scale_size_continuous(labels = scales::label_comma()) # h/t https://stackoverflow.com/questions/14563989/force-r-to-stop-plotting-abbreviated-axis-labels-scientific-notation-e-g-1e
@@ -758,6 +762,7 @@ ggplot() +
 
 ```{r us_map_wrong_crs}
 #| echo: false
+#| purl: false
 ggplot() +
   geom_sf(data = shift_geometry(df_st) |> st_transform(6684),
           aes(),
