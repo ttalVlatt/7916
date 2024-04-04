@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.550">
+<meta name="generator" content="quarto-1.4.553">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -360,7 +360,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 <div class="tabset-margin-container"></div><div class="panel-tabset">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" aria-current="page">Lesson</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">Assignment</a></li></ul>
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" aria-current="page">Lesson</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">Assignment</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-3" role="tab" aria-controls="tabset-1-3" aria-selected="false">IPEDS Application</a></li></ul>
 <div class="tab-content">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
 <p><a href="./r-scripts/04-wrangle-ii.R"><i class="fa-solid fa-code" aria-label="code"></i> R Code</a></p>
@@ -1351,10 +1351,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
 <table class="table">
 <colgroup>
-<col style="width: 10%">
-<col style="width: 5%">
-<col style="width: 8%">
-<col style="width: 76%">
+<col style="width: 19%">
+<col style="width: 19%">
+<col style="width: 19%">
+<col style="width: 42%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -1705,7 +1705,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="solution" class="level2">
 <h2 data-anchor-id="solution">Solution</h2>
-<p><a href="./solutions/data-wrangling-ii-solution.R"><i class="fa-solid fa-code" aria-label="code"></i> R Solution Code</a></p>
+<p><a href="./solutions/data-wrangling-ii-solution.R"><i class="fa-solid fa-code" aria-label="code"></i> R</a><a href="site-attachments/solutions/data-wrangling-ii-solution.R">Solution</a><a href="./solutions/data-wrangling-ii-solution.R">Code</a></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="do">## -----------------------------------------------------------------------------</span></span>
 <span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a><span class="do">##</span></span>
@@ -1804,6 +1804,303 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </section>
 </div>
+<div id="tabset-1-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-3-tab">
+<ul>
+<li>Now, let’s look at a more realistic example when we would use these skills for data analysis</li>
+<li>Let’s say we want to explore difference in international student enrollment at the undergraduate vs graduate level and if that varies by region of the US</li>
+<li>For this, we are going to use two IPEDS data sets HD2022 and EFFY2022
+<ul>
+<li>Note: These data sets are not in your class repository (intentionally), so we have to go and download them from the <a href="https://nces.ed.gov/ipeds/datacenter/DataFiles.aspx">IPEDS Data Center</a></li>
+</ul></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>data_info <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/hd2022.csv"</span>)</span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>data_enroll <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/effy2022.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li>Let’s take a look at these data one by one</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>data_info</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6,256 × 73
+   UNITID INSTNM     IALIAS ADDR  CITY  STABBR ZIP    FIPS OBEREG CHFNM CHFTITLE
+    &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;   
+ 1 100654 Alabama A… AAMU   4900… Norm… AL     35762     1      5 Dr. … Preside…
+ 2 100663 Universit… UAB    Admi… Birm… AL     3529…     1      5 Ray … Preside…
+ 3 100690 Amridge U… South… 1200… Mont… AL     3611…     1      5 Mich… Preside…
+ 4 100706 Universit… UAH  … 301 … Hunt… AL     35899     1      5 Chuc… Preside…
+ 5 100724 Alabama S… &lt;NA&gt;   915 … Mont… AL     3610…     1      5 Quin… Preside…
+ 6 100733 Universit… &lt;NA&gt;   500 … Tusc… AL     35401     1      5 Fini… Chancel…
+ 7 100751 The Unive… &lt;NA&gt;   739 … Tusc… AL     3548…     1      5 Dr. … Preside…
+ 8 100760 Central A… &lt;NA&gt;   1675… Alex… AL     35010     1      5 Jeff… Preside…
+ 9 100812 Athens St… &lt;NA&gt;   300 … Athe… AL     35611     1      5 Dr. … Interim…
+10 100830 Auburn Un… AUM||… 7440… Mont… AL     3611…     1      5 Carl… Chancel…
+# ℹ 6,246 more rows
+# ℹ 62 more variables: GENTELE &lt;dbl&gt;, EIN &lt;chr&gt;, UEIS &lt;chr&gt;, OPEID &lt;chr&gt;,
+#   OPEFLAG &lt;dbl&gt;, WEBADDR &lt;chr&gt;, ADMINURL &lt;chr&gt;, FAIDURL &lt;chr&gt;, APPLURL &lt;chr&gt;,
+#   NPRICURL &lt;chr&gt;, VETURL &lt;chr&gt;, ATHURL &lt;chr&gt;, DISAURL &lt;chr&gt;, SECTOR &lt;dbl&gt;,
+#   ICLEVEL &lt;dbl&gt;, CONTROL &lt;dbl&gt;, HLOFFER &lt;dbl&gt;, UGOFFER &lt;dbl&gt;, GROFFER &lt;dbl&gt;,
+#   HDEGOFR1 &lt;dbl&gt;, DEGGRANT &lt;dbl&gt;, HBCU &lt;dbl&gt;, HOSPITAL &lt;dbl&gt;, MEDICAL &lt;dbl&gt;,
+#   TRIBAL &lt;dbl&gt;, LOCALE &lt;dbl&gt;, OPENPUBL &lt;dbl&gt;, ACT &lt;chr&gt;, NEWID &lt;dbl&gt;, …</code></pre>
+</div>
+</div>
+<ul>
+<li>Okay, this looks simple enough, we see one row per institution followed by a bunch of descriptive variables</li>
+<li>Let’s look at our enrollment data</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>data_enroll</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 117,521 × 72
+   UNITID EFFYALEV EFFYLEV LSTUDY XEYTOTLT EFYTOTLT XEYTOTLM EFYTOTLM XEYTOTLW
+    &lt;dbl&gt;    &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt; &lt;chr&gt;       &lt;dbl&gt; &lt;chr&gt;       &lt;dbl&gt; &lt;chr&gt;   
+ 1 100654        1       1    999 R            6681 R            2666 R       
+ 2 100654        2       2      1 R            5663 R            2337 R       
+ 3 100654        3      -2      1 R            5621 R            2323 R       
+ 4 100654        4      -2      1 R            1680 R             722 R       
+ 5 100654        5      -2      1 R            3941 R            1601 R       
+ 6 100654       11      -2      1 R              42 R              14 R       
+ 7 100654       12       4      3 R            1018 R             329 R       
+ 8 100654       19      -2      1 R             361 R             177 R       
+ 9 100654       20      -2      1 R            3580 R            1424 R       
+10 100654       21      -2    999 R            5460 R            2169 R       
+# ℹ 117,511 more rows
+# ℹ 63 more variables: EFYTOTLW &lt;dbl&gt;, XEFYAIAT &lt;chr&gt;, EFYAIANT &lt;dbl&gt;,
+#   XEFYAIAM &lt;chr&gt;, EFYAIANM &lt;dbl&gt;, XEFYAIAW &lt;chr&gt;, EFYAIANW &lt;dbl&gt;,
+#   XEFYASIT &lt;chr&gt;, EFYASIAT &lt;dbl&gt;, XEFYASIM &lt;chr&gt;, EFYASIAM &lt;dbl&gt;,
+#   XEFYASIW &lt;chr&gt;, EFYASIAW &lt;dbl&gt;, XEFYBKAT &lt;chr&gt;, EFYBKAAT &lt;dbl&gt;,
+#   XEFYBKAM &lt;chr&gt;, EFYBKAAM &lt;dbl&gt;, XEFYBKAW &lt;chr&gt;, EFYBKAAW &lt;dbl&gt;,
+#   XEFYHIST &lt;chr&gt;, EFYHISPT &lt;dbl&gt;, XEFYHISM &lt;chr&gt;, EFYHISPM &lt;dbl&gt;, …</code></pre>
+</div>
+</div>
+<ul>
+<li>Hmm, so this data definitely appears to be “long” as we see those first 10 rows are all for 100654
+<ul>
+<li>Based on visual inspection, it seems like EFFYALEV and EFFYLEV might be what is making the data “long” for two reasons
+<ul>
+<li>First, look at the values, they seem seem to increasing in some kind of pattern</li>
+<li>Second, it’s common practice to keep the “long” variables at the start, especially in larger published data like this</li>
+</ul></li>
+<li>This is where we want to look through the code book to explore what those variables might mean</li>
+</ul></li>
+</ul>
+<blockquote class="blockquote">
+<h3 id="quick-exercise-3">Quick Exercise</h3>
+<ul>
+<li>To practice this, let’s go to the <a href="https://nces.ed.gov/ipeds/datacenter/DataFiles.aspx">IPEDS Data Center</a> and find the dictionary for EFFY2022
+<ul>
+<li>Tip: For IPEDS dictionary files, the “frequencies” tab is where you’ll find out what numbers that represent something mean</li>
+</ul></li>
+<li>Okay, so what so EFFYALEV and EFFYLEV mean?</li>
+<li>Think back to our research question, what’s the ratio of international students at the undergraduate vs graduate level?
+<ul>
+<li>Based on the code book, what do you think we need to do now?</li>
+</ul></li>
+</ul>
+</blockquote>
+<ul>
+<li><p>EFFYALEV is probably more detail than we need for our question, EFFYLEV has everything we need</p>
+<ul>
+<li>To make our life simpler, let’s reduce our data down a little to just the variables we want with <code>select()</code></li>
+</ul></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>data_enroll <span class="ot">&lt;-</span> data_enroll <span class="sc">|&gt;</span></span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(UNITID, EFFYLEV, EFYTOTLT, EFYNRALT)</span>
+<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a>data_enroll</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 117,521 × 4
+   UNITID EFFYLEV EFYTOTLT EFYNRALT
+    &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;
+ 1 100654       1     6681      104
+ 2 100654       2     5663       53
+ 3 100654      -2     5621       53
+ 4 100654      -2     1680       12
+ 5 100654      -2     3941       41
+ 6 100654      -2       42        0
+ 7 100654       4     1018       51
+ 8 100654      -2      361       10
+ 9 100654      -2     3580       31
+10 100654      -2     5460       95
+# ℹ 117,511 more rows</code></pre>
+</div>
+</div>
+<ul>
+<li>Next, let’s reduce our data down to just the two rows containing undergraduate and graduate enrollments</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>data_enroll <span class="ot">&lt;-</span> data_enroll <span class="sc">|&gt;</span></span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(EFFYLEV <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">4</span>))</span>
+<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb53-4"><a href="#cb53-4" aria-hidden="true" tabindex="-1"></a>data_enroll</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 7,817 × 4
+   UNITID EFFYLEV EFYTOTLT EFYNRALT
+    &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;
+ 1 100654       2     5663       53
+ 2 100654       4     1018       51
+ 3 100663       2    15360      415
+ 4 100663       4    10603     1047
+ 5 100690       2      351        0
+ 6 100690       4      565        0
+ 7 100706       2     8536      187
+ 8 100706       4     2606      234
+ 9 100724       2     3899       60
+10 100724       4      526        8
+# ℹ 7,807 more rows</code></pre>
+</div>
+</div>
+<ul>
+<li><p>Okay, this is starting to look more manageable, right?</p></li>
+<li><p>What do we need to do next to be able to compare across levels of study or institutions?</p></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>data_enroll <span class="ot">&lt;-</span> data_enroll <span class="sc">|&gt;</span></span>
+<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">perc_intl =</span> EFYNRALT<span class="sc">/</span>EFYTOTLT<span class="sc">*</span><span class="dv">100</span>) <span class="sc">|&gt;</span></span>
+<span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>EFYTOTLT, <span class="sc">-</span>EFYNRALT) <span class="co"># - in select means drop this variable</span></span>
+<span id="cb55-4"><a href="#cb55-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-5"><a href="#cb55-5" aria-hidden="true" tabindex="-1"></a>data_enroll</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 7,817 × 3
+   UNITID EFFYLEV perc_intl
+    &lt;dbl&gt;   &lt;dbl&gt;     &lt;dbl&gt;
+ 1 100654       2     0.936
+ 2 100654       4     5.01 
+ 3 100663       2     2.70 
+ 4 100663       4     9.87 
+ 5 100690       2     0    
+ 6 100690       4     0    
+ 7 100706       2     2.19 
+ 8 100706       4     8.98 
+ 9 100724       2     1.54 
+10 100724       4     1.52 
+# ℹ 7,807 more rows</code></pre>
+</div>
+</div>
+<ul>
+<li><p>Now, we want to find the difference between the undergraduate and graduate enrollment levels, which should be pretty simple math right? We just need to subtract the percentages from each other</p>
+<ul>
+<li>Can we easily do that right now? If not, what do we need to do?</li>
+</ul></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a>data_enroll <span class="ot">&lt;-</span> data_enroll <span class="sc">|&gt;</span></span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> EFFYLEV,</span>
+<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a>              <span class="at">values_from =</span> perc_intl,</span>
+<span id="cb57-4"><a href="#cb57-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">names_prefix =</span> <span class="st">"perc_intl_"</span>)</span>
+<span id="cb57-5"><a href="#cb57-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-6"><a href="#cb57-6" aria-hidden="true" tabindex="-1"></a>data_enroll</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6,036 × 3
+   UNITID perc_intl_2 perc_intl_4
+    &lt;dbl&gt;       &lt;dbl&gt;       &lt;dbl&gt;
+ 1 100654      0.936         5.01
+ 2 100663      2.70          9.87
+ 3 100690      0             0   
+ 4 100706      2.19          8.98
+ 5 100724      1.54          1.52
+ 6 100751      1.62         10.7 
+ 7 100760      0.406        NA   
+ 8 100812      0.0577        0   
+ 9 100830      4.32         37.5 
+10 100858      4.42         17.7 
+# ℹ 6,026 more rows</code></pre>
+</div>
+</div>
+<ul>
+<li>Now is our calculation much easier to make?</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>data_enroll <span class="ot">&lt;-</span> data_enroll <span class="sc">|&gt;</span></span>
+<span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">perc_intl_diff =</span> perc_intl_2 <span class="sc">-</span> perc_intl_4)</span>
+<span id="cb59-3"><a href="#cb59-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-4"><a href="#cb59-4" aria-hidden="true" tabindex="-1"></a>data_enroll</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6,036 × 4
+   UNITID perc_intl_2 perc_intl_4 perc_intl_diff
+    &lt;dbl&gt;       &lt;dbl&gt;       &lt;dbl&gt;          &lt;dbl&gt;
+ 1 100654      0.936         5.01        -4.07  
+ 2 100663      2.70          9.87        -7.17  
+ 3 100690      0             0            0     
+ 4 100706      2.19          8.98        -6.79  
+ 5 100724      1.54          1.52         0.0179
+ 6 100751      1.62         10.7         -9.04  
+ 7 100760      0.406        NA           NA     
+ 8 100812      0.0577        0            0.0577
+ 9 100830      4.32         37.5        -33.2   
+10 100858      4.42         17.7        -13.3   
+# ℹ 6,026 more rows</code></pre>
+</div>
+</div>
+<ul>
+<li><p>How do we interpret our new variable?</p></li>
+<li><p>Let’s get some basic summary statistics</p></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb61"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a>data_enroll <span class="sc">|&gt;</span></span>
+<span id="cb61-2"><a href="#cb61-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>() <span class="sc">|&gt;</span></span>
+<span id="cb61-3"><a href="#cb61-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">mean =</span> <span class="fu">mean</span>(perc_intl_diff),</span>
+<span id="cb61-4"><a href="#cb61-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">min =</span> <span class="fu">min</span>(perc_intl_diff),</span>
+<span id="cb61-5"><a href="#cb61-5" aria-hidden="true" tabindex="-1"></a>            <span class="at">max =</span> <span class="fu">max</span>(perc_intl_diff))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 3
+   mean   min   max
+  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+1 -3.84 -96.8  41.5</code></pre>
+</div>
+</div>
+<ul>
+<li><p>Lastly, let’s see if this trend varies by private vs public institutions</p></li>
+<li><p>What do we need to do to see that?</p></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb63"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a>data_info <span class="ot">&lt;-</span> data_info <span class="sc">|&gt;</span></span>
+<span id="cb63-2"><a href="#cb63-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(UNITID, CONTROL)</span>
+<span id="cb63-3"><a href="#cb63-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb63-4"><a href="#cb63-4" aria-hidden="true" tabindex="-1"></a>data_joined <span class="ot">&lt;-</span> <span class="fu">left_join</span>(data_enroll, data_info, <span class="at">by =</span> <span class="st">"UNITID"</span>)</span>
+<span id="cb63-5"><a href="#cb63-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb63-6"><a href="#cb63-6" aria-hidden="true" tabindex="-1"></a>data_joined</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6,036 × 5
+   UNITID perc_intl_2 perc_intl_4 perc_intl_diff CONTROL
+    &lt;dbl&gt;       &lt;dbl&gt;       &lt;dbl&gt;          &lt;dbl&gt;   &lt;dbl&gt;
+ 1 100654      0.936         5.01        -4.07         1
+ 2 100663      2.70          9.87        -7.17         1
+ 3 100690      0             0            0            2
+ 4 100706      2.19          8.98        -6.79         1
+ 5 100724      1.54          1.52         0.0179       1
+ 6 100751      1.62         10.7         -9.04         1
+ 7 100760      0.406        NA           NA            1
+ 8 100812      0.0577        0            0.0577       1
+ 9 100830      4.32         37.5        -33.2          1
+10 100858      4.42         17.7        -13.3          1
+# ℹ 6,026 more rows</code></pre>
+</div>
+</div>
+<ul>
+<li>Looks like we have what we need, so let’s see if the mean varies by institutional control</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb65"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a>data_joined <span class="sc">|&gt;</span></span>
+<span id="cb65-2"><a href="#cb65-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(CONTROL) <span class="sc">|&gt;</span></span>
+<span id="cb65-3"><a href="#cb65-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>() <span class="sc">|&gt;</span></span>
+<span id="cb65-4"><a href="#cb65-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">mean =</span> <span class="fu">mean</span>(perc_intl_diff))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 2
+  CONTROL  mean
+    &lt;dbl&gt; &lt;dbl&gt;
+1       1 -5.84
+2       2 -2.63
+3       3 -4.94</code></pre>
+</div>
+</div>
+<blockquote class="blockquote">
+<h3 id="quick-exercise-4">Quick Exercise</h3>
+<p>Using the data dictionary if necessary, find if our trend varies by US Census Region</p>
+</blockquote>
+</div>
 </div>
 </div>
 
@@ -1882,6 +2179,24 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     // clear code selection
     e.clearSelection();
   });
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("https:\/\/capaldi\.info\/7916");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
   function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
@@ -1916,7 +2231,11 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
-      return note.innerHTML;
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
     });
   }
   const xrefs = window.document.querySelectorAll('a.quarto-xref');
