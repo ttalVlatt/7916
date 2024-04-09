@@ -285,7 +285,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./12-pro-model.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">II: Modeling Basics</span></a>
+ <span class="menu-text">Bringing It All Together feat. Basic Models</span></a>
   </div>
 </li>
       </ul>
@@ -936,7 +936,7 @@ df_0 |>
 <span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">AVG</span>(`math`) <span class="kw">AS</span> `math_m`,</span>
 <span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">AVG</span>(`read`) <span class="kw">AS</span> `read_m`,</span>
 <span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">AVG</span>(`science`) <span class="kw">AS</span> `science_m`</span>
-<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> `dbplyr_JW9pJpqaoP`</span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> `dbplyr_ciBkeQWCoi`</span>
 <span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a><span class="kw">GROUP</span> <span class="kw">BY</span> `year`</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
@@ -963,18 +963,18 @@ df_0 |>
 <span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">show_query</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <div class="sourceCode" id="cb24"><pre class="sourceCode SQL code-with-copy"><code class="sourceCode sql"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="op">&lt;</span>SQL<span class="op">&gt;</span></span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> `dbplyr_JW9pJpqaoP`.<span class="op">*</span>, `math_m`, `read_m`, `science_m`</span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> `dbplyr_JW9pJpqaoP`</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> `dbplyr_ciBkeQWCoi`.<span class="op">*</span>, `math_m`, `read_m`, `science_m`</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> `dbplyr_ciBkeQWCoi`</span>
 <span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a><span class="kw">LEFT</span> <span class="kw">JOIN</span> (</span>
 <span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>  <span class="kw">SELECT</span></span>
 <span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>    `year`,</span>
 <span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">AVG</span>(`math`) <span class="kw">AS</span> `math_m`,</span>
 <span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">AVG</span>(`read`) <span class="kw">AS</span> `read_m`,</span>
 <span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">AVG</span>(`science`) <span class="kw">AS</span> `science_m`</span>
-<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>  <span class="kw">FROM</span> `dbplyr_JW9pJpqaoP`</span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>  <span class="kw">FROM</span> `dbplyr_ciBkeQWCoi`</span>
 <span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>  <span class="kw">GROUP</span> <span class="kw">BY</span> `year`</span>
 <span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a>) <span class="kw">AS</span> `RHS`</span>
-<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a>  <span class="kw">ON</span> (`dbplyr_JW9pJpqaoP`.`year` <span class="op">=</span> `RHS`.`year`)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a>  <span class="kw">ON</span> (`dbplyr_ciBkeQWCoi`.`year` <span class="op">=</span> `RHS`.`year`)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <ul>
@@ -1002,17 +1002,17 @@ df_0 |>
 <div class="cell-output cell-output-stdout">
 <div class="sourceCode" id="cb26"><pre class="sourceCode SQL code-with-copy"><code class="sourceCode sql"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="op">&lt;</span>SQL<span class="op">&gt;</span></span>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> `school`, `year`, <span class="st">'math'</span> <span class="kw">AS</span> `test`, `math` <span class="kw">AS</span> `score`</span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> `dbplyr_JW9pJpqaoP`</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> `dbplyr_ciBkeQWCoi`</span>
 <span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a><span class="kw">UNION</span> <span class="kw">ALL</span></span>
 <span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> `school`, `year`, <span class="st">'read'</span> <span class="kw">AS</span> `test`, `read` <span class="kw">AS</span> `score`</span>
-<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> `dbplyr_JW9pJpqaoP`</span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> `dbplyr_ciBkeQWCoi`</span>
 <span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a><span class="kw">UNION</span> <span class="kw">ALL</span></span>
 <span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> `school`, `year`, <span class="st">'science'</span> <span class="kw">AS</span> `test`, `science` <span class="kw">AS</span> `score`</span>
-<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> `dbplyr_JW9pJpqaoP`</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> `dbplyr_ciBkeQWCoi`</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <ul>
@@ -1043,17 +1043,17 @@ df_0 |>
 <span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">MAX</span>(<span class="cf">CASE</span> <span class="cf">WHEN</span> (`test` <span class="op">=</span> <span class="st">'science'</span>) <span class="cf">THEN</span> `score` <span class="cf">END</span>) <span class="kw">AS</span> `science`</span>
 <span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> (</span>
 <span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>  <span class="kw">SELECT</span> `school`, `year`, <span class="st">'math'</span> <span class="kw">AS</span> `test`, `math` <span class="kw">AS</span> `score`</span>
-<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a>  <span class="kw">FROM</span> `dbplyr_JW9pJpqaoP`</span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a>  <span class="kw">FROM</span> `dbplyr_ciBkeQWCoi`</span>
 <span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a>  <span class="kw">UNION</span> <span class="kw">ALL</span></span>
 <span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb28-14"><a href="#cb28-14" aria-hidden="true" tabindex="-1"></a>  <span class="kw">SELECT</span> `school`, `year`, <span class="st">'read'</span> <span class="kw">AS</span> `test`, `read` <span class="kw">AS</span> `score`</span>
-<span id="cb28-15"><a href="#cb28-15" aria-hidden="true" tabindex="-1"></a>  <span class="kw">FROM</span> `dbplyr_JW9pJpqaoP`</span>
+<span id="cb28-15"><a href="#cb28-15" aria-hidden="true" tabindex="-1"></a>  <span class="kw">FROM</span> `dbplyr_ciBkeQWCoi`</span>
 <span id="cb28-16"><a href="#cb28-16" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb28-17"><a href="#cb28-17" aria-hidden="true" tabindex="-1"></a>  <span class="kw">UNION</span> <span class="kw">ALL</span></span>
 <span id="cb28-18"><a href="#cb28-18" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb28-19"><a href="#cb28-19" aria-hidden="true" tabindex="-1"></a>  <span class="kw">SELECT</span> `school`, `year`, <span class="st">'science'</span> <span class="kw">AS</span> `test`, `science` <span class="kw">AS</span> `score`</span>
-<span id="cb28-20"><a href="#cb28-20" aria-hidden="true" tabindex="-1"></a>  <span class="kw">FROM</span> `dbplyr_JW9pJpqaoP`</span>
+<span id="cb28-20"><a href="#cb28-20" aria-hidden="true" tabindex="-1"></a>  <span class="kw">FROM</span> `dbplyr_ciBkeQWCoi`</span>
 <span id="cb28-21"><a href="#cb28-21" aria-hidden="true" tabindex="-1"></a>) <span class="kw">AS</span> `q01`</span>
 <span id="cb28-22"><a href="#cb28-22" aria-hidden="true" tabindex="-1"></a><span class="kw">GROUP</span> <span class="kw">BY</span> `school`, `year`</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -1210,7 +1210,7 @@ FROM (
             `x1region`,
             CASE WHEN (`x1stuedexpct` IN list(-8.0, -9.0, 11.0)) THEN NULL WHEN NOT (`x1stuedexpct` IN list(-8.0, -9.0, 11.0)) THEN `x1stuedexpct` END AS `student_exp`,
             CASE WHEN (`x1paredexpct` IN list(-8.0, -9.0, 11.0)) THEN NULL WHEN NOT (`x1paredexpct` IN list(-8.0, -9.0, 11.0)) THEN `x1paredexpct` END AS `parent_exp`
-          FROM `dbplyr_vE7fFNqT40`
+          FROM `dbplyr_6ybWQWIxDe`
         ) AS `q01`
       ) AS `q01`
     ) AS `q01`
@@ -1244,7 +1244,7 @@ db |>
 ```
 <SQL>
 SELECT `stu_id`, `x1stuedexpct`, `x1paredexpct`, `x1region`
-FROM `dbplyr_vE7fFNqT40`
+FROM `dbplyr_6ybWQWIxDe`
 ```
 
 
@@ -1277,7 +1277,7 @@ SELECT
   `x1region`,
   CASE WHEN (`x1stuedexpct` IN list(-8.0, -9.0, 11.0)) THEN NULL WHEN NOT (`x1stuedexpct` IN list(-8.0, -9.0, 11.0)) THEN `x1stuedexpct` END AS `student_exp`,
   CASE WHEN (`x1paredexpct` IN list(-8.0, -9.0, 11.0)) THEN NULL WHEN NOT (`x1paredexpct` IN list(-8.0, -9.0, 11.0)) THEN `x1paredexpct` END AS `parent_exp`
-FROM `dbplyr_vE7fFNqT40`
+FROM `dbplyr_6ybWQWIxDe`
 ```
 
 
@@ -1317,7 +1317,7 @@ FROM (
     `x1region`,
     CASE WHEN (`x1stuedexpct` IN list(-8.0, -9.0, 11.0)) THEN NULL WHEN NOT (`x1stuedexpct` IN list(-8.0, -9.0, 11.0)) THEN `x1stuedexpct` END AS `student_exp`,
     CASE WHEN (`x1paredexpct` IN list(-8.0, -9.0, 11.0)) THEN NULL WHEN NOT (`x1paredexpct` IN list(-8.0, -9.0, 11.0)) THEN `x1paredexpct` END AS `parent_exp`
-  FROM `dbplyr_vE7fFNqT40`
+  FROM `dbplyr_6ybWQWIxDe`
 ) AS `q01`
 ```
 
@@ -1379,7 +1379,7 @@ FROM (
         `x1region`,
         CASE WHEN (`x1stuedexpct` IN list(-8.0, -9.0, 11.0)) THEN NULL WHEN NOT (`x1stuedexpct` IN list(-8.0, -9.0, 11.0)) THEN `x1stuedexpct` END AS `student_exp`,
         CASE WHEN (`x1paredexpct` IN list(-8.0, -9.0, 11.0)) THEN NULL WHEN NOT (`x1paredexpct` IN list(-8.0, -9.0, 11.0)) THEN `x1paredexpct` END AS `parent_exp`
-      FROM `dbplyr_vE7fFNqT40`
+      FROM `dbplyr_6ybWQWIxDe`
     ) AS `q01`
   ) AS `q01`
 ) AS `q01`
@@ -1452,7 +1452,7 @@ FROM (
           `x1region`,
           CASE WHEN (`x1stuedexpct` IN list(-8.0, -9.0, 11.0)) THEN NULL WHEN NOT (`x1stuedexpct` IN list(-8.0, -9.0, 11.0)) THEN `x1stuedexpct` END AS `student_exp`,
           CASE WHEN (`x1paredexpct` IN list(-8.0, -9.0, 11.0)) THEN NULL WHEN NOT (`x1paredexpct` IN list(-8.0, -9.0, 11.0)) THEN `x1paredexpct` END AS `parent_exp`
-        FROM `dbplyr_vE7fFNqT40`
+        FROM `dbplyr_6ybWQWIxDe`
       ) AS `q01`
     ) AS `q01`
   ) AS `q01`
@@ -1529,7 +1529,7 @@ FROM (
             `x1region`,
             CASE WHEN (`x1stuedexpct` IN list(-8.0, -9.0, 11.0)) THEN NULL WHEN NOT (`x1stuedexpct` IN list(-8.0, -9.0, 11.0)) THEN `x1stuedexpct` END AS `student_exp`,
             CASE WHEN (`x1paredexpct` IN list(-8.0, -9.0, 11.0)) THEN NULL WHEN NOT (`x1paredexpct` IN list(-8.0, -9.0, 11.0)) THEN `x1paredexpct` END AS `parent_exp`
-          FROM `dbplyr_vE7fFNqT40`
+          FROM `dbplyr_6ybWQWIxDe`
         ) AS `q01`
       ) AS `q01`
     ) AS `q01`
@@ -1568,7 +1568,7 @@ print(db_3)
 ::: {.cell-output .cell-output-stdout}
 
 ```
-# Source:   table<`dbplyr_p25dylRvlI`> [4 x 19]
+# Source:   table<`dbplyr_QSHGiweQCR`> [4 x 19]
 # Database: sqlite 3.45.2 [:memory:]
   school       math_1980 read_1980 science_1980 math_1981 read_1981 science_1981
   <chr>            <dbl>     <dbl>        <dbl>     <dbl>     <dbl>        <dbl>
@@ -1607,12 +1607,12 @@ df_long_fix <- db_3 |>
 ```{.SQL}
 <SQL>
 SELECT `school`, 'math' AS `test`, '1980' AS `year`, `math_1980` AS `score`
-FROM `dbplyr_p25dylRvlI`
+FROM `dbplyr_QSHGiweQCR`
 
 UNION ALL
 
 SELECT `school`, 'read' AS `test`, '1980' AS `year`, `read_1980` AS `score`
-FROM `dbplyr_p25dylRvlI`
+FROM `dbplyr_QSHGiweQCR`
 
 UNION ALL
 
@@ -1621,17 +1621,17 @@ SELECT
   'science' AS `test`,
   '1980' AS `year`,
   `science_1980` AS `score`
-FROM `dbplyr_p25dylRvlI`
+FROM `dbplyr_QSHGiweQCR`
 
 UNION ALL
 
 SELECT `school`, 'math' AS `test`, '1981' AS `year`, `math_1981` AS `score`
-FROM `dbplyr_p25dylRvlI`
+FROM `dbplyr_QSHGiweQCR`
 
 UNION ALL
 
 SELECT `school`, 'read' AS `test`, '1981' AS `year`, `read_1981` AS `score`
-FROM `dbplyr_p25dylRvlI`
+FROM `dbplyr_QSHGiweQCR`
 
 UNION ALL
 
@@ -1640,17 +1640,17 @@ SELECT
   'science' AS `test`,
   '1981' AS `year`,
   `science_1981` AS `score`
-FROM `dbplyr_p25dylRvlI`
+FROM `dbplyr_QSHGiweQCR`
 
 UNION ALL
 
 SELECT `school`, 'math' AS `test`, '1982' AS `year`, `math_1982` AS `score`
-FROM `dbplyr_p25dylRvlI`
+FROM `dbplyr_QSHGiweQCR`
 
 UNION ALL
 
 SELECT `school`, 'read' AS `test`, '1982' AS `year`, `read_1982` AS `score`
-FROM `dbplyr_p25dylRvlI`
+FROM `dbplyr_QSHGiweQCR`
 
 UNION ALL
 
@@ -1659,17 +1659,17 @@ SELECT
   'science' AS `test`,
   '1982' AS `year`,
   `science_1982` AS `score`
-FROM `dbplyr_p25dylRvlI`
+FROM `dbplyr_QSHGiweQCR`
 
 UNION ALL
 
 SELECT `school`, 'math' AS `test`, '1983' AS `year`, `math_1983` AS `score`
-FROM `dbplyr_p25dylRvlI`
+FROM `dbplyr_QSHGiweQCR`
 
 UNION ALL
 
 SELECT `school`, 'read' AS `test`, '1983' AS `year`, `read_1983` AS `score`
-FROM `dbplyr_p25dylRvlI`
+FROM `dbplyr_QSHGiweQCR`
 
 UNION ALL
 
@@ -1678,17 +1678,17 @@ SELECT
   'science' AS `test`,
   '1983' AS `year`,
   `science_1983` AS `score`
-FROM `dbplyr_p25dylRvlI`
+FROM `dbplyr_QSHGiweQCR`
 
 UNION ALL
 
 SELECT `school`, 'math' AS `test`, '1984' AS `year`, `math_1984` AS `score`
-FROM `dbplyr_p25dylRvlI`
+FROM `dbplyr_QSHGiweQCR`
 
 UNION ALL
 
 SELECT `school`, 'read' AS `test`, '1984' AS `year`, `read_1984` AS `score`
-FROM `dbplyr_p25dylRvlI`
+FROM `dbplyr_QSHGiweQCR`
 
 UNION ALL
 
@@ -1697,17 +1697,17 @@ SELECT
   'science' AS `test`,
   '1984' AS `year`,
   `science_1984` AS `score`
-FROM `dbplyr_p25dylRvlI`
+FROM `dbplyr_QSHGiweQCR`
 
 UNION ALL
 
 SELECT `school`, 'math' AS `test`, '1985' AS `year`, `math_1985` AS `score`
-FROM `dbplyr_p25dylRvlI`
+FROM `dbplyr_QSHGiweQCR`
 
 UNION ALL
 
 SELECT `school`, 'read' AS `test`, '1985' AS `year`, `read_1985` AS `score`
-FROM `dbplyr_p25dylRvlI`
+FROM `dbplyr_QSHGiweQCR`
 
 UNION ALL
 
@@ -1716,7 +1716,7 @@ SELECT
   'science' AS `test`,
   '1985' AS `year`,
   `science_1985` AS `score`
-FROM `dbplyr_p25dylRvlI`
+FROM `dbplyr_QSHGiweQCR`
 ```
 
 

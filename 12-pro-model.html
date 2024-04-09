@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>EDH 7916 - II: Modeling Basics</title>
+<title>EDH 7916 - Bringing It All Together feat. Basic Models</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -105,12 +105,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 <link rel="stylesheet" href="site-attachments/styles.css">
-<meta property="og:title" content="EDH 7916 - II: Modeling Basics">
+<meta property="og:title" content="EDH 7916 - Bringing It All Together feat. Basic Models">
 <meta property="og:image" content="https://capaldi.info/7916/apple-touch-icon.png">
 <meta property="og:site_name" content="EDH 7916">
 <meta property="og:image:height" content="180">
 <meta property="og:image:width" content="180">
-<meta name="twitter:title" content="EDH 7916 - II: Modeling Basics">
+<meta name="twitter:title" content="EDH 7916 - Bringing It All Together feat. Basic Models">
 <meta name="twitter:image" content="https://capaldi.info/7916/apple-touch-icon.png">
 <meta name="twitter:image-height" content="180">
 <meta name="twitter:image-width" content="180">
@@ -126,7 +126,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./11-pro-functions.html">Programming</a></li><li class="breadcrumb-item"><a href="./12-pro-model.html">II: Modeling Basics</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./11-pro-functions.html">Programming</a></li><li class="breadcrumb-item"><a href="./12-pro-model.html">Bringing It All Together feat. Basic Models</a></li></ol></nav>
         <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -285,7 +285,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./12-pro-model.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">II: Modeling Basics</span></a>
+ <span class="menu-text">Bringing It All Together feat. Basic Models</span></a>
   </div>
 </li>
       </ul>
@@ -340,9 +340,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./11-pro-functions.html">Programming</a></li><li class="breadcrumb-item"><a href="./12-pro-model.html">II: Modeling Basics</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./11-pro-functions.html">Programming</a></li><li class="breadcrumb-item"><a href="./12-pro-model.html">Bringing It All Together feat. Basic Models</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">II: Modeling Basics</h1>
+<h1 class="title">Bringing It All Together feat. Basic Models</h1>
 </div>
 
 
@@ -365,21 +365,58 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
 <p><a href="./r-scripts/12-pro-model.R"><i class="fa-solid fa-code" aria-label="code"></i> R Code</a></p>
 <ul>
-<li>First off, let me say I am not a stats professor, and this is not a stats lesson. Some of you have taken years of stats classes, while others are yet to take any. The purpose of this lesson is meant to focus on the R and programmatic aspects of modeling than statistical theory
+<li>We are going to use (the tiniest portion of) our final new package today <code>tidymodels</code></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="fu">c</span>(<span class="st">"tidymodels"</span>, <span class="st">"estimatr"</span>, <span class="st">"stargazer"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 <ul>
-<li>That said, it may still be a lot of information for those less familiar with stats. Fear not, there is no expectation to use of any this in your final assignment, nor is there an assignment for this lesson (optional final project drafts are due Sunday)!</li>
+<li>First off, let me say I am not a stats professor nor is this not a stats lesson
+<ul>
+<li>Some of you have taken years of stats classes, while others are yet to take any.</li>
+<li>The purpose of this lesson is meant to focus how everything we have learned this semester comes together when we begin to work with some simple models</li>
+</ul></li>
+<li>That said, it may still be a lot of information for those less familiar with stats.
+<ul>
+<li>Fear not, there is no expectation to use of any this in your final assignment, nor is there an assignment for this lesson (optional final project drafts are due Sunday)!</li>
 <li>If this lesson starts to go beyond your comfort level, that’s completely fine! Try your best to follow along, and maybe revisit this lesson once you’re a little further along your stats journey</li>
 </ul></li>
 </ul>
 <section id="data-preparation" class="level2">
 <h2 data-anchor-id="data-preparation">Data Preparation</h2>
 <ul>
-<li>Our first step is going to be setting up our data for analysis</li>
-<li>There are two fundamental things to be aware of before programming statistical models in R
+<li>Before we can run any kind of models, we need to make sure our data is prepared</li>
+<li>This involves using skills from our data wrangling lessons such as
 <ul>
-<li>Missing data points
+<li><a href="./03-wrangle-i.html">Data Wrangling I</a>
 <ul>
-<li>When modeling, by default, R will simply drop any rows that have an <code>NA</code> in any variable you are modeling on (this is a little different to the cautious R we ran into in <a href="./03-wrangle-i.html">Data Wrangling I</a>)</li>
+<li>Handling missing data</li>
+<li>Making sure our data is the right format (<code>numeric</code>, <code>factor</code>, <code>character</code>, etc.)</li>
+<li>Performing basic calculations (e.g., percentages, differences, etc.)</li>
+</ul></li>
+<li><a href="./04-wrangle-ii.html">Data Wrangling II</a>
+<ul>
+<li>Joining multiple data sets together</li>
+<li>Pivoting data wider and/or longer</li>
+</ul></li>
+<li><a href="./08-wrangle-iii.html">Data Wrangling III</a>
+<ul>
+<li>Cleaning up text data</li>
+<li>Transforming dates into</li>
+</ul></li>
+<li><a href="./09-wrangle-iv.html">Data Wrangling IV</a>
+<ul>
+<li>Performing any of the above tasks <code>across()</code> multiple columns</li>
+<li><code>coalesce()</code>-ing multiple columns into one variable</li>
+</ul></li>
+</ul></li>
+<li>For the purpose of today’s lesson, we are going to focus on two of these tasks, dealing with missing data, and making sure our data is in the right format</li>
+</ul>
+<section id="handling-missing-data" class="level3">
+<h3 data-anchor-id="handling-missing-data">Handling Missing Data</h3>
+<ul>
+<li><p>When modeling, by default, R will simply drop any rows that have an <code>NA</code> in any variable you are modeling on (this is a little different to the cautious R we ran into in <a href="./03-wrangle-i.html">Data Wrangling I</a>)</p>
+<ul>
 <li>In real world applications, you need to think carefully about how you handle these…
 <ul>
 <li>Should I impute the missing data? If so, using what method?</li>
@@ -387,29 +424,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul></li>
 <li>For this lesson, however, we are just going to drop <code>NA</code> values so we can focus on the main content</li>
 </ul></li>
-<li>Categorical variables
+<li><p>The below code uses the combines the logic we use for making <code>NA</code>s in <a href="./03-wrangle-i.html">Data Wrangling I</a> with the ability to work across multiple columns in <a href="./09-wrangle-iv.html">Data Wrangling IV</a></p>
 <ul>
-<li>For those who have taken stats, how to handle categorical variables is often an entire 3-hour lesson
-<ul>
-<li>Ultimately, you have to create dummy variables (0 or 1) for all but one category (which is considered your base group)</li>
-</ul></li>
-<li>However, R has a really nice way of handling this situation with less confusion <code>factor()</code>s
-<ul>
-<li>Behind the scenes, <code>factor()</code>s do indeed create dummy variables as required, but, it is all automated
-<ul>
-<li>The only thing we may need to do manually is choose which <code>level</code> of the <code>factor</code> is the base group</li>
-</ul></li>
-</ul></li>
-</ul></li>
-</ul></li>
-<li>For this class, we are going to re-use our subset of the HSLS survey</li>
-<li>So, let’s get our data set up in terms of missing data and categorical variables, while reviewing some techniques from <a href="./09-wrangle-iv.html">Data Wrangling IV</a>
-<ul>
-<li>Does anyone want to walk the class through the block of code below explaining our <code>if_any()</code> or <code>across()</code> statements?…</li>
+<li>First, we read our data and <code>select()</code> the columns we want to use</li>
 </ul></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="fu">file.path</span>(<span class="st">"data"</span>, <span class="st">"hsls-small.csv"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/hsls-small.csv"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>      <span class="fu">select</span>(stu_id, x1sex, x1race, x1txmtscor, x1paredu, x1ses, x1poverty185, x1paredexpct)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Rows: 23503 Columns: 16
 ── Column specification ────────────────────────────────────────────────────────
@@ -419,13 +441,60 @@ dbl (16): stu_id, x1sex, x1race, x1stdob, x1txmtscor, x1paredu, x1hhnumber, ...
 ℹ Use `spec()` to retrieve the full column specification for this data.
 ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> df <span class="sc">|&gt;</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(stu_id, x1sex, x1race, x1txmtscor, x1paredu, x1ses, x1poverty185) <span class="sc">|&gt;</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span> <span class="fu">if_any</span>(<span class="at">.cols =</span> <span class="fu">everything</span>(),</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>                  <span class="at">.fns =</span> <span class="sc">~</span> . <span class="sc">%in%</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">8</span>, <span class="sc">-</span><span class="dv">9</span>))) <span class="sc">|&gt;</span></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="at">.cols =</span> <span class="sc">!</span> <span class="fu">c</span>(x1txmtscor, x1ses),</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>                <span class="at">.fns =</span> <span class="sc">~</span> <span class="fu">as.factor</span>(.)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<pre><code>-   Second we use a combination of `!,` `filter(),` and `if_any()` to say, to say
+    -   "If a row..."
+        -   "has a -8 or -9"
+            -   `.fns = ~ . %in% c(-8, -9)`
+        -   "in any columns"
+            -   `.cols = everything()`
+        -   "do NOT keep it"
+            -   `filter(!)`</code></pre>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> data <span class="sc">|&gt;</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>      <span class="fu">filter</span>(<span class="sc">!</span> <span class="fu">if_any</span>(<span class="at">.cols =</span> <span class="fu">everything</span>(),</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>                      <span class="at">.fns =</span> <span class="sc">~</span> . <span class="sc">%in%</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">8</span>, <span class="sc">-</span><span class="dv">9</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="making-sure-our-data-is-the-right-format" class="level3">
+<h3 data-anchor-id="making-sure-our-data-is-the-right-format">Making Sure Our Data is the Right Format</h3>
+<ul>
+<li><p>In our <a href="./05-viz-i.html">Data Viz I</a> and <a href="./06-viz-ii.html">Data Viz II</a> lessons, we saw that for R to accurately plot categorical variables, we had to convert them into <code>factor()</code>s</p>
+<ul>
+<li><p>The same is true for using categorical variables in models</p>
+<ul>
+<li>Those more familiar with stats may know that you have to “dummy code” categorical variables as 0 and 1 with one category serving as the “reference level” and all other categories getting their own binary variable</li>
+</ul></li>
+<li><p>The wonderful thing is that R handles that all for us if we tell it to treat the variable as a <code>factor()</code></p></li>
+</ul></li>
+<li><p>The below code combines the logic of turning variables into a <code>factor()</code> from <a href="./05-viz-i.html">Data Viz I</a> with working across multiple columns for <a href="./09-wrangle-iv.html">Data Wrangling IV</a> to sat</p>
+<ul>
+<li><p>“Modify”</p>
+<ul>
+<li><code>mutate()</code></li>
+</ul></li>
+<li><p>“Each of these columns”</p>
+<ul>
+<li><code>across(.cols = c(stu_id, x1sex, x1race, x1paredu, x1poverty185)</code></li>
+</ul></li>
+<li><p>“Into a factor”</p>
+<ul>
+<li><code>.fns = ~ factor(.)</code></li>
+</ul></li>
+</ul></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> data <span class="sc">|&gt;</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="at">.cols =</span> <span class="fu">c</span>(stu_id, x1sex, x1race, x1paredu, x1poverty185),</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>                <span class="at">.fns =</span> <span class="sc">~</span> <span class="fu">factor</span>(.)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li><p>With that, our data is ready for some basic analysis!</p>
+<ul>
+<li>Note: In most real-world projects your data preparation will be much more thorough, usually taking up the vast majority of the lines of code in your entire project, this is just the bare minimum to have to models run</li>
+</ul></li>
+</ul>
+</section>
 </section>
 <section id="t-tests-with-t.test" class="level2">
 <h2 data-anchor-id="t-tests-with-t.test">t-tests with <code>t.test()</code></h2>
@@ -436,14 +505,14 @@ dbl (16): stu_id, x1sex, x1race, x1stdob, x1txmtscor, x1paredu, x1hhnumber, ...
 <ul>
 <li>If that between-group-variance is great enough compared to the within-group-variance, the t-test will be “statistically significant”
 <ul>
-<li>This means we are 95% confident (if using the usual 95% confidence level) that the there is a genuine difference between the groups</li>
+<li>This means we are (most often) 95% confident that the there is a genuine difference between the groups</li>
 </ul></li>
 </ul></li>
-<li>There are a handful of statistical assumptions we have to satisfy, which are beyond our scope here, but hopefully the general concept will hope those of you yet to take your stats foundations follow along</li>
+<li>There are also a handful of statistical assumptions we have to satisfy, which are beyond our scope here, but hopefully the general concept will hope those of you yet to take your stats foundations follow along</li>
 </ul></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(x1txmtscor <span class="sc">~</span> x1sex, <span class="at">data =</span> df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(x1txmtscor <span class="sc">~</span> x1sex, <span class="at">data =</span> data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
     Welch Two Sample t-test
@@ -461,20 +530,20 @@ mean in group 1 mean in group 2
 <ul>
 <li>Luckily, the code for <code>t.test()</code> is actually very simple (as is the case for regression too)
 <ul>
-<li>The first argument is a <code>forumla</code>, which for a t-test is just <code>outcome ~ group</code> where group must only have 2 levels</li>
+<li>The first argument is a <code>forumla</code>, which for a t-test is just <code>outcome ~ group</code> where group must only have 2 levels
+<ul>
+<li>In this case, we are looking at math score as our outcome and sex as our group</li>
+</ul></li>
 <li>The second argument is <code>data =</code> which we supply our prepared data frame
 <ul>
-<li>Note: the pipe <code>|&gt;</code> doesn’t play as nicely with models as it does other commands
-<ul>
-<li>It’s usually easier to just specify <code>data =</code> in a new line (don’t pipe anything in)
-<ul>
-<li>But, if you must pipe <code>|&gt;</code>, then use the placeholder argument <code>data = _</code> which will tell the pipe <code>|&gt;</code>-ed output to go where the underscore is</li>
-</ul></li>
-</ul></li>
+<li>Note: the pipe <code>|&gt;</code> doesn’t play as nicely with models as it does other commands it’s usually easier to just specify <code>data =</code> in a new line (don’t pipe anything in)</li>
 </ul></li>
 <li>This code simply prints out our <code>t.test()</code> result
 <ul>
-<li>As our p-value is not less than 0.05, our result is not significant</li>
+<li>As our p-value is above 0.05, our result is not significant
+<ul>
+<li>This indicates there is not a significant difference between male and female math scores in our sample</li>
+</ul></li>
 </ul></li>
 </ul></li>
 </ul>
@@ -482,20 +551,29 @@ mean in group 1 mean in group 2
 <section id="regression-with-lm" class="level2">
 <h2 data-anchor-id="regression-with-lm">Regression with <code>lm()</code></h2>
 <ul>
-<li>The problem with t-tests for our research, is that they don’t provide any ability to control for external variables
+<li><p>The problem with t-tests for our research, is that they don’t provide any ability to control for external variables</p>
 <ul>
 <li>They work great in experimental setting with random-treatment-assignment, but in the messy world of educational research, that’s rarely what we have</li>
 </ul></li>
-<li>What we far more commonly use is a regression (or more advanced methods that build off regression) which allows use to control for other variables</li>
-<li>The basic premise of regression very much builds off the logic of t-tests, testing if the variance associated with our treatment variable is great enough compared to a) residual/random variance and b) variance associated with our control variables, to say with confidence that there is a significant difference associated with our treatment</li>
+<li><p>What we far more commonly use is a regression (or more advanced methods that build off regression) which allows use to control for other variables</p></li>
+<li><p>The basic premise of regression very much builds off the logic of t-tests, testing if the variance associated with our treatment variable is great enough compared to a) residual/random variance and b) variance associated with our control variables, to say with confidence that there is a significant difference associated with our treatment</p></li>
+<li><p>Overall, this looks relatively similar to our code above, with three main differences</p>
+<ol type="1">
+<li>We use <code>lm()</code> (which stands for linear model) instead of <code>t.test()</code></li>
+<li>Instead of our formula just being <code>x1txmtscor ~ x1sex</code> we have added <code>+ x1poverty185 + x1paredu</code> to “control” for these variables</li>
+<li>We assigned <code>&lt;-</code> our <code>lm()</code> results to an object rather than just spitting them out</li>
+</ol>
+<ul>
+<li>That’s because the <code>summary()</code> function is much more useful for <code>lm()</code> objects, plus, we are going to explore the <code>lm()</code> object more in the next steps</li>
+</ul></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>lm_sex <span class="ot">&lt;-</span> <span class="fu">lm</span>(x1txmtscor <span class="sc">~</span> x1sex <span class="sc">+</span> x1poverty185 <span class="sc">+</span> x1paredu, <span class="at">data =</span> df)</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(lm_sex)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>regression <span class="ot">&lt;-</span> <span class="fu">lm</span>(x1txmtscor <span class="sc">~</span> x1sex <span class="sc">+</span> x1poverty185 <span class="sc">+</span> x1paredu, <span class="at">data =</span> data)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(regression)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
-lm(formula = x1txmtscor ~ x1sex + x1poverty185 + x1paredu, data = df)
+lm(formula = x1txmtscor ~ x1sex + x1poverty185 + x1paredu, data = data)
 
 Residuals:
     Min      1Q  Median      3Q     Max 
@@ -520,42 +598,234 @@ F-statistic: 448.4 on 7 and 16421 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
 </div>
 <ul>
-<li>One key difference from <code>t.test()</code> is that we assigned <code>&lt;-</code> our <code>lm()</code> results to an object rather than just spitting them out
+<li>Our results show that, sex still had no significant association with math scores, but, our control variables of poverty and parental education seem to have some very strong associations</li>
+</ul>
+<blockquote class="blockquote">
+<h3 id="quick-question">Quick Question</h3>
 <ul>
-<li>That’s because the <code>summary()</code> function is much more useful for <code>lm()</code> objects, plus, we are going to explore the <code>lm()</code> object more in the next steps</li>
+<li>You may notice we actually have more variables in the regression table than we put in, why? What do they represent?</li>
+</ul>
+</blockquote>
+</section>
+<section id="creating-pretty-regression-output-tables" class="level2">
+<h2 data-anchor-id="creating-pretty-regression-output-tables">Creating Pretty Regression Output Tables</h2>
+<ul>
+<li>Running regressions in R is all well and good, but the output you see here isn’t exactly “publication ready”</li>
+<li>We saw in <a href="./07-quarto-intro.html">Intro to Quarto</a> lesson that we can turn data frames and summary tables into pretty tables using <code>kable()</code>
+<ul>
+<li>Now, we could do the same thing with regression tables, create a nice <code>tibble</code> or <code>dataframe</code> containing the information we want to display, then use <code>kable()</code> to turn that into a table
+<ul>
+<li>You could (and I know Dr.&nbsp;Skinner does) create your own <code>function()</code> that creates a custom regression output table</li>
+</ul></li>
+<li>However, for simplicity and consistency, today we are going to us a very popular package that creates these tables in a single line <code>stargazer</code></li>
 </ul></li>
 </ul>
-<section id="extracting-predictions" class="level3">
-<h3 data-anchor-id="extracting-predictions">Extracting Predictions</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">stargazer</span>(regression, <span class="at">type =</span> <span class="st">"text"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+===============================================
+                        Dependent variable:    
+                    ---------------------------
+                            x1txmtscor         
+-----------------------------------------------
+x1sex2                        -0.041           
+                              (0.143)          
+                                               
+x1poverty1851                -3.022***         
+                              (0.173)          
+                                               
+x1paredu2                    1.342***          
+                              (0.323)          
+                                               
+x1paredu3                    2.483***          
+                              (0.358)          
+                                               
+x1paredu4                    6.123***          
+                              (0.351)          
+                                               
+x1paredu5                    8.173***          
+                              (0.381)          
+                                               
+x1paredu7                    10.767***         
+                              (0.429)          
+                                               
+Constant                     49.049***         
+                              (0.338)          
+                                               
+-----------------------------------------------
+Observations                  16,429           
+R2                             0.160           
+Adjusted R2                    0.160           
+Residual Std. Error     9.161 (df = 16421)     
+F Statistic         448.368*** (df = 7; 16421) 
+===============================================
+Note:               *p&lt;0.1; **p&lt;0.05; ***p&lt;0.01</code></pre>
+</div>
+</div>
+<section id="predictions-with-lm" class="level3">
+<h3 data-anchor-id="predictions-with-lm">Predictions with <code>lm()</code></h3>
 <ul>
-<li><p>Since we have our <code>lm()</code> object saved, let’s start by taking a look inside it by clicking on the object in our environment (top right) panel</p></li>
-<li><p>Confusing right? Most statistical models look something like this, it’s basically a collection of lists and tables containing different information about the model</p>
+<li>When you fit a regression model in R, there is a lot more saved than you see with <code>summary()</code></li>
+<li>Since we have our <code>lm()</code> object saved as <code>lm_sex</code>, let’s start by taking a look inside it by clicking on the object in our environment (top right) panel</li>
+<li>Confusing, right?
 <ul>
+<li>Most statistical models look something like this, it’s basically a collection of lists and tables containing different information about the model</li>
+</ul></li>
 <li>There are functions such as <code>summary()</code> that are great at pulling out the most commonly needed information without having to go manually digging through the model object, but sometimes, it can be useful to know it’s there</li>
 <li>Another great function is <code>predict()</code> which extracts estimated values of the outcome variable based on the predictor variables (some other models use <code>fitted()</code> for the same purpose)
 <ul>
 <li>For those more familiar with stats, you’ll know predicted values are often compared against the true values to see how strong the model is</li>
 </ul></li>
+</ul>
+<!-- -->
+<ul>
+<li>To start, let’s save a full set of predictions to a new columns in our data frame</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> data <span class="sc">|&gt;</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">prediction =</span> <span class="fu">predict</span>(regression))</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 16,429 × 9
+   stu_id x1sex x1race x1txmtscor x1paredu   x1ses x1poverty185 x1paredexpct
+   &lt;fct&gt;  &lt;fct&gt; &lt;fct&gt;       &lt;dbl&gt; &lt;fct&gt;      &lt;dbl&gt; &lt;fct&gt;               &lt;dbl&gt;
+ 1 10001  1     8            59.4 5         1.56   0                       6
+ 2 10002  2     8            47.7 3        -0.370  1                       6
+ 3 10003  2     3            64.2 7         1.27   0                      10
+ 4 10004  2     8            49.3 4         0.550  0                      10
+ 5 10005  1     8            62.6 4         0.150  0                      10
+ 6 10006  2     8            58.1 3         1.06   0                       8
+ 7 10007  2     8            49.5 2        -0.43   0                      11
+ 8 10008  1     8            54.6 7         1.51   0                       6
+ 9 10009  1     8            53.2 2        -0.310  0                      11
+10 10010  2     8            63.8 3         0.0451 0                       6
+# ℹ 16,419 more rows
+# ℹ 1 more variable: prediction &lt;dbl&gt;</code></pre>
+</div>
+</div>
+<ul>
+<li>Next, we can compare these to our actual results using a simple plot (no formatting) from <a href="./05-viz-i.html">Data Viz I</a>
+<ul>
+<li>The only new thing we add here is <code>coord_obs_pred()</code> which is from the <code>tidymodels</code> package
+<ul>
+<li>This fixes the axes so that the predictions and observed values are plotted on the same scale</li>
+</ul></li>
+</ul></li>
+</ul>
+<blockquote class="blockquote">
+<h3 id="quick-excercise">Quick Excercise</h3>
+<ul>
+<li>Try removing the final line <code>coord_obs_pred()</code> and see what happens. Which plot do you think is better?</li>
+</ul>
+</blockquote>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(data,</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x =</span> prediction,</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>           <span class="at">y =</span> x1txmtscor)) <span class="sc">+</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>) <span class="sc">+</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_obs_pred</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="12-pro-model_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<blockquote class="blockquote">
+<h3 id="easier-quick-question">(Easier) Quick Question</h3>
+<ul>
+<li>What do we think about our model? Does it look like it’s doing a great job of predicting? Why/why not?</li>
+</ul>
+</blockquote>
+<blockquote class="blockquote">
+<h3 id="harder-quick-question">(Harder) Quick Question</h3>
+<ul>
+<li>You’ll notice our plot looks kind of clumped together, why do you think that it? What about the model would lead to that?</li>
+</ul>
+</blockquote>
+<blockquote class="blockquote">
+<h3 id="not-so-quick-group-excercise">(Not So) Quick (Group) Excercise</h3>
+<ul>
+<li>Given what we just discussed, can we change one of the variables we are using in the model to make it less “clumpy” but caputre the same information?</li>
+</ul>
+</blockquote>
+<div class="cell">
+<div class="cell-output cell-output-stderr">
+<pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="12-pro-model_files/figure-html/less-clumpy-lm-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<blockquote class="blockquote">
+<h3 id="quick-question-1">Quick Question</h3>
+<ul>
+<li>Does that look better? What else is odd about our predictions?</li>
+</ul>
+</blockquote>
+<ul>
+<li>We can also use <code>predict()</code> to estimate potential outcome values for new students who don’t have the outcome for</li>
+<li>This is a common way you evaluate machine learning models</li>
+<li>If you think you’re model is a really good predictor (which ours is not) you may feel comfortable using something like this to help your office predict student outcomes/identify students in need of additional help</li>
+</ul>
+<!-- -->
+<ul>
+<li>To demonstrate this, we are first going to split out 10% of our data using <code>slice_sample()</code> and drop the math score from it</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>data_outcome_unknown <span class="ot">&lt;-</span> data <span class="sc">|&gt;</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_sample</span>(<span class="at">prop =</span> <span class="fl">0.1</span>) <span class="sc">|&gt;</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>x1txmtscor)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li>Then, we can use <code>anti_join()</code> which is basically the opposite of the joins we used in <a href="./04-wrangle-ii.html">Data Wrangling II</a>
+<ul>
+<li>It looks for every row in x that isn’t in y and keeps those</li>
 </ul></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>predictions <span class="ot">&lt;-</span> <span class="fu">predict</span>(lm_sex)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>data_outcome_known <span class="ot">&lt;-</span>  <span class="fu">anti_join</span>(<span class="at">x =</span> data, <span class="at">y =</span> data_outcome_unknown, <span class="at">by =</span> <span class="st">"stu_id"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ul>
-<li>We can also use <code>predict()</code> to estimate potential outcome values for new students who don’t have the outcome for</li>
+<li>Now, we can fit one more <code>lm()</code> using our data we “know” the outcome for</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>df_unknown <span class="ot">&lt;-</span> df <span class="sc">|&gt;</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_sample</span>(<span class="at">prop =</span> <span class="fl">0.1</span>) <span class="sc">|&gt;</span></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>x1txmtscor)</span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>df_train <span class="ot">&lt;-</span> df <span class="sc">|&gt;</span></span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">anti_join</span>(df_unknown, <span class="at">by =</span> <span class="st">"stu_id"</span>)</span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>lm_sex_train <span class="ot">&lt;-</span> <span class="fu">lm</span>(x1txmtscor <span class="sc">~</span> x1sex <span class="sc">+</span> x1poverty185 <span class="sc">+</span> x1paredu, <span class="at">data =</span> df_train)</span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>predictions_new <span class="ot">&lt;-</span> <span class="fu">predict</span>(lm_sex_train, <span class="at">newdata =</span> df_unknown)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>regression_3 <span class="ot">&lt;-</span> <span class="fu">lm</span>(x1txmtscor <span class="sc">~</span> x1sex <span class="sc">+</span> x1ses <span class="sc">+</span> x1paredu, <span class="at">data =</span> data_outcome_known)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<ul>
+<li>Finally, we can <code>predict()</code> outcomes for the data we “don’t know” the outcome for
+<ul>
+<li>We add the <code>regression_3</code> we just fitted as the model, same as before</li>
+<li>But we also add <code>newdata = data_outcome_unknown</code> to say predict the outcome for this new data, instead of extract the predictions the model originally made</li>
+</ul></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>data_outcome_unknown <span class="ot">&lt;-</span> data_outcome_unknown <span class="sc">|&gt;</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">prediction_3 =</span> <span class="fu">predict</span>(regression_3, <span class="at">newdata =</span> data_outcome_unknown))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li>Lastly, let’s see how similar our predictions we made using our model without the outcome were to those made when the outcome was known for everyone using <code>cor()</code> to get the correlation</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(data_outcome_unknown<span class="sc">$</span>prediction_2, data_outcome_unknown<span class="sc">$</span>prediction_3)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.9999769</code></pre>
+</div>
+</div>
+<ul>
+<li>Pretty close!</li>
+</ul>
 </section>
 <section id="checking-residuals" class="level3">
 <h3 data-anchor-id="checking-residuals">Checking Residuals</h3>
@@ -568,11 +838,12 @@ F-statistic: 448.4 on 7 and 16421 DF,  p-value: &lt; 2.2e-16</code></pre>
 </ul></li>
 <li>That is a magic tip, if you ever want to get something specific out of a model object, often they’ll be something you can click on to generate the code needed to access it in the console
 <ul>
-<li>For residuals, it is <code>lm_sex[["residuals"]]</code></li>
+<li>For residuals, it is <code>regression_2[["residuals"]]</code></li>
 </ul></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>residuals <span class="ot">&lt;-</span> lm_sex[[<span class="st">"residuals"</span>]]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> data <span class="sc">|&gt;</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">residual =</span> regression_2[[<span class="st">"residuals"</span>]])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ul>
 <li>Now, again, not to get too deep into assumptions, but one of the key things to check is that your residuals have a normal distribution
@@ -581,17 +852,17 @@ F-statistic: 448.4 on 7 and 16421 DF,  p-value: &lt; 2.2e-16</code></pre>
 </ul></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="fu">aes</span>(<span class="at">x =</span> residuals),</span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>                 <span class="at">color =</span> <span class="st">"black"</span>,</span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>                 <span class="at">fill =</span> <span class="st">"skyblue"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(data) <span class="sc">+</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="fu">aes</span>(<span class="at">x =</span> residual),</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>                 <span class="at">color =</span> <span class="st">"black"</span>,</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>                 <span class="at">fill =</span> <span class="st">"skyblue"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
 </div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="12-pro-model_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="12-pro-model_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -611,7 +882,7 @@ F-statistic: 448.4 on 7 and 16421 DF,  p-value: &lt; 2.2e-16</code></pre>
 <ul>
 <li>Above, we simply put our formula into the <code>t.test()</code> or <code>lm()</code> command
 <ul>
-<li>Instead, we can actually specify it as a formula object first, then call that object, which has two advantages
+<li><p>Instead, we can actually specify it as a formula object first, then call that object, which has two advantages</p>
 <ol type="1">
 <li>If we run multiple tests with the same formula, we only have to change it once in our code for updates</li>
 </ol>
@@ -624,130 +895,151 @@ F-statistic: 448.4 on 7 and 16421 DF,  p-value: &lt; 2.2e-16</code></pre>
 </ul></li>
 </ul></li>
 </ul>
+<!-- -->
+<ul>
+<li>To demonstrate this, we will fit the same model using standard <code>lm()</code> and <code>lm_robust()</code> which for those versed in stats, is one option we can use when we have a violation of heteroskedasticity</li>
+</ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>matts_form <span class="ot">&lt;-</span> <span class="fu">formula</span>(x1txmtscor <span class="sc">~</span> x1sex <span class="sc">+</span> x1poverty185 <span class="sc">+</span> x1paredu)</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>lm_sex <span class="ot">&lt;-</span> <span class="fu">lm</span>(matts_form, <span class="at">data =</span> df)</span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(lm_sex)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>regression_formula <span class="ot">&lt;-</span> <span class="fu">formula</span>(x1txmtscor <span class="sc">~</span> x1sex <span class="sc">+</span> x1ses <span class="sc">+</span> x1paredu)</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>regression_4 <span class="ot">&lt;-</span> <span class="fu">lm</span>(regression_formula, <span class="at">data =</span> data)</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(regression_4)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
-lm(formula = matts_form, data = df)
+lm(formula = regression_formula, data = data)
 
 Residuals:
     Min      1Q  Median      3Q     Max 
--32.748  -5.715   0.160   6.136  30.413 
+-31.781  -5.703   0.180   6.129  30.996 
 
 Coefficients:
-              Estimate Std. Error t value Pr(&gt;|t|)    
-(Intercept)    49.0485     0.3379 145.139  &lt; 2e-16 ***
-x1sex2         -0.0412     0.1429  -0.288    0.773    
-x1poverty1851  -3.0224     0.1729 -17.483  &lt; 2e-16 ***
-x1paredu2       1.3419     0.3234   4.149 3.36e-05 ***
-x1paredu3       2.4834     0.3584   6.929 4.38e-12 ***
-x1paredu4       6.1227     0.3507  17.460  &lt; 2e-16 ***
-x1paredu5       8.1726     0.3814  21.426  &lt; 2e-16 ***
-x1paredu7      10.7669     0.4294  25.074  &lt; 2e-16 ***
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept) 50.82144    0.35585 142.819  &lt; 2e-16 ***
+x1sex2      -0.03767    0.14199  -0.265    0.791    
+x1ses        3.77674    0.16341  23.112  &lt; 2e-16 ***
+x1paredu2   -0.04729    0.33298  -0.142    0.887    
+x1paredu3   -0.15566    0.39027  -0.399    0.690    
+x1paredu4    2.04812    0.42368   4.834 1.35e-06 ***
+x1paredu5    2.57885    0.49454   5.215 1.86e-07 ***
+x1paredu7    2.67655    0.60923   4.393 1.12e-05 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
-Residual standard error: 9.161 on 16421 degrees of freedom
-Multiple R-squared:  0.1605,    Adjusted R-squared:  0.1601 
-F-statistic: 448.4 on 7 and 16421 DF,  p-value: &lt; 2.2e-16</code></pre>
+Residual standard error: 9.099 on 16421 degrees of freedom
+Multiple R-squared:  0.1718,    Adjusted R-squared:  0.1714 
+F-statistic: 486.5 on 7 and 16421 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>lm_sex_robust <span class="ot">&lt;-</span> <span class="fu">lm_robust</span>(matts_form, <span class="at">data =</span> df)</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(lm_sex_robust)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>regression_robust <span class="ot">&lt;-</span> <span class="fu">lm_robust</span>(regression_formula, <span class="at">data =</span> data, <span class="at">se_type =</span> <span class="st">"stata"</span>)</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(regression_robust)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
-lm_robust(formula = matts_form, data = df)
+lm_robust(formula = regression_formula, data = data, se_type = "stata")
 
-Standard error type:  HC2 
+Standard error type:  HC1 
 
 Coefficients:
-              Estimate Std. Error  t value   Pr(&gt;|t|) CI Lower CI Upper    DF
-(Intercept)    49.0485     0.3241 151.3515  0.000e+00  48.4133   49.684 16421
-x1sex2         -0.0412     0.1430  -0.2882  7.732e-01  -0.3214    0.239 16421
-x1poverty1851  -3.0224     0.1761 -17.1640  1.840e-65  -3.3676   -2.677 16421
-x1paredu2       1.3419     0.3063   4.3811  1.188e-05   0.7415    1.942 16421
-x1paredu3       2.4834     0.3400   7.3038  2.925e-13   1.8170    3.150 16421
-x1paredu4       6.1227     0.3378  18.1247  1.040e-72   5.4606    6.785 16421
-x1paredu5       8.1726     0.3696  22.1114 8.842e-107   7.4481    8.897 16421
-x1paredu7      10.7669     0.4335  24.8379 1.014e-133   9.9172   11.617 16421
+            Estimate Std. Error  t value   Pr(&gt;|t|) CI Lower CI Upper    DF
+(Intercept) 50.82144     0.3443 147.6058  0.000e+00  50.1466  51.4963 16421
+x1sex2      -0.03767     0.1420  -0.2653  7.908e-01  -0.3160   0.2407 16421
+x1ses        3.77674     0.1651  22.8741 5.068e-114   3.4531   4.1004 16421
+x1paredu2   -0.04729     0.3196  -0.1479  8.824e-01  -0.6738   0.5792 16421
+x1paredu3   -0.15566     0.3767  -0.4132  6.795e-01  -0.8941   0.5828 16421
+x1paredu4    2.04812     0.4167   4.9150  8.963e-07   1.2313   2.8649 16421
+x1paredu5    2.57885     0.4891   5.2725  1.363e-07   1.6201   3.5376 16421
+x1paredu7    2.67655     0.6206   4.3130  1.620e-05   1.4601   3.8929 16421
 
-Multiple R-squared:  0.1605 ,   Adjusted R-squared:  0.1601 
-F-statistic: 446.5 on 7 and 16421 DF,  p-value: &lt; 2.2e-16</code></pre>
+Multiple R-squared:  0.1718 ,   Adjusted R-squared:  0.1714 
+F-statistic: 490.1 on 7 and 16421 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
 </div>
 </section>
 <section id="modeling-programatically-with-loops" class="level2">
 <h2 data-anchor-id="modeling-programatically-with-loops">Modeling Programatically with Loops</h2>
+<ul>
+<li>Finally, we can also bring in content from <a href="./11-pro-functions.html">Functions &amp; Loops</a> and fit regression models using loops</li>
+<li>This is kind of thing you might want to do if you are testing the same model on a set of outcomes</li>
+</ul>
+<blockquote class="blockquote">
+<h3 id="quick-question-2">Quick Question</h3>
+<ul>
+<li>Thinking back to that lesson, why might we want to go through the hassle of fitting regressions using loops? What are the advantages of using loops vs coding it all out separately?</li>
+</ul>
+</blockquote>
+<ul>
+<li>For example, we might be interested in modeling both a students math score and their parental education expectation
+<ol type="1">
+<li>we make a list containing our outcome variables (x1txmtscor and x1paredexpct)</li>
+<li>Use a <code>for()</code> loop to loop through these outcomes, which <code>paste()</code>s i (which takes on the name of each outcome variable) into the formula and then runs the model</li>
+</ol></li>
+</ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>outcomes <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"x1txmtscor"</span>, <span class="st">"x1ses"</span>)</span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> outcomes) {</span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(i)</span>
-<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>  loop_form <span class="ot">&lt;-</span> <span class="fu">formula</span>(<span class="fu">paste0</span>(i, <span class="st">"~ x1sex + x1poverty185 + x1paredu"</span>))</span>
-<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>  loop_lm <span class="ot">&lt;-</span> <span class="fu">lm</span>(loop_form, <span class="at">data =</span> df)</span>
-<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(<span class="fu">summary</span>(loop_lm))</span>
-<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>outcomes <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"x1txmtscor"</span>, <span class="st">"x1paredexpct"</span>)</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> outcomes) {</span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(i)</span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>  loop_formula <span class="ot">&lt;-</span> <span class="fu">formula</span>(<span class="fu">paste0</span>(i, <span class="st">"~ x1sex + x1ses + x1paredu"</span>))</span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>  loop_lm <span class="ot">&lt;-</span> <span class="fu">lm</span>(loop_formula, <span class="at">data =</span> data)</span>
+<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(<span class="fu">summary</span>(loop_lm))</span>
+<span id="cb31-12"><a href="#cb31-12" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb31-13"><a href="#cb31-13" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "x1txmtscor"
 
 Call:
-lm(formula = loop_form, data = df)
+lm(formula = loop_formula, data = data)
 
 Residuals:
     Min      1Q  Median      3Q     Max 
--32.748  -5.715   0.160   6.136  30.413 
+-31.781  -5.703   0.180   6.129  30.996 
 
 Coefficients:
-              Estimate Std. Error t value Pr(&gt;|t|)    
-(Intercept)    49.0485     0.3379 145.139  &lt; 2e-16 ***
-x1sex2         -0.0412     0.1429  -0.288    0.773    
-x1poverty1851  -3.0224     0.1729 -17.483  &lt; 2e-16 ***
-x1paredu2       1.3419     0.3234   4.149 3.36e-05 ***
-x1paredu3       2.4834     0.3584   6.929 4.38e-12 ***
-x1paredu4       6.1227     0.3507  17.460  &lt; 2e-16 ***
-x1paredu5       8.1726     0.3814  21.426  &lt; 2e-16 ***
-x1paredu7      10.7669     0.4294  25.074  &lt; 2e-16 ***
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept) 50.82144    0.35585 142.819  &lt; 2e-16 ***
+x1sex2      -0.03767    0.14199  -0.265    0.791    
+x1ses        3.77674    0.16341  23.112  &lt; 2e-16 ***
+x1paredu2   -0.04729    0.33298  -0.142    0.887    
+x1paredu3   -0.15566    0.39027  -0.399    0.690    
+x1paredu4    2.04812    0.42368   4.834 1.35e-06 ***
+x1paredu5    2.57885    0.49454   5.215 1.86e-07 ***
+x1paredu7    2.67655    0.60923   4.393 1.12e-05 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
-Residual standard error: 9.161 on 16421 degrees of freedom
-Multiple R-squared:  0.1605,    Adjusted R-squared:  0.1601 
-F-statistic: 448.4 on 7 and 16421 DF,  p-value: &lt; 2.2e-16
+Residual standard error: 9.099 on 16421 degrees of freedom
+Multiple R-squared:  0.1718,    Adjusted R-squared:  0.1714 
+F-statistic: 486.5 on 7 and 16421 DF,  p-value: &lt; 2.2e-16
 
-[1] "x1ses"
+[1] "x1paredexpct"
 
 Call:
-lm(formula = loop_form, data = df)
+lm(formula = loop_formula, data = data)
 
 Residuals:
-     Min       1Q   Median       3Q      Max 
--1.72381 -0.26681 -0.00593  0.25999  1.28288 
+    Min      1Q  Median      3Q     Max 
+-7.5279 -1.6021 -0.0548  2.2533  4.6503 
 
 Coefficients:
-               Estimate Std. Error t value Pr(&gt;|t|)    
-(Intercept)   -0.731028   0.014093  -51.87   &lt;2e-16 ***
-x1sex2        -0.001848   0.005962   -0.31    0.757    
-x1poverty1851 -0.500690   0.007210  -69.45   &lt;2e-16 ***
-x1paredu2      0.476082   0.013488   35.30   &lt;2e-16 ***
-x1paredu3      0.861408   0.014946   57.64   &lt;2e-16 ***
-x1paredu4      1.298040   0.014624   88.76   &lt;2e-16 ***
-x1paredu5      1.719034   0.015907  108.07   &lt;2e-16 ***
-x1paredu7      2.387740   0.017907  133.34   &lt;2e-16 ***
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)  7.17797    0.10020  71.638  &lt; 2e-16 ***
+x1sex2       0.47245    0.03998  11.817  &lt; 2e-16 ***
+x1ses        0.28497    0.04601   6.193 6.03e-10 ***
+x1paredu2   -0.39488    0.09376  -4.212 2.55e-05 ***
+x1paredu3   -0.28136    0.10989  -2.560   0.0105 *  
+x1paredu4   -0.07679    0.11930  -0.644   0.5198    
+x1paredu5    0.29117    0.13925   2.091   0.0365 *  
+x1paredu7    0.85235    0.17155   4.969 6.81e-07 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
-Residual standard error: 0.382 on 16421 degrees of freedom
-Multiple R-squared:  0.7917,    Adjusted R-squared:  0.7916 
-F-statistic:  8917 on 7 and 16421 DF,  p-value: &lt; 2.2e-16</code></pre>
+Residual standard error: 2.562 on 16421 degrees of freedom
+Multiple R-squared:  0.04934,   Adjusted R-squared:  0.04894 
+F-statistic: 121.8 on 7 and 16421 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
 </div>
 </section>
