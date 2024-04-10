@@ -1,5 +1,3 @@
-## install.packages(c("tidymodels", "estimatr", "stargazer"))
-
 ## -----------------------------------------------------------------------------
 ##
 ##' [PROJ: EDH 7916]
@@ -11,6 +9,10 @@
 
 setwd(this.path::here())
 
+
+## install.packages(c("tidymodels", "estimatr", "stargazer", "gtsummary"))
+
+
 ## ---------------------------
 ##' [Libraries]
 ## ---------------------------
@@ -19,6 +21,7 @@ library(tidyverse)
 library(tidymodels)
 library(estimatr)
 library(stargazer)
+library(gtsummary)
 library(knitr)
 
 
@@ -50,16 +53,27 @@ t.test(x1txmtscor ~ x1sex, data = data)
 regression <- lm(x1txmtscor ~ x1sex + x1poverty185 + x1paredu, data = data)
 summary(regression)
 
-stargazer(regression, type = "text")
+stargazer(regression, type = "html")
 
+tbl_regression(regression)
 
-summary(regression)[["coefficients"]] |>
+tbl_regression(regression,
+               label = list(x1sex ~ "Sex",
+                            x1poverty185 ~ "Below Poverty Line",
+                            x1paredu ~ "Parental Education")) |>
+  add_significance_stars(hide_ci = FALSE, hide_p = FALSE) |>
+  add_glance_source_note(include = c(r.squared, nobs))
+
+summary_object <- summary(regression)
+
+summary_object[["coefficients"]] |>
   as.data.frame() |>
   mutate(sig = case_when(`Pr(>|t|)` < 0.001 ~ "***",
                          `Pr(>|t|)` < 0.01 ~ "**",
                          `Pr(>|t|)` < 0.05 ~ "*",
                          TRUE ~ "")) |>
-  kable(col.names = c("estimate", "s.e.", "t", "p", ""))
+  kable(col.names = c("estimate", "s.e.", "t", "p", ""),
+        digits = 3)
 
 
 ## ---------------------------
@@ -75,10 +89,21 @@ ggplot(data,
        aes(x = prediction,
            y = x1txmtscor)) +
   geom_point() +
-  geom_smooth(method = "lm") +
+  geom_abline(slope = 1, intercept = 0) +
   coord_obs_pred()
 
 
+regression_2 <- lm(x1txmtscor ~ x1sex + x1ses + x1paredu, data = data)
+
+data <- data |>
+  mutate(prediction_2 = predict(regression_2))
+
+ggplot(data,
+       aes(x = prediction_2,
+           y = x1txmtscor)) +
+  geom_point() +
+  geom_abline(slope = 1, intercept = 0) +
+  coord_obs_pred()
 
 
 data_outcome_unknown <- data |>

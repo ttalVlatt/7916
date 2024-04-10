@@ -365,10 +365,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
 <p><a href="./r-scripts/12-pro-model.R"><i class="fa-solid fa-code" aria-label="code"></i> R Code</a></p>
 <ul>
-<li>We are going to use (the tiniest portion of) our final new package today <code>tidymodels</code></li>
+<li>We are going to use (the tiniest portion of) our final new package today <code>tidymodels</code>, as well as <code>estimatr</code> to fit a different kind of regression, and a couple of packages to make pretty regression output tables</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="fu">c</span>(<span class="st">"tidymodels"</span>, <span class="st">"estimatr"</span>, <span class="st">"stargazer"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="fu">c</span>(<span class="st">"tidymodels"</span>, <span class="st">"estimatr"</span>, <span class="st">"stargazer"</span>, <span class="st">"gtsummary"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ul>
 <li>First off, let me say I am not a stats professor nor is this not a stats lesson
@@ -424,10 +424,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul></li>
 <li>For this lesson, however, we are just going to drop <code>NA</code> values so we can focus on the main content</li>
 </ul></li>
-<li><p>The below code uses the combines the logic we use for making <code>NA</code>s in <a href="./03-wrangle-i.html">Data Wrangling I</a> with the ability to work across multiple columns in <a href="./09-wrangle-iv.html">Data Wrangling IV</a></p>
-<ul>
-<li>First, we read our data and <code>select()</code> the columns we want to use</li>
-</ul></li>
+<li><p>The below code uses the combines the logic we use for making <code>NA</code>s in <a href="./03-wrangle-i.html">Data Wrangling I</a> with the ability to work across multiple columns in <a href="./09-wrangle-iv.html">Data Wrangling IV</a></p></li>
+<li><p>First, we read our data and <code>select()</code> the columns we want to use</p></li>
 </ul>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/hsls-small.csv"</span>) <span class="sc">|&gt;</span></span>
@@ -442,51 +440,64 @@ dbl (16): stu_id, x1sex, x1race, x1stdob, x1txmtscor, x1paredu, x1hhnumber, ...
 ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
 </div>
 </div>
-<pre><code>-   Second we use a combination of `!,` `filter(),` and `if_any()` to say, to say
-    -   "If a row..."
-        -   "has a -8 or -9"
-            -   `.fns = ~ . %in% c(-8, -9)`
-        -   "in any columns"
-            -   `.cols = everything()`
-        -   "do NOT keep it"
-            -   `filter(!)`</code></pre>
+<ul>
+<li>Second we use a combination of <code>!,</code> <code>filter(),</code> and <code>if_any()</code> to say…
+<ul>
+<li>“If a row…”
+<ul>
+<li>“has a -8 or -9”
+<ul>
+<li><code>.fns = ~ . %in% c(-8, -9)</code></li>
+</ul></li>
+<li>“in any columns”
+<ul>
+<li><code>.cols = everything()</code></li>
+</ul></li>
+<li>“do NOT keep it”
+<ul>
+<li><code>filter(!)</code></li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> data <span class="sc">|&gt;</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>      <span class="fu">filter</span>(<span class="sc">!</span> <span class="fu">if_any</span>(<span class="at">.cols =</span> <span class="fu">everything</span>(),</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>                      <span class="at">.fns =</span> <span class="sc">~</span> . <span class="sc">%in%</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">8</span>, <span class="sc">-</span><span class="dv">9</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> data <span class="sc">|&gt;</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>      <span class="fu">filter</span>(<span class="sc">!</span> <span class="fu">if_any</span>(<span class="at">.cols =</span> <span class="fu">everything</span>(),</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>                      <span class="at">.fns =</span> <span class="sc">~</span> . <span class="sc">%in%</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">8</span>, <span class="sc">-</span><span class="dv">9</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="making-sure-our-data-is-the-right-format" class="level3">
 <h3 data-anchor-id="making-sure-our-data-is-the-right-format">Making Sure Our Data is the Right Format</h3>
 <ul>
-<li><p>In our <a href="./05-viz-i.html">Data Viz I</a> and <a href="./06-viz-ii.html">Data Viz II</a> lessons, we saw that for R to accurately plot categorical variables, we had to convert them into <code>factor()</code>s</p>
+<li>In our <a href="./05-viz-i.html">Data Viz I</a> and <a href="./06-viz-ii.html">Data Viz II</a> lessons, we saw that for R to accurately plot categorical variables, we had to convert them into <code>factor()</code>s
 <ul>
-<li><p>The same is true for using categorical variables in models</p>
+<li>The same is true for using categorical variables in models
 <ul>
 <li>Those more familiar with stats may know that you have to “dummy code” categorical variables as 0 and 1 with one category serving as the “reference level” and all other categories getting their own binary variable</li>
-</ul></li>
-<li><p>The wonderful thing is that R handles that all for us if we tell it to treat the variable as a <code>factor()</code></p></li>
-</ul></li>
-<li><p>The below code combines the logic of turning variables into a <code>factor()</code> from <a href="./05-viz-i.html">Data Viz I</a> with working across multiple columns for <a href="./09-wrangle-iv.html">Data Wrangling IV</a> to sat</p>
-<ul>
-<li><p>“Modify”</p>
-<ul>
-<li><code>mutate()</code></li>
-</ul></li>
-<li><p>“Each of these columns”</p>
-<ul>
-<li><code>across(.cols = c(stu_id, x1sex, x1race, x1paredu, x1poverty185)</code></li>
-</ul></li>
-<li><p>“Into a factor”</p>
-<ul>
-<li><code>.fns = ~ factor(.)</code></li>
+<li>The wonderful thing is that R handles that all for us if we tell it to treat the variable as a <code>factor()</code></li>
 </ul></li>
 </ul></li>
 </ul>
+<!-- -->
+<ul>
+<li>The below code combines the logic of turning variables into a <code>factor()</code> from <a href="./05-viz-i.html">Data Viz I</a> with working across multiple columns for <a href="./09-wrangle-iv.html">Data Wrangling IV</a> to sat</li>
+<li>“Modify”
+<ul>
+<li><code>mutate()</code></li>
+</ul></li>
+<li>“Each of these columns”
+<ul>
+<li><code>across(.cols = c(stu_id, x1sex, x1race, x1paredu, x1poverty185)</code></li>
+</ul></li>
+<li>“Into a factor”
+<ul>
+<li><code>.fns = ~ factor(.)</code></li>
+</ul></li>
+</ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> data <span class="sc">|&gt;</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="at">.cols =</span> <span class="fu">c</span>(stu_id, x1sex, x1race, x1paredu, x1poverty185),</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>                <span class="at">.fns =</span> <span class="sc">~</span> <span class="fu">factor</span>(.)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> data <span class="sc">|&gt;</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="at">.cols =</span> <span class="fu">c</span>(stu_id, x1sex, x1race, x1paredu, x1poverty185),</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>                <span class="at">.fns =</span> <span class="sc">~</span> <span class="fu">factor</span>(.)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ul>
 <li><p>With that, our data is ready for some basic analysis!</p>
@@ -512,7 +523,7 @@ dbl (16): stu_id, x1sex, x1race, x1stdob, x1txmtscor, x1paredu, x1hhnumber, ...
 </ul></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(x1txmtscor <span class="sc">~</span> x1sex, <span class="at">data =</span> data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(x1txmtscor <span class="sc">~</span> x1sex, <span class="at">data =</span> data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
     Welch Two Sample t-test
@@ -568,8 +579,8 @@ mean in group 1 mean in group 2
 </ul></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>regression <span class="ot">&lt;-</span> <span class="fu">lm</span>(x1txmtscor <span class="sc">~</span> x1sex <span class="sc">+</span> x1poverty185 <span class="sc">+</span> x1paredu, <span class="at">data =</span> data)</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(regression)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>regression <span class="ot">&lt;-</span> <span class="fu">lm</span>(x1txmtscor <span class="sc">~</span> x1sex <span class="sc">+</span> x1poverty185 <span class="sc">+</span> x1paredu, <span class="at">data =</span> data)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(regression)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
@@ -606,73 +617,1506 @@ F-statistic: 448.4 on 7 and 16421 DF,  p-value: &lt; 2.2e-16</code></pre>
 <li>You may notice we actually have more variables in the regression table than we put in, why? What do they represent?</li>
 </ul>
 </blockquote>
+<ul>
+<li>That’s correct, they represent the different levels of our <code>factor()</code>-ed categorical variables</li>
+</ul>
 </section>
 <section id="creating-pretty-regression-output-tables" class="level2">
 <h2 data-anchor-id="creating-pretty-regression-output-tables">Creating Pretty Regression Output Tables</h2>
 <ul>
 <li>Running regressions in R is all well and good, but the output you see here isn’t exactly “publication ready”</li>
-<li>We saw in <a href="./07-quarto-intro.html">Intro to Quarto</a> lesson that we can turn data frames and summary tables into pretty tables using <code>kable()</code>
+<li>There are multiple ways of creating regression (and other model) output tables, each with their own pros and cons
 <ul>
-<li>Now, we could do the same thing with regression tables, create a nice <code>tibble</code> or <code>dataframe</code> containing the information we want to display, then use <code>kable()</code> to turn that into a table
-<ul>
-<li>You could (and I know Dr.&nbsp;Skinner does) create your own <code>function()</code> that creates a custom regression output table</li>
+<li>Here, we will go over three of the most common methods</li>
 </ul></li>
-<li>However, for simplicity and consistency, today we are going to us a very popular package that creates these tables in a single line <code>stargazer</code></li>
+</ul>
+<section id="stargazer-package" class="level3">
+<h3 data-anchor-id="stargazer-package"><code>stargazer</code> Package</h3>
+<ul>
+<li>One of the most common packages for getting “publication ready” regression tables is <code>stargazer</code></li>
+<li>I personally find these tables a little inflexible, but it’s very common in the world of R, so it’s worth covering here</li>
+<li>The code is very simple, at minimum, provide the regression model you fitted, and the type of table you want
+<ul>
+<li>We are using “html” here so it formats for the website, you could use “text” or “latex”, I don’t think there’s currently support for typst though</li>
+</ul></li>
+<li>Reminder from <a href="./07-quarto-intro.html">Intro to Quarto</a>: To get captions and table numbers if we are using Quarto, we use the “chunk options” to cross reference them, not manually adding them to the table code
+<ul>
+<li>You see more about that on the <a href="https://quarto.org/docs/authoring/cross-references.html#computations-1">Quarto guide for cross referencing</a></li>
+<li>To get the table to appear like this I…
+<ul>
+<li>Labeled the chunk <code>{r tbl-stargazer}</code></li>
+<li>Added <code>#| tbl-cap: "Regression Table Using stargazer"</code> as the first line</li>
+</ul></li>
+</ul></li>
+</ul>
+<div id="tbl-stargazer" class="cell quarto-float">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-stargazer-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;1: Regression Table Using stargazer
+</figcaption>
+<div aria-describedby="tbl-stargazer-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">stargazer</span>(regression, <span class="at">type =</span> <span class="st">"html"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<table style="text-align:center">
+<tbody><tr>
+<td colspan="2" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+<em>Dependent variable:</em>
+</td>
+</tr>
+<tr>
+<td>
+</td>
+<td colspan="1" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+x1txmtscor
+</td>
+</tr>
+<tr>
+<td colspan="2" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+x1sex2
+</td>
+<td>
+-0.041
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.143)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+x1poverty1851
+</td>
+<td>
+-3.022<sup>***</sup>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.173)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+x1paredu2
+</td>
+<td>
+1.342<sup>***</sup>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.323)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+x1paredu3
+</td>
+<td>
+2.483<sup>***</sup>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.358)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+x1paredu4
+</td>
+<td>
+6.123<sup>***</sup>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.351)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+x1paredu5
+</td>
+<td>
+8.173<sup>***</sup>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.381)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+x1paredu7
+</td>
+<td>
+10.767<sup>***</sup>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.429)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Constant
+</td>
+<td>
+49.049<sup>***</sup>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.338)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td colspan="2" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Observations
+</td>
+<td>
+16,429
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+R<sup>2</sup>
+</td>
+<td>
+0.160
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Adjusted R<sup>2</sup>
+</td>
+<td>
+0.160
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Residual Std. Error
+</td>
+<td>
+9.161 (df = 16421)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+F Statistic
+</td>
+<td>
+448.368<sup>***</sup> (df = 7; 16421)
+</td>
+</tr>
+<tr>
+<td colspan="2" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+<em>Note:</em>
+</td>
+<td style="text-align:right">
+<sup><em></em></sup><em>p&lt;0.1; <sup><strong></strong></sup><strong>p&lt;0.05; <sup></sup></strong></em>p&lt;0.01
+</td>
+</tr>
+</tbody></table>
+</div>
+</figure>
+</div>
+<ul>
+<li>Note: If you give a full data frame to <code>stargazer()</code> it will also create a descriptive statistics table</li>
+</ul>
+</section>
+<section id="gtsummary-package" class="level3">
+<h3 data-anchor-id="gtsummary-package"><code>gtsummary</code> Package</h3>
+<ul>
+<li>Personally, I find the <code>gtsummary</code> package (which is built on the <code>gt</code> tables package) much more like what I want
+<ul>
+<li>When I’m using a package to create my tables, this is my preferred option</li>
+<li><code>tbl_regression()</code> creates a pretty great table when you just provide the regression model
+<ul>
+<li>One thing I particularly like is how <code>gtsummary</code> handles factors, I think it makes the it super-duper clear</li>
+</ul></li>
 </ul></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">stargazer</span>(regression, <span class="at">type =</span> <span class="st">"text"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>
-===============================================
-                        Dependent variable:    
-                    ---------------------------
-                            x1txmtscor         
------------------------------------------------
-x1sex2                        -0.041           
-                              (0.143)          
-                                               
-x1poverty1851                -3.022***         
-                              (0.173)          
-                                               
-x1paredu2                    1.342***          
-                              (0.323)          
-                                               
-x1paredu3                    2.483***          
-                              (0.358)          
-                                               
-x1paredu4                    6.123***          
-                              (0.351)          
-                                               
-x1paredu5                    8.173***          
-                              (0.381)          
-                                               
-x1paredu7                    10.767***         
-                              (0.429)          
-                                               
-Constant                     49.049***         
-                              (0.338)          
-                                               
------------------------------------------------
-Observations                  16,429           
-R2                             0.160           
-Adjusted R2                    0.160           
-Residual Std. Error     9.161 (df = 16421)     
-F Statistic         448.368*** (df = 7; 16421) 
-===============================================
-Note:               *p&lt;0.1; **p&lt;0.05; ***p&lt;0.01</code></pre>
-</div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(regression)[[<span class="st">"coefficients"</span>]] <span class="sc">|&gt;</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.data.frame</span>() <span class="sc">|&gt;</span></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">sig =</span> <span class="fu">case_when</span>(<span class="st">`</span><span class="at">Pr(&gt;|t|)</span><span class="st">`</span> <span class="sc">&lt;</span> <span class="fl">0.001</span> <span class="sc">~</span> <span class="st">"***"</span>,</span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>                         <span class="st">`</span><span class="at">Pr(&gt;|t|)</span><span class="st">`</span> <span class="sc">&lt;</span> <span class="fl">0.01</span> <span class="sc">~</span> <span class="st">"**"</span>,</span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>                         <span class="st">`</span><span class="at">Pr(&gt;|t|)</span><span class="st">`</span> <span class="sc">&lt;</span> <span class="fl">0.05</span> <span class="sc">~</span> <span class="st">"*"</span>,</span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>                         <span class="cn">TRUE</span> <span class="sc">~</span> <span class="st">""</span>)) <span class="sc">|&gt;</span></span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>(<span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">"estimate"</span>, <span class="st">"s.e."</span>, <span class="st">"t"</span>, <span class="st">"p"</span>, <span class="st">""</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tbl_regression</span>(regression)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="tbl-gtsummary-basic" class="cell quarto-float">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-gtsummary-basic-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;2: Regression Table Using gtsummary (basic)
+</figcaption>
+<div aria-describedby="tbl-gtsummary-basic-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
-<table class="table table-sm table-striped small">
+<div>
+<div id="jrzrvefils" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#jrzrvefils table {
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#jrzrvefils thead, #jrzrvefils tbody, #jrzrvefils tfoot, #jrzrvefils tr, #jrzrvefils td, #jrzrvefils th {
+  border-style: none;
+}
+
+#jrzrvefils p {
+  margin: 0;
+  padding: 0;
+}
+
+#jrzrvefils .gt_table {
+  display: table;
+  border-collapse: collapse;
+  line-height: normal;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#jrzrvefils .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#jrzrvefils .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#jrzrvefils .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#jrzrvefils .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#jrzrvefils .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#jrzrvefils .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#jrzrvefils .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#jrzrvefils .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#jrzrvefils .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#jrzrvefils .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#jrzrvefils .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#jrzrvefils .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+
+#jrzrvefils .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+#jrzrvefils .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#jrzrvefils .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#jrzrvefils .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#jrzrvefils .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#jrzrvefils .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#jrzrvefils .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#jrzrvefils .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#jrzrvefils .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
+#jrzrvefils .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#jrzrvefils .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#jrzrvefils .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#jrzrvefils .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#jrzrvefils .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#jrzrvefils .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#jrzrvefils .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+
+#jrzrvefils .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#jrzrvefils .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#jrzrvefils .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#jrzrvefils .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#jrzrvefils .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#jrzrvefils .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#jrzrvefils .gt_left {
+  text-align: left;
+}
+
+#jrzrvefils .gt_center {
+  text-align: center;
+}
+
+#jrzrvefils .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#jrzrvefils .gt_font_normal {
+  font-weight: normal;
+}
+
+#jrzrvefils .gt_font_bold {
+  font-weight: bold;
+}
+
+#jrzrvefils .gt_font_italic {
+  font-style: italic;
+}
+
+#jrzrvefils .gt_super {
+  font-size: 65%;
+}
+
+#jrzrvefils .gt_footnote_marks {
+  font-size: 75%;
+  vertical-align: 0.4em;
+  position: initial;
+}
+
+#jrzrvefils .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#jrzrvefils .gt_indent_1 {
+  text-indent: 5px;
+}
+
+#jrzrvefils .gt_indent_2 {
+  text-indent: 10px;
+}
+
+#jrzrvefils .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#jrzrvefils .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#jrzrvefils .gt_indent_5 {
+  text-indent: 25px;
+}
+</style>
+
+<table class="gt_table do-not-create-environment cell table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header gt_col_headings">
+<th id="<strong>Characteristic</strong>" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col"><strong>Characteristic</strong></th>
+<th id="<strong>Beta</strong>" class="gt_col_heading gt_columns_bottom_border gt_center" data-quarto-table-cell-role="th" scope="col"><strong>Beta</strong></th>
+<th id="<strong>95% CI</strong><span class=&quot;gt_footnote_marks&quot; style=&quot;white-space:nowrap;font-style:italic;font-weight:normal;&quot;><sup>1</sup></span>" class="gt_col_heading gt_columns_bottom_border gt_center" data-quarto-table-cell-role="th" scope="col"><strong>95% CI</strong><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;"><sup>1</sup></span></th>
+<th id="<strong>p-value</strong>" class="gt_col_heading gt_columns_bottom_border gt_center" data-quarto-table-cell-role="th" scope="col"><strong>p-value</strong></th>
+</tr>
+</thead>
+<tbody class="gt_table_body">
+<tr class="odd">
+<td class="gt_row gt_left" headers="label">x1sex</td>
+<td class="gt_row gt_center" headers="estimate"><br>
+</td>
+<td class="gt_row gt_center" headers="ci"><br>
+</td>
+<td class="gt_row gt_center" headers="p.value"><br>
+</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="label">&nbsp;&nbsp;&nbsp;&nbsp;1</td>
+<td class="gt_row gt_center" headers="estimate">—</td>
+<td class="gt_row gt_center" headers="ci">—</td>
+<td class="gt_row gt_center" headers="p.value"><br>
+</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="label">&nbsp;&nbsp;&nbsp;&nbsp;2</td>
+<td class="gt_row gt_center" headers="estimate">-0.04</td>
+<td class="gt_row gt_center" headers="ci">-0.32, 0.24</td>
+<td class="gt_row gt_center" headers="p.value">0.8</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="label">x1poverty185</td>
+<td class="gt_row gt_center" headers="estimate"><br>
+</td>
+<td class="gt_row gt_center" headers="ci"><br>
+</td>
+<td class="gt_row gt_center" headers="p.value"><br>
+</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="label">&nbsp;&nbsp;&nbsp;&nbsp;0</td>
+<td class="gt_row gt_center" headers="estimate">—</td>
+<td class="gt_row gt_center" headers="ci">—</td>
+<td class="gt_row gt_center" headers="p.value"><br>
+</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="label">&nbsp;&nbsp;&nbsp;&nbsp;1</td>
+<td class="gt_row gt_center" headers="estimate">-3.0</td>
+<td class="gt_row gt_center" headers="ci">-3.4, -2.7</td>
+<td class="gt_row gt_center" headers="p.value">&lt;0.001</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="label">x1paredu</td>
+<td class="gt_row gt_center" headers="estimate"><br>
+</td>
+<td class="gt_row gt_center" headers="ci"><br>
+</td>
+<td class="gt_row gt_center" headers="p.value"><br>
+</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="label">&nbsp;&nbsp;&nbsp;&nbsp;1</td>
+<td class="gt_row gt_center" headers="estimate">—</td>
+<td class="gt_row gt_center" headers="ci">—</td>
+<td class="gt_row gt_center" headers="p.value"><br>
+</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="label">&nbsp;&nbsp;&nbsp;&nbsp;2</td>
+<td class="gt_row gt_center" headers="estimate">1.3</td>
+<td class="gt_row gt_center" headers="ci">0.71, 2.0</td>
+<td class="gt_row gt_center" headers="p.value">&lt;0.001</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="label">&nbsp;&nbsp;&nbsp;&nbsp;3</td>
+<td class="gt_row gt_center" headers="estimate">2.5</td>
+<td class="gt_row gt_center" headers="ci">1.8, 3.2</td>
+<td class="gt_row gt_center" headers="p.value">&lt;0.001</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="label">&nbsp;&nbsp;&nbsp;&nbsp;4</td>
+<td class="gt_row gt_center" headers="estimate">6.1</td>
+<td class="gt_row gt_center" headers="ci">5.4, 6.8</td>
+<td class="gt_row gt_center" headers="p.value">&lt;0.001</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="label">&nbsp;&nbsp;&nbsp;&nbsp;5</td>
+<td class="gt_row gt_center" headers="estimate">8.2</td>
+<td class="gt_row gt_center" headers="ci">7.4, 8.9</td>
+<td class="gt_row gt_center" headers="p.value">&lt;0.001</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="label">&nbsp;&nbsp;&nbsp;&nbsp;7</td>
+<td class="gt_row gt_center" headers="estimate">11</td>
+<td class="gt_row gt_center" headers="ci">9.9, 12</td>
+<td class="gt_row gt_center" headers="p.value">&lt;0.001</td>
+</tr>
+</tbody><tfoot class="gt_footnotes">
+<tr class="even">
+<td colspan="4" class="gt_footnote"><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;"><sup>1</sup></span> CI = Confidence Interval</td>
+</tr>
+</tfoot>
+
+</table>
+
+</div>
+</div>
+</div>
+</div>
+</figure>
+</div>
+</div>
+<ul>
+<li>With a couple of extra lines to handle variable labels and add significance stars, we can get something that looks pretty great
+<ul>
+<li>Similarly to above, we add table numbers and captions using Quarto cross referencing
+<ul>
+<li><code>{r tbl-gtsummary}</code></li>
+<li><code>#| tbl-cap: "Regression Table Using gtsummary"</code></li>
+</ul></li>
+</ul></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tbl_regression</span>(regression,</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>               <span class="at">label =</span> <span class="fu">list</span>(x1sex <span class="sc">~</span> <span class="st">"Sex"</span>,</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>                            x1poverty185 <span class="sc">~</span> <span class="st">"Below Poverty Line"</span>,</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>                            x1paredu <span class="sc">~</span> <span class="st">"Parental Education"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_significance_stars</span>(<span class="at">hide_ci =</span> <span class="cn">FALSE</span>, <span class="at">hide_p =</span> <span class="cn">FALSE</span>) <span class="sc">|&gt;</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_glance_source_note</span>(<span class="at">include =</span> <span class="fu">c</span>(r.squared, nobs))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="tbl-gtsummary" class="cell quarto-float">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-gtsummary-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;3: Regression Table Using gtsummary (custom)
+</figcaption>
+<div aria-describedby="tbl-gtsummary-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<div id="aawgjykbrd" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#aawgjykbrd table {
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#aawgjykbrd thead, #aawgjykbrd tbody, #aawgjykbrd tfoot, #aawgjykbrd tr, #aawgjykbrd td, #aawgjykbrd th {
+  border-style: none;
+}
+
+#aawgjykbrd p {
+  margin: 0;
+  padding: 0;
+}
+
+#aawgjykbrd .gt_table {
+  display: table;
+  border-collapse: collapse;
+  line-height: normal;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#aawgjykbrd .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#aawgjykbrd .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#aawgjykbrd .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#aawgjykbrd .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#aawgjykbrd .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#aawgjykbrd .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#aawgjykbrd .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#aawgjykbrd .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#aawgjykbrd .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#aawgjykbrd .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#aawgjykbrd .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#aawgjykbrd .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+
+#aawgjykbrd .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+#aawgjykbrd .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#aawgjykbrd .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#aawgjykbrd .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#aawgjykbrd .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#aawgjykbrd .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#aawgjykbrd .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#aawgjykbrd .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#aawgjykbrd .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
+#aawgjykbrd .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#aawgjykbrd .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#aawgjykbrd .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#aawgjykbrd .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#aawgjykbrd .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#aawgjykbrd .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#aawgjykbrd .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+
+#aawgjykbrd .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#aawgjykbrd .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#aawgjykbrd .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#aawgjykbrd .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#aawgjykbrd .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#aawgjykbrd .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#aawgjykbrd .gt_left {
+  text-align: left;
+}
+
+#aawgjykbrd .gt_center {
+  text-align: center;
+}
+
+#aawgjykbrd .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#aawgjykbrd .gt_font_normal {
+  font-weight: normal;
+}
+
+#aawgjykbrd .gt_font_bold {
+  font-weight: bold;
+}
+
+#aawgjykbrd .gt_font_italic {
+  font-style: italic;
+}
+
+#aawgjykbrd .gt_super {
+  font-size: 65%;
+}
+
+#aawgjykbrd .gt_footnote_marks {
+  font-size: 75%;
+  vertical-align: 0.4em;
+  position: initial;
+}
+
+#aawgjykbrd .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#aawgjykbrd .gt_indent_1 {
+  text-indent: 5px;
+}
+
+#aawgjykbrd .gt_indent_2 {
+  text-indent: 10px;
+}
+
+#aawgjykbrd .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#aawgjykbrd .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#aawgjykbrd .gt_indent_5 {
+  text-indent: 25px;
+}
+</style>
+<table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+  <thead>
+    <tr class="gt_col_headings">
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="<strong>Characteristic</strong>"><strong>Characteristic</strong></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="<strong>Beta</strong><span class=&quot;gt_footnote_marks&quot; style=&quot;white-space:nowrap;font-style:italic;font-weight:normal;&quot;><sup>1</sup></span>"><strong>Beta</strong><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;"><sup>1</sup></span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="<strong>SE</strong><span class=&quot;gt_footnote_marks&quot; style=&quot;white-space:nowrap;font-style:italic;font-weight:normal;&quot;><sup>2</sup></span>"><strong>SE</strong><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;"><sup>2</sup></span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="<strong>95% CI</strong><span class=&quot;gt_footnote_marks&quot; style=&quot;white-space:nowrap;font-style:italic;font-weight:normal;&quot;><sup>2</sup></span>"><strong>95% CI</strong><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;"><sup>2</sup></span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="<strong>p-value</strong>"><strong>p-value</strong></th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr><td headers="label" class="gt_row gt_left">Sex</td>
+<td headers="estimate" class="gt_row gt_center"><br></td>
+<td headers="std.error" class="gt_row gt_center"><br></td>
+<td headers="ci" class="gt_row gt_center"><br></td>
+<td headers="p.value" class="gt_row gt_center"><br></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">&nbsp;&nbsp;&nbsp;&nbsp;1</td>
+<td headers="estimate" class="gt_row gt_center">—</td>
+<td headers="std.error" class="gt_row gt_center">—</td>
+<td headers="ci" class="gt_row gt_center">—</td>
+<td headers="p.value" class="gt_row gt_center"><br></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">&nbsp;&nbsp;&nbsp;&nbsp;2</td>
+<td headers="estimate" class="gt_row gt_center">-0.04</td>
+<td headers="std.error" class="gt_row gt_center">0.143</td>
+<td headers="ci" class="gt_row gt_center">-0.32, 0.24</td>
+<td headers="p.value" class="gt_row gt_center">0.8</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">Below Poverty Line</td>
+<td headers="estimate" class="gt_row gt_center"><br></td>
+<td headers="std.error" class="gt_row gt_center"><br></td>
+<td headers="ci" class="gt_row gt_center"><br></td>
+<td headers="p.value" class="gt_row gt_center"><br></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">&nbsp;&nbsp;&nbsp;&nbsp;0</td>
+<td headers="estimate" class="gt_row gt_center">—</td>
+<td headers="std.error" class="gt_row gt_center">—</td>
+<td headers="ci" class="gt_row gt_center">—</td>
+<td headers="p.value" class="gt_row gt_center"><br></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">&nbsp;&nbsp;&nbsp;&nbsp;1</td>
+<td headers="estimate" class="gt_row gt_center">-3.0***</td>
+<td headers="std.error" class="gt_row gt_center">0.173</td>
+<td headers="ci" class="gt_row gt_center">-3.4, -2.7</td>
+<td headers="p.value" class="gt_row gt_center">&lt;0.001</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">Parental Education</td>
+<td headers="estimate" class="gt_row gt_center"><br></td>
+<td headers="std.error" class="gt_row gt_center"><br></td>
+<td headers="ci" class="gt_row gt_center"><br></td>
+<td headers="p.value" class="gt_row gt_center"><br></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">&nbsp;&nbsp;&nbsp;&nbsp;1</td>
+<td headers="estimate" class="gt_row gt_center">—</td>
+<td headers="std.error" class="gt_row gt_center">—</td>
+<td headers="ci" class="gt_row gt_center">—</td>
+<td headers="p.value" class="gt_row gt_center"><br></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">&nbsp;&nbsp;&nbsp;&nbsp;2</td>
+<td headers="estimate" class="gt_row gt_center">1.3***</td>
+<td headers="std.error" class="gt_row gt_center">0.323</td>
+<td headers="ci" class="gt_row gt_center">0.71, 2.0</td>
+<td headers="p.value" class="gt_row gt_center">&lt;0.001</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">&nbsp;&nbsp;&nbsp;&nbsp;3</td>
+<td headers="estimate" class="gt_row gt_center">2.5***</td>
+<td headers="std.error" class="gt_row gt_center">0.358</td>
+<td headers="ci" class="gt_row gt_center">1.8, 3.2</td>
+<td headers="p.value" class="gt_row gt_center">&lt;0.001</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">&nbsp;&nbsp;&nbsp;&nbsp;4</td>
+<td headers="estimate" class="gt_row gt_center">6.1***</td>
+<td headers="std.error" class="gt_row gt_center">0.351</td>
+<td headers="ci" class="gt_row gt_center">5.4, 6.8</td>
+<td headers="p.value" class="gt_row gt_center">&lt;0.001</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">&nbsp;&nbsp;&nbsp;&nbsp;5</td>
+<td headers="estimate" class="gt_row gt_center">8.2***</td>
+<td headers="std.error" class="gt_row gt_center">0.381</td>
+<td headers="ci" class="gt_row gt_center">7.4, 8.9</td>
+<td headers="p.value" class="gt_row gt_center">&lt;0.001</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">&nbsp;&nbsp;&nbsp;&nbsp;7</td>
+<td headers="estimate" class="gt_row gt_center">11***</td>
+<td headers="std.error" class="gt_row gt_center">0.429</td>
+<td headers="ci" class="gt_row gt_center">9.9, 12</td>
+<td headers="p.value" class="gt_row gt_center">&lt;0.001</td></tr>
+  </tbody>
+  <tfoot class="gt_sourcenotes">
+    <tr>
+      <td class="gt_sourcenote" colspan="5">R² = 0.160; No. Obs. = 16,429</td>
+    </tr>
+  </tfoot>
+  <tfoot class="gt_footnotes">
+    <tr>
+      <td class="gt_footnote" colspan="5"><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;"><sup>1</sup></span> *p&lt;0.05; **p&lt;0.01; ***p&lt;0.001</td>
+    </tr>
+    <tr>
+      <td class="gt_footnote" colspan="5"><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;"><sup>2</sup></span> SE = Standard Error, CI = Confidence Interval</td>
+    </tr>
+  </tfoot>
+</table>
+</div>
+</div>
+</div>
+</figure>
+</div>
+</div>
+<ul>
+<li>Note: You can also create matching descriptive statistics tables using the <code>tbl_summary()</code> function</li>
+<li>If you like <code>gtsummary</code> tables and want to learn more, check out
+<ul>
+<li><a href="https://www.danieldsjoberg.com/gtsummary/index.html"><code>gtsummary</code> documentation</a></li>
+<li><a href="https://gt.rstudio.com"><code>gt</code> documentation</a></li>
+</ul></li>
+</ul>
+</section>
+<section id="homemade-regression-tables-with-kable" class="level3">
+<h3 data-anchor-id="homemade-regression-tables-with-kable">“Homemade” Regression Tables with <code>kable()</code></h3>
+<ul>
+<li><p>While a little more work, we can also create our own table using the default <code>summary()</code> and <code>kable()</code> like we saw in <a href="./07-quarto-intro.html">Intro to Quarto</a> for descriptive tables</p></li>
+<li><p>You might want to do this to specifically format a table in a way <code>gtsummary</code> doesn’t allow, or, to match some other tables you already created with <code>kable</code></p></li>
+<li><p>First things first, let’s save the <code>summary()</code> output to a new object</p></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>summary_object <span class="ot">&lt;-</span> <span class="fu">summary</span>(regression)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li>We will do this more below, but if you click on the object <code>summary_object</code> in the Environment (top right) you can see all the different pieces of information it holds
+<ol type="1">
+<li>We are most interested in <code>coefficients</code>, if you click on the right hand side of that row, you will see the code <code>summary_object[["coefficients"]]</code> auto-populate</li>
+</ol>
+<ul>
+<li>Tip: This works for most objects like this</li>
+</ul>
+<ol start="2" type="1">
+<li>We then turn that into as data frame with <code>as.data.frame()</code></li>
+<li>Add a new column that contains the correct significance stars using <code>case_when()</code></li>
+<li>Pipe all that into <code>kable()</code> with updated column names and rounded numbers</li>
+<li>Similarly to above, we add table numbers and captions using Quarto cross referencing</li>
+</ol>
+<ul>
+<li><code>{r tbl-manual}</code></li>
+<li><code>#| tbl-cap: "Regression Table Using Kable"</code></li>
+</ul></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>summary_object[[<span class="st">"coefficients"</span>]] <span class="sc">|&gt;</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.data.frame</span>() <span class="sc">|&gt;</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">sig =</span> <span class="fu">case_when</span>(<span class="st">`</span><span class="at">Pr(&gt;|t|)</span><span class="st">`</span> <span class="sc">&lt;</span> <span class="fl">0.001</span> <span class="sc">~</span> <span class="st">"***"</span>,</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>                         <span class="st">`</span><span class="at">Pr(&gt;|t|)</span><span class="st">`</span> <span class="sc">&lt;</span> <span class="fl">0.01</span> <span class="sc">~</span> <span class="st">"**"</span>,</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>                         <span class="st">`</span><span class="at">Pr(&gt;|t|)</span><span class="st">`</span> <span class="sc">&lt;</span> <span class="fl">0.05</span> <span class="sc">~</span> <span class="st">"*"</span>,</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>                         <span class="cn">TRUE</span> <span class="sc">~</span> <span class="st">""</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>(<span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">"estimate"</span>, <span class="st">"s.e."</span>, <span class="st">"t"</span>, <span class="st">"p"</span>, <span class="st">""</span>),</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>        <span class="at">digits =</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="tbl-manual" class="cell quarto-float">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-manual-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;4: Regression Table Using kable
+</figcaption>
+<div aria-describedby="tbl-manual-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<table class="do-not-create-environment cell table table-sm table-striped small">
 <thead>
 <tr class="header">
 <th style="text-align: left;"></th>
@@ -686,72 +2130,79 @@ Note:               *p&lt;0.1; **p&lt;0.05; ***p&lt;0.01</code></pre>
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">(Intercept)</td>
-<td style="text-align: right;">49.048537</td>
-<td style="text-align: right;">0.3379425</td>
-<td style="text-align: right;">145.1387250</td>
-<td style="text-align: right;">0.0000000</td>
+<td style="text-align: right;">49.049</td>
+<td style="text-align: right;">0.338</td>
+<td style="text-align: right;">145.139</td>
+<td style="text-align: right;">0.000</td>
 <td style="text-align: left;">***</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">x1sex2</td>
-<td style="text-align: right;">-0.041204</td>
-<td style="text-align: right;">0.1429550</td>
-<td style="text-align: right;">-0.2882305</td>
-<td style="text-align: right;">0.7731740</td>
+<td style="text-align: right;">-0.041</td>
+<td style="text-align: right;">0.143</td>
+<td style="text-align: right;">-0.288</td>
+<td style="text-align: right;">0.773</td>
 <td style="text-align: left;"></td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">x1poverty1851</td>
-<td style="text-align: right;">-3.022443</td>
-<td style="text-align: right;">0.1728823</td>
-<td style="text-align: right;">-17.4826670</td>
-<td style="text-align: right;">0.0000000</td>
+<td style="text-align: right;">-3.022</td>
+<td style="text-align: right;">0.173</td>
+<td style="text-align: right;">-17.483</td>
+<td style="text-align: right;">0.000</td>
 <td style="text-align: left;">***</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">x1paredu2</td>
-<td style="text-align: right;">1.341870</td>
-<td style="text-align: right;">0.3234315</td>
-<td style="text-align: right;">4.1488532</td>
-<td style="text-align: right;">0.0000336</td>
+<td style="text-align: right;">1.342</td>
+<td style="text-align: right;">0.323</td>
+<td style="text-align: right;">4.149</td>
+<td style="text-align: right;">0.000</td>
 <td style="text-align: left;">***</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">x1paredu3</td>
-<td style="text-align: right;">2.483434</td>
-<td style="text-align: right;">0.3583873</td>
-<td style="text-align: right;">6.9294694</td>
-<td style="text-align: right;">0.0000000</td>
+<td style="text-align: right;">2.483</td>
+<td style="text-align: right;">0.358</td>
+<td style="text-align: right;">6.929</td>
+<td style="text-align: right;">0.000</td>
 <td style="text-align: left;">***</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">x1paredu4</td>
-<td style="text-align: right;">6.122736</td>
-<td style="text-align: right;">0.3506807</td>
-<td style="text-align: right;">17.4595751</td>
-<td style="text-align: right;">0.0000000</td>
+<td style="text-align: right;">6.123</td>
+<td style="text-align: right;">0.351</td>
+<td style="text-align: right;">17.460</td>
+<td style="text-align: right;">0.000</td>
 <td style="text-align: left;">***</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">x1paredu5</td>
-<td style="text-align: right;">8.172575</td>
-<td style="text-align: right;">0.3814362</td>
-<td style="text-align: right;">21.4257962</td>
-<td style="text-align: right;">0.0000000</td>
+<td style="text-align: right;">8.173</td>
+<td style="text-align: right;">0.381</td>
+<td style="text-align: right;">21.426</td>
+<td style="text-align: right;">0.000</td>
 <td style="text-align: left;">***</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">x1paredu7</td>
-<td style="text-align: right;">10.766890</td>
-<td style="text-align: right;">0.4294048</td>
-<td style="text-align: right;">25.0739836</td>
-<td style="text-align: right;">0.0000000</td>
+<td style="text-align: right;">10.767</td>
+<td style="text-align: right;">0.429</td>
+<td style="text-align: right;">25.074</td>
+<td style="text-align: right;">0.000</td>
 <td style="text-align: left;">***</td>
 </tr>
 </tbody>
 </table>
 </div>
 </div>
+</figure>
+</div>
+</div>
+<ul>
+<li>There are other ways as well, but between these three options, you should be able to get what you want!</li>
+</ul>
+</section>
 <section id="predictions-with-lm" class="level3">
 <h3 data-anchor-id="predictions-with-lm">Predictions with <code>lm()</code></h3>
 <ul>
@@ -772,10 +2223,10 @@ Note:               *p&lt;0.1; **p&lt;0.05; ***p&lt;0.01</code></pre>
 <li>To start, let’s save a full set of predictions to a new columns in our data frame</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> data <span class="sc">|&gt;</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">prediction =</span> <span class="fu">predict</span>(regression))</span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> data <span class="sc">|&gt;</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">prediction =</span> <span class="fu">predict</span>(regression))</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 16,429 × 9
    stu_id x1sex x1race x1txmtscor x1paredu   x1ses x1poverty185 x1paredexpct
@@ -797,9 +2248,16 @@ Note:               *p&lt;0.1; **p&lt;0.05; ***p&lt;0.01</code></pre>
 <ul>
 <li>Next, we can compare these to our actual results using a simple plot (no formatting) from <a href="./05-viz-i.html">Data Viz I</a>
 <ul>
-<li>The only new thing we add here is <code>coord_obs_pred()</code> which is from the <code>tidymodels</code> package
+<li>The only new things we add here is
 <ul>
-<li>This fixes the axes so that the predictions and observed values are plotted on the same scale</li>
+<li><code>geom_abline(slope = 1, intercept = 0)</code>
+<ul>
+<li>This adds a reference line that represents a perfect 1 to 1 relationship (which would be if there was 0 prediction error)</li>
+</ul></li>
+<li><code>coord_obs_pred()</code> which is from the <code>tidymodels</code> package
+<ul>
+<li>This fixes the axes so that the predictions and observed values are plotted on the same scal</li>
+</ul></li>
 </ul></li>
 </ul></li>
 </ul>
@@ -810,15 +2268,12 @@ Note:               *p&lt;0.1; **p&lt;0.05; ***p&lt;0.01</code></pre>
 </ul>
 </blockquote>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(data,</span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x =</span> prediction,</span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>           <span class="at">y =</span> x1txmtscor)) <span class="sc">+</span></span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>) <span class="sc">+</span></span>
-<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_obs_pred</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
-</div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(data,</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x =</span> prediction,</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>           <span class="at">y =</span> x1txmtscor)) <span class="sc">+</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_abline</span>(<span class="at">slope =</span> <span class="dv">1</span>, <span class="at">intercept =</span> <span class="dv">0</span>) <span class="sc">+</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_obs_pred</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -839,16 +2294,21 @@ Note:               *p&lt;0.1; **p&lt;0.05; ***p&lt;0.01</code></pre>
 <li>You’ll notice our plot looks kind of clumped together, why do you think that it? What about the model would lead to that?</li>
 </ul>
 </blockquote>
-<blockquote class="blockquote">
-<h3 id="not-so-quick-group-excercise">(Not So) Quick (Group) Excercise</h3>
 <ul>
 <li>Given what we just discussed, can we change one of the variables we are using in the model to make it less “clumpy” but caputre the same information?</li>
 </ul>
-</blockquote>
 <div class="cell">
-<div class="cell-output cell-output-stderr">
-<pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
-</div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>regression_2 <span class="ot">&lt;-</span> <span class="fu">lm</span>(x1txmtscor <span class="sc">~</span> x1sex <span class="sc">+</span> x1ses <span class="sc">+</span> x1paredu, <span class="at">data =</span> data)</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> data <span class="sc">|&gt;</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">prediction_2 =</span> <span class="fu">predict</span>(regression_2))</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(data,</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x =</span> prediction_2,</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>           <span class="at">y =</span> x1txmtscor)) <span class="sc">+</span></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_abline</span>(<span class="at">slope =</span> <span class="dv">1</span>, <span class="at">intercept =</span> <span class="dv">0</span>) <span class="sc">+</span></span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_obs_pred</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -909,7 +2369,7 @@ Note:               *p&lt;0.1; **p&lt;0.05; ***p&lt;0.01</code></pre>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(data_outcome_unknown<span class="sc">$</span>prediction_2, data_outcome_unknown<span class="sc">$</span>prediction_3)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.9999186</code></pre>
+<pre><code>[1] 0.9998776</code></pre>
 </div>
 </div>
 <ul>
