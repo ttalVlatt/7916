@@ -22,7 +22,7 @@ setwd(this.path::here())
 
 ```
 
-- We are going to use (the tiniest portion of) our final new package today `tidymodels`, as well as `estimatr` to fit a different kind of regression, and a couple of packages to make pretty regression output tables
+-   We are going to use (the tiniest portion of) our final new package today `tidymodels`, as well as `estimatr` to fit a different kind of regression, and a couple of packages to make pretty regression output tables
 
 ```{r tidymodels}
 #| eval: false
@@ -30,7 +30,6 @@ setwd(this.path::here())
 
 install.packages(c("tidymodels", "estimatr", "stargazer", "gtsummary"))
 ```
-
 
 ```{r, include = FALSE, purl = TRUE}
 
@@ -49,11 +48,11 @@ library(knitr)
 ```
 
 -   First off, let me say I am not a stats professor nor is this not a stats lesson
--   Some of you have taken years of stats classes, while others are yet to take any.
--   The purpose of this lesson is meant to focus how everything we have learned this semester comes together when we begin to work with some simple models
+    -   Some of you have taken years of stats classes, while others are yet to take any.
+    -   The purpose of this lesson is meant to focus how everything we have learned this semester comes together when we begin to work with some simple models
 -   That said, it may still be a lot of information for those less familiar with stats.
--   Fear not, there is no expectation to use of any this in your final assignment, nor is there an assignment for this lesson (optional final project drafts are due Sunday)!
--   If this lesson starts to go beyond your comfort level, that's completely fine! Try your best to follow along, and maybe revisit this lesson once you're a little further along your stats journey
+    -   Fear not, there is no expectation to use of any this in your final assignment, nor is there an assignment for this lesson (optional final project drafts are due Sunday)!
+    -   If this lesson starts to go beyond your comfort level, that's completely fine! Try your best to follow along, and maybe revisit this lesson once you're a little further along your stats journey
 
 ## Data Preparation
 
@@ -64,20 +63,20 @@ library(knitr)
 ```
 
 -   Before we can run any kind of models, we need to make sure our data is prepared
-  -   This involves using skills from our data wrangling lessons such as
-  -   [Data Wrangling I](03-wrangle-i.qmd)
-    -   Handling missing data
-    -   Making sure our data is the right format (`numeric`, `factor`, `character`, etc.)
-    -   Performing basic calculations (e.g., percentages, differences, etc.)
-  -   [Data Wrangling II](04-wrangle-ii.qmd)
-    -   Joining multiple data sets together
-    -   Pivoting data wider and/or longer
-  -   [Data Wrangling III](08-wrangle-iii.qmd)
-    -   Cleaning up text data
-    -   Transforming dates into
-  -   [Data Wrangling IV](09-wrangle-iv.qmd)
-    -   Performing any of the above tasks `across()` multiple columns
-    -   `coalesce()`-ing multiple columns into one variable
+    -   This involves using skills from our data wrangling lessons such as
+    -   [Data Wrangling I](03-wrangle-i.qmd)
+        -   Handling missing data
+        -   Making sure our data is the right format (`numeric`, `factor`, `character`, etc.)
+        -   Performing basic calculations (e.g., percentages, differences, etc.)
+    -   [Data Wrangling II](04-wrangle-ii.qmd)
+        -   Joining multiple data sets together
+        -   Pivoting data wider and/or longer
+    -   [Data Wrangling III](08-wrangle-iii.qmd)
+        -   Cleaning up text data
+        -   Transforming dates into
+    -   [Data Wrangling IV](09-wrangle-iv.qmd)
+        -   Performing any of the above tasks `across()` multiple columns
+        -   `coalesce()`-ing multiple columns into one variable
 -   For the purpose of today's lesson, we are going to focus on two of these tasks, dealing with missing data, and making sure our data is in the right format
 
 ### Handling Missing Data
@@ -85,13 +84,17 @@ library(knitr)
 -   When modeling, by default, R will simply drop any rows that have an `NA` in any variable you are modeling on (this is a little different to the cautious R we ran into in [Data Wrangling I](03-wrangle-i.qmd))
 
 -   In real world applications, you need to think carefully about how you handle these...
-  -   Should I impute the missing data? If so, using what method?
-  -   Should I use this variable at all if it's missing for a bunch of observations?
-  -   For this lesson, however, we are just going to drop `NA` values so we can focus on the main content
+
+    -   Should I impute the missing data?
+        If so, using what method?
+
+    -   Should I use this variable at all if it's missing for a bunch of observations?
+
+-   For this lesson, however, we are just going to drop `NA` values so we can focus on the main content
 
 -   The below code uses the combines the logic we use for making `NA`s in [Data Wrangling I](03-wrangle-i.qmd) with the ability to work across multiple columns in [Data Wrangling IV](09-wrangle-iv.qmd)
 
-- First, we read our data and `select()` the columns we want to use
+-   First, we read our data and `select()` the columns we want to use
 
 ```{r}
 #| message: false
@@ -99,14 +102,14 @@ data <- read_csv("data/hsls-small.csv") |>
   select(stu_id, x1sex, x1race, x1txmtscor, x1paredu, x1ses, x1poverty185, x1paredexpct)
 ```
 
-- Second we use a combination of `!,` `filter(),` and `if_any()` to say...
-- "If a row..."
-  - "has a -8 or -9"
-    - `.fns = ~ . %in% c(-8, -9)`
-  - "in any columns"
-    - `.cols = everything()`
-  - "do NOT keep it"
-    - `filter(!)`
+-   Second we use a combination of `!,` `filter(),` and `if_any()` to say...
+-   "If a row..."
+    -   "has a -8 or -9"
+        -   `.fns = ~ . %in% c(-8, -9)`
+    -   "in any columns"
+        -   `.cols = everything()`
+    -   "do NOT keep it"
+        -   `filter(!)`
 
 ```{r drop-across}
 data <- data |>
@@ -116,20 +119,20 @@ data <- data |>
 
 ### Making Sure Our Data is the Right Format
 
-- In our [Data Viz I](05-viz-i.qmd) and [Data Viz II](06-viz-ii.qmd) lessons, we saw that for R to accurately plot categorical variables, we had to convert them into `factor()`s
-  - The same is true for using categorical variables in models
-  - Those more familiar with stats may know that you have to "dummy code" categorical variables as 0 and 1 with one category serving as the "reference level" and all other categories getting their own binary variable
-  - The wonderful thing is that R handles that all for us if we tell it to treat the variable as a `factor()`
+-   In our [Data Viz I](05-viz-i.qmd) and [Data Viz II](06-viz-ii.qmd) lessons, we saw that for R to accurately plot categorical variables, we had to convert them into `factor()`s
+    -   The same is true for using categorical variables in models
+    -   Those more familiar with stats may know that you have to "dummy code" categorical variables as 0 and 1 with one category serving as the "reference level" and all other categories getting their own binary variable
+    -   The wonderful thing is that R handles that all for us if we tell it to treat the variable as a `factor()`
 
 <!-- -->
 
--  The below code combines the logic of turning variables into a `factor()` from [Data Viz I](05-viz-i.qmd) with working across multiple columns for [Data Wrangling IV](09-wrangle-iv.qmd) to say
-  - "Modify"
-    - `mutate()`
-  - "Each of these columns"
-    - `across(.cols = c(stu_id, x1sex, x1race, x1paredu, x1poverty185)`
-  - "Into a factor"
-    - `.fns = ~ factor(.)`
+-   The below code combines the logic of turning variables into a `factor()` from [Data Viz I](05-viz-i.qmd) with working across multiple columns for [Data Wrangling IV](09-wrangle-iv.qmd) to say
+-   "Modify"
+    -   `mutate()`
+-   "Each of these columns"
+    -   `across(.cols = c(stu_id, x1sex, x1race, x1paredu, x1poverty185)`
+-   "Into a factor"
+    -   `.fns = ~ factor(.)`
 
 ```{r factors}
 data <- data |>
@@ -150,23 +153,21 @@ data <- data |>
 ```
 
 -   One of the first inferential statistical tests you will have learned (or will learn) is the t-test
-  -   For those unfamiliar, the basic concept of a t-test if variance between two groups (i.e., the difference between treatment and control) is greater than the variance within those groups (i.e., random variance between people within the same group)
-  -   If that between-group-variance is great enough compared to the within-group-variance, the t-test will be "statistically significant"
-  -   This means we are (most often) 95% confident that the there is a genuine difference between the groups
-  -   There are also a handful of statistical assumptions we have to satisfy, which are beyond our scope here, but hopefully the general concept will hope those of you yet to take your stats foundations follow along
+    -   For those unfamiliar, the basic concept of a t-test if variance between two groups (i.e., the difference between treatment and control) is greater than the variance within those groups (i.e., random variance between people within the same group)
+        -   If that between-group-variance is great enough compared to the within-group-variance, the t-test will be "statistically significant"
+    -   This means we are (most often) 95% confident that the there is a genuine difference between the groups
+        -   There are also a handful of statistical assumptions we have to satisfy, which are beyond our scope here, but hopefully the general concept will hope those of you yet to take your stats foundations follow along
 
 ```{r t-test}
 t.test(x1txmtscor ~ x1sex, data = data)
 ```
 
 -   Luckily, the code for `t.test()` is actually very simple (as is the case for regression too)
-  -   The first argument is a `forumla`, which for a t-test is just `outcome ~ group` where group must only have 2 levels
-    -   In this case, we are looking at math score as our outcome and sex as our group
-  -   The second argument is `data =` which we supply our prepared data frame
-  -   Note: the pipe `|>` doesn't play as nicely with models as it does other commands it's usually easier to just specify `data =` in a new line (don't pipe anything in)
+    -   The first argument is a `forumla`, which for a t-test is just `outcome ~ group` where group must only have 2 levels - In this case, we are looking at math score as our outcome and sex as our group
+    -   The second argument is `data =` which we supply our prepared data frame
+        -   Note: the pipe `|>` doesn't play as nicely with models as it does other commands it's usually easier to just specify `data =` in a new line (don't pipe anything in)
 -   This code simply prints out our `t.test()` result
-  -   As our p-value is above 0.05, our result is not significant
-    -   This indicates there is not a significant difference between male and female math scores in our sample
+    -   As our p-value is above 0.05, our result is not significant - This indicates there is not a significant difference between male and female math scores in our sample
 
 ## Regression with `lm()`
 
@@ -177,14 +178,19 @@ t.test(x1txmtscor ~ x1sex, data = data)
 ```
 
 -   The problem with t-tests for our research, is that they don't provide any ability to control for external variables
-  -   They work great in experimental setting with random-treatment-assignment, but in the messy world of educational research, that's rarely what we have
--   What we far more commonly use is a regression (or more advanced methods that build off regression) which allows use to control for other variables
-  -   The basic premise of regression very much builds off the logic of t-tests, testing if the variance associated with our treatment variable is great enough compared to a) residual/random variance and b) variance associated with our control variables, to say with confidence that there is a significant difference associated with our treatment
 
--   Overall, this looks relatively similar to our code above, with three main differences
-1. We use `lm()` (which stands for linear model) instead of `t.test()`
-2. Instead of our formula just being `x1txmtscor ~ x1sex` we have added `+ x1poverty185 + x1paredu` to "control" for these variables
-3. We assigned `<-` our `lm()` results to an object rather than just spitting them out
+    -   They work great in experimental setting with random-treatment-assignment, but in the messy world of educational research, that's rarely what we have
+
+-   What we far more commonly use is a regression (or more advanced methods that build off regression) which allows use to control for other variables
+
+-   The basic premise of regression very much builds off the logic of t-tests, testing if the variance associated with our treatment variable is great enough compared to a) residual/random variance and b) variance associated with our control variables, to say with confidence that there is a significant difference associated with our treatment
+
+    -   Overall, this looks relatively similar to our code above, with three main differences
+
+1.  We use `lm()` (which stands for linear model) instead of `t.test()`
+2.  Instead of our formula just being `x1txmtscor ~ x1sex` we have added `+ x1poverty185 + x1paredu` to "control" for these variables
+3.  We assigned `<-` our `lm()` results to an object rather than just spitting them out
+
 -   That's because the `summary()` function is much more useful for `lm()` objects, plus, we are going to explore the `lm()` object more in the next steps
 
 ```{r regression}
@@ -192,34 +198,35 @@ regression <- lm(x1txmtscor ~ x1sex + x1poverty185 + x1paredu, data = data)
 summary(regression)
 ```
 
-- Our results show that, sex still had no significant association with math scores, but, our control variables of poverty and parental education seem to have some very strong associations
+-   Our results show that, sex still had no significant association with math scores, but, our control variables of poverty and parental education seem to have some very strong associations
 
 > ### Quick Question
-- You may notice we actually have more variables in the regression table than we put in, why? What do they represent?
+>
+> -   You may notice we actually have more variables in the regression table than we put in, why? What do they represent?
 
-- That's correct, they represent the different levels of our `factor()`-ed categorical variables
+-   That's correct, they represent the different levels of our `factor()`-ed categorical variables
 
 ## Creating Pretty Regression Output Tables
 
-- Running regressions in R is all well and good, but the output you see here isn't exactly "publication ready"
-- There are multiple ways of creating regression (and other model) output tables, each with their own pros and cons
-- Here, we will go over three of the most common methods
+-   Running regressions in R is all well and good, but the output you see here isn't exactly "publication ready"
+-   There are multiple ways of creating regression (and other model) output tables, each with their own pros and cons
+-   Here, we will go over three of the most common methods
 
 ### `stargazer` Package
 
-- One of the most common packages for getting "publication ready" regression tables is `stargazer`
-  - I personally find these tables a little inflexible, but it's very common in the world of R, so it's worth covering here
-  - The code is very simple, at minimum, provide the regression model you fitted, and the type of table you want
-  - We are using "html" here so it formats for the website, you could use "text" or "latex", I don't think there's currently support for typst though
-  - In general, the biggest drawback of `stargazer` is the lack of flexibility
+-   One of the most common packages for getting "publication ready" regression tables is `stargazer`
+    -   I personally find these tables a little inflexible, but it's very common in the world of R, so it's worth covering here
+    -   The code is very simple, at minimum, provide the regression model you fitted, and the type of table you want
+    -   We are using "html" here so it formats for the website, you could use "text" or "latex", I don't think there's currently support for typst though
+    -   In general, the biggest drawback of `stargazer` is the lack of flexibility and limited compatibility with formats other than `LaTeX`
 
 <!-- -->
 
-- Reminder from [Intro to Quarto](07-quarto-intro.qmd): To get captions and table numbers if we are using Quarto, we use the "chunk options" to cross reference them, not manually adding them to the table code
-  - You see more about that on the [Quarto guide for cross referencing](https://quarto.org/docs/authoring/cross-references.html#computations-1)
-  - To get the table to appear like this I...
-    - Labeled the chunk `{r tbl-stargazer}`
-    - Added `#| tbl-cap: "Regression Table Using stargazer"` as the first line 
+-   Reminder from [Intro to Quarto](07-quarto-intro.qmd): To get captions and table numbers if we are using Quarto, we use the "chunk options" to cross reference them, not manually adding them to the table code
+    -   You see more about that on the [Quarto guide for cross referencing](https://quarto.org/docs/authoring/cross-references.html#computations-1)
+    -   To get the table to appear like this I...
+        -   Labeled the chunk `{r tbl-stargazer}`
+        -   Added `#| tbl-cap: "Regression Table Using stargazer"` as the first line
 
 ```{r tbl-stargazer}
 #| results: asis
@@ -228,36 +235,36 @@ summary(regression)
 stargazer(regression, type = "html")
 ```
 
-- Note: If you give a full data frame to `stargazer()` it will also create a descriptive statistics table
+-   Note: If you give a full data frame to `stargazer()` it will also create a descriptive statistics table
 
 ### `gtsummary` Package
 
-- Personally, I find the `gtsummary` package (which is built on the `gt` tables package) much more like what I want
-  - When I'm using a package to create my tables, this is my preferred option 
-  - `tbl_regression()` creates a pretty great table when you just provide the regression model
-  - One thing I particularly like is how `gtsummary` handles factors, I think it makes the it super-duper clear
+-   Personally, I find the `gtsummary` package (which is built on the `gt` tables package) much more like what I want
+    -   When I'm using a package to create my tables, this is my preferred option
+    -   `tbl_regression()` creates a pretty great table when you just provide the regression model
+    -   One thing I particularly like is how `gtsummary` handles factors, I think it makes the it super-duper clear what is going on
 
 ```{r tbl-gtsummary-basic}
 #| tbl-cap: "Regression Table Using gtsummary (basic)"
 tbl_regression(regression)
 ```
 
-- With a couple of extra lines to
-  - handle variable labels
-    - `label = list(x1sex ~ "Sex" ... )`
-  - add significance stars (without hiding the p-value of confidence intervals)
-    - `add_significance_stars(hide_ci = FALSE, hide_p = FALSE)`
-  - add model statistics
-    - `add_glance_source_note(include = c(r.squared, nobs))`
-  - force the standard error column to show
-    - `modify_column_unhide(std.error)`
-- we can get something that looks pretty great
+-   With a couple of extra lines to
+    -   handle variable labels
+        -   `label = list(x1sex ~ "Sex" ... )`
+    -   add significance stars (without hiding the p-value of confidence intervals)
+        -   `add_significance_stars(hide_ci = FALSE, hide_p = FALSE)`
+    -   add model statistics
+        -   `add_glance_source_note(include = c(r.squared, nobs))`
+    -   force the standard error column to show
+        -   `modify_column_unhide(std.error)`
+-   we can get something that looks pretty great
 
 <!-- -->
 
-- Similarly to above, we add table numbers and captions using Quarto cross referencing
-  - `{r tbl-gtsummary}`
-  - `#| tbl-cap: "Regression Table Using gtsummary"`
+-   Similarly to above, we add table numbers and captions using Quarto cross referencing
+    -   `{r tbl-gtsummary}`
+    -   `#| tbl-cap: "Regression Table Using gtsummary"`
 
 ```{r tbl-gtsummary}
 #| tbl-cap: "Regression Table Using gtsummary (custom)"
@@ -271,51 +278,34 @@ tbl_regression(regression,
   modify_column_unhide(std.error)
 ```
 
-- If we like that design for our tables, which I do, we can actually save it all as a homemade function, just like we made in the [Functions & Loops lesson](11-pro-functions.qmd)
-  - We are going to use this later in the lesson, so I changed x1poverty185 to x1ses
-  - The code is pretty much identical inside, we just specify that it's a function that takes something called `regression`, which will be a regression model, and then that is placed as the first argument in out `tbl_regression`
-
-```{r}
-matts_regression_table <- function(regression) {
-  
-  tbl_regression(regression,
-                 label = list(x1sex ~ "Sex",
-                              x1ses ~ "Socio-Economic Status",
-                              x1paredu ~ "Parental Education")) |>
-    modify_column_unhide(std.error) |>
-    add_significance_stars(hide_ci = FALSE, hide_p = FALSE) |>
-    add_glance_source_note(include = c(r.squared, nobs))
-  
-}
-```
-
-
-
-- Note: You can also create matching descriptive statistics tables using the `tbl_summary()` function
-  - If you like `gtsummary` tables and want to learn more, check out
-    - [`gtsummary` documentation](https://www.danieldsjoberg.com/gtsummary/index.html)
-    - [`gt` documentation](https://gt.rstudio.com)
+-   Note: You can also create matching descriptive statistics tables using the `tbl_summary()` function
+    -   If you like `gtsummary` tables and want to learn more, check out
+        -   [`gtsummary` documentation](https://www.danieldsjoberg.com/gtsummary/index.html)
+        -   [`gt` documentation](https://gt.rstudio.com)
 
 ### "Homemade" Regression Tables with `kable()`
 
-- While a little more work, we can also create our own table using the default `summary()` and `kable()` like we saw in [Intro to Quarto](07-quarto-intro.qmd) for descriptive tables
-  - You might want to do this to specifically format a table in a way `gtsummary` doesn't allow, or, to match some other tables you already created with `kable`
-
-- First things first, let's save the `summary()` output to a new object
+-   While a little more work, we can also create our own table using the default `summary()` and `kable()` like we saw in [Intro to Quarto](07-quarto-intro.qmd) for descriptive tables
+    -   You might want to do this to specifically format a table in a way `gtsummary` doesn't allow, or, to match some other tables you already created with `kable`
+-   First things first, let's save the `summary()` output to a new object
 
 ```{r}
 summary_object <- summary(regression)
 ```
 
-- We will do this more below, but if you click on the object `summary_object` in the Environment (top right) you can see all the different pieces of information it holds
-  1. We are most interested in `coefficients`, if you click on the right hand side of that row, you will see the code `summary_object[["coefficients"]]` auto-populate
-    - Tip: This works for most objects like this
-  2. We then turn that into as data frame with `as.data.frame()`
-  3. Add a new column that contains the correct significance stars using `case_when()`
-  4. Pipe all that into `kable()` with updated column names and rounded numbers
-  5. Similarly to above, we add table numbers and captions using Quarto cross referencing
-    - `{r tbl-manual}`
-    - `#| tbl-cap: "Regression Table Using Kable"`
+-   We will do this more below, but if you click on the object `summary_object` in the Environment (top right) you can see all the different pieces of information it holds
+
+    1.  We are most interested in `coefficients`, if you click on the right hand side of that row, you will see the code `summary_object[["coefficients"]]` auto-populate
+
+    -   Tip: This works for most objects like this
+
+    2.  We then turn that into as data frame with `as.data.frame()`
+    3.  Add a new column that contains the correct significance stars using `case_when()`
+    4.  Pipe all that into `kable()` with updated column names and rounded numbers
+    5.  Similarly to above, we add table numbers and captions using Quarto cross referencing
+
+    -   `{r tbl-manual}`
+    -   `#| tbl-cap: "Regression Table Using Kable"`
 
 ```{r tbl-manual}
 #| tbl-cap: "Regression Table Using kable"
@@ -331,7 +321,7 @@ summary_object[["coefficients"]] |>
 
 ```
 
-- There are other ways as well, but between these three options, you should be able to get what you want!
+-   There are other ways as well, but between these three options, you should be able to get what you want!
 
 ### Predictions with `lm()`
 
@@ -342,35 +332,38 @@ summary_object[["coefficients"]] |>
 ```
 
 -   When you fit a regression model in R, there is a lot more saved than you see with `summary()`
-  -   Since we have our `lm()` object saved as `lm_sex`, let's start by taking a look inside it by clicking on the object in our environment (top right) panel
-    -   Confusing, right?
-  -   Most statistical models look something like this, it's basically a collection of lists and tables containing different information about the model
+
+-   Since we have our `lm()` object saved as regression, let's start by taking a look inside it by clicking on the object in our environment (top right) panel - Confusing, right?
+
+    -   Most statistical models look something like this, it's basically a collection of lists and tables containing different information about the model
 
 -   There are functions such as `summary()` that are great at pulling out the most commonly needed information without having to go manually digging through the model object, but sometimes, it can be useful to know it's there
+
 -   Another great function is `predict()` which extracts estimated values of the outcome variable based on the predictor variables (some other models use `fitted()` for the same purpose)
-  -   For those more familiar with stats, you'll know predicted values are often compared against the true values to see how strong the model is
+
+-   For those more familiar with stats, you'll know predicted values are often compared against the true values to see how strong the model is
 
 <!-- -->
 
-- To start, let's save a full set of predictions to a new columns in our data frame
+-   To start, let's save a full set of predictions to a new columns in our data frame
 
 ```{r}
 data <- data |>
   mutate(prediction = predict(regression))
 
-data
+data |> select(stu_id, x1txmtscor, prediction)
 ```
 
-- Next, we can compare these to our actual results using a simple plot (no formatting) from [Data Viz I](05-viz-i.qmd)
-  - The only new things we add here is
-    - `geom_abline(slope = 1, intercept = 0)`
-      - This adds a reference line that represents a perfect 1 to 1 relationship (which would be if there was 0 prediction error)
-    - `coord_obs_pred()` which is from the `tidymodels` package
-      - This fixes the axes so that the predictions and observed values are plotted on the same scal
-
+-   Next, we can compare these to our actual results using a simple plot (no formatting) from [Data Viz I](05-viz-i.qmd)
+    -   The only new things we add here is
+        -   `geom_abline(slope = 1, intercept = 0)`
+            -   This adds a reference line that represents a perfect 1 to 1 relationship (which would be if there was 0 prediction error)
+        -   `coord_obs_pred()` which is from the `tidymodels` package
+            -   This fixes the axes so that the predictions and observed values are plotted on the same scal
 
 > ### Quick Excercise
-- Try removing the final line `coord_obs_pred()` and see what happens. Which plot do you think is better?
+>
+> -   Try removing the final line `coord_obs_pred()` and see what happens. Which plot do you think is better?
 
 ```{r}
 ggplot(data,
@@ -383,12 +376,14 @@ ggplot(data,
 ```
 
 > ### (Easier) Quick Question
-- What do we think about our model? Does it look like it's doing a great job of predicting? Why/why not?
+>
+> -   What do we think about our model? Does it look like it's doing a great job of predicting? Why/why not?
 
 > ### (Harder) Quick Question
-- You'll notice our plot looks kind of clumped together, why do you think that it? What about the model would lead to that?
+>
+> -   You'll notice our plot looks kind of clumped together, why do you think that it? What about the model would lead to that?
 
-- Given what we just discussed, can we change one of the variables we are using in the model to make it less "clumpy" but caputre the same information?
+-   Given what we just discussed, can we change one of the variables we are using in the model to make it less "clumpy" but caputre the same information?
 
 ```{r less-clumpy-lm}
 regression_2 <- lm(x1txmtscor ~ x1sex + x1ses + x1paredu, data = data)
@@ -406,15 +401,16 @@ ggplot(data,
 ```
 
 > ### Quick Question
-- Does that look better? What else is odd about our predictions?
+>
+> -   Does that look better? What else is odd about our predictions?
 
 -   We can also use `predict()` to estimate potential outcome values for new students who don't have the outcome for
-  - This is a common way you evaluate machine learning models
-  - If you think you're model is a really good predictor (which ours is not) you may feel comfortable using something like this to help your office predict student outcomes/identify students in need of additional help
+-   This is a common way you evaluate machine learning models
+-   If you think you're model is a really good predictor (which ours is not) you may feel comfortable using something like this to help your office predict student outcomes/identify students in need of additional help
 
 <!-- -->
 
-- To demonstrate this, we are first going to split out 10% of our data using `slice_sample()` and drop the math score from it
+-   To demonstrate this, we are first going to split out 10% of our data using `slice_sample()` and drop the math score from it
 
 ```{r}
 data_outcome_unknown <- data |>
@@ -422,35 +418,35 @@ data_outcome_unknown <- data |>
   select(-x1txmtscor)
 ```
 
-- Then, we can use `anti_join()` which is basically the opposite of the joins we used in [Data Wrangling II](04-wrangle-ii.qmd)
-  - It looks for every row in x that isn't in y and keeps those
+-   Then, we can use `anti_join()` which is basically the opposite of the joins we used in [Data Wrangling II](04-wrangle-ii.qmd)
+    -   It looks for every row in x that isn't in y and keeps those
 
 ```{r}
 data_outcome_known <-  anti_join(x = data, y = data_outcome_unknown, by = "stu_id")
 ```
 
-- Now, we can fit one more `lm()` using our data we "know" the outcome for
+-   Now, we can fit one more `lm()` using our data we "know" the outcome for
 
 ```{r}
 regression_3 <- lm(x1txmtscor ~ x1sex + x1ses + x1paredu, data = data_outcome_known)
 ```
 
-- Finally, we can `predict()` outcomes for the data we "don't know" the outcome for
-  - We add the `regression_3` we just fitted as the model, same as before
-  - But we also add `newdata = data_outcome_unknown` to say predict the outcome for this new data, instead of extract the predictions the model originally made
+-   Finally, we can `predict()` outcomes for the data we "don't know" the outcome for
+    -   We add the `regression_3` we just fitted as the model, same as before
+    -   But we also add `newdata = data_outcome_unknown` to say predict the outcome for this new data, instead of extract the predictions the model originally made
 
 ```{r}
 data_outcome_unknown <- data_outcome_unknown |>
   mutate(prediction_3 = predict(regression_3, newdata = data_outcome_unknown))
 ```
 
-- Lastly, let's see how similar our predictions we made using our model without the outcome were to those made when the outcome was known for everyone using `cor()` to get the correlation
+-   Lastly, let's see how similar our predictions we made using our model without the outcome were to those made when the outcome was known for everyone using `cor()` to get the correlation
 
 ```{r}
 cor(data_outcome_unknown$prediction_2, data_outcome_unknown$prediction_3)
 ```
 
-- Pretty close!
+-   Pretty close!
 
 ### Checking Residuals
 
@@ -461,11 +457,10 @@ cor(data_outcome_unknown$prediction_2, data_outcome_unknown$prediction_3)
 ```
 
 -   Many of the assumptions relating to regression are tested by looking at the residuals
-  -   We aren't going to go over those assumptions, again, this is not a stats class
-  -   But it might be useful to see how to get them out of a model object
-  -   Let's start by viewing the lm object again (environment, top right panel), then clicking on the little white box on the right hand side of the screen for the row "residuals"
-    -   That is a magic tip, if you ever want to get something specific out of a model object, often they'll be something you can click on to generate the code needed to access it in the console
-  -   For residuals, it is `regression_2[["residuals"]]`
+    -   We aren't going to go over those assumptions, again, this is not a stats class
+    -   But it might be useful to see how to get them out of a model object
+-   Let's start by viewing the lm object again (environment, top right panel), then clicking on the little white box on the right hand side of the screen for the row "residuals" - That is a magic tip, if you ever want to get something specific out of a model object, often they'll be something you can click on to generate the code needed to access it in the console
+    -   For residuals, it is `regression_2[["residuals"]]`
 
 ```{r}
 data <- data |>
@@ -473,7 +468,7 @@ data <- data |>
 ```
 
 -   Now, again, not to get too deep into assumptions, but one of the key things to check is that your residuals have a normal distribution
-  -   So let's revisit some [Data Visualization I](05-viz-i.qmd) content and make a simple `ggplot()` histogram to of them
+    -   So let's revisit some [Data Visualization I](05-viz-i.qmd) content and make a simple `ggplot()` histogram to of them
 
 ```{r}
 ggplot(data) +
@@ -494,16 +489,18 @@ ggplot(data) +
 ```
 
 -   The second from last thing is really simple, but, it can be a time & error saver if you want to get more advanced like our final step
-  -   Above, we simply put our formula into the `t.test()` or `lm()` command
-  -   Instead, we can actually specify it as a formula object first, then call that object, which has two advantages
+-   Above, we simply put our formula into the `t.test()` or `lm()` command
+    -   Instead, we can actually specify it as a formula object first, then call that object, which has two advantages
 
 1.  If we run multiple tests with the same formula, we only have to change it once in our code for updates
-  -   Here, we will run both standard `lm()` and `lm_robust()` from the `estimatr` package
+
+-   Here, we will run both standard `lm()` and `lm_robust()` from the `estimatr` package
+
 2.  If we want to run multiple tests in a loop like below, it makes that possible too
 
 <!-- -->
 
-- To demonstrate this, we will fit the same model using standard `lm()` and `lm_robust()` which for those versed in stats, is one option we can use when we have a violation of heteroskedasticity
+-   To demonstrate this, we will fit the same model using standard `lm()` and `lm_robust()` which for those versed in stats, is one option we can use when we have a violation of heteroskedasticity
 
 ```{r}
 
@@ -511,11 +508,23 @@ regression_formula <- formula(x1txmtscor ~ x1sex + x1ses + x1paredu)
 
 regression_4 <- lm(regression_formula, data = data)
 
-matts_regression_table(regression_4)
+tbl_regression(regression_4,
+               label = list(x1sex ~ "Sex",
+                            x1ses ~ "Socio-Economic Status",
+                            x1paredu ~ "Parental Education")) |>
+  add_significance_stars(hide_ci = FALSE, hide_p = FALSE) |>
+  add_glance_source_note(include = c(r.squared, nobs)) |>
+  modify_column_unhide(std.error)
 
 regression_robust <- lm_robust(regression_formula, data = data, se_type = "stata")
 
-matts_regression_table(regression_robust)
+tbl_regression(regression_robust,
+               label = list(x1sex ~ "Sex",
+                            x1ses ~ "Socio-Economic Status",
+                            x1paredu ~ "Parental Education")) |>
+  add_significance_stars(hide_ci = FALSE, hide_p = FALSE) |>
+  add_glance_source_note(include = c(r.squared, nobs)) |>
+  modify_column_unhide(std.error)
 
 ```
 
@@ -527,16 +536,16 @@ matts_regression_table(regression_robust)
 ## ---------------------------
 ```
 
-- Finally, we can also bring in content from [Functions & Loops](11-pro-functions.qmd) and fit regression models using loops
-  - This is kind of thing you might want to do if you are testing the same model on a set of outcomes
+-   Finally, we can also bring in content from [Functions & Loops](11-pro-functions.qmd) and fit regression models using loops
+    -   This is kind of thing you might want to do if you are testing the same model on a set of outcomes
 
 > ### Quick Question
-- Thinking back to that lesson, why might we want to go through the hassle of fitting regressions using loops? What are the advantages of using loops vs coding it all out separately?
+>
+> -   Thinking back to that lesson, why might we want to go through the hassle of fitting regressions using loops? What are the advantages of using loops vs coding it all out separately?
 
-- For example, we might be interested in modeling both a students math score and their parental education expectation
-  1. we make a list containing our outcome variables (x1txmtscor and x1paredexpct)
-  2. Use a `for()` loop to loop through these outcomes, which `paste()`s i (which takes on the name of each outcome variable) into the formula and then runs the model
-
+-   For example, we might be interested in modeling both a students math score and their parental education expectation
+    1.  we make a list containing our outcome variables (x1txmtscor and x1paredexpct)
+    2.  Use a `for()` loop to loop through these outcomes, which `paste()`s i (which takes on the name of each outcome variable) into the formula and then runs the model
 
 ```{r}
 #| results: asis
@@ -549,9 +558,15 @@ for(i in outcomes) {
   
   loop_formula <- formula(paste0(i, "~ x1sex + x1ses + x1paredu"))
   
-  loop_lm <- lm(loop_formula, data = data)
+  loop_regression <- lm(loop_formula, data = data)
   
-  matts_regression_table(loop_lm) |>
+  tbl_regression(loop_regression,
+                 label = list(x1sex ~ "Sex",
+                              x1ses ~ "Socio-Economic Status",
+                              x1paredu ~ "Parental Education")) |>
+    add_significance_stars(hide_ci = FALSE, hide_p = FALSE) |>
+    add_glance_source_note(include = c(r.squared, nobs)) |>
+    modify_column_unhide(std.error) |>
     print()
   
 }

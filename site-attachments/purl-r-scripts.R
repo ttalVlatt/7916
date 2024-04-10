@@ -20,6 +20,8 @@ for(i in qmd_files) {
 
 output <- Sys.getenv("QUARTO_PROJECT_OUTPUT_DIR")
 
+dir.create(output)
+
 dir.create(file.path(output, "r-scripts"))
 
 r_files <- list.files(pattern = ".R$")
