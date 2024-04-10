@@ -345,7 +345,6 @@ ggplot(data,
 > ### (Harder) Quick Question
 - You'll notice our plot looks kind of clumped together, why do you think that it? What about the model would lead to that?
 
-> ### (Not So) Quick (Group) Excercise
 - Given what we just discussed, can we change one of the variables we are using in the model to make it less "clumpy" but caputre the same information?
 
 ```{r less-clumpy-lm}
@@ -357,7 +356,7 @@ data <- data |>
 ggplot(data,
        aes(x = prediction_2,
            y = x1txmtscor)) +
-  geom_point(size = 0.1) +
+  geom_point() +
   geom_smooth(method = "lm") +
   coord_obs_pred()
 
