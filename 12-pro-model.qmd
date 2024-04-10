@@ -323,8 +323,12 @@ data
 ```
 
 - Next, we can compare these to our actual results using a simple plot (no formatting) from [Data Viz I](05-viz-i.qmd)
-  - The only new thing we add here is `coord_obs_pred()` which is from the `tidymodels` package
-    - This fixes the axes so that the predictions and observed values are plotted on the same scale
+  - The only new things we add here is
+    - `geom_abline(slope = 1, intercept = 0)`
+      - This adds a reference line that represents a perfect 1 to 1 relationship (which would be if there was 0 prediction error)
+    - `coord_obs_pred()` which is from the `tidymodels` package
+      - This fixes the axes so that the predictions and observed values are plotted on the same scal
+    
     
 > ### Quick Excercise
 - Try removing the final line `coord_obs_pred()` and see what happens. Which plot do you think is better?
