@@ -94,6 +94,7 @@ library(knitr)
 - First, we read our data and `select()` the columns we want to use
 
 ```{r}
+#| message: false
 data <- read_csv("data/hsls-small.csv") |>
   select(stu_id, x1sex, x1race, x1txmtscor, x1paredu, x1ses, x1poverty185, x1paredexpct)
 ```
