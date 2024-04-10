@@ -505,6 +505,7 @@ tbl_regression(regression_robust) |>
 
 
 ```{r}
+#| results: asis
 
 outcomes <- c("x1txmtscor", "x1paredexpct")
 
@@ -517,7 +518,8 @@ for(i in outcomes) {
   loop_lm <- lm(loop_formula, data = data)
   
   tbl_regression(loop_lm) |>
-    modify_column_unhide(std.error)
+    modify_column_unhide(std.error) |>
+    print()
   
 }
 
