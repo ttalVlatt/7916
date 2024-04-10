@@ -241,10 +241,22 @@ stargazer(regression, type = "html")
 tbl_regression(regression)
 ```
 
-- With a couple of extra lines to handle variable labels and add significance stars, we can get something that looks pretty great
+- With a couple of extra lines to
+  - handle variable labels
+    - `label = list(x1sex ~ "Sex" ... )`
+  - add significance stars (without hiding the p-value of confidence intervals)
+    - `add_significance_stars(hide_ci = FALSE, hide_p = FALSE)`
+  - add model statistics
+    - `add_glance_source_note(include = c(r.squared, nobs))`
+  - force the standard error column to show
+    - `modify_column_unhide(std.error)`
+- we can get something that looks pretty great
+
+<!-- -->
+
 - Similarly to above, we add table numbers and captions using Quarto cross referencing
-- `{r tbl-gtsummary}`
-- `#| tbl-cap: "Regression Table Using gtsummary"`
+  - `{r tbl-gtsummary}`
+  - `#| tbl-cap: "Regression Table Using gtsummary"`
 
 ```{r tbl-gtsummary}
 #| tbl-cap: "Regression Table Using gtsummary (custom)"
@@ -253,13 +265,14 @@ tbl_regression(regression,
                label = list(x1sex ~ "Sex",
                             x1poverty185 ~ "Below Poverty Line",
                             x1paredu ~ "Parental Education")) |>
-  modify_column_unhide(std.error) |>
   add_significance_stars(hide_ci = FALSE, hide_p = FALSE) |>
-  add_glance_source_note(include = c(r.squared, nobs))
+  add_glance_source_note(include = c(r.squared, nobs)) |>
+  modify_column_unhide(std.error)
 ```
 
 - If we like that design for our tables, which I do, we can actually save it all as a homemade function, just like we made in the [Functions & Loops lesson](11-pro-functions.qmd)
-  - We are going to use this later in the lesson
+  - We are going to use this later in the lesson, so I changed x1poverty185 to x1ses
+  - The code is pretty much identical inside, we just specify that it's a function that takes something called `regression`, which will be a regression model, and then that is placed as the first argument in out `tbl_regression`
 
 ```{r}
 matts_regression_table <- function(regression) {
