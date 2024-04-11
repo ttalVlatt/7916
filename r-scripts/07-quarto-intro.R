@@ -59,14 +59,12 @@ df |>
   tbl_summary(type = all_continuous() ~ "continuous2",
               statistic = c(all_continuous() ~ c("{mean}",
                                                  "{sd}",
-                                                 "{min} to {max}"),
-                            all_categorical() ~ "{n} ({p}%)"))
+                                                 "{min} to {max}")))
 
 df |>
   select(x1txmtscor, x1region) |>
   tbl_summary(type = all_continuous() ~ "continuous2",
               statistic = c(all_continuous() ~ c("{mean}",
                                                  "{sd}",
-                                                 "{min} to {max}"),
-                            all_categorical() ~ "{n} ({p}%)")) |>
+                                                 "{min} to {max}"))) |>
   as_kable()
