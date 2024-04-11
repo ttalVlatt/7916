@@ -1,0 +1,72 @@
+---
+title: "`r params$name`: Pell Graduation Rates"
+author: "Matt Capaldi"
+date: today
+format: typst
+engine: knitr
+execute: 
+  echo: false
+  message: false
+  warning: false
+editor_options: 
+  chunk_output_type: console
+params:
+  name: "placeholder"
+---
+
+```{r}
+library(tidyverse)
+library(haven)
+library(knitr)
+```
+
+### You can use `params` in the text or to filter data
+
+```{r}
+### You can read data in based on `params`
+#df_school_one <- read_dta(paste0("college-data/", params$name, ".dta"))
+```
+
+
+This is a report for `r params$name`. Their Pell graduation rate is `#r df_school_one |> pull(pell_gr_perc) |> round()`%.
+
+```{r}
+#| label: tbl-gradrate 
+#| tbl-cap: "Pell Graduation Rates"
+
+## Or you can filter data based on `params`
+df_school_two <- read_dta("df.dta") |>
+  filter(instnm == params$name)
+
+kable(df_school_two |> select(pgadjct, pgcmtot, pell_gr_perc),
+      col.names = c("Pell Grant Recipients", "Number Graduated", "Percent Graduated"),
+      digits = 2)
+
+```
+
+### You can even use `params` in plots
+
+```{r}
+df_plot <- read_dta("df.dta") |>
+  mutate(this_school = ifelse(instnm == params$name, 1, 0))
+
+ggplot(df_plot) +
+  geom_jitter(aes(x = pell_gr_perc,
+                  y = as_factor(control),
+                  fill = as_factor(control),
+                  size = as_factor(this_school),
+                  alpha = as_factor(this_school)),
+              shape = 21,
+              color = "black") +
+  labs(x = "Pell Graduation Rate",
+       y = NULL) +
+  scale_fill_viridis_d(option = "magma") +
+  scale_size_manual(values = c(1, 10)) +
+  scale_alpha_manual(values = c(0.5, 1)) +
+  theme_minimal() +
+  theme(legend.position = "none")
+
+```
+
+
+
