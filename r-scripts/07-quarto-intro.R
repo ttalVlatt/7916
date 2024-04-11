@@ -3,6 +3,7 @@
 ## install.packages(c("knitr", "rmarkdown", "quarto"))
 
 library(tidyverse)
+library(gtsummary)
 
 df <- read_csv(file.path("data", "hsls-small.csv"))
 
@@ -48,3 +49,24 @@ df |>
   kable(col.names = c("Region", "Sex", "Mean", "Median", "Min", "Max"),
         digits = 2,
         caption = "Math Score by Region and Sex")
+
+df |>
+  select(x1txmtscor, x1region) |>
+  tbl_summary()
+
+df |>
+  select(x1txmtscor, x1region) |>
+  tbl_summary(type = all_continuous() ~ "continuous2",
+              statistic = c(all_continuous() ~ c("{mean}",
+                                                 "{sd}",
+                                                 "{min} to {max}"),
+                            all_categorical() ~ "{n} ({p}%)"))
+
+df |>
+  select(x1txmtscor, x1region) |>
+  tbl_summary(type = all_continuous() ~ "continuous2",
+              statistic = c(all_continuous() ~ c("{mean}",
+                                                 "{sd}",
+                                                 "{min} to {max}"),
+                            all_categorical() ~ "{n} ({p}%)")) |>
+  as_kable()
