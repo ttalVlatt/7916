@@ -222,7 +222,7 @@ summary(regression)
 
 <!-- -->
 
--   Reminder from [Intro to Quarto](07-quarto-intro.qmd): To get captions and table numbers if we are using Quarto, we use the "chunk options" to cross reference them, not manually adding them to the table code
+-   Extra trick: To get captions and table numbers if we are using Quarto, we use the "chunk options" to cross reference them, not manually adding them to the table code
     -   You see more about that on the [Quarto guide for cross referencing](https://quarto.org/docs/authoring/cross-references.html#computations-1)
     -   To get the table to appear like this I...
         -   Labeled the chunk `{r tbl-stargazer}`
@@ -235,11 +235,9 @@ summary(regression)
 stargazer(regression, type = "html")
 ```
 
--   Note: If you give a full data frame to `stargazer()` it will also create a descriptive statistics table
-
 ### `gtsummary` Package
 
--   Personally, I find the `gtsummary` package (which is built on the `gt` tables package) much more like what I want
+-   Personally, I find the `gtsummary` package (which we saw in our [Intro to Quarto lesson](07-quarto-intro.qmd)) much more like what I want
     -   When I'm using a package to create my tables, this is my preferred option
     -   `tbl_regression()` creates a pretty great table when you just provide the regression model
     -   One thing I particularly like is how `gtsummary` handles factors, I think it makes the it super-duper clear what is going on
@@ -278,10 +276,10 @@ tbl_regression(regression,
   modify_column_unhide(std.error)
 ```
 
--   Note: You can also create matching descriptive statistics tables using the `tbl_summary()` function
+-   Reminder: We saw in [Intro to Quarto](07-quarto-intro.qmd) how you can create matching descriptive statistics tables using the `tbl_summary()` function
+    -   We also saw how you can force them to `as_kable()` if needed for you output format
     -   If you like `gtsummary` tables and want to learn more, check out
         -   [`gtsummary` documentation](https://www.danieldsjoberg.com/gtsummary/index.html)
-        -   [`gt` documentation](https://gt.rstudio.com)
 
 ### "Homemade" Regression Tables with `kable()`
 

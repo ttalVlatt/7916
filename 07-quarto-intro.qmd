@@ -128,6 +128,7 @@ install.packages(c("knitr", "rmarkdown", "quarto"))
 
 ```{r basicplot}
 library(tidyverse)
+library(gtsummary)
 
 df <- read_csv(file.path("data", "hsls-small.csv"))
 
@@ -380,6 +381,66 @@ df |>
 
 -   Much better!
 
+## Advanced Descriptive Statistics Tables with `gtsummary`
+
+- Often, a simple `summarize()` and `kable()` will produce the descriptive statistics output we want
+- However, the `gtsummary` package has a `tbl_summary()` which I really like to create some more complicated/customized table
+  - In particular, I like how it can handle continuous and categorical variables differently within the same table
+- Let's take a look a smaller descriptive statistics table looking at Math scores and region
+  - At it's most simple, we just select the columns we want to summarize and pipe `|>` into `tbl_summary()`
+
+```{r}
+df |>
+  select(x1txmtscor, x1region) |>
+  tbl_summary()
+```
+
+- By default, you can see it provides median and interquartile range for continuous variables, and counts with percentages for categorical variables
+  - This alone would be hard to produce by hand
+- Now, let's be more specific about what kind of statistics we want to see
+  
+```{r}
+df |>
+  select(x1txmtscor, x1region) |>
+  tbl_summary(type = all_continuous() ~ "continuous2",
+              statistic = c(all_continuous() ~ c("{mean}",
+                                                 "{sd}",
+                                                 "{min} to {max}")))
+```
+
+- `type = all_continuous() ~ "continuous2"`
+    - This just means I want continuous variables to be given more than one line in the table
+- `statistic = c(all_continuous() ~ c("{mean}",`
+                                      `"{sd}",`
+                                      `"{min} to {max}")`
+    - This spells out exactly what statistics I want and how to lay them out
+      - `all_continuous() ~` means for continuous variables, do this
+        - Similarly, if you want to change how categorical variables are described you would use `all_categorical() ~`
+      - You'll then see than anything in `{}` is a statistic I want, and line breaks, words, and punctuation outside the `{}` are included as typed
+        - `{mean}` gives the mean and `{sd}` gives the standard deviation
+        - `{min} to {max}` gives the minimum value, the word "to", then the maximum value
+
+<!-- -->
+
+- Lastly, by default `gtsummary` produces pretty html based tables, these play nicely with some foramts, but not others
+- If you're having trouble getting the table to appear in the format you're rendering to, `gtsummary` has a collection of functions to convert the table to different formats
+  - Here, we will use `as_kable()` to print the same table as above, but as a kable (just like we would make) 
+    - This will sacrifice some of the details and styling, but it's a good option if you want need simplicity/compatibility, or, just want it match other `kable()`s you already made
+
+```{r}
+df |>
+  select(x1txmtscor, x1region) |>
+  tbl_summary(type = all_continuous() ~ "continuous2",
+              statistic = c(all_continuous() ~ c("{mean}",
+                                                 "{sd}",
+                                                 "{min} to {max}"))) |>
+  as_kable()
+```
+
+- This is very much beyond the expectation for summary tables in your final reports, but I wanted to show how you might want to think about descriptive tables for future publishable work
+- There is so much more to `gtsummary` than this, we will see this package again in our [Bringing It All Together (Feat. Basic Models) Lesson](12-pro-model.qmd)
+- If you're interested in learning more check out [`gtsummary`'s reference website](https://www.danieldsjoberg.com/gtsummary/) 
+
 ## Tips for Technical Writing & Citations
 
 -   One of the most frustrating things in Microsoft Word is technical aspects of writing such as equations needed for quantitative research articles
@@ -390,6 +451,7 @@ df |>
 ```{=html}
 <iframe width="900" height="600" src="https://quarto.org/docs/visual-editor/technical.html"></iframe>
 ```
+
 # Assignment
 
 -   Good news! Through the quick exercises in this class, you should have some of this assignment done!
