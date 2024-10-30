@@ -33,7 +33,7 @@ mean(df_math$x1txmtscor)
 
 ## Part Two
 aggregate(df_math["x1txmtscor"],          # var of interest
-          by = list(sex = df$x1sex), # by group
+          by = list(sex = df_math$x1sex), # by group
           FUN = mean)                # function to run
 
 ## ---------------------------
@@ -49,13 +49,25 @@ paste("The median household income cat is", median(df_pov$x1famincome),
 ##' [Q3]
 ## ---------------------------
 
+##'[Part I]
+
 df_hs <- df[df$x4hscompstat %in% c(1,2),]
 
 hs_counts <- table(df_hs$x4hscompstat)
-ged <- hs_counts["2"]
-total <- hs_counts["1"] + hs_counts["2"]
-percent <- round(ged/total*100, 2)
+hs_counts["total"] <- hs_counts["1"] + hs_counts["2"]
+percent <- round(hs_counts["2"]/hs_counts["total"]*100, 2)
 paste(percent, "% of those with HS credential have a GED")
+
+
+##'[Part II]
+hs_counts_region <- aggregate(df_hs["x4hscompstat"],          # var of interest
+                              by = list(region = df_hs$x1region), # by group
+                              FUN = table)
+
+hs_counts_region["total"] <- hs_counts_region$x4hscompstat[, "1"] + hs_counts_region$x4hscompstat[, "2"]
+hs_counts_region["percent"] <- hs_counts_region$x4hscompstat[, "2"]/hs_counts_region["total"]*100
+
+hs_counts_region[c("region", "percent")]
 
 ## ---------------------------
 ##' [Q4]
