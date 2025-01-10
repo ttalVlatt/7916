@@ -34,8 +34,8 @@ credit lessons, but we will cover when needed.
     -   The good news, however, is that a
         [URL](https://cloud.r-project.org) that automates this whole
         process for you came out recently
-    -   The even better news is that I've set up a little portal to that
-        URL here, so you can download it without leaving this page
+    -   The even better news is that we've set up a little portal to
+        that URL here, so you can download it without leaving this page
 
 ```{=html}
 <iframe width="900" height="600" src="https://cloud.r-project.org"></iframe>
@@ -43,21 +43,21 @@ credit lessons, but we will cover when needed.
 1.  Click the option for the OS you have (Windows/Mac/Linux)
 2.  Then under the "latest release"
 
-```{=html}
 <!-- -->
-```
+
 i.  For windows users, select "base" then "Download R..." (the top
     options)
 ii. For mac users, select either apple silicon or intel options
-    depending on how new your mac is 
-      - If you need to check which kind
-    your mac is, hit the apple logo in the top left of your screen, then
-    "About This Mac" then under "Processor" it will either intel or
-    silicon. I can also help you with this in class if needed.
+    depending on how new your mac is
+    -   If you need to check which kind your mac is, hit the apple logo
+        in the top left of your screen, then "About This Mac." On Mac
+        computers with Apple silicon, it will show an item labeled Chip,
+        followed by the name of the chip. On Mac computers with an Intel
+        processor, it will show an item labeled Processor, followed by
+        the name of an Intel processor
 
-```{=html}
 <!-- -->
-```
+
 3.  R will then download, double click on the download when it's
     finished and then follow the on-screen prompts
 4.  R is now (hopefully) installed!
@@ -80,13 +80,11 @@ ii. For mac users, select either apple silicon or intel options
             variety of languages, but, the best option for R is RStudio
             as it is purpose built for the language (it also works with
             Python too)
--   I did try to create another little portal below, but, sadly Posit
-    (the company who created RStudio) have disabled the way I do that.
-    Instead...
+-   To install RStudio, let's do the following:
 
 1.  Go to [this site](https://posit.co/download/rstudio-desktop/) and
     click the "Download RStudio Desktop for..." button underneath "2:
-    Install RStudio" (we already did step 1)
+    Install RStudio" (we already did step 1 Install R)
 
 -   This is simpler than installing R, Posit have a more sophisticated
     website which will automatically download the right version for your
@@ -128,9 +126,14 @@ By default, RStudio has 3-4 main frames:
 3.  Top right: Environment / History / Connections
 4.  Bottom right: Files / Plots / Packages / Help / Viewer
 
-For today, we are mostly going to explore some basic features of R using the console, copying and pasting commands from the website rather than saving them in a script. Fear not, however, as there is already an `.R` script containing all these commands saved in your class folder that we will set up next week.
-  - All an `.R` script does is save your code and pass it line-by-line to the console
-    - After today, anything we want to save will be done through a script, anything we just need to run one time will be done in console
+For today, we are mostly going to explore some basic features of R using
+the console, copying and pasting commands from the website rather than
+saving them in a script. Fear not, however, as there is already an `.R`
+script containing all these commands saved in your class folder that we
+will set up next week. - All an `.R` script does is save your code and
+pass it line-by-line to the console - After today, anything we want to
+save will be done through a script, anything we just need to run one
+time will be done in console
 
 ## Basic R Commands
 
@@ -222,10 +225,12 @@ thing in our object, that would be more useful
 
 ## Comments
 
-For this section, let's just open a blank `.R` script in RStudio (again, all these commands will be in a script in your class folder we set up next week)
+For this section, let's just open a blank `.R` script in RStudio (again,
+all these commands will be in a script in your class folder we set up
+next week)
 
--   Comments in R are set off using
-    the hash or pound character at the beginning of the line: `#`
+-   Comments in R are set off using the hash or pound character at the
+    beginning of the line: `#`
 -   The comment character tells R to ignore the line
 
 > #### Quick exercise
@@ -233,27 +238,13 @@ For this section, let's just open a blank `.R` script in RStudio (again, all the
 > Type the phrase "This is a comment" directly into the R console both
 > with and without a leading "\#". What happens each time?
 
--   You may notice ~~I~~ (Ben, and therefore, now me) use two hashes
+-   You may notice we sometimes use two hashes
     -   You can use only a single `#` for your comments if you like, R
         treats them all the same
     -   If you're typing longer comments `##'` (two hashes and an
         apostrophe) is really useful in RStudio, as it automatically
         comments the next line (although this can be annoying at times
         too)
-    -   If you want to take your comments to the next level `##'`
-        in RStudio also enables some fun color coding options with `@`,
-        `[]`, `**`, and `:`
-        -   These can be useful in longer scripts to draw attention to
-            specific points
-        -   Note: these only show up in RStudio
-
-```{r}
-##' @Matt needs to work on this  
-##' Matt needs to work on [this]
-##' Matt *needs* to work on this
-##' [Matt: needs to work on this]
-```
-
 -   Lastly, RStudio can comment/uncomment multiple lines of code you've
     already written
     -   On the top menu bar select "Code" then "Commment/Uncomment
@@ -264,7 +255,7 @@ For this section, let's just open a blank `.R` script in RStudio (again, all the
 ```{r}
 ## Try commenting/uncommenting the below line
 
-# Matt <- "Hi"
+# EDH7916 <- "Hi"
 ```
 
 ## Data types and structures
@@ -287,6 +278,7 @@ typeof(x)
 ```
 
 What if we make it "1"?
+
 ```{r}
 x <- "1"
 typeof(x)
@@ -294,7 +286,7 @@ typeof(x)
 
 Understanding the nuanced differences between data types is not
 important right now. Just know that they exist and that you'll gain an
-intuitive understanding of them as you become better aquainted with R.
+intuitive understanding of them as you become better acquainted with R.
 
 ## Packages
 
@@ -343,7 +335,7 @@ operating system file type.
 > [`tidyverse`](https://CRAN.R-project.org/package=tidyverse) package,
 > which is really a suite of packages that we'll use throughout the
 > semester. Don't forget to use double quotation marks around the
-> package name: 
+> package name:
 
 ```{r, eval=FALSE}
 install.packages("tidyverse")
@@ -373,6 +365,11 @@ Notice that when you load the tidyverse (which, again, is actually
 loading a number of other libraries), you see a lot of output. Not all
 packages are this noisy, but the information is useful here because it
 shows all the libraries that are now loaded and ready for you to use.
+
+### Installing packages using the top menu bar
+
+-   Alternatively, you can install packages by going to "Tools", then
+    "Install Packages", then type in the package you want to install
 
 ## Help
 
@@ -461,7 +458,7 @@ work --- let's install these to get us started.
 
 > -   `devtools`
 > -   `knitr`
-> -   `rmarkdown``
+> -   \`rmarkdown\`\`
 > -   `quarto`
 
 # Assignment
