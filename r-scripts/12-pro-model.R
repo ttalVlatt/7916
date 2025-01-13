@@ -10,7 +10,7 @@
 setwd(this.path::here())
 
 
-# install.packages(c("tidymodels", "estimatr", "stargazer", "gtsummary"))
+## install.packages(c("tidymodels", "estimatr", "stargazer", "gtsummary"))
 
 
 ## ---------------------------
@@ -191,4 +191,4 @@ for(i in outcomes) {
 ##' *END SCRIPT*
 ## -----------------------------------------------------------------------------
 
-# NA
+## NA
