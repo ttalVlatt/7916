@@ -268,7 +268,7 @@ NRN 2025
 
 
 #grid(columns: 2,
-      align: center,
+      alignment: center,
       gutter: 0.5in,
 
 
