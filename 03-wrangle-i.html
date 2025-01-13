@@ -453,11 +453,31 @@ dbl (16): stu_id, x1sex, x1race, x1stdob, x1txmtscor, x1paredu, x1hhnumber, ...
 </ul>
 </section>
 </section>
-<section id="pipe-operator-in-r" class="level2">
-<h2 data-anchor-id="pipe-operator-in-r">Pipe Operator <code>|&gt;</code> in R</h2>
+<section id="native-pipe-operator-in-r" class="level2">
+<h2 data-anchor-id="native-pipe-operator-in-r">Native Pipe Operator <code>|&gt;</code> in R</h2>
 <p>The pipe is one of the things that makes R code more intuitive than other programming languages, as it allows us write code in the order we think about it, passing it one from one function to another, rather than nesting it like traditional code would be written</p>
+<section id="a-brief-history-of-the-r-pipe" class="level4">
+<h4 data-anchor-id="a-brief-history-of-the-r-pipe">A Brief History of the R Pipe</h4>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="https://www.fine-arts-museum.be/uploads/exhibitions/images/magritte_la_trahison_des_images_large@2x.jpg"><img src="https://raw.githubusercontent.com/tidyverse/magrittr/main/man/figures/logo.png" class="img-fluid figure-img" alt="badge"></a></p>
+<figcaption>badge</figcaption>
+</figure>
+</div>
+<ul>
+<li>The pipe was originally a <code>tidyverse</code> invention, and used <code>%&gt;%</code> symbol, which is probably still a common pipe you see “in the wild”</li>
+<li>The pipe we are using was brought into the Vanilla version of R a few years ago as <code>|&gt;</code> (the “native pipe”)</li>
+<li>The reason for the change is some benefits that are beyond the scope of this class, but you just need to know that <code>|&gt;</code> and <code>%&gt;%</code> <ins>are essentially the same thing</ins>
+<ul>
+<li>The default shortcut for pipe (ctrl + shift + m) will generate <code>%&gt;%</code>, but you can change it to <code>|&gt;</code> by going to <code>Tools &gt; Global Options &gt; Code &gt; Use native pipe operator, |&gt;</code></li>
+</ul></li>
+</ul>
+</section>
+<section id="how-the-pipe-works" class="level4">
+<h4 data-anchor-id="how-the-pipe-works">How the Pipe Works</h4>
 <p>For this example don’t worry about the actual processes (we will go over them more below), just look at how much more intuitive the code is with <code>|&gt;</code>s.</p>
 <p>First, let’s say I want to take the data we just read in and <code>select</code> the <code>x1txmtscor</code> (math test scores) column</p>
+</section>
 <section id="without" class="level4">
 <h4 data-anchor-id="without">Without <code>|&gt;</code></h4>
 <div class="cell">
@@ -501,7 +521,7 @@ dbl (16): stu_id, x1sex, x1race, x1stdob, x1txmtscor, x1paredu, x1hhnumber, ...
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="do">## With |&gt;</span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span> <span class="fu">select</span>(x1txmtscor) <span class="sc">|&gt;</span> <span class="fu">filter</span>(x1txmtscor <span class="sc">&gt;</span> <span class="dv">50</span>) <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">square_root =</span> <span class="fu">sqrt</span>(x1txmtscor))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>As we are getting longer, I’m going to use a new line for each pipe, just to make it even clearer (it makes no difference to R)</p>
+<p>As we are getting longer, let’s use a new line for each pipe, just to make it even clearer (it makes no difference to R)</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Best to use  a new line for each pipe when code gets longer</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span></span>
@@ -509,7 +529,7 @@ dbl (16): stu_id, x1sex, x1race, x1stdob, x1txmtscor, x1paredu, x1hhnumber, ...
 <span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(x1txmtscor <span class="sc">&gt;</span> <span class="dv">50</span>) <span class="sc">|&gt;</span></span>
 <span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">square_root =</span> <span class="fu">sqrt</span>(x1txmtscor))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Even though we haven’t covered any of these commands yet, I think (tell me if I’m wrong) the <code>|&gt;</code> is still pretty easy to know roughly what’s going on. Whereas, the traditional nested way gets really tricky beyond a couple of commands.</p>
+<p>Even though we haven’t covered any of these commands yet, we can see that the <code>|&gt;</code> is pretty easy to know roughly what’s going on. Whereas, the traditional nested way gets really tricky beyond a couple of commands.</p>
 <p>Of course, if you wanted, you could do each step separately, constantly assigning and overwriting an object like below</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Without the |&gt;, we could technically break it down step by step</span></span>
@@ -518,11 +538,11 @@ dbl (16): stu_id, x1sex, x1race, x1stdob, x1txmtscor, x1paredu, x1hhnumber, ...
 <span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>temp <span class="ot">&lt;-</span> <span class="fu">mutate</span>(temp, <span class="at">square_root =</span> <span class="fu">sqrt</span>(x1txmtscor))</span>
 <span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>temp</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>But again, I think it’s less intuitive than simply piping the results.</p>
+<p>But it’s less intuitive than simply piping the results.</p>
 <ul>
 <li>If we do want to see step-by-step output in a piped command, you can either
 <ol type="a">
-<li>Run the code as you write it line-by-line (usually what I do)</li>
+<li>Run the code as you write it line-by-line</li>
 <li>Highlight sections of the piped code to run up to a point</li>
 </ol></li>
 </ul>
@@ -552,7 +572,7 @@ dbl (16): stu_id, x1sex, x1race, x1stdob, x1txmtscor, x1paredu, x1hhnumber, ...
 <span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>  df_forward_pass</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ul>
-<li>That’s how I first thought about how pipes and assignment work together, and you can see the outputs are <code>all.equal()</code></li>
+<li>That’s how pipes and assignment work together, and you can see the outputs are <code>all.equal()</code></li>
 </ul>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Checking they are the same</span></span>
@@ -565,19 +585,7 @@ dbl (16): stu_id, x1sex, x1race, x1stdob, x1txmtscor, x1paredu, x1hhnumber, ...
 <li>However, you <em>really</em> shouldn’t write code like this, as although it runs, it’s then hard to later find where you created <code>df_forward_pass</code>.</li>
 <li>Starting the string of code with where you store the result is <strong>MUCH</strong> clearer.
 <ul>
-<li>But, it really helped me to think about it this way at first, so hopefully it will help some of you understand how <code>|&gt;</code> and <code>&lt;-</code> work together</li>
-</ul></li>
-</ul>
-</section>
-<section id="a-brief-history-of-the-r-pipe" class="level4">
-<h4 data-anchor-id="a-brief-history-of-the-r-pipe">A Brief History of the R Pipe</h4>
-<p><span style="display:block;text-align:center"><a href="https://www.fine-arts-museum.be/uploads/exhibitions/images/magritte_la_trahison_des_images_large@2x.jpg"><img src="https://raw.githubusercontent.com/tidyverse/magrittr/main/man/figures/logo.png" class="img-fluid" alt="badge"></a></span></p>
-<ul>
-<li>The pipe was originally a <code>tidyverse</code> invention, and used <code>%&gt;%</code> symbol, which is probably still a common pipe you see “in the wild”</li>
-<li>The pipe we are using was brought into the Vanilla version of R a few years ago as <code>|&gt;</code></li>
-<li>The reason for the change is some benefits that are beyond the scope of this class, but I wanted you to be aware that <code>|&gt;</code> and <code>%&gt;%</code> <ins>are essentially the same thing</ins>
-<ul>
-<li>You can intermingle them, but, but for clarity I would stick with <code>|&gt;</code></li>
+<li>But hopefully it will help some of you understand how <code>|&gt;</code> and <code>&lt;-</code> work together</li>
 </ul></li>
 </ul>
 </section>
@@ -635,7 +643,7 @@ dbl (16): stu_id, x1sex, x1race, x1stdob, x1txmtscor, x1paredu, x1hhnumber, ...
 </section>
 <section id="understanding-our-data" class="level3">
 <h3 data-anchor-id="understanding-our-data">Understanding our data</h3>
-<p>First things first, however, we need to check the <a href="https://nces.ed.gov/datalab/onlinecodebook">code book</a> to see what the numerical values for our two education expectation variables represent. To save time, I’ve copied them here:</p>
+<p>First things first, however, we need to check the <a href="https://nces.ed.gov/datalab/onlinecodebook">code book</a> to see what the numerical values for our two education expectation variables represent. To save time, we’ve copied them here:</p>
 <section id="x1stuedexpct" class="level5">
 <h5 data-anchor-id="x1stuedexpct"><code>x1stuedexpct</code></h5>
 <p><em>How far in school 9th grader thinks he/she will get</em></p>
@@ -1042,12 +1050,12 @@ dbl (16): stu_id, x1sex, x1race, x1stdob, x1txmtscor, x1paredu, x1hhnumber, ...
 <ul>
 <li>If <code>x1stuedexpct</code> is higher then take that, if not, take <code>x1paredexpct</code>
 <ul>
-<li>There’s two things I haven’t fully accounted for though…
+<li>There’s two things we haven’t fully accounted for though…
 <ul>
 <li>One doesn’t actually matter here, but might in other circumstances</li>
 <li>One definitely matters here
 <ul>
-<li>Without scrolling past the duck, can you tell me what they might be?</li>
+<li>Without scrolling past the duck, does anyone know what they might be?</li>
 </ul></li>
 </ul></li>
 </ul></li>
@@ -1062,9 +1070,9 @@ dbl (16): stu_id, x1sex, x1race, x1stdob, x1txmtscor, x1paredu, x1hhnumber, ...
 <section id="sloppy-mistake-1-doesnt-matter-here" class="level4">
 <h4 data-anchor-id="sloppy-mistake-1-doesnt-matter-here">Sloppy Mistake 1 (doesn’t matter here)</h4>
 <ul>
-<li>I was a little sloppy with the <code>statement</code> piece, I just asked if <code>x1stuedexpct</code> was greater than <code>x1paredexpct</code> or not
+<li>We were a little sloppy with the <code>statement</code> piece, we just asked if <code>x1stuedexpct</code> was greater than <code>x1paredexpct</code> or not
 <ul>
-<li>If I was being more careful, I might have said “greater than or equal to”
+<li>If we were being more careful, we might have said “greater than or equal to”
 <ul>
 <li>Why doesn’t this matter in this context, and when might it matter?</li>
 </ul></li>
@@ -1118,7 +1126,7 @@ dbl (16): stu_id, x1sex, x1race, x1stdob, x1txmtscor, x1paredu, x1hhnumber, ...
 </ul></li>
 <li>Generally, R is overly-cautious when dealing with <code>NA</code>s to ensure you don’t accidentally drop them without realizing it
 <ul>
-<li>For example, if I asked you what the <code>mean(c(5, 6, 4, NA))</code> would be, you’d probably say 5, right?
+<li>For example, if you were asked what the <code>mean(c(5, 6, 4, NA))</code> would be, you’d probably say 5, right?
 <ul>
 <li>R is never going to just ignore the NA values like that unless we tell it to</li>
 </ul></li>
@@ -1211,12 +1219,8 @@ dbl (16): stu_id, x1sex, x1race, x1stdob, x1txmtscor, x1paredu, x1hhnumber, ...
 <li>There’s often never a single correct way to get to the right answer, so long as you get there, it’s clear what you did, and you catch issues as they come up</li>
 </ul></li>
 </ul></li>
-</ul>
-<blockquote class="blockquote">
-<p>“The point to keep in mind that the process is often iterative (two steps forward, one step back…) and that there’s seldom an single <em>correct way</em>.” B.T. Skinner</p>
-</blockquote>
-<ul>
-<li>Now it’s made correctly, let’s check the counts of our new variable</li>
+<li><p>There’s seldom a single correct way to get to the right answer</p></li>
+<li><p>Now it’s made correctly, let’s check the counts of our new variable</p></li>
 </ul>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="do">## get summary of our new variable</span></span>
@@ -1263,12 +1267,12 @@ dbl (16): stu_id, x1sex, x1race, x1stdob, x1txmtscor, x1paredu, x1hhnumber, ...
 <span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>df_small_cut <span class="ot">&lt;-</span> df_small <span class="sc">|&gt;</span> <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(high_exp))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ul>
-<li>I re-used our <code>!is.na()</code> helper to keep all rows that answer “yes” to “are you not <code>NA</code>?”
+<li>We re-used our <code>!is.na()</code> helper to keep all rows that answer “yes” to “are you not <code>NA</code>?”
 <ul>
 <li>Double negatives are something you’ll have to get used to in coding, sorry</li>
 <li>Notice, instead of overwriting <code>df_small</code> we assigned this to a new object <code>df_small_cut</code>
 <ul>
-<li>Generally, when making substantial changes to a data set like dropping observations, I like to be able to double check what I did, which is easier if we make a new <code>df</code></li>
+<li>Generally, when making substantial changes to a data set like dropping observations, we might want to be able to double check what we did, which is easier if we make a new <code>df</code></li>
 </ul></li>
 </ul></li>
 </ul>
@@ -1364,7 +1368,7 @@ dbl (16): stu_id, x1sex, x1race, x1stdob, x1txmtscor, x1paredu, x1hhnumber, ...
 <ul>
 <li>We were asked if it varied by region…
 <ul>
-<li>For time’s sake, I can tell you the region variable is <code>x1region</code> and splits the US in 4 Census regions</li>
+<li>For time’s sake, we’re going to tell you the region variable is <code>x1region</code> and splits the US in 4 Census regions</li>
 </ul></li>
 </ul></li>
 </ul>
@@ -1401,7 +1405,7 @@ dbl (16): stu_id, x1sex, x1race, x1stdob, x1txmtscor, x1paredu, x1hhnumber, ...
 <ul>
 <li>Success! While expectations are similar across the country, there’s some variance by region
 <ul>
-<li>While there are few things we could do to make this a little fancier (e.g., changing the region numbers to names, formatting the table, etc.) we have answered our question, and have clear documentation of how we got here, so I will call that a win!</li>
+<li>While there are few things we could do to make this a little fancier (e.g., changing the region numbers to names, formatting the table, etc.) we have answered our question, and have clear documentation of how we got here, so let’s call that a win!</li>
 </ul></li>
 </ul>
 </section>
@@ -1507,9 +1511,6 @@ dbl (2): x1region, mean_exp
 <li>We had to plan out steps and then make some adjustments along the way (e.g., our <code>NA</code> issues), that’s all part of the process!</li>
 </ul></li>
 </ul>
-<blockquote class="blockquote">
-<p>“Becoming a better quantitative researcher mostly means becoming a better translator: question –&gt; data/coding –&gt; answer.” B.T. Skinner</p>
-</blockquote>
 </section>
 </div>
 <div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
@@ -1547,13 +1548,13 @@ dbl (2): x1region, mean_exp
 <p>Hint: <code>group_by()</code> can be given more than one group</p>
 </blockquote>
 <!--
-Once complete, turn in the .qmd file (must render successfully) to Canvas by Tuesday 12:00pm following the lesson.
+Once complete, turn in the .qmd file (must render successfully) and the PDF rendered to Canvas by Tuesday 12:00pm following the lesson.
 Assignments will be graded before next lesson on Wednesday in line with the grading policy outlined in the syllabus.
 -->
 </section>
 <section id="submission" class="level2">
 <h2 data-anchor-id="submission">Submission</h2>
-<p>Once complete turn in the .qmd file (<strong>it must render/run</strong>) to Canvas by the due date (usually <strong>Tuesday 12:00pm following the lesson</strong>). Assignments will be graded before next lesson on Wednesday in line with the grading policy outlined in the syllabus.</p>
+<p>Once complete turn in the .qmd file (<strong>it must render/run</strong>) and the PDF rendered to Canvas by the due date (usually <strong>Tuesday 12:00pm following the lesson</strong>). Assignments will be graded before next lesson on Wednesday in line with the grading policy outlined in the syllabus.</p>
 </section>
 </div>
 </div>
