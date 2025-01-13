@@ -44,6 +44,7 @@ Let's do it!
 ##' [INIT: 20 January 2020]
 ##' [AUTH: Benjamin Skinner @btskinner]
 ##' [EDIT: Matt Capaldi @ttalVlatt]
+##' [EDIT: Jue Wu]
 ##' [UPDT: 12 January 2025]
 ##
 ## -----------------------------------------------------------------------------
@@ -107,7 +108,7 @@ df <- read_csv(file.path("data", "hsls-small.csv"))
 -   Up to now, this should all seem fairly consistent with last week's lesson.
     This is just the set up, now it's time to dive in!
 
-## Pipe Operator `|>` in R
+## Native Pipe Operator `|>` in R
 
 ```{r, include = FALSE, purl = TRUE}
 ## ---------------------------
@@ -116,6 +117,17 @@ df <- read_csv(file.path("data", "hsls-small.csv"))
 ```
 
 The pipe is one of the things that makes R code more intuitive than other programming languages, as it allows us write code in the order we think about it, passing it one from one function to another, rather than nesting it like traditional code would be written
+
+#### A Brief History of the R Pipe
+
+[![badge](https://raw.githubusercontent.com/tidyverse/magrittr/main/man/figures/logo.png)](https://www.fine-arts-museum.be/uploads/exhibitions/images/magritte_la_trahison_des_images_large@2x.jpg)
+
+-   The pipe was originally a `tidyverse` invention, and used `%>%` symbol, which is probably still a common pipe you see "in the wild"
+-   The pipe we are using was brought into the Vanilla version of R a few years ago as `|>` (the "native pipe")
+-   The reason for the change is some benefits that are beyond the scope of this class, but you just need to know that `|>` and `%>%` <ins>are essentially the same thing</ins>
+    -   The default shortcut for pipe (ctrl + shift + m) will generate `%>%`, but you can change it to `|>` by going to `Tools > Global Options > Code > Use native pipe operator, |>`
+    
+#### How the Pipe Works
 
 For this example don't worry about the actual processes (we will go over them more below), just look at how much more intuitive the code is with `|>`s.
 
@@ -169,7 +181,7 @@ mutate(filter(select(df, x1txmtscor), x1txmtscor > 50), square_root = sqrt(x1txm
 df |> select(x1txmtscor) |> filter(x1txmtscor > 50) |> mutate(square_root = sqrt(x1txmtscor))
 ```
 
-As we are getting longer, I'm going to use a new line for each pipe, just to make it even clearer (it makes no difference to R)
+As we are getting longer, let's use a new line for each pipe, just to make it even clearer (it makes no difference to R)
 
 ```{r, output=F, echo=T}
 ## Best to use  a new line for each pipe when code gets longer
@@ -179,8 +191,7 @@ df |>
   mutate(square_root = sqrt(x1txmtscor))
 ```
 
-Even though we haven't covered any of these commands yet, I think (tell me if I'm wrong) the `|>` is still pretty easy to know roughly what's going on.
-Whereas, the traditional nested way gets really tricky beyond a couple of commands.
+Even though we haven't covered any of these commands yet, we can see that the `|>` is pretty easy to know roughly what's going on. Whereas, the traditional nested way gets really tricky beyond a couple of commands.
 
 Of course, if you wanted, you could do each step separately, constantly assigning and overwriting an object like below
 
@@ -192,10 +203,10 @@ temp <- mutate(temp, square_root = sqrt(x1txmtscor))
 temp
 ```
 
-But again, I think it's less intuitive than simply piping the results.
+But it's less intuitive than simply piping the results.
 
 -   If we do want to see step-by-step output in a piped command, you can either
-    a.  Run the code as you write it line-by-line (usually what I do)
+    a.  Run the code as you write it line-by-line
     b.  Highlight sections of the piped code to run up to a point
 
 #### Assigning Output from Pipes
@@ -222,7 +233,7 @@ df |>
   df_forward_pass
 ```
 
--   That's how I first thought about how pipes and assignment work together, and you can see the outputs are `all.equal()`
+-   That's how pipes and assignment work together, and you can see the outputs are `all.equal()`
 
 ```{r}
 ## Checking they are the same
@@ -231,16 +242,7 @@ all.equal(df_backward_pass, df_forward_pass)
 
 -   However, you *really* shouldn't write code like this, as although it runs, it's then hard to later find where you created `df_forward_pass`.
 -   Starting the string of code with where you store the result is **MUCH** clearer.
-    -   But, it really helped me to think about it this way at first, so hopefully it will help some of you understand how `|>` and `<-` work together
-
-#### A Brief History of the R Pipe
-
-[ [![badge](https://raw.githubusercontent.com/tidyverse/magrittr/main/man/figures/logo.png)](https://www.fine-arts-museum.be/uploads/exhibitions/images/magritte_la_trahison_des_images_large@2x.jpg) ]{style="display:block;text-align:center"}
-
--   The pipe was originally a `tidyverse` invention, and used `%>%` symbol, which is probably still a common pipe you see "in the wild"
--   The pipe we are using was brought into the Vanilla version of R a few years ago as `|>`
--   The reason for the change is some benefits that are beyond the scope of this class, but I wanted you to be aware that `|>` and `%>%` <ins>are essentially the same thing</ins>
-    -   You can intermingle them, but, but for clarity I would stick with `|>`
+    -   But hopefully it will help some of you understand how `|>` and `<-` work together
 
 ## Basic Tidyverse Commands
 
@@ -279,7 +281,7 @@ df_small <- df |> select(stu_id, x1stuedexpct, x1paredexpct, x1region)
 ### Understanding our data
 
 First things first, however, we need to check the [code book](https://nces.ed.gov/datalab/onlinecodebook) to see what the numerical values for our two education expectation variables represent.
-To save time, I've copied them here:
+To save time, we've copied them here:
 
 ##### `x1stuedexpct`
 
@@ -461,17 +463,17 @@ df_small <- df_small |>
 
 -   That code is *almost* what we want to do
     -   If `x1stuedexpct` is higher then take that, if not, take `x1paredexpct`
-        -   There's two things I haven't fully accounted for though...
+        -   There's two things we haven't fully accounted for though...
             -   One doesn't actually matter here, but might in other circumstances
             -   One definitely matters here
-                -   Without scrolling past the duck, can you tell me what they might be?
+                -   Without scrolling past the duck, does anyone know what they might be?
 
 !["[Rubber duck png sticker, transparent](https://www.rawpixel.com/image/6772898/png-sticker-public-domain)" is marked with [CC0 1.0.](https://creativecommons.org/publicdomain/zero/1.0/?ref=openverse)](site-attachments/Rubber-Duck.png){width="200px" fig-align="left"}
 
 #### Sloppy Mistake 1 (doesn't matter here)
 
--   I was a little sloppy with the `statement` piece, I just asked if `x1stuedexpct` was greater than `x1paredexpct` or not
-    -   If I was being more careful, I might have said "greater than or equal to"
+-   We were a little sloppy with the `statement` piece, we just asked if `x1stuedexpct` was greater than `x1paredexpct` or not
+    -   If we were being more careful, we might have said "greater than or equal to"
         -   Why doesn't this matter in this context, and when might it matter?
 
 #### Sloppy Mistake 2 (does matter here)
@@ -485,7 +487,7 @@ print(df_small, n = 26)
 -   Hmm, that seems odd, why would R consider `NA` to be greater than `6`?
     -   Any thoughts?
 -   Generally, R is overly-cautious when dealing with `NA`s to ensure you don't accidentally drop them without realizing it
-    -   For example, if I asked you what the `mean(c(5, 6, 4, NA))` would be, you'd probably say 5, right?
+    -   For example, if you were asked what the `mean(c(5, 6, 4, NA))` would be, you'd probably say 5, right?
         -   R is never going to just ignore the NA values like that unless we tell it to
 
 ```{r}
@@ -535,8 +537,7 @@ print(df_small, n = 26)
         -   However, the more steps you take at once, the more you have to check at once!
         -   There's often never a single correct way to get to the right answer, so long as you get there, it's clear what you did, and you catch issues as they come up
 
-> "The point to keep in mind that the process is often iterative (two steps forward, one step back...) and that there's seldom an single *correct way*." B.T.
-> Skinner
+-   There's seldom a single correct way to get to the right answer
 
 -   Now it's made correctly, let's check the counts of our new variable
 
@@ -560,10 +561,10 @@ df_small |> count(high_exp)
 df_small_cut <- df_small |> filter(!is.na(high_exp))
 ```
 
--   I re-used our `!is.na()` helper to keep all rows that answer "yes" to "are you not `NA`?"
+-   We re-used our `!is.na()` helper to keep all rows that answer "yes" to "are you not `NA`?"
     -   Double negatives are something you'll have to get used to in coding, sorry
     -   Notice, instead of overwriting `df_small` we assigned this to a new object `df_small_cut`
-        -   Generally, when making substantial changes to a data set like dropping observations, I like to be able to double check what I did, which is easier if we make a new `df`
+        -   Generally, when making substantial changes to a data set like dropping observations, we might want to be able to double check what we did, which is easier if we make a new `df`
 
 > Quick Question: A commmon confusion from this lesson is between `filter()` and `select()`.
 > Can someone explain when you'd use `select()` over `filter()`?
@@ -617,7 +618,7 @@ df_small_cut |> summarize(mean_exp = mean(high_exp))
 
 -   But, that wasn't quite the question we were asked
     -   We were asked if it varied by region...
-        -   For time's sake, I can tell you the region variable is `x1region` and splits the US in 4 Census regions
+        -   For time's sake, we're going to tell you the region variable is `x1region` and splits the US in 4 Census regions
 
 ### Grouping Data with `group_by()`
 
@@ -640,7 +641,7 @@ df_small_cut |>
 ```
 
 -   Success! While expectations are similar across the country, there's some variance by region
-    -   While there are few things we could do to make this a little fancier (e.g., changing the region numbers to names, formatting the table, etc.) we have answered our question, and have clear documentation of how we got here, so I will call that a win!
+    -   While there are few things we could do to make this a little fancier (e.g., changing the region numbers to names, formatting the table, etc.) we have answered our question, and have clear documentation of how we got here, so let's call that a win!
 
 ### Saving Data with `write_csv()`
 
@@ -728,9 +729,6 @@ WooHoo!
 -   We also saw how to use code to answer a realistic question we might be asked in a data management job, a translation skill that will prove invaluable later on!
     -   We had to plan out steps and then make some adjustments along the way (e.g., our `NA` issues), that's all part of the process!
 
-> "Becoming a better quantitative researcher mostly means becoming a better translator: question --\> data/coding --\> answer." B.T.
-> Skinner
-
 ```{r, echo = FALSE, purl = TRUE}
 
 ## -----------------------------------------------------------------------------
@@ -746,7 +744,7 @@ WooHoo!
 
 ## Submission
 
-Once complete turn in the .qmd file (**it must render/run**) to Canvas by the due date (usually **Tuesday 12:00pm following the lesson**). Assignments will be graded before next lesson on Wednesday in line with the grading policy outlined in the syllabus.
+Once complete turn in the .qmd file (**it must render/run**) and the PDF rendered to Canvas by the due date (usually **Tuesday 12:00pm following the lesson**). Assignments will be graded before next lesson on Wednesday in line with the grading policy outlined in the syllabus.
 
 ::: {.content-hidden unless-meta="solution"}
 ## Solution
