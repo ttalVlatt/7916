@@ -1,7 +1,7 @@
 ---
 title: "III: Maps & Spatial Data (Feat. APIs)"
 image: apple-touch-icon.png
-solution: true
+solution: false
 ---
 
 ::: panel-tabset
@@ -160,6 +160,7 @@ census_api_key("<key>", install = T)
 
 ```{r, results = "hide"}
 #| message: false
+
 ## ---------------------------
 ##' [Get ACS Data]
 ## ---------------------------
@@ -501,6 +502,7 @@ Now we are going to make it more interesting with one more layer...
 
 ```{r}
 #| message: false
+
 ## ---------------------------
 ##' [Layer Two: Institutions]
 ## ---------------------------
@@ -657,6 +659,7 @@ point_map +
 
 ```{r}
 #| include: false
+
 ## ---------------------------------------------------------
 ##' [Supplemental using tigris directly]
 ## ---------------------------------------------------------
@@ -789,23 +792,22 @@ ggplot() +
     -   That's the projection at work
         -   Think about how this reflects how the globe is shaped and how that affects area (the focus of the Peters projection map)
 
+```{r, echo = FALSE, purl = TRUE}
+
+## -----------------------------------------------------------------------------
+##' *END SCRIPT*
+## -----------------------------------------------------------------------------
+```
+
 # Assignment
 
-#### Option One
+[{{< fa question >}} Assignment Template](/site-attachments/assignments/assignment-10.qmd)
 
-Using the `tidycensus` package and code from this lesson, make a different point map following the instructions below:
+{{< include /site-attachments/assignments/assignment-10.qmd >}}
 
-1.  Modify the `tidycensus` code to download data for a different geography *and* a different variable
-2.  Make a new base map
-3.  Use the same academic libraries IPEDS data to plot points on your new base map that change `aes()` based on a new variable
+## Submission
 
-#### Option Two
-
-1.  Using data from your final project (plus `tidycensus` and/or `tigris` as needed) make a map following the guidance from the lesson
-    -   Note: It still needs to be a `geom_sf()`
-
-Once complete, turn in the .R script (no data etc.) to Canvas by the due date (Sunday 11:59pm following the lesson).
-Assignments will be graded on the following Monday (time permitting) in line with the grading policy outlined in the syllabus.
+Once complete turn in the .qmd file (**it must render/run**) to Canvas by the due date (usually **Tuesday 12:00pm following the lesson**). Assignments will be graded before next lesson on Wednesday in line with the grading policy outlined in the syllabus.
 
 ::: {.content-hidden unless-meta="solution"}
 ## Solution
@@ -816,6 +818,7 @@ Assignments will be graded on the following Monday (time permitting) in line wit
 #| echo: true
 #| message: false
 #| warning: false
+#| results: hide
 #| file: site-attachments/solutions/data-viz-iii-solution.R
 ```
 :::

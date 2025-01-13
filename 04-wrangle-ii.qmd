@@ -1,7 +1,7 @@
 ---
 title: "II: Appending, joining, & reshaping data"
 image: apple-touch-icon.png
-solution: true
+solution: false
 execute: 
   message: false
   warning: false
@@ -48,20 +48,22 @@ execute:
 As always, we begin by reading in the tidyverse library.
 
 ```{r, include = FALSE, purl = TRUE}
-################################################################################
+## -----------------------------------------------------------------------------
 ##
-## <PROJ> EDH7916: Data wrangling II: Appending, joining, and reshaping data
-## <FILE> dw_two.R 
-## <INIT> 31 January 2020
-## <AUTH> Benjamin Skinner (GitHub/Twitter: @btskinner)
+##' [PROJ: EDH 7916]
+##' [FILE: Data wrangling II: Appending, joining, and reshaping data]
+##' [INIT: 31 January 2020]
+##' [AUTH: Benjamin Skinner @btskinner]
+##' [EDIT: Matt Capaldi @ttalVlatt]
+##' [UPDT: 12 January 2025]
 ##
-################################################################################
+## -----------------------------------------------------------------------------
 
 ```
 
 ```{r}
 ## ---------------------------
-## libraries
+##' [Libraries]
 ## ---------------------------
 
 library(tidyverse)
@@ -117,7 +119,7 @@ library(tidyverse)
 
 ```{r, purl = TRUE, include = FALSE}
 ## -----------------------------------------------------------------------------
-## Append data
+##' [Append data]
 ## -----------------------------------------------------------------------------
 ```
 
@@ -127,10 +129,6 @@ Let's practice with an example.
 First, we'll read in three data files from the `by_school` directory.
 
 ```{r}
-## ---------------------------
-## input
-## ---------------------------
-
 ## read in data, storing in df_*, where * is a unique number
 df_1 <- read_csv(file.path("data", "sch-test", "by-school", "bend-gate-1980.csv"))
 df_2 <- read_csv(file.path("data", "sch-test", "by-school", "bend-gate-1981.csv"))
@@ -140,10 +138,6 @@ df_3 <- read_csv(file.path("data", "sch-test", "by-school", "bend-gate-1982.csv"
 -   Looking at each, we can see that they are similarly structured, with the following columns in the same order: `school`, `year`, `math`, `read`, `science`:
 
 ```{r}
-## ---------------------------
-## process
-## ---------------------------
-
 ## show each
 df_1
 df_2
@@ -227,7 +221,7 @@ The end result would then look like this:
 
 ```{r, purl = TRUE, include = FALSE}
 ## -----------------------------------------------------------------------------
-## Join data
+##' [Join data]
 ## -----------------------------------------------------------------------------
 ```
 
@@ -237,10 +231,6 @@ The end result would then look like this:
 -   Let's do the second, adding within-year across school average test scores to each school-by-year observation.
 
 ```{r}
-## ---------------------------
-## input
-## ---------------------------
-
 ## read in all_schools data
 df <- read_csv(file.path("data", "sch-test", "all-schools.csv"))
 ```
@@ -260,10 +250,6 @@ Our task is two-fold:
 #### 1. Get summary
 
 ```{r}
-## ---------------------------
-## process
-## ---------------------------
-
 ## get test score summary 
 df_sum <- df |>
     ## grouping by year so average within each year
@@ -476,7 +462,7 @@ df_join <- df |>
 
 ```{r, purl = TRUE, include = FALSE}
 ## -----------------------------------------------------------------------------
-## Reshape data
+##' [Reshape data]
 ## -----------------------------------------------------------------------------
 ```
 
@@ -485,10 +471,6 @@ df_join <- df |>
 To start, we'll go back to the `all_schools.csv` file.
 
 ```{r}
-## ---------------------------
-## input
-## ---------------------------
-
 ## reading again just to be sure we have the original data
 df <- read_csv(file.path("data", "sch-test", "all-schools.csv"))
 ```
@@ -527,10 +509,6 @@ The `pivot_longer()` function can take a number of arguments, but the core thing
     -   Since they are test types, we'll call our `names_to` column `"test"` and our `values_to` column `"score"`.
 
 ```{r}
-## ---------------------------
-## process
-## ---------------------------
-
 ## wide to long
 df_long <- df |>
     ## cols: current test columns
@@ -565,10 +543,6 @@ df_long
 -   `values_from`: the name of the column that contains the values associated with the values in `names_from` column; these will go into the new columns.
 
 ```{r}
-## ---------------------------
-## process
-## ---------------------------
-
 ## long to wide
 df_wide <- df_long |>
     ## names_from: values in this column will become new column names
@@ -588,10 +562,6 @@ df_wide
 First, we'll read in a second file `all_schools_wide.csv` - This file contains the same information as before, but in a *very* wide format
 
 ```{r}
-## ---------------------------
-## input
-## ---------------------------
-
 ## read in very wide test score data
 df <- read_csv(file.path("data", "sch-test", "all-schools-wide.csv"))
 
@@ -607,10 +577,6 @@ You see, each school has only one row and each test by year value gets its own c
         -   I.e., this will put everything before the underscore in the first column `test` and everything after into the second column `year`
 
 ```{r}
-## ---------------------------
-## process
-## ---------------------------
-
 ## wide to long
 df_long <- df |>
     ## NB: contains() looks for "19" in name: if there, it adds it to cols
@@ -633,10 +599,6 @@ df_long
     -   `names_sep = "_"` is identical to before, but this time it's saying to place and underscore as the separator
 
 ```{r}
-## ---------------------------
-## process
-## ---------------------------
-
 ## wide to long
 df_wide <- df_long |>
     pivot_wider(values_from = score,
@@ -656,70 +618,9 @@ df_wide
 
 ```{r, include = FALSE, purl = TRUE}
 ## -----------------------------------------------------------------------------
-## end script
+##' *END SCRIPT*
 ## -----------------------------------------------------------------------------
 ```
-
-# Assignment
-
--   Using the `hsls-small.csv` data set and the online codebook, answer the following questions.
-    -   Throughout, you **should** account for missing values by dropping them.
-
-## Questions
-
-1.  If you want a challenge, do this all in one chained pipe, otherwise save step i output then pipe steps ii-iv;
-
-<!-- -->
-
-i.  Compute the average test score by region
-ii. Join back into the full data frame.
-iii. Compute the difference between each student's test score and that of the region.
-iv. Finally, show the mean of these differences by region
-
-> Hint: if you think about it, this should probably be a very very small number...
-
-2.  Compute the average test score by region and family income level and join it back to the full data frame.
-
-> Hint: You can join on more than one key using `c()`.
-
-3.  
-
-<!-- -->
-
-i.  Select the following variables from the full data set
-
-```         
-- `stu_id`
-- `x1stuedexpct`
-- `x1paredexpct`
-- `x4evratndclg`  
-```
-
-ii. From this reduced data frame, reshape the data frame so that it is long in educational expectations - As in, each observation should have two rows, one for each educational expectation type
-
-*e.g. (your column names and values may be different)*
-
-| stu_id | expect_type  | expectation | x4evratndclg |
-|:------:|:------------:|:-----------:|:------------:|
-|  0001  | x1stuedexpct |      6      |      1       |
-|  0001  | x1paredexpct |      7      |      1       |
-|  0002  | x1stuedexpct |      5      |      1       |
-|  0002  | x1paredexpct |      5      |      1       |
-
-Once complete, turn in the .R script (no data etc.) to Canvas by the due date (Sunday 11:59pm following the lesson).
-Assignments will be graded on the following Monday (time permitting) in line with the grading policy outlined in the syllabus.
-
-::: {.content-hidden unless-meta="solution"}
-## Solution
-
-[{{< fa code >}} R ](/solutions/data-wrangling-ii-solution.R)[Solution](site-attachments/solutions/data-wrangling-ii-solution.R)[ Code](/solutions/data-wrangling-ii-solution.R)
-
-```{r}
-#| echo: true
-#| eval: false
-#| file: site-attachments/solutions/data-wrangling-ii-solution.R
-```
-:::
 
 # IPEDS Application
 
@@ -857,4 +758,36 @@ data_joined |>
 > ### Quick Exercise
 >
 > Using the data dictionary if necessary, find if our trend varies by US Census Region
+
+```{r, echo = FALSE, purl = TRUE}
+
+## -----------------------------------------------------------------------------
+##' *END SCRIPT*
+## -----------------------------------------------------------------------------
+```
+
+# Assignment
+
+[{{< fa question >}} Assignment Template](/site-attachments/assignments/assignment-03.qmd)
+
+{{< include /site-attachments/assignments/assignment-03.qmd >}}
+
+## Submission
+
+Once complete turn in the .qmd file (**it must render/run**) to Canvas by the due date (usually **Tuesday 12:00pm following the lesson**). Assignments will be graded before next lesson on Wednesday in line with the grading policy outlined in the syllabus.
+
+::: {.content-hidden unless-meta="solution"}
+## Solution
+
+[{{< fa code >}} R Solution Code](/solutions/data-wrangling-ii-solution.R)
+
+```{r}
+#| echo: true
+#| eval: false
+#| file: site-attachments/solutions/data-wrangling-ii-solution.R
+```
 :::
+
+:::
+
+

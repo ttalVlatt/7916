@@ -1,7 +1,7 @@
 ---
 title: "I: Basics"
 image: apple-touch-icon.png
-solution: true
+solution: false
 execute: 
   message: false
   warning: false
@@ -16,8 +16,8 @@ execute:
 ```{r, include = FALSE, purl = TRUE}
 ## -----------------------------------------------------------------------------
 ##
-##' [PROJ: EDH7916: Data visualization with ggplot2]
-##' [FILE: 05-viz-i.R]
+##' [PROJ: EDH 7916]
+##' [FILE: Data visualization with ggplot2 - Basics]
 ##' [INIT: 9 March 2020]
 ##' [AUTH: Benjamin Skinner @btskinner]
 ##' [EDIT: Matt Capaldi @ttalVlatt]
@@ -50,10 +50,11 @@ progress <- tribble(
   6, "Data Visualization", 5, 6,
   7, "Quarto", 10, 7,
   8, "Data Wrangling", 5, 8,
-  9, "Data Wrangling", 5, 9,
-  10, "Programming", 5, 10,
-  11, "Data Visualization", 5, 11,
-  12, "Programming", 5, 12
+  9, "Functions & Loops", 5, 9,
+  10, "Data Wrangling", 5, 10,
+  11, "Modeling Basics", 5, 11,
+  12, "Data Visualization", 5, 12,
+
 )
 
 for(i in progress$week) {
@@ -119,7 +120,7 @@ ggplot(progress) +
 
 ```{r}
 ## ---------------------------
-## libraries
+##' [Libraries]
 ## ---------------------------
 
 library(tidyverse)
@@ -139,7 +140,7 @@ library(tidyverse)
 
 ```{r}
 ## ---------------------------
-## input data\
+##' [Input data]
 ## ---------------------------
 
 ## read_dta() ==> read in Stata (*.dta) files
@@ -157,7 +158,7 @@ df_ts <- read_csv(file.path("data", "sch-test", "all-schools.csv"))
 
 ```{r, echo = FALSE, purl = TRUE}
 ## -----------------------------------------------------------------------------
-## Base R graphics
+##' [Base R graphics]
 ## -----------------------------------------------------------------------------
 ```
 
@@ -177,9 +178,7 @@ df_ts <- read_csv(file.path("data", "sch-test", "all-schools.csv"))
 ### Histogram
 
 ```{r, echo = FALSE, purl = TRUE}
-## ---------------------------
-## histogram
-## ---------------------------
+##' [Histogram]
 ```
 
 - For continuous variables, a histogram is a useful plot
@@ -197,9 +196,7 @@ hist(df_hs$x1txmtscor)
 ### Density 
 
 ```{r, echo = FALSE, purl = TRUE}
-## ---------------------------
-## density
-## ---------------------------
+##' [Density]
 ```
 
 - Density plots are also really helpful for checking the distribution of a variable
@@ -221,9 +218,7 @@ density(df_hs$x1txmtscor, na.rm = TRUE) |>
 ### Box plot
 
 ```{r, echo = FALSE, purl = TRUE}
-## ---------------------------
-## box plot
-## ---------------------------
+##' [Box Plot]
 ```
 
 - A box plot will let you see the distribution of a continuous variable at specific values of a categorical variable
@@ -247,9 +242,7 @@ From the boxplot, we can see that math test scores tend to increase as students'
 ### Scatter
 
 ```{r, echo = FALSE, purl = TRUE}
-## ---------------------------
-## scatter
-## ---------------------------
+##' [Scatter]
 ```
 
 - Plot two continuous variables against one another using the base `plot()` function
@@ -271,7 +264,7 @@ From the scatter plot we see the data seem to show a positive correlation betwee
 
 ```{r, echo = FALSE, purl = TRUE}
 ## -----------------------------------------------------------------------------
-## Graphics with ggplot2
+##' [Graphics with ggplot2]
 ## -----------------------------------------------------------------------------
 ```
 
@@ -288,9 +281,7 @@ From the scatter plot we see the data seem to show a positive correlation betwee
 ### Histogram
 
 ```{r, echo = FALSE, purl = TRUE}
-## ---------------------------
-## histogram
-## ---------------------------
+##' [Histogram]
 ```
 
 [As the main help site says](http://ggplot2.tidyverse.org), all
@@ -344,9 +335,7 @@ Success!
 ### Density
 
 ```{r, echo = FALSE, purl = TRUE}
-## ---------------------------
-## density
-## ---------------------------
+##' [Density]
 ```
 
 - Unlike the base R graphics system, ggplot2 does have a density plotting command `geom_density()`
@@ -405,9 +394,7 @@ ggplot(data = df_hs) +
 ### Two-way
 
 ```{r, echo = FALSE, purl = TRUE}
-## ---------------------------
-## two way plot
-## ---------------------------
+##' [Two-Way]
 ```
 
 - Plotting the difference in a continuous distribution across groups is a common task
@@ -484,9 +471,7 @@ ggplot(plot_df) +
 ### Box plot
 
 ```{r, echo = FALSE, purl = TRUE}
-## ---------------------------
-## box plot
-## ---------------------------
+##' [Box Plot]
 ```
 
 - By this point, you're hopefully seeing the pattern in how ggplot2 figures are put together
@@ -516,9 +501,7 @@ ggplot(data = df_hs,
 ### Scatter
 
 ```{r, echo = FALSE, purl = TRUE}
-## ---------------------------
-## scatter plot
-## ---------------------------
+##' [Scatter]
 ```
 
 - To make a scatter plot, make sure that the `aes()` has mappings for the `x` axis and `y` axis and then use `geom_point()` to plot.
@@ -584,9 +567,7 @@ ggplot(data = df_hs_10,
 ### Fitted lines
 
 ```{r, echo = FALSE, purl = TRUE}
-## ---------------------------
-## fitted lines
-## ---------------------------
+##' [Fitted Lines]
 ```
 
 - It's often helpful to plot fitted lines against a scatter plot to help see the underlying trend
@@ -622,9 +603,7 @@ ggplot(data = df_hs_10, mapping = aes(x = x1ses, y = x1txmtscor)) +
 ### Line graph
 
 ```{r, echo = FALSE, purl = TRUE}
-## ---------------------------
-## line graph
-## ---------------------------
+##' [Line Graph]
 ```
 
 - When you want to show changes in one variable as a function of another variable
@@ -750,7 +729,7 @@ ggplot(data = df_ts_long) +
   - You've probably heard of this as a "Z-score" in stats classes
     
 $$
-\frac{x_i - \bar{x}}{\sigma(x)}
+\frac{x_i - \bar{x}}{\sigma}
 $$
     
   - In simple terms, this puts all scores on the same scale
@@ -792,27 +771,20 @@ And there we have a really informative plot, showing how test scores of all type
 
 ```{r, echo = FALSE, purl = TRUE}
 
-## =============================================================================
-## END SCRIPT
-################################################################################
+## -----------------------------------------------------------------------------
+##' *END SCRIPT*
+## -----------------------------------------------------------------------------
 ```
 
 # Assignment
 
-- Using the `hsls_small.dta` data set (the Stata version used in this class) and the online codebook, make plots that help answer each of the following questions.
+[{{< fa question >}} Assignment Template](/site-attachments/assignments/assignment-04.qmd)
 
-- Also note, your final project proposals are due this week as well. 
+{{< include /site-attachments/assignments/assignment-04.qmd >}}
 
-## Questions
+## Submission
 
-1. How does student socioeconomic status differ between students who ever attended college and those who did not?
-2. How do educational expectations (of both students and parents) differ by high school completion status?
-  - Hint: you will want to borrow some code from last week's assignment here
-3. What is the relationship between student socioeconomic status and math test score?
-
-Do not worry about axis labels or other visual elements, that is covered next week.
-
-Once complete, turn in the .R script (no data etc.) to Canvas by the due date (Sunday 11:59pm following the lesson). Assignments will be graded on the following Monday (time permitting) in line with the grading policy outlined in the syllabus.
+Once complete turn in the .qmd file (**it must render/run**) to Canvas by the due date (usually **Tuesday 12:00pm following the lesson**). Assignments will be graded before next lesson on Wednesday in line with the grading policy outlined in the syllabus.
 
 ::: {.content-hidden unless-meta="solution"}
 ## Solution

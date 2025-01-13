@@ -3,15 +3,16 @@ project:
   pre-render:
     - site-attachments/packages.R
     - site-attachments/purl-r-scripts.R
-  post-render: 
-   # - site-attachments/docx2pdf.R
+  post-render:
     - site-attachments/create-example-folder.R
   render: 
     - "*.qmd"
     - "!ignored-dir/"
     - "!site-attachments/quarto-template.qmd"
-  # resources:
-  #   - CNAME
+    - "!/site-attachments/assignments/"
+    - "!EDH-7916/"
+  resources:
+    - "archive/spring-2024.zip"
     
 website:
   title: "EDH 7916"
@@ -35,8 +36,8 @@ website:
         contents: "*wrangle*"
       - section: "Data Visualization"
         contents: "*viz*"
-      - section: "Quarto"
-        contents: "*quarto*"
+      - text: "Reproducible Reports with Quarto"
+        file: "07-quarto-intro.qmd"
       - text: "Functions & Loops"
         file: "11-pro-functions.qmd"
       - text: "Bringing it All Together (Feat. Basic Models)"
@@ -61,7 +62,7 @@ website:
       
 format:
   html:
-    theme: lux
+    theme: simplex
     css: site-attachments/styles.css
     toc: false
     email-obfuscation: references

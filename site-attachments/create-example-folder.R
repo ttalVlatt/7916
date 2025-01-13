@@ -93,13 +93,13 @@ r_scripts <- r_scripts |>
   discard(~str_detect(.x, "x-02")) |>
   discard(~str_detect(.x, "x-04"))
 
-##'[Add lesn- to all lesson scripts for grouping]
+##'[Add lesson- to all lesson scripts for grouping]
 
 for(i in r_scripts) {
   
-  # new_name <- paste0("l-", i)
+  new_name <- paste0("lesson-", i)
   file.copy(from = file.path(output, "r-scripts", i),
-            to = file.path(example, i))
+            to = file.path(example, new_name))
   
 }
 
@@ -121,6 +121,18 @@ dir.create(file.path(final, "data"))
 # Copy hd2007 as placeholder to ensure folder is made in zipping
 file.copy(from = file.path("data", "hd2007.csv"),
           to = file.path(final, "data", "placeholder.csv"))
+
+
+##' [Copy in all assignment .qmd files]
+
+assignments <- list.files("site-attachments/assignments/")
+
+for(i in assignments){
+  
+  file.copy(from = file.path("site-attachments", "assignments", i),
+            to = file.path(example, i))
+  
+}
 
 
 ##' [Remove any Duplicates in Example Folder created by Quarto/icloud glitch]

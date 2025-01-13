@@ -1,6 +1,7 @@
 ---
 title: "II: Reading Data & IPEDS"
 image: apple-touch-icon.png
+solution: false
 ---
 
 ::: panel-tabset
@@ -235,15 +236,15 @@ We'll begin with how to organize your course and project files.
 -   To do this, open `02-set-data.R` from your class folder
 
 ```{r, include = FALSE, purl = TRUE}
-################################################################################
+## -----------------------------------------------------------------------------
 ##
-## <PROJ> EDH 7916
-## <FILE> Getting Started II: Organizing and Reading Data 
-## <INIT> 10 January 2025
-## <AUTH> 7916 Student (modified from Matt Capaldi and Ben Skinner)
+##' [PROJ: EDH 7916]
+##' [FILE: Reading in Data]
+##' [INIT: 9 March 2020]
+##' [AUTH: Benjamin Skinner @btskinner]
+##' [EDIT: Matt Capaldi @ttalVlatt]
 ##
-################################################################################
-
+## -----------------------------------------------------------------------------
 ```
 
 -   First up, check your working directory by either
@@ -343,20 +344,33 @@ If you do use GitHub Copilot to help with your codes, please keep your prompts i
     -   Details about MSI classification and funding, includes IPEDS ID numbers to easily link to additional data
 -   Many, many more, have fun exploring!
 
+```{r, echo = FALSE, purl = TRUE}
+
+## -----------------------------------------------------------------------------
+##' *END SCRIPT*
+## -----------------------------------------------------------------------------
+```
+
 # Assignment
 
-1.  Create a new R script in the top level of the project directory (use the template provided if you'd like)
+[{{< fa question >}} Assignment Template](/site-attachments/assignments/assignment-02.qmd)
 
--   Note: to keep grading time reasonable, *please* <ins>keep your scripts in the top-level of your class folder</ins>, that way everyone is using the working directory and file paths
--   To keep things organized, I'd suggest naming it something like
-    -   `assignment-01.R` or `a-02-set-data.R`
-        -   If you use the lesson name, I suggest adding the `a-` just to keep your assignments grouped separately
+{{< include /site-attachments/assignments/assignment-02.qmd >}}
 
-2.  Create an Excel file (your last name_your first name.xlsx) with three columns detailing your name, your degree program, and your year. Save it to your `data` folder, read it in to R, and assign it an object (just like we did in class)
+## Submission
 
--   Hint: you'll need a new package to read Excel files, between Google and asking your friends, you should be able to figure it out
+Once complete turn in the .qmd file (**it must render/run**) to Canvas by the due date (usually **Tuesday 12:00pm following the lesson**). Assignments will be graded before next lesson on Wednesday in line with the grading policy outlined in the syllabus.
 
-3.  Pick any single data file from IPEDS that peaks your interest, download it, save it to your `data` folder, and read it in to R, assigning it to an object (again, just like we did in class)
+::: {.content-hidden unless-meta="solution"}
+## Solution
 
-Once complete, turn in the .R script (no data etc.), .qmd file, and the PDF output to Canvas by the due date (Tuesday 12:00pm following the lesson). Assignments will be graded before next lesson on Wednesday in line with the grading policy outlined in the syllabus.
+[{{< fa code >}} R Solution Code](site-attachments/solutions/reading-data-solution.R)
+
+```{r}
+#| echo: true
+#| eval: false
+#| file: site-attachments/solutions/reading-data-solution.R
+```
+:::
+
 :::

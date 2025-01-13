@@ -1,7 +1,7 @@
 ---
 title: "III: Working with strings & dates"
 image: apple-touch-icon.png
-solution: true
+solution: false
 ---
 
 ::: panel-tabset
@@ -13,7 +13,7 @@ solution: true
 ## -----------------------------------------------------------------------------
 ##
 ##' [PROJ: EDH 7916]
-##' [FILE: 08-wrangle-iii.R]
+##' [FILE: Data Wrangling III: Strings and Dates]
 ##' [INIT: 18 March 2024]
 ##' [AUTH: Benjamin Skinner @btskinner]
 ##' [EDIT: Matt Capaldi @ttalVlatt]
@@ -75,21 +75,9 @@ You may have noticed already that when we load the tidyverse library with `libra
 The lubridate library, though part of the tidyverse, is not.
 We need to load it separately.
 
-```{r, include = FALSE, purl = TRUE}
-################################################################################
-##
-## <PROJ> EDH7916: Data Wrangling III: Working with strings and dates
-## <FILE> dw_three.R 
-## <INIT> 10 February 2020
-## <AUTH> Benjamin Skinner (GitHub/Twitter: @btskinner)
-##
-################################################################################
-
-```
-
 ```{r}
 ## ---------------------------
-## libraries
+##' [Libraries]
 ## ---------------------------
 
 ## NB: The stringr library is loaded with tidyverse, but
@@ -122,7 +110,7 @@ We'll use one file ([which can be found here](https://nces.ed.gov/ipeds/datacent
 
 ```{r}
 ## ---------------------------
-## input
+##' [Input]
 ## ---------------------------
 
 ## read in data and lower all names using rename_all(tolower)
@@ -132,7 +120,7 @@ df <- read_csv(file.path("data", "hd2007.csv")) |>
 
 ```{r, purl = TRUE, include = FALSE}
 ## -----------------------------------------------------------------------------
-## Working with strings
+##' [Working with strings]
 ## -----------------------------------------------------------------------------
 ```
 
@@ -636,43 +624,13 @@ df |>
 
 # Assignment
 
-Use the IPEDS data sets, `hd2007.csv`and `ic2007mission.csv`, to answer the questions below.
-You may need to look up and download the data dictionaries for each file, which you can find on [this page](https://nces.ed.gov/ipeds/datacenter/DataFiles.aspx).
-[You can also use the lesson on getting higher education data for help](02-set-data.qmd)
+[{{< fa question >}} Assignment Template](/site-attachments/assignments/assignment-07.qmd)
 
-For each question, show your data work and then answer the question in a short (1-2 sentence(s)) comment.
+{{< include /site-attachments/assignments/assignment-07.qmd >}}
 
-## Questions
+## Submission
 
-**NB** To answer the questions, you will need to join the two IPEDS data sets using the common `unitid` key.
-Note that column names in `hd2007.csv` are uppercase (`UNITID`) while those in `ic2007mission.csv` are lowercase (`unitid`).
-There are a few ways to join when the keys don't exactly match.
-One is to set all column names to the same case.
-If you want to use `left_join()` starting with `hd2007.csv`, you can first use the the dplyr verb `rename_all(tolower)` in your chain to lower all column names.
-[See the help file for `left_join()`](https://dplyr.tidyverse.org/reference/join.html) for other ways to join `by` different variable names.
-
-I also find these cheat sheets extremely helpful
-
--   Cheat sheet for [stringr and regex](https://rstudio.github.io/cheatsheets/strings.pdf)
-
--   Cheat sheet for [lubridate](https://rstudio.github.io/cheatsheets/lubridate.pdf)
-
--   You can find all posit cheat sheets [here](https://rstudio.github.io/cheatsheets/)
-
-1)  How many chief administrator names start with "Dr."?\
-    **NB** Many chief administrators are listed on more than one line due to branch campuses. Make sure to take this into account by keeping only distinct names.
-2)  **BONUS** How many chief administrator names end with the title "PH.D." or some variant?
-3)  Among those schools that give their mission statement:
-    i)  How many repeat their institutional name in their mission statement?\
-    ii) How many use the word *civic*?
-    iii) Which top 3 states have the most schools with mission statements that use the word *future*?\
-    iv) Which type of schools (public, private-non-profit, private-for-profit) are most likely to use the word *skill* in their mission statement?
-4)  Among the schools that closed in 2007 or 2008 and give a date with at least a month and year:
-    i)  Which has been closed for the longest time? How many months has it been from its close date to the beginning of this current month (1 February 2020)?\
-    ii) How many days were there between the first school to close and the last?
-
-Once complete, turn in the .R script (no data etc.) to Canvas by the due date (Sunday 11:59pm following the lesson).
-Assignments will be graded on the following Monday (time permitting) in line with the grading policy outlined in the syllabus.
+Once complete turn in the .qmd file (**it must render/run**) to Canvas by the due date (usually **Tuesday 12:00pm following the lesson**). Assignments will be graded before next lesson on Wednesday in line with the grading policy outlined in the syllabus.
 
 ::: {.content-hidden unless-meta="solution"}
 ## Solution

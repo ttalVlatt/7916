@@ -5,10 +5,6 @@ filters:
 format:
   typst:
     papersize: us-letter
-    margin:
-      top: 2.5cm
-      bottom: 2cm
-      x: 2cm
     mainfont: Arial
     font-paths: site-attachments
     include-before-body:
@@ -19,6 +15,7 @@ format:
           #show link: underline
           #set table(fill: (_, y) => if calc.odd(y) { rgb("EAF2F5") }, stroke: 0.25pt)
           #set par(justify: false)
+          #set list(tight: true)
 # #set page(header: locate(loc => if [#loc.page()] == [1] { align(right, pad(top: 30pt, image("site-attachments/UF-CoE-Logo.png"))) } else { [header other pages] } ) )  
 #format-links: [pdf] # Means only the pdf link will be displayed, still need docx to be made
 editor: 
@@ -52,13 +49,11 @@ NRN 2025
       gutter: 0.5in,
 
 
-[*Instructor* \
-  Jue Wu, Ph.D. \
+[ Jue Wu, Ph.D. \
   Email: #link("mailto:juewu@coe.ufl.edu")[juewu\@coe.ufl.edu] \
   Office Hours: Thursday 10am - 12pm \
   Office Location: Norman Hall 2705-B],
-[*TA* \
-  Matt Capaldi \
+[Matt Capaldi \
   Email: #link("mailto:m.capaldi@ufl.edu")[m.capaldi\@ufl.edu] \
   Office Hours: Monday 2pm - 4pm \
   Office Location: Norman Hall 2705-P]
@@ -87,10 +82,7 @@ Students will learn
 ### Required
 
 -   No required textbook
-
--   Course website [capaldi.info/7916](https://capaldi.info/7916) contains all R required reading
-
--   Discussion section readings can be found in Canvas
+-   Course website [capaldi.info/7916](https://capaldi.info/7916) contains all required content
 
 ### Recommended
 
@@ -102,18 +94,21 @@ Students will be expected to bring a laptop to class.
 It does not matter whether the machine runs MacOS, Windows, or Linux; however, the student's machine needs to be relatively up to date and in good running order.
 It needs to be able to connect to the internet during class.
 All software is freely available to UF students.
-Students need to download and install the following software on their machines:
 
--   R : [cran.r-project.org](https://cran.r-project.org)
+### Required
+
+-   **R** [cran.r-project.org](https://cran.r-project.org)
     -   NOTE: if you have installed R on your machine in the past, make sure that you have the most up-to-date version (new versions are released about once a quarter)
     -   You will also be required to install a number of R packages throughout the course
--   RStudio : [posit.co/download/rstudio-desktop/](https://posit.co/download/rstudio-desktop/)
+-   **RStudio** [posit.co/download/rstudio-desktop/](https://posit.co/download/rstudio-desktop/)
     -   NOTE: if you have installed RStudio on your machine in the past, make sure that you have the most up-to-date version (new versions are released about once a quarter)
--   git : [git-scm.com](https://git-scm.com)
-    -   Optional for extra-credit students also can sign up for a free GitHub account if they haven't already: [github.com/join](https://github.com/join)
-        -   Students should sign up using their University of Florida email address and request a Education discount at [education.github.com/benefits](https://education.github.com/benefits)
--   Microsoft Office: <https://cloud.it.ufl.edu/collaboration-tools/office-365/>
-    -   Office 365 is free to all UF students, simply log in with your UF account
+    
+### Optional
+
+-   **git** (version control software) [git-scm.com](https://git-scm.com) & **GitHub** (git-specific cloud storage) [github.com](https://github.com)
+    -   Using git to version-control your project is optional for extra-credit on your final report (see extra credit assignment)
+    -   Students can sign up for a free GitHub account if they haven't already : [github.com/join](https://github.com/join)
+    -   Additionally, students (using their university email address) can request a free GitHub pro account [education.github.com/benefits](https://education.github.com/benefits) which enables access to **GitHub Co-Pilot** add-in to RStudio  
 
 ## Schedule
 
@@ -142,7 +137,7 @@ Students need to download and install the following software on their machines:
 +-----------+-----------+----------------------------------------+------------------------------------------------+
 | 6         | Feb-19    | -   Data Visualization II              | -   Assignment 5 (Graph replication challenge) |
 +-----------+-----------+----------------------------------------+------------------------------------------------+
-| 7         | Feb-26    | -   Introduction to Quarto             | -   Assignment 6                               |
+| 7         | Feb-26    | -   Reproducible Reports with Quarto   | -   Assignment 6                               |
 +-----------+-----------+----------------------------------------+------------------------------------------------+
 | 8         | Mar-5     | -   Data Wrangling III                 | -   Assignment 7                               |
 +-----------+-----------+----------------------------------------+------------------------------------------------+
@@ -169,18 +164,6 @@ Students need to download and install the following software on their machines:
 
 : Class Schedule {tbl-colwidths="\[15,15,40,30\]"}
 
-::: content-hidden
-Future Ideas (will not print to rendered syllabus)
-
--   Tidyverse Purrr functional programming
-
--   Shiny & dashboards
-
--   Quarto HTML & Website
-
--   Revamp some of Ben's extra lessons
-:::
-
 ## Grading
 
 There are a total of 100 points for the class, plus extra credit opportunities.
@@ -192,19 +175,14 @@ Assignments are always due by **Tuesday 12pm following the lesson.**
 
 You will receive one of the following grades
 
--   5/5 everything is correct
+-   **5/5** -- everything is correct
+-   **4.5/5** -- mostly correct, concepts are all understood, but slight error(s)
+-   **2.5/5** -- at least one significant error, **please re-submit**
+    - You will have the chance to revise and resubmit the following week with corrections to get **4/5**
+-   **0/5** -- not turned in on time (unless excused)
+    - You will have the chance to submit the following week for **2.5/5**
 
--   4.5/5 mostly correct, concepts are all understood, but slight error(s)
-
--   2.5/5 at least one significant error, **please re-submit**
-
-    -   You will have the chance to revise and resubmit the following week with corrections to get a 4/5
-
--   0/5 not turned in on time (unless excused)
-
-    -   You will have the chance to submit the following week for 2.5/5
-
-        -   If you are struggling and haven't been able to complete the assignment, it is far better to turn in an incomplete assignment, get 2.5/5 with a chance to improve to 4/5 than miss the deadline
+If you are struggling and haven't been able to complete the assignment, it is far better to turn in an incomplete assignment and get 2.5/5 with a chance to improve to 4/5 than miss the deadline
 
 This grading system is designed to encourage you to revisit concepts that didn't click the first time, not to be punitive.
 There are opportunities for extra credit to make up for lost points.
@@ -220,30 +198,22 @@ These quizzes will serve as attendance checks and assess your knowledge of the c
 
 ### Reproducible Report (40 points)
 
-Your final project grade comes from four elements
+Your final project grade comes from four elements, see the final project section of the class website for details.
 
 -   Proposal: 5 points
-
 -   Initial analysis: 10 points
-
 -   Presentation: 5 points
-
 -   Report: 20 points
-
-    -   Optional: You can submit a draft of the report for a preliminary grade and feedback on how to improve (see schedule and/or Canvas for due date)
+    - Optional: You can submit a draft of the report for a preliminary grade and feedback on how to improve (see schedule and/or Canvas for due date)
 
 ### Extra-Credit Assignments
 
 On the class website you will see lessons titled "Extra: ..." which are opportunities for extra credit.
 
 -   Lesson follow the same structure as class lessons, review the lesson content then complete tasks in the assignment tab
-
-    -   Time permitting, some extra credit lessons may be completed in class, assignments will still count for extra credit
-
+  -   Time permitting, some extra credit lessons may be completed in class, assignments will still count for extra credit
 -   Each extra credit assignment is worth 2.5 points
-
-    -   Simply make a good faith effort to complete the assignment and you will receive the points
-
+  -   Simply make a good faith effort to complete the assignment and you will receive the points
 -   All extra credit assignments are due during week 15 (see schedule and/or Canvas for due date)
 
 ```{=typst}

@@ -1,7 +1,7 @@
 ---
 title: "I: Enter the tidyverse"
 image: apple-touch-icon.png
-solution: true
+solution: false
 ---
 
 ::: panel-tabset
@@ -37,16 +37,16 @@ What we need to do is some combination of the following:
 Let's do it!
 
 ```{r, include = FALSE, purl = TRUE}
-################################################################################
+## -----------------------------------------------------------------------------
 ##
-## <PROJ> EDH7916: Data Wrangling I: Enter the {tidyverse}
-## <FILE> dw_one.R 
-## <INIT> 20 January 2020
-## <AUTH> Benjamin Skinner (GitHub/Twitter: @btskinner)
-## <MODI> Matt Capaldi on 12 Jan 2024
+##' [PROJ: EDH 7916]
+##' [FILE: Data Wrangling I: Enter the tidyverse]
+##' [INIT: 20 January 2020]
+##' [AUTH: Benjamin Skinner @btskinner]
+##' [EDIT: Matt Capaldi @ttalVlatt]
+##' [UPDT: 12 January 2025]
 ##
-################################################################################
-
+## -----------------------------------------------------------------------------
 ```
 
 -   Throughout this lesson (and class), we are going to lean heavily on the `tidyverse` collection of packages
@@ -54,7 +54,7 @@ Let's do it!
 
 ```{r, include = FALSE, purl = TRUE}
 ## ---------------------------
-## libraries
+##' [Libraries]
 ## ---------------------------
 ```
 
@@ -91,7 +91,7 @@ library(tidyverse)
 
 ```{r, include = FALSE, purl = TRUE}
 ## ---------------------------
-## Read in Data
+##' [Read in Data]
 ## ---------------------------
 ```
 
@@ -111,7 +111,7 @@ df <- read_csv(file.path("data", "hsls-small.csv"))
 
 ```{r, include = FALSE, purl = TRUE}
 ## ---------------------------
-## The Pipe |> Operator
+##' [The Pipe |> Operator]
 ## ---------------------------
 ```
 
@@ -250,7 +250,7 @@ all.equal(df_backward_pass, df_forward_pass)
 
 ```{r, include = FALSE, purl = TRUE}
 ## ---------------------------
-## Select Variables
+##' [Select Variables]
 ## ---------------------------
 ```
 
@@ -327,7 +327,7 @@ To save time, I've copied them here:
 
 ```{r, include = FALSE, purl = TRUE}
 ## ---------------------------
-## Count Categorical Variables
+##' [Count Categorical Variables]
 ## ---------------------------
 ```
 
@@ -358,8 +358,7 @@ df_small |> count(x1paredexpct)
 
 ```{r, include = FALSE, purl = TRUE}
 ## ---------------------------
-## Modify an Existing Variable with Mutate
-## Conditional ifelse Statements
+##' [Modify an Existing Variable with mutate & ifelse]
 ## ---------------------------
 ```
 
@@ -413,7 +412,7 @@ print(df_small, n = 26)
 
 ```{r, include = FALSE, purl = TRUE}
 ## ---------------------------
-## Being Efficient with %in% and c()
+##' [Being Efficient with %in% and c()]
 ## ---------------------------
 ```
 
@@ -448,7 +447,7 @@ Success!
 
 ```{r, include = FALSE, purl = TRUE}
 ## ---------------------------
-## Create New Variable with Mutate
+##' [Create New Variable with mutate]
 ## ---------------------------
 ```
 
@@ -506,7 +505,7 @@ mean(c(5, 6, 4, NA), na.rm = T)
 
 ```{r, include = FALSE, purl = TRUE}
 ## ---------------------------
-## Handling NA Values
+##' [Handling NA Values]
 ## ---------------------------
 ```
 
@@ -540,12 +539,6 @@ print(df_small, n = 26)
 > Skinner
 
 -   Now it's made correctly, let's check the counts of our new variable
-
-```{r, include = FALSE, purl = TRUE}
-## ---------------------------
-## Filter NA Rows
-## ---------------------------
-```
 
 ```{r}
 ## get summary of our new variable
@@ -597,7 +590,7 @@ nrow(df_small) - nrow(df_small_cut)
 
 ```{r, include = FALSE, purl = TRUE}
 ## ---------------------------
-## Summarizing Data
+##' [Summarizing Data]
 ## ---------------------------
 ```
 
@@ -630,7 +623,7 @@ df_small_cut |> summarize(mean_exp = mean(high_exp))
 
 ```{r, include = FALSE, purl = TRUE}
 ## ---------------------------
-## Grouping Data
+##' [Grouping Data]
 ## ---------------------------
 ```
 
@@ -653,7 +646,7 @@ df_small_cut |>
 
 ```{r, include = FALSE, purl = TRUE}
 ## ---------------------------
-## Saving Data
+##' [Saving Data]
 ## ---------------------------
 ```
 
@@ -681,7 +674,7 @@ Phew!
 
 ```{r, include=FALSE, purl=TRUE}
 ## ---------------------------
-## Appendix: All in One!
+##' [Appendix: All in One!]
 ## ---------------------------
 ```
 
@@ -738,54 +731,22 @@ WooHoo!
 > "Becoming a better quantitative researcher mostly means becoming a better translator: question --\> data/coding --\> answer." B.T.
 > Skinner
 
-```{r, include = FALSE, purl = TRUE}
+```{r, echo = FALSE, purl = TRUE}
+
 ## -----------------------------------------------------------------------------
-## End Script
+##' *END SCRIPT*
 ## -----------------------------------------------------------------------------
 ```
 
 # Assignment
 
--   Using the `hsls_small.csv` data set answer the following questions
-    -   Hint: You're going to need the code book to identify the necessary variables
+[{{< fa question >}} Assignment Template](/site-attachments/assignments/assignment-02.qmd)
 
-## Questions
+{{< include /site-attachments/assignments/assignment-02.qmd >}}
 
-1.  
+## Submission
 
-```{=html}
-<!-- -->
-```
-i.  What is the average standardized math test score?
-ii. How does this differ by gender?
-
-```{=html}
-<!-- -->
-```
-2.  Among those students who are under 185% of the federal poverty line in the base year of the survey, what is the median household income category? (include what that category represents)
-3.  
-
-```{=html}
-<!-- -->
-```
-i.  Of the students who earned a high school credential (traditional diploma or GED), what percentage earned a GED or equivalency?
-ii. How does this differ by region?
-
-```{=html}
-<!-- -->
-```
-4.  
-
-```{=html}
-<!-- -->
-```
-i.  What percentage of students ever attended a post-secondary institution by February 2016?
-ii. Give the cross tabulation for both family incomes above/below \$35,000 and region\
-    - This means you should have percentages for 8 groups: above/below \$35k within each region
-    -   Hint: `group_by()` can be given more than one group
-
-Once complete, turn in the .R script (no data etc.) to Canvas by the due date (Sunday 11:59pm following the lesson).
-Assignments will be graded on the following Monday (time permitting) in line with the grading policy outlined in the syllabus.
+Once complete turn in the .qmd file (**it must render/run**) to Canvas by the due date (usually **Tuesday 12:00pm following the lesson**). Assignments will be graded before next lesson on Wednesday in line with the grading policy outlined in the syllabus.
 
 ::: {.content-hidden unless-meta="solution"}
 ## Solution
