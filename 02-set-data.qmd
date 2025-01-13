@@ -14,9 +14,7 @@ solution: false
 
 We'll begin with how to organize your course and project files.
 
--   Note: we are now arriving at one of the first small differences from previous versions of the course; how the sub-folders are organized. There's a trade-off between simplicity and tidy-ness here, we have opted for simplicity
-
-#### Skinner's Kitchen Metaphor
+#### The Kitchen Metaphor (from Dr. Skinner)
 
 > "Every data analysis project should have its own set of organized folders. Just like you might organize a kitchen so that ingredients, cookbooks, and prepared food all have a specific cabinet or shelf, so too should you organize your project. We'll organize our course directory in a similar fashion."
 
@@ -30,12 +28,12 @@ We'll begin with how to organize your course and project files.
 
 -   With this kitchen metaphor in mind, let's set up our folder for the class
 
--   I've made an [EDH-7916 example folder you can download here](/EDH-7916.zip) which is also available on the class homepage
+-   We've made an [EDH-7916 example folder you can download here](/EDH-7916.zip) which is also available on the class homepage
 
     -   In here, you will see
         -   An `.R` script template
-        -   A Quarto `.qmd` template
-        -   A set of numbered `.R` scripts (these are our lesson scripts)
+        -   A set of numbered `.R` scripts for our lessons
+        -   A set of numbered `.qmd` files for our assignments
         -   A data folder
         -   A reproducible-report folder (with it's own data sub-folder)
         -   A `.pdf` copy of the syllabus
@@ -103,7 +101,7 @@ We'll begin with how to organize your course and project files.
 -   As a general rule, no matter how you have your folders organized in the future, you usually want your working directory set to *where your script is*
 
     -   That way, you're always giving directions from the common point of "where we are we are right now"
-        -   This will then be the same if I move the project folder on my computer, or run it on someone else's computer
+        -   This will then be the same if we move the project folder on our computer, or run it on someone else's computer
 
 -   By default, when we open a project in RStudio, RStudio helpfully sets our working directory to the project folder
 
@@ -149,18 +147,18 @@ We'll begin with how to organize your course and project files.
 
 -   Absolute paths are directions to what you're looking for starting from the root of your computer, and list out exactly where a file is. For example, the absolute path of this Quarto script we are now looking is
 
-`"/Users/Jue/Desktop/7916/02-set-data.qmd"`
+`"/Users/juewu/Desktop/7916/02-set-data.qmd"`
 
 -   This is perfectly fine, assuming two things
-    1.  I don't move the project directory
-    2.  It only needs to run on my computer
+    1.  We don't move the project directory
+    2.  It only needs to run on this computer
 -   Oftentimes, we cannot rely on both these assumptions being true
     -   Plus, if we start with these absolute paths and then need to change, it will then become a real pain to update everything
         -   So, we should **ALWAYS** use relative paths instead (this one of the only strict rules for assignments)
 
 #### Relative Paths
 
--   Imagine I am giving you directions to a College of Education cookout, but, I give you directions from my house. That's only any use if you know where my house is...
+-   Imagine you are going to a College of Education cookout, but, you are given directions from my house. That's only any use if you know where my house is...
 
     -   Instead, you really want directions from somewhere we all know, like Norman Hall
         -   That is (basically) how relative paths work, we give directions to to our data from a common point
@@ -192,8 +190,8 @@ We'll begin with how to organize your course and project files.
     -   `file.path()`
 
         -   Inside, we just type the name of each folder/file in "quotes", turning
-            -   `"Users/Matt/Desktop/7916"` into
-            -   `file.path("Users", "Matt", "Desktop", "7916")`
+            -   `"Users/YourName/Desktop/7916"` into
+            -   `file.path("Users", "YourName", "Desktop", "7916")`
             -   This may look longer, but, it's more compatible and easier to remember"
 
 #### What If I Need to Go Back a Level?
@@ -224,10 +222,10 @@ We'll begin with how to organize your course and project files.
     -   The main point is to ensure you have some kind of sections in your scripts
         -   Scripts can be really hard to navigate if you don't!
 
-### Quarto Template
+### Quarto Files
 
--   You should also see an `quarto-template.qmd` file in your folder
-    -   This is a template for your Quarto files, which you will use for your assignment and final project. We will go through Quarto in more detail in a few weeks, but for now you only need to know that you can write text along with codes in Quarto, and that you will render it to a PDF file for your assignment submission.
+-   You should also see a set of `.qmd` files in your folder
+    -   You will use Quarto for your assignments and final project, and we will go through Quarto in more detail in a few weeks. For now, you only need to know that you can write text along with codes in Quarto, and that you will render it to a PDF file for your assignment submission.
 
 ## Reading in Data
 
@@ -243,6 +241,7 @@ We'll begin with how to organize your course and project files.
 ##' [INIT: 9 March 2020]
 ##' [AUTH: Benjamin Skinner @btskinner]
 ##' [EDIT: Matt Capaldi @ttalVlatt]
+##' [EDIT: Jue Wu on Jan 13, 2025]
 ##
 ## -----------------------------------------------------------------------------
 ```
@@ -270,29 +269,6 @@ Success!
 
 We will cover other ways of reading in data over the course of the class (we can download data directly to R somtimes), but this is most common way, so we are ready for some analysis next week!
 
-That's it for R today, phew!
-
-Now let's go and explore IPEDS Data Center and see where a lot of contemporary higher education research data comes from!
-
-## IPEDS Exploration Key Points (for review)
-
--   IPEDS is an annual federally mandated data collection process (and compliance is a significant portion of many Institutional Researcher jobs)
--   There are a few ways of downloading IPEDS data, if you click through the website you may well find a point-and-click way of selecting specifc variables
-    -   This is **NOT** reproducible and therefore **NOT** the best practice for research
--   We want to use the IPEDS data center to access the complete data files then select and join variables to get our desired data set
-    -   Fear not, we will go over how to do those things in the first two data wrangling lessons!
-
-### "Data File" vs. "STATA Data File"
-
--   For some NCES data sets, such as HSLS downloaded from [NCES DataLab](), selecting the Stata file option will download a `.dta` STATA file format version of the data, which is often nicely labelled
-    -   We can actually read these into R using the `haven` library from the `tidyverse`
--   However, for IPEDS, the STATA file option is actually just another `.csv` file, it's formatted slightly differently to read into STATA, so there's no reason to bother with it when using R
-
-### Using IPEDS Codebooks
-
--   To be able to use most of these big data sets, you need to be able to understand the code. Let's look together at the [codebook for EFFY (headcount enrollment) for 2021](https://nces.ed.gov/ipeds/datacenter/data/EFFY2021_Dict.zip)
-    -   For IPEDS, the code book is called the dictionary, and is always an Excel file (`.xlsx`). Other data sources will look different but the general principle will be the same
-
 ## Setting up GitHub Copilot
 
 One major change of the course this year is the introduction of GitHub Copilot.
@@ -315,6 +291,29 @@ GitHub Copilot is an AI-powered coding assistant that helps write code faster by
 ### Using GitHub Copilot for your projects
 
 If you do use GitHub Copilot to help with your codes, please keep your prompts in your comment line and acknowledge with a `## h/t`
+
+That's it for R today, phew!
+
+Now let's go and explore IPEDS Data Center and see where a lot of contemporary higher education research data comes from!
+
+## IPEDS Exploration Key Points (for review)
+
+-   IPEDS is an annual federally mandated data collection process (and compliance is a significant portion of many Institutional Researcher jobs)
+-   There are a few ways of downloading IPEDS data, if you click through the website you may well find a point-and-click way of selecting specifc variables
+    -   This is **NOT** reproducible and therefore **NOT** the best practice for research
+-   We want to use the IPEDS data center to access the complete data files then select and join variables to get our desired data set
+    -   Fear not, we will go over how to do those things in the first two data wrangling lessons!
+
+### "Data File" vs. "STATA Data File"
+
+-   For some NCES data sets, such as HSLS downloaded from [NCES DataLab](), selecting the Stata file option will download a `.dta` STATA file format version of the data, which is often nicely labelled
+    -   We can actually read these into R using the `haven` library from the `tidyverse`
+-   However, for IPEDS, the STATA file option is actually just another `.csv` file, it's formatted slightly differently to read into STATA, so there's no reason to bother with it when using R
+
+### Using IPEDS Codebooks
+
+-   To be able to use most of these big data sets, you need to be able to understand the code. Let's look together at the [codebook for EFFY (headcount enrollment) for 2021](https://nces.ed.gov/ipeds/datacenter/data/EFFY2021_Dict.zip)
+    -   For IPEDS, the code book is called the dictionary, and is always an Excel file (`.xlsx`). Other data sources will look different but the general principle will be the same
 
 ## Other common data sources for higher education research
 
