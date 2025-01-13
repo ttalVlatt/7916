@@ -28,7 +28,6 @@ There are also a few optional pieces of software you'll need for extra credit le
 ```{=html}
 <iframe width="900" height="600" src="https://cloud.r-project.org"></iframe>
 ```
-
 1.  Click the option for the OS you have (Windows/Mac/Linux)
 2.  Then under the "latest release"
 
@@ -88,7 +87,7 @@ By default, RStudio has 3-4 main frames:
 3.  Top right: Environment / History / Connections
 4.  Bottom right: Files / Plots / Packages / Help / Viewer
 
-For today, we are mostly going to explore some basic features of R using the console, copying and pasting commands from the website rather than saving them in a script. Fear not, however, as there is already an `.R` script containing all these commands saved in your class folder that we will set up next week. - All an `.R` script does is save your code and pass it line-by-line to the console - After today, anything we want to save will be done through a script, anything we just need to run one time will be done in console
+For today, we are mostly going to explore some basic features of R using the console, copying and pasting commands from the website rather than saving them in a script (which we will set up next week). All an `.R` script does is save your code and pass it line-by-line to the console. After today, anything we want to save will be done through a script, anything we just need to run one time will be done in console
 
 ## Basic R Commands
 
@@ -100,6 +99,7 @@ For today, we are mostly going to explore some basic features of R using the con
 ##' [INIT: 9 March 2020]
 ##' [AUTH: Benjamin Skinner @btskinner]
 ##' [EDIT: Matt Capaldi @ttalVlatt]
+##' [EDIT: Jue Wu]
 ##
 ## -----------------------------------------------------------------------------
 
@@ -140,8 +140,7 @@ R is a type of [object-oriented programming](https://en.wikipedia.org/wiki/Objec
 
 -   In R ([for quirky reasons](http://blog.revolutionanalytics.com/2008/12/use-equals-or-arrow-for-assignment.html)), the primary means of assignment is the arrow, `<-`, which is a less than symbol, `<`, followed by a hyphen, `-`.
     -   You can use `=` (which is more common across other programming languages), and you may see this "in the wild"
-    -   But R traditionalists prefer `<-` for clarity and readability
-    -   Which you use is up to you! (I generally use `<-`)
+    -   But R traditionalists prefer `<-` for clarity and readability, and let's try to use `<-` in this class
 
 ```{r}
 ## assign value to object x using <-
@@ -177,12 +176,16 @@ For this section, let's just open a blank `.R` script in RStudio (again, all the
 
 -   Comments in R are set off using the hash or pound character at the beginning of the line: `#`
 -   The comment character tells R to ignore the line
+-   Comments are useful for explaining what your code is doing, why
+    you're doing it, or for temporarily removing code from your script
+    without deleting it
+-   You can also use comments to take notes for this class!
 
 > #### Quick exercise
 >
 > Type the phrase "This is a comment" directly into the R console both with and without a leading "\#". What happens each time?
 
--   You may notice we sometimes use two hashes
+-   You may notice sometimes we use two hashes
     -   You can use only a single `#` for your comments if you like, R treats them all the same
     -   If you're typing longer comments `##'` (two hashes and an apostrophe) is really useful in RStudio, as it automatically comments the next line (although this can be annoying at times too)
 -   Lastly, RStudio can comment/uncomment multiple lines of code you've already written
@@ -239,7 +242,7 @@ Understanding the nuanced differences between data types is not important right 
 
 -   User-submitted packages are a huge part of what makes R great
 -   You may hear me use the phrases "base R" or "vanilla R" during class
-    -   What I mean by this is the R that comes as you download it with no packages loaded
+    -   That is the R that comes as you download it with no packages loaded
     -   While it's powerful in and of itself --- you can do everything you need with base R --- most of your scripts will make use of one of more contributed packages = These will make your data analytic life *much* nicer. We'll lean heavily on the [tidyverse](https://www.tidyverse.org) suite of packages this semester.
 
 ### Installing packages from CRAN
@@ -268,6 +271,10 @@ Many packages rely on other packages to function properly. When you use `install
 install.packages("tidyverse")
 ```
 
+### Installing packages using the top menu bar
+
+-   Alternatively, you can install packages by going to "Tools", then "Install Packages", then type in the package you want to install
+
 ### Loading package libraries
 
 Package libraries can loaded in a number of ways, but the easiest it to write:
@@ -287,10 +294,6 @@ library(tidyverse)
 
 Notice that when you load the tidyverse (which, again, is actually loading a number of other libraries), you see a lot of output. Not all packages are this noisy, but the information is useful here because it shows all the libraries that are now loaded and ready for you to use.
 
-### Installing packages using the top menu bar
-
--   Alternatively, you can install packages by going to "Tools", then "Install Packages", then type in the package you want to install
-
 ## Help
 
 ```{r, include = FALSE, purl = TRUE}
@@ -299,7 +302,7 @@ Notice that when you load the tidyverse (which, again, is actually loading a num
 ## ---------------------------------------------------------
 ```
 
-I don't have every R function and nuance memorized, so I certainly don't expect that you will. With all the user-written packages, it would be difficult to keep up if I tried! When stuck, there are a few ways to get help.
+It's almost impossible to have every R function and nuance memorized, and you don't have to. With all the user-written packages, it would be difficult to keep up. When stuck, there are a few ways to get help.
 
 ### Help files
 
@@ -321,8 +324,7 @@ At first, using help files may feel like trying to use a dictionary to see how t
 
 ### Package Website
 
--   While all R packages have to have help files, not all R packages have nice webpages. However, a lot of the main ones do
-    -   I find them much nicer than the CRAN helpfiles
+-   While all R packages have to have help files, not all R packages have nice webpages. However, a lot of the main ones do, and they are often much nicer than the CRAN helpfiles
 
 For example, here's another magic portal to the `tidyverse`'s `dplyr` website (you may spent a good amount of time here this semester)
 
@@ -330,8 +332,7 @@ For example, here's another magic portal to the `tidyverse`'s `dplyr` website (y
 <iframe width="900" height="600"
 src="https://dplyr.tidyverse.org"></iframe>
 ```
-
-Usually I Google something like "\<package name\> R" and the website comes up
+Usually if you Google something like "\<package name\> R," and the website will come up
 
 You can find links to all the `tidyverse` packages [here](https://www.tidyverse.org/packages/)
 
@@ -363,7 +364,7 @@ We're going to use a number of packages this semester. While we may need more th
 
 # Assignment
 
-There's no official assignment this week, just make sure you have been able to install everything covered in this lesson. If you haven't, please set up a meeting with me ASAP!
+There's no official assignment this week, just make sure you have been able to install everything covered in this lesson. If you haven't, please reach out ASAP!
 
 If you really want something to do, start thinking about ideas for your [final project](99-final.qmd)!
 :::
