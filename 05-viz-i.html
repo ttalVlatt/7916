@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.553">
+<meta name="generator" content="quarto-1.6.29">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>EDH 7916 - I: Basics</title>
+<title>I: Basics – EDH 7916</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -33,7 +33,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -69,10 +69,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-29a703985b9506ee1f3285ce059650bf.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-329a8742cc536dc1b7a94a813afad969.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <link href="site_libs/quarto-contrib/fontawesome6-0.1.0/all.css" rel="stylesheet">
 <link href="site_libs/quarto-contrib/fontawesome6-0.1.0/latex-fontsize.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
@@ -103,7 +103,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   }
 }</script>
 
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <script type="text/javascript">
@@ -134,12 +134,12 @@ window.Quarto = {
 </script>
 
 <link rel="stylesheet" href="site-attachments/styles.css">
-<meta property="og:title" content="EDH 7916 - I: Basics">
+<meta property="og:title" content="I: Basics – EDH 7916">
 <meta property="og:image" content="https://capaldi.info/7916/apple-touch-icon.png">
 <meta property="og:site_name" content="EDH 7916">
 <meta property="og:image:height" content="180">
 <meta property="og:image:width" content="180">
-<meta name="twitter:title" content="EDH 7916 - I: Basics">
+<meta name="twitter:title" content="I: Basics – EDH 7916">
 <meta name="twitter:image" content="https://capaldi.info/7916/apple-touch-icon.png">
 <meta name="twitter:image-height" content="180">
 <meta name="twitter:image-width" content="180">
@@ -152,13 +152,13 @@ window.Quarto = {
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
         <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./05-viz-i.html">Data Visualization</a></li><li class="breadcrumb-item"><a href="./05-viz-i.html">I: Basics</a></li></ol></nav>
-        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
-      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
         <i class="bi bi-search"></i>
       </button>
     </div>
@@ -188,15 +188,15 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./syllabus.html" class="sidebar-item-text sidebar-link">
+  <a href="./syllabus.pdf" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Syllabus</span></a>
   </div>
 </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="false">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false">
  <span class="menu-text">Getting Started</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="false" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
@@ -217,9 +217,9 @@ window.Quarto = {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="false">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false">
  <span class="menu-text">Data Wrangling</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="false" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
@@ -245,16 +245,16 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./09-wrangle-iv.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">IV: Tidyverse Tricks &amp; SQL</span></a>
+ <span class="menu-text">IV: Advanced `tidyverse` &amp; Data Retrieval</span></a>
   </div>
 </li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
  <span class="menu-text">Data Visualization</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
@@ -279,23 +279,12 @@ window.Quarto = {
 </li>
       </ul>
   </li>
-        <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="false">
- <span class="menu-text">Quarto</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="false" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 ">  
-          <li class="sidebar-item">
+        <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./07-quarto-intro.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Reproducable Reports with Quarto</span></a>
+ <span class="menu-text">Reproducible Reports with Quarto</span></a>
   </div>
 </li>
-      </ul>
-  </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./11-pro-functions.html" class="sidebar-item-text sidebar-link">
@@ -316,13 +305,13 @@ window.Quarto = {
 </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="false">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false">
  <span class="menu-text">Extra Credit</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="false" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 ">  
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./x-01-git.html" class="sidebar-item-text sidebar-link">
@@ -458,7 +447,7 @@ window.Quarto = {
 </ul>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="do">## ---------------------------</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="do">## libraries</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="do">##' [Libraries]</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="do">## ---------------------------</span></span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -485,7 +474,7 @@ window.Quarto = {
 </ul>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="do">## ---------------------------</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="do">## input data\</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="do">##' [Input data]</span></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="do">## ---------------------------</span></span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="do">## read_dta() ==&gt; read in Stata (*.dta) files</span></span>
@@ -1341,7 +1330,7 @@ window.Quarto = {
 </ul></li>
 </ul>
 <p><span class="math display">\[
-\frac{x_i - \bar{x}}{\sigma(x)}
+\frac{x_i - \bar{x}}{\sigma}
 \]</span></p>
 <ul>
 <li><p>In simple terms, this puts all scores on the same scale</p></li>
@@ -1412,211 +1401,38 @@ window.Quarto = {
 </section>
 </div>
 <div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
+<p><a href="./site-attachments/assignments/assignment-04.qmd"><i class="fa-solid fa-question" aria-label="question"></i> Assignment Template</a></p>
+<p>Use the <code>hsls_small.dta</code> data set (the version used in this class) make plots that help answer each of the following questions</p>
 <ul>
-<li><p>Using the <code>hsls_small.dta</code> data set (the Stata version used in this class) and the online codebook, make plots that help answer each of the following questions.</p></li>
-<li><p>Also note, your final project proposals are due this week as well.</p></li>
+<li>Throughout, you <strong>should</strong> account for missing values by dropping them</li>
+<li>Do not worry about axis labels or other visual elements, that is covered next week</li>
 </ul>
-<section id="questions" class="level2">
-<h2 data-anchor-id="questions">Questions</h2>
-<ol type="1">
-<li>How does student socioeconomic status differ between students who ever attended college and those who did not?</li>
-<li>How do educational expectations (of both students and parents) differ by high school completion status?</li>
-</ol>
-<ul>
-<li>Hint: you will want to borrow some code from last week’s assignment here</li>
-</ul>
-<ol start="3" type="1">
-<li>What is the relationship between student socioeconomic status and math test score?</li>
-</ol>
-<p>Do not worry about axis labels or other visual elements, that is covered next week.</p>
-<p>Once complete, turn in the .R script (no data etc.) to Canvas by the due date (Sunday 11:59pm following the lesson). Assignments will be graded on the following Monday (time permitting) in line with the grading policy outlined in the syllabus.</p>
+<blockquote class="blockquote">
+<p>Hint: You’re going to need the <a href="https://nces.ed.gov/datalab/onlinecodebook">code book</a> to identify the necessary variables</p>
+</blockquote>
+<p>Also note, your final project proposals are due this week as well</p>
+<section id="question-one" class="level2">
+<h2 data-anchor-id="question-one">Question One</h2>
+<p><strong>a)</strong> How does student socioeconomic status differ between students who ever attended college and those who did not?</p>
 </section>
-<section id="solution" class="level2">
-<h2 data-anchor-id="solution">Solution</h2>
-<p><a href="site-attachments/solutions/data-viz-i-solution.R"><i class="fa-solid fa-code" aria-label="code"></i> R Solution Code</a></p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="do">## -----------------------------------------------------------------------------</span></span>
-<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="do">##</span></span>
-<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a><span class="do">##' [PROJ: EDH 7916]</span></span>
-<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a><span class="do">##' [FILE: Data Viz I Solution(s)]</span></span>
-<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a><span class="do">##' [INIT: February 10 2024]</span></span>
-<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a><span class="do">##' [AUTH: Matt Capaldi] @ttalVlatt</span></span>
-<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a><span class="do">##</span></span>
-<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a><span class="do">## -----------------------------------------------------------------------------</span></span>
-<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-10"><a href="#cb38-10" aria-hidden="true" tabindex="-1"></a><span class="fu">setwd</span>(this.path<span class="sc">::</span><span class="fu">here</span>())</span>
-<span id="cb38-11"><a href="#cb38-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-12"><a href="#cb38-12" aria-hidden="true" tabindex="-1"></a><span class="do">## ---------------------------</span></span>
-<span id="cb38-13"><a href="#cb38-13" aria-hidden="true" tabindex="-1"></a><span class="do">##' [Libraries]</span></span>
-<span id="cb38-14"><a href="#cb38-14" aria-hidden="true" tabindex="-1"></a><span class="do">## ---------------------------</span></span>
-<span id="cb38-15"><a href="#cb38-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-16"><a href="#cb38-16" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb38-17"><a href="#cb38-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-18"><a href="#cb38-18" aria-hidden="true" tabindex="-1"></a><span class="do">## ---------------------------</span></span>
-<span id="cb38-19"><a href="#cb38-19" aria-hidden="true" tabindex="-1"></a><span class="do">##' [Input]</span></span>
-<span id="cb38-20"><a href="#cb38-20" aria-hidden="true" tabindex="-1"></a><span class="do">## ---------------------------</span></span>
-<span id="cb38-21"><a href="#cb38-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-22"><a href="#cb38-22" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="fu">file.path</span>(<span class="st">"data"</span>, <span class="st">"hsls-small.csv"</span>)) <span class="sc">|&gt;</span></span>
-<span id="cb38-23"><a href="#cb38-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">x1ses =</span> <span class="fu">ifelse</span>(x1ses <span class="sc">%in%</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">8</span>, <span class="sc">-</span><span class="dv">9</span>), <span class="cn">NA</span>, x1ses),</span>
-<span id="cb38-24"><a href="#cb38-24" aria-hidden="true" tabindex="-1"></a>         <span class="at">x4evratndclg =</span> <span class="fu">ifelse</span>(x4evratndclg <span class="sc">%in%</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">8</span>, <span class="sc">-</span><span class="dv">9</span>), <span class="cn">NA</span>, x4evratndclg),</span>
-<span id="cb38-25"><a href="#cb38-25" aria-hidden="true" tabindex="-1"></a>         <span class="at">x1txmtscor =</span> <span class="fu">ifelse</span>(x1txmtscor <span class="sc">%in%</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">8</span>, <span class="sc">-</span><span class="dv">9</span>), <span class="cn">NA</span>, x1txmtscor),</span>
-<span id="cb38-26"><a href="#cb38-26" aria-hidden="true" tabindex="-1"></a>         <span class="at">x1poverty185 =</span> <span class="fu">ifelse</span>(x1poverty185 <span class="sc">%in%</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">8</span>, <span class="sc">-</span><span class="dv">9</span>), <span class="cn">NA</span>, x1poverty185),</span>
-<span id="cb38-27"><a href="#cb38-27" aria-hidden="true" tabindex="-1"></a>         <span class="at">x1stuedexpct =</span> <span class="fu">ifelse</span>(x1stuedexpct <span class="sc">%in%</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">8</span>, <span class="sc">-</span><span class="dv">9</span>, <span class="dv">11</span>), <span class="cn">NA</span>, x1stuedexpct),</span>
-<span id="cb38-28"><a href="#cb38-28" aria-hidden="true" tabindex="-1"></a>         <span class="at">x1paredexpct =</span> <span class="fu">ifelse</span>(x1paredexpct <span class="sc">%in%</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">8</span>, <span class="sc">-</span><span class="dv">9</span>, <span class="dv">11</span>), <span class="cn">NA</span>, x1paredexpct)) <span class="sc">|&gt;</span></span>
-<span id="cb38-29"><a href="#cb38-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>()</span>
-<span id="cb38-30"><a href="#cb38-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-31"><a href="#cb38-31" aria-hidden="true" tabindex="-1"></a><span class="do">## ---------------------------</span></span>
-<span id="cb38-32"><a href="#cb38-32" aria-hidden="true" tabindex="-1"></a><span class="do">##' [Q1]</span></span>
-<span id="cb38-33"><a href="#cb38-33" aria-hidden="true" tabindex="-1"></a><span class="do">## ---------------------------</span></span>
-<span id="cb38-34"><a href="#cb38-34" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-35"><a href="#cb38-35" aria-hidden="true" tabindex="-1"></a><span class="do">## Option One: Filled Histogram/Density Plot</span></span>
-<span id="cb38-36"><a href="#cb38-36" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-37"><a href="#cb38-37" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df) <span class="sc">+</span></span>
-<span id="cb38-38"><a href="#cb38-38" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="fu">aes</span>(<span class="at">x =</span> x1ses,</span>
-<span id="cb38-39"><a href="#cb38-39" aria-hidden="true" tabindex="-1"></a>                     <span class="at">fill =</span> <span class="fu">factor</span>(x4evratndclg)))</span>
-<span id="cb38-40"><a href="#cb38-40" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-41"><a href="#cb38-41" aria-hidden="true" tabindex="-1"></a><span class="do">## or...</span></span>
-<span id="cb38-42"><a href="#cb38-42" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-43"><a href="#cb38-43" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df) <span class="sc">+</span></span>
-<span id="cb38-44"><a href="#cb38-44" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="fu">aes</span>(<span class="at">x =</span> x1ses,</span>
-<span id="cb38-45"><a href="#cb38-45" aria-hidden="true" tabindex="-1"></a>                     <span class="at">fill =</span> <span class="fu">factor</span>(x4evratndclg)))</span>
-<span id="cb38-46"><a href="#cb38-46" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-47"><a href="#cb38-47" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-48"><a href="#cb38-48" aria-hidden="true" tabindex="-1"></a><span class="do">## Option Two: Box Plot</span></span>
-<span id="cb38-49"><a href="#cb38-49" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-50"><a href="#cb38-50" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df) <span class="sc">+</span></span>
-<span id="cb38-51"><a href="#cb38-51" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">factor</span>(x4evratndclg),</span>
-<span id="cb38-52"><a href="#cb38-52" aria-hidden="true" tabindex="-1"></a>                   <span class="at">y =</span> x1ses,</span>
-<span id="cb38-53"><a href="#cb38-53" aria-hidden="true" tabindex="-1"></a>                   <span class="at">fill =</span> <span class="fu">factor</span>(x4evratndclg)))</span>
-<span id="cb38-54"><a href="#cb38-54" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-55"><a href="#cb38-55" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-56"><a href="#cb38-56" aria-hidden="true" tabindex="-1"></a><span class="do">## Option Three: Jitter Scatter Plot</span></span>
-<span id="cb38-57"><a href="#cb38-57" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-58"><a href="#cb38-58" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df) <span class="sc">+</span></span>
-<span id="cb38-59"><a href="#cb38-59" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x =</span> x1ses,</span>
-<span id="cb38-60"><a href="#cb38-60" aria-hidden="true" tabindex="-1"></a>                  <span class="at">y =</span> <span class="fu">factor</span>(x4evratndclg),</span>
-<span id="cb38-61"><a href="#cb38-61" aria-hidden="true" tabindex="-1"></a>                  <span class="at">color =</span> <span class="fu">factor</span>(x4evratndclg)),</span>
-<span id="cb38-62"><a href="#cb38-62" aria-hidden="true" tabindex="-1"></a>              <span class="co">#position = "jitter",</span></span>
-<span id="cb38-63"><a href="#cb38-63" aria-hidden="true" tabindex="-1"></a>              <span class="at">size =</span> <span class="fl">0.5</span>,</span>
-<span id="cb38-64"><a href="#cb38-64" aria-hidden="true" tabindex="-1"></a>              <span class="at">alpha =</span> <span class="fl">0.5</span>)</span>
-<span id="cb38-65"><a href="#cb38-65" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-66"><a href="#cb38-66" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df) <span class="sc">+</span></span>
-<span id="cb38-67"><a href="#cb38-67" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="fu">aes</span>(<span class="at">x =</span> x1ses,</span>
-<span id="cb38-68"><a href="#cb38-68" aria-hidden="true" tabindex="-1"></a>                  <span class="at">y =</span> <span class="fu">factor</span>(x4evratndclg),</span>
-<span id="cb38-69"><a href="#cb38-69" aria-hidden="true" tabindex="-1"></a>                  <span class="at">color =</span> <span class="fu">factor</span>(x4evratndclg)),</span>
-<span id="cb38-70"><a href="#cb38-70" aria-hidden="true" tabindex="-1"></a>              <span class="at">size =</span> <span class="fl">0.5</span>,</span>
-<span id="cb38-71"><a href="#cb38-71" aria-hidden="true" tabindex="-1"></a>              <span class="at">alpha =</span> <span class="fl">0.5</span>)</span>
-<span id="cb38-72"><a href="#cb38-72" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-73"><a href="#cb38-73" aria-hidden="true" tabindex="-1"></a><span class="do">## ---------------------------</span></span>
-<span id="cb38-74"><a href="#cb38-74" aria-hidden="true" tabindex="-1"></a><span class="do">##' [Q2]</span></span>
-<span id="cb38-75"><a href="#cb38-75" aria-hidden="true" tabindex="-1"></a><span class="do">## ---------------------------</span></span>
-<span id="cb38-76"><a href="#cb38-76" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-77"><a href="#cb38-77" aria-hidden="true" tabindex="-1"></a><span class="do">## Note: Just plotting each type separately was okay for the assignment, but it's better if we</span></span>
-<span id="cb38-78"><a href="#cb38-78" aria-hidden="true" tabindex="-1"></a><span class="do">## can get everything on one plot, let's look at a few ways of doing that</span></span>
-<span id="cb38-79"><a href="#cb38-79" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-80"><a href="#cb38-80" aria-hidden="true" tabindex="-1"></a><span class="do">## Pivot the data long in expectation type</span></span>
-<span id="cb38-81"><a href="#cb38-81" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-82"><a href="#cb38-82" aria-hidden="true" tabindex="-1"></a>df_long <span class="ot">&lt;-</span> df <span class="sc">|&gt;</span></span>
-<span id="cb38-83"><a href="#cb38-83" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="fu">c</span>(x1stuedexpct, x1paredexpct),</span>
-<span id="cb38-84"><a href="#cb38-84" aria-hidden="true" tabindex="-1"></a>               <span class="at">names_to =</span> <span class="st">"expect_type"</span>,</span>
-<span id="cb38-85"><a href="#cb38-85" aria-hidden="true" tabindex="-1"></a>               <span class="at">values_to =</span> <span class="st">"expect_value"</span>)</span>
-<span id="cb38-86"><a href="#cb38-86" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-87"><a href="#cb38-87" aria-hidden="true" tabindex="-1"></a><span class="do">## Option One: Bar Chart (Treat as Categorical)</span></span>
-<span id="cb38-88"><a href="#cb38-88" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-89"><a href="#cb38-89" aria-hidden="true" tabindex="-1"></a><span class="do">## This is skewed so heavily how many people graduated high school</span></span>
-<span id="cb38-90"><a href="#cb38-90" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df_long) <span class="sc">+</span></span>
-<span id="cb38-91"><a href="#cb38-91" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">factor</span>(x4hscompstat),</span>
-<span id="cb38-92"><a href="#cb38-92" aria-hidden="true" tabindex="-1"></a>               <span class="at">fill =</span> <span class="fu">factor</span>(expect_value)),</span>
-<span id="cb38-93"><a href="#cb38-93" aria-hidden="true" tabindex="-1"></a>           <span class="at">color =</span> <span class="st">"white"</span>) <span class="sc">+</span> </span>
-<span id="cb38-94"><a href="#cb38-94" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>expect_type) <span class="do">## We didn't get to this, so I didn't expect anyone to use it</span></span>
-<span id="cb38-95"><a href="#cb38-95" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-96"><a href="#cb38-96" aria-hidden="true" tabindex="-1"></a><span class="do">## But we can add position = "fill" to change the bar chart to proportions, which</span></span>
-<span id="cb38-97"><a href="#cb38-97" aria-hidden="true" tabindex="-1"></a><span class="do">## makes it a bit better, still not great</span></span>
-<span id="cb38-98"><a href="#cb38-98" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df_long) <span class="sc">+</span></span>
-<span id="cb38-99"><a href="#cb38-99" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">factor</span>(x4hscompstat),</span>
-<span id="cb38-100"><a href="#cb38-100" aria-hidden="true" tabindex="-1"></a>               <span class="at">fill =</span> <span class="fu">factor</span>(expect_value)),</span>
-<span id="cb38-101"><a href="#cb38-101" aria-hidden="true" tabindex="-1"></a>           <span class="at">color =</span> <span class="st">"white"</span>,</span>
-<span id="cb38-102"><a href="#cb38-102" aria-hidden="true" tabindex="-1"></a>           <span class="at">position =</span> <span class="st">"fill"</span>) <span class="sc">+</span> <span class="do">## https://stackoverflow.com/questions/46984296/proportion-with-ggplot-geom-bar</span></span>
-<span id="cb38-103"><a href="#cb38-103" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>expect_type)</span>
-<span id="cb38-104"><a href="#cb38-104" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-105"><a href="#cb38-105" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-106"><a href="#cb38-106" aria-hidden="true" tabindex="-1"></a><span class="do">## Option 2: Density Plot (Treat as Continuous)</span></span>
-<span id="cb38-107"><a href="#cb38-107" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-108"><a href="#cb38-108" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df_long) <span class="sc">+</span></span>
-<span id="cb38-109"><a href="#cb38-109" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">factor</span>(x4hscompstat),</span>
-<span id="cb38-110"><a href="#cb38-110" aria-hidden="true" tabindex="-1"></a>                   <span class="at">y =</span> expect_value,</span>
-<span id="cb38-111"><a href="#cb38-111" aria-hidden="true" tabindex="-1"></a>                   <span class="at">fill =</span> <span class="fu">factor</span>(expect_type)))</span>
-<span id="cb38-112"><a href="#cb38-112" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-113"><a href="#cb38-113" aria-hidden="true" tabindex="-1"></a><span class="do">## Or...</span></span>
-<span id="cb38-114"><a href="#cb38-114" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-115"><a href="#cb38-115" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df_long) <span class="sc">+</span></span>
-<span id="cb38-116"><a href="#cb38-116" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="fu">aes</span>(<span class="at">x =</span> expect_value,</span>
-<span id="cb38-117"><a href="#cb38-117" aria-hidden="true" tabindex="-1"></a>                      <span class="at">fill =</span> <span class="fu">factor</span>(expect_type)),</span>
-<span id="cb38-118"><a href="#cb38-118" aria-hidden="true" tabindex="-1"></a>               <span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
-<span id="cb38-119"><a href="#cb38-119" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>x4hscompstat)</span>
-<span id="cb38-120"><a href="#cb38-120" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-121"><a href="#cb38-121" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-122"><a href="#cb38-122" aria-hidden="true" tabindex="-1"></a><span class="do">## Option 3: Wrangle the Data First</span></span>
-<span id="cb38-123"><a href="#cb38-123" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-124"><a href="#cb38-124" aria-hidden="true" tabindex="-1"></a>df_sum <span class="ot">&lt;-</span> df_long <span class="sc">|&gt;</span></span>
-<span id="cb38-125"><a href="#cb38-125" aria-hidden="true" tabindex="-1"></a>  <span class="do">## Make a new variable if expectation is bachelors or above</span></span>
-<span id="cb38-126"><a href="#cb38-126" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">bach_plus =</span> <span class="fu">ifelse</span>(expect_value <span class="sc">&gt;=</span> <span class="dv">6</span>, <span class="dv">1</span>, <span class="dv">0</span>)) <span class="sc">|&gt;</span></span>
-<span id="cb38-127"><a href="#cb38-127" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(x4hscompstat, expect_type) <span class="sc">|&gt;</span></span>
-<span id="cb38-128"><a href="#cb38-128" aria-hidden="true" tabindex="-1"></a>  <span class="do">## Get the count of each value grouped by completion status and expect_type</span></span>
-<span id="cb38-129"><a href="#cb38-129" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(bach_plus)</span>
-<span id="cb38-130"><a href="#cb38-130" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-131"><a href="#cb38-131" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df_sum) <span class="sc">+</span></span>
-<span id="cb38-132"><a href="#cb38-132" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="fu">aes</span>(<span class="at">x =</span> expect_type,</span>
-<span id="cb38-133"><a href="#cb38-133" aria-hidden="true" tabindex="-1"></a>               <span class="at">y =</span> n,</span>
-<span id="cb38-134"><a href="#cb38-134" aria-hidden="true" tabindex="-1"></a>               <span class="at">fill =</span> <span class="fu">factor</span>(bach_plus)),</span>
-<span id="cb38-135"><a href="#cb38-135" aria-hidden="true" tabindex="-1"></a>           <span class="at">position =</span> <span class="st">"fill"</span>, <span class="do">## https://stackoverflow.com/questions/46984296/proportion-with-ggplot-geom-bar</span></span>
-<span id="cb38-136"><a href="#cb38-136" aria-hidden="true" tabindex="-1"></a>           <span class="at">alpha =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
-<span id="cb38-137"><a href="#cb38-137" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>x4hscompstat)</span>
-<span id="cb38-138"><a href="#cb38-138" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-139"><a href="#cb38-139" aria-hidden="true" tabindex="-1"></a><span class="do">## ---------------------------</span></span>
-<span id="cb38-140"><a href="#cb38-140" aria-hidden="true" tabindex="-1"></a><span class="do">##' [Q3]</span></span>
-<span id="cb38-141"><a href="#cb38-141" aria-hidden="true" tabindex="-1"></a><span class="do">## ---------------------------</span></span>
-<span id="cb38-142"><a href="#cb38-142" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-143"><a href="#cb38-143" aria-hidden="true" tabindex="-1"></a><span class="do">## Option One: Scatter Plot with Line</span></span>
-<span id="cb38-144"><a href="#cb38-144" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-145"><a href="#cb38-145" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df,</span>
-<span id="cb38-146"><a href="#cb38-146" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x =</span> x1ses,</span>
-<span id="cb38-147"><a href="#cb38-147" aria-hidden="true" tabindex="-1"></a>           <span class="at">y =</span> x1txmtscor)) <span class="sc">+</span></span>
-<span id="cb38-148"><a href="#cb38-148" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="fl">0.1</span>) <span class="sc">+</span> <span class="do">##'[Using size is a better way to avoid the blob effect]</span></span>
-<span id="cb38-149"><a href="#cb38-149" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>)</span>
-<span id="cb38-150"><a href="#cb38-150" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-151"><a href="#cb38-151" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-152"><a href="#cb38-152" aria-hidden="true" tabindex="-1"></a><span class="do">## Option Two: Heatmap with Line</span></span>
-<span id="cb38-153"><a href="#cb38-153" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-154"><a href="#cb38-154" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df,</span>
-<span id="cb38-155"><a href="#cb38-155" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x =</span> x1ses,</span>
-<span id="cb38-156"><a href="#cb38-156" aria-hidden="true" tabindex="-1"></a>           <span class="at">y =</span> x1txmtscor)) <span class="sc">+</span></span>
-<span id="cb38-157"><a href="#cb38-157" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bin_2d</span>() <span class="sc">+</span></span>
-<span id="cb38-158"><a href="#cb38-158" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>) <span class="sc">+</span></span>
-<span id="cb38-159"><a href="#cb38-159" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_gradient</span>(<span class="at">high =</span> <span class="st">"navy"</span>, <span class="at">low =</span> <span class="st">"skyblue"</span>)</span>
-<span id="cb38-160"><a href="#cb38-160" aria-hidden="true" tabindex="-1"></a><span class="do">## This also gets close to falling in the trap of "looking cool for the sake of it"</span></span>
-<span id="cb38-161"><a href="#cb38-161" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-162"><a href="#cb38-162" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-163"><a href="#cb38-163" aria-hidden="true" tabindex="-1"></a><span class="do">## Option Three: Use a Categorical SES Indicator</span></span>
-<span id="cb38-164"><a href="#cb38-164" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-165"><a href="#cb38-165" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df) <span class="sc">+</span></span>
-<span id="cb38-166"><a href="#cb38-166" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">factor</span>(x1poverty185),</span>
-<span id="cb38-167"><a href="#cb38-167" aria-hidden="true" tabindex="-1"></a>                   <span class="at">fill =</span> <span class="fu">factor</span>(x1poverty185),</span>
-<span id="cb38-168"><a href="#cb38-168" aria-hidden="true" tabindex="-1"></a>                   <span class="at">y =</span> x1txmtscor))</span>
-<span id="cb38-169"><a href="#cb38-169" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-170"><a href="#cb38-170" aria-hidden="true" tabindex="-1"></a><span class="do">## Or...</span></span>
-<span id="cb38-171"><a href="#cb38-171" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-172"><a href="#cb38-172" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df) <span class="sc">+</span></span>
-<span id="cb38-173"><a href="#cb38-173" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="fu">aes</span>(<span class="at">x =</span> x1txmtscor,</span>
-<span id="cb38-174"><a href="#cb38-174" aria-hidden="true" tabindex="-1"></a>                  <span class="at">y =</span> <span class="fu">factor</span>(x1poverty185),</span>
-<span id="cb38-175"><a href="#cb38-175" aria-hidden="true" tabindex="-1"></a>                  <span class="at">color =</span> <span class="fu">factor</span>(x1poverty185)),</span>
-<span id="cb38-176"><a href="#cb38-176" aria-hidden="true" tabindex="-1"></a>              <span class="at">size =</span> <span class="fl">0.5</span>,</span>
-<span id="cb38-177"><a href="#cb38-177" aria-hidden="true" tabindex="-1"></a>              <span class="at">alpha =</span> <span class="fl">0.5</span>)</span>
-<span id="cb38-178"><a href="#cb38-178" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-179"><a href="#cb38-179" aria-hidden="true" tabindex="-1"></a><span class="do">## -----------------------------------------------------------------------------</span></span>
-<span id="cb38-180"><a href="#cb38-180" aria-hidden="true" tabindex="-1"></a><span class="do">##' *</span><span class="re">END</span><span class="do"> SCRIPT*</span></span>
-<span id="cb38-181"><a href="#cb38-181" aria-hidden="true" tabindex="-1"></a><span class="do">## -----------------------------------------------------------------------------</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
+<section id="question-two" class="level2">
+<h2 data-anchor-id="question-two">Question Two</h2>
+<p><strong>a)</strong> How do educational expectations (of both students and parents) differ by high school completion status?</p>
+<blockquote class="blockquote">
+<p>Hint: You will want to borrow some code from last week’s assignment here</p>
+</blockquote>
+</section>
+<section id="question-three" class="level2">
+<h2 data-anchor-id="question-three">Question Three</h2>
+<p><strong>a)</strong> What is the relationship between student socioeconomic status and math test score?</p>
+<!--
+Once complete, turn in the .qmd file (must render successfully) to Canvas by Tuesday 12:00pm following the lesson.
+Assignments will be graded before next lesson on Wednesday in line with the grading policy outlined in the syllabus.
+-->
+</section>
+<section id="submission" class="level2">
+<h2 data-anchor-id="submission">Submission</h2>
+<p>Once complete turn in the .qmd file (<strong>it must render/run</strong>) to Canvas by the due date (usually <strong>Tuesday 12:00pm following the lesson</strong>). Assignments will be graded before next lesson on Wednesday in line with the grading policy outlined in the syllabus.</p>
 </section>
 </div>
 </div>
@@ -1653,18 +1469,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const clipboard = new window.ClipboardJS('.code-copy-button', {
-    text: function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-    }
-  });
-  clipboard.on('success', function(e) {
+  const onCopySuccess = function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -1696,7 +1501,29 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
   });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
       var filterRegex = new RegExp("https:\/\/capaldi\.info\/7916");
@@ -1704,7 +1531,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }
     // Inspect non-navigation links and adorn them if external
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
     for (var i=0; i<links.length; i++) {
       const link = links[i];
       if (!isInternal(link.href)) {

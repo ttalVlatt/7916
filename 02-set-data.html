@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.553">
+<meta name="generator" content="quarto-1.6.29">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>EDH 7916 - II: Reading Data &amp; IPEDS</title>
+<title>II: Reading Data &amp; IPEDS – EDH 7916</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -33,7 +33,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -69,10 +69,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-29a703985b9506ee1f3285ce059650bf.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-329a8742cc536dc1b7a94a813afad969.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/quarto-contrib/fontawesome6-0.1.0/all.css" rel="stylesheet">
+<link href="site_libs/quarto-contrib/fontawesome6-0.1.0/latex-fontsize.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -103,12 +105,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 <link rel="stylesheet" href="site-attachments/styles.css">
-<meta property="og:title" content="EDH 7916 - II: Reading Data &amp; IPEDS">
+<meta property="og:title" content="II: Reading Data &amp; IPEDS – EDH 7916">
 <meta property="og:image" content="https://capaldi.info/7916/apple-touch-icon.png">
 <meta property="og:site_name" content="EDH 7916">
 <meta property="og:image:height" content="180">
 <meta property="og:image:width" content="180">
-<meta name="twitter:title" content="EDH 7916 - II: Reading Data &amp; IPEDS">
+<meta name="twitter:title" content="II: Reading Data &amp; IPEDS – EDH 7916">
 <meta name="twitter:image" content="https://capaldi.info/7916/apple-touch-icon.png">
 <meta name="twitter:image-height" content="180">
 <meta name="twitter:image-width" content="180">
@@ -121,13 +123,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
         <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./01-set-install.html">Getting Started</a></li><li class="breadcrumb-item"><a href="./02-set-data.html">II: Reading Data &amp; IPEDS</a></li></ol></nav>
-        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
-      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
         <i class="bi bi-search"></i>
       </button>
     </div>
@@ -157,15 +159,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./syllabus.html" class="sidebar-item-text sidebar-link">
+  <a href="./syllabus.pdf" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Syllabus</span></a>
   </div>
 </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
  <span class="menu-text">Getting Started</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
@@ -186,9 +188,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="false">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false">
  <span class="menu-text">Data Wrangling</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="false" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
@@ -214,16 +216,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./09-wrangle-iv.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">IV: Tidyverse Tricks &amp; SQL</span></a>
+ <span class="menu-text">IV: Advanced `tidyverse` &amp; Data Retrieval</span></a>
   </div>
 </li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="false">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false">
  <span class="menu-text">Data Visualization</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="false" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
@@ -248,23 +250,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
       </ul>
   </li>
-        <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="false">
- <span class="menu-text">Quarto</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="false" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 ">  
-          <li class="sidebar-item">
+        <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./07-quarto-intro.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Reproducable Reports with Quarto</span></a>
+ <span class="menu-text">Reproducible Reports with Quarto</span></a>
   </div>
 </li>
-      </ul>
-  </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./11-pro-functions.html" class="sidebar-item-text sidebar-link">
@@ -285,13 +276,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="false">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false">
  <span class="menu-text">Extra Credit</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="false" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 ">  
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./x-01-git.html" class="sidebar-item-text sidebar-link">
@@ -351,9 +342,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="tab-content">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
 <ul>
-<li>Now we have shown why Excel can be a problem, in this shorter lesson, we’ll discuss how to set up a project directory and read in some data from IPEDS
+<li>Today, we’ll discuss how to set up a project directory, read in some data from IPEDS, and set up GitHub Copilot.
 <ul>
-<li>Note: There is no “incorrect” way of doing this (as long as it works), however, the principles we use in this lesson will help you avoid issues in the future</li>
+<li>Note: There is no “incorrect” way of organizing (as long as it works), however, the principles we use in this lesson will help you avoid issues in the future</li>
 </ul></li>
 </ul>
 <section id="organizing-a-project-folder" class="level2">
@@ -388,6 +379,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>In here, you will see
 <ul>
 <li>An <code>.R</code> script template</li>
+<li>A Quarto <code>.qmd</code> template</li>
 <li>A set of numbered <code>.R</code> scripts (these are our lesson scripts)</li>
 <li>A data folder</li>
 <li>A reproducible-report folder (with it’s own data sub-folder)</li>
@@ -396,7 +388,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul></li>
 <li><p>Download and save this folder wherever you usually keep class folders</p>
 <ul>
-<li>I personally use my Desktop, but you can use your Documents folder etc. if you wish</li>
+<li>Here we use Desktop, but you can use your Documents folder etc. if you wish</li>
 <li>You can rename the folder if you’d like (but please don’t rename the internal folders)
 <ul>
 <li>See naming guidelines below on how best to name files</li>
@@ -433,7 +425,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul></li>
 <li><p>Script numbering</p>
 <ul>
-<li>I am personally a big fan of <a href="http://adv-r.had.co.nz/Style.html">Hadley Wickham (the founder of RStudio)’s script numbering</a>
+<li>Following <a href="http://adv-r.had.co.nz/Style.html">Hadley Wickham (the founder of RStudio)’s script numbering</a>
 <ul>
 <li>Basically start all your script names with the number that they should be run in
 <ul>
@@ -441,31 +433,25 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><code>02-data-cleaning</code></li>
 <li><code>03-data-analysis</code></li>
 </ul></li>
-<li>I think this is especially helpful if you’re keeping scripts in the top level of the project directory to keep things organized</li>
+<li>This can be especially helpful if you’re keeping scripts in the top level of the project directory to keep things organized</li>
 </ul></li>
 </ul></li>
-<li><p>Generally, a good programming tip is to avoid spaces at all costs, use dashes or underscores instead</p>
-<ul>
-<li>I prefer dashes as they format better on macs, so you will see all the files I give you will have dashes</li>
-</ul></li>
+<li><p>Generally, a good programming tip is to avoid spaces at all costs, use dashes or underscores instead</p></li>
 <li><p>It’s also good to be consistent with capitalization, most traditional programmers will avoid it completely, but if you do it, do it consistently throughout that project</p>
 <ul>
-<li>I used no capitalization through this class, but I often will use title case for aesthetic reasons in other situations
+<li>We used no capitalization through this class
 <ul>
-<li>Whatever you do, never (ever, ever) have different versions of files with the same name but different capitalization
-<ul>
-<li>Most modern computers won’t let you have both at the same time, but even changing it can cause problems with case sensitive systems like git (I found this out the hard way…)</li>
-</ul></li>
+<li>Whatever you do, never (ever, ever) have different versions of files with the same name but different capitalization</li>
 </ul></li>
 </ul></li>
 <li><p>Lastly, try to keep files names as short as possible</p>
 <ul>
 <li>Later on we will be be in situations where we have to type out file names, so if you go too long, it can become frustrating</li>
 </ul></li>
-<li><p>You may think the names of your class scripts are a little odd, so let me explain those as an example</p>
+<li><p>How do we understand the names of our class scripts?</p>
 <ol type="1">
 <li><a href="http://adv-r.had.co.nz/Style.html">Hadley Wickham’s script numbering</a> corresponding to the order of the lessons</li>
-<li><code>set</code>, <code>wrangle</code>, <code>viz</code>, <code>quarto</code>, or <code>pro</code> indicate which group of lessons it belongs to (it helps me automatically create the groups on the website sidebar)</li>
+<li><code>set</code>, <code>wrangle</code>, <code>viz</code>, <code>quarto</code>, or <code>pro</code> indicate which group of lessons it belongs to</li>
 <li>Anything else is just descriptive, roman numerals for the lesson series, or a descriptive word</li>
 </ol></li>
 <li><p>With our class folder now set up, it’s time to go over some other key organization principles</p></li>
@@ -490,8 +476,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <ul>
 <li>For instance, if you forget to open a project, RStudio will often the leave working directory as your root folder
 <ul>
-<li>You can see the currently working directory path next to the little R icon and version at the top of your console panel</li>
-<li>If it’s wrong, there are a few ways to change it
+<li><p>You can see the currently working directory path next to the little R icon and version at the top of your console panel</p></li>
+<li><p>If it’s wrong, there are a few ways to change it</p>
 <ol type="1">
 <li>Find “session” on the top drop-down menu</li>
 </ol>
@@ -536,7 +522,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
 </section>
 <section id="file-paths" class="level3">
-<h3 data-anchor-id="file-paths">File Paths</h3>
+<h3>File Paths</h3>
 <ul>
 <li>When we are working with R, we (most of the time) need to bring in other items, such as data
 <ul>
@@ -546,9 +532,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="absolute-paths" class="level4">
 <h4 data-anchor-id="absolute-paths">Absolute Paths</h4>
 <ul>
-<li>Absolute paths are directions to what you’re looking for starting from the root of your computer, and list out exactly where a file is. For example, as I’m writing this lesson, the absolute path of this Quarto script is</li>
+<li>Absolute paths are directions to what you’re looking for starting from the root of your computer, and list out exactly where a file is. For example, the absolute path of this Quarto script we are now looking is</li>
 </ul>
-<p><code>"/Users/Matt/Desktop/7916/02-set-data.qmd"</code></p>
+<p><code>"/Users/Jue/Desktop/7916/02-set-data.qmd"</code></p>
 <ul>
 <li>This is perfectly fine, assuming two things
 <ol type="1">
@@ -582,20 +568,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
 </section>
 <section id="the-file.path-function" class="level4">
-<h4 data-anchor-id="the-file.path-function">The <code>file.path()</code> Function</h4>
+<h4>The <code>file.path()</code> Function</h4>
 <ul>
-<li>One last thing, you see how file paths are typically written with <code>/</code> or <code>\</code>? (which depends on your computer)
+<li><h2 id="one-last-thing-you-see-how-file-paths-are-typically-written-with-or-which-depends-on-your-computer" data-anchor-id="the-file.path-function">One last thing, you see how file paths are typically written with <code>/</code> or <code>\</code>? (which depends on your computer)</h2>
+<pre><code>## R has a nice function that means we don't have to
+
+```         
+a)  worry about which way around the slash should be
+```
+
+-   
+
+    b)  avoid issues with different computers expecting different slashes</code></pre>
 <ul>
-<li>R has a nice function that means we don’t have to
-<ul>
-<li><ol type="a">
-<li>worry about which way around the slash should be</li>
-</ol></li>
-<li><ol start="2" type="a">
-<li>avoid issues with different computers expecting different slashes</li>
-</ol></li>
-</ul></li>
-<li><code>file.path()</code>
+<li><p><code>file.path()</code></p>
 <ul>
 <li>Inside, we just type the name of each folder/file in “quotes”, turning
 <ul>
@@ -628,11 +614,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="script-template" class="level2">
 <h2 data-anchor-id="script-template">Script Template</h2>
 <ul>
-<li>In our shiny new class folder, you’ll see an <code>r-script-template.R</code> file. This is the template I use in my work, closely based on Dr.&nbsp;Skinner’s R script template (with a little bit of added color).
+<li>In our shiny new class folder, you’ll see an <code>r-script-template.R</code> file (thanks to Matt and Ben)
 <ul>
 <li>This a resource for you to use for assignments and other work, feel free to change it to suit your needs
 <ul>
-<li>Generally I just “Save As” the template everytime I make a new script</li>
+<li>Generally you can just “Save As” the template everytime you make a new script</li>
 </ul></li>
 </ul></li>
 <li>The script header block is a useful way to keep more info than a file name can</li>
@@ -658,6 +644,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul></li>
 </ul></li>
 </ul>
+<section id="quarto-template" class="level3">
+<h3 data-anchor-id="quarto-template">Quarto Template</h3>
+<ul>
+<li>You should also see an <code>quarto-template.qmd</code> file in your folder
+<ul>
+<li>This is a template for your Quarto files, which you will use for your assignment and final project. We will go through Quarto in more detail in a few weeks, but for now you only need to know that you can write text along with codes in Quarto, and that you will render it to a PDF file for your assignment submission.</li>
+</ul></li>
+</ul>
+</section>
 </section>
 <section id="reading-in-data" class="level2">
 <h2 data-anchor-id="reading-in-data">Reading in Data</h2>
@@ -684,12 +679,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
 ✔ dplyr     1.1.4     ✔ readr     2.1.5
 ✔ forcats   1.0.0     ✔ stringr   1.5.1
-✔ ggplot2   3.5.0     ✔ tibble    3.2.1
+✔ ggplot2   3.5.1     ✔ tibble    3.2.1
 ✔ lubridate 1.9.3     ✔ tidyr     1.3.1
 ✔ purrr     1.0.2     
 ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
@@ -697,7 +692,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 ✖ dplyr::lag()    masks stats::lag()
 ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>df_ipeds <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="fu">file.path</span>(<span class="st">"data"</span>, <span class="st">"hd2007.csv"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>df_ipeds <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="fu">file.path</span>(<span class="st">"data"</span>, <span class="st">"hd2007.csv"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Rows: 7052 Columns: 59
 ── Column specification ────────────────────────────────────────────────────────
@@ -745,6 +740,30 @@ dbl (43): UNITID, FIPS, OBEREG, GENTELE, OPEFLAG, SECTOR, ICLEVEL, CONTROL, ...
 <li>For IPEDS, the code book is called the dictionary, and is always an Excel file (<code>.xlsx</code>). Other data sources will look different but the general principle will be the same</li>
 </ul></li>
 </ul>
+</section>
+</section>
+<section id="setting-up-github-copilot" class="level2">
+<h2 data-anchor-id="setting-up-github-copilot">Setting up GitHub Copilot</h2>
+<p>One major change of the course this year is the introduction of GitHub Copilot.</p>
+<section id="what-is-github-copilot" class="level3">
+<h3 data-anchor-id="what-is-github-copilot">What is GitHub Copilot?</h3>
+<p>GitHub Copilot is an AI-powered coding assistant that helps write code faster by offering suggestions, autocompleting code, or generating code snippets based on comments or existing code. This is a tool that can be very helpful, but also can be a crutch if not used correctly. We will go over how to set it up and some best practices for using it.</p>
+</section>
+<section id="how-to-set-up-github-copilot" class="level3">
+<h3 data-anchor-id="how-to-set-up-github-copilot">How to set up GitHub Copilot?</h3>
+<ul>
+<li><p>First, you will need a GitHub account. If you don’t have one, you can sign up one. Feel free to sign up for <a href="https://education.github.com/pack">GitHub Student Developer Pack</a> as a student.</p></li>
+<li><p>Next, you will need to enable GitHub Copilot from the <a href="https://github.com/features/copilot">Copilot page</a>.</p></li>
+<li><p>Then, enable GitHub Copilot Plugin for RStudio.</p>
+<ul>
+<li>On your top menu bar, go to Tools &gt; Global Options &gt; Copilot, and enable it</li>
+<li>You will be prompted to sign in to your GitHub account and authorize GitHub Copilot to use your account</li>
+</ul></li>
+</ul>
+</section>
+<section id="using-github-copilot-for-your-projects" class="level3">
+<h3 data-anchor-id="using-github-copilot-for-your-projects">Using GitHub Copilot for your projects</h3>
+<p>If you do use GitHub Copilot to help with your codes, please keep your prompts in your comment line and acknowledge with a <code>## h/t</code></p>
 </section>
 </section>
 <section id="other-common-data-sources-for-higher-education-research" class="level2">
@@ -805,29 +824,48 @@ dbl (43): UNITID, FIPS, OBEREG, GENTELE, OPEFLAG, SECTOR, ICLEVEL, CONTROL, ...
 </section>
 </div>
 <div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
-<ol type="1">
-<li>Create a new R script in the top level of the project directory (use the template provided if you’d like)</li>
-</ol>
+<p><a href="./site-attachments/assignments/assignment-02.qmd"><i class="fa-solid fa-question" aria-label="question"></i> Assignment Template</a></p>
+<p>Use the <code>hsls_small.csv</code> data set from the lesson answer the following questions</p>
 <ul>
-<li>Note: to keep my grading time reasonable, <em>please</em> <ins>keep your scripts in the top-level of your class folder</ins>, that way everyone is using the working directory and file paths</li>
-<li>To keep things organized, I’d suggest naming it something like
-<ul>
-<li><code>assignment-01.R</code> or <code>a-02-set-data.R</code>
-<ul>
-<li>If you use the lesson name, I suggest adding the <code>a-</code> just to keep your assignments grouped separately</li>
-</ul></li>
-</ul></li>
+<li>Throughout, you <strong>should</strong> account for missing values by dropping them</li>
 </ul>
-<ol start="2" type="1">
-<li>Take the Excel file from Melvin’s section of the lesson, save it to your <code>data</code> folder, and read it in to R, assigning it an object (just like we did in class)</li>
-</ol>
+<blockquote class="blockquote">
+<p>Hint: You’re going to need the <a href="https://nces.ed.gov/datalab/onlinecodebook">code book</a> to identify the necessary variables</p>
+</blockquote>
+<section id="question-one" class="level2">
+<h2 data-anchor-id="question-one">Question One</h2>
+<p><strong>a)</strong> What is the average (mean) standardized math score?</p>
+<p><strong>b)</strong> How does this differ by gender?</p>
+</section>
+<section id="question-two" class="level2">
+<h2 data-anchor-id="question-two">Question Two</h2>
+<p><strong>a)</strong> Among those students who are under 185% of the federal poverty line in the base year of the survey, what is the median household income category? (Include a description what that category represents)</p>
+</section>
+<section id="question-three" class="level2">
+<h2 data-anchor-id="question-three">Question Three</h2>
+<p><strong>a)</strong> Of the students who earned a high school credential (traditional diploma or GED), what percentage earned a GED or equivalency?</p>
+<p><strong>b)</strong> How does this differ by region?</p>
+</section>
+<section id="question-four" class="level2">
+<h2 data-anchor-id="question-four">Question Four</h2>
+<p><strong>a)</strong> What percentage of students ever attended a post-secondary institution? (as of the data collection in february 2016)</p>
+<p><strong>b)</strong> Give the cross tabulation for both family incomes above/below $35,000 and region<br>
+</p>
 <ul>
-<li>Hint: you’ll need a new package to read Excel files, between Google and asking your friends, you should be able to figure it out</li>
+<li>This means you should have percentages for 8 groups: above/below $35,000 within each region</li>
 </ul>
-<ol start="3" type="1">
-<li>Pick any single data file from IPEDS that peaks your interest, download it, save it to your <code>data</code> folder, and read it in to R, assigning it to an object (again, just like we did in class)</li>
-</ol>
-<p>Once complete, turn in the .R script (no data etc.) to Canvas by the due date (Sunday 11:59pm following the lesson). Assignments will be graded on the following Monday (time permitting) in line with the grading policy outlined in the syllabus.</p>
+<blockquote class="blockquote">
+<p>Hint: <code>group_by()</code> can be given more than one group</p>
+</blockquote>
+<!--
+Once complete, turn in the .qmd file (must render successfully) to Canvas by Tuesday 12:00pm following the lesson.
+Assignments will be graded before next lesson on Wednesday in line with the grading policy outlined in the syllabus.
+-->
+</section>
+<section id="submission" class="level2">
+<h2 data-anchor-id="submission">Submission</h2>
+<p>Once complete turn in the .qmd file (<strong>it must render/run</strong>) to Canvas by the due date (usually <strong>Tuesday 12:00pm following the lesson</strong>). Assignments will be graded before next lesson on Wednesday in line with the grading policy outlined in the syllabus.</p>
+</section>
 </div>
 </div>
 </div>
@@ -863,18 +901,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const clipboard = new window.ClipboardJS('.code-copy-button', {
-    text: function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-    }
-  });
-  clipboard.on('success', function(e) {
+  const onCopySuccess = function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -906,7 +933,29 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
   });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
       var filterRegex = new RegExp("https:\/\/capaldi\.info\/7916");
@@ -914,7 +963,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }
     // Inspect non-navigation links and adorn them if external
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
     for (var i=0; i<links.length; i++) {
       const link = links[i];
       if (!isInternal(link.href)) {

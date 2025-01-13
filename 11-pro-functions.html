@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.553">
+<meta name="generator" content="quarto-1.6.29">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>EDH 7916 - I: Functions &amp; Loops</title>
+<title>Functions &amp; Loops – EDH 7916</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -33,7 +33,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -69,10 +69,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-29a703985b9506ee1f3285ce059650bf.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-329a8742cc536dc1b7a94a813afad969.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <link href="site_libs/quarto-contrib/fontawesome6-0.1.0/all.css" rel="stylesheet">
 <link href="site_libs/quarto-contrib/fontawesome6-0.1.0/latex-fontsize.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
@@ -105,12 +105,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 <link rel="stylesheet" href="site-attachments/styles.css">
-<meta property="og:title" content="EDH 7916 - I: Functions &amp; Loops">
+<meta property="og:title" content="Functions &amp; Loops – EDH 7916">
 <meta property="og:image" content="https://capaldi.info/7916/apple-touch-icon.png">
 <meta property="og:site_name" content="EDH 7916">
 <meta property="og:image:height" content="180">
 <meta property="og:image:width" content="180">
-<meta name="twitter:title" content="EDH 7916 - I: Functions &amp; Loops">
+<meta name="twitter:title" content="Functions &amp; Loops – EDH 7916">
 <meta name="twitter:image" content="https://capaldi.info/7916/apple-touch-icon.png">
 <meta name="twitter:image-height" content="180">
 <meta name="twitter:image-width" content="180">
@@ -123,13 +123,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
         <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./11-pro-functions.html">Functions &amp; Loops</a></li></ol></nav>
-        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
-      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
         <i class="bi bi-search"></i>
       </button>
     </div>
@@ -159,15 +159,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./syllabus.html" class="sidebar-item-text sidebar-link">
+  <a href="./syllabus.pdf" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Syllabus</span></a>
   </div>
 </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="false">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false">
  <span class="menu-text">Getting Started</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="false" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
@@ -188,9 +188,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="false">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false">
  <span class="menu-text">Data Wrangling</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="false" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
@@ -216,16 +216,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./09-wrangle-iv.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">IV: Tidyverse Tricks &amp; SQL</span></a>
+ <span class="menu-text">IV: Advanced `tidyverse` &amp; Data Retrieval</span></a>
   </div>
 </li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="false">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false">
  <span class="menu-text">Data Visualization</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="false" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
@@ -250,23 +250,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
       </ul>
   </li>
-        <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="false">
- <span class="menu-text">Quarto</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="false" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 ">  
-          <li class="sidebar-item">
+        <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./07-quarto-intro.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Reproducable Reports with Quarto</span></a>
+ <span class="menu-text">Reproducible Reports with Quarto</span></a>
   </div>
 </li>
-      </ul>
-  </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./11-pro-functions.html" class="sidebar-item-text sidebar-link active">
@@ -287,13 +276,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="false">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false">
  <span class="menu-text">Extra Credit</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="false" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 ">  
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./x-01-git.html" class="sidebar-item-text sidebar-link">
@@ -331,7 +320,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">I: Functions &amp; Loops</h1>
+<h1 class="title">Functions &amp; Loops</h1>
 </div>
 
 
@@ -964,167 +953,41 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 </div>
 <div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
-<ol type="1">
-<li><p>Using a <code>for()</code> loop, do the following:</p>
-<ul>
-<li><p>Read in each of the individual school test files for Bend Gate and Niagara only.</p>
+<p><a href="./site-attachments/assignments/assignment-08.qmd"><i class="fa-solid fa-question" aria-label="question"></i> Assignment Template</a></p>
+<section id="question-one" class="level2">
+<h2 data-anchor-id="question-one">Question One</h2>
+<p><strong>a)</strong> Using a <code>for()</code> loop, read in the school test files from <code>data/sch-test/by-school/</code>.</p>
+<p><strong>b)</strong> Do the same, but, only for Bend Gate and Niagara</p>
 <blockquote class="blockquote">
-<p><strong>HINT</strong> The vertical pipe operator, <code>|</code>, means <strong>OR</strong> in regular expression patterns</p>
-</blockquote></li>
-<li><p>Add some code to the loop which adds a column to the data frame that is called <code>relative_path</code> and contains the string relative path to the data file you just read in</p>
-<ul>
-<li>e.g., there should be a new variable in the data frame which says where each row comes from</li>
-</ul></li>
-<li><p>Bind all the data sets together</p></li>
-</ul></li>
-<li><p>Read in <code>hsls-small.dta</code></p></li>
-<li><p>Write your own function that</p>
-<ul>
-<li><p>Takes a <code>stu_id</code> as the input</p></li>
-<li><p><code>paste()</code>s back a sentence which says <code>if()</code> they ever attended college <code>else()</code> whether their parent expected them to go to college</p>
-<ul>
-<li><p>If a student went to college it should return something like “this student went to college”</p></li>
-<li><p>If they didn’t, it should return something like “this student did not go to college, their students did/did not expect them to”</p></li>
-</ul></li>
-<li><p>Optional: <code>if()</code> the student went to college, add a second sentence that says how many months they had between high school and going to college</p></li>
-<li><p>Super-Optional: Following from that, edit the second sentence to include how that student’s delay compares to the average delay (you can pick, mean or median)</p></li>
-</ul></li>
+<p>Hint: Looking inside the <code>list.files()</code> help file for somewhere you might use some regex</p>
+</blockquote>
+<p><strong>c)</strong> Do it one more time, but include some code that add a column called <code>file_path</code> which contains the location where each row’s information is coming from</p>
+<p><strong>d)</strong> Bind the data sets from part <strong>c)</strong> together</p>
+</section>
+<section id="question-two" class="level2">
+<h2 data-anchor-id="question-two">Question Two</h2>
+<p><strong>a)</strong> Read in <code>hsls-small.dta</code></p>
+<p><strong>b)</strong> Write a function that</p>
+<ol type="1">
+<li>Takes a <code>stu_id</code> as the input</li>
+<li><code>paste()</code>s back a sentence which says <code>if()</code> they ever attended college <code>else()</code> whether their parent expected them to go to college</li>
 </ol>
-<p>Once complete, turn in the .R script (no data etc.) to Canvas by the due date (Sunday 11:59pm following the lesson). Assignments will be graded on the following Monday (time permitting) in line with the grading policy outlined in the syllabus.</p>
-<section id="solution" class="level2">
-<h2 data-anchor-id="solution">Solution</h2>
-<p><a href="site-attachments/solutions/programming-i-solution.R"><i class="fa-solid fa-code" aria-label="code"></i> R Solution Code</a></p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="do">## -----------------------------------------------------------------------------</span></span>
-<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a><span class="do">##</span></span>
-<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a><span class="do">##' [PROJ: EDH 7916]</span></span>
-<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a><span class="do">##' [FILE: Functions &amp; Loops Solution]</span></span>
-<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a><span class="do">##' [INIT: March 18 2024]</span></span>
-<span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a><span class="do">##' [AUTH: Matt Capaldi] @ttalVlatt</span></span>
-<span id="cb45-7"><a href="#cb45-7" aria-hidden="true" tabindex="-1"></a><span class="do">##</span></span>
-<span id="cb45-8"><a href="#cb45-8" aria-hidden="true" tabindex="-1"></a><span class="do">## -----------------------------------------------------------------------------</span></span>
-<span id="cb45-9"><a href="#cb45-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-10"><a href="#cb45-10" aria-hidden="true" tabindex="-1"></a><span class="fu">setwd</span>(this.path<span class="sc">::</span><span class="fu">here</span>())</span>
-<span id="cb45-11"><a href="#cb45-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-12"><a href="#cb45-12" aria-hidden="true" tabindex="-1"></a><span class="do">## ---------------------------</span></span>
-<span id="cb45-13"><a href="#cb45-13" aria-hidden="true" tabindex="-1"></a><span class="do">##' [Libraries]</span></span>
-<span id="cb45-14"><a href="#cb45-14" aria-hidden="true" tabindex="-1"></a><span class="do">## ---------------------------</span></span>
-<span id="cb45-15"><a href="#cb45-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-16"><a href="#cb45-16" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb45-17"><a href="#cb45-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-18"><a href="#cb45-18" aria-hidden="true" tabindex="-1"></a><span class="do">## ---------------------------</span></span>
-<span id="cb45-19"><a href="#cb45-19" aria-hidden="true" tabindex="-1"></a><span class="do">##' [Q1]</span></span>
-<span id="cb45-20"><a href="#cb45-20" aria-hidden="true" tabindex="-1"></a><span class="do">## ---------------------------</span></span>
-<span id="cb45-21"><a href="#cb45-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-22"><a href="#cb45-22" aria-hidden="true" tabindex="-1"></a>files_to_read <span class="ot">&lt;-</span> <span class="fu">list.files</span>(<span class="st">"data/sch-test/by-school"</span>, <span class="co"># look in this folder</span></span>
-<span id="cb45-23"><a href="#cb45-23" aria-hidden="true" tabindex="-1"></a>                            <span class="at">full.names =</span> <span class="cn">TRUE</span>, <span class="co"># we want to keep the full path, not just the file names</span></span>
-<span id="cb45-24"><a href="#cb45-24" aria-hidden="true" tabindex="-1"></a>                            <span class="at">pattern =</span> <span class="st">"bend|niagara"</span>) <span class="co"># only list files that contain either "bend" or "niagara" </span></span>
-<span id="cb45-25"><a href="#cb45-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-26"><a href="#cb45-26" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">tibble</span>() <span class="co"># create a blank tibble to store out data in</span></span>
-<span id="cb45-27"><a href="#cb45-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-28"><a href="#cb45-28" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> files_to_read) { <span class="co"># each loop through i becomes an item from the list of file path we created above)</span></span>
-<span id="cb45-29"><a href="#cb45-29" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb45-30"><a href="#cb45-30" aria-hidden="true" tabindex="-1"></a>  temp_data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(i) <span class="sc">|&gt;</span> <span class="co"># read in the file i </span></span>
-<span id="cb45-31"><a href="#cb45-31" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">relative_path =</span> i) <span class="co"># make a new variable relative_path that stores i (remember i is the path to the file, not the file itself)</span></span>
-<span id="cb45-32"><a href="#cb45-32" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb45-33"><a href="#cb45-33" aria-hidden="true" tabindex="-1"></a>  data <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(data, temp_data) <span class="co"># bind data and the temp_data we just read in</span></span>
-<span id="cb45-34"><a href="#cb45-34" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-35"><a href="#cb45-35" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb45-36"><a href="#cb45-36" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-37"><a href="#cb45-37" aria-hidden="true" tabindex="-1"></a><span class="do">## ---------------------------</span></span>
-<span id="cb45-38"><a href="#cb45-38" aria-hidden="true" tabindex="-1"></a><span class="do">##' [Q2]</span></span>
-<span id="cb45-39"><a href="#cb45-39" aria-hidden="true" tabindex="-1"></a><span class="do">## ---------------------------</span></span>
-<span id="cb45-40"><a href="#cb45-40" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-41"><a href="#cb45-41" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> haven<span class="sc">::</span><span class="fu">read_dta</span>(<span class="st">"data/hsls-small.dta"</span>)</span>
-<span id="cb45-42"><a href="#cb45-42" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-43"><a href="#cb45-43" aria-hidden="true" tabindex="-1"></a><span class="do">## ---------------------------</span></span>
-<span id="cb45-44"><a href="#cb45-44" aria-hidden="true" tabindex="-1"></a><span class="do">##' [Q3]</span></span>
-<span id="cb45-45"><a href="#cb45-45" aria-hidden="true" tabindex="-1"></a><span class="do">## ---------------------------</span></span>
-<span id="cb45-46"><a href="#cb45-46" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-47"><a href="#cb45-47" aria-hidden="true" tabindex="-1"></a><span class="do">##'[Without the optional part]</span></span>
-<span id="cb45-48"><a href="#cb45-48" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-49"><a href="#cb45-49" aria-hidden="true" tabindex="-1"></a>id <span class="ot">&lt;-</span> <span class="dv">10007</span> <span class="co"># Tip: if you're debugging a function or loop, manually assign something to input values (for a function) or i (for a loop) and then you can test it</span></span>
-<span id="cb45-50"><a href="#cb45-50" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-51"><a href="#cb45-51" aria-hidden="true" tabindex="-1"></a>did_they_go <span class="ot">&lt;-</span> <span class="cf">function</span>(id) {</span>
-<span id="cb45-52"><a href="#cb45-52" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb45-53"><a href="#cb45-53" aria-hidden="true" tabindex="-1"></a>  student <span class="ot">&lt;-</span> df <span class="sc">|&gt;</span> <span class="fu">filter</span>(stu_id <span class="sc">==</span> id) <span class="co"># pull out the student id (so we can directly use the value)</span></span>
-<span id="cb45-54"><a href="#cb45-54" aria-hidden="true" tabindex="-1"></a>  college <span class="ot">&lt;-</span> student <span class="sc">|&gt;</span> <span class="fu">pull</span>(x4evratndclg) <span class="co"># pull out if the student attend college</span></span>
-<span id="cb45-55"><a href="#cb45-55" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb45-56"><a href="#cb45-56" aria-hidden="true" tabindex="-1"></a>  parent <span class="ot">&lt;-</span> student <span class="sc">|&gt;</span> <span class="fu">pull</span>(x1paredexpct) <span class="co"># pull out the parent student expectation</span></span>
-<span id="cb45-57"><a href="#cb45-57" aria-hidden="true" tabindex="-1"></a>  expect <span class="ot">&lt;-</span> <span class="cf">if</span>(<span class="fu">is.na</span>(parent)<span class="sc">|</span>parent <span class="sc">==</span> <span class="dv">11</span>) { <span class="co"># if the parent expectation is either NA or 11</span></span>
-<span id="cb45-58"><a href="#cb45-58" aria-hidden="true" tabindex="-1"></a>    <span class="st">"and we do not know if their parents wanted them to"</span> <span class="co"># assign this text to expect</span></span>
-<span id="cb45-59"><a href="#cb45-59" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> <span class="cf">if</span>(parent <span class="sc">&gt;=</span> <span class="dv">5</span>) { <span class="co"># otherwise if the parent expectation is 5 or above</span></span>
-<span id="cb45-60"><a href="#cb45-60" aria-hidden="true" tabindex="-1"></a>    <span class="st">"and their parents expected them to"</span> <span class="co"># assign this text to expect</span></span>
-<span id="cb45-61"><a href="#cb45-61" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> <span class="cf">if</span>(parent <span class="sc">&lt;</span> <span class="dv">5</span>) { <span class="co"># otherwise if the parent expectation is less than 5</span></span>
-<span id="cb45-62"><a href="#cb45-62" aria-hidden="true" tabindex="-1"></a>    <span class="st">"and their parents did not expect them to"</span> <span class="co"># assign this text to expect</span></span>
-<span id="cb45-63"><a href="#cb45-63" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb45-64"><a href="#cb45-64" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb45-65"><a href="#cb45-65" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span>(<span class="fu">is.na</span>(college)) { <span class="co"># if whether they went to college is missing</span></span>
-<span id="cb45-66"><a href="#cb45-66" aria-hidden="true" tabindex="-1"></a>    <span class="fu">paste</span>(<span class="st">"We do not know if this student went to college"</span>) <span class="co"># print this message</span></span>
-<span id="cb45-67"><a href="#cb45-67" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> <span class="cf">if</span>(college <span class="sc">==</span> <span class="dv">1</span>) { <span class="co"># if they went to college</span></span>
-<span id="cb45-68"><a href="#cb45-68" aria-hidden="true" tabindex="-1"></a>    <span class="fu">paste</span>(<span class="st">"This student went to college"</span>) <span class="co"># paste this message</span></span>
-<span id="cb45-69"><a href="#cb45-69" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> <span class="cf">if</span>(college <span class="sc">==</span> <span class="dv">0</span>) { <span class="co"># if they did not go to college</span></span>
-<span id="cb45-70"><a href="#cb45-70" aria-hidden="true" tabindex="-1"></a>    <span class="fu">paste</span>(<span class="st">"This student never went to college"</span>, expect) <span class="co"># paste this message</span></span>
-<span id="cb45-71"><a href="#cb45-71" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb45-72"><a href="#cb45-72" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb45-73"><a href="#cb45-73" aria-hidden="true" tabindex="-1"></a>} </span>
-<span id="cb45-74"><a href="#cb45-74" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-75"><a href="#cb45-75" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-76"><a href="#cb45-76" aria-hidden="true" tabindex="-1"></a><span class="do">## Test it using a for loop</span></span>
-<span id="cb45-77"><a href="#cb45-77" aria-hidden="true" tabindex="-1"></a>test_ids <span class="ot">&lt;-</span> df <span class="sc">|&gt;</span> <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">50</span>) <span class="sc">|&gt;</span> <span class="fu">pull</span>(stu_id)</span>
-<span id="cb45-78"><a href="#cb45-78" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> test_ids) { <span class="fu">print</span>(<span class="fu">did_they_go</span>(i)) }</span>
-<span id="cb45-79"><a href="#cb45-79" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-80"><a href="#cb45-80" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-81"><a href="#cb45-81" aria-hidden="true" tabindex="-1"></a><span class="do">##'[With the optional part]</span></span>
-<span id="cb45-82"><a href="#cb45-82" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-83"><a href="#cb45-83" aria-hidden="true" tabindex="-1"></a>did_they_go <span class="ot">&lt;-</span> <span class="cf">function</span>(id) {</span>
-<span id="cb45-84"><a href="#cb45-84" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb45-85"><a href="#cb45-85" aria-hidden="true" tabindex="-1"></a>  student <span class="ot">&lt;-</span> df <span class="sc">|&gt;</span> <span class="fu">filter</span>(stu_id <span class="sc">==</span> id) <span class="co"># pull out the student id (so we can directly use the value)</span></span>
-<span id="cb45-86"><a href="#cb45-86" aria-hidden="true" tabindex="-1"></a>  college <span class="ot">&lt;-</span> student <span class="sc">|&gt;</span> <span class="fu">pull</span>(x4evratndclg) <span class="co"># pull out if the student attend college</span></span>
-<span id="cb45-87"><a href="#cb45-87" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb45-88"><a href="#cb45-88" aria-hidden="true" tabindex="-1"></a>  parent <span class="ot">&lt;-</span> student <span class="sc">|&gt;</span> <span class="fu">pull</span>(x1paredexpct) <span class="co"># pull out the parent student expectation</span></span>
-<span id="cb45-89"><a href="#cb45-89" aria-hidden="true" tabindex="-1"></a>  expect <span class="ot">&lt;-</span> <span class="cf">if</span>(<span class="fu">is.na</span>(parent)<span class="sc">|</span>parent <span class="sc">==</span> <span class="dv">11</span>) { <span class="co"># if the parent expectation is either NA or 11</span></span>
-<span id="cb45-90"><a href="#cb45-90" aria-hidden="true" tabindex="-1"></a>    <span class="st">"and we do not know if their parents wanted them to"</span> <span class="co"># assign this text to expect</span></span>
-<span id="cb45-91"><a href="#cb45-91" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> <span class="cf">if</span>(parent <span class="sc">&gt;=</span> <span class="dv">5</span>) { <span class="co"># otherwise if the parent expectation is 5 or above</span></span>
-<span id="cb45-92"><a href="#cb45-92" aria-hidden="true" tabindex="-1"></a>    <span class="st">"and their parents expected them to"</span> <span class="co"># assign this text to expect</span></span>
-<span id="cb45-93"><a href="#cb45-93" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> <span class="cf">if</span>(parent <span class="sc">&lt;</span> <span class="dv">5</span>) { <span class="co"># otherwise if the parent expectation is less than 5</span></span>
-<span id="cb45-94"><a href="#cb45-94" aria-hidden="true" tabindex="-1"></a>    <span class="st">"and their parents did not expect them to"</span> <span class="co"># assign this text to expect</span></span>
-<span id="cb45-95"><a href="#cb45-95" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb45-96"><a href="#cb45-96" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb45-97"><a href="#cb45-97" aria-hidden="true" tabindex="-1"></a>  <span class="do">## NEW PART</span></span>
-<span id="cb45-98"><a href="#cb45-98" aria-hidden="true" tabindex="-1"></a>  median_delay <span class="ot">&lt;-</span> df <span class="sc">|&gt;</span> <span class="fu">summarize</span>(<span class="at">median =</span> <span class="fu">median</span>(x4hs2psmos, <span class="at">na.rm =</span> T)) <span class="sc">|&gt;</span> <span class="fu">pull</span>(median) <span class="co"># summarize the median completion and pull the value out (notice we start with df not student)</span></span>
-<span id="cb45-99"><a href="#cb45-99" aria-hidden="true" tabindex="-1"></a>  delay <span class="ot">&lt;-</span> student <span class="sc">|&gt;</span> <span class="fu">pull</span>(x4hs2psmos) <span class="co"># pull out the students months delay</span></span>
-<span id="cb45-100"><a href="#cb45-100" aria-hidden="true" tabindex="-1"></a>  difference <span class="ot">&lt;-</span> delay <span class="sc">-</span> median_delay <span class="co"># calculate the difference between the median delay and the students delay</span></span>
-<span id="cb45-101"><a href="#cb45-101" aria-hidden="true" tabindex="-1"></a>  delay_statement <span class="ot">&lt;-</span> <span class="cf">if</span>(<span class="fu">is.na</span>(delay)) { <span class="co"># if the students delay was NA (note, it doesn't matter if they didn't go to college, as we only use this if they went)</span></span>
-<span id="cb45-102"><a href="#cb45-102" aria-hidden="true" tabindex="-1"></a>    <span class="st">"and we do not know how long they delayed college"</span> <span class="co"># paste this message</span></span>
-<span id="cb45-103"><a href="#cb45-103" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> <span class="cf">if</span>(delay <span class="sc">==</span> <span class="dv">0</span>) { <span class="co"># if the students didn't delay going to college</span></span>
-<span id="cb45-104"><a href="#cb45-104" aria-hidden="true" tabindex="-1"></a>    <span class="st">"and they did not delay attending college at all"</span> <span class="co"># paste this message</span></span>
-<span id="cb45-105"><a href="#cb45-105" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> <span class="cf">if</span>(difference <span class="sc">==</span> <span class="dv">0</span>) { <span class="co"># if the students delay was the median</span></span>
-<span id="cb45-106"><a href="#cb45-106" aria-hidden="true" tabindex="-1"></a>    <span class="fu">paste</span>(<span class="st">"and they delayed college by"</span>, delay, <span class="st">"months which is the average amount of time"</span>) <span class="co"># paste this, using the value delay from above</span></span>
-<span id="cb45-107"><a href="#cb45-107" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> <span class="cf">if</span>(difference <span class="sc">&lt;</span> <span class="dv">0</span>) { <span class="co"># if the students delay was below the median</span></span>
-<span id="cb45-108"><a href="#cb45-108" aria-hidden="true" tabindex="-1"></a>    <span class="fu">paste</span>(<span class="st">"and they delayed college by"</span>, delay, <span class="st">"months which is"</span>, <span class="fu">abs</span>(difference), <span class="st">"months less than the average"</span>) <span class="co"># paste this, using delay and abs(difference) which is the absolute value of the difference (i.e., the value regardless of positive vs negative)</span></span>
-<span id="cb45-109"><a href="#cb45-109" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> <span class="cf">if</span>(difference <span class="sc">&gt;</span> <span class="dv">0</span>) { <span class="co"># if the students delay was above the median</span></span>
-<span id="cb45-110"><a href="#cb45-110" aria-hidden="true" tabindex="-1"></a>    <span class="fu">paste</span>(<span class="st">"and they delayed college by"</span>, delay, <span class="st">"months which is"</span>, <span class="fu">abs</span>(difference), <span class="st">"months above than the average"</span>) <span class="co"># paste this, using delay and abs(difference) which is the absolute value of the difference (i.e., the value regardless of positive vs negative)</span></span>
-<span id="cb45-111"><a href="#cb45-111" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb45-112"><a href="#cb45-112" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb45-113"><a href="#cb45-113" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span>(<span class="fu">is.na</span>(college)) { <span class="co"># if whether they went to college is missing</span></span>
-<span id="cb45-114"><a href="#cb45-114" aria-hidden="true" tabindex="-1"></a>    <span class="fu">paste</span>(<span class="st">"We do not know if this student went to college"</span>) <span class="co"># print this message</span></span>
-<span id="cb45-115"><a href="#cb45-115" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> <span class="cf">if</span>(college <span class="sc">==</span> <span class="dv">1</span>) { <span class="co"># if they went to college</span></span>
-<span id="cb45-116"><a href="#cb45-116" aria-hidden="true" tabindex="-1"></a>    <span class="fu">paste</span>(<span class="st">"This student went to college"</span>, delay_statement) <span class="co"># paste this message NEW added delay_statement</span></span>
-<span id="cb45-117"><a href="#cb45-117" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> <span class="cf">if</span>(college <span class="sc">==</span> <span class="dv">0</span>) { <span class="co"># if they did not go to college</span></span>
-<span id="cb45-118"><a href="#cb45-118" aria-hidden="true" tabindex="-1"></a>    <span class="fu">paste</span>(<span class="st">"This student never went to college"</span>, expect) <span class="co"># paste this message</span></span>
-<span id="cb45-119"><a href="#cb45-119" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb45-120"><a href="#cb45-120" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb45-121"><a href="#cb45-121" aria-hidden="true" tabindex="-1"></a>} </span>
-<span id="cb45-122"><a href="#cb45-122" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-123"><a href="#cb45-123" aria-hidden="true" tabindex="-1"></a><span class="do">## Test it using a for loop</span></span>
-<span id="cb45-124"><a href="#cb45-124" aria-hidden="true" tabindex="-1"></a>test_ids <span class="ot">&lt;-</span> df <span class="sc">|&gt;</span> <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">50</span>) <span class="sc">|&gt;</span> <span class="fu">pull</span>(stu_id)</span>
-<span id="cb45-125"><a href="#cb45-125" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> test_ids) { <span class="fu">print</span>(<span class="fu">did_they_go</span>(i)) }</span>
-<span id="cb45-126"><a href="#cb45-126" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-127"><a href="#cb45-127" aria-hidden="true" tabindex="-1"></a><span class="do">## -----------------------------------------------------------------------------</span></span>
-<span id="cb45-128"><a href="#cb45-128" aria-hidden="true" tabindex="-1"></a><span class="do">##' *</span><span class="re">END</span><span class="do"> SCRIPT*</span></span>
-<span id="cb45-129"><a href="#cb45-129" aria-hidden="true" tabindex="-1"></a><span class="do">## -----------------------------------------------------------------------------</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
+<ul>
+<li>If a student went to college it should return something like “this student went to college”</li>
+<li>If they didn’t, it should return something like “this student did not go to college, their students did/did not expect them to”</li>
+</ul>
+<ol start="3" type="1">
+<li>Optional: <code>if()</code> the student went to college, add a second sentence that says how many months they had between high school and going to college</li>
+<li>Super-Optional: Following from that, edit the second sentence to include how that student’s delay compares to the average delay (you can pick, mean or median)</li>
+</ol>
+<!--
+Once complete, turn in the .qmd file (must render successfully) to Canvas by Tuesday 12:00pm following the lesson.
+Assignments will be graded before next lesson on Wednesday in line with the grading policy outlined in the syllabus.
+-->
+</section>
+<section id="submission" class="level2">
+<h2 data-anchor-id="submission">Submission</h2>
+<p>Once complete turn in the .qmd file (<strong>it must render/run</strong>) to Canvas by the due date (usually <strong>Tuesday 12:00pm following the lesson</strong>). Assignments will be graded before next lesson on Wednesday in line with the grading policy outlined in the syllabus.</p>
 </section>
 </div>
 </div>
@@ -1161,18 +1024,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const clipboard = new window.ClipboardJS('.code-copy-button', {
-    text: function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-    }
-  });
-  clipboard.on('success', function(e) {
+  const onCopySuccess = function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -1204,7 +1056,29 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
   });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
       var filterRegex = new RegExp("https:\/\/capaldi\.info\/7916");
@@ -1212,7 +1086,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }
     // Inspect non-navigation links and adorn them if external
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
     for (var i=0; i<links.length; i++) {
       const link = links[i];
       if (!isInternal(link.href)) {

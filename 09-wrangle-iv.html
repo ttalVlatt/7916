@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.553">
+<meta name="generator" content="quarto-1.6.29">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>EDH 7916 - IV: Tidyverse Tricks &amp; SQL</title>
+<title>IV: Advanced tidyverse &amp; Data Retrieval – EDH 7916</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -33,7 +33,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -69,10 +69,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-29a703985b9506ee1f3285ce059650bf.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-329a8742cc536dc1b7a94a813afad969.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <link href="site_libs/quarto-contrib/fontawesome6-0.1.0/all.css" rel="stylesheet">
 <link href="site_libs/quarto-contrib/fontawesome6-0.1.0/latex-fontsize.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
@@ -105,12 +105,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 <link rel="stylesheet" href="site-attachments/styles.css">
-<meta property="og:title" content="EDH 7916 - IV: Tidyverse Tricks &amp; SQL">
+<meta property="og:title" content="IV: Advanced tidyverse &amp; Data Retrieval – EDH 7916">
 <meta property="og:image" content="https://capaldi.info/7916/apple-touch-icon.png">
 <meta property="og:site_name" content="EDH 7916">
 <meta property="og:image:height" content="180">
 <meta property="og:image:width" content="180">
-<meta name="twitter:title" content="EDH 7916 - IV: Tidyverse Tricks &amp; SQL">
+<meta name="twitter:title" content="IV: Advanced tidyverse &amp; Data Retrieval – EDH 7916">
 <meta name="twitter:image" content="https://capaldi.info/7916/apple-touch-icon.png">
 <meta name="twitter:image-height" content="180">
 <meta name="twitter:image-width" content="180">
@@ -123,13 +123,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./03-wrangle-i.html">Data Wrangling</a></li><li class="breadcrumb-item"><a href="./09-wrangle-iv.html">IV: Tidyverse Tricks &amp; SQL</a></li></ol></nav>
-        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./03-wrangle-i.html">Data Wrangling</a></li><li class="breadcrumb-item"><a href="./09-wrangle-iv.html">IV: Advanced `tidyverse` &amp; Data Retrieval</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
-      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
         <i class="bi bi-search"></i>
       </button>
     </div>
@@ -159,15 +159,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./syllabus.html" class="sidebar-item-text sidebar-link">
+  <a href="./syllabus.pdf" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Syllabus</span></a>
   </div>
 </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="false">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false">
  <span class="menu-text">Getting Started</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="false" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
@@ -188,9 +188,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
  <span class="menu-text">Data Wrangling</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
@@ -216,16 +216,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./09-wrangle-iv.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">IV: Tidyverse Tricks &amp; SQL</span></a>
+ <span class="menu-text">IV: Advanced `tidyverse` &amp; Data Retrieval</span></a>
   </div>
 </li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="false">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false">
  <span class="menu-text">Data Visualization</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="false" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
@@ -250,23 +250,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
       </ul>
   </li>
-        <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="false">
- <span class="menu-text">Quarto</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="false" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 ">  
-          <li class="sidebar-item">
+        <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./07-quarto-intro.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Reproducable Reports with Quarto</span></a>
+ <span class="menu-text">Reproducible Reports with Quarto</span></a>
   </div>
 </li>
-      </ul>
-  </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./11-pro-functions.html" class="sidebar-item-text sidebar-link">
@@ -287,13 +276,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="false">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false">
  <span class="menu-text">Extra Credit</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="false" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 ">  
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./x-01-git.html" class="sidebar-item-text sidebar-link">
@@ -329,9 +318,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./03-wrangle-i.html">Data Wrangling</a></li><li class="breadcrumb-item"><a href="./09-wrangle-iv.html">IV: Tidyverse Tricks &amp; SQL</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./03-wrangle-i.html">Data Wrangling</a></li><li class="breadcrumb-item"><a href="./09-wrangle-iv.html">IV: Advanced `tidyverse` &amp; Data Retrieval</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">IV: Tidyverse Tricks &amp; SQL</h1>
+<h1 class="title">IV: Advanced <code>tidyverse</code> &amp; Data Retrieval</h1>
 </div>
 
 
@@ -349,19 +338,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 <div class="tabset-margin-container"></div><div class="panel-tabset">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" aria-current="page">Lesson</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">Assignment</a></li></ul>
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" aria-current="page">I: Advanced <code>tidyverse</code></a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">II: Automating Data Retrieval</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-3" role="tab" aria-controls="tabset-1-3" aria-selected="false">III: <code>tidyverse -&gt; SQL</code></a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-4-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-4" role="tab" aria-controls="tabset-1-4" aria-selected="false">Assignment</a></li></ul>
 <div class="tab-content">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
 <p><a href="./r-scripts/09-wrangle-iv.R"><i class="fa-solid fa-code" aria-label="code"></i> R Code</a></p>
-<ul>
-<li>In this brand new lesson for 2024 we are going to cover two main topics
+<p>In this lesson, new in 2024 and updated for 2025 we are going to cover a few more advanced topics</p>
 <ol type="1">
-<li>Some more advanced <code>tidyverse</code> commands that can save a lot of time</li>
-<li>How the <code>tidyverse</code> we have learned so far relates to <code>SQL</code> (Structured Query Language) commonly used to access databases</li>
-</ol></li>
-</ul>
-<section id="tidyverse-tricks" class="level2">
-<h2 data-anchor-id="tidyverse-tricks">Tidyverse Tricks</h2>
+<li><code>tidyverse</code> commands that can save a lot of time</li>
+<li>Automated data retrieval methods that make our work much more reproducible</li>
+<li>Bonus Material: The relationship between <code>tidyverse</code> and <code>SQL</code></li>
+</ol>
 <ul>
 <li>Now you have a decent grasp on the core functions of <code>tidyverse</code> we can start exploring some helper functions that can make our lives much easier!</li>
 <li>These commands have been chosen as I have personally found them wildly helpful in working with IPEDS and other data
@@ -407,7 +393,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>What we have created is a somewhat “sparse” data frame, as each institution category has differently named variables (in part due to differing reporting requirements)</li>
 </ul>
 <p>Our data looks something like this</p>
-<table class="table">
+<table class="caption-top table">
 <caption>Depiction of Sparse DataFrame</caption>
 <thead>
 <tr class="header">
@@ -486,82 +472,62 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 6 207582     NA     NA     NA 26366669 101944 12445590     NA      NA      NA</code></pre>
 </div>
 </div>
-<!--
-
-- For the sake of demonstration, let me show how to do this for instruction without our first "tidyverse trick"
-  - Fun fact: I did something very close to this in my final project when I took this class!
-
-::: {.cell}
-
-```{.r .cell-code}
-## Split back up into separate files
-pub <- df_18 |> filter(!is.na(F1C011)) |>
-  ## Rename the variable
-  rename(inst_spend = F1C011) |>
-  ## Drop the other variables
-  select(UNITID, inst_spend)
-np <- df_18 |> filter(!is.na(F2E011)) |>
-  rename(inst_spend = F2E011) |>
-  select(UNITID, inst_spend)
-fp <- df_18 |> filter(!is.na(F3E011)) |>
-  rename(inst_spend = F3E011) |>
-  select(UNITID, inst_spend)
-## Re-bind the colleges back up
-rebind <- bind_rows(pub, np, fp)
-```
-:::
-
-- Quite a lot of code, and that is a relatively simple case
-
--->
 <ul>
-<li>Luckily, tidyverse has a command to help us, <code>coalesce()</code>
+<li>For the sake of demonstration, let me show how to do this for instruction without our first “tidyverse trick”
+<ul>
+<li>Fun fact: I did something very close to this in my final project when I took this class!</li>
+</ul></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Split back up into separate files</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>pub <span class="ot">&lt;-</span> df_18 <span class="sc">|&gt;</span> <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(F1C011)) <span class="sc">|&gt;</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="do">## Rename the variable</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">inst_spend =</span> F1C011) <span class="sc">|&gt;</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="do">## Drop the other variables</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(UNITID, inst_spend)</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>np <span class="ot">&lt;-</span> df_18 <span class="sc">|&gt;</span> <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(F2E011)) <span class="sc">|&gt;</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">inst_spend =</span> F2E011) <span class="sc">|&gt;</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(UNITID, inst_spend)</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>fp <span class="ot">&lt;-</span> df_18 <span class="sc">|&gt;</span> <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(F3E011)) <span class="sc">|&gt;</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">inst_spend =</span> F3E011) <span class="sc">|&gt;</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(UNITID, inst_spend)</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a><span class="do">## Re-bind the colleges back up</span></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>rebind <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(pub, np, fp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li><p>Quite a lot of code, and that is a relatively simple case</p></li>
+<li><p>Luckily, tidyverse has a command to help us, <code>coalesce()</code></p>
 <ul>
 <li>Returns the first non-missing value across any number of columns
 <ul>
 <li>This works perfectly in situations like this, when you only have one data point for each row, it could just be in any column</li>
 </ul></li>
 </ul></li>
+<li><p>Let’s check, are they the same?</p></li>
 </ul>
-<!--
-
-- Let's check, are they the same?
-
-::: {.cell}
-
-```{.r .cell-code}
-all.equal(rebind, coalesce)
-```
-
-::: {.cell-output .cell-output-stdout}
-
-```
-[1] "Modes: list, function"                               
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">all.equal</span>(rebind, coalesce)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Modes: list, function"                               
 [2] "Lengths: 2, 1"                                       
 [3] "names for target but not for current"                
-[4] "Attributes: < Modes: list, NULL >"                   
-[5] "Attributes: < Lengths: 2, 0 >"                       
-[6] "Attributes: < names for target but not for current >"
-[7] "Attributes: < current is not list-like >"            
-[8] "current is not list-like"                            
-```
-
-
-:::
-:::
-
-Yep! So let's do all the columns and get a clean data frame
-
--->
+[4] "Attributes: &lt; Modes: list, NULL &gt;"                   
+[5] "Attributes: &lt; Lengths: 2, 0 &gt;"                       
+[6] "Attributes: &lt; names for target but not for current &gt;"
+[7] "Attributes: &lt; current is not list-like &gt;"            
+[8] "current is not list-like"                            </code></pre>
+</div>
+</div>
+<p>Yep! So let’s do all the columns and get a clean data frame</p>
 <p>let’s do all the columns and get a clean data frame</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>df_18_clean <span class="ot">&lt;-</span> df_18 <span class="sc">|&gt;</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">inst_spend =</span> <span class="fu">coalesce</span>(F1C011, F2E011, F3E011),</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">rsch_spend =</span> <span class="fu">coalesce</span>(F1C021, F2E021, F3E02A1),</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">serv_spend =</span> <span class="fu">coalesce</span>(F1C061, F2E051, F3E03B1)) <span class="sc">|&gt;</span></span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(UNITID, inst_spend, rsch_spend, serv_spend)</span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(df_18_clean[<span class="dv">100</span><span class="sc">:</span><span class="dv">105</span>,])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>df_18_clean <span class="ot">&lt;-</span> df_18 <span class="sc">|&gt;</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">inst_spend =</span> <span class="fu">coalesce</span>(F1C011, F2E011, F3E011),</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">rsch_spend =</span> <span class="fu">coalesce</span>(F1C021, F2E021, F3E02A1),</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">serv_spend =</span> <span class="fu">coalesce</span>(F1C061, F2E051, F3E03B1)) <span class="sc">|&gt;</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(UNITID, inst_spend, rsch_spend, serv_spend)</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(df_18_clean[<span class="dv">100</span><span class="sc">:</span><span class="dv">105</span>,])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 6 × 4
   UNITID inst_spend rsch_spend serv_spend
@@ -573,7 +539,7 @@ Yep! So let's do all the columns and get a clean data frame
 5 110398   28937539          0    5591440
 6 110422  219559005    2847727   78536402</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(df_18_clean[<span class="dv">3000</span><span class="sc">:</span><span class="dv">3005</span>,])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(df_18_clean[<span class="dv">3000</span><span class="sc">:</span><span class="dv">3005</span>,])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 6 × 4
   UNITID inst_spend rsch_spend serv_spend
@@ -598,30 +564,20 @@ Yep! So let's do all the columns and get a clean data frame
 <li>From the snapshots of the data we have seen so far, it seems that there’s a good number of $0 reports for these values</li>
 <li>Let’s try and get a data frame containing only institutions that reported $0 for one of these spending categories</li>
 </ul>
-<!--
-
-- Without the helper function
-
-::: {.cell}
-
-```{.r .cell-code}
-df_0_inst <- df_18_clean |> filter(inst_spend == 0)
-df_0_rsch <- df_18_clean |> filter(rsch_spend == 0)
-df_0_serv <- df_18_clean |> filter(serv_spend == 0)
-df_0 <- bind_rows(df_0_inst, df_0_rsch, df_0_serv)
-
-## Plus we end up with duplicates
-df_0 |>
-  count(UNITID) |>
-  filter(n > 1)
-```
-
-::: {.cell-output .cell-output-stdout}
-
-```
-# A tibble: 375 × 2
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>df_0_inst <span class="ot">&lt;-</span> df_18_clean <span class="sc">|&gt;</span> <span class="fu">filter</span>(inst_spend <span class="sc">==</span> <span class="dv">0</span>)</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>df_0_rsch <span class="ot">&lt;-</span> df_18_clean <span class="sc">|&gt;</span> <span class="fu">filter</span>(rsch_spend <span class="sc">==</span> <span class="dv">0</span>)</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>df_0_serv <span class="ot">&lt;-</span> df_18_clean <span class="sc">|&gt;</span> <span class="fu">filter</span>(serv_spend <span class="sc">==</span> <span class="dv">0</span>)</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>df_0 <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(df_0_inst, df_0_rsch, df_0_serv)</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="do">## Plus we end up with duplicates</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>df_0 <span class="sc">|&gt;</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(UNITID) <span class="sc">|&gt;</span></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(n <span class="sc">&gt;</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 375 × 2
    UNITID     n
-    <dbl> <int>
+    &lt;dbl&gt; &lt;int&gt;
  1 100733     3
  2 103529     3
  3 106324     2
@@ -632,19 +588,17 @@ df_0 |>
  8 108269     2
  9 111045     2
 10 111708     2
-# ℹ 365 more rows
-```
-
-
-:::
-:::
-
--->
+# ℹ 365 more rows</code></pre>
+</div>
+</div>
+<ul>
+<li>With the <code>if_any()</code> helper function</li>
+</ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>df_0 <span class="ot">&lt;-</span> df_18_clean <span class="sc">|&gt;</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">if_any</span>(<span class="fu">everything</span>(), <span class="sc">~</span> . <span class="sc">==</span> <span class="dv">0</span>)) <span class="do">## h/t https://stackoverflow.com/questions/69585261/dplyr-if-any-and-numeric-filtering</span></span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(df_0)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>df_0 <span class="ot">&lt;-</span> df_18_clean <span class="sc">|&gt;</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">if_any</span>(<span class="fu">everything</span>(), <span class="sc">~</span> . <span class="sc">==</span> <span class="dv">0</span>)) <span class="do">## h/t https://stackoverflow.com/questions/69585261/dplyr-if-any-and-numeric-filtering</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(df_0)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 4,803 × 4
    UNITID inst_spend rsch_spend serv_spend
@@ -708,9 +662,9 @@ df_0 |>
 <li>Here, we will use the <code>across</code> function inside <code>count()</code> to get a breakdown of which spending categories are unreported most often</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>df_0 <span class="sc">|&gt;</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>UNITID) <span class="sc">|&gt;</span></span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(<span class="fu">across</span>(<span class="fu">everything</span>(), <span class="sc">~</span> . <span class="sc">==</span> <span class="dv">0</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>df_0 <span class="sc">|&gt;</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>UNITID) <span class="sc">|&gt;</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(<span class="fu">across</span>(<span class="fu">everything</span>(), <span class="sc">~</span> . <span class="sc">==</span> <span class="dv">0</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 7 × 4
   inst_spend rsch_spend serv_spend     n
@@ -766,15 +720,15 @@ df_0 |>
 </ol></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>df_18_clean <span class="sc">|&gt;</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">highest_cat =</span> <span class="fu">case_when</span>(inst_spend <span class="sc">&gt;</span> rsch_spend <span class="sc">&amp;</span> rsch_spend <span class="sc">&gt;</span> serv_spend <span class="sc">~</span> <span class="st">"inst_rsch_serv"</span>,</span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>                                 inst_spend <span class="sc">&gt;</span> serv_spend <span class="sc">&amp;</span> serv_spend <span class="sc">&gt;</span> rsch_spend <span class="sc">~</span> <span class="st">"inst_serv_rsch"</span>,</span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>                                 rsch_spend <span class="sc">&gt;</span> inst_spend <span class="sc">&amp;</span> inst_spend <span class="sc">&gt;</span> serv_spend <span class="sc">~</span> <span class="st">"rsch_inst_serv"</span>,</span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>                                 rsch_spend <span class="sc">&gt;</span> serv_spend <span class="sc">&amp;</span> serv_spend <span class="sc">&gt;</span> inst_spend <span class="sc">~</span> <span class="st">"rsch_serv_inst"</span>,</span>
-<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>                                 serv_spend <span class="sc">&gt;</span> inst_spend <span class="sc">&amp;</span> inst_spend <span class="sc">&gt;</span> rsch_spend <span class="sc">~</span> <span class="st">"serv_inst_rsch"</span>,</span>
-<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>                                 serv_spend <span class="sc">&gt;</span> rsch_spend <span class="sc">&amp;</span> rsch_spend <span class="sc">&gt;</span> inst_spend <span class="sc">~</span> <span class="st">"serv_rsch_inst"</span>,</span>
-<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>                                 <span class="cn">TRUE</span> <span class="sc">~</span> <span class="st">"You missed a condition Matt"</span>)) <span class="sc">|&gt;</span></span>
-<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(highest_cat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>df_18_clean <span class="sc">|&gt;</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">highest_cat =</span> <span class="fu">case_when</span>(inst_spend <span class="sc">&gt;</span> rsch_spend <span class="sc">&amp;</span> rsch_spend <span class="sc">&gt;</span> serv_spend <span class="sc">~</span> <span class="st">"inst_rsch_serv"</span>,</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>                                 inst_spend <span class="sc">&gt;</span> serv_spend <span class="sc">&amp;</span> serv_spend <span class="sc">&gt;</span> rsch_spend <span class="sc">~</span> <span class="st">"inst_serv_rsch"</span>,</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>                                 rsch_spend <span class="sc">&gt;</span> inst_spend <span class="sc">&amp;</span> inst_spend <span class="sc">&gt;</span> serv_spend <span class="sc">~</span> <span class="st">"rsch_inst_serv"</span>,</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>                                 rsch_spend <span class="sc">&gt;</span> serv_spend <span class="sc">&amp;</span> serv_spend <span class="sc">&gt;</span> inst_spend <span class="sc">~</span> <span class="st">"rsch_serv_inst"</span>,</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>                                 serv_spend <span class="sc">&gt;</span> inst_spend <span class="sc">&amp;</span> inst_spend <span class="sc">&gt;</span> rsch_spend <span class="sc">~</span> <span class="st">"serv_inst_rsch"</span>,</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>                                 serv_spend <span class="sc">&gt;</span> rsch_spend <span class="sc">&amp;</span> rsch_spend <span class="sc">&gt;</span> inst_spend <span class="sc">~</span> <span class="st">"serv_rsch_inst"</span>,</span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>                                 <span class="cn">TRUE</span> <span class="sc">~</span> <span class="st">"You missed a condition Matt"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(highest_cat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 7 × 2
   highest_cat                     n
@@ -805,15 +759,15 @@ df_0 |>
 <li><p>Let’s see how our results change if I use “greater than or equal to” signs</p></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>df_18_clean <span class="sc">|&gt;</span></span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">highest_cat =</span> <span class="fu">case_when</span>(inst_spend <span class="sc">&gt;=</span> rsch_spend <span class="sc">&amp;</span> rsch_spend <span class="sc">&gt;=</span> serv_spend <span class="sc">~</span> <span class="st">"inst_rsch_serv"</span>,</span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>                                 inst_spend <span class="sc">&gt;=</span> serv_spend <span class="sc">&amp;</span> serv_spend <span class="sc">&gt;=</span> rsch_spend <span class="sc">~</span> <span class="st">"inst_serv_rsch"</span>,</span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>                                 rsch_spend <span class="sc">&gt;=</span> inst_spend <span class="sc">&amp;</span> inst_spend <span class="sc">&gt;=</span> serv_spend <span class="sc">~</span> <span class="st">"rsch_inst_serv"</span>,</span>
-<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>                                 rsch_spend <span class="sc">&gt;=</span> serv_spend <span class="sc">&amp;</span> serv_spend <span class="sc">&gt;=</span> inst_spend <span class="sc">~</span> <span class="st">"rsch_serv_inst"</span>,</span>
-<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>                                 serv_spend <span class="sc">&gt;=</span> inst_spend <span class="sc">&amp;</span> inst_spend <span class="sc">&gt;=</span> rsch_spend <span class="sc">~</span> <span class="st">"serv_inst_rsch"</span>,</span>
-<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>                                 serv_spend <span class="sc">&gt;=</span> rsch_spend <span class="sc">&amp;</span> rsch_spend <span class="sc">&gt;=</span> inst_spend <span class="sc">~</span> <span class="st">"serv_rsch_inst"</span>,</span>
-<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>                                 <span class="cn">TRUE</span> <span class="sc">~</span> <span class="st">"You missed a condition Matt"</span>)) <span class="sc">|&gt;</span></span>
-<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(highest_cat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>df_18_clean <span class="sc">|&gt;</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">highest_cat =</span> <span class="fu">case_when</span>(inst_spend <span class="sc">&gt;=</span> rsch_spend <span class="sc">&amp;</span> rsch_spend <span class="sc">&gt;=</span> serv_spend <span class="sc">~</span> <span class="st">"inst_rsch_serv"</span>,</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>                                 inst_spend <span class="sc">&gt;=</span> serv_spend <span class="sc">&amp;</span> serv_spend <span class="sc">&gt;=</span> rsch_spend <span class="sc">~</span> <span class="st">"inst_serv_rsch"</span>,</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>                                 rsch_spend <span class="sc">&gt;=</span> inst_spend <span class="sc">&amp;</span> inst_spend <span class="sc">&gt;=</span> serv_spend <span class="sc">~</span> <span class="st">"rsch_inst_serv"</span>,</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>                                 rsch_spend <span class="sc">&gt;=</span> serv_spend <span class="sc">&amp;</span> serv_spend <span class="sc">&gt;=</span> inst_spend <span class="sc">~</span> <span class="st">"rsch_serv_inst"</span>,</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>                                 serv_spend <span class="sc">&gt;=</span> inst_spend <span class="sc">&amp;</span> inst_spend <span class="sc">&gt;=</span> rsch_spend <span class="sc">~</span> <span class="st">"serv_inst_rsch"</span>,</span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>                                 serv_spend <span class="sc">&gt;=</span> rsch_spend <span class="sc">&amp;</span> rsch_spend <span class="sc">&gt;=</span> inst_spend <span class="sc">~</span> <span class="st">"serv_rsch_inst"</span>,</span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>                                 <span class="cn">TRUE</span> <span class="sc">~</span> <span class="st">"You missed a condition Matt"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(highest_cat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 6 × 2
   highest_cat        n
@@ -834,16 +788,516 @@ df_0 |>
 </ul></li>
 </ul>
 </section>
-<section id="tidyverse-tricks-summary" class="level3">
-<h3 data-anchor-id="tidyverse-tricks-summary">Tidyverse Tricks Summary</h3>
+<section id="advanced-tidyverse-summary" class="level3">
+<h3 data-anchor-id="advanced-tidyverse-summary">Advanced Tidyverse Summary</h3>
 <ul>
 <li>I hope some of these more advanced <code>tidyverse</code> commands will prove helpful, particularly as you move into the world of bigger data sets with more variables!</li>
-<li>Next, we are going to revisit some code from <a href="./03-wrangle-i.html">Data Wrangling I</a> and <a href="./04-wrangle-ii.html">Data Wrangling II</a> and see how it translates to <code>SQL</code></li>
+<li>Next, we are going to look at some practices for automating data retrieval to enhance our research reproducibility</li>
+</ul>
+</section>
+</div>
+<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
+<section id="section-one-reproducibility-replicability" class="level2">
+<h2 data-anchor-id="section-one-reproducibility-replicability">Section One: Reproducibility &amp; Replicability</h2>
+<p>In this first section we will discuss what reproducibility is, why is matters, and how automating data retrieval can help achieve it.</p>
+<section id="what-is-reproducibility" class="level3">
+<h3>What is reproducibility?</h3>
+<p>The “reproducibiity crisis” began to gather steam in STEM fields in the mid-2010s</p>
+<div class="quarto-video ratio ratio-16x9"><iframe data-external="1" src="https://www.youtube.com/embed/FpCrY7x5nEE" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe></div>
+<p>Specific to educational research, a <a href="https://ies.ed.gov/pdf/CompanionGuidelinesReplicationReproducibility.pdf">joint report</a> from the National Science Foundation (NSF) and Institute of Education Sciences (IES) define reproducibility as</p>
+<blockquote class="blockquote">
+<p>“the ability to achieve the same findings as another investigator using extant data from a prior study”.</p>
+</blockquote>
+<p>In other words, can another researcher get the same results as you if they start with the same data?</p>
+<blockquote class="blockquote">
+<h2 id="quick-question" data-anchor-id="what-is-reproducibility">Quick Question</h2>
+<p>Based on the video we just watched and your prior knowledge, why are we concerned about reproducibility?</p>
+</blockquote>
+<p>According to the NSF/IES report, what can authors do to enhance reproducibility?</p>
+<section id="minimumbaseline-level" class="level4">
+<h4 data-anchor-id="minimumbaseline-level">Minimum/baseline level</h4>
+<ul>
+<li>Your methods section should describe the analyses should describe the analyses you performed in enough detail that someone could broadly copy what you did
+<ul>
+<li>However, rarely are you going to be able to describe enough to achieve exact reproducibility
+<ul>
+<li>Imagine detailing all your data cleaning decisions, specific model settings, etc. in the paper’s text</li>
+</ul></li>
+</ul></li>
+</ul>
+</section>
+<section id="true-reproducibility" class="level4">
+<h4 data-anchor-id="true-reproducibility">True reproducibility</h4>
+<ul>
+<li>Ideally, you use a public repositories to store data and code
+<ul>
+<li><a href="https://github.com">GitHub</a>, <a href="https://dataverse.harvard.edu">Havard Dataverse</a>, <a href="https://www.openicpsr.org/openicpsr/aerajournals">AERA’s openICPSR</a></li>
+</ul></li>
+<li><em>“Data used to support claims in publications should be made available in public repositories along with data processing and cleaning methods, relevant statistical analyses, codebooks as well as analytic code”</em></li>
+</ul>
+</section>
+<section id="common-data-sharing-issues" class="level4">
+<h4 data-anchor-id="common-data-sharing-issues">Common data sharing issues</h4>
+<ul>
+<li>However, sharing data in public repos can be tricky, even if the data is public
+<ul>
+<li>Size constraints (GitHub)</li>
+<li>License and right to share concerns</li>
+<li>Also, you might accidentally upload an edited version</li>
+</ul></li>
+<li>If you can’t share data yourself, you could provide clear instructions on how to retrieve the data (e.g., “go to this site”, “click on this option”, “select these 4 variables”, “click download”)
+<ul>
+<li>This can be time-consuming and error-prone</li>
+</ul></li>
+<li>This is where automating data retrieval can help (more on that later)</li>
 </ul>
 </section>
 </section>
-<section id="from-tidyverse-to-sql" class="level2">
-<h2 data-anchor-id="from-tidyverse-to-sql">From <code>tidyverse</code> to <code>SQL</code></h2>
+<section id="reproducibility-vs-replicability" class="level3">
+<h3>Reproducibility vs Replicability</h3>
+<ul>
+<li>You may also here the word “replicability” used in the same context.</li>
+<li>Sometimes the words are used interchangeably depending on the context.</li>
+<li>The <a href="https://ies.ed.gov/pdf/CompanionGuidelinesReplicationReproducibility.pdf">NSF/IES joint report</a> suggest replication is a “higher bar” than reproducibility, where the same results can be achieved by entirely new studies.</li>
+</ul>
+<section id="to-enhance-replicability" class="level4">
+<h4>To enhance replicability</h4>
+<ul>
+<li>Results need to be truly generalizable to your study population
+<ul>
+<li>Somewhat hard to know with a single study</li>
+</ul></li>
+<li>Best step you can take is to pre-register your study
+<ul>
+<li>Becoming the gold standard in medical trials</li>
+<li>Before you run your analysis (or even collect/explore your data) you make your analysis plan available
+<ul>
+<li>Either publicly online or get it pre-approved for publication with a journal</li>
+</ul></li>
+<li>Prevents “p-hacking” and other temptations during the statistical analysis which can lead to non-replicable results</li>
+<li>AERA Open list “Registered Reports” as an option in their <a href="https://journals.sagepub.com/author-instructions/ERO">submission guidelines</a></li>
+</ul></li>
+<li>In this workshop we will focus on a specific step towards achieving reproducibility: automating data retrieval?</li>
+</ul>
+<blockquote class="blockquote">
+<h2 id="small-group-discussion-exercise-5-mins" data-anchor-id="to-enhance-replicability">Small Group Discussion Exercise (5 mins)</h2>
+<p>Find of a recent piece of published work you’re already familiar with</p>
+<ul>
+<li>If you wanted to, do you think you would be able to reproduce the results?
+<ul>
+<li>If you couldn’t, what would the author need to do to make it reproducible?</li>
+<li>If you could, how easy do you think it would be?</li>
+</ul></li>
+</ul>
+</blockquote>
+</section>
+</section>
+<section id="why-does-reproducibility-matter" class="level3">
+<h3 data-anchor-id="why-does-reproducibility-matter">Why does reproducibility matter?</h3>
+<p>Cited in the <a href="https://ies.ed.gov/pdf/CompanionGuidelinesReplicationReproducibility.pdf">NSF/IES joint report</a>, the a Subcommittee on Replicability and Science suggest reproducibility is the</p>
+<blockquote class="blockquote">
+<p>“Minimum necessary condition for a finding to be believable and informative”.</p>
+</blockquote>
+<ul>
+<li>Research (at least from a post-positivist world view) should always be about trying to move us closer to understanding the truth about the world</li>
+<li>Being able to reproduce research helps us in this goal by raising the level of trust we can have in results
+<ul>
+<li>Honest mistakes are made in research, making it reproducible helps us know if there are any</li>
+<li>Less-than-honest findings can be hidden behind when work isn’t reproducible
+<ul>
+<li>A common one that may seem harmless is only reporting partial results, those that fit the narrative</li>
+</ul></li>
+</ul></li>
+</ul>
+</section>
+<section id="if-i-do-all-this-will-anyone-ever-actually-reproduce-my-work" class="level3">
+<h3>If I do all this, will anyone ever actually reproduce my work?</h3>
+<ul>
+<li><p>A <a href="https://doi.org/10.3102/0013189X14545513">2014 Educational Researcher article by Makel &amp; Plucker</a> shows significantly less educational research is devoted to reproduction and replication than in other fields, only 0.13%.</p></li>
+<li><p>We are seeing more meta-analyses in education</p>
+<ul>
+<li>These involve some replication, however, they serve a totally different purpose
+<ul>
+<li>Meta-analyses aim to synthesize overall findings across multiple studies</li>
+<li>Reproduction and replication aim to test the quality and trustworthiness of a single study</li>
+</ul></li>
+</ul></li>
+<li><p>More reproduction and replication studies would help raise the credibility of education research among scientific researchers<br>
+</p></li>
+<li><p>Even if we don’t want to go out and start reproducing and replicating other studies, we can help the cause by ensuring our studies are as reproducible as possible.</p></li>
+</ul>
+<blockquote class="blockquote">
+<h2 id="small-group-discussion-exercise-5-mins-1" data-anchor-id="if-i-do-all-this-will-anyone-ever-actually-reproduce-my-work">Small Group Discussion Exercise (5 mins)</h2>
+<p>Okay, we get it, reproducibility is awesome… But sometimes it isn’t possible</p>
+<ol type="1">
+<li>Think of a specific study or scenario (real or fictional) where true open reproducibility (e.g.&nbsp;sharing data) is either not possible or not practical</li>
+<li>In that scenario, what can you do to aid reproducibility and/or replication?</li>
+</ol>
+</blockquote>
+</section>
+<section id="how-does-automating-data-retrieval-achieve-reproducibility" class="level3">
+<h3 data-anchor-id="how-does-automating-data-retrieval-achieve-reproducibility">How does automating data retrieval achieve reproducibility?</h3>
+<ul>
+<li><p>Above we discussed how reproducibility is “the ability to achieve the same findings as another investigator using extant data from a prior study”</p></li>
+<li><p>We also discussed how in order to make work reproducible researchers should publish code and data where possible</p></li>
+<li><p>Automating data retrieval makes this process easier and gets around common issues in sharing secondary data</p></li>
+<li><p>All we have to provide a researcher is our code and the data is “automagically” downloaded for them</p>
+<ul>
+<li>Helps us ensure the reproducing researcher has the correct data
+<ul>
+<li>No worries about file names, sharing restrictions, or size limits</li>
+</ul></li>
+<li>Provides additional trust to the researcher that the data is coming directly from the source and hasn’t been edited/doctored</li>
+</ul></li>
+<li><p>In next two sections of the workshop we are going to cover tools that we can use to automate data retrieval in our work</p></li>
+</ul>
+</section>
+</section>
+<section id="section-two-using-ipedtas-to-automagically-retrive-labelled-ipeds-data-in-stata-r" class="level2">
+<h2 data-anchor-id="section-two-using-ipedtas-to-automagically-retrive-labelled-ipeds-data-in-stata-r">Section Two: Using IPEDtaS to Automagically Retrive Labelled IPEDS Data in Stata &amp; R</h2>
+<p>For this section we will walk through the tutorial page for IPEDtaS which can be found at <a href="https://capaldi.info/IPEDtaS/tutorial">capaldi.info/IPEDtaS/tutorial</a></p>
+</section>
+<section id="section-three-other-tools-packages-for-automated-data-retrieval" class="level2">
+<h2 data-anchor-id="section-three-other-tools-packages-for-automated-data-retrieval">Section Three: Other Tools &amp; Packages for Automated Data Retrieval</h2>
+<p>Okay, hopefully you will find the IPEDtaS script useful in future research, but, IPEDS is not the only common source of open data for education research (there are some other ways to automatically retrieve IPEDS too).</p>
+<p>In the remaining session time we are going to cover a handful of API’s the can be used to download data from common educational research sources.</p>
+<section id="us-census-apis-tidycensus" class="level3">
+<h3 data-anchor-id="us-census-apis-tidycensus">US Census APIs &amp; tidycensus</h3>
+<blockquote class="blockquote">
+<p>We’re going to use this API in our final Data Viz lesson at the end of the semester, so time dependent, we may save this for this for then!</p>
+</blockquote>
+<ul>
+<li>So what exactly is an API?
+<ul>
+<li>In short, think of it as a way of R going to a website/database and pulling data directly from the server-side or back end, without our having to ever interact with the website directly</li>
+<li>This has two main advantages
+<ul>
+<li>We don’t have to store the large dataset on our computer</li>
+<li>Our work becomes instantly more reproducible</li>
+</ul></li>
+</ul></li>
+<li>Most APIs require that you use some kind of key that identifies you as an authorized user
+<ul>
+<li>Typically you need to set up the key the first time you use the API, but helpfully, it’s usually possible to store the key on your computer for all future use</li>
+<li>Many API keys are free to obtain and use
+<ul>
+<li>If you were using an API to access a private database such as Google Maps, you might need to pay for your key to have access depending on how much you use it</li>
+<li>But because we are using Census data, which is freely available to the public, there’s no charge</li>
+</ul></li>
+</ul></li>
+</ul>
+<section id="getting-census-api-key" class="level4">
+<h4 data-anchor-id="getting-census-api-key">Getting Census API Key</h4>
+<ul>
+<li>Getting your Census API key is extremely easy
+<ol type="1">
+<li><a href="http://api.census.gov/data/key_signup.html">Simply go here</a></li>
+<li>Enter your organization name (e.g., University of Florida)</li>
+<li>Enter your school/work email
+<ul>
+<li>You will quickly receive an email with your API key, which you will need in a moment</li>
+</ul></li>
+</ol></li>
+<li>There are a number of R packages that access the Census API</li>
+<li>Personally, I think <code>tidycensus</code> is the easiest to use, particularly if you generally use a <code>tidyverse</code> version R</li>
+<li>You can check out the full documentation website for <code>tidycensus</code> <a href="https://walker-data.com/tidycensus/">here</a></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"tidycensus"</span>)</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidycensus)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li>Next, we want to set our census API key in R, this is a convenient feature that you only have to do once</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">census_api_key</span>(<span class="st">"&lt;key&gt;"</span>, <span class="at">install =</span> T)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li><p>Okay, with that, we are ready to download our data!</p>
+<ul>
+<li>Note, the process is generally similar for a lot of APIs; get a key, set a key, go!</li>
+</ul></li>
+<li><p>For this example, we are just going to pull down the % of 25+ population with a bachelor’s degree and the % of families below the poverty line for every county in the great state of Minnesota</p>
+<ul>
+<li>These variables are measured in the Census Bureau’s American Community Survey, which are survey responses collected over 3 and 5 year intervals
+<ul>
+<li>More current and have more variables than the decennial Census</li>
+</ul></li>
+</ul></li>
+<li><p>For the sake of time, I have already found the variable names</p>
+<ul>
+<li>If you want to look them up in the future, use this <a href="https://api.census.gov/data/2021/acs/acs5/profile/variables.html">Census API Variable List</a></li>
+<li>You can change the year in url to access different years</li>
+</ul></li>
+<li><p><code>DP02_0065PE</code> is % of 25+ population with a bachelor’s degree</p></li>
+<li><p><code>DP03_0119PE</code> is % of families below the poverty line</p></li>
+<li><p>There are multiple main <code>tidycensus</code> functions that you can use to call in data, with each calling data from a different source operated by the <a href="https://www.census.gov">US Census Bureau</a></p>
+<ul>
+<li><code>get_acs()</code></li>
+<li><code>get_decennial()</code></li>
+<li><code>get_estimates()</code></li>
+<li><code>get_flows()</code></li>
+<li><code>get_pop_groups()</code></li>
+<li><code>get_pums()</code></li>
+</ul></li>
+<li><p>You can see more information about these on the <a href="https://walker-data.com/tidycensus/reference/index.html">tidycensus reference page</a></p></li>
+<li><p>For today’s example we are going to use <code>get_acs()</code></p>
+<ul>
+<li>This collects data from the <a href="https://www.census.gov/programs-surveys/acs">American Community Survey</a> (regular sampled surveys of demographic data across the US)</li>
+</ul></li>
+<li><p>We are going to assign <code>&lt;-</code> the data we pull down into the object <code>data</code>:</p></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">get_acs</span>(<span class="at">geography =</span> <span class="st">"tract"</span>,</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>                <span class="at">state =</span> <span class="st">"MN"</span>,</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>                <span class="at">year =</span> <span class="dv">2022</span>,</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>                <span class="at">survey =</span> <span class="st">"acs5"</span>,</span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>                <span class="at">variables =</span> <span class="fu">c</span>(<span class="st">"DP02_0065PE"</span>, <span class="st">"DP03_0119PE"</span>), <span class="co"># Pop &gt;=25 with Bachelors, Pop below poverty line</span></span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>                <span class="at">output =</span> <span class="st">"wide"</span>,</span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>                <span class="at">geometry =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Now, we could look at these in a quick plot</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(data) <span class="sc">+</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x =</span> DP03_0119PE,</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>                 <span class="at">y =</span> DP02_0065PE))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="09-wrangle-iv_files/figure-html/unnamed-chunk-22-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>By using either of these packages for research with Census data, you get a convinient way to access Census data, plus, you make your work infinitely more reproducible in the process</p>
+</section>
+</section>
+<section id="urban-institute-education-data-explorer" class="level3">
+<h3 data-anchor-id="urban-institute-education-data-explorer">Urban Institute Education Data Explorer</h3>
+<ul>
+<li>Another API that might be useful is the Urban Institute’s Education Data Explorer
+<ul>
+<li>This actually has access to a bunch of education datasets including;
+<ul>
+<li>Common Core of Data</li>
+<li>The Civil Rights Data Collection</li>
+<li>Small Area Income and Poverty Estimates</li>
+<li>EDFacts</li>
+<li>Integrated Postsecondary Education Data System</li>
+<li>College Scorecard</li>
+<li>National Historical Geographic Information System</li>
+<li>Federal Student Aid</li>
+<li>National Association of College and University Business Officers</li>
+<li>National Center for Charitable Statistics</li>
+<li>Model Estimates of Poverty in Schools (MEPS)</li>
+<li>Equity in Athletics Data (EADA)</li>
+<li>Campus Safety and Security</li>
+</ul></li>
+</ul></li>
+<li>Now, the Urban Institute have done a lot of work behind the scenes to make this data easier to work with
+<ul>
+<li>In a lot of cases, this will be nice, but as you will see below, it has a couple of issues associated with it</li>
+</ul></li>
+<li>To demonstrate the pros and cons of this, let’s download the same data we just used in the IPEDtaS section of the workshop</li>
+</ul>
+<p>To use <code>educationdata</code> in R, we first will install their package</p>
+<ul>
+<li>You can consult the <a href="https://urbaninstitute.github.io/education-data-package-r/">reference page for the <code>educationdata</code> R package</a></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"educationdata"</span>)</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(educationdata)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>There is no API key for education data, so, we can go straight into downloading data</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>data_info <span class="ot">&lt;-</span> <span class="fu">get_education_data</span>(<span class="at">level =</span> <span class="st">"college-university"</span>,</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>                           <span class="at">source =</span> <span class="st">"ipeds"</span>,</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>                           <span class="at">topic =</span> <span class="st">"directory"</span>,</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>                           <span class="at">filters =</span> <span class="fu">list</span>(<span class="at">year =</span> <span class="dv">2021</span>),</span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>                           <span class="at">add_labels =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>data_aid <span class="ot">&lt;-</span> <span class="fu">get_education_data</span>(<span class="at">level =</span> <span class="st">"college-university"</span>,</span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>                           <span class="at">source =</span> <span class="st">"ipeds"</span>,</span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a>                           <span class="at">topic =</span> <span class="st">"sfa-by-tuition-type"</span>,</span>
+<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a>                           <span class="at">filters =</span> <span class="fu">list</span>(<span class="at">year =</span> <span class="dv">2021</span>),</span>
+<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a>                           <span class="at">add_labels =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Now, if we look</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(data_info)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 6289</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(data_aid)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 16206</code></pre>
+</div>
+</div>
+<p>Our data_aid appears to be in long format, which if you inspect the data frame, you’ll see if due to <code>tuition_type</code> being in long format</p>
+<p>To get the out of state tuition percentage we need to either reshape of filter the data down</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>data_aid <span class="ot">&lt;-</span> data_aid <span class="sc">|&gt;</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(tuition_type <span class="sc">==</span> <span class="st">"Out of state"</span>)</span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(data_aid)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1596</code></pre>
+</div>
+</div>
+<ul>
+<li>Hmm… So… Now our data is too short
+<ul>
+<li>Why is that?</li>
+<li>All we know for sure is that some colleges have been dropped
+<ul>
+<li>It could be that all private colleges didn’t get a value for out of state tuition</li>
+<li>It could be that any college that didn’t report out of state tuition didn’t get a value</li>
+<li>It could be any other reason</li>
+</ul></li>
+</ul></li>
+<li>For some, this might seem nice, they’re only giving you the data they have in a clean format
+<ul>
+<li>For me, it’s dangerous
+<ul>
+<li>We don’t know why these data are missing, if they simply weren’t reported that’s fine, but, a researcher needs to know what is missing and why
+<ul>
+<li>Simply deleting missing values is often a terrible idea, for reasons beyond the scope of this workshop</li>
+<li>This data tool makes a decision on that behind the scenes
+<ul>
+<li>There is probably documentation on this somewhere on the website, but, I don’t like the fact they do it at all</li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul></li>
+<li>Beyond the deletion issues, another thing I really don’t agree with was their decision to change the names of the variables away from the original IPEDS names
+<ul>
+<li>They did this with the intent of making the data easier to work with</li>
+<li>However, there are a number of drawbacks to this approach
+<ol type="1">
+<li>It’s harder/requires guesswork to check the dictionary to see details of a variable</li>
+<li>With similar variables, especially things they have derivied, it’s not always clear which variables from the main IPEDS files you’d need to use to get the same values</li>
+<li>Most researchers who use IPEDS use the complete data files, so, those are the variable names people are familiar with</li>
+<li>You can’t easily integrate it with existing code</li>
+<li>By keeping the original names but adding variable labels, the <code>IPEDtaS</code> data gives us more information about the variable too</li>
+</ol></li>
+</ul></li>
+<li>It’s also worth noting (as you can see above) some of the data is long in format, which can be a little extra work</li>
+<li>Lastly, a subtle but important difference is <code>educationdata</code> is a secondary API, meaning the Urban Institute have a collect the data, reformat it, then upload to their servers
+<ul>
+<li>A big drawback is the data is not kept up to date (e.g., directory information for 2023 is not yet available 11/20/2024, when it is available directly from IPEDS)</li>
+<li>As we talked about earlier, some IPEDS files are reported a year ahead/behind others depending on what the information is (characteristics of that current school year vs retention rate from previous school year), so, this also becomes an issue that intersects with the lack of clear dictionary to check</li>
+</ul></li>
+</ul>
+</section>
+<section id="airs-edsurvey-package" class="level3">
+<h3 data-anchor-id="airs-edsurvey-package">AIR’s EdSurvey Package</h3>
+<p>The final API I’d like to cover today is the <code>EdSurvey</code> package, which is produced by the American Institute of Research (a large research organization who are responsible for a number of education projects including NAEP)</p>
+<p>This is only available as a R package (as far as I’m aware) and has two broad purposes 1. Automate retrieval of various NCES survey and assessment data files 2. Modeling functions designed specifically for these data sets (e.g., defaults and settings that work best with the sampling designs/weights)</p>
+<p>Like most packages, the first step is to install and load the package</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"EdSurvey"</span>)</span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(EdSurvey)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>A lot of the surveys in the EdSurvey package might be less common in higher education research (ECLS_K, NAEP, etc.), but, the public version of HSLS has some information on college access, so, let’s look at how we’d download that</p>
+<p>This is actually quite a limited function, as you can only download the whole thing (which is 325mb), so it take a bit of time and space</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">downloadHSLS</span>(<span class="st">"."</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li>Once it’s downloaded and saved, you can open the file using the <code>readHSLS</code> function
+<ul>
+<li>This isn’t actually reading in data you can use yet, it’s a prepatory step designed prevent hogging your RAM by storing every variable in your data frame</li>
+</ul></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>hsls <span class="ot">&lt;-</span> <span class="fu">readHSLS</span>(<span class="st">"HSLS/2009"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li>The final step is to retrieve the variables you want out of this data
+<ul>
+<li>For instance, if all I wanted to keep was whether a student ever attended college alongside their own and parental expectations about college, I would do this</li>
+</ul></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>data_hsls <span class="ot">&lt;-</span> <span class="fu">getData</span>(hsls, </span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>                     <span class="at">varnames =</span> <span class="fu">c</span>(<span class="st">"x4evratndclg"</span>, <span class="st">"x1paredexpct"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li>Now we can look at distributions of these</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>data_hsls_plot <span class="ot">&lt;-</span> data_hsls <span class="sc">|&gt;</span></span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(x4evratndclg) <span class="sc">|&gt;</span></span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(x1stuedexpct) <span class="sc">|&gt;</span></span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">sum =</span> <span class="fu">sum</span>(n),</span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">perc =</span> n<span class="sc">/</span>sum<span class="sc">*</span><span class="dv">100</span>) <span class="sc">|&gt;</span></span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(x4evratndclg, x1stuedexpct, perc)</span>
+<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-8"><a href="#cb41-8" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(data_hsls_plot) <span class="sc">+</span></span>
+<span id="cb41-9"><a href="#cb41-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="fu">aes</span>(<span class="at">y =</span> perc, <span class="at">x =</span> x1stuedexpct, <span class="at">fill =</span> x4evratndclg),</span>
+<span id="cb41-10"><a href="#cb41-10" aria-hidden="true" tabindex="-1"></a>           <span class="at">position =</span> <span class="st">"dodge"</span>) <span class="sc">+</span></span>
+<span id="cb41-11"><a href="#cb41-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"pink2"</span>, <span class="st">"navy"</span>)) <span class="sc">+</span></span>
+<span id="cb41-12"><a href="#cb41-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb41-13"><a href="#cb41-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">90</span>, <span class="at">size =</span> <span class="dv">6</span>)) <span class="sc">+</span></span>
+<span id="cb41-14"><a href="#cb41-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Student Educational Expectations in Wave 1"</span>,</span>
+<span id="cb41-15"><a href="#cb41-15" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"% of Students Respondants"</span>,</span>
+<span id="cb41-16"><a href="#cb41-16" aria-hidden="true" tabindex="-1"></a>       <span class="at">fill =</span> <span class="fu">str_wrap</span>(<span class="st">"Did the Student Ever Attend College by Wave 4"</span>, <span class="dv">30</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="09-wrangle-iv_files/figure-html/unnamed-chunk-35-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="downloading-data-using-a-url" class="level3">
+<h3 data-anchor-id="downloading-data-using-a-url">Downloading Data Using a URL</h3>
+<p>Lastly, if you’re working with data that isn’t part of one of these large datasets with an API, that doesn’t mean you can’t necessarily automate your data retrieval</p>
+<ul>
+<li>The first step <code>IPEDtaS</code> takes is to simply download a file using the url copied from the IPEDS complete data files page
+<ul>
+<li>This can be done easily in both Stata and R, so long as you’re able to obtain the url that actually triggers the download (sometimes this can involve immediately hitting ctrl/c or cmnd/c when a download starts)</li>
+</ul></li>
+<li>Since we are in Minneapolis, home of Target, I found this data set of Target store locations
+<ul>
+<li>“https://www.kaggle.com/api/v1/datasets/download/ben1989/target-store-dataset”</li>
+</ul></li>
+</ul>
+<p>To download a URL in R, you simply have to add a URL and a name for the file once it’s downloaded (most often, you will be downloading a zip file)</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">download.file</span>(<span class="at">url =</span> <span class="st">"https://www.kaggle.com/api/v1/datasets/download/ben1989/target-store-dataset"</span>,</span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>              <span class="at">destfile =</span> <span class="st">"data/target-data.zip"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>You then need to unzip it</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">unzip</span>(<span class="st">"data/target-data.zip"</span>, <span class="at">exdir =</span> <span class="st">"data/"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>You can then read it in like any other csv file</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>data_target <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/targets.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>And perform analyses with it</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>data_target <span class="sc">|&gt;</span></span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(SubTypeDescription)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 4 × 2
+  SubTypeDescription     n
+  &lt;chr&gt;              &lt;int&gt;
+1 City                   9
+2 SuperTarget          242
+3 TargetExpress         56
+4 &lt;NA&gt;                1522</code></pre>
+</div>
+</div>
+<p>That concludes the section of the class on automating data retrieval!</p>
+<p>I hope you gained an appriciation for why we should try to automate data retrieval when possible and some understanding of a handful of tools available to do so!</p>
+<p>The final bonus section of this lesson is an exploration of the links between <code>tidyverse</code> and an extremely improtant data retrieval language <code>SQL</code>. This is all bonus content, but, if you’re planning on a career in institutional research, <code>SQL</code> is a must-have skills, so I encourage you to take a look and explore some of the other resources listed in the next tab!</p>
+</section>
+</section>
+</div>
+<div id="tabset-1-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-3-tab">
 <ul>
 <li>For this section, we are going to see how tasks from <a href="./04-wrangle-ii.html">Data Wrangling II</a> could be performed using <code>SQL</code>, a common tool used to work with databases</li>
 </ul>
@@ -897,11 +1351,11 @@ df_0 |>
 </ul></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="fu">file.path</span>(<span class="st">"data"</span>, <span class="st">"sch-test"</span>, <span class="st">"all-schools.csv"</span>))</span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>microsoft_access <span class="ot">&lt;-</span> <span class="fu">simulate_access</span>()</span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>db <span class="ot">&lt;-</span> <span class="fu">memdb_frame</span>(df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="fu">file.path</span>(<span class="st">"data"</span>, <span class="st">"sch-test"</span>, <span class="st">"all-schools.csv"</span>))</span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>microsoft_access <span class="ot">&lt;-</span> <span class="fu">simulate_access</span>()</span>
+<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a>db <span class="ot">&lt;-</span> <span class="fu">memdb_frame</span>(df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <section id="create-summary-table" class="level4">
 <h4 data-anchor-id="create-summary-table">Create Summary Table</h4>
@@ -909,24 +1363,24 @@ df_0 |>
 <li>Our first command is pretty simple, we want to group our data by year then calculate the mean test score, which will give us average test scores for each year</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># https://stackoverflow.com/questions/76724279/syntax-highlight-quarto-output</span></span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>df_sum <span class="ot">&lt;-</span> db <span class="sc">|&gt;</span></span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>    <span class="do">## grouping by year so average within each year</span></span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(year) <span class="sc">|&gt;</span></span>
-<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>    <span class="do">## get mean(&lt;score&gt;) for each test</span></span>
-<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(<span class="at">math_m =</span> <span class="fu">mean</span>(math),</span>
-<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>              <span class="at">read_m =</span> <span class="fu">mean</span>(read),</span>
-<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>              <span class="at">science_m =</span> <span class="fu">mean</span>(science)) <span class="sc">|&gt;</span></span>
-<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">show_query</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="co"># https://stackoverflow.com/questions/76724279/syntax-highlight-quarto-output</span></span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>df_sum <span class="ot">&lt;-</span> db <span class="sc">|&gt;</span></span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a>    <span class="do">## grouping by year so average within each year</span></span>
+<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(year) <span class="sc">|&gt;</span></span>
+<span id="cb48-5"><a href="#cb48-5" aria-hidden="true" tabindex="-1"></a>    <span class="do">## get mean(&lt;score&gt;) for each test</span></span>
+<span id="cb48-6"><a href="#cb48-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(<span class="at">math_m =</span> <span class="fu">mean</span>(math),</span>
+<span id="cb48-7"><a href="#cb48-7" aria-hidden="true" tabindex="-1"></a>              <span class="at">read_m =</span> <span class="fu">mean</span>(read),</span>
+<span id="cb48-8"><a href="#cb48-8" aria-hidden="true" tabindex="-1"></a>              <span class="at">science_m =</span> <span class="fu">mean</span>(science)) <span class="sc">|&gt;</span></span>
+<span id="cb48-9"><a href="#cb48-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">show_query</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<div class="sourceCode" id="cb22"><pre class="sourceCode SQL code-with-copy"><code class="sourceCode sql"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="op">&lt;</span>SQL<span class="op">&gt;</span></span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span></span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  `year`,</span>
-<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">AVG</span>(`math`) <span class="kw">AS</span> `math_m`,</span>
-<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">AVG</span>(`read`) <span class="kw">AS</span> `read_m`,</span>
-<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">AVG</span>(`science`) <span class="kw">AS</span> `science_m`</span>
-<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> `dbplyr_oyyxBbLE68`</span>
-<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a><span class="kw">GROUP</span> <span class="kw">BY</span> `year`</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb49"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="op">&lt;</span>SQL<span class="op">&gt;</span></span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span></span>
+<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>  `year`,</span>
+<span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">AVG</span>(`math`) <span class="kw">AS</span> `math_m`,</span>
+<span id="cb49-5"><a href="#cb49-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">AVG</span>(`read`) <span class="kw">AS</span> `read_m`,</span>
+<span id="cb49-6"><a href="#cb49-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">AVG</span>(`science`) <span class="kw">AS</span> `science_m`</span>
+<span id="cb49-7"><a href="#cb49-7" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> `dbplyr_EIiRVQw3aT`</span>
+<span id="cb49-8"><a href="#cb49-8" aria-hidden="true" tabindex="-1"></a><span class="kw">GROUP</span> <span class="kw">BY</span> `year`</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <ul>
@@ -946,24 +1400,24 @@ df_0 |>
 <li>Next, we want to join these averages back into the the main data frame</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>df_joined <span class="ot">&lt;-</span> db <span class="sc">|&gt;</span></span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>    <span class="do">## pipe into left_join to join with df_sum using "year" as key</span></span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">left_join</span>(df_sum, <span class="at">by =</span> <span class="st">"year"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">show_query</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>df_joined <span class="ot">&lt;-</span> db <span class="sc">|&gt;</span></span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>    <span class="do">## pipe into left_join to join with df_sum using "year" as key</span></span>
+<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">left_join</span>(df_sum, <span class="at">by =</span> <span class="st">"year"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">show_query</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<div class="sourceCode" id="cb24"><pre class="sourceCode SQL code-with-copy"><code class="sourceCode sql"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="op">&lt;</span>SQL<span class="op">&gt;</span></span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> `dbplyr_oyyxBbLE68`.<span class="op">*</span>, `math_m`, `read_m`, `science_m`</span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> `dbplyr_oyyxBbLE68`</span>
-<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a><span class="kw">LEFT</span> <span class="kw">JOIN</span> (</span>
-<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>  <span class="kw">SELECT</span></span>
-<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>    `year`,</span>
-<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">AVG</span>(`math`) <span class="kw">AS</span> `math_m`,</span>
-<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">AVG</span>(`read`) <span class="kw">AS</span> `read_m`,</span>
-<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">AVG</span>(`science`) <span class="kw">AS</span> `science_m`</span>
-<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>  <span class="kw">FROM</span> `dbplyr_oyyxBbLE68`</span>
-<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>  <span class="kw">GROUP</span> <span class="kw">BY</span> `year`</span>
-<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a>) <span class="kw">AS</span> `RHS`</span>
-<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a>  <span class="kw">ON</span> (`dbplyr_oyyxBbLE68`.`year` <span class="op">=</span> `RHS`.`year`)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb51"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="op">&lt;</span>SQL<span class="op">&gt;</span></span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> `dbplyr_EIiRVQw3aT`.<span class="op">*</span>, `math_m`, `read_m`, `science_m`</span>
+<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> `dbplyr_EIiRVQw3aT`</span>
+<span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a><span class="kw">LEFT</span> <span class="kw">JOIN</span> (</span>
+<span id="cb51-5"><a href="#cb51-5" aria-hidden="true" tabindex="-1"></a>  <span class="kw">SELECT</span></span>
+<span id="cb51-6"><a href="#cb51-6" aria-hidden="true" tabindex="-1"></a>    `year`,</span>
+<span id="cb51-7"><a href="#cb51-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">AVG</span>(`math`) <span class="kw">AS</span> `math_m`,</span>
+<span id="cb51-8"><a href="#cb51-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">AVG</span>(`read`) <span class="kw">AS</span> `read_m`,</span>
+<span id="cb51-9"><a href="#cb51-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">AVG</span>(`science`) <span class="kw">AS</span> `science_m`</span>
+<span id="cb51-10"><a href="#cb51-10" aria-hidden="true" tabindex="-1"></a>  <span class="kw">FROM</span> `dbplyr_EIiRVQw3aT`</span>
+<span id="cb51-11"><a href="#cb51-11" aria-hidden="true" tabindex="-1"></a>  <span class="kw">GROUP</span> <span class="kw">BY</span> `year`</span>
+<span id="cb51-12"><a href="#cb51-12" aria-hidden="true" tabindex="-1"></a>) <span class="kw">AS</span> `RHS`</span>
+<span id="cb51-13"><a href="#cb51-13" aria-hidden="true" tabindex="-1"></a>  <span class="kw">ON</span> (`dbplyr_EIiRVQw3aT`.`year` <span class="op">=</span> `RHS`.`year`)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <ul>
@@ -980,28 +1434,28 @@ df_0 |>
 <li>Our next query pivots the data longer, which remember from our original lesson take the math, reading, and science score columns, and turns them into one column for score type and column for score</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>df_long <span class="ot">&lt;-</span> db <span class="sc">|&gt;</span></span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>    <span class="do">## cols: current test columns</span></span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>    <span class="do">## names_to: where "math", "read", and "science" will go</span></span>
-<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>    <span class="do">## values_to: where the values in cols will go</span></span>
-<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="fu">c</span>(<span class="st">"math"</span>,<span class="st">"read"</span>,<span class="st">"science"</span>),</span>
-<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>                 <span class="at">names_to =</span> <span class="st">"test"</span>,</span>
-<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>                 <span class="at">values_to =</span> <span class="st">"score"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">show_query</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>df_long <span class="ot">&lt;-</span> db <span class="sc">|&gt;</span></span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>    <span class="do">## cols: current test columns</span></span>
+<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a>    <span class="do">## names_to: where "math", "read", and "science" will go</span></span>
+<span id="cb52-4"><a href="#cb52-4" aria-hidden="true" tabindex="-1"></a>    <span class="do">## values_to: where the values in cols will go</span></span>
+<span id="cb52-5"><a href="#cb52-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="fu">c</span>(<span class="st">"math"</span>,<span class="st">"read"</span>,<span class="st">"science"</span>),</span>
+<span id="cb52-6"><a href="#cb52-6" aria-hidden="true" tabindex="-1"></a>                 <span class="at">names_to =</span> <span class="st">"test"</span>,</span>
+<span id="cb52-7"><a href="#cb52-7" aria-hidden="true" tabindex="-1"></a>                 <span class="at">values_to =</span> <span class="st">"score"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb52-8"><a href="#cb52-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">show_query</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<div class="sourceCode" id="cb26"><pre class="sourceCode SQL code-with-copy"><code class="sourceCode sql"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="op">&lt;</span>SQL<span class="op">&gt;</span></span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> `school`, `year`, <span class="st">'math'</span> <span class="kw">AS</span> `test`, `math` <span class="kw">AS</span> `score`</span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> `dbplyr_oyyxBbLE68`</span>
-<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a><span class="kw">UNION</span> <span class="kw">ALL</span></span>
-<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> `school`, `year`, <span class="st">'read'</span> <span class="kw">AS</span> `test`, `read` <span class="kw">AS</span> `score`</span>
-<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> `dbplyr_oyyxBbLE68`</span>
-<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a><span class="kw">UNION</span> <span class="kw">ALL</span></span>
-<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> `school`, `year`, <span class="st">'science'</span> <span class="kw">AS</span> `test`, `science` <span class="kw">AS</span> `score`</span>
-<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> `dbplyr_oyyxBbLE68`</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb53"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="op">&lt;</span>SQL<span class="op">&gt;</span></span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> `school`, `year`, <span class="st">'math'</span> <span class="kw">AS</span> `test`, `math` <span class="kw">AS</span> `score`</span>
+<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> `dbplyr_EIiRVQw3aT`</span>
+<span id="cb53-4"><a href="#cb53-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-5"><a href="#cb53-5" aria-hidden="true" tabindex="-1"></a><span class="kw">UNION</span> <span class="kw">ALL</span></span>
+<span id="cb53-6"><a href="#cb53-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-7"><a href="#cb53-7" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> `school`, `year`, <span class="st">'read'</span> <span class="kw">AS</span> `test`, `read` <span class="kw">AS</span> `score`</span>
+<span id="cb53-8"><a href="#cb53-8" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> `dbplyr_EIiRVQw3aT`</span>
+<span id="cb53-9"><a href="#cb53-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-10"><a href="#cb53-10" aria-hidden="true" tabindex="-1"></a><span class="kw">UNION</span> <span class="kw">ALL</span></span>
+<span id="cb53-11"><a href="#cb53-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-12"><a href="#cb53-12" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> `school`, `year`, <span class="st">'science'</span> <span class="kw">AS</span> `test`, `science` <span class="kw">AS</span> `score`</span>
+<span id="cb53-13"><a href="#cb53-13" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> `dbplyr_EIiRVQw3aT`</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <ul>
@@ -1016,35 +1470,35 @@ df_0 |>
 <li>Next, let’s pivot that data back wide</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>df_wide <span class="ot">&lt;-</span> df_long <span class="sc">|&gt;</span></span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>    <span class="do">## names_from: values in this column will become new column names</span></span>
-<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>    <span class="do">## values_from: values in this column will become values in new cols</span></span>
-<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> <span class="st">"test"</span>,</span>
-<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>                <span class="at">values_from =</span> <span class="st">"score"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">show_query</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>df_wide <span class="ot">&lt;-</span> df_long <span class="sc">|&gt;</span></span>
+<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a>    <span class="do">## names_from: values in this column will become new column names</span></span>
+<span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a>    <span class="do">## values_from: values in this column will become values in new cols</span></span>
+<span id="cb54-4"><a href="#cb54-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> <span class="st">"test"</span>,</span>
+<span id="cb54-5"><a href="#cb54-5" aria-hidden="true" tabindex="-1"></a>                <span class="at">values_from =</span> <span class="st">"score"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb54-6"><a href="#cb54-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">show_query</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<div class="sourceCode" id="cb28"><pre class="sourceCode SQL code-with-copy"><code class="sourceCode sql"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="op">&lt;</span>SQL<span class="op">&gt;</span></span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span></span>
-<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>  `school`,</span>
-<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>  `year`,</span>
-<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">MAX</span>(<span class="cf">CASE</span> <span class="cf">WHEN</span> (`test` <span class="op">=</span> <span class="st">'math'</span>) <span class="cf">THEN</span> `score` <span class="cf">END</span>) <span class="kw">AS</span> `math`,</span>
-<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">MAX</span>(<span class="cf">CASE</span> <span class="cf">WHEN</span> (`test` <span class="op">=</span> <span class="st">'read'</span>) <span class="cf">THEN</span> `score` <span class="cf">END</span>) <span class="kw">AS</span> `read`,</span>
-<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">MAX</span>(<span class="cf">CASE</span> <span class="cf">WHEN</span> (`test` <span class="op">=</span> <span class="st">'science'</span>) <span class="cf">THEN</span> `score` <span class="cf">END</span>) <span class="kw">AS</span> `science`</span>
-<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> (</span>
-<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>  <span class="kw">SELECT</span> `school`, `year`, <span class="st">'math'</span> <span class="kw">AS</span> `test`, `math` <span class="kw">AS</span> `score`</span>
-<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a>  <span class="kw">FROM</span> `dbplyr_oyyxBbLE68`</span>
-<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a>  <span class="kw">UNION</span> <span class="kw">ALL</span></span>
-<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-14"><a href="#cb28-14" aria-hidden="true" tabindex="-1"></a>  <span class="kw">SELECT</span> `school`, `year`, <span class="st">'read'</span> <span class="kw">AS</span> `test`, `read` <span class="kw">AS</span> `score`</span>
-<span id="cb28-15"><a href="#cb28-15" aria-hidden="true" tabindex="-1"></a>  <span class="kw">FROM</span> `dbplyr_oyyxBbLE68`</span>
-<span id="cb28-16"><a href="#cb28-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-17"><a href="#cb28-17" aria-hidden="true" tabindex="-1"></a>  <span class="kw">UNION</span> <span class="kw">ALL</span></span>
-<span id="cb28-18"><a href="#cb28-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-19"><a href="#cb28-19" aria-hidden="true" tabindex="-1"></a>  <span class="kw">SELECT</span> `school`, `year`, <span class="st">'science'</span> <span class="kw">AS</span> `test`, `science` <span class="kw">AS</span> `score`</span>
-<span id="cb28-20"><a href="#cb28-20" aria-hidden="true" tabindex="-1"></a>  <span class="kw">FROM</span> `dbplyr_oyyxBbLE68`</span>
-<span id="cb28-21"><a href="#cb28-21" aria-hidden="true" tabindex="-1"></a>) <span class="kw">AS</span> `q01`</span>
-<span id="cb28-22"><a href="#cb28-22" aria-hidden="true" tabindex="-1"></a><span class="kw">GROUP</span> <span class="kw">BY</span> `school`, `year`</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb55"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="op">&lt;</span>SQL<span class="op">&gt;</span></span>
+<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span></span>
+<span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a>  `school`,</span>
+<span id="cb55-4"><a href="#cb55-4" aria-hidden="true" tabindex="-1"></a>  `year`,</span>
+<span id="cb55-5"><a href="#cb55-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">MAX</span>(<span class="cf">CASE</span> <span class="cf">WHEN</span> (`test` <span class="op">=</span> <span class="st">'math'</span>) <span class="cf">THEN</span> `score` <span class="cf">END</span>) <span class="kw">AS</span> `math`,</span>
+<span id="cb55-6"><a href="#cb55-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">MAX</span>(<span class="cf">CASE</span> <span class="cf">WHEN</span> (`test` <span class="op">=</span> <span class="st">'read'</span>) <span class="cf">THEN</span> `score` <span class="cf">END</span>) <span class="kw">AS</span> `read`,</span>
+<span id="cb55-7"><a href="#cb55-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">MAX</span>(<span class="cf">CASE</span> <span class="cf">WHEN</span> (`test` <span class="op">=</span> <span class="st">'science'</span>) <span class="cf">THEN</span> `score` <span class="cf">END</span>) <span class="kw">AS</span> `science`</span>
+<span id="cb55-8"><a href="#cb55-8" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> (</span>
+<span id="cb55-9"><a href="#cb55-9" aria-hidden="true" tabindex="-1"></a>  <span class="kw">SELECT</span> `school`, `year`, <span class="st">'math'</span> <span class="kw">AS</span> `test`, `math` <span class="kw">AS</span> `score`</span>
+<span id="cb55-10"><a href="#cb55-10" aria-hidden="true" tabindex="-1"></a>  <span class="kw">FROM</span> `dbplyr_EIiRVQw3aT`</span>
+<span id="cb55-11"><a href="#cb55-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-12"><a href="#cb55-12" aria-hidden="true" tabindex="-1"></a>  <span class="kw">UNION</span> <span class="kw">ALL</span></span>
+<span id="cb55-13"><a href="#cb55-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-14"><a href="#cb55-14" aria-hidden="true" tabindex="-1"></a>  <span class="kw">SELECT</span> `school`, `year`, <span class="st">'read'</span> <span class="kw">AS</span> `test`, `read` <span class="kw">AS</span> `score`</span>
+<span id="cb55-15"><a href="#cb55-15" aria-hidden="true" tabindex="-1"></a>  <span class="kw">FROM</span> `dbplyr_EIiRVQw3aT`</span>
+<span id="cb55-16"><a href="#cb55-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-17"><a href="#cb55-17" aria-hidden="true" tabindex="-1"></a>  <span class="kw">UNION</span> <span class="kw">ALL</span></span>
+<span id="cb55-18"><a href="#cb55-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-19"><a href="#cb55-19" aria-hidden="true" tabindex="-1"></a>  <span class="kw">SELECT</span> `school`, `year`, <span class="st">'science'</span> <span class="kw">AS</span> `test`, `science` <span class="kw">AS</span> `score`</span>
+<span id="cb55-20"><a href="#cb55-20" aria-hidden="true" tabindex="-1"></a>  <span class="kw">FROM</span> `dbplyr_EIiRVQw3aT`</span>
+<span id="cb55-21"><a href="#cb55-21" aria-hidden="true" tabindex="-1"></a>) <span class="kw">AS</span> `q01`</span>
+<span id="cb55-22"><a href="#cb55-22" aria-hidden="true" tabindex="-1"></a><span class="kw">GROUP</span> <span class="kw">BY</span> `school`, `year`</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <ul>
@@ -1054,10 +1508,11 @@ df_0 |>
 </ul>
 </section>
 </section>
-</section>
 </div>
-<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
-<p>There is no homework assignment associated with this lesson. Instead, your initial analysis for your reproducible report is due Sunday at 11:59pm. See the <a href="./99-final.html">final project</a> for details.</p>
+<div id="tabset-1-4" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-4-tab">
+<p>There is no homework assignment associated with this lesson.</p>
+<p>Instead, your initial analysis for your reproducible report is due next Tuesday at 12:00pm.</p>
+<p>See the <a href="./99-final.html">final project</a> for details.</p>
 </div>
 </div>
 </div>
@@ -1199,7 +1654,7 @@ FROM (
             `x1region`,
             CASE WHEN (`x1stuedexpct` IN list(-8.0, -9.0, 11.0)) THEN NULL WHEN NOT (`x1stuedexpct` IN list(-8.0, -9.0, 11.0)) THEN `x1stuedexpct` END AS `student_exp`,
             CASE WHEN (`x1paredexpct` IN list(-8.0, -9.0, 11.0)) THEN NULL WHEN NOT (`x1paredexpct` IN list(-8.0, -9.0, 11.0)) THEN `x1paredexpct` END AS `parent_exp`
-          FROM `dbplyr_xvntHqI5zD`
+          FROM `dbplyr_Rm4J8ttpvF`
         ) AS `q01`
       ) AS `q01`
     ) AS `q01`
@@ -1233,7 +1688,7 @@ db |>
 ```
 <SQL>
 SELECT `stu_id`, `x1stuedexpct`, `x1paredexpct`, `x1region`
-FROM `dbplyr_xvntHqI5zD`
+FROM `dbplyr_Rm4J8ttpvF`
 ```
 
 
@@ -1266,7 +1721,7 @@ SELECT
   `x1region`,
   CASE WHEN (`x1stuedexpct` IN list(-8.0, -9.0, 11.0)) THEN NULL WHEN NOT (`x1stuedexpct` IN list(-8.0, -9.0, 11.0)) THEN `x1stuedexpct` END AS `student_exp`,
   CASE WHEN (`x1paredexpct` IN list(-8.0, -9.0, 11.0)) THEN NULL WHEN NOT (`x1paredexpct` IN list(-8.0, -9.0, 11.0)) THEN `x1paredexpct` END AS `parent_exp`
-FROM `dbplyr_xvntHqI5zD`
+FROM `dbplyr_Rm4J8ttpvF`
 ```
 
 
@@ -1306,7 +1761,7 @@ FROM (
     `x1region`,
     CASE WHEN (`x1stuedexpct` IN list(-8.0, -9.0, 11.0)) THEN NULL WHEN NOT (`x1stuedexpct` IN list(-8.0, -9.0, 11.0)) THEN `x1stuedexpct` END AS `student_exp`,
     CASE WHEN (`x1paredexpct` IN list(-8.0, -9.0, 11.0)) THEN NULL WHEN NOT (`x1paredexpct` IN list(-8.0, -9.0, 11.0)) THEN `x1paredexpct` END AS `parent_exp`
-  FROM `dbplyr_xvntHqI5zD`
+  FROM `dbplyr_Rm4J8ttpvF`
 ) AS `q01`
 ```
 
@@ -1368,7 +1823,7 @@ FROM (
         `x1region`,
         CASE WHEN (`x1stuedexpct` IN list(-8.0, -9.0, 11.0)) THEN NULL WHEN NOT (`x1stuedexpct` IN list(-8.0, -9.0, 11.0)) THEN `x1stuedexpct` END AS `student_exp`,
         CASE WHEN (`x1paredexpct` IN list(-8.0, -9.0, 11.0)) THEN NULL WHEN NOT (`x1paredexpct` IN list(-8.0, -9.0, 11.0)) THEN `x1paredexpct` END AS `parent_exp`
-      FROM `dbplyr_xvntHqI5zD`
+      FROM `dbplyr_Rm4J8ttpvF`
     ) AS `q01`
   ) AS `q01`
 ) AS `q01`
@@ -1441,7 +1896,7 @@ FROM (
           `x1region`,
           CASE WHEN (`x1stuedexpct` IN list(-8.0, -9.0, 11.0)) THEN NULL WHEN NOT (`x1stuedexpct` IN list(-8.0, -9.0, 11.0)) THEN `x1stuedexpct` END AS `student_exp`,
           CASE WHEN (`x1paredexpct` IN list(-8.0, -9.0, 11.0)) THEN NULL WHEN NOT (`x1paredexpct` IN list(-8.0, -9.0, 11.0)) THEN `x1paredexpct` END AS `parent_exp`
-        FROM `dbplyr_xvntHqI5zD`
+        FROM `dbplyr_Rm4J8ttpvF`
       ) AS `q01`
     ) AS `q01`
   ) AS `q01`
@@ -1518,7 +1973,7 @@ FROM (
             `x1region`,
             CASE WHEN (`x1stuedexpct` IN list(-8.0, -9.0, 11.0)) THEN NULL WHEN NOT (`x1stuedexpct` IN list(-8.0, -9.0, 11.0)) THEN `x1stuedexpct` END AS `student_exp`,
             CASE WHEN (`x1paredexpct` IN list(-8.0, -9.0, 11.0)) THEN NULL WHEN NOT (`x1paredexpct` IN list(-8.0, -9.0, 11.0)) THEN `x1paredexpct` END AS `parent_exp`
-          FROM `dbplyr_xvntHqI5zD`
+          FROM `dbplyr_Rm4J8ttpvF`
         ) AS `q01`
       ) AS `q01`
     ) AS `q01`
@@ -1557,8 +2012,8 @@ print(db_3)
 ::: {.cell-output .cell-output-stdout}
 
 ```
-# Source:   table<`dbplyr_0Y0jtEhKiM`> [4 x 19]
-# Database: sqlite 3.45.2 [:memory:]
+# Source:   table<`dbplyr_PkyAzM2x7G`> [4 x 19]
+# Database: sqlite 3.46.0 [:memory:]
   school       math_1980 read_1980 science_1980 math_1981 read_1981 science_1981
   <chr>            <dbl>     <dbl>        <dbl>     <dbl>     <dbl>        <dbl>
 1 Bend Gate          515       281          808       503       312          814
@@ -1593,15 +2048,15 @@ df_long_fix <- db_3 |>
 
 ::: {.cell-output .cell-output-stdout}
 
-```{.SQL}
+``` SQL
 <SQL>
 SELECT `school`, 'math' AS `test`, '1980' AS `year`, `math_1980` AS `score`
-FROM `dbplyr_0Y0jtEhKiM`
+FROM `dbplyr_PkyAzM2x7G`
 
 UNION ALL
 
 SELECT `school`, 'read' AS `test`, '1980' AS `year`, `read_1980` AS `score`
-FROM `dbplyr_0Y0jtEhKiM`
+FROM `dbplyr_PkyAzM2x7G`
 
 UNION ALL
 
@@ -1610,17 +2065,17 @@ SELECT
   'science' AS `test`,
   '1980' AS `year`,
   `science_1980` AS `score`
-FROM `dbplyr_0Y0jtEhKiM`
+FROM `dbplyr_PkyAzM2x7G`
 
 UNION ALL
 
 SELECT `school`, 'math' AS `test`, '1981' AS `year`, `math_1981` AS `score`
-FROM `dbplyr_0Y0jtEhKiM`
+FROM `dbplyr_PkyAzM2x7G`
 
 UNION ALL
 
 SELECT `school`, 'read' AS `test`, '1981' AS `year`, `read_1981` AS `score`
-FROM `dbplyr_0Y0jtEhKiM`
+FROM `dbplyr_PkyAzM2x7G`
 
 UNION ALL
 
@@ -1629,17 +2084,17 @@ SELECT
   'science' AS `test`,
   '1981' AS `year`,
   `science_1981` AS `score`
-FROM `dbplyr_0Y0jtEhKiM`
+FROM `dbplyr_PkyAzM2x7G`
 
 UNION ALL
 
 SELECT `school`, 'math' AS `test`, '1982' AS `year`, `math_1982` AS `score`
-FROM `dbplyr_0Y0jtEhKiM`
+FROM `dbplyr_PkyAzM2x7G`
 
 UNION ALL
 
 SELECT `school`, 'read' AS `test`, '1982' AS `year`, `read_1982` AS `score`
-FROM `dbplyr_0Y0jtEhKiM`
+FROM `dbplyr_PkyAzM2x7G`
 
 UNION ALL
 
@@ -1648,17 +2103,17 @@ SELECT
   'science' AS `test`,
   '1982' AS `year`,
   `science_1982` AS `score`
-FROM `dbplyr_0Y0jtEhKiM`
+FROM `dbplyr_PkyAzM2x7G`
 
 UNION ALL
 
 SELECT `school`, 'math' AS `test`, '1983' AS `year`, `math_1983` AS `score`
-FROM `dbplyr_0Y0jtEhKiM`
+FROM `dbplyr_PkyAzM2x7G`
 
 UNION ALL
 
 SELECT `school`, 'read' AS `test`, '1983' AS `year`, `read_1983` AS `score`
-FROM `dbplyr_0Y0jtEhKiM`
+FROM `dbplyr_PkyAzM2x7G`
 
 UNION ALL
 
@@ -1667,17 +2122,17 @@ SELECT
   'science' AS `test`,
   '1983' AS `year`,
   `science_1983` AS `score`
-FROM `dbplyr_0Y0jtEhKiM`
+FROM `dbplyr_PkyAzM2x7G`
 
 UNION ALL
 
 SELECT `school`, 'math' AS `test`, '1984' AS `year`, `math_1984` AS `score`
-FROM `dbplyr_0Y0jtEhKiM`
+FROM `dbplyr_PkyAzM2x7G`
 
 UNION ALL
 
 SELECT `school`, 'read' AS `test`, '1984' AS `year`, `read_1984` AS `score`
-FROM `dbplyr_0Y0jtEhKiM`
+FROM `dbplyr_PkyAzM2x7G`
 
 UNION ALL
 
@@ -1686,17 +2141,17 @@ SELECT
   'science' AS `test`,
   '1984' AS `year`,
   `science_1984` AS `score`
-FROM `dbplyr_0Y0jtEhKiM`
+FROM `dbplyr_PkyAzM2x7G`
 
 UNION ALL
 
 SELECT `school`, 'math' AS `test`, '1985' AS `year`, `math_1985` AS `score`
-FROM `dbplyr_0Y0jtEhKiM`
+FROM `dbplyr_PkyAzM2x7G`
 
 UNION ALL
 
 SELECT `school`, 'read' AS `test`, '1985' AS `year`, `read_1985` AS `score`
-FROM `dbplyr_0Y0jtEhKiM`
+FROM `dbplyr_PkyAzM2x7G`
 
 UNION ALL
 
@@ -1705,7 +2160,7 @@ SELECT
   'science' AS `test`,
   '1985' AS `year`,
   `science_1985` AS `score`
-FROM `dbplyr_0Y0jtEhKiM`
+FROM `dbplyr_PkyAzM2x7G`
 ```
 
 
@@ -1748,18 +2203,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const clipboard = new window.ClipboardJS('.code-copy-button', {
-    text: function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-    }
-  });
-  clipboard.on('success', function(e) {
+  const onCopySuccess = function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -1791,7 +2235,29 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
   });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
       var filterRegex = new RegExp("https:\/\/capaldi\.info\/7916");
@@ -1799,7 +2265,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }
     // Inspect non-navigation links and adorn them if external
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
     for (var i=0; i<links.length; i++) {
       const link = links[i];
       if (!isInternal(link.href)) {
