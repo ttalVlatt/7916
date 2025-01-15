@@ -69,9 +69,7 @@ library(tidyverse)
 
 -   If you need a refresher on setting the working directory, see the [prior lesson](02-set-data.qmd).
 
--   **Notice** that I'm not setting (*i.e.* hard coding) the working directory in the script.
-    That would not work well for sharing the code.
-    Instead, I tell you where you need to be (a common landmark), let you get there, and then rely on relative paths afterwards
+-   **Notice** that we're not setting (*i.e.* hard coding) the working directory in the script. That would not work well for sharing the code. Instead, we rely on relative paths once you know where you need to be and have gotten there
 
 ### Reading Data in with `read_csv()`
 
@@ -99,11 +97,16 @@ library(tidyverse)
 ```{r}
 ## data are CSV, so we use read_csv() from the readr library
 df <- read_csv("data/hsls-small.csv")
+
+## alternatively, you can also use read_csv(file.path("data", "hsls-small.csv"))
 ```
 
 -   You may notice the `read_csv()` prints out information about the data just read in.
     Nothing is wrong!
     The `read_csv()` function, like many other functions in the tidyverse, assumes you'd rather have more rather than less information and acts accordingly
+
+-   Here we assign our data to an object called `df` (short for data frame), which is common in the coding community
+    -   You can call it whatever you want, such as `data` if that makes more sense to you
 
 -   Up to now, this should all seem fairly consistent with last week's lesson.
     This is just the set up, now it's time to dive in!
@@ -501,78 +504,48 @@ mean(c(5, 6, 4, NA), na.rm = T)
 ```
 
 -   So in our case of trying to get the highest expectation, R doesn't want us to forget we have `NA` values, so it throws them at us.
--   For now, let's keep the results we got, but, if it gave us an `NA` and there is a non-`NA` value in other other column, sub that in
+
+-   Dealing with missing values is a huge topic in data analysis, and there are many ways to handle them, which is beyond the scope of this lesson
+    -   For now, let's remove rows that have `NA` values in either `x1stuedexpct` or `x1paredexpct` or both 
 
 ### Dealing With Missing Values with `is.na()`, `&`, and `!`
 
 ```{r, include = FALSE, purl = TRUE}
 ## ---------------------------
-##' [Handling NA Values]
+##' [Handling NA Values and Filter NA Rows]
 ## ---------------------------
 ```
 
--   To do this, we will add another couple of code helpers -`is.na(high_exp)` simply asks if the `high_exp` is `NA` or not
-    -   R doesn't let you just say `high_exp == NA` -`!` is really helpful tool, which can be used to negate or invert a command
+-   To do this, we will add another couple of code helpers -`is.na(x1stuedexpct)` simply asks if the `x1stuedexpct` is `NA` or not
+    -   R doesn't let you just say `x1stuedexpct == NA` 
+    -`!` is really helpful tool, which can be used to negate or invert a command
         -   `!is.na(x1stuedexpct)` just returns the opposite of `is.na(x1stuedexpct)` so it tells us that the column is not `NA` -`&` can be useful inside conditional statements, as it means both must be `TRUE` (FYI: `|` means or)
--   Used together, we can now ensure we have as few `NA`s as possible in the data (there will still be some when both student and parent were `NA`)
-
+        
 ```{r}
-df_small <- df_small |>
-  mutate(high_exp = ifelse(is.na(high_exp) & !is.na(x1stuedexpct), x1stuedexpct, high_exp),
-         high_exp = ifelse(is.na(high_exp) & !is.na(x1paredexpct), x1paredexpct, high_exp))
+df_small_cut <- df_small |>
+  filter(!is.na(x1stuedexpct) & !is.na(x1paredexpct))
+
 ```
 
--   Let's print this one last time to check our work
+-   So `!is.na(x1stuedexpct) & !is.na(x1paredexpct)` makes sure that both `x1stuedexpct` and `x1paredexpct` are not `NA`
 
-```{r}
-print(df_small, n = 26)
-```
-
--   Okay, looks good!
-
--   There are other ways we could have gone about this analysis, some more sophisticated and slicker
-
-    -   But, what matters more is that we checked our work as we went, caught the issues, and finished with the correct data
-        -   We will learn more tools along the way that speed things up, especially in the brand new [Data Wrangling IV Lesson](09-wrangle-iv.qmd)
-        -   However, the more steps you take at once, the more you have to check at once!
-        -   There's often never a single correct way to get to the right answer, so long as you get there, it's clear what you did, and you catch issues as they come up
-
--   There's seldom a single correct way to get to the right answer
-
--   Now it's made correctly, let's check the counts of our new variable
-
-```{r}
-## get summary of our new variable
-df_small |> count(high_exp)
-```
-
--   Hmm... We still have a large number of `NA`s, meaning neither the parent or student provided an expectation
-    -   In more sophisticated analyses, this is where we might need to think about imputation or something else to handle the missing-ness
-        -   For the sake of this lesson, however, we just want to drop the observations with `NA` for `high_exp`
+-   Now what does `filter()` do here?
 
 ## Keeping Rows Based on a Condition with `filter()`
 
--   To do this, we are going to use the `filter()` command from `tidyverse`
--   `filter()` works by only keeping observations that *meet* the condition(s) we set
+-   The `filter()` command from `tidyverse` works by only keeping observations that *meet* the condition(s) we set
     -   As in, to make it through the filter, a row must answer "yes" to "does it meet this condition?"
 
-```{r}
-## filter out missing values
-df_small_cut <- df_small |> filter(!is.na(high_exp))
-```
-
--   We re-used our `!is.na()` helper to keep all rows that answer "yes" to "are you not `NA`?"
-    -   Double negatives are something you'll have to get used to in coding, sorry
+-   So in this case, we are keeping all rows where `x1stuedexpct` and `x1paredexpct` are not `NA`
     -   Notice, instead of overwriting `df_small` we assigned this to a new object `df_small_cut`
         -   Generally, when making substantial changes to a data set like dropping observations, we might want to be able to double check what we did, which is easier if we make a new `df`
 
-> Quick Question: A commmon confusion from this lesson is between `filter()` and `select()`.
-> Can someone explain when you'd use `select()` over `filter()`?
+> Quick Question: A common confusion from this lesson is between `filter()` and `select()`. Can someone explain when you'd use `select()` over `filter()`?
 
--   To see if that worked, let's `count()` our new variable one more time
-
+-   Let's check the counts of our `x1stuedexpct` and `x1paredexpct` again to see if `filter()` worked
 ```{r}
-df_small_cut |> count(high_exp)
+df_small_cut |> count(x1stuedexpct) 
+df_small_cut |> count(x1paredexpct)
 ```
 
 -   Okay, so no `NA`s, perfect!
@@ -586,6 +559,20 @@ nrow(df_small) - nrow(df_small_cut)
 
 -   `nrow()` does what you'd expect, counts the number of rows
     -   You could also just check by looking at the `df`s in the environment tab, but this way leaves no room for mental math errors
+
+-   Now let's check our `high_exp` variable in the new `df_small_cut`
+
+```{r}
+print(df_small_cut, n = 26)
+```
+
+-   To be more straightforward, let's compare the counts of `high_exp` in `df_small` and `df_small_cut`
+
+```{r}
+df_small |> count(high_exp)
+df_small_cut |> count(high_exp)
+```
+-  Yay, all `NA`s are gone!
 
 ### Summarizing Data with `summarize()`
 
@@ -609,7 +596,7 @@ nrow(df_small) - nrow(df_small_cut)
 df_small_cut |> summarize(mean(high_exp))
 ```
 
--   See, the output is a 1x1 table with the mean expectation `mean(high_exp)` of 7.27, just above a bachelors degree
+-   See, the output is a 1x1 table with the mean expectation `mean(high_exp)` of 7.99, almost about completing a master's degree
     -   Note: if we want to name the summary variable, we can name it just like we did earlier in `mutate()` with a single `=`
 
 ```{r}
@@ -694,11 +681,8 @@ df |>
          parent_exp = ifelse(x1paredexpct %in% list(-8, -9, 11), NA, x1paredexpct)) |>
   ## Make a new variable called high_exp that is the higher or parent and student exp
   mutate(high_exp = ifelse(student_exp > parent_exp, student_exp, parent_exp)) |>
-  ## If one exp is NA but the other isn't, keep the value not the NA
-  mutate(high_exp = ifelse(is.na(high_exp) & !is.na(student_exp), student_exp, high_exp),
-         high_exp = ifelse(is.na(high_exp) & !is.na(parent_exp), parent_exp, high_exp)) |>
-  ## Drop is high_exp is still NA (neither parent or student answereed)
-  filter(!is.na(high_exp)) |>
+  ## Drop if either or both parent or student exp is NA
+  filter(!is.na(x1stuedexpct) & !is.na(x1paredexpct)) |> 
   ## Group the results by region
   group_by(x1region) |>
   ## Get the mean of high_exp (by region)
