@@ -23,6 +23,8 @@ library(tidyverse)
 ## data are CSV, so we use read_csv() from the readr library
 df <- read_csv("data/hsls-small.csv")
 
+## alternatively, you can also use read_csv(file.path("data", "hsls-small.csv"))
+
 ## ---------------------------
 ##' [The Native Pipe |> Operator]
 ## ---------------------------
@@ -128,25 +130,23 @@ mean(c(5, 6, 4, NA))
 mean(c(5, 6, 4, NA), na.rm = T)
 
 ## ---------------------------
-##' [Handling NA Values]
+##' [Handling NA Values and Filter NA Rows]
 ## ---------------------------
 
-df_small <- df_small |>
-  mutate(high_exp = ifelse(is.na(high_exp) & !is.na(x1stuedexpct), x1stuedexpct, high_exp),
-         high_exp = ifelse(is.na(high_exp) & !is.na(x1paredexpct), x1paredexpct, high_exp))
+df_small_cut <- df_small |>
+  filter(!is.na(x1stuedexpct) & !is.na(x1paredexpct))
 
-print(df_small, n = 26)
 
-## get summary of our new variable
-df_small |> count(high_exp)
-
-## filter out missing values
-df_small_cut <- df_small |> filter(!is.na(high_exp))
-
-df_small_cut |> count(high_exp)
+df_small_cut |> count(x1stuedexpct) 
+df_small_cut |> count(x1paredexpct)
 
 ## does the original # of rows - current # or rows == NA in count?
 nrow(df_small) - nrow(df_small_cut)
+
+print(df_small_cut, n = 26)
+
+df_small |> count(high_exp)
+df_small_cut |> count(high_exp)
 
 ## ---------------------------
 ##' [Summarizing Data]
@@ -190,15 +190,12 @@ df |>
   ## select columns we want
   select(stu_id, x1stuedexpct, x1paredexpct, x1region) |>
   ## If expectation is -8, -9. or 11, make it NA
-  mutate(student_exp = ifelse(x1stuedexpct %in% list(-8, -9, 11), NA, x1stuedexpct),
-         parent_exp = ifelse(x1paredexpct %in% list(-8, -9, 11), NA, x1paredexpct)) |>
+  mutate(x1stuedexpct = ifelse(x1stuedexpct %in% list(-8, -9, 11), NA, x1stuedexpct),
+         x1paredexpct = ifelse(x1paredexpct %in% list(-8, -9, 11), NA, x1paredexpct)) |>
   ## Make a new variable called high_exp that is the higher or parent and student exp
-  mutate(high_exp = ifelse(student_exp > parent_exp, student_exp, parent_exp)) |>
-  ## If one exp is NA but the other isn't, keep the value not the NA
-  mutate(high_exp = ifelse(is.na(high_exp) & !is.na(student_exp), student_exp, high_exp),
-         high_exp = ifelse(is.na(high_exp) & !is.na(parent_exp), parent_exp, high_exp)) |>
-  ## Drop is high_exp is still NA (neither parent or student answereed)
-  filter(!is.na(high_exp)) |>
+  mutate(high_exp = ifelse(x1stuedexpct > x1paredexpct, x1stuedexpct, x1paredexpct)) |>
+  ## Drop if either or both parent or student exp is NA
+  filter(!is.na(x1stuedexpct) & !is.na(x1paredexpct)) |> 
   ## Group the results by region
   group_by(x1region) |>
   ## Get the mean of high_exp (by region)
