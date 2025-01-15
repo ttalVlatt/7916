@@ -677,10 +677,10 @@ df |>
   ## select columns we want
   select(stu_id, x1stuedexpct, x1paredexpct, x1region) |>
   ## If expectation is -8, -9. or 11, make it NA
-  mutate(student_exp = ifelse(x1stuedexpct %in% list(-8, -9, 11), NA, x1stuedexpct),
-         parent_exp = ifelse(x1paredexpct %in% list(-8, -9, 11), NA, x1paredexpct)) |>
+  mutate(x1stuedexpct = ifelse(x1stuedexpct %in% list(-8, -9, 11), NA, x1stuedexpct),
+         x1paredexpct = ifelse(x1paredexpct %in% list(-8, -9, 11), NA, x1paredexpct)) |>
   ## Make a new variable called high_exp that is the higher or parent and student exp
-  mutate(high_exp = ifelse(student_exp > parent_exp, student_exp, parent_exp)) |>
+  mutate(high_exp = ifelse(x1stuedexpct > x1paredexpct, x1stuedexpct, x1paredexpct)) |>
   ## Drop if either or both parent or student exp is NA
   filter(!is.na(x1stuedexpct) & !is.na(x1paredexpct)) |> 
   ## Group the results by region
