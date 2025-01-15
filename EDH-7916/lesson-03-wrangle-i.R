@@ -21,10 +21,10 @@ library(tidyverse)
 ## ---------------------------
 
 ## data are CSV, so we use read_csv() from the readr library
-df <- read_csv("data/hsls-small.csv")
+df <- read_csv(file.path("data", "hsls-small.csv"))
 
 ## ---------------------------
-##' [The Native Pipe |> Operator]
+##' [The Pipe |> Operator]
 ## ---------------------------
 
 ## Without |>
@@ -219,4 +219,4 @@ all.equal(non_chain, chain)
 ##' *END SCRIPT*
 ## -----------------------------------------------------------------------------
 
-## NA
+# NA
