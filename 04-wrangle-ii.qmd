@@ -74,7 +74,7 @@ library(tidyverse)
 ## Appending data
 
 -   Our first task is the most straightforward. When appending data, we simply add similarly structured rows to an exiting data frame.
--   What do I mean by similarly structured? Imagine you have a data frame that looks like this:
+-   What is similarly structured? Imagine you have a data frame that looks like this:
 
 | id  | year | score |
 |:---:|:----:|:-----:|
@@ -102,7 +102,7 @@ library(tidyverse)
 | *F* | *2020* | *90*  |
 
 -   Data that are the result of the *exact* same data collecting process across locations or time may be appended. In education research, administrative data are often recorded each term or year, meaning you can build a panel data set by appending. The NCES IPEDS data files *generally* work like this
-    -   Note on IPEDS: Some of the variables have changed over time, one of the most notable being enrollment data between 2001 and 2002, so always check your dictionary!
+    -   Note on IPEDS: Some of the variables have changed over time, one of the most notable being enrollment data between 2001 and 2002, so always check your dictionary (codebook)!
 -   However, it's incumbent upon you as the researcher to understand your data. Just because you are able to append (R will try to make it work for you) doesn't mean you always should.
     -   What if the `score` column in our data weren't on the same scale?
     -   What if the test date mattered but isn't included in the file?
@@ -270,23 +270,40 @@ df_sum
 
 #### 2. Join
 
--   While one can [`merge` using base R](https://stat.ethz.ch/R-manual/R-devel/library/base/html/merge.html), dplyr uses the [SQL language of joins](https://en.wikipedia.org/wiki/Join_(SQL)),
-
-    -   This can be conceptually clearer (particularly for those who already have experience with relational database structures).
-    -   We will learn more about SQL in [Data Wrangling IV](09-wrangle-iv.qmd)
+-   While one can [`merge` using base R](https://stat.ethz.ch/R-manual/R-devel/library/base/html/merge.html), `dplyr` (part of the `tidyverse` package) is what we will be using in this lesson.
 
 -   Here are the most common joins you will use:
 
--   `left_join(x, y)`: keep all x, drop unmatched y
+-   `left_join(x, y, by = )`: keep all x, drop unmatched y
 
--   `right_join(x, y)`: keep all y, drop unmatched x
+-   `right_join(x, y, by = )`: keep all y, drop unmatched x
 
--   `inner_join(x, y)`: keep only matching
+-   `inner_join(x, y, by = )`: keep only matching
 
--   `full_join(x, y)`: keep everything
+-   `full_join(x, y, by = )`: keep everything
 
--   `anti_join(x, y)`: keep only obs in x and that are not in y (more useful than you'd think)
+-   `anti_join(x, y, by = )`: keep only obs in x and that are not in y (more useful than you'd think)
 
+-   Essentially, all `_join()` functions takes three main "arguments" and they have always the same meaning
+    -   `x` data one, a.k.a. the "left" data
+    -   `y` data two, a.k.a. the "right" data
+    -   `by` the variables to use as a "key"
+
+### `by`
+
+-   Whichever type of `_join` you are doing, the `by` argument is just how `x` and `y` are being matched up
+    -   `by` has to be at least one variable that is in both `x` and `y` and identifies the same observation
+        -   e.g., `by = "school_id"`
+        -   Most often this will be some kind of identifying variable (student ID, school ID, city, state, region, etc.)
+    -   If have more than one piece of information to match on, such as school and year, we can specify that with `c()`
+        -   e.g., `by = c("school_id", "year")`
+        -   This will then find information for each school in each year, and join it in correctly
+-   If you don't provide any `by` arguments, `R` will try to be smart and look for columns names that are the same in both data sets
+    -   This can lead to incorrect joins though, so always best to specify
+-   Lastly, if you need to join by columns that have different names in each data set use `c("name in df_1" = "name in df_2")`
+    -   e.g., `by = c("student_id" = "id_number")`
+
+### Conceptual example
 -   For example, the result of a **left join** between data frame *X* and data frame *Y* will include all observations in *X* and those in *Y* that are also in *X*.
 
 **X**
@@ -317,6 +334,7 @@ df_sum
 -   Those in *X* only (`003`), will have missing values in the new columns that came from *Y* because they didn't exist there.
 -   Observations in *Y* but not *X* (`004`) are dropped entirely.
 
+### Practice joining
 Back to our example...
 
 -   Since we want to join a smaller aggregated data frame, `df_sum`, to the original data frame, `df`, we'll use a `left_join()`.
@@ -337,28 +355,8 @@ df_joined
 > Look at the first 10 rows of `df_joined`.
 > What do you notice about the new summary columns we added?
 
-### Matt's Re-Explanation of Joining (Updated Feb 1 2024)
 
--   Following a productive conversation in my office hours, I wanted to re-explain joining in a way I think is a little clearer than explanation above. Hopefully this helps some of you!
--   All `_join()` functions takes three main "arguments" and they have always the same meaning
-    -   `x` data one, a.k.a. the "left" data
-    -   `y` data two, a.k.a. the "right" data
-    -   `by` the variables to use as a "key"
-
-#### "left" and "right" just mean `x` and `y`
-
--   The `left` in `left_join()` simply means "start with `x` data and join `y` data into it"
-    -   It doesn't have anything to do with being physically on the left
--   If it helps, think of `left_join()` as the `x` join
-
-```{r}
-## We can be overly specific to make the point
-left_join(x = df,
-          y = df_sum,
-          by = "year")
-```
-
-##### Using the `|>` pipe
+### Using the `|>` pipe
 
 -   Now, if you remember from [Data Wrangling I](03-wrangle-i.qmd), the `|>` makes R code more intuitive by "piping" one thing into the next
     -   This makes things simpler 99% of the time (no one wants to be writing nested code)
@@ -394,20 +392,6 @@ df_join <- df |>
             by = "year")
 
 ```
-
-#### `by`
-
--   Whichever type of `_join` you are doing, the `by` argument is just how `x` and `y` are being matched up
-    -   `by` has to be at least one variable that is in both `x` and `y` and identifies the same observation
-        -   e.g., `by = "school_id"`
-        -   Most often this will be some kind of identifying variable (student ID, school ID, city, state, region, etc.)
-    -   If have more than one piece of information to match on, such as school and year, we can specify that with `c()`
-        -   e.g., `by = c("school_id", "year")`
-        -   This will then find information for each school in each year, and join it in correctly
--   If you don't provide any `by` arguments, `R` will try to be smart and look for columns names that are the same in both data sets
-    -   This can lead to incorrect joins though, so always best to specify
--   Lastly, if you need to join by columns that have different names in each data set use `c("name in df_1" = "name in df_2")`
-    -   e.g., `by = c("student_id" = "id_number")`
 
 #### `_join` summary
 
@@ -473,10 +457,13 @@ To start, we'll go back to the `all_schools.csv` file.
 ```{r}
 ## reading again just to be sure we have the original data
 df <- read_csv(file.path("data", "sch-test", "all-schools.csv"))
+
+## print to see what the data structure looks like
+print(df)
 ```
 
 -   Notice how the data are wide in **test**:
-    -   Each school has one row per year, but each test gets its own column.
+    -   Each school has one row per year, but each test (math, read, science) gets its own column.
     -   While this setup can be efficient for storage, it's not always the best for analysis or even just browsing.
         -   What we want is for the data to be long.
 -   Instead of each test having its own column, we would like to make the data look like our long data example above, with each row representing a single *school*, *year*, *test*, *score*:
@@ -774,7 +761,7 @@ data_joined |>
 
 ## Submission
 
-Once complete turn in the .qmd file (**it must render/run**) to Canvas by the due date (usually **Tuesday 12:00pm following the lesson**). Assignments will be graded before next lesson on Wednesday in line with the grading policy outlined in the syllabus.
+Once complete turn in the .qmd file (**it must render/run**) and the rendered PDF to Canvas by the due date (usually **Tuesday 12:00pm following the lesson**). Assignments will be graded before next lesson on Wednesday in line with the grading policy outlined in the syllabus.
 
 ::: {.content-hidden unless-meta="solution"}
 ## Solution
