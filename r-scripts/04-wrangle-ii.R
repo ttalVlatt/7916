@@ -76,11 +76,6 @@ df_joined <- df |>
 ## show
 df_joined
 
-## We can be overly specific to make the point
-left_join(x = df,
-          y = df_sum,
-          by = "year")
-
 ## Therefore 
 left_join(x = df,
           y = df_sum,
@@ -109,6 +104,9 @@ df_join <- df |>
 
 ## reading again just to be sure we have the original data
 df <- read_csv(file.path("data", "sch-test", "all-schools.csv"))
+
+## print to see what the data structure looks like
+print(df)
 
 ## wide to long
 df_long <- df |>
