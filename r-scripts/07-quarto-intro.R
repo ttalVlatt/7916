@@ -20,7 +20,7 @@ patch
 
 
 
-print(df_long)
+print(data_long)
 
 ## Read in using .dta so we have nice labels
 df <- haven::read_dta("data/hsls-small.dta") |>
