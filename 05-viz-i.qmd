@@ -21,6 +21,8 @@ execute:
 ##' [INIT: 9 March 2020]
 ##' [AUTH: Benjamin Skinner @btskinner]
 ##' [EDIT: Matt Capaldi @ttalVlatt]
+##' [EDIT: Jue Wu]
+##' [UPDT: 15 January 2025]
 ##
 ## -----------------------------------------------------------------------------
 ```
@@ -144,12 +146,12 @@ library(tidyverse)
 ## ---------------------------
 
 ## read_dta() ==> read in Stata (*.dta) files
-df_hs <- haven::read_dta(file.path("data", "hsls-small.dta"))
+data_hs <- haven::read_dta("data/hsls-small.dta")
 ## read_csv() ==> read in comma separated value (*.csv) files
-df_ts <- read_csv(file.path("data", "sch-test", "all-schools.csv"))
+data_ts <- read_csv("data/sch-test/all-schools.csv")
 ```
 
-- **Note** that since we have two data files this lesson, we gave them unique names instead of the normal `df`:
+- **Note** that since we have two data files this lesson, we gave them unique names instead of the normal `data`:
 
 - `df_hs` := `hsls_small.dta`
 - `df_ts` := `all_schools.csv`
@@ -185,7 +187,7 @@ df_ts <- read_csv(file.path("data", "sch-test", "all-schools.csv"))
 
 ```{r eda_base_histogram}
 ## histogram of math scores (which should be normal by design)
-hist(df_hs$x1txmtscor)
+hist(data_hs$x1txmtscor)
 ```
 
 > #### Quick exercise
@@ -205,7 +207,7 @@ hist(df_hs$x1txmtscor)
 
 ```{r eda_base_density}
 ## density plot of math scores
-density(df_hs$x1txmtscor, na.rm = TRUE) |>
+density(data_hs$x1txmtscor, na.rm = TRUE) |>
   plot()
 ```
 
@@ -232,7 +234,7 @@ to set the continuous variable against the discrete variable
 
 ```{r eda_base_box}
 ## box plot of math scores against student expectations
-boxplot(x1txmtscor ~ x1stuedexpct, data = df_hs)
+boxplot(x1txmtscor ~ x1stuedexpct, data = data_hs)
 ```
 
 From the boxplot, we can see that math test scores tend to increase as students' educational expectations increase (remember that 11 means "I don't know [how far I'll go in school]"), though there's quite a bit of overlap in the marginal distributions.
@@ -249,7 +251,7 @@ From the boxplot, we can see that math test scores tend to increase as students'
 
 ```{r eda_base_scatter}
 ## scatter plot of math against SES
-plot(df_hs$x1ses, df_hs$x1txmtscor)
+plot(data_hs$x1ses, data_hs$x1txmtscor)
 ```
 
 From the scatter plot we see the data seem to show a positive correlation between socioeconomic status and math test score, there's also quite a bit of variation in that association (notice that the cloud-like nature of the circles). 
@@ -297,7 +299,7 @@ ggplot2 plots need three things:
 
 ```{r eda_plot_histogram_blank, warning = F, message = F}
 ## init ggplot 
-ggplot(data = df_hs)
+ggplot(data = data_hs)
 ```
 
 - ...nothing! Well, not nothing, but no histogram.
@@ -308,7 +310,7 @@ ggplot(data = df_hs)
 
 ```{r eda_plot_histogram, warning = F, message = F}
 ## add histogram instruction (notice we can add pieces using +)
-ggplot(data = df_hs) +
+ggplot(data = data_hs) +
   geom_histogram(mapping = aes(x = x1txmtscor))
 ```
 
@@ -341,7 +343,7 @@ Success!
 
 ```{r eda_plot_density, warning = F, message = F}
 ## density
-ggplot(data = df_hs) +
+ggplot(data = data_hs) +
   geom_density(mapping = aes(x = x1txmtscor))
 ```
 
@@ -349,7 +351,7 @@ ggplot(data = df_hs) +
 > If we wanted to see the histogram and density plot on top of each other, what might we do? Give it a go, and, tell me why it didn't work...
 
 ```{r}
-ggplot(data = df_hs) +
+ggplot(data = data_hs) +
   geom_histogram(mapping = aes(x = x1txmtscor)) +
   geom_density(mapping = aes(x = x1txmtscor))
 ```
@@ -360,7 +362,7 @@ ggplot(data = df_hs) +
 
 ```{r eda_plot_histdens, warning = F, message = F}
 ## histogram with density plot overlapping
-ggplot(data = df_hs) +
+ggplot(data = data_hs) +
   geom_histogram(mapping = aes(x = x1txmtscor, y = after_stat(density))) +
   geom_density(mapping = aes(x = x1txmtscor))
 ```
@@ -372,7 +374,7 @@ ggplot(data = df_hs) +
 
 ```{r eda_plot_histdens_2, warning = F, message = F}
 ## histogram with density plot overlapping (add color to see better)
-ggplot(data = df_hs) +
+ggplot(data = data_hs) +
   geom_histogram(mapping = aes(x = x1txmtscor, y = after_stat(density)),
                  color = "black",
                  fill = "white") +
@@ -402,7 +404,7 @@ ggplot(data = df_hs) +
 
 ```{r}
 ## see the counts for each group
-df_hs |> count(x1paredu)
+data_hs |> count(x1paredu)
 ```
 
 - We can see that all values of `x1paredu` greater than 2 represent parents with some college credential
@@ -422,7 +424,7 @@ df_hs |> count(x1paredu)
 
 ```{r}
 ## need to set up data
-plot_df <- df_hs |>
+plot_data <- data_hs |>
   ## select the columns we need
   select(x1paredu, x1txmtscor) |>
   ## can't plot NA so will drop
@@ -434,7 +436,7 @@ plot_df <- df_hs |>
   select(-x1paredu) 
 
 ## show
-head(plot_df)
+head(plot_data)
 ```
 
 - To plot against the two groups we've made, we need to add it to the aesthetic feature, `aes()`
@@ -443,7 +445,7 @@ head(plot_df)
 
 ```{r eda_plot_histogram_double, warning = F, message = F}
 ## two way histogram
-ggplot(plot_df) +
+ggplot(plot_data) +
   geom_histogram(aes(x = x1txmtscor,
                      fill = pared_coll),
                  alpha = 0.5,
@@ -456,7 +458,7 @@ ggplot(plot_df) +
 
 ```{r eda_plot_histogram_double_2, warning = F, message = F}
 ## two way histogram
-ggplot(plot_df) +
+ggplot(plot_data) +
   geom_density(aes(x = x1txmtscor,
                    fill = pared_coll),
                alpha = 0.5,
@@ -483,7 +485,7 @@ ggplot(plot_df) +
 
 ```{r eda_plot_box, warning = F, message = F}
 ## box plot using both factor() and as_factor()
-ggplot(data = df_hs,
+ggplot(data = data_hs,
        mapping = aes(x = factor(x1paredu),
                      y = x1txmtscor,
                      fill = factor(x1paredu))) +
@@ -499,7 +501,7 @@ ggplot(data = df_hs,
 ### Scatterplot
 
 ```{r, echo = FALSE, purl = TRUE}
-##' [Scatter]
+##' [Scatterplot]
 ```
 
 - To make a scatter plot, make sure that the `aes()` has mappings for the `x` axis and `y` axis and then use `geom_point()` to plot.
@@ -508,14 +510,14 @@ ggplot(data = df_hs,
 
 ```{r eda_plot_scatter_1, warning = F, message = F}
 ## sample 10% to make figure clearer
-df_hs_10 <- df_hs |>
+data_hs_10 <- data_hs |>
   ## drop observations with missing values for x1stuedexpct
   drop_na(x1stuedexpct) |>
   ## sample
   sample_frac(0.1)
 
 ## scatter
-ggplot(data = df_hs_10) +
+ggplot(data = data_hs_10) +
   geom_point(mapping = aes(x = x1ses, y = x1txmtscor))
 ```
 
@@ -527,7 +529,7 @@ We can look at the student base year expectations with `count()`:
 
 ```{r}
 ## see student base year plans
-df_hs |>
+data_hs |>
   count(x1stuedexpct)
 ```
 
@@ -540,7 +542,7 @@ df_hs |>
 
 ```{r}
 ## create variable for students who plan to graduate from college
-df_hs_10 <- df_hs_10 |>
+data_hs_10 <- data_hs_10 |>
   mutate(plan_col_grad = ifelse(x1stuedexpct >= 6 & x1stuedexpct < 11,
                                 1,        # if T: 1
                                 0),       # if F: 0
@@ -553,7 +555,7 @@ df_hs_10 <- df_hs_10 |>
 
 ```{r eda_plot_scatter_2, warning = F, message = F}
 ## scatter
-ggplot(data = df_hs_10,
+ggplot(data = data_hs_10,
        mapping = aes(x = x1ses, y = x1txmtscor)) +
   geom_point(mapping = aes(color = plan_col_grad), alpha = 0.5)
 
@@ -578,7 +580,7 @@ ggplot(data = df_hs_10,
 
 ```{r eda_plot_scatter_3, warning = F, message = F}
 ## add fitted line with linear fit
-ggplot(data = df_hs_10, mapping = aes(x = x1ses, y = x1txmtscor)) +
+ggplot(data = data_hs_10, mapping = aes(x = x1ses, y = x1txmtscor)) +
   geom_point(mapping = aes(color = factor(plan_col_grad)), alpha = 0.5) +
   geom_smooth(method = lm, color = "black")
 ```
@@ -589,7 +591,7 @@ ggplot(data = df_hs_10, mapping = aes(x = x1ses, y = x1txmtscor)) +
 
 ```{r eda_plot_scatter_5, warning = F, message = F}
 ## add fitted line with loess
-ggplot(data = df_hs_10, mapping = aes(x = x1ses, y = x1txmtscor)) +
+ggplot(data = data_hs_10, mapping = aes(x = x1ses, y = x1txmtscor)) +
   geom_point(mapping = aes(color = factor(plan_col_grad)), alpha = 0.5) +
   geom_smooth(method = loess, color = "black")
 ```
@@ -615,7 +617,7 @@ ggplot(data = df_hs_10, mapping = aes(x = x1ses, y = x1txmtscor)) +
 
 ```{r}
 ## show test score data
-df_ts
+data_ts
 ```
 
 #### Simple Line-Graph
@@ -629,7 +631,7 @@ df_ts
 
 ```{r, warning = F, message = F}
 ## line graph
-ggplot(data = df_ts |> filter(school == "Spottsville"),
+ggplot(data = data_ts |> filter(school == "Spottsville"),
        mapping = aes(x = year, y = math)) +
   geom_line()
 ```
@@ -651,7 +653,7 @@ The code below is almost exactly the same as before less two things:
 
 ```{r, warning = F, message = F}
 ## line graph for math scores at every school over time
-ggplot(data = df_ts,
+ggplot(data = data_ts,
        mapping = aes(x = year, y = math, colour = school)) +
   geom_line()
 ```
@@ -670,7 +672,7 @@ ggplot(data = df_ts,
 
 ```{r, warning = F, message = F}
 ## facet line graph
-ggplot(data = df_ts,
+ggplot(data = data_ts,
        mapping = aes(x = year, y = math)) +
   facet_wrap(~ school) +
   geom_line()
@@ -692,18 +694,18 @@ ggplot(data = df_ts,
 
 ```{r}
 ## reshape data long
-df_ts_long <- df_ts |>
+data_ts_long <- data_ts |>
   pivot_longer(cols = c("math","read","science"), # cols to pivot long
                names_to = "test",                 # where col names go
                values_to = "score")               # where col values go
 
 ## show
-df_ts_long
+data_ts_long
 ```
 
 > #### QUICK EXERCISE
 > If we have 4 schools, 6 years, and 3 tests, how many observations
-> should `df_ts_long` have in total? Does it?
+> should `data_ts_long` have in total? Does it?
 
 - With our reshaped data frame, we now reintroduce `colour` into the `aes()`, this time set to `test`
 - We make one other change: `y = score` now, since that's the column for test scores in our reshaped data
@@ -711,7 +713,7 @@ df_ts_long
 
 ```{r, warning = F, message = F}
 ## facet line graph, with colour = test and ~school
-ggplot(data = df_ts_long) +
+ggplot(data = data_ts_long) +
   geom_line(mapping = aes(x = year, y = score, colour = test)) +
   facet_wrap(~school)
 ```
@@ -737,7 +739,7 @@ $$
   - Therefore, every subsequent year will show the change since 1980, and since it's standardized, all test scores will be on the same scale
 
 ```{r}
-df_ts_long_std <- df_ts_long |>
+data_ts_long_std <- data_ts_long |>
   group_by(test, school) |>
   arrange(year) |> 
   mutate(score_year_one = first(score),
@@ -745,12 +747,12 @@ df_ts_long_std <- df_ts_long |>
          score_std_sch = (score - score_year_one) / sd(score)) |>
   ungroup()
 
-print(df_ts_long_std, n = 13)
+print(data_ts_long_std, n = 13)
 ```
 
 Let's walk through that code
 
-1. Start with our `df_ts_long` and assign the output to `df_ts_long_std`
+1. Start with our `data_ts_long` and assign the output to `data_ts_long_std`
 2. Group the data by both test and school
   - This is for us to be able to get a starting point for each test at each school
 3. Arrange the data in order of date (it already way, but since we are reliant on that, it's best to check)
@@ -760,7 +762,7 @@ Let's walk through that code
 
 ```{r, warning = F, message = F}
 ## facet line graph, with colour = test and ~school
-ggplot(data = df_ts_long_std) +
+ggplot(data = data_ts_long_std) +
   geom_line(mapping = aes(x = year, y = score_std_sch, colour = test)) +
   facet_wrap(~school)
 ```

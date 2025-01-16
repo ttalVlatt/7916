@@ -96,7 +96,7 @@ library(tidyverse)
 
 ```{r}
 ## data are CSV, so we use read_csv() from the readr library
-df <- read_csv("data/hsls-small.csv")
+data <- read_csv("data/hsls-small.csv")
 
 ## alternatively, you can also use read_csv(file.path("data", "hsls-small.csv"))
 ```
@@ -105,8 +105,8 @@ df <- read_csv("data/hsls-small.csv")
     Nothing is wrong!
     The `read_csv()` function, like many other functions in the tidyverse, assumes you'd rather have more rather than less information and acts accordingly
 
--   Here we assign our data to an object called `df` (short for data frame), which is common in the coding community
-    -   You can call it whatever you want, such as `data` if that makes more sense to you
+-   Here we assign our data to an object called `data` 
+    -   You can call it whatever you want
 
 -   Up to now, this should all seem fairly consistent with last week's lesson.
     This is just the set up, now it's time to dive in!
@@ -140,14 +140,14 @@ First, let's say I want to take the data we just read in and `select` the `x1txm
 
 ```{r, output=F, echo=T}
 ## Without |>
-select(df, x1txmtscor)
+select(data, x1txmtscor)
 ```
 
 #### With `|>`
 
 ```{r, output=F, echo=T}
 ## With |>
-df |> select(x1txmtscor)
+data |> select(x1txmtscor)
 ```
 
 Neither is that confusing...
@@ -157,14 +157,14 @@ But, what if we want to take that output and select only students with a math sc
 
 ```{r, output=F, echo=T}
 ## Without |>
-filter(select(df, x1txmtscor), x1txmtscor > 50)
+filter(select(data, x1txmtscor), x1txmtscor > 50)
 ```
 
 #### With `|>`
 
 ```{r, output=F, echo=T}
 ## With |>
-df |> select(x1txmtscor) |> filter(x1txmtscor > 50)
+data |> select(x1txmtscor) |> filter(x1txmtscor > 50)
 ```
 
 See how the non-piped version is getting messy?
@@ -174,21 +174,21 @@ Let's add one more level to really make the point, creating a new variable that 
 
 ```{r, output=F, echo=T}
 ## Without |>
-mutate(filter(select(df, x1txmtscor), x1txmtscor > 50), square_root = sqrt(x1txmtscor))
+mutate(filter(select(data, x1txmtscor), x1txmtscor > 50), square_root = sqrt(x1txmtscor))
 ```
 
 #### With `|>`
 
 ```{r, output=F, echo=T}
 ## With |>
-df |> select(x1txmtscor) |> filter(x1txmtscor > 50) |> mutate(square_root = sqrt(x1txmtscor))
+data |> select(x1txmtscor) |> filter(x1txmtscor > 50) |> mutate(square_root = sqrt(x1txmtscor))
 ```
 
 As we are getting longer, let's use a new line for each pipe, just to make it even clearer (it makes no difference to R)
 
 ```{r, output=F, echo=T}
 ## Best to use  a new line for each pipe when code gets longer
-df |>
+data |>
   select(x1txmtscor) |>
   filter(x1txmtscor > 50) |>
   mutate(square_root = sqrt(x1txmtscor))
@@ -200,7 +200,7 @@ Of course, if you wanted, you could do each step separately, constantly assignin
 
 ```{r, output=F, echo=T}
 ## Without the |>, we could technically break it down step by step
-temp <- select(df, x1txmtscor)
+temp <- select(data, x1txmtscor)
 temp <- filter(temp, x1txmtscor > 50)
 temp <- mutate(temp, square_root = sqrt(x1txmtscor))
 temp
@@ -214,11 +214,11 @@ But it's less intuitive than simply piping the results.
 
 #### Assigning Output from Pipes
 
--   Assigning output from pipes is the same as we have covered a few times, we use a `<-` to pass it backwards to an object (in this case we called that object `df_backward_pass`)
+-   Assigning output from pipes is the same as we have covered a few times, we use a `<-` to pass it backwards to an object (in this case we called that object `data_backward_pass`)
 
 ```{r}
 ## Always assign backwards
-df_backward_pass <- df |>
+data_backward_pass <- data |>
   select(x1txmtscor) |>
   filter(x1txmtscor > 50) |>
   mutate(square_root = sqrt(x1txmtscor))
@@ -229,21 +229,21 @@ df_backward_pass <- df |>
 ```{r}
 ## You can think of the assignment as a continuation of the pipe like this
 ## but don't write it this way, it's then hard to find what you called something later
-df |>
+data |>
   select(x1txmtscor) |>
   filter(x1txmtscor > 50) |>
   mutate(square_root = sqrt(x1txmtscor)) ->
-  df_forward_pass
+  data_forward_pass
 ```
 
 -   That's how pipes and assignment work together, and you can see the outputs are `all.equal()`
 
 ```{r}
 ## Checking they are the same
-all.equal(df_backward_pass, df_forward_pass)
+all.equal(data_backward_pass, data_forward_pass)
 ```
 
--   However, you *really* shouldn't write code like this, as although it runs, it's then hard to later find where you created `df_forward_pass`.
+-   However, you *really* shouldn't write code like this, as although it runs, it's then hard to later find where you created `data_forward_pass`.
 -   Starting the string of code with where you store the result is **MUCH** clearer.
     -   But hopefully it will help some of you understand how `|>` and `<-` work together
 
@@ -266,16 +266,16 @@ all.equal(df_backward_pass, df_forward_pass)
         -   Notice: in this (and most tidyverse) command(s) we don't have to use "quotes" around the variable names. A common error message when you did need to put something in quotes is `Error: object <thing you should have "quoted"> not found`
 
 ```{r}
-df |> select(stu_id, x1stuedexpct, x1paredexpct, x1region)
+data |> select(stu_id, x1stuedexpct, x1paredexpct, x1region)
 ```
 
-> Quick question: if we want to use this reduced data-frame going forward, what should we do?
+> Quick question: if we want to use this reduced dataset going forward, what should we do?
 
 That's right, assign it to an object!
-Let's call that `df_small`
+Let's call that `data_small`
 
 ```{r}
-df_small <- df |> select(stu_id, x1stuedexpct, x1paredexpct, x1region)
+data_small <- data |> select(stu_id, x1stuedexpct, x1paredexpct, x1region)
 ```
 
 -   Our next step is to create a variable that's the higher of student and parent expectations. Sounds simple enough, but first, we have a problem...
@@ -342,10 +342,10 @@ To save time, we've copied them here:
 
 ```{r}
 ## see unique values for student expectation
-df_small |> count(x1stuedexpct)
+data_small |> count(x1stuedexpct)
 
 ## see unique values for parental expectation
-df_small |> count(x1paredexpct)
+data_small |> count(x1paredexpct)
 ```
 
 -   Dealing with `-8` and `-9` is straight forward --- we'll convert it missing.
@@ -385,14 +385,14 @@ df_small |> count(x1paredexpct)
 Now, we have three values we want to covert to NA, so we *could* do them one-at-a-time, like below
 
 ```{r}
-df_small <- df_small |>
+data_small <- data_small |>
   mutate(x1stuedexpct = ifelse(x1stuedexpct == -8, NA, x1stuedexpct))
 ```
 
 -   Let's walk through this code
 
-1.  Assign the results back to `df_small` (which will overwrite our previous `df_small`)
-2.  Take `df_small` and pipe `|>` it into `mutate()`
+1.  Assign the results back to `data_small` (which will overwrite our previous `data_small`)
+2.  Take `data_small` and pipe `|>` it into `mutate()`
 3.  Inside `mutate()` assign our results to `x1stuedexpct` (which will modify the existing variable)
 4.  Modify `x1stuedexpct` with an `ifelse()` statement, which remember has 3 parts
 
@@ -407,7 +407,7 @@ Okay, make sense?
 Let's see what we just did (look at row 26)
 
 ```{r}
-print(df_small, n = 26)
+print(data_small, n = 26)
 ```
 
 -   This is fine, but we have to do it 3 times for both parent and student expectation
@@ -427,7 +427,7 @@ print(df_small, n = 26)
     -   This keeps our code shorter and easier to read
 
 ```{r}
-df_small <- df_small |>
+data_small <- data_small |>
   mutate(x1stuedexpct = ifelse(x1stuedexpct %in% c(-8, -9, 11), NA, x1stuedexpct),
          x1paredexpct = ifelse(x1paredexpct %in% c(-8, -9, 11), NA, x1paredexpct))
 ```
@@ -436,14 +436,14 @@ df_small <- df_small |>
     -   Let's view those first 26 rows again to see what we did
 
 ```{r}
-print(df_small, n = 26)
+print(data_small, n = 26)
 ```
 
 -   Just to be doubly-sure, lets check `count()` again
 
 ```{r}
-df_small |> count(x1stuedexpct) 
-df_small |> count(x1paredexpct)
+data_small |> count(x1stuedexpct) 
+data_small |> count(x1paredexpct)
 ```
 
 Success!
@@ -460,7 +460,7 @@ Success!
 -   To make a new variable which is the highest of two variables, we can use our friends `mutate()` and `ifelse()` some more
 
 ```{r}
-df_small <- df_small |>
+data_small <- data_small |>
   mutate(high_exp = ifelse(x1stuedexpct > x1paredexpct, x1stuedexpct, x1paredexpct))
 ```
 
@@ -484,7 +484,7 @@ df_small <- df_small |>
 -   Now let's check our data frame to see the one that does matter
 
 ```{r}
-print(df_small, n = 26)
+print(data_small, n = 26)
 ```
 
 -   Hmm, that seems odd, why would R consider `NA` to be greater than `6`?
@@ -522,7 +522,7 @@ mean(c(5, 6, 4, NA), na.rm = T)
         -   `!is.na(x1stuedexpct)` just returns the opposite of `is.na(x1stuedexpct)` so it tells us that the column is not `NA` -`&` can be useful inside conditional statements, as it means both must be `TRUE` (FYI: `|` means or)
         
 ```{r}
-df_small_cut <- df_small |>
+data_small_cut <- data_small |>
   filter(!is.na(x1stuedexpct) & !is.na(x1paredexpct))
 
 ```
@@ -537,42 +537,69 @@ df_small_cut <- df_small |>
     -   As in, to make it through the filter, a row must answer "yes" to "does it meet this condition?"
 
 -   So in this case, we are keeping all rows where `x1stuedexpct` and `x1paredexpct` are not `NA`
-    -   Notice, instead of overwriting `df_small` we assigned this to a new object `df_small_cut`
-        -   Generally, when making substantial changes to a data set like dropping observations, we might want to be able to double check what we did, which is easier if we make a new `df`
+    -   Notice, instead of overwriting `data_small` we assigned this to a new object `data_small_cut`
+        -   Generally, when making substantial changes to a data set like dropping observations, we might want to be able to double check what we did, which is easier if we make a new `data`
 
 > Quick Question: A common confusion from this lesson is between `filter()` and `select()`. Can someone explain when you'd use `select()` over `filter()`?
 
 -   Let's check the counts of our `x1stuedexpct` and `x1paredexpct` again to see if `filter()` worked
 ```{r}
-df_small_cut |> count(x1stuedexpct) 
-df_small_cut |> count(x1paredexpct)
+data_small_cut |> count(x1stuedexpct) 
+data_small_cut |> count(x1paredexpct)
 ```
 
 -   Okay, so no `NA`s, perfect!
--   Just to be extra sure we only removed `NA`s, we can check the difference in how many rows our original `df_small` has with `df_small_cut`
-    -   Who can tell me how many rows *should* have been dropped?
+-   Just to be extra sure we only removed `NA`s, we can check the difference in how many rows our original `data_small` has with `data_small_cut`
 
 ```{r}
-## does the original # of rows - current # or rows == NA in count?
-nrow(df_small) - nrow(df_small_cut)
+## what's the difference between original # of rows and current # or rows?
+nrow(data_small) - nrow(data_small_cut)
 ```
 
 -   `nrow()` does what you'd expect, counts the number of rows
-    -   You could also just check by looking at the `df`s in the environment tab, but this way leaves no room for mental math errors
+    -   You could also just check by looking at the dataframes in the environment tab, but this way leaves no room for mental math errors
 
--   Now let's check our `high_exp` variable in the new `df_small_cut`
+-   Now let's check our `high_exp` variable in the new `data_small_cut`
 
 ```{r}
-print(df_small_cut, n = 26)
+print(data_small_cut, n = 26)
 ```
 
--   To be more straightforward, let's compare the counts of `high_exp` in `df_small` and `df_small_cut`
+-   To be more straightforward, let's compare the counts of `high_exp` in `data_small` and `dataf_small_cut`
 
 ```{r}
-df_small |> count(high_exp)
-df_small_cut |> count(high_exp)
+data_small |> count(high_exp)
+data_small_cut |> count(high_exp)
 ```
 -  Yay, all `NA`s are gone!
+
+-  Is there any other way to remove NAs? 
+    -   You know what, there is a drop_na() function!
+    
+### Simply Dropping NAs
+
+```{r, include = FALSE, purl = TRUE}
+## ---------------------------
+##' [Simply Dropping NAs]
+## ---------------------------
+```
+
+-   The `tidyr` package in `tidyverse` has a handy function drop_na()
+    -   Without arguments in (), it will remove any row that has NA in any column
+    -   Specify columns to remove rows that have NA in the designated columns
+    
+```{r}
+data_small_drop <- data_small |> 
+  drop_na(x1stuedexpct, x1paredexpct)
+```
+
+-   Let's compare our two ways of removing NAs and see if they end up being the same
+    -   What's the function to check if things are equal (we used it when introducing |> ?
+
+```{r}
+## compare two ways of dropping NAs
+all.equal(data_small_cut, data_small_drop)
+```
 
 ### Summarizing Data with `summarize()`
 
@@ -593,14 +620,14 @@ df_small_cut |> count(high_exp)
 
 ```{r}
 ## get average (without storing)
-df_small_cut |> summarize(mean(high_exp))
+data_small_cut |> summarize(mean(high_exp))
 ```
 
 -   See, the output is a 1x1 table with the mean expectation `mean(high_exp)` of 7.99, almost about completing a master's degree
     -   Note: if we want to name the summary variable, we can name it just like we did earlier in `mutate()` with a single `=`
 
 ```{r}
-df_small_cut |> summarize(mean_exp = mean(high_exp))
+data_small_cut |> summarize(mean_exp = mean(high_exp))
 ```
 
 -   But, that wasn't quite the question we were asked
@@ -622,7 +649,7 @@ df_small_cut |> summarize(mean_exp = mean(high_exp))
 
 ```{r}
 ## get grouped average
-df_small_cut |>
+data_small_cut |>
   group_by(x1region) |>
   summarize(mean_exp = mean(high_exp))
 ```
@@ -643,16 +670,16 @@ df_small_cut |>
 -   To do this, we want to `write_` a new `csv()` file, containing our modified data
     -   unlike `read_csv()` which only needed a file name/path, `write_csv()` needs to know what you're trying to save and the file name/path you want to save it to
         -   The only way you can overwrite or change the original data is by saving to the same file name as the original data, so **NEVER** do that!
--   Since we didn't assign our summary table to anything, we can just add `write_csv()` to the end of the pipe and add a `file.path()`
-    -   If you want to save a data frame you already assigned to an object `write_csv(<object>, file.path(<path>))` would work just fine!
+-   Since we didn't assign our summary table to anything, we can just add `write_csv()` to the end of the pipe and add a path to where you want to save it
+    -   If you want to save a data frame you already assigned to an object `write_csv(<object>, "path")` would work just fine!
 
 ```{r}
 ## write with useful name
 
-df_small_cut |>
+data_small_cut |>
   group_by(x1region) |>
   summarize(mean_exp = mean(high_exp)) |>
-  write_csv(file.path("data", "region-expects.csv"))
+  write_csv("data/region-expects.csv")
 
 ```
 
@@ -672,8 +699,8 @@ We went through that piece by piece to demonstrate each function, but, there's n
 ## Let's redo the analysis above, but with a fully chained set of
 ## functions.
 
-## start with original df
-df |>
+## start with original dataset
+data |>
   ## select columns we want
   select(stu_id, x1stuedexpct, x1paredexpct, x1region) |>
   ## If expectation is -8, -9. or 11, make it NA
@@ -688,7 +715,7 @@ df |>
   ## Get the mean of high_exp (by region)
   summarize(mean_exp = mean(high_exp)) |>
   ## Write that to a .csv file
-  write_csv(file.path("data", "region-expects-chain.csv"))
+  write_csv("data/region-expects-chain.csv")
   
 ```
 
@@ -696,8 +723,8 @@ To double check, let's just check these are the same...
 
 ```{r}
 
-non_chain <- read_csv(file.path("data", "region-expects.csv"))
-chain <- read_csv(file.path("data", "region-expects-chain.csv"))
+non_chain <- read_csv("data/region-expects.csv")
+chain <- read_csv("data/region-expects-chain.csv")
  
 all.equal(non_chain, chain)
       
