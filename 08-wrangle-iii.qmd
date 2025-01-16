@@ -126,7 +126,7 @@ df <- read_csv(file.path("data", "hd2007.csv")) |>
 
 ## Finding: `str_detect()`
 
-So far, we've filtered data using dplyr's `filter()` verb.
+Previously, we've filtered data using dplyr's `filter()` function.
 When matching a string, we have used `==` (or `!=` for negative match).
 For example, if we wanted to limit our data to only those institutions in Florida, we could filter using the `stabbr` column:
 
@@ -225,7 +225,7 @@ There are at least two solutions.
 
 #### 1. Use regular expressions
 
-[Regular expressions](https://en.wikipedia.org/wiki/Regular_expression) (aka *regex*) are strings that use a special syntax to create patterns that can be used to match other strings.
+[Regular expressions](https://en.wikipedia.org/wiki/Regular_expression) (aka *regex*) are strings that use a special syntax to create patterns that can be used to match other strings. Some of you may have used them when you try to search for literature in your work. 
 They are very useful when you need to match strings that have some general form, but may differ in specifics.
 
 We already used this technique in the a prior lesson when we matched columns in the `all_schools_wide.csv` with `contains("19")` so that we could `pivot_longer()`.
@@ -271,7 +271,7 @@ df |>
 We recover another two titles when using this second solution.
 Clearly, our first solution didn't account for other cases (perhaps "`PRESIDENT"`?).
 
-In general, I find it's a good idea to try a solution like the second one before a more complicated one like the first.
+In general, it may be a good idea to try a solution like the second one before a more complicated one like the first.
 But because every problem is different, so too are the solutions.
 You may find yourself using a combination of the two.
 
@@ -386,8 +386,7 @@ df |>
 > In this scenario, which string subsetting technique worked better?
 
 Depending on the task, regular expressions can either feel like a blessing or a curse.
-To be honest, I've spent more time cursing than thanking them.
-That said, regular expressions are often *the only* way to perform a data wrangling task on unstructured string data.
+However, regular expressions are often *the only* way to perform a data wrangling task on unstructured string data.
 They are also a cornerstone of natural language processing techniques, which are increasingly of interest to education researchers.
 
 We've only scratched the surface of what regular expressions can do.
@@ -482,7 +481,7 @@ df
 
 -   Now, remember `orders` can take more than one value, so maybe we could try another date format that can pick up some of these dates
 
-    -   Looking through the [lubridate reference page](https://lubridate.tidyverse.org/reference/index.html), I can see that `"my"` (month year) is a format it will take as well, so let's try that
+    -   Looking through the [lubridate reference page](https://lubridate.tidyverse.org/reference/index.html), we can see that `"my"` (month year) is a format it will take as well, so let's try that
 
 ```{r}
 ## Try adding another date format
@@ -576,7 +575,7 @@ df |> filter(interval(clean_date, christmas_07) |>
 
 #### Extracting Info From Dates
 
--   What is we want to see which fiscal quarter more schools closed in?
+-   What if we want to see which fiscal quarter more schools closed in?
 
     -   The handy `quarter()` function tell us that
 
@@ -608,7 +607,7 @@ df |>
 
     -   For both of these we have only begun to scratch the surface, but it should have given you enough of an idea to go out and get your hands dirty
 
-    -   If you found this interesting, Dr. Jinnie Shin teaches a class on Natural Language Processing in the Fall, which gets into how make the computer begin to understand text
+    -   If you found this interesting, Dr. Jinnie Shin teaches a class on Natural Language Processing (in python programming language), which gets into how make the computer begin to understand text
 
 -   These are both messy types of data and you're often going to have to make subjective decisions (e.g., how to handle `Sep-2007`)
 
@@ -630,7 +629,7 @@ df |>
 
 ## Submission
 
-Once complete turn in the .qmd file (**it must render/run**) to Canvas by the due date (usually **Tuesday 12:00pm following the lesson**). Assignments will be graded before next lesson on Wednesday in line with the grading policy outlined in the syllabus.
+Once complete turn in the .qmd file (**it must render/run**) and the rendered PDF to Canvas by the due date (usually **Tuesday 12:00pm following the lesson**). Assignments will be graded before next lesson on Wednesday in line with the grading policy outlined in the syllabus.
 
 ::: {.content-hidden unless-meta="solution"}
 ## Solution

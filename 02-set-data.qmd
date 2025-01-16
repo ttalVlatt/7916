@@ -50,7 +50,6 @@ We'll begin with how to organize your course and project files.
 
 -   RStudio has some really helpful features, one of which is creating R Projects easily
     -   At their very simplest, these can be ways of keeping your RStudio environment saved (especially helpful switching between projects), but also enable more feature like using git (see extra credit lesson)
-    -   Note: If you're using posit.cloud, you already have a RStudio project by default
 -   It's pretty easy to set up a project now we have our class folder set up
     1.  In the top right corner of RStudio you'll see a blue cube with "none" next to it
     2.  Click there, then "new project"
@@ -60,7 +59,7 @@ We'll begin with how to organize your course and project files.
 
 ### Naming Guidelines
 
--   Your class scripts and data files are already named, but there will be numerous files you need to create throughout the class (assignment scripts, everything for your final report, etc.). So it's best we get on the same page
+-   Your class scripts and data files are already named, but there will be numerous files you need to create throughout the class (e.g., everything for your final report, etc.). So it's best we get on the same page
 
 -   Always name your files something logical
 
@@ -96,7 +95,7 @@ We'll begin with how to organize your course and project files.
 
 ### Working Directory
 
--   The working directory is almost certainly the most common cause of issues in this class, and continues to be something I get tripped up by from time to time, so this may take a minute to get your head around
+-   The working directory is almost certainly the most common cause of issues in this class, so this may take a minute to get your head around
 
 -   As a general rule, no matter how you have your folders organized in the future, you usually want your working directory set to *where your script is*
 
@@ -132,7 +131,7 @@ We'll begin with how to organize your course and project files.
                 -   Select "Set as working directory"
                     -   Note: "Go to working directory" can be useful to see what's in the folder if you navigate away
 
-            4.  The old school vanilla R way `setwd("<path to your script>")`
+            4.  The old schoolbase R way `setwd("<path to your script>")`
 
             -   But, this really isn't usually the most efficient
 
@@ -154,7 +153,7 @@ We'll begin with how to organize your course and project files.
     2.  It only needs to run on this computer
 -   Oftentimes, we cannot rely on both these assumptions being true
     -   Plus, if we start with these absolute paths and then need to change, it will then become a real pain to update everything
-        -   So, we should **ALWAYS** use relative paths instead (this one of the only strict rules for assignments)
+        -   So, we should **ALWAYS** use relative paths instead (this is one of the only strict rules for assignments)
 
 #### Relative Paths
 
@@ -167,40 +166,15 @@ We'll begin with how to organize your course and project files.
 
 -   If we assume have our working directory set to our shiny new class folder, then, that becomes the starting point for all our directions
 
-    -   Therefore, to access `hd2007.csv` in out `data` sub-folder, we just need to say `file.path("data", "hd2007.csv")`
-
-#### The `file.path()` Function
-
--   
-
-    ## One last thing, you see how file paths are typically written with `/` or `\`? (which depends on your computer)
-
-    ````         
-    ## R has a nice function that means we don't have to
-
-    ```         
-    a)  worry about which way around the slash should be
-    ```
-
-    -   
-
-        b)  avoid issues with different computers expecting different slashes
-    ````
-
-    -   `file.path()`
-
-        -   Inside, we just type the name of each folder/file in "quotes", turning
-            -   `"Users/YourName/Desktop/7916"` into
-            -   `file.path("Users", "YourName", "Desktop", "7916")`
-            -   This may look longer, but, it's more compatible and easier to remember"
+    -   Therefore, to access `hd2007.csv` in out `data` sub-folder, we just need to say `"data/hd2007.csv"`
 
 #### What If I Need to Go Back a Level?
 
 -   Sometimes we are in a folder, but want to go back a level, i.e. not the folder our current folder is in
     -   This is very common if with we were using the "pristine kitchen" approach
--   To do so is easy, we just add a `".."` to our `file.path()`
-    -   So, if we are in my class folder on my desktop, and we want to go to another folder on the desktop
-        -   `file.path("..", "<folder we want>")`
+-   To do so is easy, we just add a `".."` to our relative path
+    -   So, if we are in our class folder on the desktop, and we want to go to another folder on the desktop
+        -   we can do `"../<folder we want>"`
 
 ## Script Template
 
@@ -261,7 +235,8 @@ We'll begin with how to organize your course and project files.
 
 library(tidyverse)
 
-df_ipeds <- read_csv(file.path("data", "hd2007.csv"))
+# read_csv() reads in csv files
+data_ipeds <- read_csv("data/hd2007.csv")
 
 ```
 

@@ -90,13 +90,13 @@ ggplot(progress) +
 - One key part of understanding your data and presenting your analyses lies in making plots, which we will cover through this section of the class
 
 - There are multiple graphing systems in R, but we are going to focus on two (primarily one);
-  - [vanilla R plots](https://stat.ethz.ch/R-manual/R-devel/library/graphics/html/00Index.html)
+  - [base R plots](https://stat.ethz.ch/R-manual/R-devel/library/graphics/html/00Index.html)
   - [ggplot2](http://ggplot2.tidyverse.org) 
 
-#### Vanilla R Plots
+#### Base R Plots
 
-- Vanilla R (i.e., R without any packages loaded) can create some basic plots
-  - They aren't the prettiest, so I wouldn't recommend them in reports and papers
+- Base R (i.e., R without any packages loaded) can create some basic plots
+  - They aren't the prettiest, so we wouldn't recommend them in reports and papers
     - But, they're super-easy and quick to create, so they're perfect for quickly checking your data during the exploration phase
     
 #### `ggplot2` Plots
@@ -106,12 +106,12 @@ ggplot(progress) +
   - This is a whole world of detail to dive into if you want
   - The basic idea is that the graphs are made up of *layers*
     - This allows us to create some really cool and detailed plots
-      - I'd strongly recommend `ggplot2` for making plots you want to share
+      - Strongly recommend `ggplot2` for making plots you want to share
         - Even stata users admit the plots can't match `ggplot2`
         
 ### Libraries
 
-- We're using two libraries today (plus the vanilla R plot functions)
+- We're using two libraries today (plus the base R plot functions)
 
 - [ggplot2](http://ggplot2.tidyverse.org)
 
@@ -149,7 +149,7 @@ df_hs <- haven::read_dta(file.path("data", "hsls-small.dta"))
 df_ts <- read_csv(file.path("data", "sch-test", "all-schools.csv"))
 ```
 
-- **Note** that since we have two data files this lesson, I gave them unique names instead of the normal `df`:
+- **Note** that since we have two data files this lesson, we gave them unique names instead of the normal `df`:
 
 - `df_hs` := `hsls_small.dta`
 - `df_ts` := `all_schools.csv`
@@ -164,16 +164,14 @@ df_ts <- read_csv(file.path("data", "sch-test", "all-schools.csv"))
 
 - Even though new graphics libraries have been developed, the base R graphics system remains powerful
 - The base system is also very easy to use in a pinch
-  - When I want a quick visual of a data distribution that's just for me, I often use base R
+  - Good for a quick visual of a data distribution that's just for ourselves
 
-- **Note** that for the next few plots, I'm not much concerned with how they look
+- **Note** that for the next few plots, let's not worry too much about how they look
   - Specifically, the axis labels won't look very nice
-  - We could spend time learning to make really nice base R plots for publication
-    - But I'd rather we spend that time with ggplot2 graphics.
 
-- **Also note** that we'll have to switch to using the vanilla R data frame `$` notation to pull out the columns we want
-  - In short, to reference a column in a data frame in vanilla R, you say `dataframe$column`
-  - If you need some more information on using `$` notation, [check out the supplemental lesson on data wrangling with vanilla R](x-03-vanilla.qmd).
+- **Also note** that we'll have to switch to using the base R data frame `$` notation to pull out the columns we want
+  - In short, to reference a column in a data frame in base R, you say `dataframe$column`
+  - If you need some more information on using `$` notation, [check out the supplemental lesson on data wrangling with base R](x-03-vanilla.qmd).
 
 ### Histogram
 
@@ -200,7 +198,7 @@ hist(df_hs$x1txmtscor)
 ```
 
 - Density plots are also really helpful for checking the distribution of a variable
-- Vanilla R doesn't have formal density plot function, but you can get a density plot with a trick
+- Base R doesn't have formal density plot function, but you can get a density plot with a trick
   - `plot()` the `density()` of a continuous variable
 
 > Quick question: What does the `na.rm = TRUE` and why might we need it?
@@ -239,7 +237,7 @@ boxplot(x1txmtscor ~ x1stuedexpct, data = df_hs)
 
 From the boxplot, we can see that math test scores tend to increase as students' educational expectations increase (remember that 11 means "I don't know [how far I'll go in school]"), though there's quite a bit of overlap in the marginal distributions.
 
-### Scatter
+### Scatterplot
 
 ```{r, echo = FALSE, purl = TRUE}
 ##' [Scatter]
@@ -268,7 +266,7 @@ From the scatter plot we see the data seem to show a positive correlation betwee
 ## -----------------------------------------------------------------------------
 ```
 
-- `ggplot2` is my --- and many R users' --- primary system for making plots
+- `ggplot2` is R users' primary system for making plots
 - It is based on the idea of a [grammar of graphics](https://www.springer.com/gp/book/9780387245447)
   - Just as we can use finite rules of a language grammar to construct an endless number of unique sentences, so too can we use a few graphical grammatical rules to make an endless number of unique figures.
 
@@ -498,7 +496,7 @@ ggplot(data = df_hs,
 > #### Quick exercise
 > We will get more into making things look pretty in [Data Vizualization II](06-viz-ii.qmd), but, what is a real problem with this graph? Does it even need to be there?
 
-### Scatter
+### Scatterplot
 
 ```{r, echo = FALSE, purl = TRUE}
 ##' [Scatter]
@@ -537,7 +535,7 @@ df_hs |>
 - But since we need to account for the fact that 11 means "I don't know", we need to make sure our test includes `x1stuedexpct < 11`
 - Remember from a prior lesson that we can connect these two statements together with the operator `&`
 - Let's create our new variable
-  - Notice this time when I create the factor, I specify `levels` and `labels`
+  - Notice this time when we create the factor, we specify `levels` and `labels`
     - This applies labels much like the `haven` version of our data has, which will print out in our plot
 
 ```{r}
@@ -679,7 +677,7 @@ ggplot(data = df_ts,
 ```
 
 - Is this faceted plot better than the color line plot before it?
-  - To my eyes, it's a little clearer, but not so much so that I couldn't be convinced to use the first one
+
 - Whether you use the first or the second would largely depend on your specific data and presentation needs.
 
 - Faceting has a clearer advantage, however, when you want to include the fourth level of comparison:
@@ -784,7 +782,7 @@ And there we have a really informative plot, showing how test scores of all type
 
 ## Submission
 
-Once complete turn in the .qmd file (**it must render/run**) to Canvas by the due date (usually **Tuesday 12:00pm following the lesson**). Assignments will be graded before next lesson on Wednesday in line with the grading policy outlined in the syllabus.
+Once complete turn in the .qmd file (**it must render/run**) and the rendered PDF to Canvas by the due date (usually **Tuesday 12:00pm following the lesson**). Assignments will be graded before next lesson on Wednesday in line with the grading policy outlined in the syllabus.
 
 ::: {.content-hidden unless-meta="solution"}
 ## Solution
