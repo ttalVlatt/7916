@@ -215,7 +215,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./09-wrangle-iv.html" class="sidebar-item-text sidebar-link">
+  <a href="./10-wrangle-iv.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">IV: Advanced `tidyverse` &amp; Data Retrieval</span></a>
   </div>
 </li>
@@ -244,7 +244,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./10-viz-iii.html" class="sidebar-item-text sidebar-link">
+  <a href="./12-viz-iii.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">III: Maps &amp; Spatial Data (Feat. APIs)</span></a>
   </div>
 </li>
@@ -258,13 +258,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./11-pro-functions.html" class="sidebar-item-text sidebar-link">
+  <a href="./11-pro-functions.qmd" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Functions &amp; Loops</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./12-pro-model.html" class="sidebar-item-text sidebar-link">
+  <a href="./12-pro-model.qmd" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Bringing it All Together (Feat. Basic Models)</span></a>
   </div>
 </li>
@@ -400,7 +400,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>RStudio has some really helpful features, one of which is creating R Projects easily
 <ul>
 <li>At their very simplest, these can be ways of keeping your RStudio environment saved (especially helpful switching between projects), but also enable more feature like using git (see extra credit lesson)</li>
-<li>Note: If you’re using posit.cloud, you already have a RStudio project by default</li>
 </ul></li>
 <li>It’s pretty easy to set up a project now we have our class folder set up
 <ol type="1">
@@ -415,7 +414,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="naming-guidelines" class="level3">
 <h3 data-anchor-id="naming-guidelines">Naming Guidelines</h3>
 <ul>
-<li><p>Your class scripts and data files are already named, but there will be numerous files you need to create throughout the class (assignment scripts, everything for your final report, etc.). So it’s best we get on the same page</p></li>
+<li><p>Your class scripts and data files are already named, but there will be numerous files you need to create throughout the class (e.g., everything for your final report, etc.). So it’s best we get on the same page</p></li>
 <li><p>Always name your files something logical</p>
 <ul>
 <li>The file name should always tell something about the purpose of that file or folder</li>
@@ -457,7 +456,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="working-directory" class="level3">
 <h3 data-anchor-id="working-directory">Working Directory</h3>
 <ul>
-<li><p>The working directory is almost certainly the most common cause of issues in this class, and continues to be something I get tripped up by from time to time, so this may take a minute to get your head around</p></li>
+<li><p>The working directory is almost certainly the most common cause of issues in this class, so this may take a minute to get your head around</p></li>
 <li><p>As a general rule, no matter how you have your folders organized in the future, you usually want your working directory set to <em>where your script is</em></p>
 <ul>
 <li>That way, you’re always giving directions from the common point of “where we are we are right now”
@@ -508,7 +507,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul></li>
 </ul>
 <ol start="4" type="1">
-<li>The old school vanilla R way <code>setwd("&lt;path to your script&gt;")</code></li>
+<li>The old schoolbase R way <code>setwd("&lt;path to your script&gt;")</code></li>
 </ol>
 <ul>
 <li>But, this really isn’t usually the most efficient</li>
@@ -519,7 +518,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
 </section>
 <section id="file-paths" class="level3">
-<h3>File Paths</h3>
+<h3 data-anchor-id="file-paths">File Paths</h3>
 <ul>
 <li>When we are working with R, we (most of the time) need to bring in other items, such as data
 <ul>
@@ -542,7 +541,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <ul>
 <li>Plus, if we start with these absolute paths and then need to change, it will then become a real pain to update everything
 <ul>
-<li>So, we should <strong>ALWAYS</strong> use relative paths instead (this one of the only strict rules for assignments)</li>
+<li>So, we should <strong>ALWAYS</strong> use relative paths instead (this is one of the only strict rules for assignments)</li>
 </ul></li>
 </ul></li>
 </ul>
@@ -560,33 +559,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><p>Relative paths are directions to what you’re looking for from where you are right now (a.k.a your “working directory”)</p></li>
 <li><p>If we assume have our working directory set to our shiny new class folder, then, that becomes the starting point for all our directions</p>
 <ul>
-<li>Therefore, to access <code>hd2007.csv</code> in out <code>data</code> sub-folder, we just need to say <code>file.path("data", "hd2007.csv")</code></li>
-</ul></li>
-</ul>
-</section>
-<section id="the-file.path-function" class="level4">
-<h4>The <code>file.path()</code> Function</h4>
-<ul>
-<li><h2 id="one-last-thing-you-see-how-file-paths-are-typically-written-with-or-which-depends-on-your-computer" data-anchor-id="the-file.path-function">One last thing, you see how file paths are typically written with <code>/</code> or <code>\</code>? (which depends on your computer)</h2>
-<pre><code>## R has a nice function that means we don't have to
-
-```         
-a)  worry about which way around the slash should be
-```
-
--   
-
-    b)  avoid issues with different computers expecting different slashes</code></pre>
-<ul>
-<li><p><code>file.path()</code></p>
-<ul>
-<li>Inside, we just type the name of each folder/file in “quotes”, turning
-<ul>
-<li><code>"Users/YourName/Desktop/7916"</code> into</li>
-<li><code>file.path("Users", "YourName", "Desktop", "7916")</code></li>
-<li>This may look longer, but, it’s more compatible and easier to remember”</li>
-</ul></li>
-</ul></li>
+<li>Therefore, to access <code>hd2007.csv</code> in out <code>data</code> sub-folder, we just need to say <code>"data/hd2007.csv"</code></li>
 </ul></li>
 </ul>
 </section>
@@ -597,11 +570,11 @@ a)  worry about which way around the slash should be
 <ul>
 <li>This is very common if with we were using the “pristine kitchen” approach</li>
 </ul></li>
-<li>To do so is easy, we just add a <code>".."</code> to our <code>file.path()</code>
+<li>To do so is easy, we just add a <code>".."</code> to our relative path
 <ul>
-<li>So, if we are in my class folder on my desktop, and we want to go to another folder on the desktop
+<li>So, if we are in our class folder on the desktop, and we want to go to another folder on the desktop
 <ul>
-<li><code>file.path("..", "&lt;folder we want&gt;")</code></li>
+<li>we can do <code>"../&lt;folder we want&gt;"</code></li>
 </ul></li>
 </ul></li>
 </ul>
@@ -676,7 +649,7 @@ a)  worry about which way around the slash should be
 </ul></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning: package 'lubridate' was built under R version 4.4.1</code></pre>
 </div>
@@ -692,7 +665,8 @@ a)  worry about which way around the slash should be
 ✖ dplyr::lag()    masks stats::lag()
 ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>df_ipeds <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="fu">file.path</span>(<span class="st">"data"</span>, <span class="st">"hd2007.csv"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># read_csv() reads in csv files</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>data_ipeds <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/hd2007.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Rows: 7052 Columns: 59
 ── Column specification ────────────────────────────────────────────────────────
@@ -812,7 +786,7 @@ dbl (43): UNITID, FIPS, OBEREG, GENTELE, OPEFLAG, SECTOR, ICLEVEL, CONTROL, ...
 <ul>
 <li>For example of what is available, see the <a href="https://api.census.gov/data/2019/acs/acs5/variables.html">variables available in the 2019 ACS here</a></li>
 </ul></li>
-<li>We will actually do some cool stuff to download ACS data directly to R later in <a href="./10-viz-iii.html">Data Viz III</a> using the <a href="https://walker-data.com/tidycensus/">tidycensus package</a></li>
+<li>We will actually do some cool stuff to download ACS data directly to R later in <a href="10-viz-iii.qmd">Data Viz III</a> using the <a href="https://walker-data.com/tidycensus/">tidycensus package</a></li>
 </ul></li>
 </ul></li>
 <li><a href="https://www.msidata.org/data">MSI Data Project</a>

@@ -244,7 +244,7 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./09-wrangle-iv.html" class="sidebar-item-text sidebar-link">
+  <a href="./10-wrangle-iv.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">IV: Advanced `tidyverse` &amp; Data Retrieval</span></a>
   </div>
 </li>
@@ -273,7 +273,7 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./10-viz-iii.html" class="sidebar-item-text sidebar-link">
+  <a href="./12-viz-iii.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">III: Maps &amp; Spatial Data (Feat. APIs)</span></a>
   </div>
 </li>
@@ -287,13 +287,13 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./11-pro-functions.html" class="sidebar-item-text sidebar-link">
+  <a href="./11-pro-functions.qmd" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Functions &amp; Loops</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./12-pro-model.html" class="sidebar-item-text sidebar-link">
+  <a href="./12-pro-model.qmd" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Bringing it All Together (Feat. Basic Models)</span></a>
   </div>
 </li>
@@ -399,16 +399,16 @@ window.Quarto = {
 <li><p>One key part of understanding your data and presenting your analyses lies in making plots, which we will cover through this section of the class</p></li>
 <li><p>There are multiple graphing systems in R, but we are going to focus on two (primarily one);</p>
 <ul>
-<li><a href="https://stat.ethz.ch/R-manual/R-devel/library/graphics/html/00Index.html">vanilla R plots</a></li>
+<li><a href="https://stat.ethz.ch/R-manual/R-devel/library/graphics/html/00Index.html">base R plots</a></li>
 <li><a href="http://ggplot2.tidyverse.org">ggplot2</a></li>
 </ul></li>
 </ul>
-<section id="vanilla-r-plots" class="level4">
-<h4 data-anchor-id="vanilla-r-plots">Vanilla R Plots</h4>
+<section id="base-r-plots" class="level4">
+<h4 data-anchor-id="base-r-plots">Base R Plots</h4>
 <ul>
-<li>Vanilla R (i.e., R without any packages loaded) can create some basic plots
+<li>Base R (i.e., R without any packages loaded) can create some basic plots
 <ul>
-<li>They aren’t the prettiest, so I wouldn’t recommend them in reports and papers
+<li>They aren’t the prettiest, so we wouldn’t recommend them in reports and papers
 <ul>
 <li>But, they’re super-easy and quick to create, so they’re perfect for quickly checking your data during the exploration phase</li>
 </ul></li>
@@ -426,7 +426,7 @@ window.Quarto = {
 <ul>
 <li>This allows us to create some really cool and detailed plots
 <ul>
-<li>I’d strongly recommend <code>ggplot2</code> for making plots you want to share
+<li>Strongly recommend <code>ggplot2</code> for making plots you want to share
 <ul>
 <li>Even stata users admit the plots can’t match <code>ggplot2</code></li>
 </ul></li>
@@ -438,7 +438,7 @@ window.Quarto = {
 <section id="libraries" class="level3">
 <h3 data-anchor-id="libraries">Libraries</h3>
 <ul>
-<li><p>We’re using two libraries today (plus the vanilla R plot functions)</p></li>
+<li><p>We’re using two libraries today (plus the base R plot functions)</p></li>
 <li><p><a href="http://ggplot2.tidyverse.org">ggplot2</a></p></li>
 <li><p>The <a href="http://ggplot2.tidyverse.org">ggplot2</a> library is part of the <code>tidyverse</code></p>
 <ul>
@@ -483,7 +483,7 @@ window.Quarto = {
 <span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>df_ts <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="fu">file.path</span>(<span class="st">"data"</span>, <span class="st">"sch-test"</span>, <span class="st">"all-schools.csv"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ul>
-<li><p><strong>Note</strong> that since we have two data files this lesson, I gave them unique names instead of the normal <code>df</code>:</p></li>
+<li><p><strong>Note</strong> that since we have two data files this lesson, we gave them unique names instead of the normal <code>df</code>:</p></li>
 <li><p><code>df_hs</code> := <code>hsls_small.dta</code></p></li>
 <li><p><code>df_ts</code> := <code>all_schools.csv</code></p></li>
 </ul>
@@ -495,20 +495,16 @@ window.Quarto = {
 <li>Even though new graphics libraries have been developed, the base R graphics system remains powerful</li>
 <li>The base system is also very easy to use in a pinch
 <ul>
-<li>When I want a quick visual of a data distribution that’s just for me, I often use base R</li>
+<li>Good for a quick visual of a data distribution that’s just for ourselves</li>
 </ul></li>
-<li><strong>Note</strong> that for the next few plots, I’m not much concerned with how they look
+<li><strong>Note</strong> that for the next few plots, let’s not worry too much about how they look
 <ul>
 <li>Specifically, the axis labels won’t look very nice</li>
-<li>We could spend time learning to make really nice base R plots for publication
-<ul>
-<li>But I’d rather we spend that time with ggplot2 graphics.</li>
 </ul></li>
-</ul></li>
-<li><strong>Also note</strong> that we’ll have to switch to using the vanilla R data frame <code>$</code> notation to pull out the columns we want
+<li><strong>Also note</strong> that we’ll have to switch to using the base R data frame <code>$</code> notation to pull out the columns we want
 <ul>
-<li>In short, to reference a column in a data frame in vanilla R, you say <code>dataframe$column</code></li>
-<li>If you need some more information on using <code>$</code> notation, <a href="./x-03-vanilla.html">check out the supplemental lesson on data wrangling with vanilla R</a>.</li>
+<li>In short, to reference a column in a data frame in base R, you say <code>dataframe$column</code></li>
+<li>If you need some more information on using <code>$</code> notation, <a href="./x-03-vanilla.html">check out the supplemental lesson on data wrangling with base R</a>.</li>
 </ul></li>
 </ul>
 <section id="histogram" class="level3">
@@ -540,7 +536,7 @@ window.Quarto = {
 <h3 data-anchor-id="density">Density</h3>
 <ul>
 <li>Density plots are also really helpful for checking the distribution of a variable</li>
-<li>Vanilla R doesn’t have formal density plot function, but you can get a density plot with a trick
+<li>Base R doesn’t have formal density plot function, but you can get a density plot with a trick
 <ul>
 <li><code>plot()</code> the <code>density()</code> of a continuous variable</li>
 </ul></li>
@@ -578,7 +574,7 @@ window.Quarto = {
 <li>The formula uses a tilde, <code>~</code>, and should be constructed like this:
 <ul>
 <li><code>&lt;continuous var&gt; ~ &lt;discrete var&gt;</code></li>
-<li>We will talk in more detail about formulas in the <a href="./12-pro-model.html">Programming: Modeling Basics lesson</a></li>
+<li>We will talk in more detail about formulas in the <a href="12-pro-model.qmd">Programming: Modeling Basics lesson</a></li>
 </ul></li>
 <li>As we are using a formula, notice how we can use the <code>data = df_hs</code> argument instead of adding <code>df_hs$</code> in front of the variable names, which saves some typing</li>
 </ul></li>
@@ -596,8 +592,8 @@ window.Quarto = {
 </div>
 <p>From the boxplot, we can see that math test scores tend to increase as students’ educational expectations increase (remember that 11 means “I don’t know [how far I’ll go in school]”), though there’s quite a bit of overlap in the marginal distributions.</p>
 </section>
-<section id="scatter" class="level3">
-<h3 data-anchor-id="scatter">Scatter</h3>
+<section id="scatterplot" class="level3">
+<h3 data-anchor-id="scatterplot">Scatterplot</h3>
 <ul>
 <li>Plot two continuous variables against one another using the base <code>plot()</code> function</li>
 <li>The main way to make a scatter plot is <code>plot(x, y)</code>
@@ -626,7 +622,7 @@ window.Quarto = {
 <section id="plots-using-ggplot2" class="level2">
 <h2 data-anchor-id="plots-using-ggplot2">Plots using <code>ggplot2</code></h2>
 <ul>
-<li><code>ggplot2</code> is my — and many R users’ — primary system for making plots</li>
+<li><code>ggplot2</code> is R users’ primary system for making plots</li>
 <li>It is based on the idea of a <a href="https://www.springer.com/gp/book/9780387245447">grammar of graphics</a>
 <ul>
 <li>Just as we can use finite rules of a language grammar to construct an endless number of unique sentences, so too can we use a few graphical grammatical rules to make an endless number of unique figures.</li>
@@ -969,8 +965,8 @@ window.Quarto = {
 <p>We will get more into making things look pretty in <a href="./06-viz-ii.html">Data Vizualization II</a>, but, what is a real problem with this graph? Does it even need to be there?</p>
 </blockquote>
 </section>
-<section id="scatter-1" class="level3">
-<h3 data-anchor-id="scatter-1">Scatter</h3>
+<section id="scatterplot-1" class="level3">
+<h3 data-anchor-id="scatterplot-1">Scatterplot</h3>
 <ul>
 <li>To make a scatter plot, make sure that the <code>aes()</code> has mappings for the <code>x</code> axis and <code>y</code> axis and then use <code>geom_point()</code> to plot.</li>
 <li>To make things easier to see (remembering the over-crowded cloud from the base R plot above), we’ll reduce the data to 10% of the full sample using <code>sample_frac()</code> from dplyr</li>
@@ -1033,7 +1029,7 @@ window.Quarto = {
 <li>Remember from a prior lesson that we can connect these two statements together with the operator <code>&amp;</code></li>
 <li>Let’s create our new variable
 <ul>
-<li>Notice this time when I create the factor, I specify <code>levels</code> and <code>labels</code>
+<li>Notice this time when we create the factor, we specify <code>levels</code> and <code>labels</code>
 <ul>
 <li>This applies labels much like the <code>haven</code> version of our data has, which will print out in our plot</li>
 </ul></li>
@@ -1246,10 +1242,7 @@ window.Quarto = {
 </div>
 </div>
 <ul>
-<li><p>Is this faceted plot better than the color line plot before it?</p>
-<ul>
-<li>To my eyes, it’s a little clearer, but not so much so that I couldn’t be convinced to use the first one</li>
-</ul></li>
+<li><p>Is this faceted plot better than the color line plot before it?</p></li>
 <li><p>Whether you use the first or the second would largely depend on your specific data and presentation needs.</p></li>
 <li><p>Faceting has a clearer advantage, however, when you want to include the fourth level of comparison:</p>
 <ol type="1">
@@ -1426,13 +1419,13 @@ window.Quarto = {
 <h2 data-anchor-id="question-three">Question Three</h2>
 <p><strong>a)</strong> What is the relationship between student socioeconomic status and math test score?</p>
 <!--
-Once complete, turn in the .qmd file (must render successfully) to Canvas by Tuesday 12:00pm following the lesson.
+Once complete, turn in the .qmd file (must render successfully) and the rendered PDF to Canvas by Tuesday 12:00pm following the lesson.
 Assignments will be graded before next lesson on Wednesday in line with the grading policy outlined in the syllabus.
 -->
 </section>
 <section id="submission" class="level2">
 <h2 data-anchor-id="submission">Submission</h2>
-<p>Once complete turn in the .qmd file (<strong>it must render/run</strong>) to Canvas by the due date (usually <strong>Tuesday 12:00pm following the lesson</strong>). Assignments will be graded before next lesson on Wednesday in line with the grading policy outlined in the syllabus.</p>
+<p>Once complete turn in the .qmd file (<strong>it must render/run</strong>) and the rendered PDF to Canvas by the due date (usually <strong>Tuesday 12:00pm following the lesson</strong>). Assignments will be graded before next lesson on Wednesday in line with the grading policy outlined in the syllabus.</p>
 </section>
 </div>
 </div>

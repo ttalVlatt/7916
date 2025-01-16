@@ -215,7 +215,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./09-wrangle-iv.html" class="sidebar-item-text sidebar-link">
+  <a href="./10-wrangle-iv.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">IV: Advanced `tidyverse` &amp; Data Retrieval</span></a>
   </div>
 </li>
@@ -244,7 +244,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./10-viz-iii.html" class="sidebar-item-text sidebar-link">
+  <a href="./12-viz-iii.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">III: Maps &amp; Spatial Data (Feat. APIs)</span></a>
   </div>
 </li>
@@ -258,13 +258,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./11-pro-functions.html" class="sidebar-item-text sidebar-link">
+  <a href="./11-pro-functions.qmd" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Functions &amp; Loops</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./12-pro-model.html" class="sidebar-item-text sidebar-link">
+  <a href="./12-pro-model.qmd" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Bringing it All Together (Feat. Basic Models)</span></a>
   </div>
 </li>
@@ -434,7 +434,7 @@ dbl (43): UNITID, FIPS, OBEREG, GENTELE, OPEFLAG, SECTOR, ICLEVEL, CONTROL, ...
 </section>
 <section id="finding-str_detect" class="level2">
 <h2 data-anchor-id="finding-str_detect">Finding: <code>str_detect()</code></h2>
-<p>So far, we’ve filtered data using dplyr’s <code>filter()</code> verb. When matching a string, we have used <code>==</code> (or <code>!=</code> for negative match). For example, if we wanted to limit our data to only those institutions in Florida, we could filter using the <code>stabbr</code> column:</p>
+<p>Previously, we’ve filtered data using dplyr’s <code>filter()</code> function. When matching a string, we have used <code>==</code> (or <code>!=</code> for negative match). For example, if we wanted to limit our data to only those institutions in Florida, we could filter using the <code>stabbr</code> column:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="do">## filter using state abbreviation (not saving, just viewing)</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span></span>
@@ -568,7 +568,7 @@ dbl (43): UNITID, FIPS, OBEREG, GENTELE, OPEFLAG, SECTOR, ICLEVEL, CONTROL, ...
 <p>Ah! We find a few stragglers. How can we restructure our filter so that we get these, too? There are at least two solutions.</p>
 <section id="use-regular-expressions" class="level4">
 <h4 data-anchor-id="use-regular-expressions">1. Use regular expressions</h4>
-<p><a href="https://en.wikipedia.org/wiki/Regular_expression">Regular expressions</a> (aka <em>regex</em>) are strings that use a special syntax to create patterns that can be used to match other strings. They are very useful when you need to match strings that have some general form, but may differ in specifics.</p>
+<p><a href="https://en.wikipedia.org/wiki/Regular_expression">Regular expressions</a> (aka <em>regex</em>) are strings that use a special syntax to create patterns that can be used to match other strings. Some of you may have used them when you try to search for literature in your work. They are very useful when you need to match strings that have some general form, but may differ in specifics.</p>
 <p>We already used this technique in the a prior lesson when we matched columns in the <code>all_schools_wide.csv</code> with <code>contains("19")</code> so that we could <code>pivot_longer()</code>. Instead of naming all the columns specifically, we recognized that each column took the form of <code>&lt;test&gt;_19&lt;YY&gt;</code>. This is a type of regular expression.</p>
 <p>In the tidyverse some of the stringr and <a href="https://www.rdocumentation.org/packages/tidyselect/versions/1.0.0/topics/select_helpers">tidyselect helper functions</a> abstract-away some of the nitty-gritty behind regular expressions. Knowing a little about regular expression syntax, particularly <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/regex.html">how it is used in R</a>, can go a long way.</p>
 <p>In our first case, we can match strings that have a capital <strong>P</strong> <em>President</em> or lowercase <strong>p</strong> <em>president</em> using square brackets (<code>[]</code>). If we want either “P” or “p”, then we can use the regex, <code>[Pp]</code>, in place of the first character: <code>"[Pp]resident"</code>. This will match either <code>"President"</code> or <code>"president"</code>.</p>
@@ -625,7 +625,7 @@ dbl (43): UNITID, FIPS, OBEREG, GENTELE, OPEFLAG, SECTOR, ICLEVEL, CONTROL, ...
 </div>
 </div>
 <p>We recover another two titles when using this second solution. Clearly, our first solution didn’t account for other cases (perhaps “<code>PRESIDENT"</code>?).</p>
-<p>In general, I find it’s a good idea to try a solution like the second one before a more complicated one like the first. But because every problem is different, so too are the solutions. You may find yourself using a combination of the two.</p>
+<p>In general, it may be a good idea to try a solution like the second one before a more complicated one like the first. But because every problem is different, so too are the solutions. You may find yourself using a combination of the two.</p>
 <blockquote class="blockquote">
 <h4 id="not-so-quick-exercise">Not-so-quick exercise</h4>
 <p>Another chief title that was high on the list was “Owner.” How many institutions have an “Owner” as their chief administrator? Of these, how many are private, for-profit institutions (<code>control == 3</code>)? How many have the word “Beauty” in their name?</p>
@@ -763,7 +763,7 @@ dbl (43): UNITID, FIPS, OBEREG, GENTELE, OPEFLAG, SECTOR, ICLEVEL, CONTROL, ...
 <h4 id="quick-exercise-4">Quick exercise</h4>
 <p>What happened? In this scenario, which string subsetting technique worked better?</p>
 </blockquote>
-<p>Depending on the task, regular expressions can either feel like a blessing or a curse. To be honest, I’ve spent more time cursing than thanking them. That said, regular expressions are often <em>the only</em> way to perform a data wrangling task on unstructured string data. They are also a cornerstone of natural language processing techniques, which are increasingly of interest to education researchers.</p>
+<p>Depending on the task, regular expressions can either feel like a blessing or a curse. However, regular expressions are often <em>the only</em> way to perform a data wrangling task on unstructured string data. They are also a cornerstone of natural language processing techniques, which are increasingly of interest to education researchers.</p>
 <p>We’ve only scratched the surface of what regular expressions can do. If you face string data in the future, taking a little time to craft a regular expression can be well worth it.</p>
 </section>
 </section>
@@ -884,7 +884,7 @@ Caused by warning:
 <ul>
 <li><p>Now, remember <code>orders</code> can take more than one value, so maybe we could try another date format that can pick up some of these dates</p>
 <ul>
-<li>Looking through the <a href="https://lubridate.tidyverse.org/reference/index.html">lubridate reference page</a>, I can see that <code>"my"</code> (month year) is a format it will take as well, so let’s try that</li>
+<li>Looking through the <a href="https://lubridate.tidyverse.org/reference/index.html">lubridate reference page</a>, we can see that <code>"my"</code> (month year) is a format it will take as well, so let’s try that</li>
 </ul></li>
 </ul>
 <div class="cell">
@@ -1069,7 +1069,7 @@ Caused by warning:
 <section id="extracting-info-from-dates" class="level4">
 <h4>Extracting Info From Dates</h4>
 <ul>
-<li><p>What is we want to see which fiscal quarter more schools closed in?</p>
+<li><p>What if we want to see which fiscal quarter more schools closed in?</p>
 <ul>
 <li>The handy <code>quarter()</code> function tell us that</li>
 </ul></li>
@@ -1128,7 +1128,7 @@ Caused by warning:
 <li><p>In this lesson we’ve looked at working with both generic strings and with dates</p>
 <ul>
 <li><p>For both of these we have only begun to scratch the surface, but it should have given you enough of an idea to go out and get your hands dirty</p></li>
-<li><p>If you found this interesting, Dr.&nbsp;Jinnie Shin teaches a class on Natural Language Processing in the Fall, which gets into how make the computer begin to understand text</p></li>
+<li><p>If you found this interesting, Dr.&nbsp;Jinnie Shin teaches a class on Natural Language Processing (in python programming language), which gets into how make the computer begin to understand text</p></li>
 </ul></li>
 <li><p>These are both messy types of data and you’re often going to have to make subjective decisions (e.g., how to handle <code>Sep-2007</code>)</p>
 <ul>
@@ -1187,7 +1187,7 @@ Assignments will be graded before next lesson on Wednesday in line with the grad
 </section>
 <section id="submission" class="level2">
 <h2 data-anchor-id="submission">Submission</h2>
-<p>Once complete turn in the .qmd file (<strong>it must render/run</strong>) to Canvas by the due date (usually <strong>Tuesday 12:00pm following the lesson</strong>). Assignments will be graded before next lesson on Wednesday in line with the grading policy outlined in the syllabus.</p>
+<p>Once complete turn in the .qmd file (<strong>it must render/run</strong>) and the rendered PDF to Canvas by the due date (usually <strong>Tuesday 12:00pm following the lesson</strong>). Assignments will be graded before next lesson on Wednesday in line with the grading policy outlined in the syllabus.</p>
 </section>
 </div>
 </div>
