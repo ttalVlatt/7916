@@ -1,7 +1,7 @@
 ---
 title: "III: Data Wrangling I Redux: Vanilla R"
 image: apple-touch-icon.png
-solution: true
+solution: false
 editor_options: 
   chunk_output_type: console
 ---
@@ -47,21 +47,21 @@ What we need to do is some combination of the following:
 Let's do it!
 
 ```{r, include = FALSE, purl = TRUE}
-################################################################################
+## -----------------------------------------------------------------------------
 ##
-## <PROJ> EDH7916: Data wrangling with base R
-## <FILE> dw_one_base_r.R 
-## <INIT> 20 January 2020
-## <AUTH> Benjamin Skinner (GitHub/Twitter: @btskinner)
+##' [PROJ: EDH 7916]
+##' [FILE: Extra Credit: Vanilla R]
+##' [INIT: 18 July 2020]
+##' [AUTH: Benjamin Skinner @btskinner]
 ##
-################################################################################
+## -----------------------------------------------------------------------------
 ```
 
 **NOTE:** Since we're not using the vanilla R, we don't need to load any packages
 
 ```{r}
 ## ---------------------------
-## libraries
+##' [Libraries]
 ## ---------------------------
 
 ## NONE
@@ -100,7 +100,7 @@ setwd(this.path::here())
 
 ```{r}
 ## ---------------------------
-## input
+##' [Input]
 ## ---------------------------
 
 ## data are CSV, so we use read.csv(), which is base R function
@@ -123,7 +123,7 @@ head(df, n = 10)
 
 ```{r, include = FALSE, purl = TRUE}
 ## ---------------------------
-## process
+##' [Process]
 ## ---------------------------
 ```
 
@@ -189,7 +189,7 @@ head(df_tmp, n = 10)
 
 ```{r}
 ## -----------------
-## mutate
+##' [mutate]
 ## -----------------
 
 ## see unique values for student expectation
@@ -331,7 +331,7 @@ head(df_tmp, n = 10)
 
 ```{r}
 ## -----------------
-## filter
+##' [filter]
 ## -----------------
 
 ## get summary of our new variable
@@ -371,7 +371,7 @@ For an overall average, we can just use the `mean()` function.
 
 ```{r}
 ## -----------------
-## summarize
+##' [summarize]
 ## -----------------
 
 ## get average (without storing)
@@ -407,7 +407,7 @@ df_tmp
 
 ```{r, include = FALSE, purl = TRUE}
 ## ---------------------------
-## output
+##' [output]
 ## ---------------------------
 ```
 
@@ -426,7 +426,7 @@ write.csv(df_tmp, file.path("data", "high_expct_mean_region.csv"))
 
 ```{r, include = FALSE, purl = TRUE}
 ## -----------------------------------------------------------------------------
-## end script
+##' *END SCRIPT*
 ## -----------------------------------------------------------------------------
 ```
 
