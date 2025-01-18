@@ -1,64 +1,32 @@
 ---
-title: "II: Skinner's Download IPEDS"
+title: "II: Automating Data Retrieval in Reproducible Report"
 image: apple-touch-icon.png
 ---
 
 ::: panel-tabset
 # Lesson
 
--   Many of you are likely using IPEDS for your final project, and most those who aren't will likely use IPEDS at some point in the future
-    -   By completing this extra credit you will learn to use a tool to download IPEDS directly with an R script and/or a Stata script
-        -   This extra credit is relatively simple, however, the challenge is that I am not providing step-by-step instructions, just a link to the resource
+In [Data Wrangling IV](09-wrangle-iv.qmd) we discussed a wide range of automated data retrieval methods.
 
-## Option One: `downloadipeds.R` by Dr. Skinner
+For this extra credit, you simply need to successfully use some form of automated data retrieval in your final project.
 
--   Dr. Skinner, the original instructor of the class, wrote an R script that downloads IPEDS files directly to a project folder
+As a reminder, here a few of the methods we covered in class
 
-    -   I actually used this for my final project when I took the class with him
-    -   Doing this enables true "push button reproducibility" of your report
-        -   As in, all I need to do to replicate your report is hit "render", no pre-downloading of the data required
+- [IPEDtaS](https://capaldi.info/IPEDtaS) for IPEDS Data
+- [tidycensus](https://walker-data.com/tidycensus/) for Census Data
+- [Urban Institute's EducationData](https://educationdata.urban.org/data-explorer) for Multiple Education Data Sources
+- Or simply downloading .csv files in your R code using the url
 
--   [Download IPEDS is an R-script available on Dr. Skinner's personal website, here](https://www.btskinner.io/code/download-ipeds/)
+But that isn't the limit, there are countless packages, APIs, and other tools to automatically download data
 
--   That's all the instruction you get for this lesson, Dr. Skinner's site should be enough to work out the rest. Turn to the assignment tab to see how to earn the extra credit points
-
-### Option Two: `ipeDTAs.do` by Matt
-
--   Building off Dr. Skinner's work, I have written a Stata-ified version, which goes one step further creating labeled `.dta` versions of the IPEDS files you download
-
-    -   You can find it here: <https://github.com/ttalVlatt/ipeDTAs>
-
--   Unfortunately, this does require Stata to run, and currently does not work on UF Apps (I have a ticket in with UFIT to try and address this)
-
--   Again, the documentation should be sufficient to work out how to run it
-
-The purpose of this limited instruction is to push you a little into playing with resources you find in the wild!
+We aren't providing much instruction here, as the purpose of this assignment is to push you a little into playing with resources you find in the wild! There's a lot of documentation out there for these tools, and it's a useful skill to be able to use it.
 
 # Assignment
 
-To get complete this extra credit, utilize downloaded IPEDS in your final reproducible report.
+To get complete this extra credit, utilize automatic data retrieval in your final reproducible report (i.e., we shouldn't need to go and download your data files).
 
-### Option One: `downloadipeds.R`
-
-You can use Dr. Skinner's downloadipeds.R to directly download the files as part of teh rendering process
-
-> Hint: You either to want to `source()` the download IPEDS `.R` script from your `.qmd` script, or, provide clear instructions on when to run it
-
-> Hint: Depending on the data you select, you might need to `unzip()` the files before reading them in.
-
-> Hint: While you don't have to, I'd recommend editing the `.txt` file to only download the files you want, not the whole of IPEDS
-
-### Option Two: `ipeDTAs.do`
-
--   If you have access to Stata, you can also use ipeDTAs.
-
--   Although technically this could be run from as part of the rendering process, integration with Stata is buggy, so you don't have to
-
--   If you choose this option, just say that you did so in your final report, which files you used, and keep the `.dta` files named as they are by default. I can then read them from my own downloaded set.
-
-### Option Three: Other Data Sources
-
-If you don't plan to use IPEDS data in your final project, contact me in advance to discuss if there is something similar you can use or make alternative plans
+> Hint: If you use an extra script, you either to want to `source()` the `.R` script from your `.qmd` script, or, provide clear instructions on when to run it
 
 Your submission for this extra credit is your final project, no additional submission required. Good faith efforts (as determined by the instructor) at extra credit assignments will earn full credit if submitted on time.
+
 :::
