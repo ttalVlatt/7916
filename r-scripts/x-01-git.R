@@ -1,1 +1,1 @@
-## git remote set-url origin git@github.com:<Username>/<Repo>.git
+# git remote set-url origin git@github.com:<Username>/<Repo>.git
