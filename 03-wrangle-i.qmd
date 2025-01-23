@@ -134,7 +134,7 @@ The pipe is one of the things that makes R code more intuitive than other progra
 
 For this example don't worry about the actual processes (we will go over them more below), just look at how much more intuitive the code is with `|>`s.
 
-First, let's say I want to take the data we just read in and `select` the `x1txmtscor` (math test scores) column
+First, let's say we want to take the data we just read in and `select` the `x1txmtscor` (math test scores) column
 
 #### Without `|>`
 
@@ -594,7 +594,7 @@ data_small_drop <- data_small |>
 ```
 
 -   Let's compare our two ways of removing NAs and see if they end up being the same
-    -   What's the function to check if things are equal (we used it when introducing |> ?
+    -   What's the function to check if things are equal (we used it when introducing |> )?
 
 ```{r}
 ## compare two ways of dropping NAs
@@ -610,9 +610,7 @@ all.equal(data_small_cut, data_small_drop)
 ```
 
 -   Okay, so we have our data selected, we made our `high_exp` variable, and we've done some work to handle missing data
--   In our week one data talk we discussed how massive tables of data are not particularly helpful to for someone to read or interpret
-    -   We will cover how to make graphs of our data in a few weeks
-    -   For our final task today, we are going to make some summary tables using `summarize()` from the `tidyverse`
+-   For our final task today, we are going to make some summary tables using `summarize()` from the `tidyverse`
 -   `summarize()` allows us to apply a summary statistic (mean, sd, median, etc.) to a column in our data
 -   `summarize()` takes an entire data frame as an input, and spits out a small data frame with the just the summary variables
     -   Note: for this reason, you rarely ever want to assign `<-` the output of `summarize()` back to the main data frame object, as you'll overwrite it
