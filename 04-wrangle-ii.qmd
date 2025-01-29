@@ -301,7 +301,7 @@ data_sum
         -   This will then find information for each school in each year, and join it in correctly
 -   If you don't provide any `by` arguments, `R` will try to be smart and look for columns names that are the same in both data sets
     -   This can lead to incorrect joins though, so always best to specify
--   Lastly, if you need to join by columns that have different names in each data set use `c("name in df_1" = "name in df_2")`
+-   Lastly, if you need to join by columns that have different names in each data set use `c("name in data_1" = "name in data_2")`
     -   e.g., `by = c("student_id" = "id_number")`
 
 ### Conceptual example
@@ -338,7 +338,7 @@ data_sum
 ### Practice joining
 Back to our example...
 
--   Since we want to join a smaller aggregated data frame, `df_sum`, to the original data frame, `df`, we'll use a `left_join()`.
+-   Since we want to join a smaller aggregated data frame, `data_sum`, to the original data frame, `data`, we'll use a `left_join()`.
     -   The join functions will try to guess the joining variable (and tell you what it picked) if you don't supply one, but we'll specify one to be clear.
 
 ```{r}
@@ -645,7 +645,7 @@ data_enroll
 >
 > -   To practice this, let's go to the [IPEDS Data Center](https://nces.ed.gov/ipeds/datacenter/DataFiles.aspx) and find the dictionary for EFFY2022
 >     -   Tip: For IPEDS dictionary files, the "frequencies" tab is where you'll find out what numbers that represent something mean
-> -   Okay, so what so EFFYALEV and EFFYLEV mean?
+> -   Okay, so what do EFFYALEV and EFFYLEV mean?
 > -   Think back to our research question, what's the ratio of international students at the undergraduate vs graduate level?
 >     -   Based on the code book, what do you think we need to do now?
 
