@@ -29,7 +29,7 @@ execute:
 
 ## Progress Check-In
 
-- In keeping with the theme of today's lesson, I made a little plot that represents roughly the breakdown of "core R content" covered in each lesson (as in, the basic knowledge you need to go off and do your own data work)
+- In keeping with the theme of today's lesson, we made a little plot that represents roughly the breakdown of "core R content" covered in each lesson (as in, the basic knowledge you need to go off and do your own data work)
   - Congratulations, after the first two data-wrangling lessons, you're already half-way done!
   - Over the next three weeks, we will cover how to communicate the results of these basic skills using visualization with `ggplot2` and report generation with `quarto`
   - Then, we will get into the final series of lessons, each of which gives you a little taste of some more sophisticated and/or niche applications of R
@@ -153,8 +153,8 @@ data_ts <- read_csv("data/sch-test/all-schools.csv")
 
 - **Note** that since we have two data files this lesson, we gave them unique names instead of the normal `data`:
 
-- `df_hs` := `hsls_small.dta`
-- `df_ts` := `all_schools.csv`
+- `data_hs` := `hsls_small.dta`
+- `data_ts` := `all_schools.csv`
 
 ## Plots using base R
 
@@ -230,7 +230,7 @@ to set the continuous variable against the discrete variable
   - The formula uses a tilde, `~`, and should be constructed like this:
     - `<continuous var> ~ <discrete var>`
     - We will talk in more detail about formulas in the [Programming: Modeling Basics lesson](12-pro-model.qmd)
-  - As we are using a formula, notice how we can use the `data = df_hs` argument instead of adding `df_hs$` in front of the variable names, which saves some typing
+  - As we are using a formula, notice how we can use the `data = data_hs` argument instead of adding `data_hs$` in front of the variable names, which saves some typing
 
 ```{r eda_base_box}
 ## box plot of math scores against student expectations
@@ -326,7 +326,7 @@ Success!
 - Layers is exactly how you want to think about ggplots
   - The `ggplot()` is the base layer of the graph
     - Anything you place in here will become the default for every other layer
-      - For example, if we say `data = df` in `ggplot()`, that will be the default data for every layer
+      - For example, if we say `data = data` in `ggplot()`, that will be the default data for every layer
         - Generally I specify the data here, and `mapping = aes()` in the specific plots
 
 > Quick question(s): Why might that make sense? Which is more likely to change? Are there times you might want to set an aesthetic for the whole plot?

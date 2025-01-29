@@ -22,6 +22,8 @@ editor_options:
 ##' [INIT: 9 March 2020]
 ##' [AUTH: Benjamin Skinner @btskinner]
 ##' [EDIT: Matt Capaldi @ttalVlatt]
+##' [EDIT: Jue Wu]
+##' [UPDT: 29 January 2025]
 ##
 ## -----------------------------------------------------------------------------
 ```
@@ -61,7 +63,7 @@ library(patchwork)
 ##' [Input data]
 ## ---------------------------
 
-df <- read_csv(file.path("data", "hsls-small.csv"))
+data <- read_csv(file.path("data", "hsls-small.csv"))
 ```
 
 ## Initial plot with no formatting
@@ -84,7 +86,7 @@ df <- read_csv(file.path("data", "hsls-small.csv"))
 ## -----------------------------------------------------------------------------
 
 ## Drop missing values for math test score
-df <- df |>
+data <- data |>
   filter(x1txmtscor != -8)
 ```
 
@@ -99,7 +101,7 @@ df <- df |>
 
 ```{r chunk5}
 ## create histogram using ggplot
-p <- ggplot(data = df) +
+p <- ggplot(data = data) +
   geom_histogram(mapping = aes(x = x1txmtscor))
 
 ## show
@@ -132,7 +134,7 @@ p <- p +
 p
 ```
 
--   Rather than accurately labeling the figure, I've repeated the arguments in strings so that it's clearer where every piece goes
+-   Rather than accurately labeling the figure, we've repeated the arguments in strings so that it's clearer where every piece goes
     -   The title is of course on top
     -   With the subtitle in a smaller font just below
     -   The *x* and *y* axis labels go with their respective axes
@@ -265,7 +267,7 @@ df <- df |>
 -   Now we'll make our same histogram, but add the `fill` aesthetic
     -   Note: since we are changing our underlying plot data, it's best to start again and store the plot in `p2`
 
-> Quick question: I also added one other new line, who can remember what `alpha = 0.66` does?
+> Quick question: We also added one other new line, who can remember what `alpha = 0.66` does?
 
 ```{r chunk12}
 
@@ -300,8 +302,8 @@ p2
 
 ## Color Scales
 
--   Personally, this graph still looks a little ugly
-    -   I (and a lot of people) are red-green colorblind
+-   This graph still looks a little ugly
+    -   Many people are red-green colorblind
         -   R chooses shades that aren't too bad for this, but it's still not great
     -   When we changed the color of a plot last week, it was purely decorative, so it went inside the `geom_` function
     -   This time, we want to change the colors associated with as `aes()` element, so, we are changing a `scale_`
@@ -370,7 +372,7 @@ p2 <- p2 +
 p2
 ```
 
--   Okay, I think this is starting to come together!
+-   Okay, this is starting to come together!
 
 ## Themes
 
@@ -379,7 +381,7 @@ p2
 ### Preset Themes
 
 -   There are a number of [preset themes in ggplot2](https://ggplot2.tidyverse.org/reference/index#themes)
-    -   I encourgae you to play around with these for the plots in your report
+    -   Feel free to play around with these for the plots in your report
 -   First, let's take a look at `theme_bw()`
 
 ```{r chunk18}
@@ -406,12 +408,12 @@ p2 <- p2 +
 p2
 ```
 
--   Yes, I think that looks pretty smart now!
+-   Yes, that looks pretty smart now!
 
 ### Editing Specific Theme Elements
 
 -   This is where you can really dive into the depths of customization
-    -   Unlike some proprietary analysis software *cough*, if you want to change something, you can (with some patience for tinkering around in the theme options)
+
 -   We don't have time to do much of this here, but for demonstration's sake, let's change one wildly specific thing
     -   Let's tinker with the x axis ticks
         -   Make them a little thicker to 0.8 units
@@ -439,7 +441,7 @@ p2
 4.  `element_` come in different types including `element_line()` like we used above `element_text()`, `element_rect()`, and others
 5.  Each of these has specific options you can customize as you wish
 
--   As I say, there is a world of possibilities in customization, depending on how much time you want to dedicate!
+-   There is a world of possibilities in customization, depending on how much time you want to dedicate!
 
 ## Multiple plots with patchwork
 
@@ -451,7 +453,7 @@ p2
 
 -   We technically have our original `p` plot saved, but we've made such progress since then, let's whip up a nicer second plot and assign it to `p3`
 
--   I've included a couple of new things here, but it should be mostly familiar
+-   There are some new things here, but it should be mostly familiar
 
     -   `scale_fill_viridis_d()` sets color-blind friendly palettes, especially useful when you have a categorical variable
         -   Gradient color sets (greyscale, shades of red, etc.) are pretty color-blind friendly, as without any color, they all will look like greyscale
@@ -459,7 +461,6 @@ p2
             -   Typically though, gradient colors imply increasing/decreasing values of a continuous variable (e.g., darker red means more GOP on election maps)
         -   The viridis palettes in R have been designed to look like discrete color scales, i.e., they don't look just like one color getting darker to most readers
             -   But they also use shading/darkness/lightness of the colors, which means if printed in black and white, or read by someone who can't see colors, they still work
-        -   For this reason, I try to use these for categorical variables in reports, unless I get carried away with school spirit!
     -   `begin` and `end` just allow you to trim the more extreme ends of the color palette off - This is useful in situations like this when you only have two categories and don't want them to look totally black and white
 
 ```{r chunk21}
@@ -468,7 +469,7 @@ p2
 ## -----------------------------------------------------------------------------
 
 ## Make a nice looking second plot of math scores by by parental education
-p3 <- ggplot(df) +
+p3 <- ggplot(data) +
   geom_boxplot(mapping = aes(x = pared_coll,
                              y = x1txmtscor,
                              fill = pared_coll),
@@ -500,7 +501,7 @@ p2 + p3
 p2 / p3
 ```
 
--   Cool! But there's still a few things I don't like...
+-   Cool! But there's still a few things we may not like...
     -   The orange and blue clashes against the viridis colors
         -   So let's edit `p2` to also use the magma viridis scale too
 
@@ -511,7 +512,7 @@ p2 <- p2 +
 p2 / p3
 ```
 
--   That's definitely better! If I'm getting picky, the boxplot is a little stretched though, as it's trying to fill the length of two histograms
+-   That's definitely better! If we're getting picky, the boxplot is a little stretched though, as it's trying to fill the length of two histograms
     -   If you want to specify a layout, you can do it using `plot_layout()` which takes a string of letters and #s
         -   A, B, C, etc. refer to the plots in the order you add them to the patchwork
         -   \# Can be used to add space
