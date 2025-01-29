@@ -373,7 +373,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="do">##' [Input data]</span></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="do">## ---------------------------</span></span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="fu">file.path</span>(<span class="st">"data"</span>, <span class="st">"hsls-small.csv"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="fu">file.path</span>(<span class="st">"data"</span>, <span class="st">"hsls-small.csv"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="initial-plot-with-no-formatting" class="level2">
@@ -398,7 +398,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="do">## -----------------------------------------------------------------------------</span></span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="do">## Drop missing values for math test score</span></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> df <span class="sc">|&gt;</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> data <span class="sc">|&gt;</span></span>
 <span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(x1txmtscor <span class="sc">!=</span> <span class="sc">-</span><span class="dv">8</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ul>
@@ -421,7 +421,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="do">## create histogram using ggplot</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> df) <span class="sc">+</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> data) <span class="sc">+</span></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> x1txmtscor))</span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="do">## show</span></span>
@@ -469,7 +469,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <ul>
-<li>Rather than accurately labeling the figure, I’ve repeated the arguments in strings so that it’s clearer where every piece goes
+<li>Rather than accurately labeling the figure, we’ve repeated the arguments in strings so that it’s clearer where every piece goes
 <ul>
 <li>The title is of course on top</li>
 <li>With the subtitle in a smaller font just below</li>
@@ -637,7 +637,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="do">## -----------------------------------------------------------------------------</span></span>
 <span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="do">## add indicator that == 1 if either parent has any college</span></span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> df <span class="sc">|&gt;</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> data <span class="sc">|&gt;</span></span>
 <span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">pared_coll =</span> <span class="fu">ifelse</span>(x1paredu <span class="sc">&gt;=</span> <span class="dv">3</span>, <span class="dv">1</span>, <span class="dv">0</span>),</span>
 <span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>         <span class="at">pared_coll =</span> <span class="fu">factor</span>(pared_coll,</span>
 <span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>                             <span class="at">levels =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>),</span>
@@ -650,10 +650,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul></li>
 </ul>
 <blockquote class="blockquote">
-<p>Quick question: I also added one other new line, who can remember what <code>alpha = 0.66</code> does?</p>
+<p>Quick question: We also added one other new line, who can remember what <code>alpha = 0.66</code> does?</p>
 </blockquote>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> df) <span class="sc">+</span></span>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> data) <span class="sc">+</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> x1txmtscor,</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>                               <span class="at">fill =</span> <span class="fu">factor</span>(pared_coll)),</span>
 <span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>                 <span class="at">alpha =</span> <span class="fl">0.66</span>) <span class="sc">+</span></span>
@@ -696,9 +696,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="color-scales" class="level2">
 <h2 data-anchor-id="color-scales">Color Scales</h2>
 <ul>
-<li>Personally, this graph still looks a little ugly
+<li>This graph still looks a little ugly
 <ul>
-<li>I (and a lot of people) are red-green colorblind
+<li>Many people are red-green colorblind
 <ul>
 <li>R chooses shades that aren’t too bad for this, but it’s still not great</li>
 </ul></li>
@@ -800,7 +800,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <ul>
-<li>Okay, I think this is starting to come together!</li>
+<li>Okay, this is starting to come together!</li>
 </ul>
 </section>
 <section id="themes" class="level2">
@@ -813,7 +813,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <ul>
 <li>There are a number of <a href="https://ggplot2.tidyverse.org/reference/index#themes">preset themes in ggplot2</a>
 <ul>
-<li>I encourgae you to play around with these for the plots in your report</li>
+<li>Feel free to play around with these for the plots in your report</li>
 </ul></li>
 <li>First, let’s take a look at <code>theme_bw()</code></li>
 </ul>
@@ -854,17 +854,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <ul>
-<li>Yes, I think that looks pretty smart now!</li>
+<li>Yes, that looks pretty smart now!</li>
 </ul>
 </section>
 <section id="editing-specific-theme-elements" class="level3">
 <h3 data-anchor-id="editing-specific-theme-elements">Editing Specific Theme Elements</h3>
 <ul>
-<li>This is where you can really dive into the depths of customization
-<ul>
-<li>Unlike some proprietary analysis software <em>cough</em>, if you want to change something, you can (with some patience for tinkering around in the theme options)</li>
-</ul></li>
-<li>We don’t have time to do much of this here, but for demonstration’s sake, let’s change one wildly specific thing
+<li><p>This is where you can really dive into the depths of customization</p></li>
+<li><p>We don’t have time to do much of this here, but for demonstration’s sake, let’s change one wildly specific thing</p>
 <ul>
 <li>Let’s tinker with the x axis ticks
 <ul>
@@ -907,7 +904,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>Each of these has specific options you can customize as you wish</li>
 </ol>
 <ul>
-<li>As I say, there is a world of possibilities in customization, depending on how much time you want to dedicate!</li>
+<li>There is a world of possibilities in customization, depending on how much time you want to dedicate!</li>
 </ul>
 </section>
 </section>
@@ -918,7 +915,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><p>All the plots we’ve made so far have been one single ggplot object, but, we can put more than one together if we want</p></li>
 <li><p>We use the <a href="https://patchwork.data-imaginist.com/index.html">patchwork library</a>!</p></li>
 <li><p>We technically have our original <code>p</code> plot saved, but we’ve made such progress since then, let’s whip up a nicer second plot and assign it to <code>p3</code></p></li>
-<li><p>I’ve included a couple of new things here, but it should be mostly familiar</p>
+<li><p>There are some new things here, but it should be mostly familiar</p>
 <ul>
 <li><code>scale_fill_viridis_d()</code> sets color-blind friendly palettes, especially useful when you have a categorical variable
 <ul>
@@ -931,7 +928,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <ul>
 <li>But they also use shading/darkness/lightness of the colors, which means if printed in black and white, or read by someone who can’t see colors, they still work</li>
 </ul></li>
-<li>For this reason, I try to use these for categorical variables in reports, unless I get carried away with school spirit!</li>
 </ul></li>
 <li><code>begin</code> and <code>end</code> just allow you to trim the more extreme ends of the color palette off - This is useful in situations like this when you only have two categories and don’t want them to look totally black and white</li>
 </ul></li>
@@ -942,7 +938,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="do">## -----------------------------------------------------------------------------</span></span>
 <span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="do">## Make a nice looking second plot of math scores by by parental education</span></span>
-<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>p3 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(df) <span class="sc">+</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>p3 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(data) <span class="sc">+</span></span>
 <span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> pared_coll,</span>
 <span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>                             <span class="at">y =</span> x1txmtscor,</span>
 <span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>                             <span class="at">fill =</span> pared_coll),</span>
@@ -1001,7 +997,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <ul>
-<li>Cool! But there’s still a few things I don’t like…
+<li>Cool! But there’s still a few things we may not like…
 <ul>
 <li>The orange and blue clashes against the viridis colors
 <ul>
@@ -1023,7 +1019,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <ul>
-<li>That’s definitely better! If I’m getting picky, the boxplot is a little stretched though, as it’s trying to fill the length of two histograms
+<li>That’s definitely better! If we’re getting picky, the boxplot is a little stretched though, as it’s trying to fill the length of two histograms
 <ul>
 <li>If you want to specify a layout, you can do it using <code>plot_layout()</code> which takes a string of letters and #s
 <ul>

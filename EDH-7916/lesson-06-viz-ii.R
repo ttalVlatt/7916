@@ -5,6 +5,8 @@
 ##' [INIT: 9 March 2020]
 ##' [AUTH: Benjamin Skinner @btskinner]
 ##' [EDIT: Matt Capaldi @ttalVlatt]
+##' [EDIT: Jue Wu]
+##' [UPDT: 29 January 2025]
 ##
 ## -----------------------------------------------------------------------------
 
@@ -19,18 +21,18 @@ library(patchwork)
 ##' [Input data]
 ## ---------------------------
 
-df <- read_csv(file.path("data", "hsls-small.csv"))
+data <- read_csv(file.path("data", "hsls-small.csv"))
 
 ## -----------------------------------------------------------------------------
 ##' [Initial plain plot]
 ## -----------------------------------------------------------------------------
 
 ## Drop missing values for math test score
-df <- df |>
+data <- data |>
   filter(x1txmtscor != -8)
 
 ## create histogram using ggplot
-p <- ggplot(data = df) +
+p <- ggplot(data = data) +
   geom_histogram(mapping = aes(x = x1txmtscor))
 
 ## show
@@ -87,14 +89,14 @@ p <- p +
 ## -----------------------------------------------------------------------------
 
 ## add indicator that == 1 if either parent has any college
-df <- df |>
+data <- data |>
   mutate(pared_coll = ifelse(x1paredu >= 3, 1, 0),
          pared_coll = factor(pared_coll,
                              levels = c(0,1),
                              labels = c("No college", "College")))
 
 
-p2 <- ggplot(data = df) +
+p2 <- ggplot(data = data) +
   geom_histogram(mapping = aes(x = x1txmtscor,
                                fill = factor(pared_coll)),
                  alpha = 0.66) +
@@ -166,7 +168,7 @@ p2
 ## -----------------------------------------------------------------------------
 
 ## Make a nice looking second plot of math scores by by parental education
-p3 <- ggplot(df) +
+p3 <- ggplot(data) +
   geom_boxplot(mapping = aes(x = pared_coll,
                              y = x1txmtscor,
                              fill = pared_coll),

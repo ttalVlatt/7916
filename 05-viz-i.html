@@ -374,7 +374,7 @@ window.Quarto = {
 <section id="progress-check-in" class="level2">
 <h2 data-anchor-id="progress-check-in">Progress Check-In</h2>
 <ul>
-<li>In keeping with the theme of today’s lesson, I made a little plot that represents roughly the breakdown of “core R content” covered in each lesson (as in, the basic knowledge you need to go off and do your own data work)
+<li>In keeping with the theme of today’s lesson, we made a little plot that represents roughly the breakdown of “core R content” covered in each lesson (as in, the basic knowledge you need to go off and do your own data work)
 <ul>
 <li>Congratulations, after the first two data-wrangling lessons, you’re already half-way done!</li>
 <li>Over the next three weeks, we will cover how to communicate the results of these basic skills using visualization with <code>ggplot2</code> and report generation with <code>quarto</code></li>
@@ -484,8 +484,8 @@ window.Quarto = {
 </div>
 <ul>
 <li><p><strong>Note</strong> that since we have two data files this lesson, we gave them unique names instead of the normal <code>data</code>:</p></li>
-<li><p><code>df_hs</code> := <code>hsls_small.dta</code></p></li>
-<li><p><code>df_ts</code> := <code>all_schools.csv</code></p></li>
+<li><p><code>data_hs</code> := <code>hsls_small.dta</code></p></li>
+<li><p><code>data_ts</code> := <code>all_schools.csv</code></p></li>
 </ul>
 </section>
 </section>
@@ -576,7 +576,7 @@ window.Quarto = {
 <li><code>&lt;continuous var&gt; ~ &lt;discrete var&gt;</code></li>
 <li>We will talk in more detail about formulas in the <a href="./12-pro-model.html">Programming: Modeling Basics lesson</a></li>
 </ul></li>
-<li>As we are using a formula, notice how we can use the <code>data = df_hs</code> argument instead of adding <code>df_hs$</code> in front of the variable names, which saves some typing</li>
+<li>As we are using a formula, notice how we can use the <code>data = data_hs</code> argument instead of adding <code>data_hs$</code> in front of the variable names, which saves some typing</li>
 </ul></li>
 </ul>
 <div class="cell">
@@ -702,7 +702,7 @@ window.Quarto = {
 <ul>
 <li>Anything you place in here will become the default for every other layer
 <ul>
-<li>For example, if we say <code>data = df</code> in <code>ggplot()</code>, that will be the default data for every layer
+<li>For example, if we say <code>data = data</code> in <code>ggplot()</code>, that will be the default data for every layer
 <ul>
 <li>Generally I specify the data here, and <code>mapping = aes()</code> in the specific plots</li>
 </ul></li>
