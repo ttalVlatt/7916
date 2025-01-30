@@ -93,7 +93,7 @@ data |>
   left_join(data_sum,
             by = "year")
 
-## Note: if we want to keep the joined data, we should assign it to df_join
+## Note: if we want to keep the joined data, we should assign it to data_join
 data_join <- data |>
   left_join(data_sum,
             by = "year")
