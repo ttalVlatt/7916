@@ -615,11 +615,13 @@ data_wide
 -   Now, let's look at a more realistic example when we would use these skills for data analysis
 -   Let's say we want to explore difference in international student enrollment at the undergraduate vs graduate level and if that varies by region of the US
 -   For this, we are going to use two IPEDS data sets HD2022 and EFFY2022
-    -   Note: These data sets are not in your class repository (intentionally), so we have to go and download them from the [IPEDS Data Center](https://nces.ed.gov/ipeds/datacenter/DataFiles.aspx)
 
 ```{r}
-data_info <- read_csv("data/hd2022.csv")
-data_enroll <- read_csv("data/effy2022.csv")
+data_info <- read_csv("data/hd2022.csv") |> 
+  rename_all(tolower) # convert all column names to lowercase
+
+data_enroll <- read_csv("data/effy2022.csv") |> 
+  rename_all(tolower)
 ```
 
 -   Let's take a look at these data one by one
@@ -636,7 +638,7 @@ data_enroll
 ```
 
 -   Hmm, so this data definitely appears to be "long" as we see those first 10 rows are all for 100654
-    -   Based on visual inspection, it seems like EFFYALEV and EFFYLEV might be what is making the data "long" for two reasons
+    -   Based on visual inspection, it seems like effyalev and effylev might be what is making the data "long" for two reasons
         -   First, look at the values, they seem seem to increasing in some kind of pattern
         -   Second, it's common practice to keep the "long" variables at the start, especially in larger published data like this
     -   This is where we want to look through the code book to explore what those variables might mean
@@ -645,17 +647,17 @@ data_enroll
 >
 > -   To practice this, let's go to the [IPEDS Data Center](https://nces.ed.gov/ipeds/datacenter/DataFiles.aspx) and find the dictionary for EFFY2022
 >     -   Tip: For IPEDS dictionary files, the "frequencies" tab is where you'll find out what numbers that represent something mean
-> -   Okay, so what do EFFYALEV and EFFYLEV mean?
+> -   Okay, so what do effyalev and effylev mean?
 > -   Think back to our research question, what's the ratio of international students at the undergraduate vs graduate level?
 >     -   Based on the code book, what do you think we need to do now?
 
--   EFFYALEV is probably more detail than we need for our question, EFFYLEV has everything we need
+-   EFFYALEV is probably more detail than we need for our question, effylev has everything we need
 
     -   To make our life simpler, let's reduce our data down a little to just the variables we want with `select()`
 
 ```{r}
 data_enroll <- data_enroll |>
-  select(UNITID, EFFYLEV, EFYTOTLT, EFYNRALT)
+  select(unitid, effylev, efytotlt, efynralt)
 
 data_enroll
 ```
@@ -665,7 +667,7 @@ data_enroll
 ```{r}
 
 data_enroll <- data_enroll |>
-  filter(EFFYLEV %in% c(2,4))
+  filter(effylev %in% c(2,4))
   
 data_enroll
 
@@ -678,8 +680,8 @@ data_enroll
 
 ```{r}
 data_enroll <- data_enroll |>
-  mutate(perc_intl = EFYNRALT/EFYTOTLT*100) |>
-  select(-EFYTOTLT, -EFYNRALT) # - in select means drop this variable
+  mutate(perc_intl = efynralt/efytotlt*100) |>
+  select(-efytotlt, -efynralt) # - in select means drop this variable
 
 data_enroll
 ```
@@ -692,7 +694,7 @@ data_enroll
 
 ```{r}
 data_enroll <- data_enroll |>
-  pivot_wider(names_from = EFFYLEV,
+  pivot_wider(names_from = effylev,
               values_from = perc_intl,
               names_prefix = "perc_intl_")
 
@@ -727,9 +729,9 @@ data_enroll |>
 
 ```{r}
 data_info <- data_info |>
-  select(UNITID, CONTROL)
+  select(unitid, control)
 
-data_joined <- left_join(data_enroll, data_info, by = "UNITID")
+data_joined <- left_join(data_enroll, data_info, by = "unitid")
 
 data_joined
 ```
@@ -738,7 +740,7 @@ data_joined
 
 ```{r}
 data_joined |>
-  group_by(CONTROL) |>
+  group_by(control) |>
   drop_na() |>
   summarize(mean = mean(perc_intl_diff))
 ```
