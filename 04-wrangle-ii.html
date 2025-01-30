@@ -1549,14 +1549,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <ul>
 <li>Now, let’s look at a more realistic example when we would use these skills for data analysis</li>
 <li>Let’s say we want to explore difference in international student enrollment at the undergraduate vs graduate level and if that varies by region of the US</li>
-<li>For this, we are going to use two IPEDS data sets HD2022 and EFFY2022
-<ul>
-<li>Note: These data sets are not in your class repository (intentionally), so we have to go and download them from the <a href="https://nces.ed.gov/ipeds/datacenter/DataFiles.aspx">IPEDS Data Center</a></li>
-</ul></li>
+<li>For this, we are going to use two IPEDS data sets HD2022 and EFFY2022</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>data_info <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/hd2022.csv"</span>)</span>
-<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>data_enroll <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/effy2022.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>data_info <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/hd2022.csv"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename_all</span>(tolower) <span class="co"># convert all column names to lowercase</span></span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>data_enroll <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/effy2022.csv"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename_all</span>(tolower)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ul>
 <li>Let’s take a look at these data one by one</li>
@@ -1565,7 +1565,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>data_info</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 6,256 × 73
-   UNITID INSTNM     IALIAS ADDR  CITY  STABBR ZIP    FIPS OBEREG CHFNM CHFTITLE
+   unitid instnm     ialias addr  city  stabbr zip    fips obereg chfnm chftitle
     &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;   
  1 100654 Alabama A… AAMU   4900… Norm… AL     35762     1      5 Dr. … Preside…
  2 100663 Universit… UAB    Admi… Birm… AL     3529…     1      5 Ray … Preside…
@@ -1578,12 +1578,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  9 100812 Athens St… &lt;NA&gt;   300 … Athe… AL     35611     1      5 Dr. … Interim…
 10 100830 Auburn Un… AUM||… 7440… Mont… AL     3611…     1      5 Carl… Chancel…
 # ℹ 6,246 more rows
-# ℹ 62 more variables: GENTELE &lt;dbl&gt;, EIN &lt;chr&gt;, UEIS &lt;chr&gt;, OPEID &lt;chr&gt;,
-#   OPEFLAG &lt;dbl&gt;, WEBADDR &lt;chr&gt;, ADMINURL &lt;chr&gt;, FAIDURL &lt;chr&gt;, APPLURL &lt;chr&gt;,
-#   NPRICURL &lt;chr&gt;, VETURL &lt;chr&gt;, ATHURL &lt;chr&gt;, DISAURL &lt;chr&gt;, SECTOR &lt;dbl&gt;,
-#   ICLEVEL &lt;dbl&gt;, CONTROL &lt;dbl&gt;, HLOFFER &lt;dbl&gt;, UGOFFER &lt;dbl&gt;, GROFFER &lt;dbl&gt;,
-#   HDEGOFR1 &lt;dbl&gt;, DEGGRANT &lt;dbl&gt;, HBCU &lt;dbl&gt;, HOSPITAL &lt;dbl&gt;, MEDICAL &lt;dbl&gt;,
-#   TRIBAL &lt;dbl&gt;, LOCALE &lt;dbl&gt;, OPENPUBL &lt;dbl&gt;, ACT &lt;chr&gt;, NEWID &lt;dbl&gt;, …</code></pre>
+# ℹ 62 more variables: gentele &lt;dbl&gt;, ein &lt;chr&gt;, ueis &lt;chr&gt;, opeid &lt;chr&gt;,
+#   opeflag &lt;dbl&gt;, webaddr &lt;chr&gt;, adminurl &lt;chr&gt;, faidurl &lt;chr&gt;, applurl &lt;chr&gt;,
+#   npricurl &lt;chr&gt;, veturl &lt;chr&gt;, athurl &lt;chr&gt;, disaurl &lt;chr&gt;, sector &lt;dbl&gt;,
+#   iclevel &lt;dbl&gt;, control &lt;dbl&gt;, hloffer &lt;dbl&gt;, ugoffer &lt;dbl&gt;, groffer &lt;dbl&gt;,
+#   hdegofr1 &lt;dbl&gt;, deggrant &lt;dbl&gt;, hbcu &lt;dbl&gt;, hospital &lt;dbl&gt;, medical &lt;dbl&gt;,
+#   tribal &lt;dbl&gt;, locale &lt;dbl&gt;, openpubl &lt;dbl&gt;, act &lt;chr&gt;, newid &lt;dbl&gt;, …</code></pre>
 </div>
 </div>
 <ul>
@@ -1594,7 +1594,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>data_enroll</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 117,521 × 72
-   UNITID EFFYALEV EFFYLEV LSTUDY XEYTOTLT EFYTOTLT XEYTOTLM EFYTOTLM XEYTOTLW
+   unitid effyalev effylev lstudy xeytotlt efytotlt xeytotlm efytotlm xeytotlw
     &lt;dbl&gt;    &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt; &lt;chr&gt;       &lt;dbl&gt; &lt;chr&gt;       &lt;dbl&gt; &lt;chr&gt;   
  1 100654        1       1    999 R            6681 R            2666 R       
  2 100654        2       2      1 R            5663 R            2337 R       
@@ -1607,18 +1607,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  9 100654       20      -2      1 R            3580 R            1424 R       
 10 100654       21      -2    999 R            5460 R            2169 R       
 # ℹ 117,511 more rows
-# ℹ 63 more variables: EFYTOTLW &lt;dbl&gt;, XEFYAIAT &lt;chr&gt;, EFYAIANT &lt;dbl&gt;,
-#   XEFYAIAM &lt;chr&gt;, EFYAIANM &lt;dbl&gt;, XEFYAIAW &lt;chr&gt;, EFYAIANW &lt;dbl&gt;,
-#   XEFYASIT &lt;chr&gt;, EFYASIAT &lt;dbl&gt;, XEFYASIM &lt;chr&gt;, EFYASIAM &lt;dbl&gt;,
-#   XEFYASIW &lt;chr&gt;, EFYASIAW &lt;dbl&gt;, XEFYBKAT &lt;chr&gt;, EFYBKAAT &lt;dbl&gt;,
-#   XEFYBKAM &lt;chr&gt;, EFYBKAAM &lt;dbl&gt;, XEFYBKAW &lt;chr&gt;, EFYBKAAW &lt;dbl&gt;,
-#   XEFYHIST &lt;chr&gt;, EFYHISPT &lt;dbl&gt;, XEFYHISM &lt;chr&gt;, EFYHISPM &lt;dbl&gt;, …</code></pre>
+# ℹ 63 more variables: efytotlw &lt;dbl&gt;, xefyaiat &lt;chr&gt;, efyaiant &lt;dbl&gt;,
+#   xefyaiam &lt;chr&gt;, efyaianm &lt;dbl&gt;, xefyaiaw &lt;chr&gt;, efyaianw &lt;dbl&gt;,
+#   xefyasit &lt;chr&gt;, efyasiat &lt;dbl&gt;, xefyasim &lt;chr&gt;, efyasiam &lt;dbl&gt;,
+#   xefyasiw &lt;chr&gt;, efyasiaw &lt;dbl&gt;, xefybkat &lt;chr&gt;, efybkaat &lt;dbl&gt;,
+#   xefybkam &lt;chr&gt;, efybkaam &lt;dbl&gt;, xefybkaw &lt;chr&gt;, efybkaaw &lt;dbl&gt;,
+#   xefyhist &lt;chr&gt;, efyhispt &lt;dbl&gt;, xefyhism &lt;chr&gt;, efyhispm &lt;dbl&gt;, …</code></pre>
 </div>
 </div>
 <ul>
 <li>Hmm, so this data definitely appears to be “long” as we see those first 10 rows are all for 100654
 <ul>
-<li>Based on visual inspection, it seems like EFFYALEV and EFFYLEV might be what is making the data “long” for two reasons
+<li>Based on visual inspection, it seems like effyalev and effylev might be what is making the data “long” for two reasons
 <ul>
 <li>First, look at the values, they seem seem to increasing in some kind of pattern</li>
 <li>Second, it’s common practice to keep the “long” variables at the start, especially in larger published data like this</li>
@@ -1633,7 +1633,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <ul>
 <li>Tip: For IPEDS dictionary files, the “frequencies” tab is where you’ll find out what numbers that represent something mean</li>
 </ul></li>
-<li>Okay, so what do EFFYALEV and EFFYLEV mean?</li>
+<li>Okay, so what do effyalev and effylev mean?</li>
 <li>Think back to our research question, what’s the ratio of international students at the undergraduate vs graduate level?
 <ul>
 <li>Based on the code book, what do you think we need to do now?</li>
@@ -1641,19 +1641,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
 </blockquote>
 <ul>
-<li><p>EFFYALEV is probably more detail than we need for our question, EFFYLEV has everything we need</p>
+<li><p>EFFYALEV is probably more detail than we need for our question, effylev has everything we need</p>
 <ul>
 <li>To make our life simpler, let’s reduce our data down a little to just the variables we want with <code>select()</code></li>
 </ul></li>
 </ul>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>data_enroll <span class="ot">&lt;-</span> data_enroll <span class="sc">|&gt;</span></span>
-<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(UNITID, EFFYLEV, EFYTOTLT, EFYNRALT)</span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(unitid, effylev, efytotlt, efynralt)</span>
 <span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a>data_enroll</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 117,521 × 4
-   UNITID EFFYLEV EFYTOTLT EFYNRALT
+   unitid effylev efytotlt efynralt
     &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;
  1 100654       1     6681      104
  2 100654       2     5663       53
@@ -1673,12 +1673,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>data_enroll <span class="ot">&lt;-</span> data_enroll <span class="sc">|&gt;</span></span>
-<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(EFFYLEV <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">4</span>))</span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(effylev <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">4</span>))</span>
 <span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a>  </span>
 <span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a>data_enroll</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 7,817 × 4
-   UNITID EFFYLEV EFYTOTLT EFYNRALT
+   unitid effylev efytotlt efynralt
     &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;
  1 100654       2     5663       53
  2 100654       4     1018       51
@@ -1699,13 +1699,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>data_enroll <span class="ot">&lt;-</span> data_enroll <span class="sc">|&gt;</span></span>
-<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">perc_intl =</span> EFYNRALT<span class="sc">/</span>EFYTOTLT<span class="sc">*</span><span class="dv">100</span>) <span class="sc">|&gt;</span></span>
-<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>EFYTOTLT, <span class="sc">-</span>EFYNRALT) <span class="co"># - in select means drop this variable</span></span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">perc_intl =</span> efynralt<span class="sc">/</span>efytotlt<span class="sc">*</span><span class="dv">100</span>) <span class="sc">|&gt;</span></span>
+<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>efytotlt, <span class="sc">-</span>efynralt) <span class="co"># - in select means drop this variable</span></span>
 <span id="cb52-4"><a href="#cb52-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb52-5"><a href="#cb52-5" aria-hidden="true" tabindex="-1"></a>data_enroll</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 7,817 × 3
-   UNITID EFFYLEV perc_intl
+   unitid effylev perc_intl
     &lt;dbl&gt;   &lt;dbl&gt;     &lt;dbl&gt;
  1 100654       2     0.936
  2 100654       4     5.01 
@@ -1728,14 +1728,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>data_enroll <span class="ot">&lt;-</span> data_enroll <span class="sc">|&gt;</span></span>
-<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> EFFYLEV,</span>
+<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> effylev,</span>
 <span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a>              <span class="at">values_from =</span> perc_intl,</span>
 <span id="cb54-4"><a href="#cb54-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">names_prefix =</span> <span class="st">"perc_intl_"</span>)</span>
 <span id="cb54-5"><a href="#cb54-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb54-6"><a href="#cb54-6" aria-hidden="true" tabindex="-1"></a>data_enroll</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 6,036 × 3
-   UNITID perc_intl_2 perc_intl_4
+   unitid perc_intl_2 perc_intl_4
     &lt;dbl&gt;       &lt;dbl&gt;       &lt;dbl&gt;
  1 100654      0.936         5.01
  2 100663      2.70          9.87
@@ -1760,7 +1760,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb56-4"><a href="#cb56-4" aria-hidden="true" tabindex="-1"></a>data_enroll</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 6,036 × 4
-   UNITID perc_intl_2 perc_intl_4 perc_intl_diff
+   unitid perc_intl_2 perc_intl_4 perc_intl_diff
     &lt;dbl&gt;       &lt;dbl&gt;       &lt;dbl&gt;          &lt;dbl&gt;
  1 100654      0.936         5.01        -4.07  
  2 100663      2.70          9.87        -7.17  
@@ -1798,14 +1798,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a>data_info <span class="ot">&lt;-</span> data_info <span class="sc">|&gt;</span></span>
-<span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(UNITID, CONTROL)</span>
+<span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(unitid, control)</span>
 <span id="cb60-3"><a href="#cb60-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb60-4"><a href="#cb60-4" aria-hidden="true" tabindex="-1"></a>data_joined <span class="ot">&lt;-</span> <span class="fu">left_join</span>(data_enroll, data_info, <span class="at">by =</span> <span class="st">"UNITID"</span>)</span>
+<span id="cb60-4"><a href="#cb60-4" aria-hidden="true" tabindex="-1"></a>data_joined <span class="ot">&lt;-</span> <span class="fu">left_join</span>(data_enroll, data_info, <span class="at">by =</span> <span class="st">"unitid"</span>)</span>
 <span id="cb60-5"><a href="#cb60-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb60-6"><a href="#cb60-6" aria-hidden="true" tabindex="-1"></a>data_joined</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 6,036 × 5
-   UNITID perc_intl_2 perc_intl_4 perc_intl_diff CONTROL
+   unitid perc_intl_2 perc_intl_4 perc_intl_diff control
     &lt;dbl&gt;       &lt;dbl&gt;       &lt;dbl&gt;          &lt;dbl&gt;   &lt;dbl&gt;
  1 100654      0.936         5.01        -4.07         1
  2 100663      2.70          9.87        -7.17         1
@@ -1825,12 +1825,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a>data_joined <span class="sc">|&gt;</span></span>
-<span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(CONTROL) <span class="sc">|&gt;</span></span>
+<span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(control) <span class="sc">|&gt;</span></span>
 <span id="cb62-3"><a href="#cb62-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>() <span class="sc">|&gt;</span></span>
 <span id="cb62-4"><a href="#cb62-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">mean =</span> <span class="fu">mean</span>(perc_intl_diff))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 3 × 2
-  CONTROL  mean
+  control  mean
     &lt;dbl&gt; &lt;dbl&gt;
 1       1 -5.84
 2       2 -2.63
