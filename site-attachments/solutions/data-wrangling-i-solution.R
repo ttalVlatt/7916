@@ -33,7 +33,7 @@ df |>
   summarize(mean = mean(x1txmtscor))
 
 ## Part Two
-math <- df |>
+df |>
   filter(!x1txmtscor %in% c(-8, -9),
          x1sex != -9) |>
   group_by(x1sex) |>
@@ -74,7 +74,7 @@ df |>
   group_by(x1region) |>
   count(x4hscompstat) |>
   mutate(perc = n / sum(n) * 100) |>
-  filter(x4hscompstat == 1)
+  filter(x4hscompstat == 2)
 
 df |>
   filter(x4hscompstat %in% c(1,2)) |>
