@@ -704,7 +704,7 @@ window.Quarto = {
 <ul>
 <li>For example, if we say <code>data = data</code> in <code>ggplot()</code>, that will be the default data for every layer
 <ul>
-<li>Generally I specify the data here, and <code>mapping = aes()</code> in the specific plots</li>
+<li>Generally we will specify the data here, and <code>mapping = aes()</code> in the specific plots</li>
 </ul></li>
 </ul></li>
 </ul></li>
@@ -906,7 +906,7 @@ window.Quarto = {
 </ul></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="do">## two way histogram</span></span>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="do">## two way density</span></span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(plot_data) <span class="sc">+</span></span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="fu">aes</span>(<span class="at">x =</span> x1txmtscor,</span>
 <span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>                   <span class="at">fill =</span> pared_coll),</span>
@@ -1190,17 +1190,17 @@ window.Quarto = {
 <section id="multiple-line-graphs" class="level4">
 <h4 data-anchor-id="multiple-line-graphs">Multiple-Line Graphs</h4>
 <ul>
-<li>Easy enough, but let’s say that we want to add a third dimension — to show math scores for each school in the same plot area. -To do this, we can map a third aesthetic to <code>school</code>. <a href="https://ggplot2.tidyverse.org/reference/geom_path.html#aesthetics">Looking at the help file for <code>geom_line()</code></a>, we see that lines (a version of a path) can take <code>colour</code>, which means we can change line color based on a variable.</li>
+<li>Easy enough, but let’s say that we want to add a third dimension — to show math scores for each school in the same plot area. -To do this, we can map a third aesthetic to <code>school</code>. <a href="https://ggplot2.tidyverse.org/reference/geom_path.html#aesthetics">Looking at the help file for <code>geom_line()</code></a>, we see that lines (a version of a path) can take <code>color</code>, which means we can change line color based on a variable.</li>
 </ul>
 <p>The code below is almost exactly the same as before less two things:</p>
 <ol type="1">
 <li>We don’t filter <code>data_ts</code> this time, because we want all schools</li>
-<li>We add <code>colour = school</code> inside <code>aes()</code></li>
+<li>We add <code>color = school</code> inside <code>aes()</code></li>
 </ol>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="do">## line graph for math scores at every school over time</span></span>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> data_ts,</span>
-<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>       <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">y =</span> math, <span class="at">colour =</span> school)) <span class="sc">+</span></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>       <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">y =</span> math, <span class="at">color =</span> school)) <span class="sc">+</span></span>
 <span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
@@ -1222,7 +1222,7 @@ window.Quarto = {
 <ul>
 <li><p>With facets, we can put multiple plots together, each showing some subset of the data</p></li>
 <li><p>For example, instead of plotting changes in math scores across schools over time on the same plot area (only changing the color), we can use <code>facet_wrap()</code> to give each school its own little plot.</p></li>
-<li><p>Compared to the code just above, notice how we’ve removed <code>colour = school</code> from <code>aes()</code> and included <code>facet_wrap(~school)</code></p>
+<li><p>Compared to the code just above, notice how we’ve removed <code>color = school</code> from <code>aes()</code> and included <code>facet_wrap(~school)</code></p>
 <ul>
 <li>The tilde (<code>~</code>) works like the tilde in <code>plot(y ~ x)</code> above: it means “plot against or by <em>X</em>”. In this case, we are plotting math test scores over time <em>by</em> each school.</li>
 </ul></li>
@@ -1287,14 +1287,14 @@ window.Quarto = {
 <p>If we have 4 schools, 6 years, and 3 tests, how many observations should <code>data_ts_long</code> have in total? Does it?</p>
 </blockquote>
 <ul>
-<li>With our reshaped data frame, we now reintroduce <code>colour</code> into the <code>aes()</code>, this time set to <code>test</code></li>
+<li>With our reshaped data frame, we now reintroduce <code>color</code> into the <code>aes()</code>, this time set to <code>test</code></li>
 <li>We make one other change: <code>y = score</code> now, since that’s the column for test scores in our reshaped data</li>
 <li>All else is the same.</li>
 </ul>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="do">## facet line graph, with colour = test and ~school</span></span>
 <span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> data_ts_long) <span class="sc">+</span></span>
-<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">y =</span> score, <span class="at">colour =</span> test)) <span class="sc">+</span></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">y =</span> score, <span class="at">color =</span> test)) <span class="sc">+</span></span>
 <span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>school)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
@@ -1371,7 +1371,7 @@ window.Quarto = {
 <li>This is for us to be able to get a starting point for each test at each school</li>
 </ul>
 <ol start="3" type="1">
-<li>Arrange the data in order of date (it already way, but since we are reliant on that, it’s best to check)</li>
+<li>Arrange the data in order of date (it already was, but since we are reliant on that, it’s best to check)</li>
 <li>Create a new variable which is the <code>first()</code> score (since we are grouped by test and school, it will do it for each test/school combo)</li>
 <li>Create another new variable <code>score_std_sch</code> using the <code>score_year_one</code> as zero</li>
 <li>Ungroup the data since we are done with the calculation</li>
@@ -1379,7 +1379,7 @@ window.Quarto = {
 <div class="cell">
 <div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="do">## facet line graph, with colour = test and ~school</span></span>
 <span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> data_ts_long_std) <span class="sc">+</span></span>
-<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">y =</span> score_std_sch, <span class="at">colour =</span> test)) <span class="sc">+</span></span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">y =</span> score_std_sch, <span class="at">color =</span> test)) <span class="sc">+</span></span>
 <span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>school)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
