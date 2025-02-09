@@ -327,7 +327,7 @@ Success!
   - The `ggplot()` is the base layer of the graph
     - Anything you place in here will become the default for every other layer
       - For example, if we say `data = data` in `ggplot()`, that will be the default data for every layer
-        - Generally I specify the data here, and `mapping = aes()` in the specific plots
+        - Generally we will specify the data here, and `mapping = aes()` in the specific plots
 
 > Quick question(s): Why might that make sense? Which is more likely to change? Are there times you might want to set an aesthetic for the whole plot?
 
@@ -457,7 +457,7 @@ ggplot(plot_data) +
     - If we want to compare the shape of distribution more easily, we should use `geom_density()`
 
 ```{r eda_plot_histogram_double_2, warning = F, message = F}
-## two way histogram
+## two way density
 ggplot(plot_data) +
   geom_density(aes(x = x1txmtscor,
                    fill = pared_coll),
@@ -643,18 +643,18 @@ ggplot(data = data_ts |> filter(school == "Spottsville"),
 #### Multiple-Line Graphs
 
 - Easy enough, but let's say that we want to add a third dimension --- to show math scores for each school in the same plot area. 
--To do this, we can map a third aesthetic to `school`. [Looking at the help file for `geom_line()`](https://ggplot2.tidyverse.org/reference/geom_path.html#aesthetics), we see that lines (a version of a path) can take `colour`, which means we can change line color based on a variable. 
+-To do this, we can map a third aesthetic to `school`. [Looking at the help file for `geom_line()`](https://ggplot2.tidyverse.org/reference/geom_path.html#aesthetics), we see that lines (a version of a path) can take `color`, which means we can change line color based on a variable. 
 
 
 The code below is almost exactly the same as before less two things:
 
 1. We don't filter `data_ts` this time, because we want all schools
-2. We add `colour = school` inside `aes()`
+2. We add `color = school` inside `aes()`
 
 ```{r, warning = F, message = F}
 ## line graph for math scores at every school over time
 ggplot(data = data_ts,
-       mapping = aes(x = year, y = math, colour = school)) +
+       mapping = aes(x = year, y = math, color = school)) +
   geom_line()
 ```
 
@@ -667,7 +667,7 @@ ggplot(data = data_ts,
 - With facets, we can put multiple plots together, each showing some subset of the data
 - For example, instead of plotting changes in math scores across schools over time on the same plot area (only changing the color), we can use `facet_wrap()` to give each school its own little plot.
 
-- Compared to the code just above, notice how we've removed `colour = school` from `aes()` and included `facet_wrap(~school)`
+- Compared to the code just above, notice how we've removed `color = school` from `aes()` and included `facet_wrap(~school)`
   - The tilde (`~`) works like the tilde in `plot(y ~ x)` above: it means "plot against or by _X_". In this case, we are plotting math test scores over time _by_ each school.
 
 ```{r, warning = F, message = F}
@@ -707,14 +707,14 @@ data_ts_long
 > If we have 4 schools, 6 years, and 3 tests, how many observations
 > should `data_ts_long` have in total? Does it?
 
-- With our reshaped data frame, we now reintroduce `colour` into the `aes()`, this time set to `test`
+- With our reshaped data frame, we now reintroduce `color` into the `aes()`, this time set to `test`
 - We make one other change: `y = score` now, since that's the column for test scores in our reshaped data
 - All else is the same.
 
 ```{r, warning = F, message = F}
 ## facet line graph, with colour = test and ~school
 ggplot(data = data_ts_long) +
-  geom_line(mapping = aes(x = year, y = score, colour = test)) +
+  geom_line(mapping = aes(x = year, y = score, color = test)) +
   facet_wrap(~school)
 ```
 
@@ -755,7 +755,7 @@ Let's walk through that code
 1. Start with our `data_ts_long` and assign the output to `data_ts_long_std`
 2. Group the data by both test and school
   - This is for us to be able to get a starting point for each test at each school
-3. Arrange the data in order of date (it already way, but since we are reliant on that, it's best to check)
+3. Arrange the data in order of date (it already was, but since we are reliant on that, it's best to check)
 4. Create a new variable which is the `first()` score (since we are grouped by test and school, it will do it for each test/school combo)
 5. Create another new variable `score_std_sch` using the `score_year_one` as zero
 6. Ungroup the data since we are done with the calculation
@@ -763,7 +763,7 @@ Let's walk through that code
 ```{r, warning = F, message = F}
 ## facet line graph, with colour = test and ~school
 ggplot(data = data_ts_long_std) +
-  geom_line(mapping = aes(x = year, y = score_std_sch, colour = test)) +
+  geom_line(mapping = aes(x = year, y = score_std_sch, color = test)) +
   facet_wrap(~school)
 ```
 
