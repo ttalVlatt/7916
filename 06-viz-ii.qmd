@@ -63,7 +63,7 @@ library(patchwork)
 ##' [Input data]
 ## ---------------------------
 
-data <- read_csv(file.path("data", "hsls-small.csv"))
+data <- read_csv("data/hsls-small.csv")
 ```
 
 ## Initial plot with no formatting
@@ -554,7 +554,7 @@ p2 / p3 + guide_area() + plot_layout(design = "AAAAA
                                      guides= "collect")
 ```
 
--   Okay, now finally, we can add some overall labess to our patchwork with `plot_annotation()`
+-   Okay, now finally, we can add some overall labels to our patchwork with `plot_annotation()`
     -   These work very similarly to the ggplot `labs()`
 
 ```{r chunk28}
