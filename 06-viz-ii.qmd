@@ -182,7 +182,7 @@ With that fixed, now we'll move to improving the axis scales!
 
 -   For this figure, we could use more ticks on the *x* axis to make differences in math test score clearer
 
--   While we're at, we'll increase the number of tick marks on the *y* axis too.
+-   We'll increase the number of tick marks on the *y* axis too.
 
 -   To change these values, we need to use `scale_< aesthetic >_< distribution >` function
 
@@ -204,7 +204,7 @@ To change our *x* and *y* tick marks we will use:
 -   Both `breaks` and `minor_breaks` take a vector of numbers
 -   We can put each number in manually using `c()` (*e.g.*, `c(0, 10, 20, 30, 40)`), but a better way is to use R's `seq()` function:
     -   `seq(start, end, by)`
--   Notice that within each `scale_*()` function, we use the same `start` and `stop` values for both `minor` and `major` breaks, just change the `by` option
+-   Notice that within each `scale_*()` function, we use the same `start` and `end` values for both `minor` and `major` breaks, just change the `by` option
     -   This will give us axis numbers at spaced intervals with thinner, unnumbered lines between.
 
 ```{r chunk9}
@@ -232,6 +232,9 @@ p <- p +
     scale_y_continuous(breaks = seq(from = 0, to = 2500, by = 500),
                      minor_breaks = seq(from = 0, to = 2500, by = 100))
 
+## show
+p
+
 ```
 
 -   That seems like a better balance. We'll stick with that and move on to legend labels
@@ -243,7 +246,7 @@ p <- p +
 -   First, we need to create a new variable, `pared_coll`, from the ordinal variable, `x1paredu`
     -   Also, we are going make it a `factor()` so R knows the 0 and 1 don't mean numbers, they mean cateogories
         -   We did this last week, but this time we are going add labels too
-            -   Specifically, we want to `levels` and `labels` arguments
+            -   Specifically, we want to use `levels` and `labels` arguments
         -   These pair up to make a labelled factor
             -   `levels` should be a list of the values you have in the column
                 -   In this case just 0 and 1, so `levels = c(0,1)`
@@ -306,7 +309,7 @@ p2
     -   Many people are red-green colorblind
         -   R chooses shades that aren't too bad for this, but it's still not great
     -   When we changed the color of a plot last week, it was purely decorative, so it went inside the `geom_` function
-    -   This time, we want to change the colors associated with as `aes()` element, so, we are changing a `scale_`
+    -   This time, we want to change the colors associated with `aes()` element, so, we are changing a `scale_`
         -   Specifically `scale_fill` and we are going to choose manual colors, so `scale_fill_manual()`
             -   This takes `values = c(<list of colors the same length as factor>)`
                 -   In this case our fill variable has two levels, so we need two colors
@@ -330,12 +333,12 @@ Much better!
 
 ## `facet_wrap()`
 
--   Now, what if we want to see how this trend varies by region?
+-   Now, what if we want to see how this trend varies by sex?
 -   Remember from last week, we can use `facet_wrap()` to split data and make separate plots for each level of a variable
     -   `facet_wrap()` uses a `~` tilde to mean "facet by this variable"
 
 ```{r chunk15}
-## Add a facet wrap for region
+## Add a facet wrap for sex
 p2 <- p2 +
   facet_wrap(~x1sex)
 
@@ -350,7 +353,7 @@ p2
 > From the Codebook: 1 is Male, 2 is Female
 
 ```{r chunk16, echo=FALSE, purl=FALSE}
-## Add a facet wrap for region
+## Add a facet wrap for sex
 p2 <- p2 +
   facet_wrap(~factor(x1sex, levels = c(1,2), labels = c("Male", "Female")),
              scales = "free_y")
@@ -364,7 +367,7 @@ p2
 > Quick task: add a new `scale_x_continuous()` to overwrite the "breaks" we set earlier with a sequence from 0 to 100 by 10, like below
 
 ```{r chunk17, echo=FALSE, purl=FALSE}
-## Add a facet wrap for region
+## Add a facet wrap for sex
 p2 <- p2 +
   scale_x_continuous(breaks = seq(0, 100, by = 10))
 
@@ -438,7 +441,7 @@ p2
 
 2.  Inside `theme()` there are many many options which you can see listed [here](https://ggplot2.tidyverse.org/reference/theme.html)
 3.  Pick one of more and assign to it `=` an `element_`
-4.  `element_` come in different types including `element_line()` like we used above `element_text()`, `element_rect()`, and others
+4.  `element_` come in different types including `element_line()` like we used above, `element_text()`, `element_rect()`, and others
 5.  Each of these has specific options you can customize as you wish
 
 -   There is a world of possibilities in customization, depending on how much time you want to dedicate!
@@ -484,7 +487,7 @@ p3 <- ggplot(data) +
 p3
 ```
 
--   Now that we have our new figure, let's paste it side by side (left-right) with our first figure
+-   Now that we have our new figure, let's paste it side by side (left-right) with our previous figure
 -   Once we've loaded the patchwork library (like we already did at the top of the script), we can use a `+` sign between out two ggplot objects
     -   `p2 + p3`
 
@@ -528,7 +531,6 @@ p2 / p3 + plot_layout(design = "AAAAA
     -   We then need to add that as C in our patchwork design
     -   Then inside `plot_layout()` specify `guides = "collect"` which will try and put all the legends in one place
         -   If our legends matched exactly, it would only keep one, but as the boxplot lines are part of the legend, they technically cannot be collapsed
-            -   If you really wanted, removing the lines from the boxplot legend would definitely by possible, but for the sake of the class, we will accept what we have!
 
 ```{r chunk26}
 p2 / p3 + guide_area() + plot_layout(design = "AAAAA
