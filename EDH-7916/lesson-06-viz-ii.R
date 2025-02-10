@@ -83,6 +83,9 @@ p <- p +
     scale_y_continuous(breaks = seq(from = 0, to = 2500, by = 500),
                      minor_breaks = seq(from = 0, to = 2500, by = 100))
 
+## show
+p
+
 
 ## -----------------------------------------------------------------------------
 ##' [Legend labels]
@@ -126,7 +129,7 @@ p2 <- p2 +
 ## show 
 p2
 
-## Add a facet wrap for region
+## Add a facet wrap for sex
 p2 <- p2 +
   facet_wrap(~x1sex)
 

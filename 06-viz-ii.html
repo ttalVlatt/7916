@@ -526,7 +526,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><p>In general, the default tick mark spacing and accompanying labels are pretty good</p></li>
 <li><p>But sometimes we want to change them, sometimes to have fewer ticks and sometimes to have more</p></li>
 <li><p>For this figure, we could use more ticks on the <em>x</em> axis to make differences in math test score clearer</p></li>
-<li><p>While we’re at, we’ll increase the number of tick marks on the <em>y</em> axis too.</p></li>
+<li><p>We’ll increase the number of tick marks on the <em>y</em> axis too.</p></li>
 <li><p>To change these values, we need to use <code>scale_&lt; aesthetic &gt;_&lt; distribution &gt;</code> function</p>
 <ul>
 <li>These may seem strange at first, but they follow a logic. Specifically:
@@ -558,7 +558,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <ul>
 <li><code>seq(start, end, by)</code></li>
 </ul></li>
-<li>Notice that within each <code>scale_*()</code> function, we use the same <code>start</code> and <code>stop</code> values for both <code>minor</code> and <code>major</code> breaks, just change the <code>by</code> option
+<li>Notice that within each <code>scale_*()</code> function, we use the same <code>start</code> and <code>end</code> values for both <code>minor</code> and <code>major</code> breaks, just change the <code>by</code> option
 <ul>
 <li>This will give us axis numbers at spaced intervals with thinner, unnumbered lines between.</li>
 </ul></li>
@@ -595,7 +595,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> p <span class="sc">+</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_y_continuous</span>(<span class="at">breaks =</span> <span class="fu">seq</span>(<span class="at">from =</span> <span class="dv">0</span>, <span class="at">to =</span> <span class="dv">2500</span>, <span class="at">by =</span> <span class="dv">500</span>),</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>                     <span class="at">minor_breaks =</span> <span class="fu">seq</span>(<span class="at">from =</span> <span class="dv">0</span>, <span class="at">to =</span> <span class="dv">2500</span>, <span class="at">by =</span> <span class="dv">100</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>                     <span class="at">minor_breaks =</span> <span class="fu">seq</span>(<span class="at">from =</span> <span class="dv">0</span>, <span class="at">to =</span> <span class="dv">2500</span>, <span class="at">by =</span> <span class="dv">100</span>))</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="do">## show</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>p</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="06-viz-ii_files/figure-html/chunk10-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
 </div>
 <ul>
 <li>That seems like a better balance. We’ll stick with that and move on to legend labels</li>
@@ -614,7 +624,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <ul>
 <li>We did this last week, but this time we are going add labels too
 <ul>
-<li>Specifically, we want to <code>levels</code> and <code>labels</code> arguments</li>
+<li>Specifically, we want to use <code>levels</code> and <code>labels</code> arguments</li>
 </ul></li>
 <li>These pair up to make a labelled factor
 <ul>
@@ -703,7 +713,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>R chooses shades that aren’t too bad for this, but it’s still not great</li>
 </ul></li>
 <li>When we changed the color of a plot last week, it was purely decorative, so it went inside the <code>geom_</code> function</li>
-<li>This time, we want to change the colors associated with as <code>aes()</code> element, so, we are changing a <code>scale_</code>
+<li>This time, we want to change the colors associated with <code>aes()</code> element, so, we are changing a <code>scale_</code>
 <ul>
 <li>Specifically <code>scale_fill</code> and we are going to choose manual colors, so <code>scale_fill_manual()</code>
 <ul>
@@ -745,14 +755,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="facet_wrap" class="level2">
 <h2 data-anchor-id="facet_wrap"><code>facet_wrap()</code></h2>
 <ul>
-<li>Now, what if we want to see how this trend varies by region?</li>
+<li>Now, what if we want to see how this trend varies by sex?</li>
 <li>Remember from last week, we can use <code>facet_wrap()</code> to split data and make separate plots for each level of a variable
 <ul>
 <li><code>facet_wrap()</code> uses a <code>~</code> tilde to mean “facet by this variable”</li>
 </ul></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Add a facet wrap for region</span></span>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Add a facet wrap for sex</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> p2 <span class="sc">+</span></span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>x1sex)</span>
 <span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a></span>
@@ -900,7 +910,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <ol start="2" type="1">
 <li>Inside <code>theme()</code> there are many many options which you can see listed <a href="https://ggplot2.tidyverse.org/reference/theme.html">here</a></li>
 <li>Pick one of more and assign to it <code>=</code> an <code>element_</code></li>
-<li><code>element_</code> come in different types including <code>element_line()</code> like we used above <code>element_text()</code>, <code>element_rect()</code>, and others</li>
+<li><code>element_</code> come in different types including <code>element_line()</code> like we used above, <code>element_text()</code>, <code>element_rect()</code>, and others</li>
 <li>Each of these has specific options you can customize as you wish</li>
 </ol>
 <ul>
@@ -960,7 +970,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <ul>
-<li>Now that we have our new figure, let’s paste it side by side (left-right) with our first figure</li>
+<li>Now that we have our new figure, let’s paste it side by side (left-right) with our previous figure</li>
 <li>Once we’ve loaded the patchwork library (like we already did at the top of the script), we can use a <code>+</code> sign between out two ggplot objects
 <ul>
 <li><code>p2 + p3</code></li>
@@ -1047,10 +1057,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>We then need to add that as C in our patchwork design</li>
 <li>Then inside <code>plot_layout()</code> specify <code>guides = "collect"</code> which will try and put all the legends in one place
 <ul>
-<li>If our legends matched exactly, it would only keep one, but as the boxplot lines are part of the legend, they technically cannot be collapsed
-<ul>
-<li>If you really wanted, removing the lines from the boxplot legend would definitely by possible, but for the sake of the class, we will accept what we have!</li>
-</ul></li>
+<li>If our legends matched exactly, it would only keep one, but as the boxplot lines are part of the legend, they technically cannot be collapsed</li>
 </ul></li>
 </ul></li>
 </ul>
