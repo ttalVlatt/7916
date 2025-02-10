@@ -3,7 +3,7 @@
 ##' [PROJ: EDH 7916]
 ##' [FILE: Modeling Basics Solution]
 ##' [INIT: January 12 2025]
-##' [AUTH: Jue Wue]
+##' [AUTH: Jue Wu]
 ##
 ## -----------------------------------------------------------------------------
 
