@@ -21,7 +21,7 @@ library(patchwork)
 ##' [Input data]
 ## ---------------------------
 
-data <- read_csv(file.path("data", "hsls-small.csv"))
+data <- read_csv("data/hsls-small.csv")
 
 ## -----------------------------------------------------------------------------
 ##' [Initial plain plot]
