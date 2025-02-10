@@ -16,6 +16,8 @@ solution: true
 ##' [FILE: Bringing It All Together feat. Basic Models]
 ##' [INIT: Jan 16th 2024]
 ##' [AUTH: Matt Capaldi] @ttalVlatt
+##' [EDIT: Jue Wu]
+##' [UPDT: 10 February 2025]
 ##
 ## -----------------------------------------------------------------------------
 
@@ -48,11 +50,11 @@ library(knitr)
 
 ```
 
--   First off, let me say I am not a stats professor nor is this not a stats lesson
+-   First off, this is not a stats lesson
     -   Some of you have taken years of stats classes, while others are yet to take any.
     -   The purpose of this lesson is meant to focus how everything we have learned this semester comes together when we begin to work with some simple models
 -   That said, it may still be a lot of information for those less familiar with stats.
-    -   Fear not, there is no expectation to use of any this in your final assignment, nor is there an assignment for this lesson (optional final project drafts are due Sunday)!
+    -   Fear not, there is no expectation to use of any this in your final assignment
     -   If this lesson starts to go beyond your comfort level, that's completely fine! Try your best to follow along, and maybe revisit this lesson once you're a little further along your stats journey
 
 ## Data Preparation
@@ -216,16 +218,15 @@ summary(regression)
 ### `stargazer` Package
 
 -   One of the most common packages for getting "publication ready" regression tables is `stargazer`
-    -   I personally find these tables a little inflexible, but it's very common in the world of R, so it's worth covering here
     -   The code is very simple, at minimum, provide the regression model you fitted, and the type of table you want
-    -   We are using "html" here so it formats for the website, you could use "text" or "latex", I don't think there's currently support for typst though
+    -   We are using "html" here so it formats for the website, you could use "text" or "latex"
     -   In general, the biggest drawback of `stargazer` is the lack of flexibility and limited compatibility with formats other than `LaTeX`
 
 <!-- -->
 
 -   Extra trick: To get captions and table numbers if we are using Quarto, we use the "chunk options" to cross reference them, not manually adding them to the table code
     -   You see more about that on the [Quarto guide for cross referencing](https://quarto.org/docs/authoring/cross-references.html#computations-1)
-    -   To get the table to appear like this I...
+    -   To get the table to appear like this we...
         -   Labeled the chunk `{r tbl-stargazer}`
         -   Added `#| tbl-cap: "Regression Table Using stargazer"` as the first line
 
@@ -238,10 +239,9 @@ stargazer(regression, type = "html")
 
 ### `gtsummary` Package
 
--   Personally, I find the `gtsummary` package (which we saw in our [Intro to Quarto lesson](07-quarto-intro.qmd)) much more like what I want
-    -   When I'm using a package to create my tables, this is my preferred option
+-   The `gtsummary` package (which we saw in our [Intro to Quarto lesson](07-quarto-intro.qmd)) is another option for creating tables
     -   `tbl_regression()` creates a pretty great table when you just provide the regression model
-    -   One thing I particularly like is how `gtsummary` handles factors, I think it makes the it super-duper clear what is going on
+    -   One great thing is how `gtsummary` handles factors---it makes the it super-duper clear what is going on
 
 ```{r tbl-gtsummary-basic}
 #| tbl-cap: "Regression Table Using gtsummary (basic)"
@@ -543,7 +543,7 @@ tbl_regression(regression_robust,
 > -   Thinking back to that lesson, why might we want to go through the hassle of fitting regressions using loops? What are the advantages of using loops vs coding it all out separately?
 
 -   For example, we might be interested in modeling both a students math score and their parental education expectation
-    1.  we make a list containing our outcome variables (x1txmtscor and x1paredexpct)
+    1.  We make a list containing our outcome variables (x1txmtscor and x1paredexpct)
     2.  Use a `for()` loop to loop through these outcomes, which `paste()`s i (which takes on the name of each outcome variable) into the formula and then runs the model
 
 ```{r}
@@ -587,7 +587,7 @@ for(i in outcomes) {
 
 ## Submission
 
-Once complete turn in the .qmd file (**it must render/run**) to Canvas by the due date (usually **Tuesday 12:00pm following the lesson**). Assignments will be graded before next lesson on Wednesday in line with the grading policy outlined in the syllabus.
+Once complete turn in the .qmd file (**it must render/run**) and the rendered PDF to Canvas by the due date (usually **Tuesday 12:00pm following the lesson**). Assignments will be graded before next lesson on Wednesday in line with the grading policy outlined in the syllabus.
 
 ::: {.content-hidden unless-meta="solution"}
 ## Solution
