@@ -368,20 +368,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><p>We have assigned data</p></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> haven<span class="sc">::</span><span class="fu">read_dta</span>(<span class="st">"data/hsls-small.dta"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> haven<span class="sc">::</span><span class="fu">read_dta</span>(<span class="st">"data/hsls-small.dta"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ul>
 <li>We have assigned plots</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>plot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(df) <span class="sc">+</span></span>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>plot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(data) <span class="sc">+</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="fu">aes</span>(<span class="at">x =</span> x1txmtscor))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ul>
 <li>We have assigned summary tables</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>df_sum <span class="ot">&lt;-</span> df <span class="sc">|&gt;</span></span>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>data_sum <span class="ot">&lt;-</span> data <span class="sc">|&gt;</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">mean =</span> <span class="fu">mean</span>(x1txmtscor, <span class="at">na.rm =</span> T))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ul>
@@ -424,7 +424,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <ul>
 <li><p>Take a list of things</p>
 <ul>
-<li><code>for(i in matts_list) {</code></li>
+<li><code>for(i in class_list) {</code></li>
 </ul></li>
 <li><p>Do a set of things</p>
 <ul>
@@ -444,9 +444,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>matts_list <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Let's"</span>, <span class="st">"go"</span>, <span class="st">"Gators"</span>, <span class="st">"!"</span>)</span>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>class_list <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Let's"</span>, <span class="st">"go"</span>, <span class="st">"Gators"</span>, <span class="st">"!"</span>)</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> matts_list) { <span class="fu">print</span>(i) }</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> class_list) { <span class="fu">print</span>(i) }</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "Let's"
 [1] "go"
@@ -458,7 +458,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>But, we can use anything we want instead of <code>i</code></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(word <span class="cf">in</span> matts_list) { <span class="fu">print</span>(word) }</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(word <span class="cf">in</span> class_list) { <span class="fu">print</span>(word) }</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "Let's"
 [1] "go"
@@ -470,7 +470,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>Literally anything</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(gator_egg <span class="cf">in</span> matts_list) { <span class="fu">print</span>(gator_egg) }</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(gator_egg <span class="cf">in</span> class_list) { <span class="fu">print</span>(gator_egg) }</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "Let's"
 [1] "go"
@@ -533,7 +533,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><p>We are going to use <code>if()</code> and <code>else()</code> to that</p>
 <ul>
 <li><p>Remember <code>ifelse()</code> from Data Wrangling?</p></li>
-<li><p>This is just splitting that up, <code>if()</code> something if true, do this, <code>else()</code> do that</p>
+<li><p>This is just splitting that up, <code>if()</code> something is true, do this, <code>else()</code> do that</p>
 <ul>
 <li>Let’s just start with an <code>if()</code></li>
 </ul></li>
@@ -589,7 +589,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <ul>
 <li><p>We are going to use a new command <code>paste()</code> which combines strings, then <code>print()</code> that</p>
 <ul>
-<li>Top tip: You’re going to want to use <code>paste()</code> in your homework as well</li>
+<li>Top tip: You’re going to want to use <code>paste()</code> in your assignment as well</li>
 </ul></li>
 </ul></li>
 </ul>
@@ -667,7 +667,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <ul>
-<li><p>To do this, we need some data, so I am just going to make some up</p>
+<li><p>To do this, we need some data, so we are just going to make some up</p>
 <ul>
 <li><code>tribble()</code> is just a way of making a tidyverse data frame, don’t worry about it for now, it’s not the main idea for the lesson</li>
 </ul></li>
@@ -827,13 +827,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ul>
-<li><p>Okay, that read the files, but we didn’t save them anywhere, we to assign them</p></li>
-<li><p>Now, this gets a little tricky, as anything we assign with <code>&lt;-</code> in a loop only exists in a loop, so we two extra steps</p>
+<li><p>Okay, that read the files, but we didn’t save them anywhere, we need to assign them</p></li>
+<li><p>Now, this gets a little tricky, as anything we assign with <code>&lt;-</code> in a loop only exists in a loop, so we need two extra steps</p>
 <ul>
 <li><p>First, we read it in mostly like normal, into something called <code>file</code> , which is temporary and only exists within the loop</p></li>
 <li><p>Second, we make another temporary object, which is the name we want to assign the data frame to</p>
 <ul>
-<li>For now, let’s just use <code>df_&lt;name of the file&gt;</code></li>
+<li>For now, let’s just use <code>data_&lt;name of the file&gt;</code></li>
 </ul></li>
 <li><p>Third, we use <code>assign()</code>, which basically does what <code>&lt;-</code> would do in normal circumstances, but keep the object after the loop</p>
 <ul>
@@ -844,43 +844,43 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell">
 <div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> files) {</span>
 <span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>  file <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(i)</span>
-<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>  name <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">"df_"</span>, i)</span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>  name <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">"data_"</span>, i)</span>
 <span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">assign</span>(name, file)</span>
 <span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ul>
-<li><p>Cool! That seems to have worked, but, our <code>df_</code> names are really really long, which probably isn’t that useful for future analysis</p></li>
-<li><p>So, instead of simply pasting together <code>df_</code> and <code>i</code>, let’s use our friend regular expressions to get something more usable</p>
+<li><p>Cool! That seems to have worked, but, our <code>data_</code> names are really really long, which probably isn’t that useful for future analysis</p></li>
+<li><p>So, instead of simply pasting together <code>data_</code> and <code>i</code>, let’s use our friend regular expressions to get something more usable</p>
 <ul>
 <li><p>Get the school name (anything that matches the options we give)</p></li>
 <li><p>Get the year (any digits)</p></li>
-<li><p>Paste those together with <code>df_</code> to get our nicer object names</p></li>
+<li><p>Paste those together with <code>data_</code> to get our nicer object names</p></li>
 </ul></li>
 </ul>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> files) {</span>
 <span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>  school <span class="ot">&lt;-</span> <span class="fu">str_extract</span>(i, <span class="st">"niagara|bend|east|spot"</span>)</span>
 <span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>  year <span class="ot">&lt;-</span> <span class="fu">str_extract</span>(i, <span class="st">"</span><span class="sc">\\</span><span class="st">d+"</span>)</span>
-<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>  name <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">"df_"</span>, school, year)</span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>  name <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">"data_"</span>, school, year)</span>
 <span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>  file <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(i)</span>
 <span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">assign</span>(name, file)</span>
 <span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ul>
 <li><p>Much better!</p></li>
-<li><p>One last thing, instead of reading each of those into a new data frame, we could <code>bind</code> them all together</p>
+<li><p>One last thing, instead of reading each of those into a new data frame, we could <code>append</code> them all together</p>
 <ul>
-<li>Note: This is only appropriate here due to the nature of the school data, with each data frame having the school name and year in it, other times we may want to <code>join</code> data instead. Review <a href="./04-wrangle-ii.html">Data Wrangling II</a> for a refresher on how to <code>bind</code> and <code>join</code> data appropriately</li>
+<li>Note: This is only appropriate here due to the nature of the school data, with each data frame having the school name and year in it, other times we may want to <code>join</code> data instead. Review <a href="./04-wrangle-ii.html">Data Wrangling II</a> for a refresher on how to <code>append</code> and <code>join</code> data appropriately</li>
 </ul></li>
 <li><p>To do this, we first need to set up an empty data frame (a.k.a., “tibble”), as otherwise we will get an error the first time through the loop, as we would be attempting to <code>bind</code> something that doesn’t exist</p></li>
 <li><p>Then, we simply run the loop like before, but use <code>bind_rows()</code> to stack each <code>file</code> onto the existing list</p></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>df_bind <span class="ot">&lt;-</span> <span class="fu">tibble</span>()</span>
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>data_bind <span class="ot">&lt;-</span> <span class="fu">tibble</span>()</span>
 <span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> files) {</span>
 <span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>  file <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(i)</span>
-<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>  df_bind <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(df_bind, file)</span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>  data_bind <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(data_bind, file)</span>
 <span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ul>
@@ -905,18 +905,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>                            <span class="at">full.names =</span> T,</span>
 <span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>                            <span class="at">pattern =</span> <span class="st">"niagara"</span>)</span>
 <span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>df_niagara <span class="ot">&lt;-</span> <span class="fu">tibble</span>()</span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>data_niagara <span class="ot">&lt;-</span> <span class="fu">tibble</span>()</span>
 <span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> files_niagara) {</span>
 <span id="cb43-8"><a href="#cb43-8" aria-hidden="true" tabindex="-1"></a>  file <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(i)</span>
-<span id="cb43-9"><a href="#cb43-9" aria-hidden="true" tabindex="-1"></a>  df_niagara <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(df_niagara, file)</span>
+<span id="cb43-9"><a href="#cb43-9" aria-hidden="true" tabindex="-1"></a>  data_niagara <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(data_niagara, file)</span>
 <span id="cb43-10"><a href="#cb43-10" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ul>
 <li>Let’s see what our final output looks like</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(df_niagara)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(data_niagara)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 6 × 5
   school   year  math  read science
@@ -939,9 +939,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><p>In this lesson we have mostly <code>print()</code>-ed our output in this lesson, because it’s one of the easiest ways to see what’s going on</p></li>
 <li><p>But, you can use functions and loops for other things too, like modifying variables, reading data, etc.</p>
 <ul>
-<li>This said, whenever I am writing a loop, I usually start by <code>print()</code>-ing what I am looping through, then make is more sophisticated from there</li>
+<li>This said, whenever you are writing a loop, you can always start by <code>print()</code>-ing what you are looping through, then make it more sophisticated from there</li>
 </ul></li>
-<li><p>Loops and Functions were something that I didn’t fully grasp until I had been using <code>R</code> for about a year, so I don’t expect you to get everything</p>
+<li><p>Loops and Functions can be tricky, so don’t worry if you can’t get everything now</p>
 <ul>
 <li>While confusing, they are super useful in the real world</li>
 </ul></li>
@@ -951,7 +951,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><p><code>for()</code> loops that use the index (line) number of the list instead</p></li>
 <li><p>What’s important is that the underlying logic remains the same</p></li>
 </ul></li>
-<li><p>Time permitting, let’s take a look a few examples of my code that uses loops and functions!</p></li>
 </ul>
 </section>
 </div>
@@ -990,7 +989,7 @@ Assignments will be graded before next lesson on Wednesday in line with the grad
 </section>
 <section id="submission" class="level2">
 <h2 data-anchor-id="submission">Submission</h2>
-<p>Once complete turn in the .qmd file (<strong>it must render/run</strong>) to Canvas by the due date (usually <strong>Tuesday 12:00pm following the lesson</strong>). Assignments will be graded before next lesson on Wednesday in line with the grading policy outlined in the syllabus.</p>
+<p>Once complete turn in the .qmd file (<strong>it must render/run</strong>) and the rendered PDF to Canvas by the due date (usually <strong>Tuesday 12:00pm following the lesson</strong>). Assignments will be graded before next lesson on Wednesday in line with the grading policy outlined in the syllabus.</p>
 </section>
 </div>
 </div>
