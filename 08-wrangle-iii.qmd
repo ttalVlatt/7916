@@ -17,6 +17,8 @@ solution: false
 ##' [INIT: 18 March 2024]
 ##' [AUTH: Benjamin Skinner @btskinner]
 ##' [EDIT: Matt Capaldi @ttalVlatt]
+##' [EDIT: Jue Wu]
+##' [UPDT: 12 February 2025]
 ##
 ## -----------------------------------------------------------------------------
 ```
@@ -102,7 +104,7 @@ To practice working with strings, we'll use data from [Integrated Postsecondary 
 > National statistics include tuition and fees, number and types of degrees and certificates conferred, number of students applying and enrolled, number of employees, financial statistics, graduation rates, student outcomes, student financial aid, and academic libraries.
 
 [You can find more information about IPEDS here](https://nces.ed.gov/ipeds/ReportYourData/IpedsSurveyMethodology).
-As higher education scholars, IPEDS data are a valuable resource that you may often turn to (I do).
+As higher education scholars, IPEDS data are a valuable resource that you may often turn to.
 
 We'll use one file ([which can be found here](https://nces.ed.gov/ipeds/datacenter/DataFiles.aspx)), that covers institutional characteristics for one year:
 
@@ -114,7 +116,7 @@ We'll use one file ([which can be found here](https://nces.ed.gov/ipeds/datacent
 ## ---------------------------
 
 ## read in data and lower all names using rename_all(tolower)
-df <- read_csv(file.path("data", "hd2007.csv")) |>
+data <- read_csv("data/hd2007.csv") |>
     rename_all(tolower)
 ```
 
@@ -132,7 +134,7 @@ For example, if we wanted to limit our data to only those institutions in Florid
 
 ```{r}
 ## filter using state abbreviation (not saving, just viewing)
-df |>
+data |>
     filter(stabbr == "FL")
 ```
 
@@ -142,7 +144,7 @@ For example, let's look the different titles chief college administrators take.
 
 ```{r}
 ## see first few rows of distinct chief titles
-df |>
+data |>
     distinct(chftitle)
 ```
 
@@ -152,7 +154,7 @@ Let's look again, but this time get counts of each distinct title and arrange fr
 
 ```{r}
 ## return the most common titles
-df |>
+data |>
     ## get counts of each type
     count(chftitle) |>
     ## arrange in descending order so we see most popular at top
@@ -195,7 +197,7 @@ Because we're only detecting, as long as `"President"` occurs *anywhere* in the 
 
 ```{r}
 ## how many use some form of the title president?
-df |>
+data |>
     ## still starting with our count
     count(chftitle) |>
     ## ...but keeping only those titles that contain "President"
@@ -241,7 +243,7 @@ This will match either `"President"` or `"president"`.
 
 ```{r}
 ## solution 1: look for either P or p
-df |>
+data |>
     count(chftitle) |>
     filter(str_detect(chftitle, "[Pp]resident")) |>
     arrange(desc(n))
@@ -261,7 +263,7 @@ To compare apples to apples (rather than `"Apples"` to `"apples"`), we'll wrap o
 
 ```{r}
 ## solution 2: make everything lowercase so that case doesn't matter
-df |>
+data |>
     count(chftitle) |>
     filter(str_detect(str_to_lower(chftitle), "president")) |>
     arrange(desc(n))
@@ -288,7 +290,7 @@ For example, let's look at the zip code values that are included in the file.
 
 ```{r}
 ## show first few zip code values
-df |>
+data |>
     select(unitid, zip)
 ```
 
@@ -304,11 +306,11 @@ In our case, we want the first 5 digits so we should `start == 1` and `end == 5`
 
 ```{r}
 ## pull out first 5 digits of zip code
-df <- df |>
+data <- data |>
     mutate(zip5 = str_sub(zip, start = 1, end = 5))
 
-## show (use select() to subset so we can set new columns)
-df |>
+## show (use select() to subset so we can see new columns)
+data |>
     select(unitid, zip, zip5)
 ```
 
@@ -339,7 +341,7 @@ That first subexpression, `"\\1"`, is returned: `"32605"`.
 That's what we want.
 
 If given `"32605-1234"`, it will collect the first 5 digits in the first subexpression, but will stop adding characters there when it sees the hyphen.
-From then on out, it adds everything it sees the second subexpression: `"-"` `"1"` `"2"` `"3"` `"4"`.
+From then on, it adds everything it sees the second subexpression: `"-"` `"1"` `"2"` `"3"` `"4"`.
 But because `str_replace()` only returns the first subexpression, we still get the same answer: `"32605"`.
 This is what we want.
 
@@ -347,11 +349,11 @@ Let's try it on the data.
 
 ```{r}
 ## drop last four digits of extended zip code if they exist
-df <- df |>
+data <- data |>
     mutate(zip5_v2 = str_replace(zip, "([0-9]+)(-[0-9]+)?", "\\1"))
 
-## show (use select() to subset so we can set new columns)
-df |>
+## show (use select() to subset so we can see new columns)
+data |>
     select(unitid, zip, zip5, zip5_v2)
 ```
 
@@ -366,7 +368,7 @@ Let's compare our two versions: do we get the same results?
 
 ```{r}
 ## check if both versions of new zip column are equal
-identical(df |> select(zip5), df |> select(zip5_v2))
+identical(data |> select(zip5), data |> select(zip5_v2))
 ```
 
 No!
@@ -374,7 +376,7 @@ Let's see where they are different:
 
 ```{r}
 ## filter to rows where zip5 != zip5_v2 (not storing...just looking)
-df |>
+data |>
     filter(zip5 != zip5_v2) |>
     select(unitid, zip, zip5, zip5_v2)
 
@@ -402,7 +404,7 @@ If you face string data in the future, taking a little time to craft a regular e
 
     -   For example, if we have students SAT scores from multiple attempts, somone might be interested in knowing how many days passed between attempts
 
-        -   This involves knowing how many days are in each month (something I can never remember), if that year was a leap year, etc.
+        -   This involves knowing how many days are in each month, if that year was a leap year, etc.
 
 ```{r, purl = TRUE, include = FALSE}
 ## -----------------------------------------------------------------------------
@@ -410,17 +412,17 @@ If you face string data in the future, taking a little time to craft a regular e
 ## -----------------------------------------------------------------------------
 ```
 
--   In our IPEDS data see which institutions closed in 2007 and 2008 in the `closedat` column
+-   In our IPEDS data, see which institutions closed in 2007 and 2008 in the `closedat` column
 
     -   `-2` means the institution didn't close in this period, so let's drop them
 
 ```{r}
 ## subset to schools who closed during this period
-df <- df |>
+data <- data |>
   filter(closedat != -2) |>
   select(unitid, instnm, closedat)
 
-df
+data
 ```
 
 #### `parse`-ing String into Dates
@@ -453,22 +455,20 @@ df
 
         -   This involves a *lot* of well thought out code on the back-end, but makes our lives so much easier
 
-        -   In case you're interested, R actually stores every date and time as time since 00:00:00 on January 1st 1970 behind the scenes
-
 -   Let's give this a go!
 
 ```{r}
 
 ## create a new clean_date column 
-df <- df |>
+data <- data |>
     mutate(clean_date = parse_date_time(closedat,
                                         orders = "mdy"))
 
 ## show
-df
+data
 ```
 
--   Okay, that worked for the majority of our colleges, but we some like `Sep-2007` that it didn't like
+-   Okay, that worked for the majority of our colleges, but we see some like `Sep-2007` that it didn't like
 
 > ### Quick Dicussion
 >
@@ -485,12 +485,12 @@ df
 
 ```{r}
 ## Try adding another date format
-df <- df |>
+data <- data |>
     mutate(clean_date = parse_date_time(closedat,
                                         orders = c("mdy", "my")))
 
 ## show
-df
+data
 ```
 
 -   Okay, this time only `7 failed to parse` , so that's a lot better
@@ -502,14 +502,14 @@ df
 -   Let's take a look at the 7 that didn't go through this time
 
 ```{r}
-df |>
+data |>
   filter(is.na(clean_date))
 ```
 
 -   Hmm, those ones might be a little hard to approximate, so let's drop them
 
 ```{r}
-df <- df |>
+data <- data |>
   drop_na(clean_date)
 ```
 
@@ -519,7 +519,7 @@ df <- df |>
 
     -   We can now make comparisons and calculations ***so*** much more easily
 
-        -   As we go through these example, just imagine having to do this by hand
+        -   As we go through these examples, just imagine having to do this by hand
 
 ##### Numerical Calculations
 
@@ -528,7 +528,7 @@ df <- df |>
     -   We wouldn't have got far with the `<chr>` string date, but our `<dttm>` object R can understand and tell us the `min()` value of it
 
 ```{r}
-df |> filter(clean_date == min(clean_date))
+data |> filter(clean_date == min(clean_date))
 ```
 
 > ### Quick Exercise
@@ -546,7 +546,7 @@ df |> filter(clean_date == min(clean_date))
 ```{r}
 christmas_07 <- parse_date_time("Dec 25 2007", "mdy")
 
-df |> filter(clean_date < christmas_07)
+data |> filter(clean_date < christmas_07)
 ```
 
 -   What about within 30 days of Christmas
@@ -561,10 +561,10 @@ df |> filter(clean_date < christmas_07)
 
 ```{r}
 ## Nested version
-df |> filter(abs(time_length(interval(clean_date, christmas_07), "day")) < 30)
+data |> filter(abs(time_length(interval(clean_date, christmas_07), "day")) < 30)
 
 ## Internal pipes version
-df |> filter(interval(clean_date, christmas_07) |>
+data |> filter(interval(clean_date, christmas_07) |>
                time_length("day") |>
                abs() < 30)
 ```
@@ -580,7 +580,7 @@ df |> filter(interval(clean_date, christmas_07) |>
     -   The handy `quarter()` function tell us that
 
 ```{r}
-df |> 
+data |> 
   mutate(quarter = quarter(clean_date)) |>
   count(quarter)
 ```
@@ -592,7 +592,7 @@ df |>
         -   We need to say `label = TRUE` to get "Sun" instead of 1
 
 ```{r}
-df |>
+data |>
   mutate(day = wday(clean_date, label = TRUE)) |>
   count(day)
 ```
