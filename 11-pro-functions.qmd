@@ -17,6 +17,8 @@ solution: false
 ##' [INIT: 5 March 2024]
 ##' [AUTH: Benjamin Skinner @btskinner]
 ##' [EDIT: Matt Capaldi @ttalVlatt]
+##' [EDIT: Jue Wu]
+##' [UPDT: 12 February 2025]
 ##
 ## -----------------------------------------------------------------------------
 ```
@@ -45,20 +47,20 @@ library(tidyverse)
 
 ```{r}
 #| message: false
-df <- haven::read_dta("data/hsls-small.dta")
+data <- haven::read_dta("data/hsls-small.dta")
 ```
 
 -   We have assigned plots
 
 ```{r}
-plot <- ggplot(df) +
+plot <- ggplot(data) +
   geom_histogram(aes(x = x1txmtscor))
 ```
 
 -   We have assigned summary tables
 
 ```{r}
-df_sum <- df |>
+data_sum <- data |>
   summarize(mean = mean(x1txmtscor, na.rm = T))
 ```
 
@@ -109,7 +111,7 @@ We won't read in the school test score data until the last section, but we'll co
 
     -   Take a list of things
 
-        -   `for(i in matts_list) {`
+        -   `for(i in class_list) {`
 
     -   Do a set of things
 
@@ -132,21 +134,21 @@ We won't read in the school test score data until the last section, but we'll co
 ```
 
 ```{r}
-matts_list <- c("Let's", "go", "Gators", "!")
+class_list <- c("Let's", "go", "Gators", "!")
 
-for(i in matts_list) { print(i) }
+for(i in class_list) { print(i) }
 ```
 
 -   But, we can use anything we want instead of `i`
 
 ```{r}
-for(word in matts_list) { print(word) }
+for(word in class_list) { print(word) }
 ```
 
 -   Literally anything
 
 ```{r}
-for(gator_egg in matts_list) { print(gator_egg) }
+for(gator_egg in class_list) { print(gator_egg) }
 ```
 
 -   All we are doing is assigning a name to the item in the list
@@ -177,7 +179,7 @@ for(billy_napier in gators_points_23) { print(billy_napier) }
 
     -   Remember `ifelse()` from Data Wrangling?
 
-    -   This is just splitting that up, `if()` something if true, do this, `else()` do that
+    -   This is just splitting that up, `if()` something is true, do this, `else()` do that
 
         -   Let's just start with an `if()`
 
@@ -210,7 +212,7 @@ for(i in gators_points_23) {
 
     -   We are going to use a new command `paste()` which combines strings, then `print()` that
 
-        -   Top tip: You're going to want to use `paste()` in your homework as well
+        -   Top tip: You're going to want to use `paste()` in your assignment as well
 
 ```{r}
 for(i in gators_points_23) {
@@ -262,7 +264,7 @@ welcome <- function() { print("Welcome to UF!") }
 welcome()
 ```
 
--   To do this, we need some data, so I am just going to make some up
+-   To do this, we need some data, so we are just going to make some up
 
     -   `tribble()` is just a way of making a tidyverse data frame, don't worry about it for now, it's not the main idea for the lesson
 
@@ -385,15 +387,15 @@ for(i in files) {
 }
 ```
 
--   Okay, that read the files, but we didn't save them anywhere, we to assign them
+-   Okay, that read the files, but we didn't save them anywhere, we need to assign them
 
--   Now, this gets a little tricky, as anything we assign with `<-` in a loop only exists in a loop, so we two extra steps
+-   Now, this gets a little tricky, as anything we assign with `<-` in a loop only exists in a loop, so we need two extra steps
 
     -   First, we read it in mostly like normal, into something called `file` , which is temporary and only exists within the loop
 
     -   Second, we make another temporary object, which is the name we want to assign the data frame to
 
-        -   For now, let's just use `df_<name of the file>`
+        -   For now, let's just use `data_<name of the file>`
 
     -   Third, we use `assign()`, which basically does what `<-` would do in normal circumstances, but keep the object after the loop
 
@@ -403,28 +405,28 @@ for(i in files) {
 #| message: false
 for(i in files) {
   file <- read_csv(i)
-  name <- paste0("df_", i)
+  name <- paste0("data_", i)
   assign(name, file)
 }
 ```
 
 -   Cool!
-    That seems to have worked, but, our `df_` names are really really long, which probably isn't that useful for future analysis
+    That seems to have worked, but, our `data_` names are really really long, which probably isn't that useful for future analysis
 
--   So, instead of simply pasting together `df_` and `i`, let's use our friend regular expressions to get something more usable
+-   So, instead of simply pasting together `data_` and `i`, let's use our friend regular expressions to get something more usable
 
     -   Get the school name (anything that matches the options we give)
 
     -   Get the year (any digits)
 
-    -   Paste those together with `df_` to get our nicer object names
+    -   Paste those together with `data_` to get our nicer object names
 
 ```{r}
 #| message: false
 for(i in files) {
   school <- str_extract(i, "niagara|bend|east|spot")
   year <- str_extract(i, "\\d+")
-  name <- paste0("df_", school, year)
+  name <- paste0("data_", school, year)
   file <- read_csv(i)
   assign(name, file)
 }
@@ -432,9 +434,9 @@ for(i in files) {
 
 -   Much better!
 
--   One last thing, instead of reading each of those into a new data frame, we could `bind` them all together
+-   One last thing, instead of reading each of those into a new data frame, we could `append` them all together
 
-    -   Note: This is only appropriate here due to the nature of the school data, with each data frame having the school name and year in it, other times we may want to `join` data instead. Review [Data Wrangling II](04-wrangle-ii.qmd) for a refresher on how to `bind` and `join` data appropriately
+    -   Note: This is only appropriate here due to the nature of the school data, with each data frame having the school name and year in it, other times we may want to `join` data instead. Review [Data Wrangling II](04-wrangle-ii.qmd) for a refresher on how to `append` and `join` data appropriately
 
 -   To do this, we first need to set up an empty data frame (a.k.a., "tibble"), as otherwise we will get an error the first time through the loop, as we would be attempting to `bind` something that doesn't exist
 
@@ -442,11 +444,11 @@ for(i in files) {
 
 ```{r}
 #| message: false
-df_bind <- tibble()
+data_bind <- tibble()
 
 for(i in files) {
   file <- read_csv(i)
-  df_bind <- bind_rows(df_bind, file)
+  data_bind <- bind_rows(data_bind, file)
 }
 ```
 
@@ -471,11 +473,11 @@ files_niagara <- list.files("data/sch-test/by-school",
                             full.names = T,
                             pattern = "niagara")
 
-df_niagara <- tibble()
+data_niagara <- tibble()
 
 for(i in files_niagara) {
   file <- read_csv(i)
-  df_niagara <- bind_rows(df_niagara, file)
+  data_niagara <- bind_rows(data_niagara, file)
 }
 
 ```
@@ -483,7 +485,7 @@ for(i in files_niagara) {
 -   Let's see what our final output looks like
 
 ```{r}
-print(df_niagara)
+print(data_niagara)
 ```
 
 -   Perfect!
@@ -494,9 +496,9 @@ print(df_niagara)
 
 -   But, you can use functions and loops for other things too, like modifying variables, reading data, etc.
 
-    -   This said, whenever I am writing a loop, I usually start by `print()`-ing what I am looping through, then make is more sophisticated from there
+    -   This said, whenever you are writing a loop, you can always start by `print()`-ing what you are looping through, then make it more sophisticated from there
 
--   Loops and Functions were something that I didn't fully grasp until I had been using `R` for about a year, so I don't expect you to get everything
+-   Loops and Functions can be tricky, so don't worry if you can't get everything now
 
     -   While confusing, they are super useful in the real world
 
@@ -507,8 +509,7 @@ print(df_niagara)
     -   `for()` loops that use the index (line) number of the list instead
 
     -   What's important is that the underlying logic remains the same
-
--   Time permitting, let's take a look a few examples of my code that uses loops and functions!
+    
 
 ```{r, include = FALSE, purl = TRUE}
 ## -----------------------------------------------------------------------------
@@ -524,7 +525,7 @@ print(df_niagara)
 
 ## Submission
 
-Once complete turn in the .qmd file (**it must render/run**) to Canvas by the due date (usually **Tuesday 12:00pm following the lesson**). Assignments will be graded before next lesson on Wednesday in line with the grading policy outlined in the syllabus.
+Once complete turn in the .qmd file (**it must render/run**) and the rendered PDF to Canvas by the due date (usually **Tuesday 12:00pm following the lesson**). Assignments will be graded before next lesson on Wednesday in line with the grading policy outlined in the syllabus.
 
 ::: {.content-hidden unless-meta="solution"}
 ## Solution
