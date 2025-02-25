@@ -11,351 +11,371 @@ execute:
 ::: panel-tabset
 # Lesson
 
-[{{< fa question >}} Assignment Template (will be used through class)](/site-attachments/assignments/assignment-06.qmd)
+- You have been using Quarto for your assignments since the start class
+  - So, hopefully you're getting somewhat comfortable with the way they mix code and text together
+- In this lesson, we are going to learn a bit more about how to use Quarto including some of its powerful features
 
--   In this lesson, we are going to cover the basics of creating fully reproducible reports with Quarto
--   You may have heard about RMarkdown `.Rmd` in other classes
--   Quarto is the replacement for RMarkdown
-    -   It can do anything RMarkdown can do and a whole whole lot more!
-    -   Plus, it's easier to use!
-    -   Quarto is still somewhat new (it comes with RStudio as it's made by the same company, Posit)
+## What Is Quarto and What Can It Do?
 
-```{r, eval=FALSE}
-## You should have these packages already, we installed them our first lesson
-## but if you're not sure, run this code just in case
-install.packages(c("knitr", "rmarkdown", "quarto"))
-```
+### Quarto vs RMarkdown
 
-## Quarto Documentation
+- Some of you may have heard of or used RMarkdown documents before
 
--   Quarto also comes with one of the best sets of documentation I've come across on their website, [check it out here](https://quarto.org)
-    -   Fun fact, the whole website is a massive Quarto project, which is kind of meta!
--   Rather than trying to re-explain something they put so clearly, we will look to this site for guidance throughout this lesson
+:::{layout-ncol=2}
 
-## Why Quarto over Word?
+![Rmd Logo](site-attachments/rmd-logo.png)
 
--   Up until now, you've likely written most of your assignments using a Microsoft Word or something similar
+![Quarto Logo](site-attachments/quarto-logo.png)
 
--   There are a few major reasons Quarto has most replaced Word for 90% of my work
+:::
 
-    1.  Integration with code/analysis
+- In short, Quarto is the new version of RMarkdown
+  - See [this document](https://quarto.org/docs/faq/rmarkdown.html) for more details
+  - The reason for the change is a little technical
+    - RMarkdown is (as you might guess) tied very closely to R 'under the hood'
+    - Quarto is free to work with a variety of languages 
+  - What this means is Quarto can do everything RMarkdown can do plus A LOT more
+    - For example, Quarto has a much larger [variety of outputs](https://quarto.org/docs/reference/)
+  - 99% of anything that works in RMarkdown will work exactly the same in Quarto, but the same isn't true in reverse
+- One very nice difference between the two is a Quarto has an [extremely comprehensive documentation site](https://quarto.org/docs/reference/)
+  - Fun fact, the Quarto references website is itself a Quarto project, which is kind of meta!
+    
 
-    -   This is the main one
-    -   As you'll see in this lesson, Quarto seamlessly integrates text with code output
-        -   So any tables and plots you create will be integrated into the report
-            -   No more spending hours copying your output from one screen to another and likely typing some of it wrong!
-        -   You can even have the text you type update
-    -   As a result, if when reviewing your final paper you spot an error right at the start of your analysis, as you often will (I did with my first publication), you just correct it and everything else automatically updates
+### Quarto vs Microsoft Word
 
-    2.  Reproducibility/Transparancy
+- Up until now, you've likely written most of your assignments using a Microsoft Word or something similar
+- There are a few major reasons Quarto has most replaced Word for 95% of my work
+  
+  1. Automatically created tables/results from code
+    - This is the big one, as you'll see later in the lesson Quarto allows us to include tables and figures that are automatically created
+      - No hours spent copying results into a table by hand (and possibly making a mistake)
+    - You can even have your text update automatically if you want
 
-    -   As the code and text are integrated, it makes it easier to share and reproduce your results, there's no way someone could fake a figure/table without it being obvious
+> ### Quick Discussion
+> 
+> In addition to not having to type out the table in the first place, a big pro of that any changes you make in your analysis (e.g., cleaning a variable differently, including a new variable in the analysis)
+> 
+> What kind of real-world situations do you think would help in?
 
-    3.  Zotero integration
+  2. Reproducibility & transparency
+    - By writing your document in Quarto, you see where everything in your paper comes from
+    - This makes it much easier for someone looking to reproduce your work and/or see where you got a result from
+      - You should always share your analysis code, even for stuff written in Word, but writing in Quarto makes everything even more transparent
+      - We can see the code/source of any table or figure in the document, it's much harder to fake/hide something
+    
+  3. Integration with Zotero for citations
+    - We will look at this towards the end of the lesson, but, it's a great feature!
+    
+  4. Version control with git
+    - One of your (more challenging) extra-credit opportunitites is to use git, which is a way to track changes in your projects
+    - Working with git basically allows you to keep a record of all the changes you save
+      - This means there's no longer a need for "dissertation.docx", "dissertation_revised.docx", "dissertation_revised3.docx, "dissertation_final.docx", dissertation_FINAL_revised4.docx"
+    - This works much more effectively with Quarto files as they're just plain text, which means you can see the changes, something you can't with word
+    
+  5. One document, many formats!
+    - Again, we will look at some of these in just a little bit!
 
-    -   The way Quarto's visual editor integrates with Zotero on your laptop is superb, Word does integrate with Zotero as well, but it's not as smooth
-    -   Zotero is an open source reference manager
-        -   If you aren't using a reference manager, you 110% should be
-            -   Zotero is a fantastic choice, as it's open-source and free, [check it out here](https://www.zotero.org)
-    -   If you have zotero on your computer, to cite anything in your Zotero library, you just type `@` and you can search and add any article you have saved
+## Basics of Writing in Quarto
 
-    4.  Version control with git
+To get started, let's all open a totally blank Quarto file that we can build up over the lesson
 
-    -   As Quarto `.qmd` files are plain text/code files, they're very small and work well with git for version control
-        -   See the [git extra credit lesson](x-01-git.qmd) for more information on git
+In RStudio go to "File" -> "New File" -> "Quarto Document" -> "Create Empty Document" (bottom left corner)
 
-    5.  One file, variety of formats
+### Writing Markdown
 
-    -   Sometimes, you need to share your work in a variety of formats
-        -   Word and PDF is pretty easy, you can just save as...
-        -   But what if you're asked to publish your research to a website?
-        -   What if you want to work on [HiPerGator](https://www.rc.ufl.edu/get-started/hipergator/) so need your work in as `.ipynb` Jupyter Notebook?
-    -   Quarto enables you to take the same work and switch formats easily and even publish to multiple formats at the same time
-    -   You can also make presentations from as PowerPoint, PDF, or my new favorite, RevealJS
-        -   Again, if you fix a mistake, all your tables and plots will be corrected automatically, a lifesaver 2 hours before you go on stage at ASHE!
+- Markdown is a way of writing text with simple formatting options
+  - For normal text, `just write text`
+  - For new paragraphs, leave a blank line between text
+  - For bold text, `**use two astrisks around the text**`
+  - For italic text, `_use underscores around the text_` or `*use one astrisk around the text*`
+  - For headings, use # before the text for each level, e.g. `# level 1 headings` to `##### level 5 headings`
+  - For links, `[Type the text you want to display in square brackets](Type the link in parantheses)`
+  - For images, `Type an ![Type the caption in square brackets](Type the path to the image file in parantheses)`
+  - For lists, start a new line then use `1.` for numbered lists or `-` for bulleted lists
+  - For tables, well... There are better ways than typing out a markdown table by hand
 
-## Text Portions of a Quarto Report
+### Visual Editor
 
--   No matter how good your data viz skills are, the majority of most reports are still going to be text
--   Text in Quarto reports is written as markdown text (that's what the `md` part of `.qmd` stands for)
--   [Markdown](https://en.wikipedia.org/wiki/Markdown) is a relatively simple plain text way of formatting text
--   Quarto provide a great overview of markdown basics on their site [here](https://quarto.org/docs/authoring/markdown-basics.html), let's take a look
+- Now, lucikly for you, Quarto & RStudio now have a visual editor, which makes it feel like writing in Word
+  - If you look at the top of the document you will see "Source" and "Visual"
+  - If you toggle into "Visual" two you will see options appear at the top like **B** and _I_ make it easy to change the text without writing the ** or _
+- It's not that one way is better than the other, I use both depending on the situation/task
+  - Typically, if I'm writing more code chunks, I will be in the source mode
+  - If I'm writing longer sections of text, I will be in the visual mode (particularly for entering citations, which we will talk about later)
 
-```{=html}
-<iframe width="900" height="600" src="https://quarto.org/docs/authoring/markdown-basics.html"></iframe>
-```
-### Quarto Visual Editor
+> ### Quick Excercise
+> Using either source or visual mode add the following to your blank Quarto file
+> 
+> 1. Add a level-one heading "Data"
+> 2. Write a sentance or two about the data you're using for you final project
+> 3. Make the source of your data (e.g., IPEDS) _italic_
 
--   However, Quarto also has a visual editor, which looks like a simplified Microsoft Word, with point and click options for everything
-    -   You can toggle between `source` and `visual` modes at the top left of any `.qmd` file in RStudio
-    -   All the visual editor does is write actual markdown based on what you clicked
-        -   If you want to learn markdown, flipping between the two is a great way to do that
--   In my day to day life - If you start using Quarto on a regular basis, you'll inevitably become familiar with markdown basics, as it is so much faster!
-    -   If I'm writing extended passages of text, I usually use the visual editor (primarily for the Zotero referencing feature I metioned above)
-        -   If you know markdown syntax (e.g., headings, bold, etc.), you can type it into the visual editor rather than clicking on options
-    -   If I'm writing, I generally prefer the source editor
--   For this class, you should be able to use the visual editor for most of your needs, no need to learn markdown!
+### Header Options
 
-> ## Quick Excercise
->
-> 1.  Inside the Quarto template you downloaded at the top of the lesson write a few sentances descrbing your proposal for your reproducible report
-> 2.  Add an appropriate header (e.g., "Introduction")
-> 3.  Add **bold face** around your dependent variable
-> 4.  Make your data source name *italic*
-
-## Code Portions of a Quarto Document
-
--   The text is all well and good, but, the real power of Quarto comes from the ability to integrate code into work
--   There are two main ways of doing this
-    -   Inline code chunks
-    -   Sourcing `.R` scripts
-
-### Inline Code Chunks
-
--   For shorter chunks of code such as printing tables and plots, or short calculations, you can create code chunks in the `.qmd` file
-    -   These are like you cut an `.R` script up into little pieces and put them in between text
-    -   They still run like one continuous `.R` script, from top to bottom
-        -   Anything you `<-` assign in an earlier chunk will be available in later chunks
-    -   The results/output of code in a chunk will print where the chunk is in the text in the rendered document
-    -   You can add a code chunk by clicking on the insert code button along the top, or, by keyboard shortcut
-        -   command + option + I on Mac
-        -   ctrl + alt + I on PC
-            -   Once inserted, you can name chunks for [cross-referencing](https://quarto.org/docs/authoring/cross-references.html) and [set executation options](https://quarto.org/docs/computations/execution-options.html) to change if/how they output results, both of which are beyond the scope of this class
--   Let's start out by reading in data, then making a simple ggplot of math test scores
-    -   Since we want to see the results, we will just call it rather than assigning it to an object
-    -   Note: We need to load packages in our quarto script every time
-        -   Unless they are loaded by a script we source (see below)
-
-```{r basicplot}
-library(tidyverse)
-library(gtsummary)
-
-df <- read_csv(file.path("data", "hsls-small.csv"))
-
-ggplot(data = df) +
-  geom_histogram(mapping = aes(x = x1txmtscor))
-```
-
-> ## Quick Excercise
->
-> 1.  Add a new code chunk to your Quarto document
-> 2.  Read in the `all-schools.csv` from the `sch-test` folder
-> 3.  Make a line ggplot for math scores with colored lines for each school
-
-```{r mathplot, echo=FALSE, purl=FALSE}
-df_2 <- read_csv(file.path("data", "sch-test", "all-schools.csv"))
-
-ggplot(df_2) +
-  geom_line(mapping = aes(x = year,
-                          y = math,
-                          color = school)) +
-  labs(title = "Math Scores 1980-1985 by School")
-
-```
-
--   Okay, those are printing, but last week we put so much work into creating a pretty plot, do I really have to copy all that code?
-    -   The answer is no!
-
-## Sourcing scripts
-
--   Technically, you could do everything in code chunks, from data joining and cleaning right through to analysis
-    -   But, this will get really long, and make it harder to skip around and navigate the text of your document while you're editing
--   A better solution is to `source()` plain `R` scripts that have already been written
--   When you do this, any objects created in those scripts will then be in the environment and able to be added seamlessly to your Quarto document
--   To demonstrate, let's `source()` our R script from last week's lesson
-    -   There are two things that need to be right for this to work
-        -   The script has to be able to be run top to bottom with no errors
-            -   Anything that creates an error needs to be `##` commented out
-        -   You need to know where the file is
-            -   In our case, because we used a slightly messy kitchen approach (see our [setup lesson on reading data](02-set-data.qmd) for a reminder) all our scripts should be in the top level of your project folder, so you should be able to source them by name
-                -   If they're somewhere else, you can use `file.path()` like we use for data etc.
-
-```{r sourcereal, echo=FALSE, include=TRUE, purl=FALSE}
-source(file.path("_site", "r-scripts", "06-viz-ii.R"))
-```
-
-```{r sourceshow, eval=FALSE, echo=TRUE, purl=TRUE}
-source("06-viz-ii.R")
-```
-
--   Now, with that script sourced, we can call objects we created in that script, and they will appear in our Quarto document
-    -   For example, if we `source()` a script that joins and cleans data and leaves it assigned to an object `df_clean`, we can then call `df_clean` in a code chunk and it will be waiting
-    -   Remember right at the end of last week we saved our final plot to `patch` and I said why was a surprise, this is why!
-        -   We simply call `patch` and our fancy patchwork will print out beneath the chunk
-            -   Note, since we loaded the `patchwork` library in the script we sourced, we don't need to load it here
-
-```{r patch}
-patch
-```
-
--   This logic is really useful to keep long streams of code out of your Quarto document
--   You also probably have lot's of code already written in an `.R` script, and this is much easier than copy and pasting it all
-
-> ## Quick Exercise
->
-> 1.  `source()` `04-wrangle-ii.R`
-> 2.  print out the data object we made called `data_long`
-
-```{r sourcereal2, echo=FALSE, include=FALSE, purl=FALSE}
-source(file.path("_site", "r-scripts", "04-wrangle-ii.R"))
-```
-
-```{r}
-print(data_long)
-```
-
--   That covers the basics of quarto document content! No matter what output you choose, this all stays the same!
-
-## YAML Header Options
-
--   The final thing to be aware of is the `YAML` header, that stuff at the top of the `.qmd` file
--   In your template, I have set some basic things up that you can change
+-   At the top of your Quarto document you will see two sets of `---` which is what we call the header
+    -   This where we can control a lot of options that affect the document
     -   There are so, so, so, many options, many of which change with the format you are using
     -   Some basic ones to be aware of for now are
         -   `title:` kind of self-explanatory
         -   `author:` again, kind of self-explanatory
-        -   `date:` this can take a specific date, or, it "today" will use the current date when you render the document
-        -   `editor: visual` defaults to the visual editor, easier for now
-        -   `editor_options:`
-            -   `chunk_output_type: console` Just means that when editing the document and running code chunks, the output will appear in the console (like it always has with R scripts) rather than appearing as a preview in the script
-                -   This is a personal preference, feel free to play around!
+        -   `date:` this can take a specific date, or, "today" will use the current date when you render the document
         -   `format`: this is power of Quarto, there are so many options which will be discussed next
         -   `execute:` these are the default way we want code chunks to output
-            -   `echo: FALSE` means don't print out the code (e.g., this site use `echo: TRUE`)
-            -   `message: FALSE` means don't print out information like when tidyverse reads in data
-                -   There's a bunch more of these options, setting them in the YAML Header makes that the default behavior for the document, you can set them at the chunk level to only apply to that chunk
-                -   You don't need to alter these for this class, but if you want to learn more, see [executation options documentation](https://quarto.org/docs/computations/execution-options.html)
+            -   `echo: FALSE` means don't print out the code (e.g., this website and your assignments use `echo: TRUE` but your final report should use `echo: FALSE`)
+                -   There's a bunch more of these options, setting them in the header makes that the default behavior for the document, you can set them at the chunk level to only apply to that chunk
+                -   If you want to learn more, see [executation options documentation](https://quarto.org/docs/computations/execution-options.html)
 
-> ## Quick Exercise
+> ### Quick Exercise
 >
 > 1.  Change the title to something appropriate for your final report
 > 2.  Change the author to your name
+> 3.  Change the date so that it uses the current date whenever it is rendered
 
-## Quarto Output Formats
+### Output Formats
 
--   Quarto has so many different output formats you can choose from
-    -   The majority fall into three main categories
-        -   `html`
-        -   `pdf`
-        -   Microsoft Office (`docx` and `pptx`)
-    -   We will mostly focus of office output for this class, but let's do a quick overview of the others first
+- This is where Quarto really shines!
+- No matter what format you want your work to be in, using Quarto you always write it using the same basic input
+  - You can even publish something in multiple formats simultaniously, such as a webpage with a formatted pdf copy
+  - This can be really useful for quickly reducing a paper into a presentation for a conference, for example
+- Again, these will all have the advantage of automatically updating/correcting tables and figures
 
-### `html`
+#### `format: pdf`
+
+- So far in the class, we have had you use `format: pdf` as our output format
+- This renders your document using something called LaTeX, a traditional academic pdf creation tool
+  - LaTeX is widely used in acadmia, but, it's not the friendliest thing to work with
+    - For instance, if you want a figure/table a certain place and LaTeX doesn't think it should go there, you have a fight on your hands
+  - LaTeX is a tool you can use directly to write academic papers too, UF dissertation office and many journal articles accept LaTeX submissions
+  - Quarto (and Rmd) write the LaTeX code for you behind the scenes, making in much easier
+  - If you're interested in seeing what this looks like, add `keep-tex: true` to your YAML header
+- You can see details about LaTeX options on the [Quarto documentation for `LaTeX` output](https://quarto.org/docs/reference/formats/pdf.html)
+- As an aside, I am writing my dissertation in Quarto, having adapted UF's LaTeX template to work with Quarto input
+  - I have created a [public template](https://github.com/ttalVlatt/UF-Quarto-Dissertation) for that which I will continue to update as I go, it should be ready by the time you are at that stage if you decide you like Quarto as much as I do!
+
+> #### Quick Excercise
+> 
+> 1. Add what's required to make your blank document render to a pdf (using LaTeX)
+
+#### `format: typst`
+
+- Another way of creating a pdf that came out last year is typst
+- Similarly to LaTeX this is something you could use directly, but, Quarto can convert our markdown and tables to it automatically, which is much easier
+- There are pros and cons of typst vs LaTeX for creating pdfs
+- Pros
+  - It's MUCH faster, particularly once your LaTeX document has multiple figures in it, it can take minutes to render on an older/slower computer, typst is closer to instant
+  - When you want to do something (particularly advanced formatting) beyond Quarto and Markdown do, adding in raw typst code is MUCH easier than adding raw LaTeX
+- Cons
+  - New and not widely accepted, if you're submtting the pdf itself, you're fine, but academic journals for instance want either a docx or raw LaTeX code so they can edit the format, only a small number of journals (and none in higher ed) accept raw Typst code (yet)
+  - While it's easier to use, and very verstile, it is not _quite_ as customizable as LaTeX, particularly for meeting extra-strict formatting guidelines (like a dissertation)
+- You can see details about typst options on the [Quarto documentation for `typst` output](https://quarto.org/docs/reference/formats/typst.html)
+- As another aside, I've used typst to create a wide range of pretty looking docuemnts from [my resume](https://capaldi.info/resume.pdf) to [a website of recipe cards](https://capaldi.info/recipebox)
+
+> #### Quick Excercise
+> 
+> 1. Add what's required to make your blank document render to a pdf (using typst)
+
+#### `format: html`
 
 -   `html` is the file format that web browsers read for almost every website you visit
-    -   Fun fact: this entire website is built with Quarto as html output
-        -   Click on the little GitHub icon in the lower right corner to see to `.qmd` files
-    -   You can include fancy content like interactive graphics
+    -   You can customize html format to almost anything you want and add fancy content like interactive graphics
 -   Unfortunately, the majority of work in academia (for now at least) still relies on traditional paper-based document formats, so we can't justify spending much time on this today
 -   If you want to learn more about `html` output, start with the Quarto documentation on [Quarto Websites](https://quarto.org/docs/websites/) and [Reveal.js Presentations](https://quarto.org/docs/presentations/revealjs/)
+- You can see details about HTML options on the [Quarto documentation for `.html` output](https://quarto.org/docs/reference/formats/html.html)
+- As yet another aside, this entire website is built with Quarto as html output
+  - Click on the little GitHub icon in the lower right corner of the website to see to `.qmd` files
 
-### `pdf`
 
--   The first paper-based document format is straight to `.pdf`
--   Traditionally, this has been dominated by [LaTeX](https://www.latex-project.org)
-    -   Students under Dr. Skinner's version of the class used this
-    -   Personally, I find LaTeX slow, unintuitive, and inflexible
--   In Quarto 1.4 (the version that came out a couple of weeks ago), support for a new much more user-friendly pdf generator [typst](https://typst.app) has been added
-    -   I haven't had chance to play around with this yet, but from first impressions I'm hopefull!
--   You can also create pdfs straight from Quarto via word using an R script like [this](site-attachments/docx2pdf.R) which I use for the syllabus
+> #### Quick Excercise
+> 
+> 1. Add what's required to make your blank document render to an HTML web page 
 
-### `docx`
+#### `format: docx` & `format: pptx`
 
--   `docx` output is, IMHO, the best starting place
--   When you render your Quarto document, the result is a `.docx` file that you can then open in word or send to a supervisor/advisor
+- The most flexible and compatible option is using Microsoft Office formats (`.docx` for Word and `.pptx` for PowerPoint)
+-   When you render your Quarto document, the result is a file that you can then open in Microsoft Office or send to a supervisor/advisor
     -   For example, if I'm running the data analysis for a project, I can create all the plots and tables, write up the methods section, then pass to my advisor to fill in the literature sections
         -   Sure, straight to `.pdf` is nice is everyone is working in Quarto, but often (sadly) they won't be
             -   `.docx` is a just more practical option a lot of the time
         -   You still get a document rendered with all the tables and plots which will update if the data changes upstream
--   Plus, even if you craft the entire document in Quarto, it can be nice to have the option to run Grammarly on it in word, or tweak one little layout feature you can't figure out how to get right in Quarto
--   This is the output format I'd like you to use for your reproducible reports (unless you can convince me you need a different output)
-    -   So let's take a look through the [Quarto documentation for `.docx` output](https://quarto.org/docs/reference/formats/docx.html)
+-   Plus, in the real world, once you've run your analysis in R/Quarto and created the tables/plot, it can be nice to have the option to run Grammarly on it in word, or tweak one little layout feature you can't figure out how to get right in Quarto
+- There are unfortunately some things that just don't work that well
+  - Many formatting things are hard to get write, but, the upside is they're usually fixable in Word after you render the document
+  - One thing that can be extremely frustrating is that to actually overwrite the Word document, you need to
+    - a) Not have the document open in Word, as Microsoft won't let Quarto save over an open document
+    - b) Go to background jobs and hit the stop sign icon before rendering
+- You see details about Word options on the [Quarto documentation for `.docx` output](https://quarto.org/docs/reference/formats/docx.html)
+- As a final aside (for now), you can customize the output format using the `reference-doc:` option
+  - These take a some learning to know how to write, but it basically involves setting up styles that correspond to styles Quarto outputs your text as
+  - In case they're useful, I have attached a couple of styles I have create and used in the past
+    - [APA 7 Reference Doc](site-attachments/refdoc-apa7.docx)
+    - [UF CoE Presentation Reference Doc](site-attachments/refdoc-ufcoe.pptx)
 
-```{=html}
-<iframe width="900" height="600" src="https://quarto.org/docs/reference/formats/docx.html"></iframe>
+> #### Quick Excercise
+> 
+> 1. Add what's required to make your blank document render to an Word document
+> 2. Since you'll be submitting a .pdf for your final report, change it back to make a pdf
+>   - For those whose computer it takes more than a few seconds to render using LaTeX, I'd recommend typst, it will save you hours when editing your final report
+
+
+## Using R to Create Figures & Tables in Quarto
+
+- The text is all well and good, but, the real power of Quarto comes from the ability to integrate the output of code into the document
+  - The way to this is simply adding R code that creates a table or figure into the report
+  - Just like you've been doing in your homework assignments so far
+- These are like you cut an `.R` script up into little pieces and put them in between text
+    - They still run like one continuous `.R` script, from top to bottom
+        - Anything you `<-` assign in an earlier chunk will be available in later chunks
+    - The results/output of code in a chunk will print where the chunk is in the text in the rendered document
+    - You can add a code chunk by clicking on the insert code button along the top, or, by keyboard shortcut
+        - command + option + I on Mac
+        - ctrl + alt + I on PC
+  - **Important**
+    - Quarto documents always start from a fresg R environment everytime you render them 
+      - Quarto will not be able to access any data you have read in or objects you have created outside the document
+      - Any data you want to use in your code chunks needs to be read in an earlier code chunk
+        - You will always need to use a **relative path** from where the .qmd file is saved
+      - Same goes for any packages you want to use
+
+### Including Plots
+
+- You already have practice with this from the Data Visualization I & II assignments, so it should be pretty familiar
+- For practice, let's read in our familiar hsls data and create a plot
+
+-   Let's start out by reading in data, then making a simple ggplot of math test scores
+    -   Since we want to see the results, we will just call it rather than assigning it to an object
+    -   Note: We need to load packages in our quarto script every time
+
+```{r basicplot}
+library(tidyverse)
+library(haven)
+
+data <- read_dta("data/hsls-small.dta")
+
+ggplot(data) +
+  geom_histogram(aes(x = x1txmtscor))
 ```
-As I say, the Quarto documentation is fantastic, I'm not asking you to do anything beyond the default docx output for the class - But, if you want to, `docx` output is formatted by a template `docx` file, read more about those in the [Word templates documentation](https://quarto.org/docs/output-formats/ms-word-templates.html)
 
-## Rendering Quarto Reports
+- Hint: If your output is appearing in the Quarto document but you'd like to see it in the plots box like you would in a R script
+  1. Click on the cog/gear icon to right of the Render button
+  2. Select "Chunk Output in Console"
 
--   To see the magic happen, we simply have to hit the "Render" button at the top of the Quarto file
-    -   This will go from top to bottom of our file turning the text/markdown sections into formatted text, and the code output to
+> #### Quick Excercise
+> 
+> As a review of data visualization lessons
+>
+> 1.  Make it so we can see difference in math score by gender
+>   - Hint: Since we are using labeled .dta data, as_factor(x1sex) will create the labels automatically
+> 2.  Add appropriate x-axis and legend labels
+> 3.  Change to theme to your favorite
+> 4.  Render the document to see your pdf including the plot
 
-### A Common Trap when Rendering Quarto Reports
+```{r mathplot, echo=FALSE, purl=FALSE}
 
--   One thing that people always get tripped up on is when something runs while editing the Quarto document, and doesn't when rendering/running it
-    -   The main thing to be aware of is that when it starts to render, it will work with an entirely clean environment
-        -   If you have anything (a plot, a dataframe) saved in your environment you can access that when running the chunks one by one
-            -   When it renders, anything you call needs to created, either by `source()`-ing a script that makes it, or by making it within an earlier code chunk
-            -   If you move chunks around, make sure you don't try and call something before it's been assigned!
+ggplot(data) +
+  geom_histogram(aes(x = x1txmtscor,
+                     fill = as_factor(x1sex)),
+                 alpha = 2/3,
+                 color = "black") +
+  labs(x = "Standardized Math Score",
+       fill = "Sex") + 
+  scale_fill_viridis_d(option = "magma") +
+  theme_minimal()
 
-## Basic Tables and `Kable()`s
+```
 
--   One of the most common things you need when writing reports and/or papers are tables, whether than be descriptive statistics, results of a regression model, or even qualitative information about participants
+### Including Plots as an Image
 
--   There are many ways of creating tables in R
+- Now, you may notice the plot looks a little different than in RStudio
+  - Sometimes they don't look quite as nice, particularly the layout can get cramped up
+  - Also sometimes you might create an image, plot, or figure somewhere else that you want to include
+- To get around these issues, we can include images from a picture file
 
-    -   If you want to get fancy with customization, `gt` and `gtsummary` offer more advanced customization options
+\
 
-    -   If you're looking for easy and consistent output from regressions and other models `stargazer` might be what you're looking for
-
-    -   But for now, we will focus on basic markdown tables and `kable`
-
-        -   `kableextra` is also an option if you want to customize `kable`s outside what the basic package allows
-
-### Basic Markdown Tables
-
--   Basic markdown tables are somewhat like tables in word, you manually fill them in
-
-    -   You could use inline code in one, but you will see why that would rarely be necessary when we look at `kable`
-
--   Before Quarto's visual editor, making basic markdown tables was a real pain
-
-    -   They basically involve using a series of ————, ::::, and \|\|\|\| to craft a table
-
-        -   If you're interested you can see more on the [Quarto table documentation](https://quarto.org/docs/authoring/tables.html)
-
-    -   With the visual editor, however, you can just click on "Table" from the drop down menu, and write out the contents of your table
-
--   This is great for certain things, such as a table where we describe something qualitatively, such as syllabus for this class (which uses a markdown table).
-
-### Tables from data frames with `kable`
-
--   So far in this class, there have been plenty of times we have used tables to answer questions, when we have had them print out the console, e.g.
+- First, let's create an image
+  - `ggsave()` is a helpful function that simply saves the last plot you made
+  - It only needs one argument, what you want to call the plot
+    - You can also specify 
+      - height or width (good for complicated plots you want to save as a large image)
+      - bg for background, by default a .png will have no background, but add `bg = "white"` will put it on a white squre
+  - For now, let's just save the plot we just made as "math-scores.png"
+    - As we don't specify any folders, it will just save it in our working directory
 
 ```{r}
-## Read in using .dta so we have nice labels
-df <- haven::read_dta("data/hsls-small.dta") |>
+#| eval: false
+ggsave("math-scores.png")
+```
+
+- To include an image (created in R or elsewhere) is always the same
+
+- In source mode it's `![Caption](image.png)`
+- In visual mode just click the image icon and select the file you want to add
+
+> #### Quick Excercise
+>
+> 1. Save the math score you made in the previous excercise
+> 2. Add the plot to your Quarto document as an image
+> 3. Render to get the pdf
+> 4. See if there are any differences between the plot you saved as an image and the one you inlcuded just through code
+
+### Including Tables
+
+- There are multiple ways to create and include tables in your Quarto documents, but are going to focus on 3 (really 2)
+
+#### Hand-Written Markdown Tables
+
+- Long story short, markdown tables are a pain to write by hand 
+  - The visual editor table tool makes this MUCH easier
+- Even then, you lose some of the advantages for using Quarto
+  - If it's your results table and you hand write all the numbers, they won't autocorrect if something changes upstream
+- There are limited times I would recommend using these (I believe the class syllabus is one, but I'd probably even change that if I wrote it today)
+  - All you need to know is that it's an option and the easiest way is to create it using the visual editor
+  
+#### `kable()`-Written Markdown Tables
+
+- An infinitely better solution for many reasons is using the `kable()` function from the `knitr` library
+  - You most likely all have this, but, just in case let's reinstall `knitr`
+  
+```{r}
+#| eval: false
+install.packages("knitr")
+```
+
+- So far in this class, there have been plenty of times we have used tables to answer questions, when we have had them print out the console, e.g.
+
+```{r}
+data <- data |> 
   drop_na(x1txmtscor)
 
-df |>
+data |>
   summarize(mean(x1txmtscor))
 ```
 
--   This is kind of a table, but, when we render our Quarto document it doesn't look great
-
--   Luckily, the fix is really easy
-
-    -   First, we load the `knitr` package
-
-    -   Second, we just pipe our output into `kable()`
+- This is kind of a table, but, when we render our Quarto document it doesn't look great
+- Luckily, the fix is really easy
+  - First, we load the `knitr` package
+  - Second, we just pipe our output into `kable()`
 
 ```{r}
 library(knitr)
 
-df |>
+data |>
   summarize(mean(x1txmtscor)) |>
   kable()
 ```
 
--   `kable()` is relatively basic in terms of customization, but, it can do most things you're going to need
+- If you just run thisyou will see a bunch of `|`s and `-`s (assuming you are using the "Chunk Output in Console" option)
+  - That is markdown table
+    - Imagine writing that by hand for a medium to large size table...
+    
+\
 
--   For now, we will address the two most obvious issues with this table, the column names and the rounding (or lack thereof)
-
-    -   We just need to add two simple arguments to our `kable()`
+- `kable()`is relatively basic in terms of customization, but, it can do most things you're going to need
+  - For now, we will address the two most obvious issues with this table, the column names and the rounding (or lack thereof)
+  - We just need to add two simple arguments to our `kable()`
 
 ```{r}
-df |>
+data |>
   summarize(mean(x1txmtscor)) |>
   kable(col.names = c("Mean of Math Score"),
         digits = 2)
@@ -367,29 +387,338 @@ df |>
         -   `as_factor()` works with `haven` labeled data and gets the labels out
 
 ```{r}
-df |> 
-  group_by(as_factor(x1region), as_factor(x1sex)) |>
+data |> 
+  group_by(as_factor(x1region)) |>
   summarize(mean = mean(x1txmtscor),
             median = median(x1txmtscor),
             min = min(x1txmtscor),
             max = max(x1txmtscor)) |>
-  kable(col.names = c("Region", "Sex", "Mean", "Median", "Min", "Max"),
-        digits = 2,
-        caption = "Math Score by Region and Sex")
+  kable(col.names = c("Region", "Mean", "Median", "Min", "Max"),
+        digits = 2)
 ```
 
--   Much better!
+- Much better!
 
-## Advanced Descriptive Statistics Tables with `gtsummary`
+> #### Quick Excercise
+> 
+> 1. Create a similar table, but make the break it down by both region and sex
+> 2. Render the Quarto document
+> 3. Think is there anything else you'd want to have on this if it's a research report?
+
+
+### Figure & Table Numbering & Captioning
+
+- First, I want to note this is a little confusing at first, and you necssarily need to do this in your final reports (but it's a great habit to get into)
+- In some of the data viz lessons we added something like `title = "Math Test Scores by Sex` to our ggplot's
+  - You might expect to just change that to `title = "Figure 1: Math Test Scores by Sex`
+  - That's fine and works great if you're creating the figure to use later in Word, but there's a much better way to do it if you're using Quarto
+  
+\
+
+- If you're writing a long complicated document (_cough_ dissertation _cough_) you might have 10, 20, 30 tables and/or figures
+  - Wouldn't it be really nice if when you add a table or figure, all the numbers updated automatically?
+- Quarto's way ahead of you!
+
+\
+
+- You may have noticed in your assignemnet templates the code chunks always start with something like `#| label: 1a`
+  - This is basically giving the code chunk a name, and it's the basis of creating automatic table/figure numberin
+- All you need to do is specify two things about the chunk
+  1. You need to tell Quarto that this chunk is a table or figure
+    - You use the `#| label:` option to do this starting the label with `fig-` for figures and `tbl-` for tables
+      - For example `#| label: fig-math` for our plot
+  2. You need to tell Quarto what to use as the caption 
+    - This is `#| fig-cap:` for figures or `#| tbl-cap` for tables
+      - For example `#| fig-cap: Math Test Scores by Sex`
+- If you do those things correctly, Quarto will know that chunk creates a plot and number it for you like below
+
+```{r mathplot, echo=FALSE, purl=FALSE}
+#| label: fig-math
+#| fig-cap: Math Test Scores by Sex
+
+ggplot(data) +
+  geom_histogram(aes(x = x1txmtscor,
+                     fill = as_factor(x1sex)),
+                 alpha = 2/3,
+                 color = "black") +
+  labs(x = "Standardized Math Score",
+       fill = "Sex") + 
+  scale_fill_viridis_d(option = "magma") +
+  theme_minimal()
+
+```
+
+> #### Quick Excercise
+>
+> 1. Copy the code chunk where you made a table of math scores by sex from above
+> 2. Add the `#| label` and `#| fig-cap` as described above
+> 3. Render the report and see if your figure was automatically numbered
+
+- This is tricky, so let's do it one more time with a table (the process is very similar)
+
+> #### Quick Excercise
+>
+> 1. Copy the code chunk where you made a plot of math score descriptive statistics by region and sex
+> 2. Add an appropriate `#| label` and `#| tbl-cap`
+> 3. Render the report and see if your table was automatically numbered
+
+- If you added a figure as an image file it's even simpler as you already have a caption
+- You just turn this
+  - `![Caption](image.png)` into
+  - `![Caption](image.png){#fig-math}`
+- This will seamlessly integrate with the numbering of your chunk-created figures too
+
+\
+
+- Last thing on this
+- Now, I mentioned how annoying it can be to update the figure and table numbers if something changes and you've written them all by hand
+  - Now think about everytime you say something like "In Figure 1 I show that..."
+  - How frustrating would it be to find and edit all of those?
+- Luckily, if you've used Quarto's automatic numbering system, you can leverage that here too
+- Instead of writing in the text "In Figure 1" write `In @fig-math` (the label of chunk where the figure is made)
+  - This will not only update automatically if the numbering changes but also add a convinient hyperlink to the table or figure
+
+\
+
+- It may seem like overkill for a simple report like you will be writing at the end of this class
+- As you get into writing more complicated documents like research papers, especially something as long as your dissertation, you will be glad you got into the habit early
+  - Beyond the scope of this class, it also helps automate the process of creating lists of tables and figures, such as those required in dissertation formatting
+
+## Automatic Citations & Zotero
+
+- What's one of the most annoying things about academic writing?...
+  - That's right, citation-styling!
+- We just saw how Quarto can automatically handle numbering our figures and tables, it can also handle this for us!
+- The easiest way to do this is using Zotero, so, let's first get that set up
+
+### About Zotero
+
+- Zotero is a free and open-source (just like R) citation management tool
+- Basically, it's a library where you can save, organize, annotate, and categorize articles, books, webpages, and anything else you might want to cite
+- The earlier you start using a citation manager like Zotero, the more effective they will be
+  - As you're writing class papers you should (hopefully) be starting to write about stuff that aligns with your eventual research interests
+  - If you save these all in Zotero as you go, by the time you get to your qualifying exams, guess who already has a library of 100+ sources ready to cite? You!
+  
+  
+### Installing Zotero
+
+- Ideally you all installed Zotero before class, but in case not, [download it here](https://www.zotero.org/download/)
+  - You'll see there are two parts to Zotero, the program that runs on your computer, and the browser add on that makes saving citations so easy
+- First, install the desktop program
+- Second, get the browser connector set up
+  - For Chrome and Edge users you'll see the "Install Chrome/Edge Connector" just click that and follow the instructions
+  - For Safari the connector is bundled with the desktop program, but we have to turn it on
+    1. Open Zotero for the first time
+    2. In the top left hit “Safari” -> “Settings” -> “Extensions”
+    3. Enable the Safari Zotero Connector
+
+### Saving an Article into Zotero
+
+- Zotero is basically a library for you to store all your citations
+  - Items saved in Zotero consist of
+    - Information about the article (title, author, date, url, doi)
+    - Attachments, most often a pdf of the article
+  - When you save an item with the Zotero connector it will always pull in as much information as it can
+    - This is most effective for academic journals, but it will try for webpages
+    - You can always add/edit this later
+  - It will also try to automatically save a pdf of the article for you, but, this only work if you have access (are on the UF network or VPN), and even then it sometimes fails
+    - Again, you can simply drag and drop the pdf in place later if needs be
+    
+    
+
+- So, let's save our first article to Zotero
+  - Since it's tax season, let's go to a classic article I read my first semester of the Ph.D. and is probably the subconscious reason I use H&R Block to file taxes...
+  - [The Role of Application Assistance and Information in College Decisions: Results from the H&R Block Fafsa Experiment](https://academic.oup.com/qje/article-abstract/127/3/1205/1921970)
+
+> #### Quick Exercise 
+>
+> 1. Click on the link to the article
+> 2. Assuming you set up the Zotero web connector, use the button in your brower to save the article to Zotero
+> 3. Open Zotero to check it's there
+
+- If that worked, you should see something like this
+
+![Zotero Screenshot](site-attachments/zotero-article.png)
+- Side note: If you notice on the left of my screen, I have a lot of folders and sub-folders set up
+  - If you use Zotero, I'd strongly encourage keep related articles in sub-folders, it makes it much easier to find them
+- However, this is not a Zotero class, so now have an article in Zotero, it's time to go back to Quarto
+
+### Citing Articles in Zotero Library in Quarto
+
+- Not only is Zotero a nice way of storing articles, it's real power is automatic citation creation
+- If an article is in your Zotero main library (the default location) Quarto should automatically be able to find it
+- To make the most of automatic citations, you need to be in the visual editor
+- In the visual editor, if you simply type `@` you should see a search menu pop up through which you should be able to find any article you have saved
+  - For example, type `@bet` and you should see the article we just saved
+  - Click on it, and it will bring up another menu, which adds it to project
+  - By default this automatically
+    - Creates a file `references.bib` in your working directory
+    - Adds a line to your header saying `bibliography: references.bib`
+    - Add the article information to that
+  - This is all behind the scenes, there are things you can and may want to change later, but leave it as default for now
+    
+> #### Quick Excercise 
+> 
+> 1. In your Quarto document, go to the visual editor
+> 2. Add a citation for the Bettinger article
+> 3. Render the document and see what you think
+  
+### Using a Specific Citation Style
+
+- Did it work?
+  - It should have added a citation, but, it's not in APA format
+- To change that, we simply need to tell Quarto what style we want our citations in
+  - If you're using `format: typst` this is super easy
+    - Simply add `bibliographystyle: apa` and it will handle it from there
+  - If you're using any other format (`pdf`, `docx`, `html`, etc.) we have to give it a little more info
+    - Zotero has an [online repository of hundreds of citation styles](https://www.zotero.org/styles?q=apa)
+    - For our purposes, we just want the standard APA 7th Edition
+    - Click on "American Psychological Association 7th edition", download it, and save it in your class folder
+    - Now we have it downloaded to our class folder, we just need to add the option `csl: apa.cls` to our header
+
+> #### Quick Excercise
+> 
+> Either
+>
+> Using typst
+> 
+> 1a. Add `bibliographystyle: apa`
+>
+> Or
+>
+> Using any other format
+>
+> 1a. Make sure the apa.csl file you downloaded from Zotero's collection is in your class folder
+> 1b. Add `csl: apa.csl` to your header
+>
+> Then
+>
+> 2. Render your Quarto document
+
+Better right? What's the last thing its missing?
+
+- By default, the citations come at the end of the document
+  - You can change this pretty easily, but it's not improtant for now
+- Normally, we want the bibliography to appear on a new page with a header "References"
+- This is pretty easy to do
+  - You can add a pagebreak with ``{{< pagebreak >}}``
+  - Then simply add a level one header `# References`
+  
+> #### Quick Excercise
+> 
+> 1. Add the pagebreak and References header to get the bibliography on a new page
+
+- As a final note, most of you won't use Quarto all the time after this class, and that's okay
+  - Zotero has similar integration with Word and Google Sheets too!
+
+
+## Customizing Format & Layout
+
+- You might wondering, "how can I make the References header centered"
+- This is beyond the scope of what we can cover today
+  - For your final project, we do not expect you to customize the formatting of the report
+- That said, as I showed with examples at the start, you can make some really pretty documents using Quarto
+- The [Quarto guide website](https://quarto.org/docs/guide/) has bunch of pages on more advanced features for each format
+  - Under "Documents" select whatever format you're wanting to use
+    - For example, typst has "Typst Basics" and "Custom Formats" pages to dive into
+  - As you'll see in those documents, there are ways to use header options, preset templates, and custom-made templates to change how your document looks 
+  - If you're asking "Can I make it look like x?", the answer is almost certainly "yes", it's just a question of how easy it is...
+    - Getting a document set up in APA paper format, pretty easy (there are a bunch of templates already written)
+    - Creating a customized colorful report for your department, probably a little harder, but do-able!
+
+## Wrap-Up
+
+- We covered a lot today, but, hopefully it has shown you the potential power of Quarto 
+- We do not expect you to use all of the more advanced things we covered towards the end of the lesson in your final report, but at minimum
+  - It should be create a pdf document (either way is fine)
+  - Your report should have a title, author, and date all set using the header options
+  - You should have clear headings/sub-headings to structure your report
+  - All your tables should be actual tables using `kable()` (or similar tool, just not console-style printout)
+  - All your tables and figures should be included where they are mentioned in the text
+    - Ideally, they're numbered using Quarto's automatic numbering
+  - Where appropriate you have citations
+    - Ideally, they're created using Quarto's citation system and Zotero
+
+
+
+## Appendix I: Sourcing scripts
+
+- Somtimes, you can write all your code in the Quarto document
+  - For your final report, this will likely be fine
+- However, sometimes it's easier to write longer chunks of code in an R script and then simply run that R script to use the results
+  - This is called `source()`-ing a script
+
+
+
+- Remember, whenever Quarto renders a document, it starts from an empty environment
+  - So, if you want to read in, join, reshape, and then clean a bunch of data, you might end up with a lot of code at the start of your document
+  - A better option might be to write all that code in a separate .R file and then source it
+  - When you do this, any objects created in those scripts will then be in the environment and able to be added seamlessly to your Quarto document
+
+\
+
+- To demonstrate, let's `source()` our R script from last week's lesson
+  - There are two things that need to be right for this to work
+    1. The script has to be able to be run top to bottom with no errors
+      - Anything that creates an error needs to be `##` commented out
+        - This might be something you need to do if you added notes or changed stuff that now doesn't run
+    2. You need to know what the file is called and where it is (i.e., the file path)
+  - The we simply say `source("<file path>.R")`
+
+```{r sourcereal, echo=FALSE, include=TRUE, purl=FALSE}
+source(file.path("_site", "r-scripts", "06-viz-ii.R"))
+```
+
+```{r sourceshow, eval=FALSE, echo=TRUE, purl=TRUE}
+source("lesson-06-viz-ii.R")
+```
+
+
+> #### Quick Exercise
+>
+> 1. Add a line to your Quarto document that sources last weeks lesson
+> 2. Render the document and if you notice anything different (you shouldn't)
+
+- Now, with that script sourced, everything we made in the script is available in the Quarto document
+  - So, we can use objects we created in that script by simply using their name
+  - Remember right at the end of last week we saved our final plot to `patch` and I said why was a surprise, this is why!
+  - We simply call `patch` and our fancy patchwork will print out beneath the chunk
+    - Note, since we loaded the `patchwork` library in the script we sourced, we don't need to load it again here
+
+```{r patch}
+patch
+```
+
+- This logic is really useful to keep long streams of code out of your Quarto document
+- If you have 100s of lines of code cleaning a large dataset, it's probably best to create `data_clean` in `data-cleaning.R` and then `source("data-cleaning.R")` to be able to use `data_clean`
+
+
+## Appendix II: Advanced Descriptive Statistics Tables with `gtsummary`
 
 - Often, a simple `summarize()` and `kable()` will produce the descriptive statistics output we want
 - However, the `gtsummary` package has a `tbl_summary()` which I really like to create some more complicated/customized table
-  - In particular, I like how it can handle continuous and categorical variables differently within the same table
+  - In particular, I LOVE how it can handle continuous and categorical variables differently within the same table
+- First, let's install and load the `gtsummary` package
+
+```{r}
+#| eval: false
+install.packages("gtsummary")
+library(gtsummary)
+```
+
+```{r}
+#| include: false
+#| echo: false
+library(gtsummary)
+```
+
+
 - Let's take a look a smaller descriptive statistics table looking at Math scores and region
   - At it's most simple, we just select the columns we want to summarize and pipe `|>` into `tbl_summary()`
 
+
 ```{r}
-df |>
+data |>
   select(x1txmtscor, x1region) |>
   tbl_summary()
 ```
@@ -397,9 +726,10 @@ df |>
 - By default, you can see it provides median and interquartile range for continuous variables, and counts with percentages for categorical variables
   - This alone would be hard to produce by hand
 - Now, let's be more specific about what kind of statistics we want to see
+  - This is my personal preference for a descriptive stats table
   
 ```{r}
-df |>
+data |>
   select(x1txmtscor, x1region) |>
   tbl_summary(type = all_continuous() ~ "continuous2",
               statistic = c(all_continuous() ~ c("{mean}",
@@ -427,7 +757,7 @@ df |>
     - This will sacrifice some of the details and styling, but it's a good option if you want need simplicity/compatibility, or, just want it match other `kable()`s you already made
 
 ```{r}
-df |>
+data |>
   select(x1txmtscor, x1region) |>
   tbl_summary(type = all_continuous() ~ "continuous2",
               statistic = c(all_continuous() ~ c("{mean}",
@@ -440,16 +770,12 @@ df |>
 - There is so much more to `gtsummary` than this, we will see this package again in our [Bringing It All Together (Feat. Basic Models) Lesson](12-pro-model.qmd)
 - If you're interested in learning more check out [`gtsummary`'s reference website](https://www.danieldsjoberg.com/gtsummary/) 
 
-## Tips for Technical Writing & Citations
+## Appendix III: Automated Batch Reporting with Quarto
 
--   One of the most frustrating things in Microsoft Word is technical aspects of writing such as equations needed for quantitative research articles
-    -   By no means do you need to write equations in your project for this class, but this is something you'll need in future stats classes
--   As always, the [Quarto documentation](https://quarto.org/docs/visual-editor/technical.html) does a great job of explaining the basics of technical writing, so let's take a look!
-    -   I mentioned this above, but this page also discusses the Zotero integration in a bit more depth as well
-
-```{=html}
-<iframe width="900" height="600" src="https://quarto.org/docs/visual-editor/technical.html"></iframe>
-```
+- This is well beyond the scope of the class, but, it shows the power of Quarto
+- Imagine you work for a university system office and you need to write the same report with the same information but customized for each campus
+- Or, imagine your working on a grant funded research project and each of your participant schools wants a customized report about their own outcomes
+- Quarto has the power to produce this kind of document with a single source file, like I will show in class
 
 # Assignment
 
