@@ -341,156 +341,330 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" aria-current="page">Lesson</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">Assignment</a></li></ul>
 <div class="tab-content">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
-<p><a href="./site-attachments/assignments/assignment-06.qmd"><i class="fa-solid fa-question" aria-label="question"></i> Assignment Template (will be used through class)</a></p>
 <ul>
-<li>In this lesson, we are going to cover the basics of creating fully reproducible reports with Quarto</li>
-<li>You may have heard about RMarkdown <code>.Rmd</code> in other classes</li>
-<li>Quarto is the replacement for RMarkdown
+<li>You have been using Quarto for your assignments since the start class
 <ul>
-<li>It can do anything RMarkdown can do and a whole whole lot more!</li>
-<li>Plus, it’s easier to use!</li>
-<li>Quarto is still somewhat new (it comes with RStudio as it’s made by the same company, Posit)</li>
+<li>So, hopefully you’re getting somewhat comfortable with the way they mix code and text together</li>
 </ul></li>
+<li>In this lesson, we are going to learn a bit more about how to use Quarto including some of its powerful features</li>
 </ul>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="do">## You should have these packages already, we installed them our first lesson</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="do">## but if you're not sure, run this code just in case</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="fu">c</span>(<span class="st">"knitr"</span>, <span class="st">"rmarkdown"</span>, <span class="st">"quarto"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="what-is-quarto-and-what-can-it-do" class="level2">
+<h2 data-anchor-id="what-is-quarto-and-what-can-it-do">What Is Quarto and What Can It Do?</h2>
+<section id="quarto-vs-rmarkdown" class="level3">
+<h3 data-anchor-id="quarto-vs-rmarkdown">Quarto vs RMarkdown</h3>
+<ul>
+<li>Some of you may have heard of or used RMarkdown documents before</li>
+</ul>
+<div>
+
 </div>
-<section id="quarto-documentation" class="level2">
-<h2 data-anchor-id="quarto-documentation">Quarto Documentation</h2>
+<div class="quarto-layout-panel" data-layout-ncol="2">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="site-attachments/rmd-logo.png" class="img-fluid figure-img"></p>
+<figcaption>Rmd Logo</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="site-attachments/quarto-logo.png" class="img-fluid figure-img"></p>
+<figcaption>Quarto Logo</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
 <ul>
-<li>Quarto also comes with one of the best sets of documentation I’ve come across on their website, <a href="https://quarto.org">check it out here</a>
+<li>In short, Quarto is the new version of RMarkdown
 <ul>
-<li>Fun fact, the whole website is a massive Quarto project, which is kind of meta!</li>
+<li>See <a href="https://quarto.org/docs/faq/rmarkdown.html">this document</a> for more details</li>
+<li>The reason for the change is a little technical
+<ul>
+<li>RMarkdown is (as you might guess) tied very closely to R ‘under the hood’</li>
+<li>Quarto is free to work with a variety of languages</li>
 </ul></li>
-<li>Rather than trying to re-explain something they put so clearly, we will look to this site for guidance throughout this lesson</li>
+<li>What this means is Quarto can do everything RMarkdown can do plus A LOT more
+<ul>
+<li>For example, Quarto has a much larger <a href="https://quarto.org/docs/reference/">variety of outputs</a></li>
+</ul></li>
+<li>99% of anything that works in RMarkdown will work exactly the same in Quarto, but the same isn’t true in reverse</li>
+</ul></li>
+<li>One very nice difference between the two is a Quarto has an <a href="https://quarto.org/docs/reference/">extremely comprehensive documentation site</a>
+<ul>
+<li>Fun fact, the Quarto references website is itself a Quarto project, which is kind of meta!</li>
+</ul></li>
 </ul>
 </section>
-<section id="why-quarto-over-word" class="level2">
-<h2 data-anchor-id="why-quarto-over-word">Why Quarto over Word?</h2>
+<section id="quarto-vs-microsoft-word" class="level3">
+<h3 data-anchor-id="quarto-vs-microsoft-word">Quarto vs Microsoft Word</h3>
 <ul>
 <li><p>Up until now, you’ve likely written most of your assignments using a Microsoft Word or something similar</p></li>
-<li><p>There are a few major reasons Quarto has most replaced Word for 90% of my work</p>
+<li><p>There are a few major reasons Quarto has most replaced Word for 95% of my work</p>
 <ol type="1">
-<li>Integration with code/analysis</li>
+<li>Automatically created tables/results from code</li>
 </ol>
 <ul>
-<li>This is the main one</li>
-<li>As you’ll see in this lesson, Quarto seamlessly integrates text with code output
+<li>This is the big one, as you’ll see later in the lesson Quarto allows us to include tables and figures that are automatically created
 <ul>
-<li>So any tables and plots you create will be integrated into the report
-<ul>
-<li>No more spending hours copying your output from one screen to another and likely typing some of it wrong!</li>
+<li>No hours spent copying results into a table by hand (and possibly making a mistake)</li>
 </ul></li>
-<li>You can even have the text you type update</li>
+<li>You can even have your text update automatically if you want</li>
 </ul></li>
-<li>As a result, if when reviewing your final paper you spot an error right at the start of your analysis, as you often will (I did with my first publication), you just correct it and everything else automatically updates</li>
 </ul>
+<blockquote class="blockquote">
+<h3 id="quick-discussion">Quick Discussion</h3>
+<p>In addition to not having to type out the table in the first place, a big pro of that any changes you make in your analysis (e.g., cleaning a variable differently, including a new variable in the analysis)</p>
+<p>What kind of real-world situations do you think would help in?</p>
+</blockquote>
 <ol start="2" type="1">
-<li>Reproducibility/Transparancy</li>
+<li><p>Reproducibility &amp; transparency - By writing your document in Quarto, you see where everything in your paper comes from - This makes it much easier for someone looking to reproduce your work and/or see where you got a result from</p>
+<ul>
+<li>You should always share your analysis code, even for stuff written in Word, but writing in Quarto makes everything even more transparent</li>
+<li>We can see the code/source of any table or figure in the document, it’s much harder to fake/hide something</li>
+</ul></li>
+<li><p>Integration with Zotero for citations - We will look at this towards the end of the lesson, but, it’s a great feature!</p></li>
+<li><p>Version control with git - One of your (more challenging) extra-credit opportunitites is to use git, which is a way to track changes in your projects - Working with git basically allows you to keep a record of all the changes you save</p>
+<ul>
+<li>This means there’s no longer a need for “dissertation.docx”, “dissertation_revised.docx”, “dissertation_revised3.docx,”dissertation_final.docx”, dissertation_FINAL_revised4.docx”
+<ul>
+<li>This works much more effectively with Quarto files as they’re just plain text, which means you can see the changes, something you can’t with word</li>
+</ul></li>
+</ul></li>
+<li><p>One document, many formats! - Again, we will look at some of these in just a little bit!</p></li>
 </ol>
+</section>
+</section>
+<section id="basics-of-writing-in-quarto" class="level2">
+<h2 data-anchor-id="basics-of-writing-in-quarto">Basics of Writing in Quarto</h2>
+<p>To get started, let’s all open a totally blank Quarto file that we can build up over the lesson</p>
+<p>In RStudio go to “File” -&gt; “New File” -&gt; “Quarto Document” -&gt; “Create Empty Document” (bottom left corner)</p>
+<section id="writing-markdown" class="level3">
+<h3 data-anchor-id="writing-markdown">Writing Markdown</h3>
 <ul>
-<li>As the code and text are integrated, it makes it easier to share and reproduce your results, there’s no way someone could fake a figure/table without it being obvious</li>
-</ul>
-<ol start="3" type="1">
-<li>Zotero integration</li>
-</ol>
+<li>Markdown is a way of writing text with simple formatting options
 <ul>
-<li>The way Quarto’s visual editor integrates with Zotero on your laptop is superb, Word does integrate with Zotero as well, but it’s not as smooth</li>
-<li>Zotero is an open source reference manager
-<ul>
-<li>If you aren’t using a reference manager, you 110% should be
-<ul>
-<li>Zotero is a fantastic choice, as it’s open-source and free, <a href="https://www.zotero.org">check it out here</a></li>
-</ul></li>
-</ul></li>
-<li>If you have zotero on your computer, to cite anything in your Zotero library, you just type <code>@</code> and you can search and add any article you have saved</li>
-</ul>
-<ol start="4" type="1">
-<li>Version control with git</li>
-</ol>
-<ul>
-<li>As Quarto <code>.qmd</code> files are plain text/code files, they’re very small and work well with git for version control
-<ul>
-<li>See the <a href="./x-01-git.html">git extra credit lesson</a> for more information on git</li>
-</ul></li>
-</ul>
-<ol start="5" type="1">
-<li>One file, variety of formats</li>
-</ol>
-<ul>
-<li>Sometimes, you need to share your work in a variety of formats
-<ul>
-<li>Word and PDF is pretty easy, you can just save as…</li>
-<li>But what if you’re asked to publish your research to a website?</li>
-<li>What if you want to work on <a href="https://www.rc.ufl.edu/get-started/hipergator/">HiPerGator</a> so need your work in as <code>.ipynb</code> Jupyter Notebook?</li>
-</ul></li>
-<li>Quarto enables you to take the same work and switch formats easily and even publish to multiple formats at the same time</li>
-<li>You can also make presentations from as PowerPoint, PDF, or my new favorite, RevealJS
-<ul>
-<li>Again, if you fix a mistake, all your tables and plots will be corrected automatically, a lifesaver 2 hours before you go on stage at ASHE!</li>
-</ul></li>
+<li>For normal text, <code>just write text</code></li>
+<li>For new paragraphs, leave a blank line between text</li>
+<li>For bold text, <code>**use two astrisks around the text**</code></li>
+<li>For italic text, <code>_use underscores around the text_</code> or <code>*use one astrisk around the text*</code></li>
+<li>For headings, use # before the text for each level, e.g.&nbsp;<code># level 1 headings</code> to <code>##### level 5 headings</code></li>
+<li>For links, <code>[Type the text you want to display in square brackets](Type the link in parantheses)</code></li>
+<li>For images, <code>Type an ![Type the caption in square brackets](Type the path to the image file in parantheses)</code></li>
+<li>For lists, start a new line then use <code>1.</code> for numbered lists or <code>-</code> for bulleted lists</li>
+<li>For tables, well… There are better ways than typing out a markdown table by hand</li>
 </ul></li>
 </ul>
 </section>
-<section id="text-portions-of-a-quarto-report" class="level2">
-<h2 data-anchor-id="text-portions-of-a-quarto-report">Text Portions of a Quarto Report</h2>
+<section id="visual-editor" class="level3">
+<h3 data-anchor-id="visual-editor">Visual Editor</h3>
 <ul>
-<li>No matter how good your data viz skills are, the majority of most reports are still going to be text</li>
-<li>Text in Quarto reports is written as markdown text (that’s what the <code>md</code> part of <code>.qmd</code> stands for)</li>
-<li><a href="https://en.wikipedia.org/wiki/Markdown">Markdown</a> is a relatively simple plain text way of formatting text</li>
-<li>Quarto provide a great overview of markdown basics on their site <a href="https://quarto.org/docs/authoring/markdown-basics.html">here</a>, let’s take a look</li>
-</ul>
-<iframe width="900" height="600" src="https://quarto.org/docs/authoring/markdown-basics.html"></iframe>
-<section id="quarto-visual-editor" class="level3">
-<h3>Quarto Visual Editor</h3>
+<li>Now, lucikly for you, Quarto &amp; RStudio now have a visual editor, which makes it feel like writing in Word
 <ul>
-<li>However, Quarto also has a visual editor, which looks like a simplified Microsoft Word, with point and click options for everything
-<ul>
-<li>You can toggle between <code>source</code> and <code>visual</code> modes at the top left of any <code>.qmd</code> file in RStudio</li>
-<li>All the visual editor does is write actual markdown based on what you clicked
-<ul>
-<li>If you want to learn markdown, flipping between the two is a great way to do that</li>
+<li>If you look at the top of the document you will see “Source” and “Visual”</li>
+<li>If you toggle into “Visual” two you will see options appear at the top like <strong>B</strong> and <em>I</em> make it easy to change the text without writing the ** or _</li>
 </ul></li>
-</ul></li>
-<li>In my day to day life - If you start using Quarto on a regular basis, you’ll inevitably become familiar with markdown basics, as it is so much faster!
+<li>It’s not that one way is better than the other, I use both depending on the situation/task
 <ul>
-<li>If I’m writing extended passages of text, I usually use the visual editor (primarily for the Zotero referencing feature I metioned above)
-<ul>
-<li>If you know markdown syntax (e.g., headings, bold, etc.), you can type it into the visual editor rather than clicking on options</li>
+<li>Typically, if I’m writing more code chunks, I will be in the source mode</li>
+<li>If I’m writing longer sections of text, I will be in the visual mode (particularly for entering citations, which we will talk about later)</li>
 </ul></li>
-<li>If I’m writing, I generally prefer the source editor</li>
-</ul></li>
-<li>For this class, you should be able to use the visual editor for most of your needs, no need to learn markdown!</li>
 </ul>
 <blockquote class="blockquote">
-<h2 id="quick-excercise" data-anchor-id="quarto-visual-editor">Quick Excercise</h2>
+<h3 id="quick-excercise">Quick Excercise</h3>
+<p>Using either source or visual mode add the following to your blank Quarto file</p>
 <ol type="1">
-<li>Inside the Quarto template you downloaded at the top of the lesson write a few sentances descrbing your proposal for your reproducible report</li>
-<li>Add an appropriate header (e.g., “Introduction”)</li>
-<li>Add <strong>bold face</strong> around your dependent variable</li>
-<li>Make your data source name <em>italic</em></li>
+<li>Add a level-one heading “Data”</li>
+<li>Write a sentance or two about the data you’re using for you final project</li>
+<li>Make the source of your data (e.g., IPEDS) <em>italic</em></li>
 </ol>
 </blockquote>
 </section>
-</section>
-<section id="code-portions-of-a-quarto-document" class="level2">
-<h2 data-anchor-id="code-portions-of-a-quarto-document">Code Portions of a Quarto Document</h2>
+<section id="header-options" class="level3">
+<h3 data-anchor-id="header-options">Header Options</h3>
 <ul>
-<li>The text is all well and good, but, the real power of Quarto comes from the ability to integrate code into work</li>
-<li>There are two main ways of doing this
+<li>At the top of your Quarto document you will see two sets of <code>---</code> which is what we call the header
 <ul>
-<li>Inline code chunks</li>
-<li>Sourcing <code>.R</code> scripts</li>
+<li>This where we can control a lot of options that affect the document</li>
+<li>There are so, so, so, many options, many of which change with the format you are using</li>
+<li>Some basic ones to be aware of for now are
+<ul>
+<li><code>title:</code> kind of self-explanatory</li>
+<li><code>author:</code> again, kind of self-explanatory</li>
+<li><code>date:</code> this can take a specific date, or, “today” will use the current date when you render the document</li>
+<li><code>format</code>: this is power of Quarto, there are so many options which will be discussed next</li>
+<li><code>execute:</code> these are the default way we want code chunks to output
+<ul>
+<li><code>echo: FALSE</code> means don’t print out the code (e.g., this website and your assignments use <code>echo: TRUE</code> but your final report should use <code>echo: FALSE</code>)
+<ul>
+<li>There’s a bunch more of these options, setting them in the header makes that the default behavior for the document, you can set them at the chunk level to only apply to that chunk</li>
+<li>If you want to learn more, see <a href="https://quarto.org/docs/computations/execution-options.html">executation options documentation</a></li>
+</ul></li>
+</ul></li>
+</ul></li>
 </ul></li>
 </ul>
-<section id="inline-code-chunks" class="level3">
-<h3>Inline Code Chunks</h3>
+<blockquote class="blockquote">
+<h3 id="quick-exercise">Quick Exercise</h3>
+<ol type="1">
+<li>Change the title to something appropriate for your final report</li>
+<li>Change the author to your name</li>
+<li>Change the date so that it uses the current date whenever it is rendered</li>
+</ol>
+</blockquote>
+</section>
+<section id="output-formats" class="level3">
+<h3 data-anchor-id="output-formats">Output Formats</h3>
 <ul>
-<li>For shorter chunks of code such as printing tables and plots, or short calculations, you can create code chunks in the <code>.qmd</code> file
+<li>This is where Quarto really shines!</li>
+<li>No matter what format you want your work to be in, using Quarto you always write it using the same basic input
 <ul>
-<li>These are like you cut an <code>.R</code> script up into little pieces and put them in between text</li>
+<li>You can even publish something in multiple formats simultaniously, such as a webpage with a formatted pdf copy</li>
+<li>This can be really useful for quickly reducing a paper into a presentation for a conference, for example</li>
+</ul></li>
+<li>Again, these will all have the advantage of automatically updating/correcting tables and figures</li>
+</ul>
+<section id="format-pdf" class="level4">
+<h4 data-anchor-id="format-pdf"><code>format: pdf</code></h4>
+<ul>
+<li>So far in the class, we have had you use <code>format: pdf</code> as our output format</li>
+<li>This renders your document using something called LaTeX, a traditional academic pdf creation tool
+<ul>
+<li>LaTeX is widely used in acadmia, but, it’s not the friendliest thing to work with
+<ul>
+<li>For instance, if you want a figure/table a certain place and LaTeX doesn’t think it should go there, you have a fight on your hands</li>
+</ul></li>
+<li>LaTeX is a tool you can use directly to write academic papers too, UF dissertation office and many journal articles accept LaTeX submissions</li>
+<li>Quarto (and Rmd) write the LaTeX code for you behind the scenes, making in much easier</li>
+<li>If you’re interested in seeing what this looks like, add <code>keep-tex: true</code> to your YAML header</li>
+</ul></li>
+<li>You can see details about LaTeX options on the <a href="https://quarto.org/docs/reference/formats/pdf.html">Quarto documentation for <code>LaTeX</code> output</a></li>
+<li>As an aside, I am writing my dissertation in Quarto, having adapted UF’s LaTeX template to work with Quarto input
+<ul>
+<li>I have created a <a href="https://github.com/ttalVlatt/UF-Quarto-Dissertation">public template</a> for that which I will continue to update as I go, it should be ready by the time you are at that stage if you decide you like Quarto as much as I do!</li>
+</ul></li>
+</ul>
+<blockquote class="blockquote">
+<h4 id="quick-excercise-1">Quick Excercise</h4>
+<ol type="1">
+<li>Add what’s required to make your blank document render to a pdf (using LaTeX)</li>
+</ol>
+</blockquote>
+</section>
+<section id="format-typst" class="level4">
+<h4 data-anchor-id="format-typst"><code>format: typst</code></h4>
+<ul>
+<li>Another way of creating a pdf that came out last year is typst</li>
+<li>Similarly to LaTeX this is something you could use directly, but, Quarto can convert our markdown and tables to it automatically, which is much easier</li>
+<li>There are pros and cons of typst vs LaTeX for creating pdfs</li>
+<li>Pros
+<ul>
+<li>It’s MUCH faster, particularly once your LaTeX document has multiple figures in it, it can take minutes to render on an older/slower computer, typst is closer to instant</li>
+<li>When you want to do something (particularly advanced formatting) beyond Quarto and Markdown do, adding in raw typst code is MUCH easier than adding raw LaTeX</li>
+</ul></li>
+<li>Cons
+<ul>
+<li>New and not widely accepted, if you’re submtting the pdf itself, you’re fine, but academic journals for instance want either a docx or raw LaTeX code so they can edit the format, only a small number of journals (and none in higher ed) accept raw Typst code (yet)</li>
+<li>While it’s easier to use, and very verstile, it is not <em>quite</em> as customizable as LaTeX, particularly for meeting extra-strict formatting guidelines (like a dissertation)</li>
+</ul></li>
+<li>You can see details about typst options on the <a href="https://quarto.org/docs/reference/formats/typst.html">Quarto documentation for <code>typst</code> output</a></li>
+<li>As another aside, I’ve used typst to create a wide range of pretty looking docuemnts from <a href="https://capaldi.info/resume.pdf">my resume</a> to <a href="https://capaldi.info/recipebox">a website of recipe cards</a></li>
+</ul>
+<blockquote class="blockquote">
+<h4 id="quick-excercise-2">Quick Excercise</h4>
+<ol type="1">
+<li>Add what’s required to make your blank document render to a pdf (using typst)</li>
+</ol>
+</blockquote>
+</section>
+<section id="format-html" class="level4">
+<h4 data-anchor-id="format-html"><code>format: html</code></h4>
+<ul>
+<li><code>html</code> is the file format that web browsers read for almost every website you visit
+<ul>
+<li>You can customize html format to almost anything you want and add fancy content like interactive graphics</li>
+</ul></li>
+<li>Unfortunately, the majority of work in academia (for now at least) still relies on traditional paper-based document formats, so we can’t justify spending much time on this today</li>
+<li>If you want to learn more about <code>html</code> output, start with the Quarto documentation on <a href="https://quarto.org/docs/websites/">Quarto Websites</a> and <a href="https://quarto.org/docs/presentations/revealjs/">Reveal.js Presentations</a></li>
+<li>You can see details about HTML options on the <a href="https://quarto.org/docs/reference/formats/html.html">Quarto documentation for <code>.html</code> output</a></li>
+<li>As yet another aside, this entire website is built with Quarto as html output
+<ul>
+<li>Click on the little GitHub icon in the lower right corner of the website to see to <code>.qmd</code> files</li>
+</ul></li>
+</ul>
+<blockquote class="blockquote">
+<h4 id="quick-excercise-3">Quick Excercise</h4>
+<ol type="1">
+<li>Add what’s required to make your blank document render to an HTML web page</li>
+</ol>
+</blockquote>
+</section>
+<section id="format-docx-format-pptx" class="level4">
+<h4 data-anchor-id="format-docx-format-pptx"><code>format: docx</code> &amp; <code>format: pptx</code></h4>
+<ul>
+<li>The most flexible and compatible option is using Microsoft Office formats (<code>.docx</code> for Word and <code>.pptx</code> for PowerPoint)</li>
+<li>When you render your Quarto document, the result is a file that you can then open in Microsoft Office or send to a supervisor/advisor
+<ul>
+<li>For example, if I’m running the data analysis for a project, I can create all the plots and tables, write up the methods section, then pass to my advisor to fill in the literature sections
+<ul>
+<li>Sure, straight to <code>.pdf</code> is nice is everyone is working in Quarto, but often (sadly) they won’t be
+<ul>
+<li><code>.docx</code> is a just more practical option a lot of the time</li>
+</ul></li>
+<li>You still get a document rendered with all the tables and plots which will update if the data changes upstream</li>
+</ul></li>
+</ul></li>
+<li>Plus, in the real world, once you’ve run your analysis in R/Quarto and created the tables/plot, it can be nice to have the option to run Grammarly on it in word, or tweak one little layout feature you can’t figure out how to get right in Quarto</li>
+<li>There are unfortunately some things that just don’t work that well
+<ul>
+<li>Many formatting things are hard to get write, but, the upside is they’re usually fixable in Word after you render the document</li>
+<li>One thing that can be extremely frustrating is that to actually overwrite the Word document, you need to
+<ul>
+<li><ol type="a">
+<li>Not have the document open in Word, as Microsoft won’t let Quarto save over an open document</li>
+</ol></li>
+<li><ol start="2" type="a">
+<li>Go to background jobs and hit the stop sign icon before rendering</li>
+</ol></li>
+</ul></li>
+</ul></li>
+<li>You see details about Word options on the <a href="https://quarto.org/docs/reference/formats/docx.html">Quarto documentation for <code>.docx</code> output</a></li>
+<li>As a final aside (for now), you can customize the output format using the <code>reference-doc:</code> option
+<ul>
+<li>These take a some learning to know how to write, but it basically involves setting up styles that correspond to styles Quarto outputs your text as</li>
+<li>In case they’re useful, I have attached a couple of styles I have create and used in the past
+<ul>
+<li><a href="site-attachments/refdoc-apa7.docx">APA 7 Reference Doc</a></li>
+<li><a href="site-attachments/refdoc-ufcoe.pptx">UF CoE Presentation Reference Doc</a></li>
+</ul></li>
+</ul></li>
+</ul>
+<blockquote class="blockquote">
+<h4 id="quick-excercise-4">Quick Excercise</h4>
+<ol type="1">
+<li>Add what’s required to make your blank document render to an Word document</li>
+<li>Since you’ll be submitting a .pdf for your final report, change it back to make a pdf</li>
+</ol>
+<ul>
+<li>For those whose computer it takes more than a few seconds to render using LaTeX, I’d recommend typst, it will save you hours when editing your final report</li>
+</ul>
+</blockquote>
+</section>
+</section>
+</section>
+<section id="using-r-to-create-figures-tables-in-quarto" class="level2">
+<h2 data-anchor-id="using-r-to-create-figures-tables-in-quarto">Using R to Create Figures &amp; Tables in Quarto</h2>
+<ul>
+<li>The text is all well and good, but, the real power of Quarto comes from the ability to integrate the output of code into the document
+<ul>
+<li>The way to this is simply adding R code that creates a table or figure into the report</li>
+<li>Just like you’ve been doing in your homework assignments so far</li>
+</ul></li>
+<li>These are like you cut an <code>.R</code> script up into little pieces and put them in between text
+<ul>
 <li>They still run like one continuous <code>.R</code> script, from top to bottom
 <ul>
 <li>Anything you <code>&lt;-</code> assign in an earlier chunk will be available in later chunks</li>
@@ -499,29 +673,41 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>You can add a code chunk by clicking on the insert code button along the top, or, by keyboard shortcut
 <ul>
 <li>command + option + I on Mac</li>
-<li>ctrl + alt + I on PC
-<ul>
-<li>Once inserted, you can name chunks for <a href="https://quarto.org/docs/authoring/cross-references.html">cross-referencing</a> and <a href="https://quarto.org/docs/computations/execution-options.html">set executation options</a> to change if/how they output results, both of which are beyond the scope of this class</li>
+<li>ctrl + alt + I on PC</li>
 </ul></li>
-</ul></li>
-</ul></li>
-<li>Let’s start out by reading in data, then making a simple ggplot of math test scores
+<li><strong>Important</strong>
 <ul>
-<li>Since we want to see the results, we will just call it rather than assigning it to an object</li>
-<li>Note: We need to load packages in our quarto script every time
+<li>Quarto documents always start from a fresg R environment everytime you render them
 <ul>
-<li>Unless they are loaded by a script we source (see below)</li>
+<li>Quarto will not be able to access any data you have read in or objects you have created outside the document</li>
+<li>Any data you want to use in your code chunks needs to be read in an earlier code chunk
+<ul>
+<li>You will always need to use a <strong>relative path</strong> from where the .qmd file is saved</li>
+</ul></li>
+<li>Same goes for any packages you want to use</li>
+</ul></li>
 </ul></li>
 </ul></li>
 </ul>
+<section id="including-plots" class="level3">
+<h3 data-anchor-id="including-plots">Including Plots</h3>
+<ul>
+<li><p>You already have practice with this from the Data Visualization I &amp; II assignments, so it should be pretty familiar</p></li>
+<li><p>For practice, let’s read in our familiar hsls data and create a plot</p></li>
+<li><p>Let’s start out by reading in data, then making a simple ggplot of math test scores</p>
+<ul>
+<li>Since we want to see the results, we will just call it rather than assigning it to an object</li>
+<li>Note: We need to load packages in our quarto script every time</li>
+</ul></li>
+</ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gtsummary)</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="fu">file.path</span>(<span class="st">"data"</span>, <span class="st">"hsls-small.csv"</span>))</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> df) <span class="sc">+</span></span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> x1txmtscor))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(haven)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">read_dta</span>(<span class="st">"data/hsls-small.dta"</span>)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(data) <span class="sc">+</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="fu">aes</span>(<span class="at">x =</span> x1txmtscor))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -530,12 +716,26 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<blockquote class="blockquote">
-<h2 id="quick-excercise-1" data-anchor-id="inline-code-chunks">Quick Excercise</h2>
+<ul>
+<li>Hint: If your output is appearing in the Quarto document but you’d like to see it in the plots box like you would in a R script
 <ol type="1">
-<li>Add a new code chunk to your Quarto document</li>
-<li>Read in the <code>all-schools.csv</code> from the <code>sch-test</code> folder</li>
-<li>Make a line ggplot for math scores with colored lines for each school</li>
+<li>Click on the cog/gear icon to right of the Render button</li>
+<li>Select “Chunk Output in Console”</li>
+</ol></li>
+</ul>
+<blockquote class="blockquote">
+<h4 id="quick-excercise-5">Quick Excercise</h4>
+<p>As a review of data visualization lessons</p>
+<ol type="1">
+<li>Make it so we can see difference in math score by gender</li>
+</ol>
+<ul>
+<li>Hint: Since we are using labeled .dta data, as_factor(x1sex) will create the labels automatically</li>
+</ul>
+<ol start="2" type="1">
+<li>Add appropriate x-axis and legend labels</li>
+<li>Change to theme to your favorite</li>
+<li>Render the document to see your pdf including the plot</li>
 </ol>
 </blockquote>
 <div class="cell">
@@ -547,281 +747,97 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
+</section>
+<section id="including-plots-as-an-image" class="level3">
+<h3 data-anchor-id="including-plots-as-an-image">Including Plots as an Image</h3>
 <ul>
-<li>Okay, those are printing, but last week we put so much work into creating a pretty plot, do I really have to copy all that code?
+<li>Now, you may notice the plot looks a little different than in RStudio
 <ul>
-<li>The answer is no!</li>
+<li>Sometimes they don’t look quite as nice, particularly the layout can get cramped up</li>
+<li>Also sometimes you might create an image, plot, or figure somewhere else that you want to include</li>
 </ul></li>
+<li>To get around these issues, we can include images from a picture file</li>
 </ul>
-</section>
-</section>
-<section id="sourcing-scripts" class="level2">
-<h2 data-anchor-id="sourcing-scripts">Sourcing scripts</h2>
+<p><br>
+</p>
 <ul>
-<li>Technically, you could do everything in code chunks, from data joining and cleaning right through to analysis
+<li>First, let’s create an image
 <ul>
-<li>But, this will get really long, and make it harder to skip around and navigate the text of your document while you’re editing</li>
-</ul></li>
-<li>A better solution is to <code>source()</code> plain <code>R</code> scripts that have already been written</li>
-<li>When you do this, any objects created in those scripts will then be in the environment and able to be added seamlessly to your Quarto document</li>
-<li>To demonstrate, let’s <code>source()</code> our R script from last week’s lesson
+<li><code>ggsave()</code> is a helpful function that simply saves the last plot you made</li>
+<li>It only needs one argument, what you want to call the plot
 <ul>
-<li>There are two things that need to be right for this to work
+<li>You can also specify
 <ul>
-<li>The script has to be able to be run top to bottom with no errors
-<ul>
-<li>Anything that creates an error needs to be <code>##</code> commented out</li>
-</ul></li>
-<li>You need to know where the file is
-<ul>
-<li>In our case, because we used a slightly messy kitchen approach (see our <a href="./02-set-data.html">setup lesson on reading data</a> for a reminder) all our scripts should be in the top level of your project folder, so you should be able to source them by name
-<ul>
-<li>If they’re somewhere else, you can use <code>file.path()</code> like we use for data etc.</li>
+<li>height or width (good for complicated plots you want to save as a large image)</li>
+<li>bg for background, by default a .png will have no background, but add <code>bg = "white"</code> will put it on a white squre</li>
 </ul></li>
 </ul></li>
+<li>For now, let’s just save the plot we just made as “math-scores.png”
+<ul>
+<li>As we don’t specify any folders, it will just save it in our working directory</li>
 </ul></li>
 </ul></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"06-viz-ii.R"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="st">"math-scores.png"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ul>
-<li>Now, with that script sourced, we can call objects we created in that script, and they will appear in our Quarto document
-<ul>
-<li>For example, if we <code>source()</code> a script that joins and cleans data and leaves it assigned to an object <code>df_clean</code>, we can then call <code>df_clean</code> in a code chunk and it will be waiting</li>
-<li>Remember right at the end of last week we saved our final plot to <code>patch</code> and I said why was a surprise, this is why!
-<ul>
-<li>We simply call <code>patch</code> and our fancy patchwork will print out beneath the chunk
-<ul>
-<li>Note, since we loaded the <code>patchwork</code> library in the script we sourced, we don’t need to load it here</li>
-</ul></li>
-</ul></li>
-</ul></li>
-</ul>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>patch</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="07-quarto-intro_files/figure-html/patch-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-</div>
-<ul>
-<li>This logic is really useful to keep long streams of code out of your Quarto document</li>
-<li>You also probably have lot’s of code already written in an <code>.R</code> script, and this is much easier than copy and pasting it all</li>
+<li><p>To include an image (created in R or elsewhere) is always the same</p></li>
+<li><p>In source mode it’s <code>![Caption](image.png)</code></p></li>
+<li><p>In visual mode just click the image icon and select the file you want to add</p></li>
 </ul>
 <blockquote class="blockquote">
-<h2 id="quick-exercise">Quick Exercise</h2>
+<h4 id="quick-excercise-6">Quick Excercise</h4>
 <ol type="1">
-<li><code>source()</code> <code>04-wrangle-ii.R</code></li>
-<li>print out the data object we made called <code>data_long</code></li>
-</ol>
-</blockquote>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(data_long)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 72 × 4
-   school    test    year  score
-   &lt;chr&gt;     &lt;chr&gt;   &lt;chr&gt; &lt;dbl&gt;
- 1 Bend Gate math    1980    515
- 2 Bend Gate read    1980    281
- 3 Bend Gate science 1980    808
- 4 Bend Gate math    1981    503
- 5 Bend Gate read    1981    312
- 6 Bend Gate science 1981    814
- 7 Bend Gate math    1982    514
- 8 Bend Gate read    1982    316
- 9 Bend Gate science 1982    816
-10 Bend Gate math    1983    491
-# ℹ 62 more rows</code></pre>
-</div>
-</div>
-<ul>
-<li>That covers the basics of quarto document content! No matter what output you choose, this all stays the same!</li>
-</ul>
-</section>
-<section id="yaml-header-options" class="level2">
-<h2 data-anchor-id="yaml-header-options">YAML Header Options</h2>
-<ul>
-<li>The final thing to be aware of is the <code>YAML</code> header, that stuff at the top of the <code>.qmd</code> file</li>
-<li>In your template, I have set some basic things up that you can change
-<ul>
-<li>There are so, so, so, many options, many of which change with the format you are using</li>
-<li>Some basic ones to be aware of for now are
-<ul>
-<li><code>title:</code> kind of self-explanatory</li>
-<li><code>author:</code> again, kind of self-explanatory</li>
-<li><code>date:</code> this can take a specific date, or, it “today” will use the current date when you render the document</li>
-<li><code>editor: visual</code> defaults to the visual editor, easier for now</li>
-<li><code>editor_options:</code>
-<ul>
-<li><code>chunk_output_type: console</code> Just means that when editing the document and running code chunks, the output will appear in the console (like it always has with R scripts) rather than appearing as a preview in the script
-<ul>
-<li>This is a personal preference, feel free to play around!</li>
-</ul></li>
-</ul></li>
-<li><code>format</code>: this is power of Quarto, there are so many options which will be discussed next</li>
-<li><code>execute:</code> these are the default way we want code chunks to output
-<ul>
-<li><code>echo: FALSE</code> means don’t print out the code (e.g., this site use <code>echo: TRUE</code>)</li>
-<li><code>message: FALSE</code> means don’t print out information like when tidyverse reads in data
-<ul>
-<li>There’s a bunch more of these options, setting them in the YAML Header makes that the default behavior for the document, you can set them at the chunk level to only apply to that chunk</li>
-<li>You don’t need to alter these for this class, but if you want to learn more, see <a href="https://quarto.org/docs/computations/execution-options.html">executation options documentation</a></li>
-</ul></li>
-</ul></li>
-</ul></li>
-</ul></li>
-</ul>
-<blockquote class="blockquote">
-<h2 id="quick-exercise-1">Quick Exercise</h2>
-<ol type="1">
-<li>Change the title to something appropriate for your final report</li>
-<li>Change the author to your name</li>
+<li>Save the math score you made in the previous excercise</li>
+<li>Add the plot to your Quarto document as an image</li>
+<li>Render to get the pdf</li>
+<li>See if there are any differences between the plot you saved as an image and the one you inlcuded just through code</li>
 </ol>
 </blockquote>
 </section>
-<section id="quarto-output-formats" class="level2">
-<h2 data-anchor-id="quarto-output-formats">Quarto Output Formats</h2>
+<section id="including-tables" class="level3">
+<h3 data-anchor-id="including-tables">Including Tables</h3>
 <ul>
-<li>Quarto has so many different output formats you can choose from
-<ul>
-<li>The majority fall into three main categories
-<ul>
-<li><code>html</code></li>
-<li><code>pdf</code></li>
-<li>Microsoft Office (<code>docx</code> and <code>pptx</code>)</li>
-</ul></li>
-<li>We will mostly focus of office output for this class, but let’s do a quick overview of the others first</li>
-</ul></li>
+<li>There are multiple ways to create and include tables in your Quarto documents, but are going to focus on 3 (really 2)</li>
 </ul>
-<section id="html" class="level3">
-<h3 data-anchor-id="html"><code>html</code></h3>
+<section id="hand-written-markdown-tables" class="level4">
+<h4 data-anchor-id="hand-written-markdown-tables">Hand-Written Markdown Tables</h4>
 <ul>
-<li><code>html</code> is the file format that web browsers read for almost every website you visit
+<li>Long story short, markdown tables are a pain to write by hand
 <ul>
-<li>Fun fact: this entire website is built with Quarto as html output
-<ul>
-<li>Click on the little GitHub icon in the lower right corner to see to <code>.qmd</code> files</li>
+<li>The visual editor table tool makes this MUCH easier</li>
 </ul></li>
-<li>You can include fancy content like interactive graphics</li>
+<li>Even then, you lose some of the advantages for using Quarto
+<ul>
+<li>If it’s your results table and you hand write all the numbers, they won’t autocorrect if something changes upstream</li>
 </ul></li>
-<li>Unfortunately, the majority of work in academia (for now at least) still relies on traditional paper-based document formats, so we can’t justify spending much time on this today</li>
-<li>If you want to learn more about <code>html</code> output, start with the Quarto documentation on <a href="https://quarto.org/docs/websites/">Quarto Websites</a> and <a href="https://quarto.org/docs/presentations/revealjs/">Reveal.js Presentations</a></li>
-</ul>
-</section>
-<section id="pdf" class="level3">
-<h3 data-anchor-id="pdf"><code>pdf</code></h3>
+<li>There are limited times I would recommend using these (I believe the class syllabus is one, but I’d probably even change that if I wrote it today)
 <ul>
-<li>The first paper-based document format is straight to <code>.pdf</code></li>
-<li>Traditionally, this has been dominated by <a href="https://www.latex-project.org">LaTeX</a>
-<ul>
-<li>Students under Dr.&nbsp;Skinner’s version of the class used this</li>
-<li>Personally, I find LaTeX slow, unintuitive, and inflexible</li>
-</ul></li>
-<li>In Quarto 1.4 (the version that came out a couple of weeks ago), support for a new much more user-friendly pdf generator <a href="https://typst.app">typst</a> has been added
-<ul>
-<li>I haven’t had chance to play around with this yet, but from first impressions I’m hopefull!</li>
-</ul></li>
-<li>You can also create pdfs straight from Quarto via word using an R script like <a href="site-attachments/docx2pdf.R">this</a> which I use for the syllabus</li>
-</ul>
-</section>
-<section id="docx" class="level3">
-<h3 data-anchor-id="docx"><code>docx</code></h3>
-<ul>
-<li><code>docx</code> output is, IMHO, the best starting place</li>
-<li>When you render your Quarto document, the result is a <code>.docx</code> file that you can then open in word or send to a supervisor/advisor
-<ul>
-<li>For example, if I’m running the data analysis for a project, I can create all the plots and tables, write up the methods section, then pass to my advisor to fill in the literature sections
-<ul>
-<li>Sure, straight to <code>.pdf</code> is nice is everyone is working in Quarto, but often (sadly) they won’t be
-<ul>
-<li><code>.docx</code> is a just more practical option a lot of the time</li>
-</ul></li>
-<li>You still get a document rendered with all the tables and plots which will update if the data changes upstream</li>
-</ul></li>
-</ul></li>
-<li>Plus, even if you craft the entire document in Quarto, it can be nice to have the option to run Grammarly on it in word, or tweak one little layout feature you can’t figure out how to get right in Quarto</li>
-<li>This is the output format I’d like you to use for your reproducible reports (unless you can convince me you need a different output)
-<ul>
-<li>So let’s take a look through the <a href="https://quarto.org/docs/reference/formats/docx.html">Quarto documentation for <code>.docx</code> output</a></li>
-</ul></li>
-</ul>
-<iframe width="900" height="600" src="https://quarto.org/docs/reference/formats/docx.html"></iframe>
-<p>As I say, the Quarto documentation is fantastic, I’m not asking you to do anything beyond the default docx output for the class - But, if you want to, <code>docx</code> output is formatted by a template <code>docx</code> file, read more about those in the <a href="https://quarto.org/docs/output-formats/ms-word-templates.html">Word templates documentation</a></p>
-</section>
-</section>
-<section id="rendering-quarto-reports" class="level2">
-<h2 data-anchor-id="rendering-quarto-reports">Rendering Quarto Reports</h2>
-<ul>
-<li>To see the magic happen, we simply have to hit the “Render” button at the top of the Quarto file
-<ul>
-<li>This will go from top to bottom of our file turning the text/markdown sections into formatted text, and the code output to</li>
-</ul></li>
-</ul>
-<section id="a-common-trap-when-rendering-quarto-reports" class="level3">
-<h3 data-anchor-id="a-common-trap-when-rendering-quarto-reports">A Common Trap when Rendering Quarto Reports</h3>
-<ul>
-<li>One thing that people always get tripped up on is when something runs while editing the Quarto document, and doesn’t when rendering/running it
-<ul>
-<li>The main thing to be aware of is that when it starts to render, it will work with an entirely clean environment
-<ul>
-<li>If you have anything (a plot, a dataframe) saved in your environment you can access that when running the chunks one by one
-<ul>
-<li>When it renders, anything you call needs to created, either by <code>source()</code>-ing a script that makes it, or by making it within an earlier code chunk</li>
-<li>If you move chunks around, make sure you don’t try and call something before it’s been assigned!</li>
-</ul></li>
-</ul></li>
+<li>All you need to know is that it’s an option and the easiest way is to create it using the visual editor</li>
 </ul></li>
 </ul>
 </section>
-</section>
-<section id="basic-tables-and-kables" class="level2">
-<h2 data-anchor-id="basic-tables-and-kables">Basic Tables and <code>Kable()</code>s</h2>
+<section id="kable-written-markdown-tables" class="level4">
+<h4 data-anchor-id="kable-written-markdown-tables"><code>kable()</code>-Written Markdown Tables</h4>
 <ul>
-<li><p>One of the most common things you need when writing reports and/or papers are tables, whether than be descriptive statistics, results of a regression model, or even qualitative information about participants</p></li>
-<li><p>There are many ways of creating tables in R</p>
+<li>An infinitely better solution for many reasons is using the <code>kable()</code> function from the <code>knitr</code> library
 <ul>
-<li><p>If you want to get fancy with customization, <code>gt</code> and <code>gtsummary</code> offer more advanced customization options</p></li>
-<li><p>If you’re looking for easy and consistent output from regressions and other models <code>stargazer</code> might be what you’re looking for</p></li>
-<li><p>But for now, we will focus on basic markdown tables and <code>kable</code></p>
-<ul>
-<li><code>kableextra</code> is also an option if you want to customize <code>kable</code>s outside what the basic package allows</li>
-</ul></li>
+<li>You most likely all have this, but, just in case let’s reinstall <code>knitr</code></li>
 </ul></li>
 </ul>
-<section id="basic-markdown-tables" class="level3">
-<h3 data-anchor-id="basic-markdown-tables">Basic Markdown Tables</h3>
-<ul>
-<li><p>Basic markdown tables are somewhat like tables in word, you manually fill them in</p>
-<ul>
-<li>You could use inline code in one, but you will see why that would rarely be necessary when we look at <code>kable</code></li>
-</ul></li>
-<li><p>Before Quarto’s visual editor, making basic markdown tables was a real pain</p>
-<ul>
-<li><p>They basically involve using a series of ————, ::::, and |||| to craft a table</p>
-<ul>
-<li>If you’re interested you can see more on the <a href="https://quarto.org/docs/authoring/tables.html">Quarto table documentation</a></li>
-</ul></li>
-<li><p>With the visual editor, however, you can just click on “Table” from the drop down menu, and write out the contents of your table</p></li>
-</ul></li>
-<li><p>This is great for certain things, such as a table where we describe something qualitatively, such as syllabus for this class (which uses a markdown table).</p></li>
-</ul>
-</section>
-<section id="tables-from-data-frames-with-kable" class="level3">
-<h3 data-anchor-id="tables-from-data-frames-with-kable">Tables from data frames with <code>kable</code></h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"knitr"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 <ul>
 <li>So far in this class, there have been plenty of times we have used tables to answer questions, when we have had them print out the console, e.g.</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Read in using .dta so we have nice labels</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> haven<span class="sc">::</span><span class="fu">read_dta</span>(<span class="st">"data/hsls-small.dta"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>(x1txmtscor)</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span></span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="fu">mean</span>(x1txmtscor))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> data <span class="sc">|&gt;</span> </span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>(x1txmtscor)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>data <span class="sc">|&gt;</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="fu">mean</span>(x1txmtscor))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1 × 1
   `mean(x1txmtscor)`
@@ -830,19 +846,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <ul>
-<li><p>This is kind of a table, but, when we render our Quarto document it doesn’t look great</p></li>
-<li><p>Luckily, the fix is really easy</p>
+<li>This is kind of a table, but, when we render our Quarto document it doesn’t look great</li>
+<li>Luckily, the fix is really easy
 <ul>
-<li><p>First, we load the <code>knitr</code> package</p></li>
-<li><p>Second, we just pipe our output into <code>kable()</code></p></li>
+<li>First, we load the <code>knitr</code> package</li>
+<li>Second, we just pipe our output into <code>kable()</code></li>
 </ul></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(knitr)</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="fu">mean</span>(x1txmtscor)) <span class="sc">|&gt;</span></span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(knitr)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>data <span class="sc">|&gt;</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="fu">mean</span>(x1txmtscor)) <span class="sc">|&gt;</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
 <thead>
@@ -859,17 +875,28 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <ul>
-<li><p><code>kable()</code> is relatively basic in terms of customization, but, it can do most things you’re going to need</p></li>
-<li><p>For now, we will address the two most obvious issues with this table, the column names and the rounding (or lack thereof)</p>
+<li>If you just run thisyou will see a bunch of <code>|</code>s and <code>-</code>s (assuming you are using the “Chunk Output in Console” option)
 <ul>
+<li>That is markdown table
+<ul>
+<li>Imagine writing that by hand for a medium to large size table…</li>
+</ul></li>
+</ul></li>
+</ul>
+<p><br>
+</p>
+<ul>
+<li><code>kable()</code>is relatively basic in terms of customization, but, it can do most things you’re going to need
+<ul>
+<li>For now, we will address the two most obvious issues with this table, the column names and the rounding (or lack thereof)</li>
 <li>We just need to add two simple arguments to our <code>kable()</code></li>
 </ul></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="fu">mean</span>(x1txmtscor)) <span class="sc">|&gt;</span></span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>(<span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">"Mean of Math Score"</span>),</span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">digits =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>data <span class="sc">|&gt;</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="fu">mean</span>(x1txmtscor)) <span class="sc">|&gt;</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>(<span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">"Mean of Math Score"</span>),</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">digits =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
 <thead>
@@ -896,22 +923,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span> </span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(<span class="fu">as_factor</span>(x1region), <span class="fu">as_factor</span>(x1sex)) <span class="sc">|&gt;</span></span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">mean =</span> <span class="fu">mean</span>(x1txmtscor),</span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">median =</span> <span class="fu">median</span>(x1txmtscor),</span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>            <span class="at">min =</span> <span class="fu">min</span>(x1txmtscor),</span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>            <span class="at">max =</span> <span class="fu">max</span>(x1txmtscor)) <span class="sc">|&gt;</span></span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>(<span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">"Region"</span>, <span class="st">"Sex"</span>, <span class="st">"Mean"</span>, <span class="st">"Median"</span>, <span class="st">"Min"</span>, <span class="st">"Max"</span>),</span>
-<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>        <span class="at">digits =</span> <span class="dv">2</span>,</span>
-<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>        <span class="at">caption =</span> <span class="st">"Math Score by Region and Sex"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>data <span class="sc">|&gt;</span> </span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(<span class="fu">as_factor</span>(x1region)) <span class="sc">|&gt;</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">mean =</span> <span class="fu">mean</span>(x1txmtscor),</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">median =</span> <span class="fu">median</span>(x1txmtscor),</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>            <span class="at">min =</span> <span class="fu">min</span>(x1txmtscor),</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>            <span class="at">max =</span> <span class="fu">max</span>(x1txmtscor)) <span class="sc">|&gt;</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>(<span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">"Region"</span>, <span class="st">"Mean"</span>, <span class="st">"Median"</span>, <span class="st">"Min"</span>, <span class="st">"Max"</span>),</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>        <span class="at">digits =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
-<caption>Math Score by Region and Sex</caption>
 <thead>
 <tr class="header">
 <th style="text-align: left;">Region</th>
-<th style="text-align: left;">Sex</th>
 <th style="text-align: right;">Mean</th>
 <th style="text-align: right;">Median</th>
 <th style="text-align: right;">Min</th>
@@ -921,67 +945,31 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">Northeast</td>
-<td style="text-align: left;">Male</td>
-<td style="text-align: right;">52.13</td>
-<td style="text-align: right;">51.97</td>
+<td style="text-align: right;">52.17</td>
+<td style="text-align: right;">51.99</td>
 <td style="text-align: right;">24.9468</td>
 <td style="text-align: right;">82.1876</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">Northeast</td>
-<td style="text-align: left;">Female</td>
-<td style="text-align: right;">52.22</td>
-<td style="text-align: right;">52.00</td>
-<td style="text-align: right;">25.5304</td>
-<td style="text-align: right;">78.9298</td>
-</tr>
-<tr class="odd">
 <td style="text-align: left;">Midwest</td>
-<td style="text-align: left;">Male</td>
 <td style="text-align: right;">51.23</td>
-<td style="text-align: right;">51.18</td>
+<td style="text-align: right;">51.07</td>
 <td style="text-align: right;">24.0999</td>
-<td style="text-align: right;">82.1876</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Midwest</td>
-<td style="text-align: left;">Female</td>
-<td style="text-align: right;">51.22</td>
-<td style="text-align: right;">50.94</td>
-<td style="text-align: right;">24.7966</td>
 <td style="text-align: right;">82.1876</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">South</td>
-<td style="text-align: left;">Male</td>
-<td style="text-align: right;">51.01</td>
-<td style="text-align: right;">51.02</td>
+<td style="text-align: right;">51.04</td>
+<td style="text-align: right;">50.95</td>
 <td style="text-align: right;">24.0180</td>
 <td style="text-align: right;">82.1876</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">South</td>
-<td style="text-align: left;">Female</td>
-<td style="text-align: right;">51.07</td>
-<td style="text-align: right;">50.86</td>
-<td style="text-align: right;">24.5797</td>
-<td style="text-align: right;">81.0926</td>
-</tr>
-<tr class="odd">
 <td style="text-align: left;">West</td>
-<td style="text-align: left;">Male</td>
-<td style="text-align: right;">50.04</td>
-<td style="text-align: right;">49.80</td>
+<td style="text-align: right;">50.15</td>
+<td style="text-align: right;">49.95</td>
 <td style="text-align: right;">24.0744</td>
 <td style="text-align: right;">82.1876</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">West</td>
-<td style="text-align: left;">Female</td>
-<td style="text-align: right;">50.26</td>
-<td style="text-align: right;">50.19</td>
-<td style="text-align: right;">25.0437</td>
-<td style="text-align: right;">78.9298</td>
 </tr>
 </tbody>
 </table>
@@ -990,43 +978,464 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <ul>
 <li>Much better!</li>
 </ul>
+<blockquote class="blockquote">
+<h4 id="quick-excercise-7">Quick Excercise</h4>
+<ol type="1">
+<li>Create a similar table, but make the break it down by both region and sex</li>
+<li>Render the Quarto document</li>
+<li>Think is there anything else you’d want to have on this if it’s a research report?</li>
+</ol>
+</blockquote>
 </section>
 </section>
-<section id="advanced-descriptive-statistics-tables-with-gtsummary" class="level2">
-<h2 data-anchor-id="advanced-descriptive-statistics-tables-with-gtsummary">Advanced Descriptive Statistics Tables with <code>gtsummary</code></h2>
+<section id="figure-table-numbering-captioning" class="level3">
+<h3 data-anchor-id="figure-table-numbering-captioning">Figure &amp; Table Numbering &amp; Captioning</h3>
+<ul>
+<li>First, I want to note this is a little confusing at first, and you necssarily need to do this in your final reports (but it’s a great habit to get into)</li>
+<li>In some of the data viz lessons we added something like <code>title = "Math Test Scores by Sex</code> to our ggplot’s
+<ul>
+<li>You might expect to just change that to <code>title = "Figure 1: Math Test Scores by Sex</code></li>
+<li>That’s fine and works great if you’re creating the figure to use later in Word, but there’s a much better way to do it if you’re using Quarto</li>
+</ul></li>
+</ul>
+<p><br>
+</p>
+<ul>
+<li>If you’re writing a long complicated document (<em>cough</em> dissertation <em>cough</em>) you might have 10, 20, 30 tables and/or figures
+<ul>
+<li>Wouldn’t it be really nice if when you add a table or figure, all the numbers updated automatically?</li>
+</ul></li>
+<li>Quarto’s way ahead of you!</li>
+</ul>
+<p><br>
+</p>
+<ul>
+<li>You may have noticed in your assignemnet templates the code chunks always start with something like <code>#| label: 1a</code>
+<ul>
+<li>This is basically giving the code chunk a name, and it’s the basis of creating automatic table/figure numberin</li>
+</ul></li>
+<li>All you need to do is specify two things about the chunk
+<ol type="1">
+<li>You need to tell Quarto that this chunk is a table or figure</li>
+</ol>
+<ul>
+<li>You use the <code>#| label:</code> option to do this starting the label with <code>fig-</code> for figures and <code>tbl-</code> for tables
+<ul>
+<li>For example <code>#| label: fig-math</code> for our plot</li>
+</ul></li>
+</ul>
+<ol start="2" type="1">
+<li>You need to tell Quarto what to use as the caption</li>
+</ol>
+<ul>
+<li>This is <code>#| fig-cap:</code> for figures or <code>#| tbl-cap</code> for tables
+<ul>
+<li>For example <code>#| fig-cap: Math Test Scores by Sex</code></li>
+</ul></li>
+</ul></li>
+<li>If you do those things correctly, Quarto will know that chunk creates a plot and number it for you like below</li>
+</ul>
+<div class="cell">
+<div class="cell-output-display">
+<div id="fig-math" class="quarto-float quarto-figure quarto-figure-center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-math-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="07-quarto-intro_files/figure-html/fig-math-1.png" class="img-fluid figure-img" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-math-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: Math Test Scores by Sex
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<blockquote class="blockquote">
+<h4 id="quick-excercise-8">Quick Excercise</h4>
+<ol type="1">
+<li>Copy the code chunk where you made a table of math scores by sex from above</li>
+<li>Add the <code>#| label</code> and <code>#| fig-cap</code> as described above</li>
+<li>Render the report and see if your figure was automatically numbered</li>
+</ol>
+</blockquote>
+<ul>
+<li>This is tricky, so let’s do it one more time with a table (the process is very similar)</li>
+</ul>
+<blockquote class="blockquote">
+<h4 id="quick-excercise-9">Quick Excercise</h4>
+<ol type="1">
+<li>Copy the code chunk where you made a plot of math score descriptive statistics by region and sex</li>
+<li>Add an appropriate <code>#| label</code> and <code>#| tbl-cap</code></li>
+<li>Render the report and see if your table was automatically numbered</li>
+</ol>
+</blockquote>
+<ul>
+<li>If you added a figure as an image file it’s even simpler as you already have a caption</li>
+<li>You just turn this
+<ul>
+<li><code>![Caption](image.png)</code> into</li>
+<li><code>![Caption](image.png){#fig-math}</code></li>
+</ul></li>
+<li>This will seamlessly integrate with the numbering of your chunk-created figures too</li>
+</ul>
+<p><br>
+</p>
+<ul>
+<li>Last thing on this</li>
+<li>Now, I mentioned how annoying it can be to update the figure and table numbers if something changes and you’ve written them all by hand
+<ul>
+<li>Now think about everytime you say something like “In Figure 1 I show that…”</li>
+<li>How frustrating would it be to find and edit all of those?</li>
+</ul></li>
+<li>Luckily, if you’ve used Quarto’s automatic numbering system, you can leverage that here too</li>
+<li>Instead of writing in the text “In Figure 1” write <code>In @fig-math</code> (the label of chunk where the figure is made)
+<ul>
+<li>This will not only update automatically if the numbering changes but also add a convinient hyperlink to the table or figure</li>
+</ul></li>
+</ul>
+<p><br>
+</p>
+<ul>
+<li>It may seem like overkill for a simple report like you will be writing at the end of this class</li>
+<li>As you get into writing more complicated documents like research papers, especially something as long as your dissertation, you will be glad you got into the habit early
+<ul>
+<li>Beyond the scope of this class, it also helps automate the process of creating lists of tables and figures, such as those required in dissertation formatting</li>
+</ul></li>
+</ul>
+</section>
+</section>
+<section id="automatic-citations-zotero" class="level2">
+<h2 data-anchor-id="automatic-citations-zotero">Automatic Citations &amp; Zotero</h2>
+<ul>
+<li>What’s one of the most annoying things about academic writing?…
+<ul>
+<li>That’s right, citation-styling!</li>
+</ul></li>
+<li>We just saw how Quarto can automatically handle numbering our figures and tables, it can also handle this for us!</li>
+<li>The easiest way to do this is using Zotero, so, let’s first get that set up</li>
+</ul>
+<section id="about-zotero" class="level3">
+<h3 data-anchor-id="about-zotero">About Zotero</h3>
+<ul>
+<li>Zotero is a free and open-source (just like R) citation management tool</li>
+<li>Basically, it’s a library where you can save, organize, annotate, and categorize articles, books, webpages, and anything else you might want to cite</li>
+<li>The earlier you start using a citation manager like Zotero, the more effective they will be
+<ul>
+<li>As you’re writing class papers you should (hopefully) be starting to write about stuff that aligns with your eventual research interests</li>
+<li>If you save these all in Zotero as you go, by the time you get to your qualifying exams, guess who already has a library of 100+ sources ready to cite? You!</li>
+</ul></li>
+</ul>
+</section>
+<section id="installing-zotero" class="level3">
+<h3 data-anchor-id="installing-zotero">Installing Zotero</h3>
+<ul>
+<li>Ideally you all installed Zotero before class, but in case not, <a href="https://www.zotero.org/download/">download it here</a>
+<ul>
+<li>You’ll see there are two parts to Zotero, the program that runs on your computer, and the browser add on that makes saving citations so easy</li>
+</ul></li>
+<li>First, install the desktop program</li>
+<li>Second, get the browser connector set up
+<ul>
+<li>For Chrome and Edge users you’ll see the “Install Chrome/Edge Connector” just click that and follow the instructions</li>
+<li>For Safari the connector is bundled with the desktop program, but we have to turn it on
+<ol type="1">
+<li>Open Zotero for the first time</li>
+<li>In the top left hit “Safari” -&gt; “Settings” -&gt; “Extensions”</li>
+<li>Enable the Safari Zotero Connector</li>
+</ol></li>
+</ul></li>
+</ul>
+</section>
+<section id="saving-an-article-into-zotero" class="level3">
+<h3 data-anchor-id="saving-an-article-into-zotero">Saving an Article into Zotero</h3>
+<ul>
+<li>Zotero is basically a library for you to store all your citations
+<ul>
+<li>Items saved in Zotero consist of
+<ul>
+<li>Information about the article (title, author, date, url, doi)</li>
+<li>Attachments, most often a pdf of the article</li>
+</ul></li>
+<li>When you save an item with the Zotero connector it will always pull in as much information as it can
+<ul>
+<li>This is most effective for academic journals, but it will try for webpages</li>
+<li>You can always add/edit this later</li>
+</ul></li>
+<li>It will also try to automatically save a pdf of the article for you, but, this only work if you have access (are on the UF network or VPN), and even then it sometimes fails
+<ul>
+<li>Again, you can simply drag and drop the pdf in place later if needs be</li>
+</ul></li>
+</ul></li>
+<li>So, let’s save our first article to Zotero
+<ul>
+<li>Since it’s tax season, let’s go to a classic article I read my first semester of the Ph.D.&nbsp;and is probably the subconscious reason I use H&amp;R Block to file taxes…</li>
+<li><a href="https://academic.oup.com/qje/article-abstract/127/3/1205/1921970">The Role of Application Assistance and Information in College Decisions: Results from the H&amp;R Block Fafsa Experiment</a></li>
+</ul></li>
+</ul>
+<blockquote class="blockquote">
+<h4 id="quick-exercise-1">Quick Exercise</h4>
+<ol type="1">
+<li>Click on the link to the article</li>
+<li>Assuming you set up the Zotero web connector, use the button in your brower to save the article to Zotero</li>
+<li>Open Zotero to check it’s there</li>
+</ol>
+</blockquote>
+<ul>
+<li>If that worked, you should see something like this</li>
+</ul>
+<p><img src="site-attachments/zotero-article.png" class="img-fluid" alt="Zotero Screenshot"> - Side note: If you notice on the left of my screen, I have a lot of folders and sub-folders set up - If you use Zotero, I’d strongly encourage keep related articles in sub-folders, it makes it much easier to find them - However, this is not a Zotero class, so now have an article in Zotero, it’s time to go back to Quarto</p>
+</section>
+<section id="citing-articles-in-zotero-library-in-quarto" class="level3">
+<h3 data-anchor-id="citing-articles-in-zotero-library-in-quarto">Citing Articles in Zotero Library in Quarto</h3>
+<ul>
+<li>Not only is Zotero a nice way of storing articles, it’s real power is automatic citation creation</li>
+<li>If an article is in your Zotero main library (the default location) Quarto should automatically be able to find it</li>
+<li>To make the most of automatic citations, you need to be in the visual editor</li>
+<li>In the visual editor, if you simply type <code>@</code> you should see a search menu pop up through which you should be able to find any article you have saved
+<ul>
+<li>For example, type <code>@bet</code> and you should see the article we just saved</li>
+<li>Click on it, and it will bring up another menu, which adds it to project</li>
+<li>By default this automatically
+<ul>
+<li>Creates a file <code>references.bib</code> in your working directory</li>
+<li>Adds a line to your header saying <code>bibliography: references.bib</code></li>
+<li>Add the article information to that</li>
+</ul></li>
+<li>This is all behind the scenes, there are things you can and may want to change later, but leave it as default for now</li>
+</ul></li>
+</ul>
+<blockquote class="blockquote">
+<h4 id="quick-excercise-10">Quick Excercise</h4>
+<ol type="1">
+<li>In your Quarto document, go to the visual editor</li>
+<li>Add a citation for the Bettinger article</li>
+<li>Render the document and see what you think</li>
+</ol>
+</blockquote>
+</section>
+<section id="using-a-specific-citation-style" class="level3">
+<h3 data-anchor-id="using-a-specific-citation-style">Using a Specific Citation Style</h3>
+<ul>
+<li>Did it work?
+<ul>
+<li>It should have added a citation, but, it’s not in APA format</li>
+</ul></li>
+<li>To change that, we simply need to tell Quarto what style we want our citations in
+<ul>
+<li>If you’re using <code>format: typst</code> this is super easy
+<ul>
+<li>Simply add <code>bibliographystyle: apa</code> and it will handle it from there</li>
+</ul></li>
+<li>If you’re using any other format (<code>pdf</code>, <code>docx</code>, <code>html</code>, etc.) we have to give it a little more info
+<ul>
+<li>Zotero has an <a href="https://www.zotero.org/styles?q=apa">online repository of hundreds of citation styles</a></li>
+<li>For our purposes, we just want the standard APA 7th Edition</li>
+<li>Click on “American Psychological Association 7th edition”, download it, and save it in your class folder</li>
+<li>Now we have it downloaded to our class folder, we just need to add the option <code>csl: apa.cls</code> to our header</li>
+</ul></li>
+</ul></li>
+</ul>
+<blockquote class="blockquote">
+<h4 id="quick-excercise-11">Quick Excercise</h4>
+<p>Either</p>
+<p>Using typst</p>
+<p>1a. Add <code>bibliographystyle: apa</code></p>
+<p>Or</p>
+<p>Using any other format</p>
+<p>1a. Make sure the apa.csl file you downloaded from Zotero’s collection is in your class folder 1b. Add <code>csl: apa.csl</code> to your header</p>
+<p>Then</p>
+<ol start="2" type="1">
+<li>Render your Quarto document</li>
+</ol>
+</blockquote>
+<p>Better right? What’s the last thing its missing?</p>
+<ul>
+<li>By default, the citations come at the end of the document
+<ul>
+<li>You can change this pretty easily, but it’s not improtant for now</li>
+</ul></li>
+<li>Normally, we want the bibliography to appear on a new page with a header “References”</li>
+<li>This is pretty easy to do
+<ul>
+<li>You can add a pagebreak with <code></code></li>
+<li>Then simply add a level one header <code># References</code></li>
+</ul></li>
+</ul>
+<blockquote class="blockquote">
+<h4 id="quick-excercise-12">Quick Excercise</h4>
+<ol type="1">
+<li>Add the pagebreak and References header to get the bibliography on a new page</li>
+</ol>
+</blockquote>
+<ul>
+<li>As a final note, most of you won’t use Quarto all the time after this class, and that’s okay
+<ul>
+<li>Zotero has similar integration with Word and Google Sheets too!</li>
+</ul></li>
+</ul>
+</section>
+</section>
+<section id="customizing-format-layout" class="level2">
+<h2 data-anchor-id="customizing-format-layout">Customizing Format &amp; Layout</h2>
+<ul>
+<li>You might wondering, “how can I make the References header centered”</li>
+<li>This is beyond the scope of what we can cover today
+<ul>
+<li>For your final project, we do not expect you to customize the formatting of the report</li>
+</ul></li>
+<li>That said, as I showed with examples at the start, you can make some really pretty documents using Quarto</li>
+<li>The <a href="https://quarto.org/docs/guide/">Quarto guide website</a> has bunch of pages on more advanced features for each format
+<ul>
+<li>Under “Documents” select whatever format you’re wanting to use
+<ul>
+<li>For example, typst has “Typst Basics” and “Custom Formats” pages to dive into</li>
+</ul></li>
+<li>As you’ll see in those documents, there are ways to use header options, preset templates, and custom-made templates to change how your document looks</li>
+<li>If you’re asking “Can I make it look like x?”, the answer is almost certainly “yes”, it’s just a question of how easy it is…
+<ul>
+<li>Getting a document set up in APA paper format, pretty easy (there are a bunch of templates already written)</li>
+<li>Creating a customized colorful report for your department, probably a little harder, but do-able!</li>
+</ul></li>
+</ul></li>
+</ul>
+</section>
+<section id="wrap-up" class="level2">
+<h2 data-anchor-id="wrap-up">Wrap-Up</h2>
+<ul>
+<li>We covered a lot today, but, hopefully it has shown you the potential power of Quarto</li>
+<li>We do not expect you to use all of the more advanced things we covered towards the end of the lesson in your final report, but at minimum
+<ul>
+<li>It should be create a pdf document (either way is fine)</li>
+<li>Your report should have a title, author, and date all set using the header options</li>
+<li>You should have clear headings/sub-headings to structure your report</li>
+<li>All your tables should be actual tables using <code>kable()</code> (or similar tool, just not console-style printout)</li>
+<li>All your tables and figures should be included where they are mentioned in the text
+<ul>
+<li>Ideally, they’re numbered using Quarto’s automatic numbering</li>
+</ul></li>
+<li>Where appropriate you have citations
+<ul>
+<li>Ideally, they’re created using Quarto’s citation system and Zotero</li>
+</ul></li>
+</ul></li>
+</ul>
+</section>
+<section id="appendix-i-sourcing-scripts" class="level2">
+<h2 data-anchor-id="appendix-i-sourcing-scripts">Appendix I: Sourcing scripts</h2>
+<ul>
+<li>Somtimes, you can write all your code in the Quarto document
+<ul>
+<li>For your final report, this will likely be fine</li>
+</ul></li>
+<li>However, sometimes it’s easier to write longer chunks of code in an R script and then simply run that R script to use the results
+<ul>
+<li>This is called <code>source()</code>-ing a script</li>
+</ul></li>
+<li>Remember, whenever Quarto renders a document, it starts from an empty environment
+<ul>
+<li>So, if you want to read in, join, reshape, and then clean a bunch of data, you might end up with a lot of code at the start of your document</li>
+<li>A better option might be to write all that code in a separate .R file and then source it</li>
+<li>When you do this, any objects created in those scripts will then be in the environment and able to be added seamlessly to your Quarto document</li>
+</ul></li>
+</ul>
+<p><br>
+</p>
+<ul>
+<li>To demonstrate, let’s <code>source()</code> our R script from last week’s lesson
+<ul>
+<li>There are two things that need to be right for this to work
+<ol type="1">
+<li>The script has to be able to be run top to bottom with no errors</li>
+</ol>
+<ul>
+<li>Anything that creates an error needs to be <code>##</code> commented out
+<ul>
+<li>This might be something you need to do if you added notes or changed stuff that now doesn’t run</li>
+</ul></li>
+</ul>
+<ol start="2" type="1">
+<li>You need to know what the file is called and where it is (i.e., the file path)</li>
+</ol></li>
+<li>The we simply say <code>source("&lt;file path&gt;.R")</code></li>
+</ul></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"lesson-06-viz-ii.R"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<blockquote class="blockquote">
+<h4 id="quick-exercise-2">Quick Exercise</h4>
+<ol type="1">
+<li>Add a line to your Quarto document that sources last weeks lesson</li>
+<li>Render the document and if you notice anything different (you shouldn’t)</li>
+</ol>
+</blockquote>
+<ul>
+<li>Now, with that script sourced, everything we made in the script is available in the Quarto document
+<ul>
+<li>So, we can use objects we created in that script by simply using their name</li>
+<li>Remember right at the end of last week we saved our final plot to <code>patch</code> and I said why was a surprise, this is why!</li>
+<li>We simply call <code>patch</code> and our fancy patchwork will print out beneath the chunk
+<ul>
+<li>Note, since we loaded the <code>patchwork</code> library in the script we sourced, we don’t need to load it again here</li>
+</ul></li>
+</ul></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>patch</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="07-quarto-intro_files/figure-html/patch-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<ul>
+<li>This logic is really useful to keep long streams of code out of your Quarto document</li>
+<li>If you have 100s of lines of code cleaning a large dataset, it’s probably best to create <code>data_clean</code> in <code>data-cleaning.R</code> and then <code>source("data-cleaning.R")</code> to be able to use <code>data_clean</code></li>
+</ul>
+</section>
+<section id="appendix-ii-advanced-descriptive-statistics-tables-with-gtsummary" class="level2">
+<h2 data-anchor-id="appendix-ii-advanced-descriptive-statistics-tables-with-gtsummary">Appendix II: Advanced Descriptive Statistics Tables with <code>gtsummary</code></h2>
 <ul>
 <li>Often, a simple <code>summarize()</code> and <code>kable()</code> will produce the descriptive statistics output we want</li>
 <li>However, the <code>gtsummary</code> package has a <code>tbl_summary()</code> which I really like to create some more complicated/customized table
 <ul>
-<li>In particular, I like how it can handle continuous and categorical variables differently within the same table</li>
+<li>In particular, I LOVE how it can handle continuous and categorical variables differently within the same table</li>
 </ul></li>
+<li>First, let’s install and load the <code>gtsummary</code> package</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"gtsummary"</span>)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gtsummary)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
 <li>Let’s take a look a smaller descriptive statistics table looking at Math scores and region
 <ul>
 <li>At it’s most simple, we just select the columns we want to summarize and pipe <code>|&gt;</code> into <code>tbl_summary()</code></li>
 </ul></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span></span>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>data <span class="sc">|&gt;</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(x1txmtscor, x1region) <span class="sc">|&gt;</span></span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tbl_summary</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div id="ibfqmzkhja" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#ibfqmzkhja table {
+<div id="ouwsbooqpf" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#ouwsbooqpf table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#ibfqmzkhja thead, #ibfqmzkhja tbody, #ibfqmzkhja tfoot, #ibfqmzkhja tr, #ibfqmzkhja td, #ibfqmzkhja th {
+#ouwsbooqpf thead, #ouwsbooqpf tbody, #ouwsbooqpf tfoot, #ouwsbooqpf tr, #ouwsbooqpf td, #ouwsbooqpf th {
   border-style: none;
 }
 
-#ibfqmzkhja p {
+#ouwsbooqpf p {
   margin: 0;
   padding: 0;
 }
 
-#ibfqmzkhja .gt_table {
+#ouwsbooqpf .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -1052,12 +1461,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-left-color: #D3D3D3;
 }
 
-#ibfqmzkhja .gt_caption {
+#ouwsbooqpf .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#ibfqmzkhja .gt_title {
+#ouwsbooqpf .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1069,7 +1478,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-width: 0;
 }
 
-#ibfqmzkhja .gt_subtitle {
+#ouwsbooqpf .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1081,7 +1490,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-top-width: 0;
 }
 
-#ibfqmzkhja .gt_heading {
+#ouwsbooqpf .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1093,13 +1502,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#ibfqmzkhja .gt_bottom_border {
+#ouwsbooqpf .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#ibfqmzkhja .gt_col_headings {
+#ouwsbooqpf .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1114,7 +1523,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#ibfqmzkhja .gt_col_heading {
+#ouwsbooqpf .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1134,7 +1543,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   overflow-x: hidden;
 }
 
-#ibfqmzkhja .gt_column_spanner_outer {
+#ouwsbooqpf .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1146,15 +1555,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 4px;
 }
 
-#ibfqmzkhja .gt_column_spanner_outer:first-child {
+#ouwsbooqpf .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#ibfqmzkhja .gt_column_spanner_outer:last-child {
+#ouwsbooqpf .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#ibfqmzkhja .gt_column_spanner {
+#ouwsbooqpf .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1166,11 +1575,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   width: 100%;
 }
 
-#ibfqmzkhja .gt_spanner_row {
+#ouwsbooqpf .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#ibfqmzkhja .gt_group_heading {
+#ouwsbooqpf .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1196,7 +1605,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   text-align: left;
 }
 
-#ibfqmzkhja .gt_empty_group_heading {
+#ouwsbooqpf .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1211,15 +1620,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   vertical-align: middle;
 }
 
-#ibfqmzkhja .gt_from_md > :first-child {
+#ouwsbooqpf .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#ibfqmzkhja .gt_from_md > :last-child {
+#ouwsbooqpf .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#ibfqmzkhja .gt_row {
+#ouwsbooqpf .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1238,7 +1647,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   overflow-x: hidden;
 }
 
-#ibfqmzkhja .gt_stub {
+#ouwsbooqpf .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1251,7 +1660,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#ibfqmzkhja .gt_stub_row_group {
+#ouwsbooqpf .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1265,15 +1674,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   vertical-align: top;
 }
 
-#ibfqmzkhja .gt_row_group_first td {
+#ouwsbooqpf .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#ibfqmzkhja .gt_row_group_first th {
+#ouwsbooqpf .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#ibfqmzkhja .gt_summary_row {
+#ouwsbooqpf .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1283,16 +1692,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#ibfqmzkhja .gt_first_summary_row {
+#ouwsbooqpf .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#ibfqmzkhja .gt_first_summary_row.thick {
+#ouwsbooqpf .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#ibfqmzkhja .gt_last_summary_row {
+#ouwsbooqpf .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1302,7 +1711,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-color: #D3D3D3;
 }
 
-#ibfqmzkhja .gt_grand_summary_row {
+#ouwsbooqpf .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1312,7 +1721,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#ibfqmzkhja .gt_first_grand_summary_row {
+#ouwsbooqpf .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1322,7 +1731,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-top-color: #D3D3D3;
 }
 
-#ibfqmzkhja .gt_last_grand_summary_row_top {
+#ouwsbooqpf .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1332,11 +1741,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-color: #D3D3D3;
 }
 
-#ibfqmzkhja .gt_striped {
+#ouwsbooqpf .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#ibfqmzkhja .gt_table_body {
+#ouwsbooqpf .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1345,7 +1754,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-color: #D3D3D3;
 }
 
-#ibfqmzkhja .gt_footnotes {
+#ouwsbooqpf .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1359,7 +1768,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#ibfqmzkhja .gt_footnote {
+#ouwsbooqpf .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -1368,7 +1777,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#ibfqmzkhja .gt_sourcenotes {
+#ouwsbooqpf .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1382,7 +1791,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#ibfqmzkhja .gt_sourcenote {
+#ouwsbooqpf .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1390,72 +1799,72 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#ibfqmzkhja .gt_left {
+#ouwsbooqpf .gt_left {
   text-align: left;
 }
 
-#ibfqmzkhja .gt_center {
+#ouwsbooqpf .gt_center {
   text-align: center;
 }
 
-#ibfqmzkhja .gt_right {
+#ouwsbooqpf .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#ibfqmzkhja .gt_font_normal {
+#ouwsbooqpf .gt_font_normal {
   font-weight: normal;
 }
 
-#ibfqmzkhja .gt_font_bold {
+#ouwsbooqpf .gt_font_bold {
   font-weight: bold;
 }
 
-#ibfqmzkhja .gt_font_italic {
+#ouwsbooqpf .gt_font_italic {
   font-style: italic;
 }
 
-#ibfqmzkhja .gt_super {
+#ouwsbooqpf .gt_super {
   font-size: 65%;
 }
 
-#ibfqmzkhja .gt_footnote_marks {
+#ouwsbooqpf .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#ibfqmzkhja .gt_asterisk {
+#ouwsbooqpf .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#ibfqmzkhja .gt_indent_1 {
+#ouwsbooqpf .gt_indent_1 {
   text-indent: 5px;
 }
 
-#ibfqmzkhja .gt_indent_2 {
+#ouwsbooqpf .gt_indent_2 {
   text-indent: 10px;
 }
 
-#ibfqmzkhja .gt_indent_3 {
+#ouwsbooqpf .gt_indent_3 {
   text-indent: 15px;
 }
 
-#ibfqmzkhja .gt_indent_4 {
+#ouwsbooqpf .gt_indent_4 {
   text-indent: 20px;
 }
 
-#ibfqmzkhja .gt_indent_5 {
+#ouwsbooqpf .gt_indent_5 {
   text-indent: 25px;
 }
 
-#ibfqmzkhja .katex-display {
+#ouwsbooqpf .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#ibfqmzkhja div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#ouwsbooqpf div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -1468,34 +1877,34 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <thead>
 <tr class="gt_col_headings header">
 <th id="label" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col"><strong>Characteristic</strong></th>
-<th id="stat_0" class="gt_col_heading gt_columns_bottom_border gt_center" data-quarto-table-cell-role="th" scope="col"><strong>N = 21,444</strong><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span></th>
+<th id="stat_0" class="gt_col_heading gt_columns_bottom_border gt_center" data-quarto-table-cell-role="th" scope="col"><strong>N = 16,429</strong><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span></th>
 </tr>
 </thead>
 <tbody class="gt_table_body">
 <tr class="odd">
-<td class="gt_row gt_left" headers="label">X1 Mathematics standardized theta score</td>
-<td class="gt_row gt_center" headers="stat_0">51 (45, 58)</td>
+<td class="gt_row gt_left" headers="label">x1txmtscor</td>
+<td class="gt_row gt_center" headers="stat_0">52 (46, 59)</td>
 </tr>
 <tr class="even">
-<td class="gt_row gt_left" headers="label">X1 School geographic region</td>
+<td class="gt_row gt_left" headers="label">x1region</td>
 <td class="gt_row gt_center" headers="stat_0"><br>
 </td>
 </tr>
 <tr class="odd">
 <td class="gt_row gt_left" headers="label">&nbsp;&nbsp;&nbsp;&nbsp;1</td>
-<td class="gt_row gt_center" headers="stat_0">3,331 (16%)</td>
+<td class="gt_row gt_center" headers="stat_0">2,596 (16%)</td>
 </tr>
 <tr class="even">
 <td class="gt_row gt_left" headers="label">&nbsp;&nbsp;&nbsp;&nbsp;2</td>
-<td class="gt_row gt_center" headers="stat_0">5,695 (27%)</td>
+<td class="gt_row gt_center" headers="stat_0">4,385 (27%)</td>
 </tr>
 <tr class="odd">
 <td class="gt_row gt_left" headers="label">&nbsp;&nbsp;&nbsp;&nbsp;3</td>
-<td class="gt_row gt_center" headers="stat_0">8,705 (41%)</td>
+<td class="gt_row gt_center" headers="stat_0">6,660 (41%)</td>
 </tr>
 <tr class="even">
 <td class="gt_row gt_left" headers="label">&nbsp;&nbsp;&nbsp;&nbsp;4</td>
-<td class="gt_row gt_center" headers="stat_0">3,713 (17%)</td>
+<td class="gt_row gt_center" headers="stat_0">2,788 (17%)</td>
 </tr>
 </tbody><tfoot class="gt_footnotes">
 <tr class="odd">
@@ -1513,33 +1922,36 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <ul>
 <li>This alone would be hard to produce by hand</li>
 </ul></li>
-<li>Now, let’s be more specific about what kind of statistics we want to see</li>
+<li>Now, let’s be more specific about what kind of statistics we want to see
+<ul>
+<li>This is my personal preference for a descriptive stats table</li>
+</ul></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span></span>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>data <span class="sc">|&gt;</span></span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(x1txmtscor, x1region) <span class="sc">|&gt;</span></span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tbl_summary</span>(<span class="at">type =</span> <span class="fu">all_continuous</span>() <span class="sc">~</span> <span class="st">"continuous2"</span>,</span>
 <span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">statistic =</span> <span class="fu">c</span>(<span class="fu">all_continuous</span>() <span class="sc">~</span> <span class="fu">c</span>(<span class="st">"{mean}"</span>,</span>
 <span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>                                                 <span class="st">"{sd}"</span>,</span>
 <span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>                                                 <span class="st">"{min} to {max}"</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div id="jggwiwovyf" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#jggwiwovyf table {
+<div id="djsqlfxwrp" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#djsqlfxwrp table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#jggwiwovyf thead, #jggwiwovyf tbody, #jggwiwovyf tfoot, #jggwiwovyf tr, #jggwiwovyf td, #jggwiwovyf th {
+#djsqlfxwrp thead, #djsqlfxwrp tbody, #djsqlfxwrp tfoot, #djsqlfxwrp tr, #djsqlfxwrp td, #djsqlfxwrp th {
   border-style: none;
 }
 
-#jggwiwovyf p {
+#djsqlfxwrp p {
   margin: 0;
   padding: 0;
 }
 
-#jggwiwovyf .gt_table {
+#djsqlfxwrp .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -1565,12 +1977,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-left-color: #D3D3D3;
 }
 
-#jggwiwovyf .gt_caption {
+#djsqlfxwrp .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#jggwiwovyf .gt_title {
+#djsqlfxwrp .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1582,7 +1994,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-width: 0;
 }
 
-#jggwiwovyf .gt_subtitle {
+#djsqlfxwrp .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1594,7 +2006,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-top-width: 0;
 }
 
-#jggwiwovyf .gt_heading {
+#djsqlfxwrp .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1606,13 +2018,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#jggwiwovyf .gt_bottom_border {
+#djsqlfxwrp .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#jggwiwovyf .gt_col_headings {
+#djsqlfxwrp .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1627,7 +2039,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#jggwiwovyf .gt_col_heading {
+#djsqlfxwrp .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1647,7 +2059,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   overflow-x: hidden;
 }
 
-#jggwiwovyf .gt_column_spanner_outer {
+#djsqlfxwrp .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1659,15 +2071,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 4px;
 }
 
-#jggwiwovyf .gt_column_spanner_outer:first-child {
+#djsqlfxwrp .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#jggwiwovyf .gt_column_spanner_outer:last-child {
+#djsqlfxwrp .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#jggwiwovyf .gt_column_spanner {
+#djsqlfxwrp .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1679,11 +2091,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   width: 100%;
 }
 
-#jggwiwovyf .gt_spanner_row {
+#djsqlfxwrp .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#jggwiwovyf .gt_group_heading {
+#djsqlfxwrp .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1709,7 +2121,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   text-align: left;
 }
 
-#jggwiwovyf .gt_empty_group_heading {
+#djsqlfxwrp .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1724,15 +2136,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   vertical-align: middle;
 }
 
-#jggwiwovyf .gt_from_md > :first-child {
+#djsqlfxwrp .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#jggwiwovyf .gt_from_md > :last-child {
+#djsqlfxwrp .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#jggwiwovyf .gt_row {
+#djsqlfxwrp .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1751,7 +2163,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   overflow-x: hidden;
 }
 
-#jggwiwovyf .gt_stub {
+#djsqlfxwrp .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1764,7 +2176,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#jggwiwovyf .gt_stub_row_group {
+#djsqlfxwrp .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1778,15 +2190,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   vertical-align: top;
 }
 
-#jggwiwovyf .gt_row_group_first td {
+#djsqlfxwrp .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#jggwiwovyf .gt_row_group_first th {
+#djsqlfxwrp .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#jggwiwovyf .gt_summary_row {
+#djsqlfxwrp .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1796,16 +2208,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#jggwiwovyf .gt_first_summary_row {
+#djsqlfxwrp .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#jggwiwovyf .gt_first_summary_row.thick {
+#djsqlfxwrp .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#jggwiwovyf .gt_last_summary_row {
+#djsqlfxwrp .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1815,7 +2227,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-color: #D3D3D3;
 }
 
-#jggwiwovyf .gt_grand_summary_row {
+#djsqlfxwrp .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1825,7 +2237,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#jggwiwovyf .gt_first_grand_summary_row {
+#djsqlfxwrp .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1835,7 +2247,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-top-color: #D3D3D3;
 }
 
-#jggwiwovyf .gt_last_grand_summary_row_top {
+#djsqlfxwrp .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1845,11 +2257,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-color: #D3D3D3;
 }
 
-#jggwiwovyf .gt_striped {
+#djsqlfxwrp .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#jggwiwovyf .gt_table_body {
+#djsqlfxwrp .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1858,7 +2270,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-color: #D3D3D3;
 }
 
-#jggwiwovyf .gt_footnotes {
+#djsqlfxwrp .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1872,7 +2284,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#jggwiwovyf .gt_footnote {
+#djsqlfxwrp .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -1881,7 +2293,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#jggwiwovyf .gt_sourcenotes {
+#djsqlfxwrp .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1895,7 +2307,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#jggwiwovyf .gt_sourcenote {
+#djsqlfxwrp .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1903,72 +2315,72 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#jggwiwovyf .gt_left {
+#djsqlfxwrp .gt_left {
   text-align: left;
 }
 
-#jggwiwovyf .gt_center {
+#djsqlfxwrp .gt_center {
   text-align: center;
 }
 
-#jggwiwovyf .gt_right {
+#djsqlfxwrp .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#jggwiwovyf .gt_font_normal {
+#djsqlfxwrp .gt_font_normal {
   font-weight: normal;
 }
 
-#jggwiwovyf .gt_font_bold {
+#djsqlfxwrp .gt_font_bold {
   font-weight: bold;
 }
 
-#jggwiwovyf .gt_font_italic {
+#djsqlfxwrp .gt_font_italic {
   font-style: italic;
 }
 
-#jggwiwovyf .gt_super {
+#djsqlfxwrp .gt_super {
   font-size: 65%;
 }
 
-#jggwiwovyf .gt_footnote_marks {
+#djsqlfxwrp .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#jggwiwovyf .gt_asterisk {
+#djsqlfxwrp .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#jggwiwovyf .gt_indent_1 {
+#djsqlfxwrp .gt_indent_1 {
   text-indent: 5px;
 }
 
-#jggwiwovyf .gt_indent_2 {
+#djsqlfxwrp .gt_indent_2 {
   text-indent: 10px;
 }
 
-#jggwiwovyf .gt_indent_3 {
+#djsqlfxwrp .gt_indent_3 {
   text-indent: 15px;
 }
 
-#jggwiwovyf .gt_indent_4 {
+#djsqlfxwrp .gt_indent_4 {
   text-indent: 20px;
 }
 
-#jggwiwovyf .gt_indent_5 {
+#djsqlfxwrp .gt_indent_5 {
   text-indent: 25px;
 }
 
-#jggwiwovyf .katex-display {
+#djsqlfxwrp .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#jggwiwovyf div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#djsqlfxwrp div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -1981,18 +2393,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <thead>
 <tr class="gt_col_headings header">
 <th id="label" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col"><strong>Characteristic</strong></th>
-<th id="stat_0" class="gt_col_heading gt_columns_bottom_border gt_center" data-quarto-table-cell-role="th" scope="col"><strong>N = 21,444</strong><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span></th>
+<th id="stat_0" class="gt_col_heading gt_columns_bottom_border gt_center" data-quarto-table-cell-role="th" scope="col"><strong>N = 16,429</strong><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span></th>
 </tr>
 </thead>
 <tbody class="gt_table_body">
 <tr class="odd">
-<td class="gt_row gt_left" headers="label">X1 Mathematics standardized theta score</td>
+<td class="gt_row gt_left" headers="label">x1txmtscor</td>
 <td class="gt_row gt_center" headers="stat_0"><br>
 </td>
 </tr>
 <tr class="even">
 <td class="gt_row gt_left" headers="label">&nbsp;&nbsp;&nbsp;&nbsp;Mean</td>
-<td class="gt_row gt_center" headers="stat_0">51</td>
+<td class="gt_row gt_center" headers="stat_0">52</td>
 </tr>
 <tr class="odd">
 <td class="gt_row gt_left" headers="label">&nbsp;&nbsp;&nbsp;&nbsp;SD</td>
@@ -2003,25 +2415,25 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td class="gt_row gt_center" headers="stat_0">24 to 82</td>
 </tr>
 <tr class="odd">
-<td class="gt_row gt_left" headers="label">X1 School geographic region</td>
+<td class="gt_row gt_left" headers="label">x1region</td>
 <td class="gt_row gt_center" headers="stat_0"><br>
 </td>
 </tr>
 <tr class="even">
 <td class="gt_row gt_left" headers="label">&nbsp;&nbsp;&nbsp;&nbsp;1</td>
-<td class="gt_row gt_center" headers="stat_0">3,331 (16%)</td>
+<td class="gt_row gt_center" headers="stat_0">2,596 (16%)</td>
 </tr>
 <tr class="odd">
 <td class="gt_row gt_left" headers="label">&nbsp;&nbsp;&nbsp;&nbsp;2</td>
-<td class="gt_row gt_center" headers="stat_0">5,695 (27%)</td>
+<td class="gt_row gt_center" headers="stat_0">4,385 (27%)</td>
 </tr>
 <tr class="even">
 <td class="gt_row gt_left" headers="label">&nbsp;&nbsp;&nbsp;&nbsp;3</td>
-<td class="gt_row gt_center" headers="stat_0">8,705 (41%)</td>
+<td class="gt_row gt_center" headers="stat_0">6,660 (41%)</td>
 </tr>
 <tr class="odd">
 <td class="gt_row gt_left" headers="label">&nbsp;&nbsp;&nbsp;&nbsp;4</td>
-<td class="gt_row gt_center" headers="stat_0">3,713 (17%)</td>
+<td class="gt_row gt_center" headers="stat_0">2,788 (17%)</td>
 </tr>
 </tbody><tfoot class="gt_footnotes">
 <tr class="odd">
@@ -2067,7 +2479,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span></span>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>data <span class="sc">|&gt;</span></span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(x1txmtscor, x1region) <span class="sc">|&gt;</span></span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tbl_summary</span>(<span class="at">type =</span> <span class="fu">all_continuous</span>() <span class="sc">~</span> <span class="st">"continuous2"</span>,</span>
 <span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">statistic =</span> <span class="fu">c</span>(<span class="fu">all_continuous</span>() <span class="sc">~</span> <span class="fu">c</span>(<span class="st">"{mean}"</span>,</span>
@@ -2079,17 +2491,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <thead>
 <tr class="header">
 <th style="text-align: left;"><strong>Characteristic</strong></th>
-<th style="text-align: center;"><strong>N = 21,444</strong></th>
+<th style="text-align: center;"><strong>N = 16,429</strong></th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;">X1 Mathematics standardized theta score</td>
+<td style="text-align: left;">x1txmtscor</td>
 <td style="text-align: center;"></td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Mean</td>
-<td style="text-align: center;">51</td>
+<td style="text-align: center;">52</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">SD</td>
@@ -2100,24 +2512,24 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td style="text-align: center;">24 to 82</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">X1 School geographic region</td>
+<td style="text-align: left;">x1region</td>
 <td style="text-align: center;"></td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">1</td>
-<td style="text-align: center;">3,331 (16%)</td>
+<td style="text-align: center;">2,596 (16%)</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">2</td>
-<td style="text-align: center;">5,695 (27%)</td>
+<td style="text-align: center;">4,385 (27%)</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">3</td>
-<td style="text-align: center;">8,705 (41%)</td>
+<td style="text-align: center;">6,660 (41%)</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">4</td>
-<td style="text-align: center;">3,713 (17%)</td>
+<td style="text-align: center;">2,788 (17%)</td>
 </tr>
 </tbody>
 </table>
@@ -2129,53 +2541,45 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>If you’re interested in learning more check out <a href="https://www.danieldsjoberg.com/gtsummary/"><code>gtsummary</code>’s reference website</a></li>
 </ul>
 </section>
-<section id="tips-for-technical-writing-citations" class="level2">
-<h2 data-anchor-id="tips-for-technical-writing-citations">Tips for Technical Writing &amp; Citations</h2>
+<section id="appendix-iii-automated-batch-reporting-with-quarto" class="level2">
+<h2 data-anchor-id="appendix-iii-automated-batch-reporting-with-quarto">Appendix III: Automated Batch Reporting with Quarto</h2>
 <ul>
-<li>One of the most frustrating things in Microsoft Word is technical aspects of writing such as equations needed for quantitative research articles
-<ul>
-<li>By no means do you need to write equations in your project for this class, but this is something you’ll need in future stats classes</li>
-</ul></li>
-<li>As always, the <a href="https://quarto.org/docs/visual-editor/technical.html">Quarto documentation</a> does a great job of explaining the basics of technical writing, so let’s take a look!
-<ul>
-<li>I mentioned this above, but this page also discusses the Zotero integration in a bit more depth as well</li>
-</ul></li>
+<li>This is well beyond the scope of the class, but, it shows the power of Quarto</li>
+<li>Imagine you work for a university system office and you need to write the same report with the same information but customized for each campus</li>
+<li>Or, imagine your working on a grant funded research project and each of your participant schools wants a customized report about their own outcomes</li>
+<li>Quarto has the power to produce this kind of document with a single source file, like I will show in class</li>
 </ul>
-<iframe width="900" height="600" src="https://quarto.org/docs/visual-editor/technical.html"></iframe>
 </section>
 </div>
 <div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
 <p><a href="./site-attachments/assignments/assignment-06.qmd"><i class="fa-solid fa-question" aria-label="question"></i> Assignment Template</a></p>
-<p>Good news! By the time you have completed the quick exercises in this class, you should have some of this assignment done!</p>
-<section id="question-one-to-be-done-in-class" class="level2">
-<h2 data-anchor-id="question-one-to-be-done-in-class">Question One (to be done in class)</h2>
-<p><strong>a)</strong> Write a few sentences describing your proposal for your reproducible report</p>
-<p><strong>b)</strong> Add an appropriate section header (e.g.&nbsp;“Overview”)</p>
-<p><strong>c)</strong> Add <strong>bold face</strong> around your dependent variable</p>
-<p><strong>d)</strong> Make your data source name <em>italic</em></p>
-<p><strong>e)</strong> Add an appropriate title and author name to the YAML header</p>
+<p>Good news! By the time you have completed the quick exercises in this class, you should have some of this assignment already written</p>
+<section id="question-one-copy-over-from-class" class="level2">
+<h2 data-anchor-id="question-one-copy-over-from-class">Question One (copy over from class)</h2>
+<p><strong>a)</strong> Change the header title to something appropriate for your final report</p>
+<p><strong>b)</strong> Change the header author to your name</p>
+<p><strong>c)</strong> Change the header date so that it uses the current date whenever it is rendered</p>
+<p><strong>d)</strong> Add a level-one heading “Data”</p>
+<p><strong>e)</strong> Write a sentance or two about the data you’re using for you final project</p>
+<p><strong>f)</strong> Make the source of your data (e.g., IPEDS) <em>italic</em></p>
+<p><strong>g)</strong> Set the output format to create a pdf (either <code>pdf</code> or <code>typst</code>)</p>
 </section>
 <section id="question-two-to-be-done-after-class" class="level2">
 <h2 data-anchor-id="question-two-to-be-done-after-class">Question Two (to be done after class)</h2>
 <p><strong>a)</strong> Read in at least one data file you intend to use for your final project</p>
-<p><strong>b)</strong> Write a few sentences describing where you got the data from</p>
-<p><strong>c)</strong> Add an appropriate header (e.g., “Data”)</p>
-<p><strong>d)</strong> Summarize one or more continuous variable including</p>
-<ul>
-<li>mean</li>
-<li>standard deviation</li>
-<li>minimum</li>
-<li>maximum</li>
-</ul>
-<p><strong>e)</strong> Summarize one or more categorical variables including</p>
-<ul>
-<li>count for each category</li>
-<li>percentage of count for each category</li>
-</ul>
+<p><strong>b)</strong> Include a plot showing the distribution of your primary outcome/variable of interest</p>
 <blockquote class="blockquote">
-<p>Hint: Remember how to get percentages from assignment 2</p>
+<p>Bonus: Caption and number it using Quarto’s automatic system</p>
 </blockquote>
-<p><strong>f)</strong> Save the file as <code>reproducible-report.qmd</code></p>
+<p><strong>c)</strong> Choose a categorical variable in your dataset, get the counts and percentages in each category (a Data Viz I throwback), and turn that into a nicely formatted <code>kable()</code></p>
+<blockquote class="blockquote">
+<p>Bonus: Caption and number it using Quarto’s automatic system</p>
+</blockquote>
+<p><strong>d)</strong> Find an article that you think might be relavent to your final project, save it using Zotero, and then cite it using Quarto’s Zotero integration</p>
+<blockquote class="blockquote">
+<p>Bonus: Use APA 7 citation style and place the bibliography on a new page</p>
+</blockquote>
+<p><strong>e)</strong> Save the file as <code>reproducible-report.qmd</code></p>
 <p>Congratulations, you’ve officially started the Quarto document for your final project!</p>
 <!--
 Once complete, turn in the .qmd file (must render successfully) to Canvas by Tuesday 12:00pm following the lesson.
