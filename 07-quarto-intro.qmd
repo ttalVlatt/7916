@@ -371,7 +371,8 @@ data |>
 \
 
 - `kable()`is relatively basic in terms of customization, but, it can do most things you're going to need
-  - For now, we will address the two most obvious issues with this table, the column names and the rounding (or lack thereof)
+    - FYI: The package `kableExtra` has a lot more advanced options for kable customization
+- For now, we will address the two most obvious issues with this table, the column names and the rounding (or lack thereof)
   - We just need to add two simple arguments to our `kable()`
 
 ```{r}
@@ -539,6 +540,7 @@ ggplot(data) +
 - If that worked, you should see something like this
 
 ![Zotero Screenshot](site-attachments/zotero-article.png)
+
 - Side note: If you notice on the left of my screen, I have a lot of folders and sub-folders set up
   - If you use Zotero, I'd strongly encourage keep related articles in sub-folders, it makes it much easier to find them
 - However, this is not a Zotero class, so now have an article in Zotero, it's time to go back to Quarto
@@ -692,6 +694,38 @@ patch
 - This logic is really useful to keep long streams of code out of your Quarto document
 - If you have 100s of lines of code cleaning a large dataset, it's probably best to create `data_clean` in `data-cleaning.R` and then `source("data-cleaning.R")` to be able to use `data_clean`
 
+## Appendix I.V: Conditional Sourcing and Saving R Objects
+
+- Ideally, if you have a lot of code that you don't want to have in your .qmd document
+- But, what if that code takes minutes (or hours, or days) to run?
+  - Then it will make it impossible to work with your .qmd document if it has to run every time
+- In this case, you can use some skills we will actually learn later in the class to help
+ 
+ \
+ 
+ - At the end of the script you're trying to `source()` you can save the output as .`Rdata`
+  - This is bascially saving the objects in your environment
+
+```{r}
+#| eval: false
+
+save(list = c("my_object"),
+     file = "results.Rdata")
+```
+
+- Then, you can tell R to try and load that results file, but, if it's not there, source the script
+
+```{r}
+#| eval: false
+
+if(file.exists("results.Rdata")) {
+  load("results.Rdata")
+} else {
+  source("a-really-long-script.R")
+}
+```
+
+- I don't expect this will make sense until after our programming lesson, but, I wanted it here for reference
 
 ## Appendix II: Advanced Descriptive Statistics Tables with `gtsummary`
 
@@ -785,6 +819,6 @@ data |>
 
 ## Submission
 
-Once complete turn in the .qmd file (**it must render/run**) to Canvas by the due date (usually **Tuesday 12:00pm following the lesson**). Assignments will be graded before next lesson on Wednesday in line with the grading policy outlined in the syllabus.
+Once complete turn in the .qmd file (**it must render/run**) and .pdf output to Canvas by the due date (usually **Tuesday 12:00pm following the lesson**). Assignments will be graded before next lesson on Wednesday in line with the grading policy outlined in the syllabus.
 
 :::
