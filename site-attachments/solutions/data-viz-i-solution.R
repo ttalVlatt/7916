@@ -14,12 +14,13 @@ setwd(this.path::here())
 ## ---------------------------
 
 library(tidyverse)
+library(haven)
 
 ## ---------------------------
 ##' [Input]
 ## ---------------------------
 
-df <- read_csv(file.path("data", "hsls-small.csv")) |>
+df <- read_dta(file.path("data", "hsls-small.dta")) |>
   mutate(x1ses = ifelse(x1ses %in% c(-8, -9), NA, x1ses),
          x4evratndclg = ifelse(x4evratndclg %in% c(-8, -9), NA, x4evratndclg),
          x1txmtscor = ifelse(x1txmtscor %in% c(-8, -9), NA, x1txmtscor),
@@ -91,19 +92,26 @@ ggplot(df_long) +
   geom_bar(aes(x = factor(x4hscompstat),
                fill = factor(expect_value)),
            color = "white") + 
-  facet_wrap(~expect_type) ## We didn't get to this, so I didn't expect anyone to use it
+  facet_wrap(~expect_type)  ## We didn't get to this, so I didn't expect anyone to use it
 
 ## But we can add position = "fill" to change the bar chart to proportions, which
 ## makes it a bit better, still not great
 ggplot(df_long) +
   geom_bar(aes(x = factor(x4hscompstat),
-               fill = factor(expect_value)),
+               fill = as_factor(expect_value)),
            color = "white",
            position = "fill") + ## https://stackoverflow.com/questions/46984296/proportion-with-ggplot-geom-bar
   facet_wrap(~expect_type)
 
+## Or, we could make a histogram and then facet_wrap it by hs completion status
+ggplot(df_long) + 
+  geom_histogram(aes(x = as_factor(expect_value),
+                      fill = expect_type),
+                 stat = "count",
+                 position = "dodge") +
+  facet_wrap(~as_factor(x4hscompstat), scales = "free")
 
-## Option 2: Density Plot (Treat as Continuous)
+## Option 2: Treat as Continuous
 
 ggplot(df_long) +
   geom_boxplot(aes(x = factor(x4hscompstat),
