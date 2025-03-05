@@ -8,9 +8,9 @@ ggplot(data) +
 
 
 
-## ggsave("math-scores.png")
+# ggsave("math-scores.png")
 
-## install.packages("knitr")
+# install.packages("knitr")
 
 data <- data |> 
   drop_na(x1txmtscor)
@@ -42,21 +42,21 @@ data |>
 
 
 
-## source("lesson-06-viz-ii.R")
+# source("lesson-06-viz-ii.R")
 
 patch
 
-## save(list = c("my_object"),
-##      file = "results.Rdata")
+# save(list = c("my_object"),
+#      file = "results.Rdata")
 
-## if(file.exists("results.Rdata")) {
-##   load("results.Rdata")
-## } else {
-##   source("a-really-long-script.R")
-## }
+# if(file.exists("results.Rdata")) {
+#   load("results.Rdata")
+# } else {
+#   source("a-really-long-script.R")
+# }
 
-## install.packages("gtsummary")
-## library(gtsummary)
+# install.packages("gtsummary")
+# library(gtsummary)
 
 library(gtsummary)
 
