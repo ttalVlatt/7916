@@ -33,14 +33,15 @@ Why are they unstructured?
 Almost always the answer is that person who initially keyed in the data neither had a dropdown menu of options to choose from nor separate fields for each part of the data element (*e.g.*, `first name`, `last name`).
 Instead, they have a blank field in which they type:
 
-**Enter name**: `Isaiah Berlin`
+**Enter name**: `Stephen Curry`
 
 Why is this a problem?
 With an open field, the variations are (often) unlimited:
 
--   `I. Berlin`
--   `isaiah berlin`
--   `Berlin, Isaiah`
+-   `S. Curry`
+-   `Steph Curry`
+-   `stephen curry`
+-   `Curry, Stephen`
 
 Similarly, the same date can be written any number of ways:
 
@@ -73,20 +74,16 @@ We'll focus, however, on using two specific libraries:
 -   [stringr for strings](https://stringr.tidyverse.org)
 -   [lubridate for dates](https://lubridate.tidyverse.org)
 
-You may have noticed already that when we load the tidyverse library with `library(tidyverse)`, the stringr library is already loaded.
-The lubridate library, though part of the tidyverse, is not.
-We need to load it separately.
+You may have noticed already that when we load the tidyverse library with `library(tidyverse)`, the stringr library and lubridate library are already loaded.
+However, if you have an older version of tidyverse, you may need to load lubridate separately.
 
 ```{r}
 ## ---------------------------
 ##' [Libraries]
 ## ---------------------------
 
-## NB: The stringr library is loaded with tidyverse, but
-## lubridate is not, so we need to load it separately
-
 library(tidyverse)
-library(lubridate)
+
 ```
 
 **NB**: As we have done in the past few lessons, we'll run this script assuming that our working directory is set to the `scripts` directory.
@@ -297,7 +294,7 @@ data |>
 We can see that we have both regular 5 digit zip codes as well as those that include the extra 4 digits (ZIP+4).
 Let's say we don't need those last four digits for our analysis (particularly because not every school uses them anyway).
 Our task is to create a new column that pulls out only the main part of the zip code.
-It is has to work both for `zip` values that include the additional hyphen and 4 digits as well as those that only have the primary 5 digits to begin with.
+It has to work both for `zip` values that include the additional hyphen and 4 digits as well as those that only have the primary 5 digits to begin with.
 
 One solution in this case is to take advantage of the fact that zip codes --- minus the sometimes extra 4 digits --- should be regular: 5 digits.
 If want the sub-part of a string and that sub-part is always in the same spot, we can use the function, `str_sub()`, which takes a string or column name first, and has arguments for the starting and ending character that mark the sub-string of interest.
@@ -360,7 +357,7 @@ data |>
 > #### Quick exercise
 >
 > What if you wanted to the get the last 4 digits (after the hyphen)?
-> What bit of two bits of code above would you change so that you can store the last 4 digits without including the hyphen?
+> What two bits of code above would you change so that you can store the last 4 digits without including the hyphen?
 > Make a new variable called `zip_plus4` and store these values.
 > **HINT** Look at the help file for `str_replace()`.
 
@@ -555,7 +552,7 @@ data |> filter(clean_date < christmas_07)
 
     -   Then `time_length(, "day")` converts that to the number of days
 
-    -   Then `abs()` to get the absolute value (otherwise dates long after Christmas 2007 will be kept as the interval is -63 days)
+    -   Then `abs()` to get the absolute value (otherwise dates long after Christmas 2007 will be kept)
 
     -   This gets a little nested, so we can use more pipes `|>` inside our `filter()` statement if that's easier
 
