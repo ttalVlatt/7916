@@ -357,9 +357,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>df_18_pub <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="fu">file.path</span>(<span class="st">"data"</span>, <span class="st">"ipeds-finance"</span>, <span class="st">"f1819_f1a_rv.csv"</span>))</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>df_18_np <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="fu">file.path</span>(<span class="st">"data"</span>, <span class="st">"ipeds-finance"</span>, <span class="st">"f1819_f2_rv.csv"</span>))</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>df_18_fp <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="fu">file.path</span>(<span class="st">"data"</span>, <span class="st">"ipeds-finance"</span>, <span class="st">"f1819_f3_rv.csv"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>data_18_pub <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/ipeds-finance/f1819_f1a_rv.csv"</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>data_18_np <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/ipeds-finance/f1819_f2_rv.csv"</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>data_18_fp <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/ipeds-finance/f1819_f3_rv.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ul>
 <li>First, since there should be no college in more than one of these data files, and each college only has one row, we can <code>bind_rows</code> to stack each one on top of the other
@@ -368,9 +368,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>df_18 <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(df_18_pub, df_18_np, df_18_fp)</span>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>data_18 <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(data_18_pub, data_18_np, data_18_fp)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>df_18 <span class="sc">|&gt;</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>data_18 <span class="sc">|&gt;</span></span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(UNITID) <span class="sc">|&gt;</span></span>
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(n <span class="sc">&gt;</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -441,13 +441,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>df_18 <span class="ot">&lt;-</span> df_18 <span class="sc">|&gt;</span></span>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>data_18 <span class="ot">&lt;-</span> data_18 <span class="sc">|&gt;</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(UNITID,</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>         F1C011, F1C021, F1C061,</span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>         F2E011, F2E021, F2E051,</span>
 <span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>         F3E011, F3E02A1, F3E03B1)</span>
 <span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(df_18[<span class="dv">100</span><span class="sc">:</span><span class="dv">105</span>,])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(data_18[<span class="dv">100</span><span class="sc">:</span><span class="dv">105</span>,])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 6 × 10
   UNITID    F1C011  F1C021   F1C061 F2E011 F2E021 F2E051 F3E011 F3E02A1 F3E03B1
@@ -459,7 +459,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 5 110398  28937539       0  5591440     NA     NA     NA     NA      NA      NA
 6 110422 219559005 2847727 78536402     NA     NA     NA     NA      NA      NA</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(df_18[<span class="dv">3000</span><span class="sc">:</span><span class="dv">3005</span>,])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(data_18[<span class="dv">3000</span><span class="sc">:</span><span class="dv">3005</span>,])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 6 × 10
   UNITID F1C011 F1C021 F1C061   F2E011 F2E021   F2E051 F3E011 F3E02A1 F3E03B1
@@ -480,15 +480,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Split back up into separate files</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>pub <span class="ot">&lt;-</span> df_18 <span class="sc">|&gt;</span> <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(F1C011)) <span class="sc">|&gt;</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>pub <span class="ot">&lt;-</span> data_18 <span class="sc">|&gt;</span> <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(F1C011)) <span class="sc">|&gt;</span></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="do">## Rename the variable</span></span>
 <span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">inst_spend =</span> F1C011) <span class="sc">|&gt;</span></span>
 <span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="do">## Drop the other variables</span></span>
 <span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(UNITID, inst_spend)</span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>np <span class="ot">&lt;-</span> df_18 <span class="sc">|&gt;</span> <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(F2E011)) <span class="sc">|&gt;</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>np <span class="ot">&lt;-</span> data_18 <span class="sc">|&gt;</span> <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(F2E011)) <span class="sc">|&gt;</span></span>
 <span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">inst_spend =</span> F2E011) <span class="sc">|&gt;</span></span>
 <span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(UNITID, inst_spend)</span>
-<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>fp <span class="ot">&lt;-</span> df_18 <span class="sc">|&gt;</span> <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(F3E011)) <span class="sc">|&gt;</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>fp <span class="ot">&lt;-</span> data_18 <span class="sc">|&gt;</span> <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(F3E011)) <span class="sc">|&gt;</span></span>
 <span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">inst_spend =</span> F3E011) <span class="sc">|&gt;</span></span>
 <span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(UNITID, inst_spend)</span>
 <span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a><span class="do">## Re-bind the colleges back up</span></span>
@@ -521,13 +521,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Yep! So let’s do all the columns and get a clean data frame</p>
 <p>let’s do all the columns and get a clean data frame</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>df_18_clean <span class="ot">&lt;-</span> df_18 <span class="sc">|&gt;</span></span>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>data_18_clean <span class="ot">&lt;-</span> data_18 <span class="sc">|&gt;</span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">inst_spend =</span> <span class="fu">coalesce</span>(F1C011, F2E011, F3E011),</span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">rsch_spend =</span> <span class="fu">coalesce</span>(F1C021, F2E021, F3E02A1),</span>
 <span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">serv_spend =</span> <span class="fu">coalesce</span>(F1C061, F2E051, F3E03B1)) <span class="sc">|&gt;</span></span>
 <span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(UNITID, inst_spend, rsch_spend, serv_spend)</span>
 <span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(df_18_clean[<span class="dv">100</span><span class="sc">:</span><span class="dv">105</span>,])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(data_18_clean[<span class="dv">100</span><span class="sc">:</span><span class="dv">105</span>,])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 6 × 4
   UNITID inst_spend rsch_spend serv_spend
@@ -539,7 +539,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 5 110398   28937539          0    5591440
 6 110422  219559005    2847727   78536402</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(df_18_clean[<span class="dv">3000</span><span class="sc">:</span><span class="dv">3005</span>,])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(data_18_clean[<span class="dv">3000</span><span class="sc">:</span><span class="dv">3005</span>,])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 6 × 4
   UNITID inst_spend rsch_spend serv_spend
@@ -565,13 +565,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>Let’s try and get a data frame containing only institutions that reported $0 for one of these spending categories</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>df_0_inst <span class="ot">&lt;-</span> df_18_clean <span class="sc">|&gt;</span> <span class="fu">filter</span>(inst_spend <span class="sc">==</span> <span class="dv">0</span>)</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>df_0_rsch <span class="ot">&lt;-</span> df_18_clean <span class="sc">|&gt;</span> <span class="fu">filter</span>(rsch_spend <span class="sc">==</span> <span class="dv">0</span>)</span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>df_0_serv <span class="ot">&lt;-</span> df_18_clean <span class="sc">|&gt;</span> <span class="fu">filter</span>(serv_spend <span class="sc">==</span> <span class="dv">0</span>)</span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>df_0 <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(df_0_inst, df_0_rsch, df_0_serv)</span>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>data_0_inst <span class="ot">&lt;-</span> data_18_clean <span class="sc">|&gt;</span> <span class="fu">filter</span>(inst_spend <span class="sc">==</span> <span class="dv">0</span>)</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>data_0_rsch <span class="ot">&lt;-</span> data_18_clean <span class="sc">|&gt;</span> <span class="fu">filter</span>(rsch_spend <span class="sc">==</span> <span class="dv">0</span>)</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>data_0_serv <span class="ot">&lt;-</span> data_18_clean <span class="sc">|&gt;</span> <span class="fu">filter</span>(serv_spend <span class="sc">==</span> <span class="dv">0</span>)</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>data_0 <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(data_0_inst, data_0_rsch, data_0_serv)</span>
 <span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="do">## Plus we end up with duplicates</span></span>
-<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>df_0 <span class="sc">|&gt;</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>data_0 <span class="sc">|&gt;</span></span>
 <span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(UNITID) <span class="sc">|&gt;</span></span>
 <span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(n <span class="sc">&gt;</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -595,10 +595,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>With the <code>if_any()</code> helper function</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>df_0 <span class="ot">&lt;-</span> df_18_clean <span class="sc">|&gt;</span></span>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>data_0 <span class="ot">&lt;-</span> data_18_clean <span class="sc">|&gt;</span></span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">if_any</span>(<span class="fu">everything</span>(), <span class="sc">~</span> . <span class="sc">==</span> <span class="dv">0</span>)) <span class="do">## h/t https://stackoverflow.com/questions/69585261/dplyr-if-any-and-numeric-filtering</span></span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(df_0)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(data_0)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 4,803 × 4
    UNITID inst_spend rsch_spend serv_spend
@@ -619,8 +619,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <ul>
 <li><p>Let’s walk through this code</p>
 <ol type="1">
-<li>Assign our results to a new object called <code>df_0</code></li>
-<li>Take <code>df_18_clean</code> and pipe it into filter</li>
+<li>Assign our results to a new object called <code>data_0</code></li>
+<li>Take <code>data_18_clean</code> and pipe it into filter</li>
 <li>Inside <code>filter()</code> we have our <code>if_any</code> helper function, which has two arguments</li>
 </ol>
 <!-- -->
@@ -662,7 +662,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>Here, we will use the <code>across</code> function inside <code>count()</code> to get a breakdown of which spending categories are unreported most often</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>df_0 <span class="sc">|&gt;</span></span>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>data_0 <span class="sc">|&gt;</span></span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>UNITID) <span class="sc">|&gt;</span></span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(<span class="fu">across</span>(<span class="fu">everything</span>(), <span class="sc">~</span> . <span class="sc">==</span> <span class="dv">0</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -720,7 +720,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ol></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>df_18_clean <span class="sc">|&gt;</span></span>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>data_18_clean <span class="sc">|&gt;</span></span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">highest_cat =</span> <span class="fu">case_when</span>(inst_spend <span class="sc">&gt;</span> rsch_spend <span class="sc">&amp;</span> rsch_spend <span class="sc">&gt;</span> serv_spend <span class="sc">~</span> <span class="st">"inst_rsch_serv"</span>,</span>
 <span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>                                 inst_spend <span class="sc">&gt;</span> serv_spend <span class="sc">&amp;</span> serv_spend <span class="sc">&gt;</span> rsch_spend <span class="sc">~</span> <span class="st">"inst_serv_rsch"</span>,</span>
 <span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>                                 rsch_spend <span class="sc">&gt;</span> inst_spend <span class="sc">&amp;</span> inst_spend <span class="sc">&gt;</span> serv_spend <span class="sc">~</span> <span class="st">"rsch_inst_serv"</span>,</span>
@@ -759,7 +759,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><p>Let’s see how our results change if I use “greater than or equal to” signs</p></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>df_18_clean <span class="sc">|&gt;</span></span>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>data_18_clean <span class="sc">|&gt;</span></span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">highest_cat =</span> <span class="fu">case_when</span>(inst_spend <span class="sc">&gt;=</span> rsch_spend <span class="sc">&amp;</span> rsch_spend <span class="sc">&gt;=</span> serv_spend <span class="sc">~</span> <span class="st">"inst_rsch_serv"</span>,</span>
 <span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>                                 inst_spend <span class="sc">&gt;=</span> serv_spend <span class="sc">&amp;</span> serv_spend <span class="sc">&gt;=</span> rsch_spend <span class="sc">~</span> <span class="st">"inst_serv_rsch"</span>,</span>
 <span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>                                 rsch_spend <span class="sc">&gt;=</span> inst_spend <span class="sc">&amp;</span> inst_spend <span class="sc">&gt;=</span> serv_spend <span class="sc">~</span> <span class="st">"rsch_inst_serv"</span>,</span>
@@ -1379,7 +1379,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">AVG</span>(`math`) <span class="kw">AS</span> `math_m`,</span>
 <span id="cb49-5"><a href="#cb49-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">AVG</span>(`read`) <span class="kw">AS</span> `read_m`,</span>
 <span id="cb49-6"><a href="#cb49-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">AVG</span>(`science`) <span class="kw">AS</span> `science_m`</span>
-<span id="cb49-7"><a href="#cb49-7" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> `dbplyr_oOenynyiLE`</span>
+<span id="cb49-7"><a href="#cb49-7" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> `dbplyr_3n3DRuX12P`</span>
 <span id="cb49-8"><a href="#cb49-8" aria-hidden="true" tabindex="-1"></a><span class="kw">GROUP</span> <span class="kw">BY</span> `year`</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
@@ -1406,18 +1406,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">show_query</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <div class="sourceCode" id="cb51"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="op">&lt;</span>SQL<span class="op">&gt;</span></span>
-<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> `dbplyr_oOenynyiLE`.<span class="op">*</span>, `math_m`, `read_m`, `science_m`</span>
-<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> `dbplyr_oOenynyiLE`</span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> `dbplyr_3n3DRuX12P`.<span class="op">*</span>, `math_m`, `read_m`, `science_m`</span>
+<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> `dbplyr_3n3DRuX12P`</span>
 <span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a><span class="kw">LEFT</span> <span class="kw">JOIN</span> (</span>
 <span id="cb51-5"><a href="#cb51-5" aria-hidden="true" tabindex="-1"></a>  <span class="kw">SELECT</span></span>
 <span id="cb51-6"><a href="#cb51-6" aria-hidden="true" tabindex="-1"></a>    `year`,</span>
 <span id="cb51-7"><a href="#cb51-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">AVG</span>(`math`) <span class="kw">AS</span> `math_m`,</span>
 <span id="cb51-8"><a href="#cb51-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">AVG</span>(`read`) <span class="kw">AS</span> `read_m`,</span>
 <span id="cb51-9"><a href="#cb51-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">AVG</span>(`science`) <span class="kw">AS</span> `science_m`</span>
-<span id="cb51-10"><a href="#cb51-10" aria-hidden="true" tabindex="-1"></a>  <span class="kw">FROM</span> `dbplyr_oOenynyiLE`</span>
+<span id="cb51-10"><a href="#cb51-10" aria-hidden="true" tabindex="-1"></a>  <span class="kw">FROM</span> `dbplyr_3n3DRuX12P`</span>
 <span id="cb51-11"><a href="#cb51-11" aria-hidden="true" tabindex="-1"></a>  <span class="kw">GROUP</span> <span class="kw">BY</span> `year`</span>
 <span id="cb51-12"><a href="#cb51-12" aria-hidden="true" tabindex="-1"></a>) <span class="kw">AS</span> `RHS`</span>
-<span id="cb51-13"><a href="#cb51-13" aria-hidden="true" tabindex="-1"></a>  <span class="kw">ON</span> (`dbplyr_oOenynyiLE`.`year` <span class="op">=</span> `RHS`.`year`)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb51-13"><a href="#cb51-13" aria-hidden="true" tabindex="-1"></a>  <span class="kw">ON</span> (`dbplyr_3n3DRuX12P`.`year` <span class="op">=</span> `RHS`.`year`)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <ul>
@@ -1445,17 +1445,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell-output cell-output-stdout">
 <div class="sourceCode" id="cb53"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="op">&lt;</span>SQL<span class="op">&gt;</span></span>
 <span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> `school`, `year`, <span class="st">'math'</span> <span class="kw">AS</span> `test`, `math` <span class="kw">AS</span> `score`</span>
-<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> `dbplyr_oOenynyiLE`</span>
+<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> `dbplyr_3n3DRuX12P`</span>
 <span id="cb53-4"><a href="#cb53-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb53-5"><a href="#cb53-5" aria-hidden="true" tabindex="-1"></a><span class="kw">UNION</span> <span class="kw">ALL</span></span>
 <span id="cb53-6"><a href="#cb53-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb53-7"><a href="#cb53-7" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> `school`, `year`, <span class="st">'read'</span> <span class="kw">AS</span> `test`, `read` <span class="kw">AS</span> `score`</span>
-<span id="cb53-8"><a href="#cb53-8" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> `dbplyr_oOenynyiLE`</span>
+<span id="cb53-8"><a href="#cb53-8" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> `dbplyr_3n3DRuX12P`</span>
 <span id="cb53-9"><a href="#cb53-9" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb53-10"><a href="#cb53-10" aria-hidden="true" tabindex="-1"></a><span class="kw">UNION</span> <span class="kw">ALL</span></span>
 <span id="cb53-11"><a href="#cb53-11" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb53-12"><a href="#cb53-12" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> `school`, `year`, <span class="st">'science'</span> <span class="kw">AS</span> `test`, `science` <span class="kw">AS</span> `score`</span>
-<span id="cb53-13"><a href="#cb53-13" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> `dbplyr_oOenynyiLE`</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb53-13"><a href="#cb53-13" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> `dbplyr_3n3DRuX12P`</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <ul>
@@ -1486,17 +1486,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb55-7"><a href="#cb55-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">MAX</span>(<span class="cf">CASE</span> <span class="cf">WHEN</span> (`test` <span class="op">=</span> <span class="st">'science'</span>) <span class="cf">THEN</span> `score` <span class="cf">END</span>) <span class="kw">AS</span> `science`</span>
 <span id="cb55-8"><a href="#cb55-8" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> (</span>
 <span id="cb55-9"><a href="#cb55-9" aria-hidden="true" tabindex="-1"></a>  <span class="kw">SELECT</span> `school`, `year`, <span class="st">'math'</span> <span class="kw">AS</span> `test`, `math` <span class="kw">AS</span> `score`</span>
-<span id="cb55-10"><a href="#cb55-10" aria-hidden="true" tabindex="-1"></a>  <span class="kw">FROM</span> `dbplyr_oOenynyiLE`</span>
+<span id="cb55-10"><a href="#cb55-10" aria-hidden="true" tabindex="-1"></a>  <span class="kw">FROM</span> `dbplyr_3n3DRuX12P`</span>
 <span id="cb55-11"><a href="#cb55-11" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb55-12"><a href="#cb55-12" aria-hidden="true" tabindex="-1"></a>  <span class="kw">UNION</span> <span class="kw">ALL</span></span>
 <span id="cb55-13"><a href="#cb55-13" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb55-14"><a href="#cb55-14" aria-hidden="true" tabindex="-1"></a>  <span class="kw">SELECT</span> `school`, `year`, <span class="st">'read'</span> <span class="kw">AS</span> `test`, `read` <span class="kw">AS</span> `score`</span>
-<span id="cb55-15"><a href="#cb55-15" aria-hidden="true" tabindex="-1"></a>  <span class="kw">FROM</span> `dbplyr_oOenynyiLE`</span>
+<span id="cb55-15"><a href="#cb55-15" aria-hidden="true" tabindex="-1"></a>  <span class="kw">FROM</span> `dbplyr_3n3DRuX12P`</span>
 <span id="cb55-16"><a href="#cb55-16" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb55-17"><a href="#cb55-17" aria-hidden="true" tabindex="-1"></a>  <span class="kw">UNION</span> <span class="kw">ALL</span></span>
 <span id="cb55-18"><a href="#cb55-18" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb55-19"><a href="#cb55-19" aria-hidden="true" tabindex="-1"></a>  <span class="kw">SELECT</span> `school`, `year`, <span class="st">'science'</span> <span class="kw">AS</span> `test`, `science` <span class="kw">AS</span> `score`</span>
-<span id="cb55-20"><a href="#cb55-20" aria-hidden="true" tabindex="-1"></a>  <span class="kw">FROM</span> `dbplyr_oOenynyiLE`</span>
+<span id="cb55-20"><a href="#cb55-20" aria-hidden="true" tabindex="-1"></a>  <span class="kw">FROM</span> `dbplyr_3n3DRuX12P`</span>
 <span id="cb55-21"><a href="#cb55-21" aria-hidden="true" tabindex="-1"></a>) <span class="kw">AS</span> `q01`</span>
 <span id="cb55-22"><a href="#cb55-22" aria-hidden="true" tabindex="-1"></a><span class="kw">GROUP</span> <span class="kw">BY</span> `school`, `year`</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -1654,7 +1654,7 @@ FROM (
             `x1region`,
             CASE WHEN (`x1stuedexpct` IN list(-8.0, -9.0, 11.0)) THEN NULL WHEN NOT (`x1stuedexpct` IN list(-8.0, -9.0, 11.0)) THEN `x1stuedexpct` END AS `student_exp`,
             CASE WHEN (`x1paredexpct` IN list(-8.0, -9.0, 11.0)) THEN NULL WHEN NOT (`x1paredexpct` IN list(-8.0, -9.0, 11.0)) THEN `x1paredexpct` END AS `parent_exp`
-          FROM `dbplyr_Nf2V08I9xj`
+          FROM `dbplyr_R1xDCf85F3`
         ) AS `q01`
       ) AS `q01`
     ) AS `q01`
@@ -1688,7 +1688,7 @@ db |>
 ```
 <SQL>
 SELECT `stu_id`, `x1stuedexpct`, `x1paredexpct`, `x1region`
-FROM `dbplyr_Nf2V08I9xj`
+FROM `dbplyr_R1xDCf85F3`
 ```
 
 
@@ -1721,7 +1721,7 @@ SELECT
   `x1region`,
   CASE WHEN (`x1stuedexpct` IN list(-8.0, -9.0, 11.0)) THEN NULL WHEN NOT (`x1stuedexpct` IN list(-8.0, -9.0, 11.0)) THEN `x1stuedexpct` END AS `student_exp`,
   CASE WHEN (`x1paredexpct` IN list(-8.0, -9.0, 11.0)) THEN NULL WHEN NOT (`x1paredexpct` IN list(-8.0, -9.0, 11.0)) THEN `x1paredexpct` END AS `parent_exp`
-FROM `dbplyr_Nf2V08I9xj`
+FROM `dbplyr_R1xDCf85F3`
 ```
 
 
@@ -1761,7 +1761,7 @@ FROM (
     `x1region`,
     CASE WHEN (`x1stuedexpct` IN list(-8.0, -9.0, 11.0)) THEN NULL WHEN NOT (`x1stuedexpct` IN list(-8.0, -9.0, 11.0)) THEN `x1stuedexpct` END AS `student_exp`,
     CASE WHEN (`x1paredexpct` IN list(-8.0, -9.0, 11.0)) THEN NULL WHEN NOT (`x1paredexpct` IN list(-8.0, -9.0, 11.0)) THEN `x1paredexpct` END AS `parent_exp`
-  FROM `dbplyr_Nf2V08I9xj`
+  FROM `dbplyr_R1xDCf85F3`
 ) AS `q01`
 ```
 
@@ -1823,7 +1823,7 @@ FROM (
         `x1region`,
         CASE WHEN (`x1stuedexpct` IN list(-8.0, -9.0, 11.0)) THEN NULL WHEN NOT (`x1stuedexpct` IN list(-8.0, -9.0, 11.0)) THEN `x1stuedexpct` END AS `student_exp`,
         CASE WHEN (`x1paredexpct` IN list(-8.0, -9.0, 11.0)) THEN NULL WHEN NOT (`x1paredexpct` IN list(-8.0, -9.0, 11.0)) THEN `x1paredexpct` END AS `parent_exp`
-      FROM `dbplyr_Nf2V08I9xj`
+      FROM `dbplyr_R1xDCf85F3`
     ) AS `q01`
   ) AS `q01`
 ) AS `q01`
@@ -1896,7 +1896,7 @@ FROM (
           `x1region`,
           CASE WHEN (`x1stuedexpct` IN list(-8.0, -9.0, 11.0)) THEN NULL WHEN NOT (`x1stuedexpct` IN list(-8.0, -9.0, 11.0)) THEN `x1stuedexpct` END AS `student_exp`,
           CASE WHEN (`x1paredexpct` IN list(-8.0, -9.0, 11.0)) THEN NULL WHEN NOT (`x1paredexpct` IN list(-8.0, -9.0, 11.0)) THEN `x1paredexpct` END AS `parent_exp`
-        FROM `dbplyr_Nf2V08I9xj`
+        FROM `dbplyr_R1xDCf85F3`
       ) AS `q01`
     ) AS `q01`
   ) AS `q01`
@@ -1973,7 +1973,7 @@ FROM (
             `x1region`,
             CASE WHEN (`x1stuedexpct` IN list(-8.0, -9.0, 11.0)) THEN NULL WHEN NOT (`x1stuedexpct` IN list(-8.0, -9.0, 11.0)) THEN `x1stuedexpct` END AS `student_exp`,
             CASE WHEN (`x1paredexpct` IN list(-8.0, -9.0, 11.0)) THEN NULL WHEN NOT (`x1paredexpct` IN list(-8.0, -9.0, 11.0)) THEN `x1paredexpct` END AS `parent_exp`
-          FROM `dbplyr_Nf2V08I9xj`
+          FROM `dbplyr_R1xDCf85F3`
         ) AS `q01`
       ) AS `q01`
     ) AS `q01`
@@ -2012,7 +2012,7 @@ print(db_3)
 ::: {.cell-output .cell-output-stdout}
 
 ```
-# Source:   table<`dbplyr_cJcZLIMfeu`> [?? x 19]
+# Source:   table<`dbplyr_AqxHbEF9CR`> [?? x 19]
 # Database: sqlite 3.47.1 [:memory:]
   school       math_1980 read_1980 science_1980 math_1981 read_1981 science_1981
   <chr>            <dbl>     <dbl>        <dbl>     <dbl>     <dbl>        <dbl>
@@ -2051,12 +2051,12 @@ df_long_fix <- db_3 |>
 ``` SQL
 <SQL>
 SELECT `school`, 'math' AS `test`, '1980' AS `year`, `math_1980` AS `score`
-FROM `dbplyr_cJcZLIMfeu`
+FROM `dbplyr_AqxHbEF9CR`
 
 UNION ALL
 
 SELECT `school`, 'read' AS `test`, '1980' AS `year`, `read_1980` AS `score`
-FROM `dbplyr_cJcZLIMfeu`
+FROM `dbplyr_AqxHbEF9CR`
 
 UNION ALL
 
@@ -2065,17 +2065,17 @@ SELECT
   'science' AS `test`,
   '1980' AS `year`,
   `science_1980` AS `score`
-FROM `dbplyr_cJcZLIMfeu`
+FROM `dbplyr_AqxHbEF9CR`
 
 UNION ALL
 
 SELECT `school`, 'math' AS `test`, '1981' AS `year`, `math_1981` AS `score`
-FROM `dbplyr_cJcZLIMfeu`
+FROM `dbplyr_AqxHbEF9CR`
 
 UNION ALL
 
 SELECT `school`, 'read' AS `test`, '1981' AS `year`, `read_1981` AS `score`
-FROM `dbplyr_cJcZLIMfeu`
+FROM `dbplyr_AqxHbEF9CR`
 
 UNION ALL
 
@@ -2084,17 +2084,17 @@ SELECT
   'science' AS `test`,
   '1981' AS `year`,
   `science_1981` AS `score`
-FROM `dbplyr_cJcZLIMfeu`
+FROM `dbplyr_AqxHbEF9CR`
 
 UNION ALL
 
 SELECT `school`, 'math' AS `test`, '1982' AS `year`, `math_1982` AS `score`
-FROM `dbplyr_cJcZLIMfeu`
+FROM `dbplyr_AqxHbEF9CR`
 
 UNION ALL
 
 SELECT `school`, 'read' AS `test`, '1982' AS `year`, `read_1982` AS `score`
-FROM `dbplyr_cJcZLIMfeu`
+FROM `dbplyr_AqxHbEF9CR`
 
 UNION ALL
 
@@ -2103,17 +2103,17 @@ SELECT
   'science' AS `test`,
   '1982' AS `year`,
   `science_1982` AS `score`
-FROM `dbplyr_cJcZLIMfeu`
+FROM `dbplyr_AqxHbEF9CR`
 
 UNION ALL
 
 SELECT `school`, 'math' AS `test`, '1983' AS `year`, `math_1983` AS `score`
-FROM `dbplyr_cJcZLIMfeu`
+FROM `dbplyr_AqxHbEF9CR`
 
 UNION ALL
 
 SELECT `school`, 'read' AS `test`, '1983' AS `year`, `read_1983` AS `score`
-FROM `dbplyr_cJcZLIMfeu`
+FROM `dbplyr_AqxHbEF9CR`
 
 UNION ALL
 
@@ -2122,17 +2122,17 @@ SELECT
   'science' AS `test`,
   '1983' AS `year`,
   `science_1983` AS `score`
-FROM `dbplyr_cJcZLIMfeu`
+FROM `dbplyr_AqxHbEF9CR`
 
 UNION ALL
 
 SELECT `school`, 'math' AS `test`, '1984' AS `year`, `math_1984` AS `score`
-FROM `dbplyr_cJcZLIMfeu`
+FROM `dbplyr_AqxHbEF9CR`
 
 UNION ALL
 
 SELECT `school`, 'read' AS `test`, '1984' AS `year`, `read_1984` AS `score`
-FROM `dbplyr_cJcZLIMfeu`
+FROM `dbplyr_AqxHbEF9CR`
 
 UNION ALL
 
@@ -2141,17 +2141,17 @@ SELECT
   'science' AS `test`,
   '1984' AS `year`,
   `science_1984` AS `score`
-FROM `dbplyr_cJcZLIMfeu`
+FROM `dbplyr_AqxHbEF9CR`
 
 UNION ALL
 
 SELECT `school`, 'math' AS `test`, '1985' AS `year`, `math_1985` AS `score`
-FROM `dbplyr_cJcZLIMfeu`
+FROM `dbplyr_AqxHbEF9CR`
 
 UNION ALL
 
 SELECT `school`, 'read' AS `test`, '1985' AS `year`, `read_1985` AS `score`
-FROM `dbplyr_cJcZLIMfeu`
+FROM `dbplyr_AqxHbEF9CR`
 
 UNION ALL
 
@@ -2160,7 +2160,7 @@ SELECT
   'science' AS `test`,
   '1985' AS `year`,
   `science_1985` AS `score`
-FROM `dbplyr_cJcZLIMfeu`
+FROM `dbplyr_AqxHbEF9CR`
 ```
 
 
