@@ -53,18 +53,18 @@ In this lesson, new in 2024 and updated for 2025 we are going to cover a few mor
     -   Notice: IPEDS uses separate data files for public `_f1a` non-profit `_f2` and for-profit `_f3` colleges
 
 ```{r}
-df_18_pub <- read_csv(file.path("data", "ipeds-finance", "f1819_f1a_rv.csv"))
-df_18_np <- read_csv(file.path("data", "ipeds-finance", "f1819_f2_rv.csv"))
-df_18_fp <- read_csv(file.path("data", "ipeds-finance", "f1819_f3_rv.csv"))
+data_18_pub <- read_csv("data/ipeds-finance/f1819_f1a_rv.csv")
+data_18_np <- read_csv("data/ipeds-finance/f1819_f2_rv.csv")
+data_18_fp <- read_csv("data/ipeds-finance/f1819_f3_rv.csv")
 ```
 
 -   First, since there should be no college in more than one of these data files, and each college only has one row, we can `bind_rows` to stack each one on top of the other
     -   Then run a quick test to check no UNITID appears more than once (no duplicates)
 
 ```{r}
-df_18 <- bind_rows(df_18_pub, df_18_np, df_18_fp)
+data_18 <- bind_rows(data_18_pub, data_18_np, data_18_fp)
 
-df_18 |>
+data_18 |>
   count(UNITID) |>
   filter(n > 1)
 
@@ -104,14 +104,14 @@ Our data looks something like this
     -   Quick question: How did I find the variable names to use below?
 
 ```{r}
-df_18 <- df_18 |>
+data_18 <- data_18 |>
   select(UNITID,
          F1C011, F1C021, F1C061,
          F2E011, F2E021, F2E051,
          F3E011, F3E02A1, F3E03B1)
 
-print(df_18[100:105,])
-print(df_18[3000:3005,])
+print(data_18[100:105,])
+print(data_18[3000:3005,])
 ```
 
 - For the sake of demonstration, let me show how to do this for instruction without our first "tidyverse trick"
@@ -120,15 +120,15 @@ print(df_18[3000:3005,])
 ```{r}
 
 ## Split back up into separate files
-pub <- df_18 |> filter(!is.na(F1C011)) |>
+pub <- data_18 |> filter(!is.na(F1C011)) |>
   ## Rename the variable
   rename(inst_spend = F1C011) |>
   ## Drop the other variables
   select(UNITID, inst_spend)
-np <- df_18 |> filter(!is.na(F2E011)) |>
+np <- data_18 |> filter(!is.na(F2E011)) |>
   rename(inst_spend = F2E011) |>
   select(UNITID, inst_spend)
-fp <- df_18 |> filter(!is.na(F3E011)) |>
+fp <- data_18 |> filter(!is.na(F3E011)) |>
   rename(inst_spend = F3E011) |>
   select(UNITID, inst_spend)
 ## Re-bind the colleges back up
@@ -153,14 +153,14 @@ Yep! So let's do all the columns and get a clean data frame
 let's do all the columns and get a clean data frame
 
 ```{r}
-df_18_clean <- df_18 |>
+data_18_clean <- data_18 |>
   mutate(inst_spend = coalesce(F1C011, F2E011, F3E011),
          rsch_spend = coalesce(F1C021, F2E021, F3E02A1),
          serv_spend = coalesce(F1C061, F2E051, F3E03B1)) |>
   select(UNITID, inst_spend, rsch_spend, serv_spend)
 
-print(df_18_clean[100:105,])
-print(df_18_clean[3000:3005,])
+print(data_18_clean[100:105,])
+print(data_18_clean[3000:3005,])
 ```
 
 -   This is a real time saver if working with IPEDS finance data
@@ -180,13 +180,13 @@ print(df_18_clean[3000:3005,])
 
 
 ```{r}
-df_0_inst <- df_18_clean |> filter(inst_spend == 0)
-df_0_rsch <- df_18_clean |> filter(rsch_spend == 0)
-df_0_serv <- df_18_clean |> filter(serv_spend == 0)
-df_0 <- bind_rows(df_0_inst, df_0_rsch, df_0_serv)
+data_0_inst <- data_18_clean |> filter(inst_spend == 0)
+data_0_rsch <- data_18_clean |> filter(rsch_spend == 0)
+data_0_serv <- data_18_clean |> filter(serv_spend == 0)
+data_0 <- bind_rows(data_0_inst, data_0_rsch, data_0_serv)
 
 ## Plus we end up with duplicates
-df_0 |>
+data_0 |>
   count(UNITID) |>
   filter(n > 1)
 
@@ -195,16 +195,16 @@ df_0 |>
 - With the `if_any()` helper function
 
 ```{r}
-df_0 <- df_18_clean |>
+data_0 <- data_18_clean |>
   filter(if_any(everything(), ~ . == 0)) ## h/t https://stackoverflow.com/questions/69585261/dplyr-if-any-and-numeric-filtering
 
-print(df_0)
+print(data_0)
 ```
 
 -   Let's walk through this code
 
-    1.  Assign our results to a new object called `df_0`
-    2.  Take `df_18_clean` and pipe it into filter
+    1.  Assign our results to a new object called `data_0`
+    2.  Take `data_18_clean` and pipe it into filter
     3.  Inside `filter()` we have our `if_any` helper function, which has two arguments
 
     <!-- -->
@@ -235,7 +235,7 @@ print(df_0)
 -   Here, we will use the `across` function inside `count()` to get a breakdown of which spending categories are unreported most often
 
 ```{r}
-df_0 |>
+data_0 |>
   select(-UNITID) |>
   count(across(everything(), ~ . == 0))
 ```
@@ -273,7 +273,7 @@ df_0 |>
     3.  To check if a `case_when()` worked, I like to pipe it into a `count()` for the new variable we made
 
 ```{r}
-df_18_clean |>
+data_18_clean |>
   mutate(highest_cat = case_when(inst_spend > rsch_spend & rsch_spend > serv_spend ~ "inst_rsch_serv",
                                  inst_spend > serv_spend & serv_spend > rsch_spend ~ "inst_serv_rsch",
                                  rsch_spend > inst_spend & inst_spend > serv_spend ~ "rsch_inst_serv",
@@ -297,7 +297,7 @@ df_18_clean |>
 -   Let's see how our results change if I use "greater than or equal to" signs
 
 ```{r}
-df_18_clean |>
+data_18_clean |>
   mutate(highest_cat = case_when(inst_spend >= rsch_spend & rsch_spend >= serv_spend ~ "inst_rsch_serv",
                                  inst_spend >= serv_spend & serv_spend >= rsch_spend ~ "inst_serv_rsch",
                                  rsch_spend >= inst_spend & inst_spend >= serv_spend ~ "rsch_inst_serv",
