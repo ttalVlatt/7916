@@ -131,8 +131,10 @@ np <- data_18 |> filter(!is.na(F2E011)) |>
 fp <- data_18 |> filter(!is.na(F3E011)) |>
   rename(inst_spend = F3E011) |>
   select(UNITID, inst_spend)
+
+
 ## Re-bind the colleges back up
-rebind <- bind_rows(pub, np, fp)
+hard_way <- bind_rows(pub, np, fp)
 
 ```
 
@@ -142,15 +144,22 @@ rebind <- bind_rows(pub, np, fp)
     -   Returns the first non-missing value across any number of columns
         -   This works perfectly in situations like this, when you only have one data point for each row, it could just be in any column
 
+```{r}
+easy_way <- data_18 |>
+  mutate(inst_spend = coalesce(F1C011, F2E011, F3E011)) |>
+  select(UNITID, inst_spend)
+
+print(easy_way[100:105,])
+print(easy_way[3000:3005,])
+```
+
 - Let's check, are they the same?
 
 ```{r}
-all.equal(rebind, coalesce)
+all.equal(hard_way, easy_way)
 ```
 
-Yep! So let's do all the columns and get a clean data frame
-
-let's do all the columns and get a clean data frame
+- Yep! So let's do all the columns and get a clean data frame
 
 ```{r}
 data_18_clean <- data_18 |>
@@ -247,6 +256,7 @@ data_0 |>
         -   By far the most common variable to report zero is research spending, with 4411 reporting only that variable as 0
         -   25 schools reported 0 for all three variables
 -   Although we've only been working across 3 variables in these examples, the power of these commands is that they can work across an unlimited number of columns, so the bigger your data, the more should be thinking `across()` and `if_any()`
+- We will use across with `mutate()` in the next part of the lesson!
 
 ### Moving Beyond `ifelse()` with `case_when()`
 
