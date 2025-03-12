@@ -60,11 +60,20 @@ np <- data_18 |> filter(!is.na(F2E011)) |>
 fp <- data_18 |> filter(!is.na(F3E011)) |>
   rename(inst_spend = F3E011) |>
   select(UNITID, inst_spend)
+
+
 ## Re-bind the colleges back up
-rebind <- bind_rows(pub, np, fp)
+hard_way <- bind_rows(pub, np, fp)
 
 
-all.equal(rebind, coalesce)
+easy_way <- data_18 |>
+  mutate(inst_spend = coalesce(F1C011, F2E011, F3E011)) |>
+  select(UNITID, inst_spend)
+
+print(easy_way[100:105,])
+print(easy_way[3000:3005,])
+
+all.equal(hard_way, easy_way)
 
 data_18_clean <- data_18 |>
   mutate(inst_spend = coalesce(F1C011, F2E011, F3E011),
