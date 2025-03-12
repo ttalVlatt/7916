@@ -39,7 +39,7 @@ df |>
   ungroup() |> # remove the grouping as we only wanted slice() to be grouped
   select(chfnm_lower) |> # keep only the chief admin name
   count(chfnm_lower) |> # get counts of the names (should be a column of ones)
-  summarize(sum(n)) # count up the number ones
+  nrow() # count up the number ones
 
 ## Below is how I compared our in class regex with Ben's and my final answer
 
@@ -77,7 +77,7 @@ df |>
   slice(1) |> # slice the one row of these (to remove duplicates)
   ungroup() |> # remove the grouping as we only wanted slice() to be grouped
   count(chfnm_lower) |> # get counts of the names (should be a column of ones)
-  summarize(sum(n)) # count up the number ones
+  nrow() # count up the number ones
 
 ## ---------------------------
 ##' [Q3]
@@ -89,16 +89,14 @@ df |>
   mutate(mission_lower = str_to_lower(mission), # lower case the mission
          instnm_lower = str_to_lower(INSTNM)) |> # lower case the institution name
   filter(str_detect(mission_lower, instnm_lower)) |> # search for the name in the mission
-  count(mission_lower) |> # get counts of the names (should be a column of ones)
-  summarize(sum(n)) # count up the number ones
+  nrow() # count up the number ones
   
 ##'[ii]
 
 df |>
   mutate(mission_lower = str_to_lower(mission)) |> # lower case the mission
   filter(str_detect(mission_lower, "civic")) |> # look for the word "civic
-  count(mission_lower) |> # get counts of the names (should be a column of ones)
-  summarize(sum(n)) # count up the number ones
+  nrow() # count up the number ones
 
 ##'[iii]
 
