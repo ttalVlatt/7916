@@ -352,6 +352,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'purrr' was built under R version 4.4.1</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'lubridate' was built under R version 4.4.1</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
 <pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
 ✔ dplyr     1.1.4     ✔ readr     2.1.5
 ✔ forcats   1.0.0     ✔ stringr   1.5.1
@@ -363,7 +369,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 ✖ dplyr::lag()    masks stats::lag()
 ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rvest)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rvest)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>
 Attaching package: 'rvest'
@@ -372,61 +378,61 @@ The following object is masked from 'package:readr':
 
     guess_encoding</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <section id="inspect-the-web-site" class="level2">
 <h2 data-anchor-id="inspect-the-web-site">Inspect the web site</h2>
 <p>First, let’s check out the <a href="https://nces.ed.gov/programs/digest/d17/tables/dt17_302.10.asp">table we want to scrape</a>. The table we see looks like a regularly formatted table, much like we would see in a paper document. But unlike a printed document, a web page relies on hidden-from-the-user code to generate what we see. By doing it this way instead of serving a static image, websites can adjust to the wide array of user screen sizes, devices, and operating systems. Instructions that tell the user device how to generate the page are also smaller than sending a preformatted image, so bandwidth and time to load are also reduced.</p>
 <p>But as web scrapers, we don’t need this. We need the underlying HTML/CSS/XML code used to generate the page. To see it, you’ll need to use a web site inspector. With <a href="https://developer.mozilla.org/en-US/docs/Tools/Page_Inspector">Firefox</a> and <a href="https://developers.google.com/web/tools/chrome-devtools/">Chrome</a>, you should be able to right-click the page and see the underlying code (you may need to turn on developer tools first). With Safari, you will have to <a href="https://developers.google.com/web/tools/chrome-devtools/">enable the developer tools first</a>.</p>
 <p>The top code of the page should look something like this:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;!DOCTYPE</span> html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"<span class="dt">&gt;</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- Current year pub navigation function --&gt;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;!DOCTYPE</span> html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"<span class="dt">&gt;</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- Current year pub navigation function --&gt;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Moving further down, we find the table data, but in a very different format (first row):</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>...</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">tr</span><span class="dt">&gt;</span></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">th</span><span class="ot"> class</span><span class="op">=</span><span class="st">"TblCls009"</span><span class="ot"> scope</span><span class="op">=</span><span class="st">"row"</span><span class="ot"> nowrap</span><span class="op">=</span><span class="st">"nowrap"</span><span class="dt">&gt;</span>1960 <span class="dt">&lt;/</span><span class="kw">th</span><span class="dt">&gt;</span></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">td</span><span class="ot"> class</span><span class="op">=</span><span class="st">"TblCls010"</span><span class="dt">&gt;</span>1,679<span class="dt">&lt;/</span><span class="kw">td</span><span class="dt">&gt;</span></span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">td</span><span class="ot"> class</span><span class="op">=</span><span class="st">"TblCls011"</span><span class="dt">&gt;</span>(44.5)<span class="dt">&lt;/</span><span class="kw">td</span><span class="dt">&gt;</span></span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">td</span><span class="ot"> class</span><span class="op">=</span><span class="st">"TblCls010"</span><span class="dt">&gt;</span>756<span class="dt">&lt;/</span><span class="kw">td</span><span class="dt">&gt;</span></span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">td</span><span class="ot"> class</span><span class="op">=</span><span class="st">"TblCls011"</span><span class="dt">&gt;</span>(32.3)<span class="dt">&lt;/</span><span class="kw">td</span><span class="dt">&gt;</span></span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">td</span><span class="ot"> class</span><span class="op">=</span><span class="st">"TblCls010"</span><span class="dt">&gt;</span>923<span class="dt">&lt;/</span><span class="kw">td</span><span class="dt">&gt;</span></span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">td</span><span class="ot"> class</span><span class="op">=</span><span class="st">"TblCls011"</span><span class="dt">&gt;</span>(30.1)<span class="dt">&lt;/</span><span class="kw">td</span><span class="dt">&gt;</span></span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">td</span><span class="ot"> class</span><span class="op">=</span><span class="st">"TblCls010"</span><span class="dt">&gt;</span>45.1<span class="dt">&lt;/</span><span class="kw">td</span><span class="dt">&gt;</span></span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">td</span><span class="ot"> class</span><span class="op">=</span><span class="st">"TblCls011"</span><span class="dt">&gt;</span>(2.16)<span class="dt">&lt;/</span><span class="kw">td</span><span class="dt">&gt;</span></span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">td</span><span class="ot"> class</span><span class="op">=</span><span class="st">"TblCls010"</span><span class="dt">&gt;</span><span class="dv">&amp;mdash;</span><span class="dt">&lt;/</span><span class="kw">td</span><span class="dt">&gt;</span></span>
-<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">td</span><span class="ot"> class</span><span class="op">=</span><span class="st">"TblCls011"</span><span class="dt">&gt;</span>(<span class="dv">&amp;dagger;</span>)<span class="dt">&lt;/</span><span class="kw">td</span><span class="dt">&gt;</span></span>
-<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">td</span><span class="ot"> class</span><span class="op">=</span><span class="st">"TblCls010"</span><span class="dt">&gt;</span><span class="dv">&amp;mdash;</span><span class="dt">&lt;/</span><span class="kw">td</span><span class="dt">&gt;</span></span>
-<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">td</span><span class="ot"> class</span><span class="op">=</span><span class="st">"TblCls011"</span><span class="dt">&gt;</span>(<span class="dv">&amp;dagger;</span>)<span class="dt">&lt;/</span><span class="kw">td</span><span class="dt">&gt;</span></span>
-<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">td</span><span class="ot"> class</span><span class="op">=</span><span class="st">"TblCls010"</span><span class="dt">&gt;</span>54.0<span class="dt">&lt;/</span><span class="kw">td</span><span class="dt">&gt;</span></span>
-<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">td</span><span class="ot"> class</span><span class="op">=</span><span class="st">"TblCls011"</span><span class="dt">&gt;</span>(3.23)<span class="dt">&lt;/</span><span class="kw">td</span><span class="dt">&gt;</span></span>
-<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">td</span><span class="ot"> class</span><span class="op">=</span><span class="st">"TblCls010"</span><span class="dt">&gt;</span><span class="dv">&amp;mdash;</span><span class="dt">&lt;/</span><span class="kw">td</span><span class="dt">&gt;</span></span>
-<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">td</span><span class="ot"> class</span><span class="op">=</span><span class="st">"TblCls011"</span><span class="dt">&gt;</span>(<span class="dv">&amp;dagger;</span>)<span class="dt">&lt;/</span><span class="kw">td</span><span class="dt">&gt;</span></span>
-<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">td</span><span class="ot"> class</span><span class="op">=</span><span class="st">"TblCls010"</span><span class="dt">&gt;</span><span class="dv">&amp;mdash;</span><span class="dt">&lt;/</span><span class="kw">td</span><span class="dt">&gt;</span></span>
-<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">td</span><span class="ot"> class</span><span class="op">=</span><span class="st">"TblCls011"</span><span class="dt">&gt;</span>(<span class="dv">&amp;dagger;</span>)<span class="dt">&lt;/</span><span class="kw">td</span><span class="dt">&gt;</span></span>
-<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">td</span><span class="ot"> class</span><span class="op">=</span><span class="st">"TblCls010"</span><span class="dt">&gt;</span>37.9<span class="dt">&lt;/</span><span class="kw">td</span><span class="dt">&gt;</span></span>
-<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">td</span><span class="ot"> class</span><span class="op">=</span><span class="st">"TblCls011"</span><span class="dt">&gt;</span>(2.85)<span class="dt">&lt;/</span><span class="kw">td</span><span class="dt">&gt;</span></span>
-<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">td</span><span class="ot"> class</span><span class="op">=</span><span class="st">"TblCls010"</span><span class="dt">&gt;</span><span class="dv">&amp;mdash;</span><span class="dt">&lt;/</span><span class="kw">td</span><span class="dt">&gt;</span></span>
-<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">td</span><span class="ot"> class</span><span class="op">=</span><span class="st">"TblCls011"</span><span class="dt">&gt;</span>(<span class="dv">&amp;dagger;</span>)<span class="dt">&lt;/</span><span class="kw">td</span><span class="dt">&gt;</span></span>
-<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">td</span><span class="ot"> class</span><span class="op">=</span><span class="st">"TblCls010"</span><span class="dt">&gt;</span><span class="dv">&amp;mdash;</span><span class="dt">&lt;/</span><span class="kw">td</span><span class="dt">&gt;</span></span>
-<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">td</span><span class="ot"> class</span><span class="op">=</span><span class="st">"TblCls011"</span><span class="dt">&gt;</span>(<span class="dv">&amp;dagger;</span>)<span class="dt">&lt;/</span><span class="kw">td</span><span class="dt">&gt;</span></span>
-<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">tr</span><span class="dt">&gt;</span></span>
-<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a>...</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>...</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">tr</span><span class="dt">&gt;</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">th</span><span class="ot"> class</span><span class="op">=</span><span class="st">"TblCls009"</span><span class="ot"> scope</span><span class="op">=</span><span class="st">"row"</span><span class="ot"> nowrap</span><span class="op">=</span><span class="st">"nowrap"</span><span class="dt">&gt;</span>1960 <span class="dt">&lt;/</span><span class="kw">th</span><span class="dt">&gt;</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">td</span><span class="ot"> class</span><span class="op">=</span><span class="st">"TblCls010"</span><span class="dt">&gt;</span>1,679<span class="dt">&lt;/</span><span class="kw">td</span><span class="dt">&gt;</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">td</span><span class="ot"> class</span><span class="op">=</span><span class="st">"TblCls011"</span><span class="dt">&gt;</span>(44.5)<span class="dt">&lt;/</span><span class="kw">td</span><span class="dt">&gt;</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">td</span><span class="ot"> class</span><span class="op">=</span><span class="st">"TblCls010"</span><span class="dt">&gt;</span>756<span class="dt">&lt;/</span><span class="kw">td</span><span class="dt">&gt;</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">td</span><span class="ot"> class</span><span class="op">=</span><span class="st">"TblCls011"</span><span class="dt">&gt;</span>(32.3)<span class="dt">&lt;/</span><span class="kw">td</span><span class="dt">&gt;</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">td</span><span class="ot"> class</span><span class="op">=</span><span class="st">"TblCls010"</span><span class="dt">&gt;</span>923<span class="dt">&lt;/</span><span class="kw">td</span><span class="dt">&gt;</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">td</span><span class="ot"> class</span><span class="op">=</span><span class="st">"TblCls011"</span><span class="dt">&gt;</span>(30.1)<span class="dt">&lt;/</span><span class="kw">td</span><span class="dt">&gt;</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">td</span><span class="ot"> class</span><span class="op">=</span><span class="st">"TblCls010"</span><span class="dt">&gt;</span>45.1<span class="dt">&lt;/</span><span class="kw">td</span><span class="dt">&gt;</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">td</span><span class="ot"> class</span><span class="op">=</span><span class="st">"TblCls011"</span><span class="dt">&gt;</span>(2.16)<span class="dt">&lt;/</span><span class="kw">td</span><span class="dt">&gt;</span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">td</span><span class="ot"> class</span><span class="op">=</span><span class="st">"TblCls010"</span><span class="dt">&gt;</span><span class="dv">&amp;mdash;</span><span class="dt">&lt;/</span><span class="kw">td</span><span class="dt">&gt;</span></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">td</span><span class="ot"> class</span><span class="op">=</span><span class="st">"TblCls011"</span><span class="dt">&gt;</span>(<span class="dv">&amp;dagger;</span>)<span class="dt">&lt;/</span><span class="kw">td</span><span class="dt">&gt;</span></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">td</span><span class="ot"> class</span><span class="op">=</span><span class="st">"TblCls010"</span><span class="dt">&gt;</span><span class="dv">&amp;mdash;</span><span class="dt">&lt;/</span><span class="kw">td</span><span class="dt">&gt;</span></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">td</span><span class="ot"> class</span><span class="op">=</span><span class="st">"TblCls011"</span><span class="dt">&gt;</span>(<span class="dv">&amp;dagger;</span>)<span class="dt">&lt;/</span><span class="kw">td</span><span class="dt">&gt;</span></span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">td</span><span class="ot"> class</span><span class="op">=</span><span class="st">"TblCls010"</span><span class="dt">&gt;</span>54.0<span class="dt">&lt;/</span><span class="kw">td</span><span class="dt">&gt;</span></span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">td</span><span class="ot"> class</span><span class="op">=</span><span class="st">"TblCls011"</span><span class="dt">&gt;</span>(3.23)<span class="dt">&lt;/</span><span class="kw">td</span><span class="dt">&gt;</span></span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">td</span><span class="ot"> class</span><span class="op">=</span><span class="st">"TblCls010"</span><span class="dt">&gt;</span><span class="dv">&amp;mdash;</span><span class="dt">&lt;/</span><span class="kw">td</span><span class="dt">&gt;</span></span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">td</span><span class="ot"> class</span><span class="op">=</span><span class="st">"TblCls011"</span><span class="dt">&gt;</span>(<span class="dv">&amp;dagger;</span>)<span class="dt">&lt;/</span><span class="kw">td</span><span class="dt">&gt;</span></span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">td</span><span class="ot"> class</span><span class="op">=</span><span class="st">"TblCls010"</span><span class="dt">&gt;</span><span class="dv">&amp;mdash;</span><span class="dt">&lt;/</span><span class="kw">td</span><span class="dt">&gt;</span></span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">td</span><span class="ot"> class</span><span class="op">=</span><span class="st">"TblCls011"</span><span class="dt">&gt;</span>(<span class="dv">&amp;dagger;</span>)<span class="dt">&lt;/</span><span class="kw">td</span><span class="dt">&gt;</span></span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">td</span><span class="ot"> class</span><span class="op">=</span><span class="st">"TblCls010"</span><span class="dt">&gt;</span>37.9<span class="dt">&lt;/</span><span class="kw">td</span><span class="dt">&gt;</span></span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">td</span><span class="ot"> class</span><span class="op">=</span><span class="st">"TblCls011"</span><span class="dt">&gt;</span>(2.85)<span class="dt">&lt;/</span><span class="kw">td</span><span class="dt">&gt;</span></span>
+<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">td</span><span class="ot"> class</span><span class="op">=</span><span class="st">"TblCls010"</span><span class="dt">&gt;</span><span class="dv">&amp;mdash;</span><span class="dt">&lt;/</span><span class="kw">td</span><span class="dt">&gt;</span></span>
+<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">td</span><span class="ot"> class</span><span class="op">=</span><span class="st">"TblCls011"</span><span class="dt">&gt;</span>(<span class="dv">&amp;dagger;</span>)<span class="dt">&lt;/</span><span class="kw">td</span><span class="dt">&gt;</span></span>
+<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">td</span><span class="ot"> class</span><span class="op">=</span><span class="st">"TblCls010"</span><span class="dt">&gt;</span><span class="dv">&amp;mdash;</span><span class="dt">&lt;/</span><span class="kw">td</span><span class="dt">&gt;</span></span>
+<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">td</span><span class="ot"> class</span><span class="op">=</span><span class="st">"TblCls011"</span><span class="dt">&gt;</span>(<span class="dv">&amp;dagger;</span>)<span class="dt">&lt;/</span><span class="kw">td</span><span class="dt">&gt;</span></span>
+<span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">tr</span><span class="dt">&gt;</span></span>
+<span id="cb9-29"><a href="#cb9-29" aria-hidden="true" tabindex="-1"></a>...</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>The task is to convert these data into a data frame that we can then store or use in tables and figures. This is what the <a href="https://CRAN.R-project.org/package=rvest">rvest</a> helps us do.</p>
 </section>
 <section id="read-web-site" class="level2">
 <h2 data-anchor-id="read-web-site">Read web site</h2>
 <p>The first step is to read the web page code into an object using the <code>read_html()</code> function.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="do">## set site</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>url <span class="ot">&lt;-</span> <span class="st">"https://nces.ed.gov/programs/digest/d17/tables/dt17_302.10.asp"</span></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="do">## get site</span></span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>site <span class="ot">&lt;-</span> <span class="fu">read_html</span>(url)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="do">## set site</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>url <span class="ot">&lt;-</span> <span class="st">"https://nces.ed.gov/programs/digest/d17/tables/dt17_302.10.asp"</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="do">## get site</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>site <span class="ot">&lt;-</span> <span class="fu">read_html</span>(url)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Showing our object, we can see that the basic structure of the web page is stored.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="do">## show</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>site</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="do">## show</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>site</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>{html_document}
 &lt;html&gt;
@@ -462,13 +468,13 @@ The following object is masked from 'package:readr':
 <h2 data-anchor-id="first-column-of-data">First column of data</h2>
 <p>As a first step, let’s get the first column of data in Table 302.10: the total number of recent high school graduates. Using SelectorGadget, I see that the node string I should use is <code>'.tableBracketRow td:nth-child(2)'</code>. After selecting the node, we use <code>html_text()</code> to convert the data into a vector like we’re used to seeing.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="do">## subset to just first column</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>tot <span class="ot">&lt;-</span> site <span class="sc">%&gt;%</span></span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_nodes</span>(<span class="st">".tableBracketRow td:nth-child(2)"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_text</span>()</span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="do">## show</span></span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>tot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="do">## subset to just first column</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>tot <span class="ot">&lt;-</span> site <span class="sc">%&gt;%</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_nodes</span>(<span class="st">".tableBracketRow td:nth-child(2)"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_text</span>()</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="do">## show</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>tot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> [1] "1,679" "1,763" "1,838" "1,741" "2,145" "&nbsp;"     "2,659" "2,612" "2,525"
 [10] "2,606" "2,842" "&nbsp;"     "2,758" "2,875" "2,964" "3,058" "3,101" "&nbsp;"    
@@ -482,13 +488,13 @@ The following object is masked from 'package:readr':
 </div>
 <p>So far so good, but we can see a few problems. First, the blank rows in the table show up in our data. While those blank table spaces are good for the eyes, they aren’t good in our data set. Let’s try to remove them using the <code>trim = TRUE</code> option.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="do">## ...this time trim blank spaces</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>tot <span class="ot">&lt;-</span> site <span class="sc">%&gt;%</span></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_nodes</span>(<span class="st">".tableBracketRow td:nth-child(2)"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_text</span>(<span class="at">trim =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="do">## show</span></span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>tot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="do">## ...this time trim blank spaces</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>tot <span class="ot">&lt;-</span> site <span class="sc">%&gt;%</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_nodes</span>(<span class="st">".tableBracketRow td:nth-child(2)"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_text</span>(<span class="at">trim =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="do">## show</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>tot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> [1] "1,679" "1,763" "1,838" "1,741" "2,145" ""      "2,659" "2,612" "2,525"
 [10] "2,606" "2,842" ""      "2,758" "2,875" "2,964" "3,058" "3,101" ""     
@@ -502,11 +508,11 @@ The following object is masked from 'package:readr':
 </div>
 <p>Better, but the empty elements are still there. We can use <code>str_subset()</code> from the stringr library (loaded with tidyverse) to remove them.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="do">## remove blank values; str_subset removes pattern ("")</span></span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>tot <span class="ot">&lt;-</span> tot <span class="sc">%&gt;%</span> <span class="fu">str_subset</span>(<span class="at">pattern =</span> <span class="st">".+"</span>)</span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="do">## show</span></span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>tot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="do">## remove blank values; str_subset removes pattern ("")</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>tot <span class="ot">&lt;-</span> tot <span class="sc">%&gt;%</span> <span class="fu">str_subset</span>(<span class="at">pattern =</span> <span class="st">".+"</span>)</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="do">## show</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>tot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> [1] "1,679" "1,763" "1,838" "1,741" "2,145" "2,659" "2,612" "2,525" "2,606"
 [10] "2,842" "2,758" "2,875" "2,964" "3,058" "3,101" "3,185" "2,986" "3,141"
@@ -519,11 +525,11 @@ The following object is masked from 'package:readr':
 </div>
 <p>Getting closer. Next, let’s convert our numbers to actual numbers, which R thinks are strings at the moment. To do this, we need to get rid of the commas. The <code>str_replace()</code> function is perfect for this. Regular expressions can become complicated, but our use here is simple:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="do">## remove commas, replacing with empty string</span></span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>tot <span class="ot">&lt;-</span> tot <span class="sc">%&gt;%</span> <span class="fu">str_replace</span>(<span class="at">pattern =</span> <span class="st">","</span>, <span class="at">replacement =</span> <span class="st">""</span>)</span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="do">## show</span></span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>tot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="do">## remove commas, replacing with empty string</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>tot <span class="ot">&lt;-</span> tot <span class="sc">%&gt;%</span> <span class="fu">str_replace</span>(<span class="at">pattern =</span> <span class="st">","</span>, <span class="at">replacement =</span> <span class="st">""</span>)</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="do">## show</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>tot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> [1] "1679" "1763" "1838" "1741" "2145" "2659" "2612" "2525" "2606" "2842"
 [11] "2758" "2875" "2964" "3058" "3101" "3185" "2986" "3141" "3163" "3160"
@@ -535,11 +541,11 @@ The following object is masked from 'package:readr':
 </div>
 <p>Now we’re ready to convert to a number.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="do">## convert to numeric</span></span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>tot <span class="ot">&lt;-</span> tot <span class="sc">%&gt;%</span> <span class="fu">as.integer</span>()</span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="do">## show</span></span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>tot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="do">## convert to numeric</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>tot <span class="ot">&lt;-</span> tot <span class="sc">%&gt;%</span> <span class="fu">as.integer</span>()</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="do">## show</span></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>tot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> [1] 1679 1763 1838 1741 2145 2659 2612 2525 2606 2842 2758 2875 2964 3058 3101
 [16] 3185 2986 3141 3163 3160 3088 3056 3100 2963 3012 2668 2786 2647 2673 2450
@@ -553,16 +559,16 @@ The following object is masked from 'package:readr':
 <h2 data-anchor-id="add-year">Add year</h2>
 <p>So that these numbers make sense, let’s grab the years column and create and data frame so that we can make a figure of long term high school completer totals. Again, the first step is to use SelectorGadget to get the node string. This time, it’s <code>"tbody th"</code>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="do">## get years column</span></span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>years <span class="ot">&lt;-</span> site <span class="sc">%&gt;%</span></span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_nodes</span>(<span class="st">"tbody th"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_text</span>(<span class="at">trim =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a><span class="do">## remove blank spaces like before</span></span>
-<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>years <span class="ot">&lt;-</span> years <span class="sc">%&gt;%</span> <span class="fu">str_subset</span>(<span class="at">pattern =</span> <span class="st">".+"</span>)</span>
-<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a><span class="do">## show</span></span>
-<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>years</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="do">## get years column</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>years <span class="ot">&lt;-</span> site <span class="sc">%&gt;%</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_nodes</span>(<span class="st">"tbody th"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_text</span>(<span class="at">trim =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a><span class="do">## remove blank spaces like before</span></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>years <span class="ot">&lt;-</span> years <span class="sc">%&gt;%</span> <span class="fu">str_subset</span>(<span class="at">pattern =</span> <span class="st">".+"</span>)</span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a><span class="do">## show</span></span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>years</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> [1] "1960"  "1961"  "1962"  "1963"  "1964"  "1965"  "1966"  "1967"  "1968" 
 [10] "1969"  "1970"  "1971"  "1972"  "1973"  "1974"  "1975"  "1976"  "1977" 
@@ -575,11 +581,11 @@ The following object is masked from 'package:readr':
 </div>
 <p>We’ve gotten rid of the blank items, but now we have a new problem: the footnotes in the last few years has just be added to the year. Instead of 2010, we have 20103, and so on through 2016. Since the problem is small (it’s easy to see all the bad items) and regular (always extra 3 as the 5th digit), we can fix it using <code>str_sub()</code>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="do">## trim footnote that's become extra digit</span></span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>years <span class="ot">&lt;-</span> years <span class="sc">%&gt;%</span> <span class="fu">str_sub</span>(<span class="at">start =</span> <span class="dv">1</span>, <span class="at">end =</span> <span class="dv">4</span>)</span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a><span class="do">## show</span></span>
-<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>years</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="do">## trim footnote that's become extra digit</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>years <span class="ot">&lt;-</span> years <span class="sc">%&gt;%</span> <span class="fu">str_sub</span>(<span class="at">start =</span> <span class="dv">1</span>, <span class="at">end =</span> <span class="dv">4</span>)</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a><span class="do">## show</span></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>years</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> [1] "1960" "1961" "1962" "1963" "1964" "1965" "1966" "1967" "1968" "1969"
 [11] "1970" "1971" "1972" "1973" "1974" "1975" "1976" "1977" "1978" "1979"
@@ -592,12 +598,12 @@ The following object is masked from 'package:readr':
 <p>Fixed! Now we bind together with our high school completers total. Because we want to make a time period line graph, we’ll also convert the years to a date format. We’ll use <code>ymd</code> from the lubridate library. Since we only have years, we’ll include the argument <code>truncated = 2L</code>, which means that we have an incomplete date (no month or day).</p>
 <p><strong>NB</strong> Since we dropped blank elements in each vector separately, it’s important to check that all the data line up properly now that we’ve bound them together. If we wanted to be safer, we could have bound the data first, then dropped the rows with double missing values.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="do">## put in data frame</span></span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">bind_cols</span>(<span class="at">years =</span> years, <span class="at">total =</span> tot) <span class="sc">%&gt;%</span></span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">years =</span> <span class="fu">ymd</span>(years, <span class="at">truncated =</span> <span class="dv">2</span>L))</span>
-<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a><span class="do">## show</span></span>
-<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="do">## put in data frame</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">bind_cols</span>(<span class="at">years =</span> years, <span class="at">total =</span> tot) <span class="sc">%&gt;%</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">years =</span> <span class="fu">ymd</span>(years, <span class="at">truncated =</span> <span class="dv">2</span>L))</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a><span class="do">## show</span></span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 57 × 2
    years      total
@@ -618,27 +624,27 @@ The following object is masked from 'package:readr':
 <p>You can see that the date format adds a month and day (January 1st by default). While these particular dates probably aren’t right, we won’t use them later when graphing so they can stay.</p>
 <p>Let’s plot our trends.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="do">## plot</span></span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>g <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(df, <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> years, <span class="at">y =</span> total)) <span class="sc">+</span></span>
-<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  <span class="do">## line for the main estimate</span></span>
-<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
-<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>  <span class="do">## make x-axis look nice</span></span>
-<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>  <span class="do">## major breaks: every 5 years, from min year to max year</span></span>
-<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>  <span class="do">## minor breaks: every 1 year, from min year to max year</span></span>
-<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>  <span class="do">## labels: formate to only show year ("%Y")</span></span>
-<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_date</span>(<span class="at">breaks =</span> <span class="fu">seq</span>(<span class="fu">min</span>(df<span class="sc">$</span>years),</span>
-<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>                            <span class="fu">max</span>(df<span class="sc">$</span>years),</span>
-<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a>                            <span class="st">"5 years"</span>),</span>
-<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a>               <span class="at">minor_breaks =</span> <span class="fu">seq</span>(<span class="fu">min</span>(df<span class="sc">$</span>years),</span>
-<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a>                                  <span class="fu">max</span>(df<span class="sc">$</span>years),</span>
-<span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a>                                  <span class="st">"1 years"</span>),</span>
-<span id="cb27-15"><a href="#cb27-15" aria-hidden="true" tabindex="-1"></a>               <span class="at">date_labels =</span> <span class="st">"%Y"</span>) <span class="sc">+</span></span>
-<span id="cb27-16"><a href="#cb27-16" aria-hidden="true" tabindex="-1"></a>  <span class="do">## nice labels and titles</span></span>
-<span id="cb27-17"><a href="#cb27-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Year"</span>,</span>
-<span id="cb27-18"><a href="#cb27-18" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"High school completers (1000s)"</span>,</span>
-<span id="cb27-19"><a href="#cb27-19" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">"Total number of high school completers: 1960 to 2016"</span>,</span>
-<span id="cb27-20"><a href="#cb27-20" aria-hidden="true" tabindex="-1"></a>       <span class="at">caption =</span> <span class="st">"Source: NCES Digest of Education Statistics, 2017, Table 302.10"</span>)</span>
-<span id="cb27-21"><a href="#cb27-21" aria-hidden="true" tabindex="-1"></a>g</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="do">## plot</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>g <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(df, <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> years, <span class="at">y =</span> total)) <span class="sc">+</span></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>  <span class="do">## line for the main estimate</span></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>  <span class="do">## make x-axis look nice</span></span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>  <span class="do">## major breaks: every 5 years, from min year to max year</span></span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>  <span class="do">## minor breaks: every 1 year, from min year to max year</span></span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>  <span class="do">## labels: formate to only show year ("%Y")</span></span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_date</span>(<span class="at">breaks =</span> <span class="fu">seq</span>(<span class="fu">min</span>(df<span class="sc">$</span>years),</span>
+<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a>                            <span class="fu">max</span>(df<span class="sc">$</span>years),</span>
+<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a>                            <span class="st">"5 years"</span>),</span>
+<span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a>               <span class="at">minor_breaks =</span> <span class="fu">seq</span>(<span class="fu">min</span>(df<span class="sc">$</span>years),</span>
+<span id="cb29-13"><a href="#cb29-13" aria-hidden="true" tabindex="-1"></a>                                  <span class="fu">max</span>(df<span class="sc">$</span>years),</span>
+<span id="cb29-14"><a href="#cb29-14" aria-hidden="true" tabindex="-1"></a>                                  <span class="st">"1 years"</span>),</span>
+<span id="cb29-15"><a href="#cb29-15" aria-hidden="true" tabindex="-1"></a>               <span class="at">date_labels =</span> <span class="st">"%Y"</span>) <span class="sc">+</span></span>
+<span id="cb29-16"><a href="#cb29-16" aria-hidden="true" tabindex="-1"></a>  <span class="do">## nice labels and titles</span></span>
+<span id="cb29-17"><a href="#cb29-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Year"</span>,</span>
+<span id="cb29-18"><a href="#cb29-18" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"High school completers (1000s)"</span>,</span>
+<span id="cb29-19"><a href="#cb29-19" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">"Total number of high school completers: 1960 to 2016"</span>,</span>
+<span id="cb29-20"><a href="#cb29-20" aria-hidden="true" tabindex="-1"></a>       <span class="at">caption =</span> <span class="st">"Source: NCES Digest of Education Statistics, 2017, Table 302.10"</span>)</span>
+<span id="cb29-21"><a href="#cb29-21" aria-hidden="true" tabindex="-1"></a>g</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -656,34 +662,34 @@ The following object is masked from 'package:readr':
 <h2 data-anchor-id="scrape-entire-table">Scrape entire table</h2>
 <p>Now that we’ve pulled two columns, let’s try to grab the entire table. Once again, we’ll use SelectorGadget to get our node string.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="do">## save node</span></span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>node <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">".TblCls002 , td.TblCls005 , tbody .TblCls008 , "</span>,</span>
-<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>               <span class="st">".TblCls009 , .TblCls011 , .TblCls010"</span>)</span>
-<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a><span class="do">## save more dataframe-friendly column names that we</span></span>
-<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a><span class="do">## get from looking at the table online</span></span>
-<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>nms <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"year"</span>,<span class="st">"hs_comp_tot"</span>, <span class="st">"hs_comp_tot_se"</span>,</span>
-<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>         <span class="st">"hs_comp_m"</span>, <span class="st">"hs_comp_m_se"</span>,</span>
-<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>         <span class="st">"hs_comp_f"</span>, <span class="st">"hs_comp_f_se"</span>,</span>
-<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a>         <span class="st">"enr_pct"</span>, <span class="st">"enr_pct_se"</span>,</span>
-<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a>         <span class="st">"enr_pct_2"</span>, <span class="st">"enr_pct_2_se"</span>,</span>
-<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a>         <span class="st">"enr_pct_4"</span>, <span class="st">"enr_pct_4_se"</span>,</span>
-<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a>         <span class="st">"enr_pct_m"</span>, <span class="st">"enr_pct_m_se"</span>,</span>
-<span id="cb28-14"><a href="#cb28-14" aria-hidden="true" tabindex="-1"></a>         <span class="st">"enr_pct_2_m"</span>, <span class="st">"enr_pct_2_m_se"</span>,</span>
-<span id="cb28-15"><a href="#cb28-15" aria-hidden="true" tabindex="-1"></a>         <span class="st">"enr_pct_4_m"</span>, <span class="st">"enr_pct_4_m_se"</span>,</span>
-<span id="cb28-16"><a href="#cb28-16" aria-hidden="true" tabindex="-1"></a>         <span class="st">"enr_pct_f"</span>, <span class="st">"enr_pct_f_se"</span>,</span>
-<span id="cb28-17"><a href="#cb28-17" aria-hidden="true" tabindex="-1"></a>         <span class="st">"enr_pct_2_f"</span>, <span class="st">"enr_pct_2_f_se"</span>,</span>
-<span id="cb28-18"><a href="#cb28-18" aria-hidden="true" tabindex="-1"></a>         <span class="st">"enr_pct_4_f"</span>, <span class="st">"enr_pct_4_f_se"</span>)</span>
-<span id="cb28-19"><a href="#cb28-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-20"><a href="#cb28-20" aria-hidden="true" tabindex="-1"></a><span class="do">## whole table</span></span>
-<span id="cb28-21"><a href="#cb28-21" aria-hidden="true" tabindex="-1"></a>tab <span class="ot">&lt;-</span> site <span class="sc">%&gt;%</span></span>
-<span id="cb28-22"><a href="#cb28-22" aria-hidden="true" tabindex="-1"></a>  <span class="do">## use nodes</span></span>
-<span id="cb28-23"><a href="#cb28-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_nodes</span>(node) <span class="sc">%&gt;%</span></span>
-<span id="cb28-24"><a href="#cb28-24" aria-hidden="true" tabindex="-1"></a>  <span class="do">## to text with trim</span></span>
-<span id="cb28-25"><a href="#cb28-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_text</span>(<span class="at">trim =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb28-26"><a href="#cb28-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-27"><a href="#cb28-27" aria-hidden="true" tabindex="-1"></a><span class="do">## show first few elements</span></span>
-<span id="cb28-28"><a href="#cb28-28" aria-hidden="true" tabindex="-1"></a>tab[<span class="dv">1</span><span class="sc">:</span><span class="dv">30</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="do">## save node</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>node <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">".TblCls002 , td.TblCls005 , tbody .TblCls008 , "</span>,</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>               <span class="st">".TblCls009 , .TblCls011 , .TblCls010"</span>)</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a><span class="do">## save more dataframe-friendly column names that we</span></span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a><span class="do">## get from looking at the table online</span></span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>nms <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"year"</span>,<span class="st">"hs_comp_tot"</span>, <span class="st">"hs_comp_tot_se"</span>,</span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>         <span class="st">"hs_comp_m"</span>, <span class="st">"hs_comp_m_se"</span>,</span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a>         <span class="st">"hs_comp_f"</span>, <span class="st">"hs_comp_f_se"</span>,</span>
+<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a>         <span class="st">"enr_pct"</span>, <span class="st">"enr_pct_se"</span>,</span>
+<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a>         <span class="st">"enr_pct_2"</span>, <span class="st">"enr_pct_2_se"</span>,</span>
+<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a>         <span class="st">"enr_pct_4"</span>, <span class="st">"enr_pct_4_se"</span>,</span>
+<span id="cb30-13"><a href="#cb30-13" aria-hidden="true" tabindex="-1"></a>         <span class="st">"enr_pct_m"</span>, <span class="st">"enr_pct_m_se"</span>,</span>
+<span id="cb30-14"><a href="#cb30-14" aria-hidden="true" tabindex="-1"></a>         <span class="st">"enr_pct_2_m"</span>, <span class="st">"enr_pct_2_m_se"</span>,</span>
+<span id="cb30-15"><a href="#cb30-15" aria-hidden="true" tabindex="-1"></a>         <span class="st">"enr_pct_4_m"</span>, <span class="st">"enr_pct_4_m_se"</span>,</span>
+<span id="cb30-16"><a href="#cb30-16" aria-hidden="true" tabindex="-1"></a>         <span class="st">"enr_pct_f"</span>, <span class="st">"enr_pct_f_se"</span>,</span>
+<span id="cb30-17"><a href="#cb30-17" aria-hidden="true" tabindex="-1"></a>         <span class="st">"enr_pct_2_f"</span>, <span class="st">"enr_pct_2_f_se"</span>,</span>
+<span id="cb30-18"><a href="#cb30-18" aria-hidden="true" tabindex="-1"></a>         <span class="st">"enr_pct_4_f"</span>, <span class="st">"enr_pct_4_f_se"</span>)</span>
+<span id="cb30-19"><a href="#cb30-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-20"><a href="#cb30-20" aria-hidden="true" tabindex="-1"></a><span class="do">## whole table</span></span>
+<span id="cb30-21"><a href="#cb30-21" aria-hidden="true" tabindex="-1"></a>tab <span class="ot">&lt;-</span> site <span class="sc">%&gt;%</span></span>
+<span id="cb30-22"><a href="#cb30-22" aria-hidden="true" tabindex="-1"></a>  <span class="do">## use nodes</span></span>
+<span id="cb30-23"><a href="#cb30-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_nodes</span>(node) <span class="sc">%&gt;%</span></span>
+<span id="cb30-24"><a href="#cb30-24" aria-hidden="true" tabindex="-1"></a>  <span class="do">## to text with trim</span></span>
+<span id="cb30-25"><a href="#cb30-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_text</span>(<span class="at">trim =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb30-26"><a href="#cb30-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-27"><a href="#cb30-27" aria-hidden="true" tabindex="-1"></a><span class="do">## show first few elements</span></span>
+<span id="cb30-28"><a href="#cb30-28" aria-hidden="true" tabindex="-1"></a>tab[<span class="dv">1</span><span class="sc">:</span><span class="dv">30</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> [1] "1960"   "1,679"  "(44.5)" "756"    "(32.3)" "923"    "(30.1)" "45.1"  
  [9] "(2.16)" "—"      "(†)"    "—"      "(†)"    "54.0"   "(3.23)" "—"     
@@ -693,18 +699,18 @@ The following object is masked from 'package:readr':
 </div>
 <p>Okay. It looks like we have it, but it’s all in single dimension vector. Since we eventually want a data frame, let’s convert to a matrix.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="do">## convert to matrix</span></span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>tab <span class="ot">&lt;-</span> tab <span class="sc">%&gt;%</span></span>
-<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>  <span class="do">## we know the size by looking at the table online</span></span>
-<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">matrix</span>(., <span class="at">ncol =</span> <span class="dv">25</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a><span class="do">## dimensions</span></span>
-<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(tab)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="do">## convert to matrix</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>tab <span class="ot">&lt;-</span> tab <span class="sc">%&gt;%</span></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>  <span class="do">## we know the size by looking at the table online</span></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">matrix</span>(., <span class="at">ncol =</span> <span class="dv">25</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a><span class="do">## dimensions</span></span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(tab)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 68 25</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="do">## show first few columns using base R [&lt;rows&gt;,&lt;cols&gt;] notation</span></span>
-<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>tab[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>,<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="do">## show first few columns using base R [&lt;rows&gt;,&lt;cols&gt;] notation</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>tab[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>,<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>      [,1]   [,2]    [,3]     [,4]    [,5]    
  [1,] "1960" "1,679" "(44.5)" "756"   "(32.3)"
@@ -725,31 +731,31 @@ The following object is masked from 'package:readr':
 </blockquote>
 <p>It’s getting better, but now we have a lot of special characters that we need to clean out. This section relies more heavily on regular expressions, but the idea is the same as above.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="do">## clean up table</span></span>
-<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>tab <span class="ot">&lt;-</span> tab <span class="sc">%&gt;%</span></span>
-<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>  <span class="do">## convert to tibble, leaving name repair as minimal for now</span></span>
-<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tibble</span>(<span class="at">.name_repair =</span> <span class="st">"minimal"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>  <span class="do">## rename using names above</span></span>
-<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_names</span>(nms) <span class="sc">%&gt;%</span></span>
-<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>  <span class="do">## remove commas</span></span>
-<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">everything</span>(), <span class="sc">~</span> <span class="fu">str_replace</span>(., <span class="st">","</span>, <span class="st">""</span>))) <span class="sc">%&gt;%</span></span>
-<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a>  <span class="do">## remove dagger and parentheses</span></span>
-<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">everything</span>(), <span class="sc">~</span> <span class="fu">str_replace_na</span>(., <span class="st">"</span><span class="sc">\\</span><span class="st">(\U2020</span><span class="sc">\\</span><span class="st">)"</span>))) <span class="sc">%&gt;%</span></span>
-<span id="cb34-11"><a href="#cb34-11" aria-hidden="true" tabindex="-1"></a>  <span class="do">## remove hyphens</span></span>
-<span id="cb34-12"><a href="#cb34-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">everything</span>(), <span class="sc">~</span> <span class="fu">str_replace_na</span>(., <span class="st">"\U2014"</span>))) <span class="sc">%&gt;%</span></span>
-<span id="cb34-13"><a href="#cb34-13" aria-hidden="true" tabindex="-1"></a>  <span class="do">## remove parentheses, but keep any content that was inside</span></span>
-<span id="cb34-14"><a href="#cb34-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">everything</span>(), <span class="sc">~</span> <span class="fu">str_replace</span>(., <span class="st">"</span><span class="sc">\\</span><span class="st">((.*)</span><span class="sc">\\</span><span class="st">)"</span>, <span class="st">"</span><span class="sc">\\</span><span class="st">1"</span>))) <span class="sc">%&gt;%</span></span>
-<span id="cb34-15"><a href="#cb34-15" aria-hidden="true" tabindex="-1"></a>  <span class="do">## remove blank strings (^ = start, $ = end, so ^$ = start to end w/ nothing)</span></span>
-<span id="cb34-16"><a href="#cb34-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">everything</span>(), <span class="sc">~</span> <span class="fu">str_replace_na</span>(., <span class="st">"^$"</span>))) <span class="sc">%&gt;%</span></span>
-<span id="cb34-17"><a href="#cb34-17" aria-hidden="true" tabindex="-1"></a>  <span class="do">## fix years like above</span></span>
-<span id="cb34-18"><a href="#cb34-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">year =</span> <span class="fu">str_sub</span>(year, <span class="dv">1</span>, <span class="dv">4</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb34-19"><a href="#cb34-19" aria-hidden="true" tabindex="-1"></a>  <span class="do">## convert to numbers, suppressing warnings about NAs b/c we know</span></span>
-<span id="cb34-20"><a href="#cb34-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">everything</span>(), <span class="sc">~</span> <span class="fu">suppressWarnings</span>(<span class="fu">as.numeric</span>(.)))) <span class="sc">%&gt;%</span></span>
-<span id="cb34-21"><a href="#cb34-21" aria-hidden="true" tabindex="-1"></a>  <span class="do">## drop rows with missing year (blank online)</span></span>
-<span id="cb34-22"><a href="#cb34-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>(year)</span>
-<span id="cb34-23"><a href="#cb34-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb34-24"><a href="#cb34-24" aria-hidden="true" tabindex="-1"></a><span class="do">## show</span></span>
-<span id="cb34-25"><a href="#cb34-25" aria-hidden="true" tabindex="-1"></a>tab</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="do">## clean up table</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>tab <span class="ot">&lt;-</span> tab <span class="sc">%&gt;%</span></span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>  <span class="do">## convert to tibble, leaving name repair as minimal for now</span></span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tibble</span>(<span class="at">.name_repair =</span> <span class="st">"minimal"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>  <span class="do">## rename using names above</span></span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_names</span>(nms) <span class="sc">%&gt;%</span></span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a>  <span class="do">## remove commas</span></span>
+<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">everything</span>(), <span class="sc">~</span> <span class="fu">str_replace</span>(., <span class="st">","</span>, <span class="st">""</span>))) <span class="sc">%&gt;%</span></span>
+<span id="cb36-9"><a href="#cb36-9" aria-hidden="true" tabindex="-1"></a>  <span class="do">## remove dagger and parentheses</span></span>
+<span id="cb36-10"><a href="#cb36-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">everything</span>(), <span class="sc">~</span> <span class="fu">str_replace_na</span>(., <span class="st">"</span><span class="sc">\\</span><span class="st">(\U2020</span><span class="sc">\\</span><span class="st">)"</span>))) <span class="sc">%&gt;%</span></span>
+<span id="cb36-11"><a href="#cb36-11" aria-hidden="true" tabindex="-1"></a>  <span class="do">## remove hyphens</span></span>
+<span id="cb36-12"><a href="#cb36-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">everything</span>(), <span class="sc">~</span> <span class="fu">str_replace_na</span>(., <span class="st">"\U2014"</span>))) <span class="sc">%&gt;%</span></span>
+<span id="cb36-13"><a href="#cb36-13" aria-hidden="true" tabindex="-1"></a>  <span class="do">## remove parentheses, but keep any content that was inside</span></span>
+<span id="cb36-14"><a href="#cb36-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">everything</span>(), <span class="sc">~</span> <span class="fu">str_replace</span>(., <span class="st">"</span><span class="sc">\\</span><span class="st">((.*)</span><span class="sc">\\</span><span class="st">)"</span>, <span class="st">"</span><span class="sc">\\</span><span class="st">1"</span>))) <span class="sc">%&gt;%</span></span>
+<span id="cb36-15"><a href="#cb36-15" aria-hidden="true" tabindex="-1"></a>  <span class="do">## remove blank strings (^ = start, $ = end, so ^$ = start to end w/ nothing)</span></span>
+<span id="cb36-16"><a href="#cb36-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">everything</span>(), <span class="sc">~</span> <span class="fu">str_replace_na</span>(., <span class="st">"^$"</span>))) <span class="sc">%&gt;%</span></span>
+<span id="cb36-17"><a href="#cb36-17" aria-hidden="true" tabindex="-1"></a>  <span class="do">## fix years like above</span></span>
+<span id="cb36-18"><a href="#cb36-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">year =</span> <span class="fu">str_sub</span>(year, <span class="dv">1</span>, <span class="dv">4</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb36-19"><a href="#cb36-19" aria-hidden="true" tabindex="-1"></a>  <span class="do">## convert to numbers, suppressing warnings about NAs b/c we know</span></span>
+<span id="cb36-20"><a href="#cb36-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">everything</span>(), <span class="sc">~</span> <span class="fu">suppressWarnings</span>(<span class="fu">as.numeric</span>(.)))) <span class="sc">%&gt;%</span></span>
+<span id="cb36-21"><a href="#cb36-21" aria-hidden="true" tabindex="-1"></a>  <span class="do">## drop rows with missing year (blank online)</span></span>
+<span id="cb36-22"><a href="#cb36-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>(year)</span>
+<span id="cb36-23"><a href="#cb36-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-24"><a href="#cb36-24" aria-hidden="true" tabindex="-1"></a><span class="do">## show</span></span>
+<span id="cb36-25"><a href="#cb36-25" aria-hidden="true" tabindex="-1"></a>tab</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 57 × 25
     year hs_comp_tot hs_comp_tot_se hs_comp_m hs_comp_m_se hs_comp_f
@@ -779,29 +785,29 @@ The following object is masked from 'package:readr':
 <h2 data-anchor-id="reshape-data">Reshape data</h2>
 <p>We could stop where we are, but to make the data more usable in the future, let’s convert to a long data frame. This takes a couple of steps, but the idea is to have each row represent a year by estimate, with a column for the estimate value and a column for the standard error on that estimate. It may help to run the code below one line at a time, checking the progress at each step.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="do">## gather for long data</span></span>
-<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> tab <span class="sc">%&gt;%</span></span>
-<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>  <span class="do">## pivot_longer estimates, leaving standard errors wide for the moment</span></span>
-<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="sc">-</span><span class="fu">c</span>(year, <span class="fu">ends_with</span>(<span class="st">"se"</span>)),</span>
-<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>               <span class="at">names_to =</span> <span class="st">"group"</span>,</span>
-<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>               <span class="at">values_to =</span> <span class="st">"estimate"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a>  <span class="do">## pivot_longer standard errors</span></span>
-<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="sc">-</span><span class="fu">c</span>(year, group, estimate),</span>
-<span id="cb36-9"><a href="#cb36-9" aria-hidden="true" tabindex="-1"></a>               <span class="at">names_to =</span> <span class="st">"group_se"</span>,</span>
-<span id="cb36-10"><a href="#cb36-10" aria-hidden="true" tabindex="-1"></a>               <span class="at">values_to =</span> <span class="st">"se"</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb36-11"><a href="#cb36-11" aria-hidden="true" tabindex="-1"></a>  <span class="do">## drop "_se" from standard error estimates</span></span>
-<span id="cb36-12"><a href="#cb36-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">group_se =</span> <span class="fu">str_replace</span>(group_se, <span class="st">"_se"</span>, <span class="st">""</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb36-13"><a href="#cb36-13" aria-hidden="true" tabindex="-1"></a>  <span class="do">## filter where group == group_se</span></span>
-<span id="cb36-14"><a href="#cb36-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(group <span class="sc">==</span> group_se) <span class="sc">%&gt;%</span></span>
-<span id="cb36-15"><a href="#cb36-15" aria-hidden="true" tabindex="-1"></a>  <span class="do">## drop extra column</span></span>
-<span id="cb36-16"><a href="#cb36-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>group_se) <span class="sc">%&gt;%</span></span>
-<span id="cb36-17"><a href="#cb36-17" aria-hidden="true" tabindex="-1"></a>  <span class="do">## arrange</span></span>
-<span id="cb36-18"><a href="#cb36-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(year) <span class="sc">%&gt;%</span></span>
-<span id="cb36-19"><a href="#cb36-19" aria-hidden="true" tabindex="-1"></a>  <span class="do">## drop if missing year after reshaping</span></span>
-<span id="cb36-20"><a href="#cb36-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>(year)</span>
-<span id="cb36-21"><a href="#cb36-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-22"><a href="#cb36-22" aria-hidden="true" tabindex="-1"></a><span class="do">## show</span></span>
-<span id="cb36-23"><a href="#cb36-23" aria-hidden="true" tabindex="-1"></a>df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="do">## gather for long data</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> tab <span class="sc">%&gt;%</span></span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>  <span class="do">## pivot_longer estimates, leaving standard errors wide for the moment</span></span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="sc">-</span><span class="fu">c</span>(year, <span class="fu">ends_with</span>(<span class="st">"se"</span>)),</span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>               <span class="at">names_to =</span> <span class="st">"group"</span>,</span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>               <span class="at">values_to =</span> <span class="st">"estimate"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a>  <span class="do">## pivot_longer standard errors</span></span>
+<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="sc">-</span><span class="fu">c</span>(year, group, estimate),</span>
+<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a>               <span class="at">names_to =</span> <span class="st">"group_se"</span>,</span>
+<span id="cb38-10"><a href="#cb38-10" aria-hidden="true" tabindex="-1"></a>               <span class="at">values_to =</span> <span class="st">"se"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb38-11"><a href="#cb38-11" aria-hidden="true" tabindex="-1"></a>  <span class="do">## drop "_se" from standard error estimates</span></span>
+<span id="cb38-12"><a href="#cb38-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">group_se =</span> <span class="fu">str_replace</span>(group_se, <span class="st">"_se"</span>, <span class="st">""</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb38-13"><a href="#cb38-13" aria-hidden="true" tabindex="-1"></a>  <span class="do">## filter where group == group_se</span></span>
+<span id="cb38-14"><a href="#cb38-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(group <span class="sc">==</span> group_se) <span class="sc">%&gt;%</span></span>
+<span id="cb38-15"><a href="#cb38-15" aria-hidden="true" tabindex="-1"></a>  <span class="do">## drop extra column</span></span>
+<span id="cb38-16"><a href="#cb38-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>group_se) <span class="sc">%&gt;%</span></span>
+<span id="cb38-17"><a href="#cb38-17" aria-hidden="true" tabindex="-1"></a>  <span class="do">## arrange</span></span>
+<span id="cb38-18"><a href="#cb38-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(year) <span class="sc">%&gt;%</span></span>
+<span id="cb38-19"><a href="#cb38-19" aria-hidden="true" tabindex="-1"></a>  <span class="do">## drop if missing year after reshaping</span></span>
+<span id="cb38-20"><a href="#cb38-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>(year)</span>
+<span id="cb38-21"><a href="#cb38-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-22"><a href="#cb38-22" aria-hidden="true" tabindex="-1"></a><span class="do">## show</span></span>
+<span id="cb38-23"><a href="#cb38-23" aria-hidden="true" tabindex="-1"></a>df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 684 × 4
     year group       estimate    se
@@ -824,17 +830,17 @@ The following object is masked from 'package:readr':
 <h2 data-anchor-id="plot-trends">Plot trends</h2>
 <p>Let’s look at overall college enrollment percentages for recent graduates over time. Because our data are nicely formatted, it’s easy to subset the full table to data to only those estimates we need as well as generate 95% confidence intervals.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="do">## adjust data for specific plot</span></span>
-<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>plot_df <span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span></span>
-<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(group <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"enr_pct"</span>, <span class="st">"enr_pct_m"</span>, <span class="st">"enr_pct_f"</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">hi =</span> estimate <span class="sc">+</span> se <span class="sc">*</span> <span class="fu">qnorm</span>(.<span class="dv">975</span>),</span>
-<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">lo =</span> estimate <span class="sc">-</span> se <span class="sc">*</span> <span class="fu">qnorm</span>(.<span class="dv">975</span>),</span>
-<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">year =</span> <span class="fu">ymd</span>(<span class="fu">as.character</span>(year), <span class="at">truncated =</span> <span class="dv">2</span>L),</span>
-<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a>         <span class="at">group =</span> <span class="fu">ifelse</span>(group <span class="sc">==</span> <span class="st">"enr_pct_f"</span>, <span class="st">"Women"</span>,</span>
-<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a>                        <span class="fu">ifelse</span>(group <span class="sc">==</span> <span class="st">"enr_pct_m"</span>, <span class="st">"Men"</span>, <span class="st">"All"</span>)))</span>
-<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-10"><a href="#cb38-10" aria-hidden="true" tabindex="-1"></a><span class="do">## show</span></span>
-<span id="cb38-11"><a href="#cb38-11" aria-hidden="true" tabindex="-1"></a>plot_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="do">## adjust data for specific plot</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>plot_df <span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span></span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(group <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"enr_pct"</span>, <span class="st">"enr_pct_m"</span>, <span class="st">"enr_pct_f"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">hi =</span> estimate <span class="sc">+</span> se <span class="sc">*</span> <span class="fu">qnorm</span>(.<span class="dv">975</span>),</span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">lo =</span> estimate <span class="sc">-</span> se <span class="sc">*</span> <span class="fu">qnorm</span>(.<span class="dv">975</span>),</span>
+<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">year =</span> <span class="fu">ymd</span>(<span class="fu">as.character</span>(year), <span class="at">truncated =</span> <span class="dv">2</span>L),</span>
+<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a>         <span class="at">group =</span> <span class="fu">ifelse</span>(group <span class="sc">==</span> <span class="st">"enr_pct_f"</span>, <span class="st">"Women"</span>,</span>
+<span id="cb40-8"><a href="#cb40-8" aria-hidden="true" tabindex="-1"></a>                        <span class="fu">ifelse</span>(group <span class="sc">==</span> <span class="st">"enr_pct_m"</span>, <span class="st">"Men"</span>, <span class="st">"All"</span>)))</span>
+<span id="cb40-9"><a href="#cb40-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-10"><a href="#cb40-10" aria-hidden="true" tabindex="-1"></a><span class="do">## show</span></span>
+<span id="cb40-11"><a href="#cb40-11" aria-hidden="true" tabindex="-1"></a>plot_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 171 × 6
    year       group estimate    se    hi    lo
@@ -854,32 +860,32 @@ The following object is masked from 'package:readr':
 </div>
 <p>First, let’s plot the overall average. Notice that we use the <code>filter()</code> function in the <code>ggplot()</code> function to remove the subgroup estimates for men and women.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="do">## plot overall average</span></span>
-<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>g <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(plot_df <span class="sc">%&gt;%</span> <span class="fu">filter</span>(group <span class="sc">==</span> <span class="st">"All"</span>),</span>
-<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>            <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">y =</span> estimate)) <span class="sc">+</span></span>
-<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>  <span class="do">## create shaded ribbon for 95% CI</span></span>
-<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_ribbon</span>(<span class="fu">aes</span>(<span class="at">ymin =</span> lo, <span class="at">ymax =</span> hi), <span class="at">fill =</span> <span class="st">"grey70"</span>) <span class="sc">+</span></span>
-<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a>  <span class="do">## line for main estimate</span></span>
-<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
-<span id="cb40-8"><a href="#cb40-8" aria-hidden="true" tabindex="-1"></a>  <span class="do">## make x-axis look nice</span></span>
-<span id="cb40-9"><a href="#cb40-9" aria-hidden="true" tabindex="-1"></a>  <span class="do">## major breaks: every 5 years, from min year to max year</span></span>
-<span id="cb40-10"><a href="#cb40-10" aria-hidden="true" tabindex="-1"></a>  <span class="do">## minor breaks: every 1 year, from min year to max year</span></span>
-<span id="cb40-11"><a href="#cb40-11" aria-hidden="true" tabindex="-1"></a>  <span class="do">## labels: formate to only show year ("%Y")</span></span>
-<span id="cb40-12"><a href="#cb40-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_date</span>(<span class="at">breaks =</span> <span class="fu">seq</span>(<span class="fu">min</span>(plot_df<span class="sc">$</span>year),</span>
-<span id="cb40-13"><a href="#cb40-13" aria-hidden="true" tabindex="-1"></a>                            <span class="fu">max</span>(plot_df<span class="sc">$</span>year),</span>
-<span id="cb40-14"><a href="#cb40-14" aria-hidden="true" tabindex="-1"></a>                            <span class="st">"5 years"</span>),</span>
-<span id="cb40-15"><a href="#cb40-15" aria-hidden="true" tabindex="-1"></a>               <span class="at">minor_breaks =</span> <span class="fu">seq</span>(<span class="fu">min</span>(plot_df<span class="sc">$</span>year),</span>
-<span id="cb40-16"><a href="#cb40-16" aria-hidden="true" tabindex="-1"></a>                                  <span class="fu">max</span>(plot_df<span class="sc">$</span>year),</span>
-<span id="cb40-17"><a href="#cb40-17" aria-hidden="true" tabindex="-1"></a>                                  <span class="st">"1 years"</span>),</span>
-<span id="cb40-18"><a href="#cb40-18" aria-hidden="true" tabindex="-1"></a>               <span class="at">date_labels =</span> <span class="st">"%Y"</span>) <span class="sc">+</span></span>
-<span id="cb40-19"><a href="#cb40-19" aria-hidden="true" tabindex="-1"></a>  <span class="do">## good labels and titles</span></span>
-<span id="cb40-20"><a href="#cb40-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Year"</span>,</span>
-<span id="cb40-21"><a href="#cb40-21" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Percent"</span>,</span>
-<span id="cb40-22"><a href="#cb40-22" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">"Percent of recent high school completers in college: 1960 to 2016"</span>,</span>
-<span id="cb40-23"><a href="#cb40-23" aria-hidden="true" tabindex="-1"></a>       <span class="at">caption =</span> <span class="st">"Source: NCES Digest of Education Statistics, 2017, Table 302.10"</span>)    </span>
-<span id="cb40-24"><a href="#cb40-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb40-25"><a href="#cb40-25" aria-hidden="true" tabindex="-1"></a><span class="do">## show</span></span>
-<span id="cb40-26"><a href="#cb40-26" aria-hidden="true" tabindex="-1"></a>g</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="do">## plot overall average</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>g <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(plot_df <span class="sc">%&gt;%</span> <span class="fu">filter</span>(group <span class="sc">==</span> <span class="st">"All"</span>),</span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>            <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">y =</span> estimate)) <span class="sc">+</span></span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>  <span class="do">## create shaded ribbon for 95% CI</span></span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_ribbon</span>(<span class="fu">aes</span>(<span class="at">ymin =</span> lo, <span class="at">ymax =</span> hi), <span class="at">fill =</span> <span class="st">"grey70"</span>) <span class="sc">+</span></span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a>  <span class="do">## line for main estimate</span></span>
+<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb42-8"><a href="#cb42-8" aria-hidden="true" tabindex="-1"></a>  <span class="do">## make x-axis look nice</span></span>
+<span id="cb42-9"><a href="#cb42-9" aria-hidden="true" tabindex="-1"></a>  <span class="do">## major breaks: every 5 years, from min year to max year</span></span>
+<span id="cb42-10"><a href="#cb42-10" aria-hidden="true" tabindex="-1"></a>  <span class="do">## minor breaks: every 1 year, from min year to max year</span></span>
+<span id="cb42-11"><a href="#cb42-11" aria-hidden="true" tabindex="-1"></a>  <span class="do">## labels: formate to only show year ("%Y")</span></span>
+<span id="cb42-12"><a href="#cb42-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_date</span>(<span class="at">breaks =</span> <span class="fu">seq</span>(<span class="fu">min</span>(plot_df<span class="sc">$</span>year),</span>
+<span id="cb42-13"><a href="#cb42-13" aria-hidden="true" tabindex="-1"></a>                            <span class="fu">max</span>(plot_df<span class="sc">$</span>year),</span>
+<span id="cb42-14"><a href="#cb42-14" aria-hidden="true" tabindex="-1"></a>                            <span class="st">"5 years"</span>),</span>
+<span id="cb42-15"><a href="#cb42-15" aria-hidden="true" tabindex="-1"></a>               <span class="at">minor_breaks =</span> <span class="fu">seq</span>(<span class="fu">min</span>(plot_df<span class="sc">$</span>year),</span>
+<span id="cb42-16"><a href="#cb42-16" aria-hidden="true" tabindex="-1"></a>                                  <span class="fu">max</span>(plot_df<span class="sc">$</span>year),</span>
+<span id="cb42-17"><a href="#cb42-17" aria-hidden="true" tabindex="-1"></a>                                  <span class="st">"1 years"</span>),</span>
+<span id="cb42-18"><a href="#cb42-18" aria-hidden="true" tabindex="-1"></a>               <span class="at">date_labels =</span> <span class="st">"%Y"</span>) <span class="sc">+</span></span>
+<span id="cb42-19"><a href="#cb42-19" aria-hidden="true" tabindex="-1"></a>  <span class="do">## good labels and titles</span></span>
+<span id="cb42-20"><a href="#cb42-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Year"</span>,</span>
+<span id="cb42-21"><a href="#cb42-21" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Percent"</span>,</span>
+<span id="cb42-22"><a href="#cb42-22" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">"Percent of recent high school completers in college: 1960 to 2016"</span>,</span>
+<span id="cb42-23"><a href="#cb42-23" aria-hidden="true" tabindex="-1"></a>       <span class="at">caption =</span> <span class="st">"Source: NCES Digest of Education Statistics, 2017, Table 302.10"</span>)    </span>
+<span id="cb42-24"><a href="#cb42-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-25"><a href="#cb42-25" aria-hidden="true" tabindex="-1"></a><span class="do">## show</span></span>
+<span id="cb42-26"><a href="#cb42-26" aria-hidden="true" tabindex="-1"></a>g</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -891,39 +897,39 @@ The following object is masked from 'package:readr':
 <p>After a small dip in the early 1970s enrollment trends have steadily risen over time.</p>
 <p>Now let’s compare enrollments over time between men and women (dropping the overall average so our plot is clearer).</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="do">## plot comparison between men and women</span></span>
-<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>g <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(plot_df <span class="sc">%&gt;%</span> <span class="fu">filter</span>(group <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Men"</span>,<span class="st">"Women"</span>)),</span>
-<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>            <span class="do">## add colour == group to separate between men and women</span></span>
-<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">y =</span> estimate, <span class="at">colour =</span> group)) <span class="sc">+</span></span>
-<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>  <span class="do">## ribbon for 95% CI, but lower alpha so more transparent</span></span>
-<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_ribbon</span>(<span class="fu">aes</span>(<span class="at">ymin =</span> lo, <span class="at">ymax =</span> hi, <span class="at">fill =</span> group), <span class="at">alpha =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
-<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a>  <span class="do">## primary estimate line</span></span>
-<span id="cb41-8"><a href="#cb41-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
-<span id="cb41-9"><a href="#cb41-9" aria-hidden="true" tabindex="-1"></a>  <span class="do">## neat x-axis breaks as before</span></span>
-<span id="cb41-10"><a href="#cb41-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_date</span>(<span class="at">breaks =</span> <span class="fu">seq</span>(<span class="fu">min</span>(plot_df<span class="sc">$</span>year),</span>
-<span id="cb41-11"><a href="#cb41-11" aria-hidden="true" tabindex="-1"></a>                            <span class="fu">max</span>(plot_df<span class="sc">$</span>year),</span>
-<span id="cb41-12"><a href="#cb41-12" aria-hidden="true" tabindex="-1"></a>                            <span class="st">"5 years"</span>),</span>
-<span id="cb41-13"><a href="#cb41-13" aria-hidden="true" tabindex="-1"></a>               <span class="at">minor_breaks =</span> <span class="fu">seq</span>(<span class="fu">min</span>(plot_df<span class="sc">$</span>year),</span>
-<span id="cb41-14"><a href="#cb41-14" aria-hidden="true" tabindex="-1"></a>                                  <span class="fu">max</span>(plot_df<span class="sc">$</span>year),</span>
-<span id="cb41-15"><a href="#cb41-15" aria-hidden="true" tabindex="-1"></a>                                  <span class="st">"1 years"</span>),</span>
-<span id="cb41-16"><a href="#cb41-16" aria-hidden="true" tabindex="-1"></a>               <span class="at">date_labels =</span> <span class="st">"%Y"</span>) <span class="sc">+</span></span>
-<span id="cb41-17"><a href="#cb41-17" aria-hidden="true" tabindex="-1"></a>  <span class="do">## good labels and titles</span></span>
-<span id="cb41-18"><a href="#cb41-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Year"</span>,</span>
-<span id="cb41-19"><a href="#cb41-19" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Percent"</span>,</span>
-<span id="cb41-20"><a href="#cb41-20" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">"Percent of recent high school completers in college: 1960 to 2016"</span>,</span>
-<span id="cb41-21"><a href="#cb41-21" aria-hidden="true" tabindex="-1"></a>       <span class="at">caption =</span> <span class="st">"Source: NCES Digest of Education Statistics, 2017, Table 302.10"</span>) <span class="sc">+</span></span>
-<span id="cb41-22"><a href="#cb41-22" aria-hidden="true" tabindex="-1"></a>  <span class="do">## set legend title, drop legend for colour since it's redundant with fill</span></span>
-<span id="cb41-23"><a href="#cb41-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">fill =</span> <span class="fu">guide_legend</span>(<span class="at">title =</span> <span class="st">"Group"</span>),</span>
-<span id="cb41-24"><a href="#cb41-24" aria-hidden="true" tabindex="-1"></a>         <span class="at">colour =</span> <span class="st">"none"</span>) <span class="sc">+</span></span>
-<span id="cb41-25"><a href="#cb41-25" aria-hidden="true" tabindex="-1"></a>  <span class="do">## position legend so that it sits on plot face, in lower right-hand corner</span></span>
-<span id="cb41-26"><a href="#cb41-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">0</span>), <span class="at">legend.justification =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">0</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="do">## plot comparison between men and women</span></span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>g <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(plot_df <span class="sc">%&gt;%</span> <span class="fu">filter</span>(group <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Men"</span>,<span class="st">"Women"</span>)),</span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>            <span class="do">## add colour == group to separate between men and women</span></span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">y =</span> estimate, <span class="at">colour =</span> group)) <span class="sc">+</span></span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>  <span class="do">## ribbon for 95% CI, but lower alpha so more transparent</span></span>
+<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_ribbon</span>(<span class="fu">aes</span>(<span class="at">ymin =</span> lo, <span class="at">ymax =</span> hi, <span class="at">fill =</span> group), <span class="at">alpha =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
+<span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a>  <span class="do">## primary estimate line</span></span>
+<span id="cb43-8"><a href="#cb43-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb43-9"><a href="#cb43-9" aria-hidden="true" tabindex="-1"></a>  <span class="do">## neat x-axis breaks as before</span></span>
+<span id="cb43-10"><a href="#cb43-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_date</span>(<span class="at">breaks =</span> <span class="fu">seq</span>(<span class="fu">min</span>(plot_df<span class="sc">$</span>year),</span>
+<span id="cb43-11"><a href="#cb43-11" aria-hidden="true" tabindex="-1"></a>                            <span class="fu">max</span>(plot_df<span class="sc">$</span>year),</span>
+<span id="cb43-12"><a href="#cb43-12" aria-hidden="true" tabindex="-1"></a>                            <span class="st">"5 years"</span>),</span>
+<span id="cb43-13"><a href="#cb43-13" aria-hidden="true" tabindex="-1"></a>               <span class="at">minor_breaks =</span> <span class="fu">seq</span>(<span class="fu">min</span>(plot_df<span class="sc">$</span>year),</span>
+<span id="cb43-14"><a href="#cb43-14" aria-hidden="true" tabindex="-1"></a>                                  <span class="fu">max</span>(plot_df<span class="sc">$</span>year),</span>
+<span id="cb43-15"><a href="#cb43-15" aria-hidden="true" tabindex="-1"></a>                                  <span class="st">"1 years"</span>),</span>
+<span id="cb43-16"><a href="#cb43-16" aria-hidden="true" tabindex="-1"></a>               <span class="at">date_labels =</span> <span class="st">"%Y"</span>) <span class="sc">+</span></span>
+<span id="cb43-17"><a href="#cb43-17" aria-hidden="true" tabindex="-1"></a>  <span class="do">## good labels and titles</span></span>
+<span id="cb43-18"><a href="#cb43-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Year"</span>,</span>
+<span id="cb43-19"><a href="#cb43-19" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Percent"</span>,</span>
+<span id="cb43-20"><a href="#cb43-20" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">"Percent of recent high school completers in college: 1960 to 2016"</span>,</span>
+<span id="cb43-21"><a href="#cb43-21" aria-hidden="true" tabindex="-1"></a>       <span class="at">caption =</span> <span class="st">"Source: NCES Digest of Education Statistics, 2017, Table 302.10"</span>) <span class="sc">+</span></span>
+<span id="cb43-22"><a href="#cb43-22" aria-hidden="true" tabindex="-1"></a>  <span class="do">## set legend title, drop legend for colour since it's redundant with fill</span></span>
+<span id="cb43-23"><a href="#cb43-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">fill =</span> <span class="fu">guide_legend</span>(<span class="at">title =</span> <span class="st">"Group"</span>),</span>
+<span id="cb43-24"><a href="#cb43-24" aria-hidden="true" tabindex="-1"></a>         <span class="at">colour =</span> <span class="st">"none"</span>) <span class="sc">+</span></span>
+<span id="cb43-25"><a href="#cb43-25" aria-hidden="true" tabindex="-1"></a>  <span class="do">## position legend so that it sits on plot face, in lower right-hand corner</span></span>
+<span id="cb43-26"><a href="#cb43-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">0</span>), <span class="at">legend.justification =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">0</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning: A numeric `legend.position` argument in `theme()` was deprecated in ggplot2
 3.5.0.
 ℹ Please use the `legend.position.inside` argument of `theme()` instead.</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="do">## show</span></span>
-<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>g</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="do">## show</span></span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>g</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">

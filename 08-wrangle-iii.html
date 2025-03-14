@@ -380,6 +380,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'purrr' was built under R version 4.4.1</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'lubridate' was built under R version 4.4.1</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
 <pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
 ✔ dplyr     1.1.4     ✔ readr     2.1.5
 ✔ forcats   1.0.0     ✔ stringr   1.5.1
@@ -407,13 +413,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>Directory information, 2007 (<code>hd2007.csv</code>)</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="do">## ---------------------------</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="do">##' [Input]</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="do">## ---------------------------</span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="do">## read in data and lower all names using rename_all(tolower)</span></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/hd2007.csv"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rename_all</span>(tolower)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="do">## ---------------------------</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="do">##' [Input]</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="do">## ---------------------------</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="do">## read in data and lower all names using rename_all(tolower)</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/hd2007.csv"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rename_all</span>(tolower)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Rows: 7052 Columns: 59
 ── Column specification ────────────────────────────────────────────────────────
@@ -430,9 +436,9 @@ dbl (43): UNITID, FIPS, OBEREG, GENTELE, OPEFLAG, SECTOR, ICLEVEL, CONTROL, ...
 <h2 data-anchor-id="finding-str_detect">Finding: <code>str_detect()</code></h2>
 <p>Previously, we’ve filtered data using dplyr’s <code>filter()</code> function. When matching a string, we have used <code>==</code> (or <code>!=</code> for negative match). For example, if we wanted to limit our data to only those institutions in Florida, we could filter using the <code>stabbr</code> column:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="do">## filter using state abbreviation (not saving, just viewing)</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>data <span class="sc">|&gt;</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(stabbr <span class="sc">==</span> <span class="st">"FL"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="do">## filter using state abbreviation (not saving, just viewing)</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>data <span class="sc">|&gt;</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(stabbr <span class="sc">==</span> <span class="st">"FL"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 316 × 59
    unitid instnm    addr  city  stabbr zip    fips obereg chfnm chftitle gentele
@@ -458,9 +464,9 @@ dbl (43): UNITID, FIPS, OBEREG, GENTELE, OPEFLAG, SECTOR, ICLEVEL, CONTROL, ...
 </div>
 <p>This works well because the <code>stabbr</code> column, even though it uses strings, is regular. But what happens when the strings aren’t so regular? For example, let’s look the different titles chief college administrators take.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="do">## see first few rows of distinct chief titles</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>data <span class="sc">|&gt;</span></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">distinct</span>(chftitle)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="do">## see first few rows of distinct chief titles</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>data <span class="sc">|&gt;</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">distinct</span>(chftitle)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 556 × 1
    chftitle          
@@ -480,12 +486,12 @@ dbl (43): UNITID, FIPS, OBEREG, GENTELE, OPEFLAG, SECTOR, ICLEVEL, CONTROL, ...
 </div>
 <p>We find over 500 unique titles. Just looking at the first 10 rows, we see that some titles are pretty similar — <em>President</em> vs.&nbsp;<em>CEO</em> vs.&nbsp;<em>President/CEO</em> — but not exactly the same. Let’s look again, but this time get counts of each distinct title and arrange from most common to least.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="do">## return the most common titles</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>data <span class="sc">|&gt;</span></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    <span class="do">## get counts of each type</span></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">count</span>(chftitle) <span class="sc">|&gt;</span></span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    <span class="do">## arrange in descending order so we see most popular at top</span></span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">arrange</span>(<span class="fu">desc</span>(n))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="do">## return the most common titles</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>data <span class="sc">|&gt;</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    <span class="do">## get counts of each type</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">count</span>(chftitle) <span class="sc">|&gt;</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>    <span class="do">## arrange in descending order so we see most popular at top</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">arrange</span>(<span class="fu">desc</span>(n))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 556 × 2
    chftitle               n
@@ -510,28 +516,28 @@ dbl (43): UNITID, FIPS, OBEREG, GENTELE, OPEFLAG, SECTOR, ICLEVEL, CONTROL, ...
 <p>Getting our counts and arranging, we can see that <em>President</em> is by far the most common title. That said, we also see <em>Campus President</em> and <em>Interim President</em> (and before we saw <em>Acting President</em> as well).</p>
 <p>If your research question asked, <em>how many chief administrators use the title of “President”?</em> regardless the various iterations, you can’t really use a simple <code>==</code> filter any more. In theory, you could inspect your data, find the unique versions, get counts of each of those using <code>==</code>, and then sum them up — but that’s a lot of work and likely to be error prone!</p>
 <p>Instead, we can use the stringr function <code>str_detect()</code>, which looks for a <em>pattern</em> in a vector of strings:</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str_detect</span>(<span class="sc">&lt;</span> vector of strings <span class="sc">&gt;</span>, <span class="sc">&lt;</span> pattern <span class="sc">&gt;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str_detect</span>(<span class="sc">&lt;</span> vector of strings <span class="sc">&gt;</span>, <span class="sc">&lt;</span> pattern <span class="sc">&gt;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Going item by item in the vector, it compares what it sees to the pattern. If it matches, then it returns <code>TRUE</code>; it not, then <code>FALSE</code>. Here’s a toy example:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="do">## string vector example</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>fruits <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"green apple"</span>, <span class="st">"banana"</span>, <span class="st">"red apple"</span>)</span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="do">## search for "apple", which should be true for the first and third item</span></span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="fu">str_detect</span>(fruits, <span class="st">"apple"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="do">## string vector example</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>fruits <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"green apple"</span>, <span class="st">"banana"</span>, <span class="st">"red apple"</span>)</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="do">## search for "apple", which should be true for the first and third item</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="fu">str_detect</span>(fruits, <span class="st">"apple"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1]  TRUE FALSE  TRUE</code></pre>
 </div>
 </div>
 <p>We can use <code>str_detect()</code> inside <code>filter()</code> to select only certain rows in our data frame. In our case, we want only those observations in which the title <code>"President"</code> occurs in the <code>chftitle</code> column. Because we’re only detecting, as long as <code>"President"</code> occurs <em>anywhere</em> in the title, we’ll get that row back.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="do">## how many use some form of the title president?</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>data <span class="sc">|&gt;</span></span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>    <span class="do">## still starting with our count</span></span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">count</span>(chftitle) <span class="sc">|&gt;</span></span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>    <span class="do">## ...but keeping only those titles that contain "President"</span></span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(<span class="fu">str_detect</span>(chftitle, <span class="st">"President"</span>)) <span class="sc">|&gt;</span></span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>    <span class="do">## arranging as before</span></span>
-<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">arrange</span>(<span class="fu">desc</span>(n))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="do">## how many use some form of the title president?</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>data <span class="sc">|&gt;</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>    <span class="do">## still starting with our count</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">count</span>(chftitle) <span class="sc">|&gt;</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>    <span class="do">## ...but keeping only those titles that contain "President"</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(<span class="fu">str_detect</span>(chftitle, <span class="st">"President"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>    <span class="do">## arranging as before</span></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">arrange</span>(<span class="fu">desc</span>(n))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 173 × 2
    chftitle              n
@@ -567,11 +573,11 @@ dbl (43): UNITID, FIPS, OBEREG, GENTELE, OPEFLAG, SECTOR, ICLEVEL, CONTROL, ...
 <p>In the tidyverse some of the stringr and <a href="https://www.rdocumentation.org/packages/tidyselect/versions/1.0.0/topics/select_helpers">tidyselect helper functions</a> abstract-away some of the nitty-gritty behind regular expressions. Knowing a little about regular expression syntax, particularly <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/regex.html">how it is used in R</a>, can go a long way.</p>
 <p>In our first case, we can match strings that have a capital <strong>P</strong> <em>President</em> or lowercase <strong>p</strong> <em>president</em> using square brackets (<code>[]</code>). If we want either “P” or “p”, then we can use the regex, <code>[Pp]</code>, in place of the first character: <code>"[Pp]resident"</code>. This will match either <code>"President"</code> or <code>"president"</code>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="do">## solution 1: look for either P or p</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>data <span class="sc">|&gt;</span></span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">count</span>(chftitle) <span class="sc">|&gt;</span></span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(<span class="fu">str_detect</span>(chftitle, <span class="st">"[Pp]resident"</span>)) <span class="sc">|&gt;</span></span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">arrange</span>(<span class="fu">desc</span>(n))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="do">## solution 1: look for either P or p</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>data <span class="sc">|&gt;</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">count</span>(chftitle) <span class="sc">|&gt;</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(<span class="fu">str_detect</span>(chftitle, <span class="st">"[Pp]resident"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">arrange</span>(<span class="fu">desc</span>(n))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 175 × 2
    chftitle              n
@@ -596,11 +602,11 @@ dbl (43): UNITID, FIPS, OBEREG, GENTELE, OPEFLAG, SECTOR, ICLEVEL, CONTROL, ...
 <p>Another solution, which is probably much easier in this particular case, is to set all potential values in <code>chftitle</code> to the same case and then match using that case. In many situations, this is preferable since you don’t need to guess cases up front.</p>
 <p>We won’t change the values in <code>chftitle</code> permanently — only while filtering. To compare apples to apples (rather than <code>"Apples"</code> to <code>"apples"</code>), we’ll wrap our column name with the function <code>str_to_lower()</code>, which will make character lowercase, and match using lowercase <code>"president"</code>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="do">## solution 2: make everything lowercase so that case doesn't matter</span></span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>data <span class="sc">|&gt;</span></span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">count</span>(chftitle) <span class="sc">|&gt;</span></span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(<span class="fu">str_detect</span>(<span class="fu">str_to_lower</span>(chftitle), <span class="st">"president"</span>)) <span class="sc">|&gt;</span></span>
-<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">arrange</span>(<span class="fu">desc</span>(n))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="do">## solution 2: make everything lowercase so that case doesn't matter</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>data <span class="sc">|&gt;</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">count</span>(chftitle) <span class="sc">|&gt;</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(<span class="fu">str_detect</span>(<span class="fu">str_to_lower</span>(chftitle), <span class="st">"president"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">arrange</span>(<span class="fu">desc</span>(n))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 177 × 2
    chftitle              n
@@ -629,9 +635,9 @@ dbl (43): UNITID, FIPS, OBEREG, GENTELE, OPEFLAG, SECTOR, ICLEVEL, CONTROL, ...
 <h3 data-anchor-id="replace-using-string-position-str_sub">Replace using string position: <code>str_sub()</code></h3>
 <p>In addition to filtering data, we sometimes need to create new variables from pieces of exiting variables. For example, let’s look at the zip code values that are included in the file.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="do">## show first few zip code values</span></span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>data <span class="sc">|&gt;</span></span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(unitid, zip)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="do">## show first few zip code values</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>data <span class="sc">|&gt;</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(unitid, zip)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 7,052 × 2
    unitid zip       
@@ -653,13 +659,13 @@ dbl (43): UNITID, FIPS, OBEREG, GENTELE, OPEFLAG, SECTOR, ICLEVEL, CONTROL, ...
 <p>One solution in this case is to take advantage of the fact that zip codes — minus the sometimes extra 4 digits — should be regular: 5 digits. If want the sub-part of a string and that sub-part is always in the same spot, we can use the function, <code>str_sub()</code>, which takes a string or column name first, and has arguments for the starting and ending character that mark the sub-string of interest.</p>
 <p>In our case, we want the first 5 digits so we should <code>start == 1</code> and <code>end == 5</code>:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="do">## pull out first 5 digits of zip code</span></span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> data <span class="sc">|&gt;</span></span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">zip5 =</span> <span class="fu">str_sub</span>(zip, <span class="at">start =</span> <span class="dv">1</span>, <span class="at">end =</span> <span class="dv">5</span>))</span>
-<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a><span class="do">## show (use select() to subset so we can see new columns)</span></span>
-<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>data <span class="sc">|&gt;</span></span>
-<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(unitid, zip, zip5)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="do">## pull out first 5 digits of zip code</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> data <span class="sc">|&gt;</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">zip5 =</span> <span class="fu">str_sub</span>(zip, <span class="at">start =</span> <span class="dv">1</span>, <span class="at">end =</span> <span class="dv">5</span>))</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a><span class="do">## show (use select() to subset so we can see new columns)</span></span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>data <span class="sc">|&gt;</span></span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(unitid, zip, zip5)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 7,052 × 3
    unitid zip        zip5 
@@ -701,13 +707,13 @@ dbl (43): UNITID, FIPS, OBEREG, GENTELE, OPEFLAG, SECTOR, ICLEVEL, CONTROL, ...
 <p>If given <code>"32605-1234"</code>, it will collect the first 5 digits in the first subexpression, but will stop adding characters there when it sees the hyphen. From then on, it adds everything it sees the second subexpression: <code>"-"</code> <code>"1"</code> <code>"2"</code> <code>"3"</code> <code>"4"</code>. But because <code>str_replace()</code> only returns the first subexpression, we still get the same answer: <code>"32605"</code>. This is what we want.</p>
 <p>Let’s try it on the data.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="do">## drop last four digits of extended zip code if they exist</span></span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> data <span class="sc">|&gt;</span></span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">zip5_v2 =</span> <span class="fu">str_replace</span>(zip, <span class="st">"([0-9]+)(-[0-9]+)?"</span>, <span class="st">"</span><span class="sc">\\</span><span class="st">1"</span>))</span>
-<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a><span class="do">## show (use select() to subset so we can see new columns)</span></span>
-<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>data <span class="sc">|&gt;</span></span>
-<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(unitid, zip, zip5, zip5_v2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="do">## drop last four digits of extended zip code if they exist</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> data <span class="sc">|&gt;</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">zip5_v2 =</span> <span class="fu">str_replace</span>(zip, <span class="st">"([0-9]+)(-[0-9]+)?"</span>, <span class="st">"</span><span class="sc">\\</span><span class="st">1"</span>))</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a><span class="do">## show (use select() to subset so we can see new columns)</span></span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>data <span class="sc">|&gt;</span></span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(unitid, zip, zip5, zip5_v2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 7,052 × 4
    unitid zip        zip5  zip5_v2
@@ -731,18 +737,18 @@ dbl (43): UNITID, FIPS, OBEREG, GENTELE, OPEFLAG, SECTOR, ICLEVEL, CONTROL, ...
 </blockquote>
 <p>Let’s compare our two versions: do we get the same results?</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="do">## check if both versions of new zip column are equal</span></span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="fu">identical</span>(data <span class="sc">|&gt;</span> <span class="fu">select</span>(zip5), data <span class="sc">|&gt;</span> <span class="fu">select</span>(zip5_v2))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="do">## check if both versions of new zip column are equal</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="fu">identical</span>(data <span class="sc">|&gt;</span> <span class="fu">select</span>(zip5), data <span class="sc">|&gt;</span> <span class="fu">select</span>(zip5_v2))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] FALSE</code></pre>
 </div>
 </div>
 <p>No! Let’s see where they are different:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="do">## filter to rows where zip5 != zip5_v2 (not storing...just looking)</span></span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>data <span class="sc">|&gt;</span></span>
-<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(zip5 <span class="sc">!=</span> zip5_v2) <span class="sc">|&gt;</span></span>
-<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(unitid, zip, zip5, zip5_v2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="do">## filter to rows where zip5 != zip5_v2 (not storing...just looking)</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>data <span class="sc">|&gt;</span></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(zip5 <span class="sc">!=</span> zip5_v2) <span class="sc">|&gt;</span></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(unitid, zip, zip5, zip5_v2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 4 × 4
   unitid zip        zip5  zip5_v2   
@@ -781,12 +787,12 @@ dbl (43): UNITID, FIPS, OBEREG, GENTELE, OPEFLAG, SECTOR, ICLEVEL, CONTROL, ...
 </ul></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="do">## subset to schools who closed during this period</span></span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> data <span class="sc">|&gt;</span></span>
-<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(closedat <span class="sc">!=</span> <span class="sc">-</span><span class="dv">2</span>) <span class="sc">|&gt;</span></span>
-<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(unitid, instnm, closedat)</span>
-<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="do">## subset to schools who closed during this period</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> data <span class="sc">|&gt;</span></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(closedat <span class="sc">!=</span> <span class="sc">-</span><span class="dv">2</span>) <span class="sc">|&gt;</span></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(unitid, instnm, closedat)</span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 83 × 3
    unitid instnm                                                  closedat
@@ -836,18 +842,18 @@ dbl (43): UNITID, FIPS, OBEREG, GENTELE, OPEFLAG, SECTOR, ICLEVEL, CONTROL, ...
 <li><p>Let’s give this a go!</p></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="do">## create a new clean_date column </span></span>
-<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> data <span class="sc">|&gt;</span></span>
-<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">clean_date =</span> <span class="fu">parse_date_time</span>(closedat,</span>
-<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>                                        <span class="at">orders =</span> <span class="st">"mdy"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="do">## create a new clean_date column </span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> data <span class="sc">|&gt;</span></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">clean_date =</span> <span class="fu">parse_date_time</span>(closedat,</span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>                                        <span class="at">orders =</span> <span class="st">"mdy"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning: There was 1 warning in `mutate()`.
 ℹ In argument: `clean_date = parse_date_time(closedat, orders = "mdy")`.
 Caused by warning:
 !  35 failed to parse.</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="do">## show</span></span>
-<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="do">## show</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 83 × 4
    unitid instnm                                    closedat clean_date         
@@ -881,10 +887,10 @@ Caused by warning:
 </ul></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Try adding another date format</span></span>
-<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> data <span class="sc">|&gt;</span></span>
-<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">clean_date =</span> <span class="fu">parse_date_time</span>(closedat,</span>
-<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>                                        <span class="at">orders =</span> <span class="fu">c</span>(<span class="st">"mdy"</span>, <span class="st">"my"</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Try adding another date format</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> data <span class="sc">|&gt;</span></span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">clean_date =</span> <span class="fu">parse_date_time</span>(closedat,</span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>                                        <span class="at">orders =</span> <span class="fu">c</span>(<span class="st">"mdy"</span>, <span class="st">"my"</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning: There was 1 warning in `mutate()`.
 ℹ In argument: `clean_date = parse_date_time(closedat, orders = c("mdy",
@@ -892,8 +898,8 @@ Caused by warning:
 Caused by warning:
 !  7 failed to parse.</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="do">## show</span></span>
-<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="do">## show</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 83 × 4
    unitid instnm                                    closedat clean_date         
@@ -920,8 +926,8 @@ Caused by warning:
 <li><p>Let’s take a look at the 7 that didn’t go through this time</p></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>data <span class="sc">|&gt;</span></span>
-<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">is.na</span>(clean_date))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>data <span class="sc">|&gt;</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">is.na</span>(clean_date))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 7 × 4
   unitid instnm                                     closedat clean_date
@@ -939,8 +945,8 @@ Caused by warning:
 <li>Hmm, those ones might be a little hard to approximate, so let’s drop them</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> data <span class="sc">|&gt;</span></span>
-<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>(clean_date)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> data <span class="sc">|&gt;</span></span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>(clean_date)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="working-with-parse-ed-date-objects" class="level4">
@@ -963,7 +969,7 @@ Caused by warning:
 </ul></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>data <span class="sc">|&gt;</span> <span class="fu">filter</span>(clean_date <span class="sc">==</span> <span class="fu">min</span>(clean_date))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>data <span class="sc">|&gt;</span> <span class="fu">filter</span>(clean_date <span class="sc">==</span> <span class="fu">min</span>(clean_date))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1 × 4
   unitid instnm           closedat clean_date         
@@ -987,9 +993,9 @@ Caused by warning:
 </ul></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>christmas_07 <span class="ot">&lt;-</span> <span class="fu">parse_date_time</span>(<span class="st">"Dec 25 2007"</span>, <span class="st">"mdy"</span>)</span>
-<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>data <span class="sc">|&gt;</span> <span class="fu">filter</span>(clean_date <span class="sc">&lt;</span> christmas_07)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>christmas_07 <span class="ot">&lt;-</span> <span class="fu">parse_date_time</span>(<span class="st">"Dec 25 2007"</span>, <span class="st">"mdy"</span>)</span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>data <span class="sc">|&gt;</span> <span class="fu">filter</span>(clean_date <span class="sc">&lt;</span> christmas_07)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 60 × 4
    unitid instnm                                    closedat clean_date         
@@ -1017,8 +1023,8 @@ Caused by warning:
 </ul></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Nested version</span></span>
-<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>data <span class="sc">|&gt;</span> <span class="fu">filter</span>(<span class="fu">abs</span>(<span class="fu">time_length</span>(<span class="fu">interval</span>(clean_date, christmas_07), <span class="st">"day"</span>)) <span class="sc">&lt;</span> <span class="dv">30</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Nested version</span></span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>data <span class="sc">|&gt;</span> <span class="fu">filter</span>(<span class="fu">abs</span>(<span class="fu">time_length</span>(<span class="fu">interval</span>(clean_date, christmas_07), <span class="st">"day"</span>)) <span class="sc">&lt;</span> <span class="dv">30</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 9 × 4
   unitid instnm                             closedat clean_date         
@@ -1033,10 +1039,10 @@ Caused by warning:
 8 446871 The Bryman School-East             Dec-07   2007-12-01 00:00:00
 9 447500 Salter School-Cambridge Campus     12/31/07 2007-12-31 00:00:00</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Internal pipes version</span></span>
-<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>data <span class="sc">|&gt;</span> <span class="fu">filter</span>(<span class="fu">interval</span>(clean_date, christmas_07) <span class="sc">|&gt;</span></span>
-<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>               <span class="fu">time_length</span>(<span class="st">"day"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a>               <span class="fu">abs</span>() <span class="sc">&lt;</span> <span class="dv">30</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Internal pipes version</span></span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>data <span class="sc">|&gt;</span> <span class="fu">filter</span>(<span class="fu">interval</span>(clean_date, christmas_07) <span class="sc">|&gt;</span></span>
+<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a>               <span class="fu">time_length</span>(<span class="st">"day"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a>               <span class="fu">abs</span>() <span class="sc">&lt;</span> <span class="dv">30</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 9 × 4
   unitid instnm                             closedat clean_date         
@@ -1068,9 +1074,9 @@ Caused by warning:
 </ul></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>data <span class="sc">|&gt;</span> </span>
-<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">quarter =</span> <span class="fu">quarter</span>(clean_date)) <span class="sc">|&gt;</span></span>
-<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(quarter)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>data <span class="sc">|&gt;</span> </span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">quarter =</span> <span class="fu">quarter</span>(clean_date)) <span class="sc">|&gt;</span></span>
+<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(quarter)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 4 × 2
   quarter     n
@@ -1091,9 +1097,9 @@ Caused by warning:
 </ul></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>data <span class="sc">|&gt;</span></span>
-<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">day =</span> <span class="fu">wday</span>(clean_date, <span class="at">label =</span> <span class="cn">TRUE</span>)) <span class="sc">|&gt;</span></span>
-<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(day)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>data <span class="sc">|&gt;</span></span>
+<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">day =</span> <span class="fu">wday</span>(clean_date, <span class="at">label =</span> <span class="cn">TRUE</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(day)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 7 × 2
   day       n
@@ -1181,6 +1187,176 @@ Assignments will be graded before next lesson on Wednesday in line with the grad
 <section id="submission" class="level2">
 <h2 data-anchor-id="submission">Submission</h2>
 <p>Once complete turn in the .qmd file (<strong>it must render/run</strong>) and the rendered PDF to Canvas by the due date (usually <strong>Tuesday 12:00pm following the lesson</strong>). Assignments will be graded before next lesson on Wednesday in line with the grading policy outlined in the syllabus.</p>
+</section>
+<section id="solution" class="level2">
+<h2 data-anchor-id="solution">Solution</h2>
+<p><a href="site-attachments/solutions/data-wrangling-iii-solution.R"><i class="fa-solid fa-code" aria-label="code"></i> R Solution Code</a></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="do">## -----------------------------------------------------------------------------</span></span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a><span class="do">##</span></span>
+<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a><span class="do">##' [PROJ: EDH7916-Assignment-07]</span></span>
+<span id="cb57-4"><a href="#cb57-4" aria-hidden="true" tabindex="-1"></a><span class="do">##' [FILE: Assignment draft]</span></span>
+<span id="cb57-5"><a href="#cb57-5" aria-hidden="true" tabindex="-1"></a><span class="do">##' [INIT: 03/10]</span></span>
+<span id="cb57-6"><a href="#cb57-6" aria-hidden="true" tabindex="-1"></a><span class="do">##' [AUTH: Jue Wu] </span></span>
+<span id="cb57-7"><a href="#cb57-7" aria-hidden="true" tabindex="-1"></a><span class="do">##</span></span>
+<span id="cb57-8"><a href="#cb57-8" aria-hidden="true" tabindex="-1"></a><span class="do">## -----------------------------------------------------------------------------</span></span>
+<span id="cb57-9"><a href="#cb57-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-10"><a href="#cb57-10" aria-hidden="true" tabindex="-1"></a><span class="fu">setwd</span>(this.path<span class="sc">::</span><span class="fu">here</span>())</span>
+<span id="cb57-11"><a href="#cb57-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-12"><a href="#cb57-12" aria-hidden="true" tabindex="-1"></a><span class="do">## ---------------------------</span></span>
+<span id="cb57-13"><a href="#cb57-13" aria-hidden="true" tabindex="-1"></a><span class="do">##' [Libraries]</span></span>
+<span id="cb57-14"><a href="#cb57-14" aria-hidden="true" tabindex="-1"></a><span class="do">## ---------------------------</span></span>
+<span id="cb57-15"><a href="#cb57-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-16"><a href="#cb57-16" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb57-17"><a href="#cb57-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-18"><a href="#cb57-18" aria-hidden="true" tabindex="-1"></a><span class="do">## ---------------------------</span></span>
+<span id="cb57-19"><a href="#cb57-19" aria-hidden="true" tabindex="-1"></a><span class="do">##' [Input]</span></span>
+<span id="cb57-20"><a href="#cb57-20" aria-hidden="true" tabindex="-1"></a><span class="do">## ---------------------------</span></span>
+<span id="cb57-21"><a href="#cb57-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-22"><a href="#cb57-22" aria-hidden="true" tabindex="-1"></a>data_hd <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/hd2007.csv"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb57-23"><a href="#cb57-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename_all</span>(tolower) </span>
+<span id="cb57-24"><a href="#cb57-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-25"><a href="#cb57-25" aria-hidden="true" tabindex="-1"></a>data_mission <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/ic2007mission.csv"</span>)</span>
+<span id="cb57-26"><a href="#cb57-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-27"><a href="#cb57-27" aria-hidden="true" tabindex="-1"></a><span class="do">## ---------------------------</span></span>
+<span id="cb57-28"><a href="#cb57-28" aria-hidden="true" tabindex="-1"></a><span class="do">##' [Prep]</span></span>
+<span id="cb57-29"><a href="#cb57-29" aria-hidden="true" tabindex="-1"></a><span class="do">## ---------------------------</span></span>
+<span id="cb57-30"><a href="#cb57-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-31"><a href="#cb57-31" aria-hidden="true" tabindex="-1"></a><span class="co"># 1a</span></span>
+<span id="cb57-32"><a href="#cb57-32" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">left_join</span>(data_hd, data_mission, <span class="at">by =</span> <span class="st">"unitid"</span>)</span>
+<span id="cb57-33"><a href="#cb57-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-34"><a href="#cb57-34" aria-hidden="true" tabindex="-1"></a><span class="do">## ---------------------------</span></span>
+<span id="cb57-35"><a href="#cb57-35" aria-hidden="true" tabindex="-1"></a><span class="do">##' [Analysis]</span></span>
+<span id="cb57-36"><a href="#cb57-36" aria-hidden="true" tabindex="-1"></a><span class="do">## ---------------------------</span></span>
+<span id="cb57-37"><a href="#cb57-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-38"><a href="#cb57-38" aria-hidden="true" tabindex="-1"></a><span class="co"># 2a</span></span>
+<span id="cb57-39"><a href="#cb57-39" aria-hidden="true" tabindex="-1"></a>data <span class="sc">|&gt;</span> </span>
+<span id="cb57-40"><a href="#cb57-40" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(chfnm) <span class="sc">|&gt;</span> </span>
+<span id="cb57-41"><a href="#cb57-41" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">str_detect</span>(chfnm, <span class="st">"Dr</span><span class="sc">\\</span><span class="st">.?</span><span class="sc">\\</span><span class="st">s"</span>)) <span class="sc">|&gt;</span> <span class="co"># need \\s to exclude Drew, Drahus, Draper, etc </span></span>
+<span id="cb57-42"><a href="#cb57-42" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(n))</span>
+<span id="cb57-43"><a href="#cb57-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-44"><a href="#cb57-44" aria-hidden="true" tabindex="-1"></a><span class="co"># Dr matches the literal characters "Dr"</span></span>
+<span id="cb57-45"><a href="#cb57-45" aria-hidden="true" tabindex="-1"></a><span class="co"># \\.? matches an optional period (the first backslash escapes the second backslash, and the second backslash escapes the period, making it a literal period character; the question mark makes the period optional)</span></span>
+<span id="cb57-46"><a href="#cb57-46" aria-hidden="true" tabindex="-1"></a><span class="co"># \\s matches any whitespace character (space, tab, newline, etc.)</span></span>
+<span id="cb57-47"><a href="#cb57-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-48"><a href="#cb57-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-49"><a href="#cb57-49" aria-hidden="true" tabindex="-1"></a><span class="co"># 2b</span></span>
+<span id="cb57-50"><a href="#cb57-50" aria-hidden="true" tabindex="-1"></a>data <span class="sc">|&gt;</span> </span>
+<span id="cb57-51"><a href="#cb57-51" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(chfnm) <span class="sc">|&gt;</span> </span>
+<span id="cb57-52"><a href="#cb57-52" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">str_detect</span>(chfnm, <span class="st">"[Pp]</span><span class="sc">\\</span><span class="st">.?[Hh]</span><span class="sc">\\</span><span class="st">.?[Dd]</span><span class="sc">\\</span><span class="st">.?"</span>)) </span>
+<span id="cb57-53"><a href="#cb57-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-54"><a href="#cb57-54" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-55"><a href="#cb57-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-56"><a href="#cb57-56" aria-hidden="true" tabindex="-1"></a><span class="co"># 3a</span></span>
+<span id="cb57-57"><a href="#cb57-57" aria-hidden="true" tabindex="-1"></a><span class="co"># v1</span></span>
+<span id="cb57-58"><a href="#cb57-58" aria-hidden="true" tabindex="-1"></a>data <span class="sc">|&gt;</span> </span>
+<span id="cb57-59"><a href="#cb57-59" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">str_detect</span>(mission, instnm)) <span class="sc">|&gt;</span> </span>
+<span id="cb57-60"><a href="#cb57-60" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(instnm) </span>
+<span id="cb57-61"><a href="#cb57-61" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-62"><a href="#cb57-62" aria-hidden="true" tabindex="-1"></a><span class="co"># v2</span></span>
+<span id="cb57-63"><a href="#cb57-63" aria-hidden="true" tabindex="-1"></a>data <span class="sc">|&gt;</span> </span>
+<span id="cb57-64"><a href="#cb57-64" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">str_detect</span>(mission, <span class="fu">regex</span>(instnm, <span class="at">ignore_case =</span> <span class="cn">TRUE</span>))) <span class="sc">|&gt;</span> </span>
+<span id="cb57-65"><a href="#cb57-65" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(instnm)</span>
+<span id="cb57-66"><a href="#cb57-66" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-67"><a href="#cb57-67" aria-hidden="true" tabindex="-1"></a><span class="co"># v3</span></span>
+<span id="cb57-68"><a href="#cb57-68" aria-hidden="true" tabindex="-1"></a>data <span class="sc">|&gt;</span> </span>
+<span id="cb57-69"><a href="#cb57-69" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">mission_lower =</span> <span class="fu">str_to_lower</span>(mission)) <span class="sc">|&gt;</span></span>
+<span id="cb57-70"><a href="#cb57-70" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">str_detect</span>(mission_lower, <span class="fu">str_to_lower</span>(instnm))) <span class="sc">|&gt;</span> </span>
+<span id="cb57-71"><a href="#cb57-71" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(instnm)</span>
+<span id="cb57-72"><a href="#cb57-72" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-73"><a href="#cb57-73" aria-hidden="true" tabindex="-1"></a><span class="co"># 3b</span></span>
+<span id="cb57-74"><a href="#cb57-74" aria-hidden="true" tabindex="-1"></a><span class="co"># v1</span></span>
+<span id="cb57-75"><a href="#cb57-75" aria-hidden="true" tabindex="-1"></a>data <span class="sc">|&gt;</span> </span>
+<span id="cb57-76"><a href="#cb57-76" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">str_detect</span>(mission, <span class="st">"civic"</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb57-77"><a href="#cb57-77" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(instnm)</span>
+<span id="cb57-78"><a href="#cb57-78" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-79"><a href="#cb57-79" aria-hidden="true" tabindex="-1"></a><span class="co"># v2</span></span>
+<span id="cb57-80"><a href="#cb57-80" aria-hidden="true" tabindex="-1"></a>data <span class="sc">|&gt;</span> </span>
+<span id="cb57-81"><a href="#cb57-81" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">str_detect</span>(mission, <span class="st">"(?i)civic"</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb57-82"><a href="#cb57-82" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(instnm)</span>
+<span id="cb57-83"><a href="#cb57-83" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-84"><a href="#cb57-84" aria-hidden="true" tabindex="-1"></a><span class="co"># 3c</span></span>
+<span id="cb57-85"><a href="#cb57-85" aria-hidden="true" tabindex="-1"></a><span class="co"># v1</span></span>
+<span id="cb57-86"><a href="#cb57-86" aria-hidden="true" tabindex="-1"></a>data <span class="sc">|&gt;</span> </span>
+<span id="cb57-87"><a href="#cb57-87" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">str_detect</span>(mission, <span class="st">"future"</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb57-88"><a href="#cb57-88" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(stabbr) <span class="sc">|&gt;</span> </span>
+<span id="cb57-89"><a href="#cb57-89" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb57-90"><a href="#cb57-90" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(n))</span>
+<span id="cb57-91"><a href="#cb57-91" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-92"><a href="#cb57-92" aria-hidden="true" tabindex="-1"></a><span class="co"># v2</span></span>
+<span id="cb57-93"><a href="#cb57-93" aria-hidden="true" tabindex="-1"></a>data <span class="sc">|&gt;</span> </span>
+<span id="cb57-94"><a href="#cb57-94" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">str_detect</span>(mission, <span class="st">"(?i)future"</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb57-95"><a href="#cb57-95" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(stabbr) <span class="sc">|&gt;</span> </span>
+<span id="cb57-96"><a href="#cb57-96" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb57-97"><a href="#cb57-97" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(n))</span>
+<span id="cb57-98"><a href="#cb57-98" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-99"><a href="#cb57-99" aria-hidden="true" tabindex="-1"></a><span class="co"># 3d</span></span>
+<span id="cb57-100"><a href="#cb57-100" aria-hidden="true" tabindex="-1"></a><span class="co"># v1</span></span>
+<span id="cb57-101"><a href="#cb57-101" aria-hidden="true" tabindex="-1"></a>data <span class="sc">|&gt;</span> </span>
+<span id="cb57-102"><a href="#cb57-102" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">str_detect</span>(mission, <span class="st">"skill"</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb57-103"><a href="#cb57-103" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(control) <span class="sc">|&gt;</span> </span>
+<span id="cb57-104"><a href="#cb57-104" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb57-105"><a href="#cb57-105" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(n))</span>
+<span id="cb57-106"><a href="#cb57-106" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-107"><a href="#cb57-107" aria-hidden="true" tabindex="-1"></a><span class="co"># v2</span></span>
+<span id="cb57-108"><a href="#cb57-108" aria-hidden="true" tabindex="-1"></a>data <span class="sc">|&gt;</span> </span>
+<span id="cb57-109"><a href="#cb57-109" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">str_detect</span>(mission, <span class="st">"(?i)skill"</span>)) <span class="sc">|&gt;</span>  <span class="co"># deal with case-insensitive</span></span>
+<span id="cb57-110"><a href="#cb57-110" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(control) <span class="sc">|&gt;</span> </span>
+<span id="cb57-111"><a href="#cb57-111" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb57-112"><a href="#cb57-112" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(n))</span>
+<span id="cb57-113"><a href="#cb57-113" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-114"><a href="#cb57-114" aria-hidden="true" tabindex="-1"></a><span class="co"># v3</span></span>
+<span id="cb57-115"><a href="#cb57-115" aria-hidden="true" tabindex="-1"></a>data <span class="sc">|&gt;</span> </span>
+<span id="cb57-116"><a href="#cb57-116" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">mission_lower =</span> <span class="fu">str_to_lower</span>(mission)) <span class="sc">|&gt;</span></span>
+<span id="cb57-117"><a href="#cb57-117" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">str_detect</span>(mission_lower, <span class="st">"skill"</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb57-118"><a href="#cb57-118" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(control) <span class="sc">|&gt;</span> </span>
+<span id="cb57-119"><a href="#cb57-119" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb57-120"><a href="#cb57-120" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(n))</span>
+<span id="cb57-121"><a href="#cb57-121" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-122"><a href="#cb57-122" aria-hidden="true" tabindex="-1"></a><span class="co"># 4a</span></span>
+<span id="cb57-123"><a href="#cb57-123" aria-hidden="true" tabindex="-1"></a>close_data <span class="ot">&lt;-</span> data <span class="sc">|&gt;</span> </span>
+<span id="cb57-124"><a href="#cb57-124" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(closedat <span class="sc">!=</span> <span class="sc">-</span><span class="dv">2</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb57-125"><a href="#cb57-125" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">clean_date =</span> <span class="fu">parse_date_time</span>(closedat, <span class="at">orders =</span> <span class="fu">c</span>(<span class="st">"mdy"</span>, <span class="st">"my"</span>)))</span>
+<span id="cb57-126"><a href="#cb57-126" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-127"><a href="#cb57-127" aria-hidden="true" tabindex="-1"></a>close_data <span class="sc">|&gt;</span> </span>
+<span id="cb57-128"><a href="#cb57-128" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">is.na</span>(clean_date)) <span class="sc">|&gt;</span> </span>
+<span id="cb57-129"><a href="#cb57-129" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(closedat)</span>
+<span id="cb57-130"><a href="#cb57-130" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-131"><a href="#cb57-131" aria-hidden="true" tabindex="-1"></a>close_data <span class="ot">&lt;-</span> close_data <span class="sc">|&gt;</span> </span>
+<span id="cb57-132"><a href="#cb57-132" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>(clean_date)</span>
+<span id="cb57-133"><a href="#cb57-133" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-134"><a href="#cb57-134" aria-hidden="true" tabindex="-1"></a>close_data <span class="sc">|&gt;</span> </span>
+<span id="cb57-135"><a href="#cb57-135" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(clean_date <span class="sc">==</span> <span class="fu">min</span>(clean_date)) <span class="sc">|&gt;</span> </span>
+<span id="cb57-136"><a href="#cb57-136" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(instnm, clean_date)</span>
+<span id="cb57-137"><a href="#cb57-137" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-138"><a href="#cb57-138" aria-hidden="true" tabindex="-1"></a><span class="co"># 4b</span></span>
+<span id="cb57-139"><a href="#cb57-139" aria-hidden="true" tabindex="-1"></a><span class="co"># v1</span></span>
+<span id="cb57-140"><a href="#cb57-140" aria-hidden="true" tabindex="-1"></a>march_2025 <span class="ot">&lt;-</span> <span class="fu">parse_date_time</span>(<span class="st">"03-01-2025"</span>, <span class="at">orders =</span> <span class="st">"mdy"</span>)</span>
+<span id="cb57-141"><a href="#cb57-141" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-142"><a href="#cb57-142" aria-hidden="true" tabindex="-1"></a>close_data <span class="sc">|&gt;</span> </span>
+<span id="cb57-143"><a href="#cb57-143" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(clean_date <span class="sc">==</span> <span class="fu">min</span>(clean_date)) <span class="sc">|&gt;</span> </span>
+<span id="cb57-144"><a href="#cb57-144" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">interval =</span> <span class="fu">interval</span>(<span class="fu">min</span>(clean_date), march_2025) <span class="sc">|&gt;</span> <span class="fu">time_length</span>(<span class="st">"month"</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb57-145"><a href="#cb57-145" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(instnm, clean_date, interval)</span>
+<span id="cb57-146"><a href="#cb57-146" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-147"><a href="#cb57-147" aria-hidden="true" tabindex="-1"></a><span class="co"># v2</span></span>
+<span id="cb57-148"><a href="#cb57-148" aria-hidden="true" tabindex="-1"></a>min_date <span class="ot">&lt;-</span> close_data <span class="sc">|&gt;</span> </span>
+<span id="cb57-149"><a href="#cb57-149" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(clean_date <span class="sc">==</span> <span class="fu">min</span>(clean_date)) <span class="sc">|&gt;</span> </span>
+<span id="cb57-150"><a href="#cb57-150" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(clean_date)</span>
+<span id="cb57-151"><a href="#cb57-151" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-152"><a href="#cb57-152" aria-hidden="true" tabindex="-1"></a><span class="fu">interval</span>(min_date, march_2025) <span class="sc">|&gt;</span> <span class="fu">time_length</span>(<span class="st">"month"</span>)</span>
+<span id="cb57-153"><a href="#cb57-153" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-154"><a href="#cb57-154" aria-hidden="true" tabindex="-1"></a><span class="co"># 4c</span></span>
+<span id="cb57-155"><a href="#cb57-155" aria-hidden="true" tabindex="-1"></a>close_data <span class="sc">|&gt;</span> </span>
+<span id="cb57-156"><a href="#cb57-156" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">diff =</span> <span class="fu">max</span>(clean_date) <span class="sc">-</span> <span class="fu">min</span>(clean_date))</span>
+<span id="cb57-157"><a href="#cb57-157" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-158"><a href="#cb57-158" aria-hidden="true" tabindex="-1"></a><span class="do">## ---------------------------</span></span>
+<span id="cb57-159"><a href="#cb57-159" aria-hidden="true" tabindex="-1"></a><span class="do">##' [Output]</span></span>
+<span id="cb57-160"><a href="#cb57-160" aria-hidden="true" tabindex="-1"></a><span class="do">## ---------------------------</span></span>
+<span id="cb57-161"><a href="#cb57-161" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-162"><a href="#cb57-162" aria-hidden="true" tabindex="-1"></a><span class="do">## -----------------------------------------------------------------------------</span></span>
+<span id="cb57-163"><a href="#cb57-163" aria-hidden="true" tabindex="-1"></a><span class="do">##' *</span><span class="re">END</span><span class="do"> SCRIPT*</span></span>
+<span id="cb57-164"><a href="#cb57-164" aria-hidden="true" tabindex="-1"></a><span class="do">## -----------------------------------------------------------------------------</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 </section>
 </div>
 </div>
