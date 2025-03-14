@@ -1,9 +1,9 @@
 ## -----------------------------------------------------------------------------
 ##
-##' [PROJ: EDH 7916]
-##' [FILE: Data Wrangling III Solution]
-##' [INIT: March 18 2024]
-##' [AUTH: Matt Capaldi] @ttalVlatt
+##' [PROJ: EDH7916-Assignment-07]
+##' [FILE: Assignment draft]
+##' [INIT: 03/10]
+##' [AUTH: Jue Wu] 
 ##
 ## -----------------------------------------------------------------------------
 
@@ -14,146 +14,150 @@ setwd(this.path::here())
 ## ---------------------------
 
 library(tidyverse)
-library(lubridate)
 
 ## ---------------------------
 ##' [Input]
 ## ---------------------------
 
-df_hd <- read_csv("data/hd2007.csv")
-df_mission <- read_csv("data/ic2007mission.csv")
+data_hd <- read_csv("data/hd2007.csv") |> 
+  rename_all(tolower) 
 
-
-df <- df_hd |>
-  left_join(df_mission, by = c("UNITID" = "unitid")) # Could also just rename column to lower case
+data_mission <- read_csv("data/ic2007mission.csv")
 
 ## ---------------------------
-##' [Q1]
+##' [Prep]
 ## ---------------------------
 
-df |>
-  mutate(chfnm_lower = str_to_lower(CHFNM)) |> # lower case the name
-  filter(str_detect(chfnm_lower, "(^|\\s)dr(a)?(,|\\.|\\s)")) |> # keep anything that after either the start (^) or a " " has "dr" then maybe "a" (for Spanish dra) followed by either "," "." or " " 
-  group_by(chfnm_lower, STABBR) |> # group by unique chief admin names (due to branch campuses) also group by state, to minimize chance of two different people with the same name being counted as one. Is there a better way to check for branch campuses?
-  slice(1) |> # slice the one row of these (to remove duplicates)
-  ungroup() |> # remove the grouping as we only wanted slice() to be grouped
-  select(chfnm_lower) |> # keep only the chief admin name
-  count(chfnm_lower) |> # get counts of the names (should be a column of ones)
-  nrow() # count up the number ones
-
-## Below is how I compared our in class regex with Ben's and my final answer
-
-inclass_names <- df |>
-  mutate(chfnm_lower = str_to_lower(CHFNM)) |> # lower case the name
-  filter(str_detect(chfnm_lower, "dr\\.?\\s")) |> # keep anything "dr" maybe a "." then " "
-  pull(chfnm_lower)
-
-bens_names <- df |>
-  mutate(chfnm_lower = str_to_lower(CHFNM)) |> # lower case the name
-  filter(str_detect(chfnm_lower, "^dr\\.?[^ew]")) |> # keep anything that starts (^) "dr" maybe a "." then anything but "ew" (to exclude drew or andrew)
-  pull(chfnm_lower)
-
-bens_names[!bens_names %in% inclass_names]
-
-matts_names <- df |>
-  mutate(chfnm_lower = str_to_lower(CHFNM)) |> # lower case the name
-  filter(str_detect(chfnm_lower, "(^|\\s)dr(a)?(,|\\.|\\s)")) |> # keep anything that after either the start (^) or a " " has "dr" then maybe "a" (for Spanish dra) followed by either "," "." or " "
-  pull(chfnm_lower)
-
-matts_names[!matts_names %in% bens_names]
-
-## The differences between Ben's and my answer get to an important
-## research point, technically Ben's answer is what was asked, but in many situations
-## you were given that question, they would want "rev. dr" and "rabbi dr" included
+# 1a
+data <- left_join(data_hd, data_mission, by = "unitid")
 
 ## ---------------------------
-##' [Q2]
+##' [Analysis]
 ## ---------------------------
 
-df |>
-  mutate(chfnm_lower = str_to_lower(CHFNM)) |> # lower case the name
-  filter(str_detect(chfnm_lower, "ph\\.?\\s?d\\.?\\s?$")) |> # keep only if there's "dr" maybe a ".", then a space
-  group_by(chfnm_lower, STABBR) |> # group by unique chief admin names (due to branch campuses) also group by state to minimize chance of two different people with the same name (ideally, you'd be more sophisticated and check for branch campuses directly)
-  slice(1) |> # slice the one row of these (to remove duplicates)
-  ungroup() |> # remove the grouping as we only wanted slice() to be grouped
-  count(chfnm_lower) |> # get counts of the names (should be a column of ones)
-  nrow() # count up the number ones
+# 2a
+data |> 
+  count(chfnm) |> 
+  filter(str_detect(chfnm, "Dr\\.?\\s")) |> # need \\s to exclude Drew, Drahus, Draper, etc 
+  arrange(desc(n))
 
-## ---------------------------
-##' [Q3]
-## ---------------------------
+# Dr matches the literal characters "Dr"
+# \\.? matches an optional period (the first backslash escapes the second backslash, and the second backslash escapes the period, making it a literal period character; the question mark makes the period optional)
+# \\s matches any whitespace character (space, tab, newline, etc.)
 
-##'[i]
 
-df |>
-  mutate(mission_lower = str_to_lower(mission), # lower case the mission
-         instnm_lower = str_to_lower(INSTNM)) |> # lower case the institution name
-  filter(str_detect(mission_lower, instnm_lower)) |> # search for the name in the mission
-  nrow() # count up the number ones
-  
-##'[ii]
+# 2b
+data |> 
+  count(chfnm) |> 
+  filter(str_detect(chfnm, "[Pp]\\.?[Hh]\\.?[Dd]\\.?")) 
 
-df |>
-  mutate(mission_lower = str_to_lower(mission)) |> # lower case the mission
-  filter(str_detect(mission_lower, "civic")) |> # look for the word "civic
-  nrow() # count up the number ones
 
-##'[iii]
 
-df |>
-  mutate(mission_lower = str_to_lower(mission)) |> # lower case mission
-  filter(str_detect(mission_lower, "future")) |> # look for the word "future"
-  group_by(STABBR) |> # before we count this time, group by state
-  count(mission_lower) |> # get counts of the names (should be a column of ones)
-  summarize(n = sum(n)) |> # count up the number ones
-  arrange(desc(n)) |> # arrange in descending order of the count
-  slice_head(n = 3) # keep the top three rows
+# 3a
+# v1
+data |> 
+  filter(str_detect(mission, instnm)) |> 
+  count(instnm) 
 
-##'[iv]
+# v2
+data |> 
+  filter(str_detect(mission, regex(instnm, ignore_case = TRUE))) |> 
+  count(instnm)
 
-df |>
-  mutate(mission_lower = str_to_lower(mission)) |> # lower case the mission
-  filter(str_detect(mission_lower, "skill")) |> # look for the word skill
-  group_by(CONTROL) |> # before we count, group by control
-  count(mission_lower) |> # get counts of the names (should be a column of ones)
-  summarize(n = sum(n)) |> # count up the number ones
-  arrange(desc(n)) # arrange in descending order
+# v3
+data |> 
+  mutate(mission_lower = str_to_lower(mission)) |>
+  filter(str_detect(mission_lower, str_to_lower(instnm))) |> 
+  count(instnm)
 
-## ---------------------------
-##' [Q4]
-## ---------------------------
+# 3b
+# v1
+data |> 
+  filter(str_detect(mission, "civic")) |> 
+  count(instnm)
 
-df_close <- df |>
-  select(UNITID, INSTNM, CLOSEDAT) |> # Keep only the columns we need
-  filter(CLOSEDAT != "-2") |> # Get rid of any colleges that haven't closed
-  mutate(clean_date = parse_date_time(CLOSEDAT, ## Create clean_date by turning CLOSEDAT into a date_time object
-                                      orders = c("mdy", "my"))) ## Try month/day/year format first, then just month/year (assumes 1st of month)
+# v2
+data |> 
+  filter(str_detect(mission, "(?i)civic")) |> 
+  count(instnm)
 
-## Print out the 7 that "failed to parse"
-df_close |>
-  filter(is.na(clean_date))
+# 3c
+# v1
+data |> 
+  filter(str_detect(mission, "future")) |> 
+  group_by(stabbr) |> 
+  count() |> 
+  arrange(desc(n))
 
-## After inspection, we can't approximate the 7 that failed to parse accurately, so drop them
-df_close <- df_close |>
+# v2
+data |> 
+  filter(str_detect(mission, "(?i)future")) |> 
+  group_by(stabbr) |> 
+  count() |> 
+  arrange(desc(n))
+
+# 3d
+# v1
+data |> 
+  filter(str_detect(mission, "skill")) |> 
+  group_by(control) |> 
+  count() |> 
+  arrange(desc(n))
+
+# v2
+data |> 
+  filter(str_detect(mission, "(?i)skill")) |>  # deal with case-insensitive
+  group_by(control) |> 
+  count() |> 
+  arrange(desc(n))
+
+# v3
+data |> 
+  mutate(mission_lower = str_to_lower(mission)) |>
+  filter(str_detect(mission_lower, "skill")) |> 
+  group_by(control) |> 
+  count() |> 
+  arrange(desc(n))
+
+# 4a
+close_data <- data |> 
+  filter(closedat != -2) |> 
+  mutate(clean_date = parse_date_time(closedat, orders = c("mdy", "my")))
+
+close_data |> 
+  filter(is.na(clean_date)) |> 
+  select(closedat)
+
+close_data <- close_data |> 
   drop_na(clean_date)
 
-## Now the clean_date is a lubridate object, we can just treat it like a numeric variable
+close_data |> 
+  filter(clean_date == min(clean_date)) |> 
+  select(instnm, clean_date)
 
-##'[i]
-##' Option One: Use the date written
-df_close |>
-  mutate(time_from_today = parse_date_time("Feb 1 2020", "mdy") - clean_date) |> # same logic as above, create a date_time object for Feb 1 2020 (format is month/day/year) get the difference from clean_date 
-  slice_max(time_from_today) # slice off the row with the most days from today
+# 4b
+# v1
+march_2025 <- parse_date_time("03-01-2025", orders = "mdy")
 
-## Option Two: Use the date/time right now
-df_close |>
-  mutate(time_from_today = now() - clean_date) |> # now() just gets date/time when run
-  slice_max(time_from_today) # slice off the row with the most days from today
+close_data |> 
+  filter(clean_date == min(clean_date)) |> 
+  mutate(interval = interval(min(clean_date), march_2025) |> time_length("month")) |> 
+  select(instnm, clean_date, interval)
 
-##'[ii]
-df_close |>
-  summarize(answer = max(clean_date) - min(clean_date)) # We can also just use max() and min() like any other variable
+# v2
+min_date <- close_data |> 
+  filter(clean_date == min(clean_date)) |> 
+  pull(clean_date)
 
+interval(min_date, march_2025) |> time_length("month")
+
+# 4c
+close_data |> 
+  summarize(diff = max(clean_date) - min(clean_date))
+
+## ---------------------------
+##' [Output]
+## ---------------------------
 
 ## -----------------------------------------------------------------------------
 ##' *END SCRIPT*
