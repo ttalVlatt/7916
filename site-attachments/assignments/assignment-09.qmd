@@ -3,7 +3,7 @@
 
 Use the `hsls_small.csv` data set from the lesson answer the following questions
 
-- Throughout, you **should** account for missing values by dropping them
+- You will need to use variables on math scores, students' poverty level, postsecondary attendance, sex, family income, parental education
 
 > Hint: You're going to need the [code book](https://nces.ed.gov/datalab/onlinecodebook) to identify the necessary variables
 
@@ -35,9 +35,9 @@ library(tidyverse)
 
 ## Question Two
 
-**a)** Fit a logistic regression predicting postsecondary attendance using math score, sex, family income, and parental education
+**a)** Fit a logistic regression predicting postsecondary attendance using math score, sex, family income, and parental education. 
 
-> Hint: You might want to Google to find out what function you need for fitting a logistic regression. 
+> Hint: Logistic regression is what you want to use when your outcome variable is binary (0 or 1) instead of a continuous variable. You might want to Google to find out what function you need for fitting a logistic regression. 
 
 ```{r}
 #| label: 2a
@@ -45,7 +45,7 @@ library(tidyverse)
 
 ```
 
-**b)** Create a nicely formatted output table using `stargazer` or `gtsummary` for the model from 2a.
+**b)** Create a nicely formatted output table using `stargazer` or `gtsummary` for the model from 2a. What are some significant predictors based on your model results?
 
 ```{r}
 #| label: 2b

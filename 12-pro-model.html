@@ -464,7 +464,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <ul>
 <li><p>With that, our data is ready for some basic analysis!</p></li>
-<li><p>Note: In most real-world projects your data preparation will be much more thorough, usually taking up the vast majority of the lines of code in your entire project, this is just the bare minimum to have to models run</p></li>
+<li><p>Note: In most real-world projects your data preparation will be much more thorough, usually taking up the vast majority of the lines of code in your entire project, this is just the bare minimum to have the models run</p></li>
 </ul>
 </section>
 </section>
@@ -473,15 +473,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <ul>
 <li>One of the first inferential statistical tests you will have learned (or will learn) is the t-test
 <ul>
-<li>For those unfamiliar, the basic concept of a t-test if variance between two groups (i.e., the difference between treatment and control) is greater than the variance within those groups (i.e., random variance between people within the same group)
+<li>For those unfamiliar, the basic concept of a t-test if the difference in means between two groups (i.e., the difference between treatment and control) is greater than the variability within those groups (i.e., random variance between people within the same group)
 <ul>
-<li>If that between-group-variance is great enough compared to the within-group-variance, the t-test will be “statistically significant”</li>
+<li>If the difference between the groups is great enough compared to the variation between the groups, the t-test will be “statistically significant”</li>
 </ul></li>
-<li>This means we are (most often) 95% confident that the there is a genuine difference between the groups
+<li>This means we are (most often) 95% confident that the there is a genuine difference between the groups, and the difference is unlikely to be due to random chance
 <ul>
 <li>There are also a handful of statistical assumptions we have to satisfy, which are beyond our scope here, but hopefully the general concept will hope those of you yet to take your stats foundations follow along</li>
 </ul></li>
 </ul></li>
+<li>Let’s compare the math score between male and female.</li>
 </ul>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(x1txmtscor <span class="sc">~</span> x1sex, <span class="at">data =</span> data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -599,7 +600,7 @@ F-statistic: 448.4 on 7 and 16421 DF,  p-value: &lt; 2.2e-16</code></pre>
 <ul>
 <li>Extra trick: To get captions and table numbers if we are using Quarto, we use the “chunk options” to cross reference them, not manually adding them to the table code
 <ul>
-<li>You see more about that on the <a href="https://quarto.org/docs/authoring/cross-references.html#computations-1">Quarto guide for cross referencing</a></li>
+<li>See <a href="./07-quarto-intro.html">Intro to Quarto lesson</a> for a refresher on captioning</li>
 <li>To get the table to appear like this we…
 <ul>
 <li>Labeled the chunk <code>{r tbl-stargazer}</code></li>
@@ -890,23 +891,23 @@ Table&nbsp;2: Regression Table Using gtsummary (basic)
 </figcaption>
 <div aria-describedby="tbl-gtsummary-basic-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
-<div id="rounlxcczn" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#rounlxcczn table {
+<div id="bfcmabqeqt" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#bfcmabqeqt table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#rounlxcczn thead, #rounlxcczn tbody, #rounlxcczn tfoot, #rounlxcczn tr, #rounlxcczn td, #rounlxcczn th {
+#bfcmabqeqt thead, #bfcmabqeqt tbody, #bfcmabqeqt tfoot, #bfcmabqeqt tr, #bfcmabqeqt td, #bfcmabqeqt th {
   border-style: none;
 }
 
-#rounlxcczn p {
+#bfcmabqeqt p {
   margin: 0;
   padding: 0;
 }
 
-#rounlxcczn .gt_table {
+#bfcmabqeqt .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -932,12 +933,12 @@ Table&nbsp;2: Regression Table Using gtsummary (basic)
   border-left-color: #D3D3D3;
 }
 
-#rounlxcczn .gt_caption {
+#bfcmabqeqt .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#rounlxcczn .gt_title {
+#bfcmabqeqt .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -949,7 +950,7 @@ Table&nbsp;2: Regression Table Using gtsummary (basic)
   border-bottom-width: 0;
 }
 
-#rounlxcczn .gt_subtitle {
+#bfcmabqeqt .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -961,7 +962,7 @@ Table&nbsp;2: Regression Table Using gtsummary (basic)
   border-top-width: 0;
 }
 
-#rounlxcczn .gt_heading {
+#bfcmabqeqt .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -973,13 +974,13 @@ Table&nbsp;2: Regression Table Using gtsummary (basic)
   border-right-color: #D3D3D3;
 }
 
-#rounlxcczn .gt_bottom_border {
+#bfcmabqeqt .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#rounlxcczn .gt_col_headings {
+#bfcmabqeqt .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -994,7 +995,7 @@ Table&nbsp;2: Regression Table Using gtsummary (basic)
   border-right-color: #D3D3D3;
 }
 
-#rounlxcczn .gt_col_heading {
+#bfcmabqeqt .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1014,7 +1015,7 @@ Table&nbsp;2: Regression Table Using gtsummary (basic)
   overflow-x: hidden;
 }
 
-#rounlxcczn .gt_column_spanner_outer {
+#bfcmabqeqt .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1026,15 +1027,15 @@ Table&nbsp;2: Regression Table Using gtsummary (basic)
   padding-right: 4px;
 }
 
-#rounlxcczn .gt_column_spanner_outer:first-child {
+#bfcmabqeqt .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#rounlxcczn .gt_column_spanner_outer:last-child {
+#bfcmabqeqt .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#rounlxcczn .gt_column_spanner {
+#bfcmabqeqt .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1046,11 +1047,11 @@ Table&nbsp;2: Regression Table Using gtsummary (basic)
   width: 100%;
 }
 
-#rounlxcczn .gt_spanner_row {
+#bfcmabqeqt .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#rounlxcczn .gt_group_heading {
+#bfcmabqeqt .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1076,7 +1077,7 @@ Table&nbsp;2: Regression Table Using gtsummary (basic)
   text-align: left;
 }
 
-#rounlxcczn .gt_empty_group_heading {
+#bfcmabqeqt .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1091,15 +1092,15 @@ Table&nbsp;2: Regression Table Using gtsummary (basic)
   vertical-align: middle;
 }
 
-#rounlxcczn .gt_from_md > :first-child {
+#bfcmabqeqt .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#rounlxcczn .gt_from_md > :last-child {
+#bfcmabqeqt .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#rounlxcczn .gt_row {
+#bfcmabqeqt .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1118,7 +1119,7 @@ Table&nbsp;2: Regression Table Using gtsummary (basic)
   overflow-x: hidden;
 }
 
-#rounlxcczn .gt_stub {
+#bfcmabqeqt .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1131,7 +1132,7 @@ Table&nbsp;2: Regression Table Using gtsummary (basic)
   padding-right: 5px;
 }
 
-#rounlxcczn .gt_stub_row_group {
+#bfcmabqeqt .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1145,15 +1146,15 @@ Table&nbsp;2: Regression Table Using gtsummary (basic)
   vertical-align: top;
 }
 
-#rounlxcczn .gt_row_group_first td {
+#bfcmabqeqt .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#rounlxcczn .gt_row_group_first th {
+#bfcmabqeqt .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#rounlxcczn .gt_summary_row {
+#bfcmabqeqt .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1163,16 +1164,16 @@ Table&nbsp;2: Regression Table Using gtsummary (basic)
   padding-right: 5px;
 }
 
-#rounlxcczn .gt_first_summary_row {
+#bfcmabqeqt .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#rounlxcczn .gt_first_summary_row.thick {
+#bfcmabqeqt .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#rounlxcczn .gt_last_summary_row {
+#bfcmabqeqt .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1182,7 +1183,7 @@ Table&nbsp;2: Regression Table Using gtsummary (basic)
   border-bottom-color: #D3D3D3;
 }
 
-#rounlxcczn .gt_grand_summary_row {
+#bfcmabqeqt .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1192,7 +1193,7 @@ Table&nbsp;2: Regression Table Using gtsummary (basic)
   padding-right: 5px;
 }
 
-#rounlxcczn .gt_first_grand_summary_row {
+#bfcmabqeqt .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1202,7 +1203,7 @@ Table&nbsp;2: Regression Table Using gtsummary (basic)
   border-top-color: #D3D3D3;
 }
 
-#rounlxcczn .gt_last_grand_summary_row_top {
+#bfcmabqeqt .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1212,11 +1213,11 @@ Table&nbsp;2: Regression Table Using gtsummary (basic)
   border-bottom-color: #D3D3D3;
 }
 
-#rounlxcczn .gt_striped {
+#bfcmabqeqt .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#rounlxcczn .gt_table_body {
+#bfcmabqeqt .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1225,7 +1226,7 @@ Table&nbsp;2: Regression Table Using gtsummary (basic)
   border-bottom-color: #D3D3D3;
 }
 
-#rounlxcczn .gt_footnotes {
+#bfcmabqeqt .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1239,7 +1240,7 @@ Table&nbsp;2: Regression Table Using gtsummary (basic)
   border-right-color: #D3D3D3;
 }
 
-#rounlxcczn .gt_footnote {
+#bfcmabqeqt .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -1248,7 +1249,7 @@ Table&nbsp;2: Regression Table Using gtsummary (basic)
   padding-right: 5px;
 }
 
-#rounlxcczn .gt_sourcenotes {
+#bfcmabqeqt .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1262,7 +1263,7 @@ Table&nbsp;2: Regression Table Using gtsummary (basic)
   border-right-color: #D3D3D3;
 }
 
-#rounlxcczn .gt_sourcenote {
+#bfcmabqeqt .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1270,72 +1271,72 @@ Table&nbsp;2: Regression Table Using gtsummary (basic)
   padding-right: 5px;
 }
 
-#rounlxcczn .gt_left {
+#bfcmabqeqt .gt_left {
   text-align: left;
 }
 
-#rounlxcczn .gt_center {
+#bfcmabqeqt .gt_center {
   text-align: center;
 }
 
-#rounlxcczn .gt_right {
+#bfcmabqeqt .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#rounlxcczn .gt_font_normal {
+#bfcmabqeqt .gt_font_normal {
   font-weight: normal;
 }
 
-#rounlxcczn .gt_font_bold {
+#bfcmabqeqt .gt_font_bold {
   font-weight: bold;
 }
 
-#rounlxcczn .gt_font_italic {
+#bfcmabqeqt .gt_font_italic {
   font-style: italic;
 }
 
-#rounlxcczn .gt_super {
+#bfcmabqeqt .gt_super {
   font-size: 65%;
 }
 
-#rounlxcczn .gt_footnote_marks {
+#bfcmabqeqt .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#rounlxcczn .gt_asterisk {
+#bfcmabqeqt .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#rounlxcczn .gt_indent_1 {
+#bfcmabqeqt .gt_indent_1 {
   text-indent: 5px;
 }
 
-#rounlxcczn .gt_indent_2 {
+#bfcmabqeqt .gt_indent_2 {
   text-indent: 10px;
 }
 
-#rounlxcczn .gt_indent_3 {
+#bfcmabqeqt .gt_indent_3 {
   text-indent: 15px;
 }
 
-#rounlxcczn .gt_indent_4 {
+#bfcmabqeqt .gt_indent_4 {
   text-indent: 20px;
 }
 
-#rounlxcczn .gt_indent_5 {
+#bfcmabqeqt .gt_indent_5 {
   text-indent: 25px;
 }
 
-#rounlxcczn .katex-display {
+#bfcmabqeqt .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#rounlxcczn div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#bfcmabqeqt div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -1505,23 +1506,23 @@ Table&nbsp;3: Regression Table Using gtsummary (custom)
 </figcaption>
 <div aria-describedby="tbl-gtsummary-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
-<div id="juldhxskmk" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#juldhxskmk table {
+<div id="uiaqwodgpw" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#uiaqwodgpw table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#juldhxskmk thead, #juldhxskmk tbody, #juldhxskmk tfoot, #juldhxskmk tr, #juldhxskmk td, #juldhxskmk th {
+#uiaqwodgpw thead, #uiaqwodgpw tbody, #uiaqwodgpw tfoot, #uiaqwodgpw tr, #uiaqwodgpw td, #uiaqwodgpw th {
   border-style: none;
 }
 
-#juldhxskmk p {
+#uiaqwodgpw p {
   margin: 0;
   padding: 0;
 }
 
-#juldhxskmk .gt_table {
+#uiaqwodgpw .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -1547,12 +1548,12 @@ Table&nbsp;3: Regression Table Using gtsummary (custom)
   border-left-color: #D3D3D3;
 }
 
-#juldhxskmk .gt_caption {
+#uiaqwodgpw .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#juldhxskmk .gt_title {
+#uiaqwodgpw .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1564,7 +1565,7 @@ Table&nbsp;3: Regression Table Using gtsummary (custom)
   border-bottom-width: 0;
 }
 
-#juldhxskmk .gt_subtitle {
+#uiaqwodgpw .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1576,7 +1577,7 @@ Table&nbsp;3: Regression Table Using gtsummary (custom)
   border-top-width: 0;
 }
 
-#juldhxskmk .gt_heading {
+#uiaqwodgpw .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1588,13 +1589,13 @@ Table&nbsp;3: Regression Table Using gtsummary (custom)
   border-right-color: #D3D3D3;
 }
 
-#juldhxskmk .gt_bottom_border {
+#uiaqwodgpw .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#juldhxskmk .gt_col_headings {
+#uiaqwodgpw .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1609,7 +1610,7 @@ Table&nbsp;3: Regression Table Using gtsummary (custom)
   border-right-color: #D3D3D3;
 }
 
-#juldhxskmk .gt_col_heading {
+#uiaqwodgpw .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1629,7 +1630,7 @@ Table&nbsp;3: Regression Table Using gtsummary (custom)
   overflow-x: hidden;
 }
 
-#juldhxskmk .gt_column_spanner_outer {
+#uiaqwodgpw .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1641,15 +1642,15 @@ Table&nbsp;3: Regression Table Using gtsummary (custom)
   padding-right: 4px;
 }
 
-#juldhxskmk .gt_column_spanner_outer:first-child {
+#uiaqwodgpw .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#juldhxskmk .gt_column_spanner_outer:last-child {
+#uiaqwodgpw .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#juldhxskmk .gt_column_spanner {
+#uiaqwodgpw .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1661,11 +1662,11 @@ Table&nbsp;3: Regression Table Using gtsummary (custom)
   width: 100%;
 }
 
-#juldhxskmk .gt_spanner_row {
+#uiaqwodgpw .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#juldhxskmk .gt_group_heading {
+#uiaqwodgpw .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1691,7 +1692,7 @@ Table&nbsp;3: Regression Table Using gtsummary (custom)
   text-align: left;
 }
 
-#juldhxskmk .gt_empty_group_heading {
+#uiaqwodgpw .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1706,15 +1707,15 @@ Table&nbsp;3: Regression Table Using gtsummary (custom)
   vertical-align: middle;
 }
 
-#juldhxskmk .gt_from_md > :first-child {
+#uiaqwodgpw .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#juldhxskmk .gt_from_md > :last-child {
+#uiaqwodgpw .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#juldhxskmk .gt_row {
+#uiaqwodgpw .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1733,7 +1734,7 @@ Table&nbsp;3: Regression Table Using gtsummary (custom)
   overflow-x: hidden;
 }
 
-#juldhxskmk .gt_stub {
+#uiaqwodgpw .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1746,7 +1747,7 @@ Table&nbsp;3: Regression Table Using gtsummary (custom)
   padding-right: 5px;
 }
 
-#juldhxskmk .gt_stub_row_group {
+#uiaqwodgpw .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1760,15 +1761,15 @@ Table&nbsp;3: Regression Table Using gtsummary (custom)
   vertical-align: top;
 }
 
-#juldhxskmk .gt_row_group_first td {
+#uiaqwodgpw .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#juldhxskmk .gt_row_group_first th {
+#uiaqwodgpw .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#juldhxskmk .gt_summary_row {
+#uiaqwodgpw .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1778,16 +1779,16 @@ Table&nbsp;3: Regression Table Using gtsummary (custom)
   padding-right: 5px;
 }
 
-#juldhxskmk .gt_first_summary_row {
+#uiaqwodgpw .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#juldhxskmk .gt_first_summary_row.thick {
+#uiaqwodgpw .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#juldhxskmk .gt_last_summary_row {
+#uiaqwodgpw .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1797,7 +1798,7 @@ Table&nbsp;3: Regression Table Using gtsummary (custom)
   border-bottom-color: #D3D3D3;
 }
 
-#juldhxskmk .gt_grand_summary_row {
+#uiaqwodgpw .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1807,7 +1808,7 @@ Table&nbsp;3: Regression Table Using gtsummary (custom)
   padding-right: 5px;
 }
 
-#juldhxskmk .gt_first_grand_summary_row {
+#uiaqwodgpw .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1817,7 +1818,7 @@ Table&nbsp;3: Regression Table Using gtsummary (custom)
   border-top-color: #D3D3D3;
 }
 
-#juldhxskmk .gt_last_grand_summary_row_top {
+#uiaqwodgpw .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1827,11 +1828,11 @@ Table&nbsp;3: Regression Table Using gtsummary (custom)
   border-bottom-color: #D3D3D3;
 }
 
-#juldhxskmk .gt_striped {
+#uiaqwodgpw .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#juldhxskmk .gt_table_body {
+#uiaqwodgpw .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1840,7 +1841,7 @@ Table&nbsp;3: Regression Table Using gtsummary (custom)
   border-bottom-color: #D3D3D3;
 }
 
-#juldhxskmk .gt_footnotes {
+#uiaqwodgpw .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1854,7 +1855,7 @@ Table&nbsp;3: Regression Table Using gtsummary (custom)
   border-right-color: #D3D3D3;
 }
 
-#juldhxskmk .gt_footnote {
+#uiaqwodgpw .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -1863,7 +1864,7 @@ Table&nbsp;3: Regression Table Using gtsummary (custom)
   padding-right: 5px;
 }
 
-#juldhxskmk .gt_sourcenotes {
+#uiaqwodgpw .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1877,7 +1878,7 @@ Table&nbsp;3: Regression Table Using gtsummary (custom)
   border-right-color: #D3D3D3;
 }
 
-#juldhxskmk .gt_sourcenote {
+#uiaqwodgpw .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1885,72 +1886,72 @@ Table&nbsp;3: Regression Table Using gtsummary (custom)
   padding-right: 5px;
 }
 
-#juldhxskmk .gt_left {
+#uiaqwodgpw .gt_left {
   text-align: left;
 }
 
-#juldhxskmk .gt_center {
+#uiaqwodgpw .gt_center {
   text-align: center;
 }
 
-#juldhxskmk .gt_right {
+#uiaqwodgpw .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#juldhxskmk .gt_font_normal {
+#uiaqwodgpw .gt_font_normal {
   font-weight: normal;
 }
 
-#juldhxskmk .gt_font_bold {
+#uiaqwodgpw .gt_font_bold {
   font-weight: bold;
 }
 
-#juldhxskmk .gt_font_italic {
+#uiaqwodgpw .gt_font_italic {
   font-style: italic;
 }
 
-#juldhxskmk .gt_super {
+#uiaqwodgpw .gt_super {
   font-size: 65%;
 }
 
-#juldhxskmk .gt_footnote_marks {
+#uiaqwodgpw .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#juldhxskmk .gt_asterisk {
+#uiaqwodgpw .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#juldhxskmk .gt_indent_1 {
+#uiaqwodgpw .gt_indent_1 {
   text-indent: 5px;
 }
 
-#juldhxskmk .gt_indent_2 {
+#uiaqwodgpw .gt_indent_2 {
   text-indent: 10px;
 }
 
-#juldhxskmk .gt_indent_3 {
+#uiaqwodgpw .gt_indent_3 {
   text-indent: 15px;
 }
 
-#juldhxskmk .gt_indent_4 {
+#uiaqwodgpw .gt_indent_4 {
   text-indent: 20px;
 }
 
-#juldhxskmk .gt_indent_5 {
+#uiaqwodgpw .gt_indent_5 {
   text-indent: 25px;
 }
 
-#juldhxskmk .katex-display {
+#uiaqwodgpw .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#juldhxskmk div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#uiaqwodgpw div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -2358,7 +2359,7 @@ Table&nbsp;4: Regression Table Using kable
 <div class="cell">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(data_outcome_unknown<span class="sc">$</span>prediction_2, data_outcome_unknown<span class="sc">$</span>prediction_3)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.9999239</code></pre>
+<pre><code>[1] 0.999855</code></pre>
 </div>
 </div>
 <ul>
@@ -2430,7 +2431,7 @@ Table&nbsp;4: Regression Table Using kable
 </ol>
 <!-- -->
 <ul>
-<li>To demonstrate this, we will fit the same model using standard <code>lm()</code> and <code>lm_robust()</code> which for those versed in stats, is one option we can use when we have a violation of heteroskedasticity</li>
+<li>To demonstrate this, we will fit the same model using standard <code>lm()</code> and <code>lm_robust()</code> which for those versed in stats, is one option we can use when we have a violation of homoskedasticity (homogeneity of variances)</li>
 </ul>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>regression_formula <span class="ot">&lt;-</span> <span class="fu">formula</span>(x1txmtscor <span class="sc">~</span> x1sex <span class="sc">+</span> x1ses <span class="sc">+</span> x1paredu)</span>
@@ -2445,23 +2446,23 @@ Table&nbsp;4: Regression Table Using kable
 <span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_glance_source_note</span>(<span class="at">include =</span> <span class="fu">c</span>(r.squared, nobs)) <span class="sc">|&gt;</span></span>
 <span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">modify_column_unhide</span>(std.error)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div id="hjaeozpvqq" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#hjaeozpvqq table {
+<div id="zxomwxtgqo" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#zxomwxtgqo table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#hjaeozpvqq thead, #hjaeozpvqq tbody, #hjaeozpvqq tfoot, #hjaeozpvqq tr, #hjaeozpvqq td, #hjaeozpvqq th {
+#zxomwxtgqo thead, #zxomwxtgqo tbody, #zxomwxtgqo tfoot, #zxomwxtgqo tr, #zxomwxtgqo td, #zxomwxtgqo th {
   border-style: none;
 }
 
-#hjaeozpvqq p {
+#zxomwxtgqo p {
   margin: 0;
   padding: 0;
 }
 
-#hjaeozpvqq .gt_table {
+#zxomwxtgqo .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -2487,12 +2488,12 @@ Table&nbsp;4: Regression Table Using kable
   border-left-color: #D3D3D3;
 }
 
-#hjaeozpvqq .gt_caption {
+#zxomwxtgqo .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#hjaeozpvqq .gt_title {
+#zxomwxtgqo .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -2504,7 +2505,7 @@ Table&nbsp;4: Regression Table Using kable
   border-bottom-width: 0;
 }
 
-#hjaeozpvqq .gt_subtitle {
+#zxomwxtgqo .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -2516,7 +2517,7 @@ Table&nbsp;4: Regression Table Using kable
   border-top-width: 0;
 }
 
-#hjaeozpvqq .gt_heading {
+#zxomwxtgqo .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -2528,13 +2529,13 @@ Table&nbsp;4: Regression Table Using kable
   border-right-color: #D3D3D3;
 }
 
-#hjaeozpvqq .gt_bottom_border {
+#zxomwxtgqo .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#hjaeozpvqq .gt_col_headings {
+#zxomwxtgqo .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2549,7 +2550,7 @@ Table&nbsp;4: Regression Table Using kable
   border-right-color: #D3D3D3;
 }
 
-#hjaeozpvqq .gt_col_heading {
+#zxomwxtgqo .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2569,7 +2570,7 @@ Table&nbsp;4: Regression Table Using kable
   overflow-x: hidden;
 }
 
-#hjaeozpvqq .gt_column_spanner_outer {
+#zxomwxtgqo .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2581,15 +2582,15 @@ Table&nbsp;4: Regression Table Using kable
   padding-right: 4px;
 }
 
-#hjaeozpvqq .gt_column_spanner_outer:first-child {
+#zxomwxtgqo .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#hjaeozpvqq .gt_column_spanner_outer:last-child {
+#zxomwxtgqo .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#hjaeozpvqq .gt_column_spanner {
+#zxomwxtgqo .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -2601,11 +2602,11 @@ Table&nbsp;4: Regression Table Using kable
   width: 100%;
 }
 
-#hjaeozpvqq .gt_spanner_row {
+#zxomwxtgqo .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#hjaeozpvqq .gt_group_heading {
+#zxomwxtgqo .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2631,7 +2632,7 @@ Table&nbsp;4: Regression Table Using kable
   text-align: left;
 }
 
-#hjaeozpvqq .gt_empty_group_heading {
+#zxomwxtgqo .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -2646,15 +2647,15 @@ Table&nbsp;4: Regression Table Using kable
   vertical-align: middle;
 }
 
-#hjaeozpvqq .gt_from_md > :first-child {
+#zxomwxtgqo .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#hjaeozpvqq .gt_from_md > :last-child {
+#zxomwxtgqo .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#hjaeozpvqq .gt_row {
+#zxomwxtgqo .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2673,7 +2674,7 @@ Table&nbsp;4: Regression Table Using kable
   overflow-x: hidden;
 }
 
-#hjaeozpvqq .gt_stub {
+#zxomwxtgqo .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2686,7 +2687,7 @@ Table&nbsp;4: Regression Table Using kable
   padding-right: 5px;
 }
 
-#hjaeozpvqq .gt_stub_row_group {
+#zxomwxtgqo .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2700,15 +2701,15 @@ Table&nbsp;4: Regression Table Using kable
   vertical-align: top;
 }
 
-#hjaeozpvqq .gt_row_group_first td {
+#zxomwxtgqo .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#hjaeozpvqq .gt_row_group_first th {
+#zxomwxtgqo .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#hjaeozpvqq .gt_summary_row {
+#zxomwxtgqo .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2718,16 +2719,16 @@ Table&nbsp;4: Regression Table Using kable
   padding-right: 5px;
 }
 
-#hjaeozpvqq .gt_first_summary_row {
+#zxomwxtgqo .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#hjaeozpvqq .gt_first_summary_row.thick {
+#zxomwxtgqo .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#hjaeozpvqq .gt_last_summary_row {
+#zxomwxtgqo .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2737,7 +2738,7 @@ Table&nbsp;4: Regression Table Using kable
   border-bottom-color: #D3D3D3;
 }
 
-#hjaeozpvqq .gt_grand_summary_row {
+#zxomwxtgqo .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2747,7 +2748,7 @@ Table&nbsp;4: Regression Table Using kable
   padding-right: 5px;
 }
 
-#hjaeozpvqq .gt_first_grand_summary_row {
+#zxomwxtgqo .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2757,7 +2758,7 @@ Table&nbsp;4: Regression Table Using kable
   border-top-color: #D3D3D3;
 }
 
-#hjaeozpvqq .gt_last_grand_summary_row_top {
+#zxomwxtgqo .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2767,11 +2768,11 @@ Table&nbsp;4: Regression Table Using kable
   border-bottom-color: #D3D3D3;
 }
 
-#hjaeozpvqq .gt_striped {
+#zxomwxtgqo .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#hjaeozpvqq .gt_table_body {
+#zxomwxtgqo .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2780,7 +2781,7 @@ Table&nbsp;4: Regression Table Using kable
   border-bottom-color: #D3D3D3;
 }
 
-#hjaeozpvqq .gt_footnotes {
+#zxomwxtgqo .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2794,7 +2795,7 @@ Table&nbsp;4: Regression Table Using kable
   border-right-color: #D3D3D3;
 }
 
-#hjaeozpvqq .gt_footnote {
+#zxomwxtgqo .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -2803,7 +2804,7 @@ Table&nbsp;4: Regression Table Using kable
   padding-right: 5px;
 }
 
-#hjaeozpvqq .gt_sourcenotes {
+#zxomwxtgqo .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2817,7 +2818,7 @@ Table&nbsp;4: Regression Table Using kable
   border-right-color: #D3D3D3;
 }
 
-#hjaeozpvqq .gt_sourcenote {
+#zxomwxtgqo .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -2825,72 +2826,72 @@ Table&nbsp;4: Regression Table Using kable
   padding-right: 5px;
 }
 
-#hjaeozpvqq .gt_left {
+#zxomwxtgqo .gt_left {
   text-align: left;
 }
 
-#hjaeozpvqq .gt_center {
+#zxomwxtgqo .gt_center {
   text-align: center;
 }
 
-#hjaeozpvqq .gt_right {
+#zxomwxtgqo .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#hjaeozpvqq .gt_font_normal {
+#zxomwxtgqo .gt_font_normal {
   font-weight: normal;
 }
 
-#hjaeozpvqq .gt_font_bold {
+#zxomwxtgqo .gt_font_bold {
   font-weight: bold;
 }
 
-#hjaeozpvqq .gt_font_italic {
+#zxomwxtgqo .gt_font_italic {
   font-style: italic;
 }
 
-#hjaeozpvqq .gt_super {
+#zxomwxtgqo .gt_super {
   font-size: 65%;
 }
 
-#hjaeozpvqq .gt_footnote_marks {
+#zxomwxtgqo .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#hjaeozpvqq .gt_asterisk {
+#zxomwxtgqo .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#hjaeozpvqq .gt_indent_1 {
+#zxomwxtgqo .gt_indent_1 {
   text-indent: 5px;
 }
 
-#hjaeozpvqq .gt_indent_2 {
+#zxomwxtgqo .gt_indent_2 {
   text-indent: 10px;
 }
 
-#hjaeozpvqq .gt_indent_3 {
+#zxomwxtgqo .gt_indent_3 {
   text-indent: 15px;
 }
 
-#hjaeozpvqq .gt_indent_4 {
+#zxomwxtgqo .gt_indent_4 {
   text-indent: 20px;
 }
 
-#hjaeozpvqq .gt_indent_5 {
+#zxomwxtgqo .gt_indent_5 {
   text-indent: 25px;
 }
 
-#hjaeozpvqq .katex-display {
+#zxomwxtgqo .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#hjaeozpvqq div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#zxomwxtgqo div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -2987,23 +2988,23 @@ Table&nbsp;4: Regression Table Using kable
 <span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_glance_source_note</span>(<span class="at">include =</span> <span class="fu">c</span>(r.squared, nobs)) <span class="sc">|&gt;</span></span>
 <span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">modify_column_unhide</span>(std.error)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div id="nnmeaimctn" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#nnmeaimctn table {
+<div id="wiwxybiggc" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#wiwxybiggc table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#nnmeaimctn thead, #nnmeaimctn tbody, #nnmeaimctn tfoot, #nnmeaimctn tr, #nnmeaimctn td, #nnmeaimctn th {
+#wiwxybiggc thead, #wiwxybiggc tbody, #wiwxybiggc tfoot, #wiwxybiggc tr, #wiwxybiggc td, #wiwxybiggc th {
   border-style: none;
 }
 
-#nnmeaimctn p {
+#wiwxybiggc p {
   margin: 0;
   padding: 0;
 }
 
-#nnmeaimctn .gt_table {
+#wiwxybiggc .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -3029,12 +3030,12 @@ Table&nbsp;4: Regression Table Using kable
   border-left-color: #D3D3D3;
 }
 
-#nnmeaimctn .gt_caption {
+#wiwxybiggc .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#nnmeaimctn .gt_title {
+#wiwxybiggc .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -3046,7 +3047,7 @@ Table&nbsp;4: Regression Table Using kable
   border-bottom-width: 0;
 }
 
-#nnmeaimctn .gt_subtitle {
+#wiwxybiggc .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -3058,7 +3059,7 @@ Table&nbsp;4: Regression Table Using kable
   border-top-width: 0;
 }
 
-#nnmeaimctn .gt_heading {
+#wiwxybiggc .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -3070,13 +3071,13 @@ Table&nbsp;4: Regression Table Using kable
   border-right-color: #D3D3D3;
 }
 
-#nnmeaimctn .gt_bottom_border {
+#wiwxybiggc .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#nnmeaimctn .gt_col_headings {
+#wiwxybiggc .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -3091,7 +3092,7 @@ Table&nbsp;4: Regression Table Using kable
   border-right-color: #D3D3D3;
 }
 
-#nnmeaimctn .gt_col_heading {
+#wiwxybiggc .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3111,7 +3112,7 @@ Table&nbsp;4: Regression Table Using kable
   overflow-x: hidden;
 }
 
-#nnmeaimctn .gt_column_spanner_outer {
+#wiwxybiggc .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3123,15 +3124,15 @@ Table&nbsp;4: Regression Table Using kable
   padding-right: 4px;
 }
 
-#nnmeaimctn .gt_column_spanner_outer:first-child {
+#wiwxybiggc .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#nnmeaimctn .gt_column_spanner_outer:last-child {
+#wiwxybiggc .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#nnmeaimctn .gt_column_spanner {
+#wiwxybiggc .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -3143,11 +3144,11 @@ Table&nbsp;4: Regression Table Using kable
   width: 100%;
 }
 
-#nnmeaimctn .gt_spanner_row {
+#wiwxybiggc .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#nnmeaimctn .gt_group_heading {
+#wiwxybiggc .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3173,7 +3174,7 @@ Table&nbsp;4: Regression Table Using kable
   text-align: left;
 }
 
-#nnmeaimctn .gt_empty_group_heading {
+#wiwxybiggc .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -3188,15 +3189,15 @@ Table&nbsp;4: Regression Table Using kable
   vertical-align: middle;
 }
 
-#nnmeaimctn .gt_from_md > :first-child {
+#wiwxybiggc .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#nnmeaimctn .gt_from_md > :last-child {
+#wiwxybiggc .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#nnmeaimctn .gt_row {
+#wiwxybiggc .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3215,7 +3216,7 @@ Table&nbsp;4: Regression Table Using kable
   overflow-x: hidden;
 }
 
-#nnmeaimctn .gt_stub {
+#wiwxybiggc .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3228,7 +3229,7 @@ Table&nbsp;4: Regression Table Using kable
   padding-right: 5px;
 }
 
-#nnmeaimctn .gt_stub_row_group {
+#wiwxybiggc .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3242,15 +3243,15 @@ Table&nbsp;4: Regression Table Using kable
   vertical-align: top;
 }
 
-#nnmeaimctn .gt_row_group_first td {
+#wiwxybiggc .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#nnmeaimctn .gt_row_group_first th {
+#wiwxybiggc .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#nnmeaimctn .gt_summary_row {
+#wiwxybiggc .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -3260,16 +3261,16 @@ Table&nbsp;4: Regression Table Using kable
   padding-right: 5px;
 }
 
-#nnmeaimctn .gt_first_summary_row {
+#wiwxybiggc .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#nnmeaimctn .gt_first_summary_row.thick {
+#wiwxybiggc .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#nnmeaimctn .gt_last_summary_row {
+#wiwxybiggc .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3279,7 +3280,7 @@ Table&nbsp;4: Regression Table Using kable
   border-bottom-color: #D3D3D3;
 }
 
-#nnmeaimctn .gt_grand_summary_row {
+#wiwxybiggc .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -3289,7 +3290,7 @@ Table&nbsp;4: Regression Table Using kable
   padding-right: 5px;
 }
 
-#nnmeaimctn .gt_first_grand_summary_row {
+#wiwxybiggc .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3299,7 +3300,7 @@ Table&nbsp;4: Regression Table Using kable
   border-top-color: #D3D3D3;
 }
 
-#nnmeaimctn .gt_last_grand_summary_row_top {
+#wiwxybiggc .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3309,11 +3310,11 @@ Table&nbsp;4: Regression Table Using kable
   border-bottom-color: #D3D3D3;
 }
 
-#nnmeaimctn .gt_striped {
+#wiwxybiggc .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#nnmeaimctn .gt_table_body {
+#wiwxybiggc .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -3322,7 +3323,7 @@ Table&nbsp;4: Regression Table Using kable
   border-bottom-color: #D3D3D3;
 }
 
-#nnmeaimctn .gt_footnotes {
+#wiwxybiggc .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -3336,7 +3337,7 @@ Table&nbsp;4: Regression Table Using kable
   border-right-color: #D3D3D3;
 }
 
-#nnmeaimctn .gt_footnote {
+#wiwxybiggc .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -3345,7 +3346,7 @@ Table&nbsp;4: Regression Table Using kable
   padding-right: 5px;
 }
 
-#nnmeaimctn .gt_sourcenotes {
+#wiwxybiggc .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -3359,7 +3360,7 @@ Table&nbsp;4: Regression Table Using kable
   border-right-color: #D3D3D3;
 }
 
-#nnmeaimctn .gt_sourcenote {
+#wiwxybiggc .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -3367,72 +3368,72 @@ Table&nbsp;4: Regression Table Using kable
   padding-right: 5px;
 }
 
-#nnmeaimctn .gt_left {
+#wiwxybiggc .gt_left {
   text-align: left;
 }
 
-#nnmeaimctn .gt_center {
+#wiwxybiggc .gt_center {
   text-align: center;
 }
 
-#nnmeaimctn .gt_right {
+#wiwxybiggc .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#nnmeaimctn .gt_font_normal {
+#wiwxybiggc .gt_font_normal {
   font-weight: normal;
 }
 
-#nnmeaimctn .gt_font_bold {
+#wiwxybiggc .gt_font_bold {
   font-weight: bold;
 }
 
-#nnmeaimctn .gt_font_italic {
+#wiwxybiggc .gt_font_italic {
   font-style: italic;
 }
 
-#nnmeaimctn .gt_super {
+#wiwxybiggc .gt_super {
   font-size: 65%;
 }
 
-#nnmeaimctn .gt_footnote_marks {
+#wiwxybiggc .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#nnmeaimctn .gt_asterisk {
+#wiwxybiggc .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#nnmeaimctn .gt_indent_1 {
+#wiwxybiggc .gt_indent_1 {
   text-indent: 5px;
 }
 
-#nnmeaimctn .gt_indent_2 {
+#wiwxybiggc .gt_indent_2 {
   text-indent: 10px;
 }
 
-#nnmeaimctn .gt_indent_3 {
+#wiwxybiggc .gt_indent_3 {
   text-indent: 15px;
 }
 
-#nnmeaimctn .gt_indent_4 {
+#wiwxybiggc .gt_indent_4 {
   text-indent: 20px;
 }
 
-#nnmeaimctn .gt_indent_5 {
+#wiwxybiggc .gt_indent_5 {
   text-indent: 25px;
 }
 
-#nnmeaimctn .katex-display {
+#wiwxybiggc .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#nnmeaimctn div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#wiwxybiggc div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -3563,23 +3564,23 @@ Table&nbsp;4: Regression Table Using kable
 <span id="cb29-19"><a href="#cb29-19" aria-hidden="true" tabindex="-1"></a>  </span>
 <span id="cb29-20"><a href="#cb29-20" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 [1] “x1txmtscor”
-<div id="hliqcihtkr" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#hliqcihtkr table {
+<div id="usgiccsefh" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#usgiccsefh table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#hliqcihtkr thead, #hliqcihtkr tbody, #hliqcihtkr tfoot, #hliqcihtkr tr, #hliqcihtkr td, #hliqcihtkr th {
+#usgiccsefh thead, #usgiccsefh tbody, #usgiccsefh tfoot, #usgiccsefh tr, #usgiccsefh td, #usgiccsefh th {
   border-style: none;
 }
 
-#hliqcihtkr p {
+#usgiccsefh p {
   margin: 0;
   padding: 0;
 }
 
-#hliqcihtkr .gt_table {
+#usgiccsefh .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -3605,12 +3606,12 @@ Table&nbsp;4: Regression Table Using kable
   border-left-color: #D3D3D3;
 }
 
-#hliqcihtkr .gt_caption {
+#usgiccsefh .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#hliqcihtkr .gt_title {
+#usgiccsefh .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -3622,7 +3623,7 @@ Table&nbsp;4: Regression Table Using kable
   border-bottom-width: 0;
 }
 
-#hliqcihtkr .gt_subtitle {
+#usgiccsefh .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -3634,7 +3635,7 @@ Table&nbsp;4: Regression Table Using kable
   border-top-width: 0;
 }
 
-#hliqcihtkr .gt_heading {
+#usgiccsefh .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -3646,13 +3647,13 @@ Table&nbsp;4: Regression Table Using kable
   border-right-color: #D3D3D3;
 }
 
-#hliqcihtkr .gt_bottom_border {
+#usgiccsefh .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#hliqcihtkr .gt_col_headings {
+#usgiccsefh .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -3667,7 +3668,7 @@ Table&nbsp;4: Regression Table Using kable
   border-right-color: #D3D3D3;
 }
 
-#hliqcihtkr .gt_col_heading {
+#usgiccsefh .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3687,7 +3688,7 @@ Table&nbsp;4: Regression Table Using kable
   overflow-x: hidden;
 }
 
-#hliqcihtkr .gt_column_spanner_outer {
+#usgiccsefh .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3699,15 +3700,15 @@ Table&nbsp;4: Regression Table Using kable
   padding-right: 4px;
 }
 
-#hliqcihtkr .gt_column_spanner_outer:first-child {
+#usgiccsefh .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#hliqcihtkr .gt_column_spanner_outer:last-child {
+#usgiccsefh .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#hliqcihtkr .gt_column_spanner {
+#usgiccsefh .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -3719,11 +3720,11 @@ Table&nbsp;4: Regression Table Using kable
   width: 100%;
 }
 
-#hliqcihtkr .gt_spanner_row {
+#usgiccsefh .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#hliqcihtkr .gt_group_heading {
+#usgiccsefh .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3749,7 +3750,7 @@ Table&nbsp;4: Regression Table Using kable
   text-align: left;
 }
 
-#hliqcihtkr .gt_empty_group_heading {
+#usgiccsefh .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -3764,15 +3765,15 @@ Table&nbsp;4: Regression Table Using kable
   vertical-align: middle;
 }
 
-#hliqcihtkr .gt_from_md > :first-child {
+#usgiccsefh .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#hliqcihtkr .gt_from_md > :last-child {
+#usgiccsefh .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#hliqcihtkr .gt_row {
+#usgiccsefh .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3791,7 +3792,7 @@ Table&nbsp;4: Regression Table Using kable
   overflow-x: hidden;
 }
 
-#hliqcihtkr .gt_stub {
+#usgiccsefh .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3804,7 +3805,7 @@ Table&nbsp;4: Regression Table Using kable
   padding-right: 5px;
 }
 
-#hliqcihtkr .gt_stub_row_group {
+#usgiccsefh .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3818,15 +3819,15 @@ Table&nbsp;4: Regression Table Using kable
   vertical-align: top;
 }
 
-#hliqcihtkr .gt_row_group_first td {
+#usgiccsefh .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#hliqcihtkr .gt_row_group_first th {
+#usgiccsefh .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#hliqcihtkr .gt_summary_row {
+#usgiccsefh .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -3836,16 +3837,16 @@ Table&nbsp;4: Regression Table Using kable
   padding-right: 5px;
 }
 
-#hliqcihtkr .gt_first_summary_row {
+#usgiccsefh .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#hliqcihtkr .gt_first_summary_row.thick {
+#usgiccsefh .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#hliqcihtkr .gt_last_summary_row {
+#usgiccsefh .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3855,7 +3856,7 @@ Table&nbsp;4: Regression Table Using kable
   border-bottom-color: #D3D3D3;
 }
 
-#hliqcihtkr .gt_grand_summary_row {
+#usgiccsefh .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -3865,7 +3866,7 @@ Table&nbsp;4: Regression Table Using kable
   padding-right: 5px;
 }
 
-#hliqcihtkr .gt_first_grand_summary_row {
+#usgiccsefh .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3875,7 +3876,7 @@ Table&nbsp;4: Regression Table Using kable
   border-top-color: #D3D3D3;
 }
 
-#hliqcihtkr .gt_last_grand_summary_row_top {
+#usgiccsefh .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3885,11 +3886,11 @@ Table&nbsp;4: Regression Table Using kable
   border-bottom-color: #D3D3D3;
 }
 
-#hliqcihtkr .gt_striped {
+#usgiccsefh .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#hliqcihtkr .gt_table_body {
+#usgiccsefh .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -3898,7 +3899,7 @@ Table&nbsp;4: Regression Table Using kable
   border-bottom-color: #D3D3D3;
 }
 
-#hliqcihtkr .gt_footnotes {
+#usgiccsefh .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -3912,7 +3913,7 @@ Table&nbsp;4: Regression Table Using kable
   border-right-color: #D3D3D3;
 }
 
-#hliqcihtkr .gt_footnote {
+#usgiccsefh .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -3921,7 +3922,7 @@ Table&nbsp;4: Regression Table Using kable
   padding-right: 5px;
 }
 
-#hliqcihtkr .gt_sourcenotes {
+#usgiccsefh .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -3935,7 +3936,7 @@ Table&nbsp;4: Regression Table Using kable
   border-right-color: #D3D3D3;
 }
 
-#hliqcihtkr .gt_sourcenote {
+#usgiccsefh .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -3943,72 +3944,72 @@ Table&nbsp;4: Regression Table Using kable
   padding-right: 5px;
 }
 
-#hliqcihtkr .gt_left {
+#usgiccsefh .gt_left {
   text-align: left;
 }
 
-#hliqcihtkr .gt_center {
+#usgiccsefh .gt_center {
   text-align: center;
 }
 
-#hliqcihtkr .gt_right {
+#usgiccsefh .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#hliqcihtkr .gt_font_normal {
+#usgiccsefh .gt_font_normal {
   font-weight: normal;
 }
 
-#hliqcihtkr .gt_font_bold {
+#usgiccsefh .gt_font_bold {
   font-weight: bold;
 }
 
-#hliqcihtkr .gt_font_italic {
+#usgiccsefh .gt_font_italic {
   font-style: italic;
 }
 
-#hliqcihtkr .gt_super {
+#usgiccsefh .gt_super {
   font-size: 65%;
 }
 
-#hliqcihtkr .gt_footnote_marks {
+#usgiccsefh .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#hliqcihtkr .gt_asterisk {
+#usgiccsefh .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#hliqcihtkr .gt_indent_1 {
+#usgiccsefh .gt_indent_1 {
   text-indent: 5px;
 }
 
-#hliqcihtkr .gt_indent_2 {
+#usgiccsefh .gt_indent_2 {
   text-indent: 10px;
 }
 
-#hliqcihtkr .gt_indent_3 {
+#usgiccsefh .gt_indent_3 {
   text-indent: 15px;
 }
 
-#hliqcihtkr .gt_indent_4 {
+#usgiccsefh .gt_indent_4 {
   text-indent: 20px;
 }
 
-#hliqcihtkr .gt_indent_5 {
+#usgiccsefh .gt_indent_5 {
   text-indent: 25px;
 }
 
-#hliqcihtkr .katex-display {
+#usgiccsefh .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#hliqcihtkr div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#usgiccsefh div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -4243,23 +4244,23 @@ Parental Education
 </table>
 </div>
 [1] “x1paredexpct”
-<div id="emjnttphvw" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#emjnttphvw table {
+<div id="swmhdllwjs" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#swmhdllwjs table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#emjnttphvw thead, #emjnttphvw tbody, #emjnttphvw tfoot, #emjnttphvw tr, #emjnttphvw td, #emjnttphvw th {
+#swmhdllwjs thead, #swmhdllwjs tbody, #swmhdllwjs tfoot, #swmhdllwjs tr, #swmhdllwjs td, #swmhdllwjs th {
   border-style: none;
 }
 
-#emjnttphvw p {
+#swmhdllwjs p {
   margin: 0;
   padding: 0;
 }
 
-#emjnttphvw .gt_table {
+#swmhdllwjs .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -4285,12 +4286,12 @@ Parental Education
   border-left-color: #D3D3D3;
 }
 
-#emjnttphvw .gt_caption {
+#swmhdllwjs .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#emjnttphvw .gt_title {
+#swmhdllwjs .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -4302,7 +4303,7 @@ Parental Education
   border-bottom-width: 0;
 }
 
-#emjnttphvw .gt_subtitle {
+#swmhdllwjs .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -4314,7 +4315,7 @@ Parental Education
   border-top-width: 0;
 }
 
-#emjnttphvw .gt_heading {
+#swmhdllwjs .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -4326,13 +4327,13 @@ Parental Education
   border-right-color: #D3D3D3;
 }
 
-#emjnttphvw .gt_bottom_border {
+#swmhdllwjs .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#emjnttphvw .gt_col_headings {
+#swmhdllwjs .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -4347,7 +4348,7 @@ Parental Education
   border-right-color: #D3D3D3;
 }
 
-#emjnttphvw .gt_col_heading {
+#swmhdllwjs .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -4367,7 +4368,7 @@ Parental Education
   overflow-x: hidden;
 }
 
-#emjnttphvw .gt_column_spanner_outer {
+#swmhdllwjs .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -4379,15 +4380,15 @@ Parental Education
   padding-right: 4px;
 }
 
-#emjnttphvw .gt_column_spanner_outer:first-child {
+#swmhdllwjs .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#emjnttphvw .gt_column_spanner_outer:last-child {
+#swmhdllwjs .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#emjnttphvw .gt_column_spanner {
+#swmhdllwjs .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -4399,11 +4400,11 @@ Parental Education
   width: 100%;
 }
 
-#emjnttphvw .gt_spanner_row {
+#swmhdllwjs .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#emjnttphvw .gt_group_heading {
+#swmhdllwjs .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -4429,7 +4430,7 @@ Parental Education
   text-align: left;
 }
 
-#emjnttphvw .gt_empty_group_heading {
+#swmhdllwjs .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -4444,15 +4445,15 @@ Parental Education
   vertical-align: middle;
 }
 
-#emjnttphvw .gt_from_md > :first-child {
+#swmhdllwjs .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#emjnttphvw .gt_from_md > :last-child {
+#swmhdllwjs .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#emjnttphvw .gt_row {
+#swmhdllwjs .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -4471,7 +4472,7 @@ Parental Education
   overflow-x: hidden;
 }
 
-#emjnttphvw .gt_stub {
+#swmhdllwjs .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -4484,7 +4485,7 @@ Parental Education
   padding-right: 5px;
 }
 
-#emjnttphvw .gt_stub_row_group {
+#swmhdllwjs .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -4498,15 +4499,15 @@ Parental Education
   vertical-align: top;
 }
 
-#emjnttphvw .gt_row_group_first td {
+#swmhdllwjs .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#emjnttphvw .gt_row_group_first th {
+#swmhdllwjs .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#emjnttphvw .gt_summary_row {
+#swmhdllwjs .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -4516,16 +4517,16 @@ Parental Education
   padding-right: 5px;
 }
 
-#emjnttphvw .gt_first_summary_row {
+#swmhdllwjs .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#emjnttphvw .gt_first_summary_row.thick {
+#swmhdllwjs .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#emjnttphvw .gt_last_summary_row {
+#swmhdllwjs .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -4535,7 +4536,7 @@ Parental Education
   border-bottom-color: #D3D3D3;
 }
 
-#emjnttphvw .gt_grand_summary_row {
+#swmhdllwjs .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -4545,7 +4546,7 @@ Parental Education
   padding-right: 5px;
 }
 
-#emjnttphvw .gt_first_grand_summary_row {
+#swmhdllwjs .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -4555,7 +4556,7 @@ Parental Education
   border-top-color: #D3D3D3;
 }
 
-#emjnttphvw .gt_last_grand_summary_row_top {
+#swmhdllwjs .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -4565,11 +4566,11 @@ Parental Education
   border-bottom-color: #D3D3D3;
 }
 
-#emjnttphvw .gt_striped {
+#swmhdllwjs .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#emjnttphvw .gt_table_body {
+#swmhdllwjs .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -4578,7 +4579,7 @@ Parental Education
   border-bottom-color: #D3D3D3;
 }
 
-#emjnttphvw .gt_footnotes {
+#swmhdllwjs .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -4592,7 +4593,7 @@ Parental Education
   border-right-color: #D3D3D3;
 }
 
-#emjnttphvw .gt_footnote {
+#swmhdllwjs .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -4601,7 +4602,7 @@ Parental Education
   padding-right: 5px;
 }
 
-#emjnttphvw .gt_sourcenotes {
+#swmhdllwjs .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -4615,7 +4616,7 @@ Parental Education
   border-right-color: #D3D3D3;
 }
 
-#emjnttphvw .gt_sourcenote {
+#swmhdllwjs .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -4623,72 +4624,72 @@ Parental Education
   padding-right: 5px;
 }
 
-#emjnttphvw .gt_left {
+#swmhdllwjs .gt_left {
   text-align: left;
 }
 
-#emjnttphvw .gt_center {
+#swmhdllwjs .gt_center {
   text-align: center;
 }
 
-#emjnttphvw .gt_right {
+#swmhdllwjs .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#emjnttphvw .gt_font_normal {
+#swmhdllwjs .gt_font_normal {
   font-weight: normal;
 }
 
-#emjnttphvw .gt_font_bold {
+#swmhdllwjs .gt_font_bold {
   font-weight: bold;
 }
 
-#emjnttphvw .gt_font_italic {
+#swmhdllwjs .gt_font_italic {
   font-style: italic;
 }
 
-#emjnttphvw .gt_super {
+#swmhdllwjs .gt_super {
   font-size: 65%;
 }
 
-#emjnttphvw .gt_footnote_marks {
+#swmhdllwjs .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#emjnttphvw .gt_asterisk {
+#swmhdllwjs .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#emjnttphvw .gt_indent_1 {
+#swmhdllwjs .gt_indent_1 {
   text-indent: 5px;
 }
 
-#emjnttphvw .gt_indent_2 {
+#swmhdllwjs .gt_indent_2 {
   text-indent: 10px;
 }
 
-#emjnttphvw .gt_indent_3 {
+#swmhdllwjs .gt_indent_3 {
   text-indent: 15px;
 }
 
-#emjnttphvw .gt_indent_4 {
+#swmhdllwjs .gt_indent_4 {
   text-indent: 20px;
 }
 
-#emjnttphvw .gt_indent_5 {
+#swmhdllwjs .gt_indent_5 {
   text-indent: 25px;
 }
 
-#emjnttphvw .katex-display {
+#swmhdllwjs .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#emjnttphvw div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#swmhdllwjs div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -4928,7 +4929,7 @@ Parental Education
 <p><a href="./site-attachments/assignments/assignment-09.qmd"><i class="fa-solid fa-question" aria-label="question"></i> Assignment Template</a></p>
 <p>Use the <code>hsls_small.csv</code> data set from the lesson answer the following questions</p>
 <ul>
-<li>Throughout, you <strong>should</strong> account for missing values by dropping them</li>
+<li>You will need to use variables on math scores, students’ poverty level, postsecondary attendance, sex, family income, parental education</li>
 </ul>
 <blockquote class="blockquote">
 <p>Hint: You’re going to need the <a href="https://nces.ed.gov/datalab/onlinecodebook">code book</a> to identify the necessary variables</p>
@@ -4940,11 +4941,11 @@ Parental Education
 </section>
 <section id="question-two" class="level2">
 <h2 data-anchor-id="question-two">Question Two</h2>
-<p><strong>a)</strong> Fit a logistic regression predicting postsecondary attendance using math score, sex, family income, and parental education</p>
+<p><strong>a)</strong> Fit a logistic regression predicting postsecondary attendance using math score, sex, family income, and parental education.</p>
 <blockquote class="blockquote">
-<p>Hint: You might want to Google to find out what function you need for fitting a logistic regression.</p>
+<p>Hint: Logistic regression is what you want to use when your outcome variable is binary (0 or 1) instead of a continuous variable. You might want to Google to find out what function you need for fitting a logistic regression.</p>
 </blockquote>
-<p><strong>b)</strong> Create a nicely formatted output table using <code>stargazer</code> or <code>gtsummary</code> for the model from 2a.</p>
+<p><strong>b)</strong> Create a nicely formatted output table using <code>stargazer</code> or <code>gtsummary</code> for the model from 2a. What are some significant predictors based on your model results?</p>
 <!--
 Once complete, turn in the .qmd file (must render successfully) and the rendered PDF to Canvas by Tuesday 12:00pm following the lesson.
 Assignments will be graded before next lesson on Wednesday in line with the grading policy outlined in the syllabus.
