@@ -145,7 +145,7 @@ data <- data |>
 
 -   With that, our data is ready for some basic analysis!
 
--   Note: In most real-world projects your data preparation will be much more thorough, usually taking up the vast majority of the lines of code in your entire project, this is just the bare minimum to have to models run
+-   Note: In most real-world projects your data preparation will be much more thorough, usually taking up the vast majority of the lines of code in your entire project, this is just the bare minimum to have the models run
 
 ## t-tests with `t.test()`
 
@@ -156,10 +156,12 @@ data <- data |>
 ```
 
 -   One of the first inferential statistical tests you will have learned (or will learn) is the t-test
-    -   For those unfamiliar, the basic concept of a t-test if variance between two groups (i.e., the difference between treatment and control) is greater than the variance within those groups (i.e., random variance between people within the same group)
-        -   If that between-group-variance is great enough compared to the within-group-variance, the t-test will be "statistically significant"
-    -   This means we are (most often) 95% confident that the there is a genuine difference between the groups
+    -   For those unfamiliar, the basic concept of a t-test if the difference in means between two groups (i.e., the difference between treatment and control) is greater than the variability within those groups (i.e., random variance between people within the same group)
+        -   If the difference between the groups is great enough compared to the variation between the groups, the t-test will be "statistically significant"
+    -   This means we are (most often) 95% confident that the there is a genuine difference between the groups, and the difference is unlikely to be due to random chance
         -   There are also a handful of statistical assumptions we have to satisfy, which are beyond our scope here, but hopefully the general concept will hope those of you yet to take your stats foundations follow along
+
+-   Let's compare the math score between male and female.
 
 ```{r t-test}
 t.test(x1txmtscor ~ x1sex, data = data)
@@ -225,7 +227,7 @@ summary(regression)
 <!-- -->
 
 -   Extra trick: To get captions and table numbers if we are using Quarto, we use the "chunk options" to cross reference them, not manually adding them to the table code
-    -   You see more about that on the [Quarto guide for cross referencing](https://quarto.org/docs/authoring/cross-references.html#computations-1)
+    -   See [Intro to Quarto lesson](07-quarto-intro.qmd) for a refresher on captioning
     -   To get the table to appear like this we...
         -   Labeled the chunk `{r tbl-stargazer}`
         -   Added `#| tbl-cap: "Regression Table Using stargazer"` as the first line
@@ -499,7 +501,7 @@ ggplot(data) +
 
 <!-- -->
 
--   To demonstrate this, we will fit the same model using standard `lm()` and `lm_robust()` which for those versed in stats, is one option we can use when we have a violation of heteroskedasticity
+-   To demonstrate this, we will fit the same model using standard `lm()` and `lm_robust()` which for those versed in stats, is one option we can use when we have a violation of homoskedasticity (homogeneity of variances)
 
 ```{r}
 
