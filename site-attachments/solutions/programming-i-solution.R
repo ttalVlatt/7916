@@ -4,6 +4,7 @@
 ##' [FILE: Functions & Loops Solution]
 ##' [INIT: March 18 2024]
 ##' [AUTH: Matt Capaldi] @ttalVlatt
+##' [EDIT: Jue Wu]
 ##
 ## -----------------------------------------------------------------------------
 
@@ -15,35 +16,168 @@ setwd(this.path::here())
 
 library(tidyverse)
 
+
 ## ---------------------------
 ##' [Q1]
 ## ---------------------------
 
-files_to_read <- list.files("data/sch-test/by-school", # look in this folder
-                            full.names = TRUE, # we want to keep the full path, not just the file names
-                            pattern = "bend|niagara") # only list files that contain either "bend" or "niagara" 
 
-data <- tibble() # create a blank tibble to store out data in
+# 1a
+files <- list.files("data/sch-test/by-school", 
+                    full.names = TRUE)
 
-for(i in files_to_read) { # each loop through i becomes an item from the list of file path we created above)
-  
-  temp_data <- read_csv(i) |> # read in the file i 
-    mutate(relative_path = i) # make a new variable relative_path that stores i (remember i is the path to the file, not the file itself)
-  
-  data <- bind_rows(data, temp_data) # bind data and the temp_data we just read in
+for(i in files) {
+  school <- str_extract(i, "niagara|bend|east|spot")
+  year <- str_extract(i, "\\d+")
+  name <- paste0("data_", school, year)
+  file <- read_csv(i)
+  assign(name, file)
+}
 
+# 1b
+files_niagara_bend <- list.files("data/sch-test/by-school",
+                                 full.names = T,
+                                 pattern = "niagara|bend")
+
+for(i in files_niagara_bend) {
+  school <- str_extract(i, "niagara|bend")
+  year <- str_extract(i, "\\d+")
+  name <- paste0("data_", school, year)
+  file <- read_csv(i)
+  assign(name, file)
+}
+
+# 1c
+files_niagara_bend <- list.files("data/sch-test/by-school",
+                                 full.names = T,
+                                 pattern = "niagara|bend")
+
+for(i in files_niagara_bend) {
+  school <- str_extract(i, "niagara|bend")
+  year <- str_extract(i, "\\d+")
+  name <- paste0("data_", school, year)
+  file <- read_csv(i) |> mutate(file_path = i)
+  assign(name, file)
+}
+
+# 1d
+files_niagara_bend <- list.files("data/sch-test/by-school",
+                                 full.names = T,
+                                 pattern = "niagara|bend")
+
+data_niagara_bend_bind <- tibble()
+
+for(i in files_niagara_bend) {
+  file <- read_csv(i) |> 
+    mutate(file_path = i)
+  data_niagara_bend_bind <- bind_rows(data_niagara_bend_bind, file)
 }
 
 ## ---------------------------
 ##' [Q2]
 ## ---------------------------
 
-df <- haven::read_dta("data/hsls-small.dta")
+# 2a
+data <- haven::read_dta("data/hsls-small.dta")
 
-## ---------------------------
-##' [Q3]
-## ---------------------------
+# 2b
+college <- function(id) {
+  
+  student <- data |> filter(stu_id == id) 
+  college <- student |> pull(x4evratndclg) # pull out if the student attend college
+  parent_exp <- student |> pull(x1paredexpct) # pull out the parent student expectation
+  
+  if(is.na(college)) { # if whether they went to college is missing
+    paste("We do not know if this student went to college") # print this message
+  } else if(college == 1) { # if they went to college
+    paste("This student went to college") # paste this message
+  } else {
+    if(is.na(parent_exp)|parent_exp == 11) {
+      paste("This student did not go to college, and their parental expectation is unknown")
+    } else if(parent_exp >= 5) {
+      paste("This student did not go to college, but their parents expected them to")
+    } else if(parent_exp < 5) {
+      paste("This student did not go to college, and their parents did not expect them to")
+    }
+  }
+} 
 
+# test
+college(10031)
+
+# Optional
+college <- function(id) {
+  
+  student <- data |> filter(stu_id == id) 
+  college <- student |> pull(x4evratndclg) # pull out if the student attend college
+  parent_exp <- student |> pull(x1paredexpct) # pull out the parent student expectation
+  months_gap <- student |> pull(x4hs2psmos) # pull out the months gap
+  
+  if(is.na(college)) { # if whether they went to college is missing
+    paste("We do not know if this student went to college") # print this message
+  } else if(college == 1) { 
+    if(is.na(months_gap)) {
+      paste("This student went to college, but we do not know how long the gap was")
+    } else{
+      paste("This student went to college, and they had", months_gap, "months between high school and going to college")
+    }
+  } else {
+    if(is.na(parent_exp)|parent_exp == 11) {
+      paste("This student did not go to college, and their parental expectation is unknown")
+    } else if(parent_exp >= 5) {
+      paste("This student did not go to college, but their parents expected them to")
+    } else if(parent_exp < 5) {
+      paste("This student did not go to college, and their parents did not expect them to")
+    }
+  }
+} 
+
+# test
+college(10007)
+
+# Super Optional
+college <- function(id) {
+  
+  student <- data |> filter(stu_id == id) 
+  college <- student |> pull(x4evratndclg) # pull out if the student attend college
+  parent_exp <- student |> pull(x1paredexpct) # pull out the parent student expectation
+  months_gap <- student |> pull(x4hs2psmos) # pull out the months gap
+  avg_delay <- mean(data$x4hs2psmos, na.rm = TRUE) # calculate the average delay
+  
+  if(is.na(college)) { # if whether they went to college is missing
+    paste("We do not know if this student went to college") # print this message
+  } else if(college == 1) { 
+    if(is.na(months_gap)) {
+      paste("This student went to college, but we do not know how long the gap was")
+    } else{
+      if(months_gap == avg_delay) {
+        paste("This student went to college, and their gap was the average delay between high school and going to college")
+      } else if(months_gap < avg_delay) {
+        paste("This student went to college, and their gap was shorter than the average delay")
+      } else if(months_gap > avg_delay) {
+        paste("This student went to college, and their gap was longer than the average delay")
+      }
+    }
+  } else {
+    if(is.na(parent_exp)|parent_exp == 11) {
+      paste("This student did not go to college, and their parental expectation is unknown")
+    } else if(parent_exp >= 5) {
+      paste("This student did not go to college, but their parents expected them to")
+    } else if(parent_exp < 5) {
+      paste("This student did not go to college, and their parents did not expect them to")
+    }
+  }
+} 
+
+# test
+college(10007)
+
+## Test it using a for loop
+test_ids <- data |> slice_head(n = 50) |> pull(stu_id)
+for(i in test_ids) { print(college(i)) }
+
+
+##'[Matt's Solution]
 ##'[Without the optional part]
 
 id <- 10007 # Tip: if you're debugging a function or loop, manually assign something to input values (for a function) or i (for a loop) and then you can test it
@@ -120,9 +254,6 @@ did_they_go <- function(id) {
   }
 } 
 
-## Test it using a for loop
-test_ids <- df |> slice_head(n = 50) |> pull(stu_id)
-for(i in test_ids) { print(did_they_go(i)) }
 
 ## -----------------------------------------------------------------------------
 ##' *END SCRIPT*

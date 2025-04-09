@@ -14,6 +14,8 @@ setwd(this.path::here())
 ## ---------------------------
 
 library(tidyverse)
+library(stargazer)
+library(gtsummary)
 
 ## ---------------------------
 ##' [Q1]
@@ -37,7 +39,9 @@ ggplot(data, aes(x = x1poverty185, y = x1txmtscor, fill = x1poverty185)) +
   geom_boxplot() +
   labs(x = "Poverty Status", 
        y = "Math Score", 
-       fill = "Poverty Level") 
+       fill = "Poverty Level") +
+  theme_minimal() +
+  scale_fill_discrete(labels = c("Below 185%", "Above 185%"))
 
 ## ---------------------------
 ##' [Q2]
