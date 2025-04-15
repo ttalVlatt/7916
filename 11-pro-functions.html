@@ -994,6 +994,272 @@ Assignments will be graded before next lesson on Wednesday in line with the grad
 <h2 data-anchor-id="submission">Submission</h2>
 <p>Once complete turn in the .qmd file (<strong>it must render/run</strong>) and the rendered PDF to Canvas by the due date (usually <strong>Tuesday 12:00pm following the lesson</strong>). Assignments will be graded before next lesson on Wednesday in line with the grading policy outlined in the syllabus.</p>
 </section>
+<section id="solution" class="level2">
+<h2 data-anchor-id="solution">Solution</h2>
+<p><a href="site-attachments/solutions/programming-i-solution.R"><i class="fa-solid fa-code" aria-label="code"></i> R Solution Code</a></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="do">## -----------------------------------------------------------------------------</span></span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a><span class="do">##</span></span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a><span class="do">##' [PROJ: EDH 7916]</span></span>
+<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a><span class="do">##' [FILE: Functions &amp; Loops Solution]</span></span>
+<span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a><span class="do">##' [INIT: March 18 2024]</span></span>
+<span id="cb47-6"><a href="#cb47-6" aria-hidden="true" tabindex="-1"></a><span class="do">##' [AUTH: Matt Capaldi] @ttalVlatt</span></span>
+<span id="cb47-7"><a href="#cb47-7" aria-hidden="true" tabindex="-1"></a><span class="do">##' [EDIT: Jue Wu]</span></span>
+<span id="cb47-8"><a href="#cb47-8" aria-hidden="true" tabindex="-1"></a><span class="do">##</span></span>
+<span id="cb47-9"><a href="#cb47-9" aria-hidden="true" tabindex="-1"></a><span class="do">## -----------------------------------------------------------------------------</span></span>
+<span id="cb47-10"><a href="#cb47-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-11"><a href="#cb47-11" aria-hidden="true" tabindex="-1"></a><span class="fu">setwd</span>(this.path<span class="sc">::</span><span class="fu">here</span>())</span>
+<span id="cb47-12"><a href="#cb47-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-13"><a href="#cb47-13" aria-hidden="true" tabindex="-1"></a><span class="do">## ---------------------------</span></span>
+<span id="cb47-14"><a href="#cb47-14" aria-hidden="true" tabindex="-1"></a><span class="do">##' [Libraries]</span></span>
+<span id="cb47-15"><a href="#cb47-15" aria-hidden="true" tabindex="-1"></a><span class="do">## ---------------------------</span></span>
+<span id="cb47-16"><a href="#cb47-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-17"><a href="#cb47-17" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb47-18"><a href="#cb47-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-19"><a href="#cb47-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-20"><a href="#cb47-20" aria-hidden="true" tabindex="-1"></a><span class="do">## ---------------------------</span></span>
+<span id="cb47-21"><a href="#cb47-21" aria-hidden="true" tabindex="-1"></a><span class="do">##' [Q1]</span></span>
+<span id="cb47-22"><a href="#cb47-22" aria-hidden="true" tabindex="-1"></a><span class="do">## ---------------------------</span></span>
+<span id="cb47-23"><a href="#cb47-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-24"><a href="#cb47-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-25"><a href="#cb47-25" aria-hidden="true" tabindex="-1"></a><span class="co"># 1a</span></span>
+<span id="cb47-26"><a href="#cb47-26" aria-hidden="true" tabindex="-1"></a>files <span class="ot">&lt;-</span> <span class="fu">list.files</span>(<span class="st">"data/sch-test/by-school"</span>, </span>
+<span id="cb47-27"><a href="#cb47-27" aria-hidden="true" tabindex="-1"></a>                    <span class="at">full.names =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb47-28"><a href="#cb47-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-29"><a href="#cb47-29" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> files) {</span>
+<span id="cb47-30"><a href="#cb47-30" aria-hidden="true" tabindex="-1"></a>  school <span class="ot">&lt;-</span> <span class="fu">str_extract</span>(i, <span class="st">"niagara|bend|east|spot"</span>)</span>
+<span id="cb47-31"><a href="#cb47-31" aria-hidden="true" tabindex="-1"></a>  year <span class="ot">&lt;-</span> <span class="fu">str_extract</span>(i, <span class="st">"</span><span class="sc">\\</span><span class="st">d+"</span>)</span>
+<span id="cb47-32"><a href="#cb47-32" aria-hidden="true" tabindex="-1"></a>  name <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">"data_"</span>, school, year)</span>
+<span id="cb47-33"><a href="#cb47-33" aria-hidden="true" tabindex="-1"></a>  file <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(i)</span>
+<span id="cb47-34"><a href="#cb47-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">assign</span>(name, file)</span>
+<span id="cb47-35"><a href="#cb47-35" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb47-36"><a href="#cb47-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-37"><a href="#cb47-37" aria-hidden="true" tabindex="-1"></a><span class="co"># 1b</span></span>
+<span id="cb47-38"><a href="#cb47-38" aria-hidden="true" tabindex="-1"></a>files_niagara_bend <span class="ot">&lt;-</span> <span class="fu">list.files</span>(<span class="st">"data/sch-test/by-school"</span>,</span>
+<span id="cb47-39"><a href="#cb47-39" aria-hidden="true" tabindex="-1"></a>                                 <span class="at">full.names =</span> T,</span>
+<span id="cb47-40"><a href="#cb47-40" aria-hidden="true" tabindex="-1"></a>                                 <span class="at">pattern =</span> <span class="st">"niagara|bend"</span>)</span>
+<span id="cb47-41"><a href="#cb47-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-42"><a href="#cb47-42" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> files_niagara_bend) {</span>
+<span id="cb47-43"><a href="#cb47-43" aria-hidden="true" tabindex="-1"></a>  school <span class="ot">&lt;-</span> <span class="fu">str_extract</span>(i, <span class="st">"niagara|bend"</span>)</span>
+<span id="cb47-44"><a href="#cb47-44" aria-hidden="true" tabindex="-1"></a>  year <span class="ot">&lt;-</span> <span class="fu">str_extract</span>(i, <span class="st">"</span><span class="sc">\\</span><span class="st">d+"</span>)</span>
+<span id="cb47-45"><a href="#cb47-45" aria-hidden="true" tabindex="-1"></a>  name <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">"data_"</span>, school, year)</span>
+<span id="cb47-46"><a href="#cb47-46" aria-hidden="true" tabindex="-1"></a>  file <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(i)</span>
+<span id="cb47-47"><a href="#cb47-47" aria-hidden="true" tabindex="-1"></a>  <span class="fu">assign</span>(name, file)</span>
+<span id="cb47-48"><a href="#cb47-48" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb47-49"><a href="#cb47-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-50"><a href="#cb47-50" aria-hidden="true" tabindex="-1"></a><span class="co"># 1c</span></span>
+<span id="cb47-51"><a href="#cb47-51" aria-hidden="true" tabindex="-1"></a>files_niagara_bend <span class="ot">&lt;-</span> <span class="fu">list.files</span>(<span class="st">"data/sch-test/by-school"</span>,</span>
+<span id="cb47-52"><a href="#cb47-52" aria-hidden="true" tabindex="-1"></a>                                 <span class="at">full.names =</span> T,</span>
+<span id="cb47-53"><a href="#cb47-53" aria-hidden="true" tabindex="-1"></a>                                 <span class="at">pattern =</span> <span class="st">"niagara|bend"</span>)</span>
+<span id="cb47-54"><a href="#cb47-54" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-55"><a href="#cb47-55" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> files_niagara_bend) {</span>
+<span id="cb47-56"><a href="#cb47-56" aria-hidden="true" tabindex="-1"></a>  school <span class="ot">&lt;-</span> <span class="fu">str_extract</span>(i, <span class="st">"niagara|bend"</span>)</span>
+<span id="cb47-57"><a href="#cb47-57" aria-hidden="true" tabindex="-1"></a>  year <span class="ot">&lt;-</span> <span class="fu">str_extract</span>(i, <span class="st">"</span><span class="sc">\\</span><span class="st">d+"</span>)</span>
+<span id="cb47-58"><a href="#cb47-58" aria-hidden="true" tabindex="-1"></a>  name <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">"data_"</span>, school, year)</span>
+<span id="cb47-59"><a href="#cb47-59" aria-hidden="true" tabindex="-1"></a>  file <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(i) <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">file_path =</span> i)</span>
+<span id="cb47-60"><a href="#cb47-60" aria-hidden="true" tabindex="-1"></a>  <span class="fu">assign</span>(name, file)</span>
+<span id="cb47-61"><a href="#cb47-61" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb47-62"><a href="#cb47-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-63"><a href="#cb47-63" aria-hidden="true" tabindex="-1"></a><span class="co"># 1d</span></span>
+<span id="cb47-64"><a href="#cb47-64" aria-hidden="true" tabindex="-1"></a>files_niagara_bend <span class="ot">&lt;-</span> <span class="fu">list.files</span>(<span class="st">"data/sch-test/by-school"</span>,</span>
+<span id="cb47-65"><a href="#cb47-65" aria-hidden="true" tabindex="-1"></a>                                 <span class="at">full.names =</span> T,</span>
+<span id="cb47-66"><a href="#cb47-66" aria-hidden="true" tabindex="-1"></a>                                 <span class="at">pattern =</span> <span class="st">"niagara|bend"</span>)</span>
+<span id="cb47-67"><a href="#cb47-67" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-68"><a href="#cb47-68" aria-hidden="true" tabindex="-1"></a>data_niagara_bend_bind <span class="ot">&lt;-</span> <span class="fu">tibble</span>()</span>
+<span id="cb47-69"><a href="#cb47-69" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-70"><a href="#cb47-70" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> files_niagara_bend) {</span>
+<span id="cb47-71"><a href="#cb47-71" aria-hidden="true" tabindex="-1"></a>  file <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(i) <span class="sc">|&gt;</span> </span>
+<span id="cb47-72"><a href="#cb47-72" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">file_path =</span> i)</span>
+<span id="cb47-73"><a href="#cb47-73" aria-hidden="true" tabindex="-1"></a>  data_niagara_bend_bind <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(data_niagara_bend_bind, file)</span>
+<span id="cb47-74"><a href="#cb47-74" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb47-75"><a href="#cb47-75" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-76"><a href="#cb47-76" aria-hidden="true" tabindex="-1"></a><span class="do">## ---------------------------</span></span>
+<span id="cb47-77"><a href="#cb47-77" aria-hidden="true" tabindex="-1"></a><span class="do">##' [Q2]</span></span>
+<span id="cb47-78"><a href="#cb47-78" aria-hidden="true" tabindex="-1"></a><span class="do">## ---------------------------</span></span>
+<span id="cb47-79"><a href="#cb47-79" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-80"><a href="#cb47-80" aria-hidden="true" tabindex="-1"></a><span class="co"># 2a</span></span>
+<span id="cb47-81"><a href="#cb47-81" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> haven<span class="sc">::</span><span class="fu">read_dta</span>(<span class="st">"data/hsls-small.dta"</span>)</span>
+<span id="cb47-82"><a href="#cb47-82" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-83"><a href="#cb47-83" aria-hidden="true" tabindex="-1"></a><span class="co"># 2b</span></span>
+<span id="cb47-84"><a href="#cb47-84" aria-hidden="true" tabindex="-1"></a>college <span class="ot">&lt;-</span> <span class="cf">function</span>(id) {</span>
+<span id="cb47-85"><a href="#cb47-85" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb47-86"><a href="#cb47-86" aria-hidden="true" tabindex="-1"></a>  student <span class="ot">&lt;-</span> data <span class="sc">|&gt;</span> <span class="fu">filter</span>(stu_id <span class="sc">==</span> id) </span>
+<span id="cb47-87"><a href="#cb47-87" aria-hidden="true" tabindex="-1"></a>  college <span class="ot">&lt;-</span> student <span class="sc">|&gt;</span> <span class="fu">pull</span>(x4evratndclg) <span class="co"># pull out if the student attend college</span></span>
+<span id="cb47-88"><a href="#cb47-88" aria-hidden="true" tabindex="-1"></a>  parent_exp <span class="ot">&lt;-</span> student <span class="sc">|&gt;</span> <span class="fu">pull</span>(x1paredexpct) <span class="co"># pull out the parent student expectation</span></span>
+<span id="cb47-89"><a href="#cb47-89" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb47-90"><a href="#cb47-90" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span>(<span class="fu">is.na</span>(college)) { <span class="co"># if whether they went to college is missing</span></span>
+<span id="cb47-91"><a href="#cb47-91" aria-hidden="true" tabindex="-1"></a>    <span class="fu">paste</span>(<span class="st">"We do not know if this student went to college"</span>) <span class="co"># print this message</span></span>
+<span id="cb47-92"><a href="#cb47-92" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> <span class="cf">if</span>(college <span class="sc">==</span> <span class="dv">1</span>) { <span class="co"># if they went to college</span></span>
+<span id="cb47-93"><a href="#cb47-93" aria-hidden="true" tabindex="-1"></a>    <span class="fu">paste</span>(<span class="st">"This student went to college"</span>) <span class="co"># paste this message</span></span>
+<span id="cb47-94"><a href="#cb47-94" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> {</span>
+<span id="cb47-95"><a href="#cb47-95" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span>(<span class="fu">is.na</span>(parent_exp)<span class="sc">|</span>parent_exp <span class="sc">==</span> <span class="dv">11</span>) {</span>
+<span id="cb47-96"><a href="#cb47-96" aria-hidden="true" tabindex="-1"></a>      <span class="fu">paste</span>(<span class="st">"This student did not go to college, and their parental expectation is unknown"</span>)</span>
+<span id="cb47-97"><a href="#cb47-97" aria-hidden="true" tabindex="-1"></a>    } <span class="cf">else</span> <span class="cf">if</span>(parent_exp <span class="sc">&gt;=</span> <span class="dv">5</span>) {</span>
+<span id="cb47-98"><a href="#cb47-98" aria-hidden="true" tabindex="-1"></a>      <span class="fu">paste</span>(<span class="st">"This student did not go to college, but their parents expected them to"</span>)</span>
+<span id="cb47-99"><a href="#cb47-99" aria-hidden="true" tabindex="-1"></a>    } <span class="cf">else</span> <span class="cf">if</span>(parent_exp <span class="sc">&lt;</span> <span class="dv">5</span>) {</span>
+<span id="cb47-100"><a href="#cb47-100" aria-hidden="true" tabindex="-1"></a>      <span class="fu">paste</span>(<span class="st">"This student did not go to college, and their parents did not expect them to"</span>)</span>
+<span id="cb47-101"><a href="#cb47-101" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb47-102"><a href="#cb47-102" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb47-103"><a href="#cb47-103" aria-hidden="true" tabindex="-1"></a>} </span>
+<span id="cb47-104"><a href="#cb47-104" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-105"><a href="#cb47-105" aria-hidden="true" tabindex="-1"></a><span class="co"># test</span></span>
+<span id="cb47-106"><a href="#cb47-106" aria-hidden="true" tabindex="-1"></a><span class="fu">college</span>(<span class="dv">10031</span>)</span>
+<span id="cb47-107"><a href="#cb47-107" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-108"><a href="#cb47-108" aria-hidden="true" tabindex="-1"></a><span class="co"># Optional</span></span>
+<span id="cb47-109"><a href="#cb47-109" aria-hidden="true" tabindex="-1"></a>college <span class="ot">&lt;-</span> <span class="cf">function</span>(id) {</span>
+<span id="cb47-110"><a href="#cb47-110" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb47-111"><a href="#cb47-111" aria-hidden="true" tabindex="-1"></a>  student <span class="ot">&lt;-</span> data <span class="sc">|&gt;</span> <span class="fu">filter</span>(stu_id <span class="sc">==</span> id) </span>
+<span id="cb47-112"><a href="#cb47-112" aria-hidden="true" tabindex="-1"></a>  college <span class="ot">&lt;-</span> student <span class="sc">|&gt;</span> <span class="fu">pull</span>(x4evratndclg) <span class="co"># pull out if the student attend college</span></span>
+<span id="cb47-113"><a href="#cb47-113" aria-hidden="true" tabindex="-1"></a>  parent_exp <span class="ot">&lt;-</span> student <span class="sc">|&gt;</span> <span class="fu">pull</span>(x1paredexpct) <span class="co"># pull out the parent student expectation</span></span>
+<span id="cb47-114"><a href="#cb47-114" aria-hidden="true" tabindex="-1"></a>  months_gap <span class="ot">&lt;-</span> student <span class="sc">|&gt;</span> <span class="fu">pull</span>(x4hs2psmos) <span class="co"># pull out the months gap</span></span>
+<span id="cb47-115"><a href="#cb47-115" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb47-116"><a href="#cb47-116" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span>(<span class="fu">is.na</span>(college)) { <span class="co"># if whether they went to college is missing</span></span>
+<span id="cb47-117"><a href="#cb47-117" aria-hidden="true" tabindex="-1"></a>    <span class="fu">paste</span>(<span class="st">"We do not know if this student went to college"</span>) <span class="co"># print this message</span></span>
+<span id="cb47-118"><a href="#cb47-118" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> <span class="cf">if</span>(college <span class="sc">==</span> <span class="dv">1</span>) { </span>
+<span id="cb47-119"><a href="#cb47-119" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span>(<span class="fu">is.na</span>(months_gap)) {</span>
+<span id="cb47-120"><a href="#cb47-120" aria-hidden="true" tabindex="-1"></a>      <span class="fu">paste</span>(<span class="st">"This student went to college, but we do not know how long the gap was"</span>)</span>
+<span id="cb47-121"><a href="#cb47-121" aria-hidden="true" tabindex="-1"></a>    } <span class="cf">else</span>{</span>
+<span id="cb47-122"><a href="#cb47-122" aria-hidden="true" tabindex="-1"></a>      <span class="fu">paste</span>(<span class="st">"This student went to college, and they had"</span>, months_gap, <span class="st">"months between high school and going to college"</span>)</span>
+<span id="cb47-123"><a href="#cb47-123" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb47-124"><a href="#cb47-124" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> {</span>
+<span id="cb47-125"><a href="#cb47-125" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span>(<span class="fu">is.na</span>(parent_exp)<span class="sc">|</span>parent_exp <span class="sc">==</span> <span class="dv">11</span>) {</span>
+<span id="cb47-126"><a href="#cb47-126" aria-hidden="true" tabindex="-1"></a>      <span class="fu">paste</span>(<span class="st">"This student did not go to college, and their parental expectation is unknown"</span>)</span>
+<span id="cb47-127"><a href="#cb47-127" aria-hidden="true" tabindex="-1"></a>    } <span class="cf">else</span> <span class="cf">if</span>(parent_exp <span class="sc">&gt;=</span> <span class="dv">5</span>) {</span>
+<span id="cb47-128"><a href="#cb47-128" aria-hidden="true" tabindex="-1"></a>      <span class="fu">paste</span>(<span class="st">"This student did not go to college, but their parents expected them to"</span>)</span>
+<span id="cb47-129"><a href="#cb47-129" aria-hidden="true" tabindex="-1"></a>    } <span class="cf">else</span> <span class="cf">if</span>(parent_exp <span class="sc">&lt;</span> <span class="dv">5</span>) {</span>
+<span id="cb47-130"><a href="#cb47-130" aria-hidden="true" tabindex="-1"></a>      <span class="fu">paste</span>(<span class="st">"This student did not go to college, and their parents did not expect them to"</span>)</span>
+<span id="cb47-131"><a href="#cb47-131" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb47-132"><a href="#cb47-132" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb47-133"><a href="#cb47-133" aria-hidden="true" tabindex="-1"></a>} </span>
+<span id="cb47-134"><a href="#cb47-134" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-135"><a href="#cb47-135" aria-hidden="true" tabindex="-1"></a><span class="co"># test</span></span>
+<span id="cb47-136"><a href="#cb47-136" aria-hidden="true" tabindex="-1"></a><span class="fu">college</span>(<span class="dv">10007</span>)</span>
+<span id="cb47-137"><a href="#cb47-137" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-138"><a href="#cb47-138" aria-hidden="true" tabindex="-1"></a><span class="co"># Super Optional</span></span>
+<span id="cb47-139"><a href="#cb47-139" aria-hidden="true" tabindex="-1"></a>college <span class="ot">&lt;-</span> <span class="cf">function</span>(id) {</span>
+<span id="cb47-140"><a href="#cb47-140" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb47-141"><a href="#cb47-141" aria-hidden="true" tabindex="-1"></a>  student <span class="ot">&lt;-</span> data <span class="sc">|&gt;</span> <span class="fu">filter</span>(stu_id <span class="sc">==</span> id) </span>
+<span id="cb47-142"><a href="#cb47-142" aria-hidden="true" tabindex="-1"></a>  college <span class="ot">&lt;-</span> student <span class="sc">|&gt;</span> <span class="fu">pull</span>(x4evratndclg) <span class="co"># pull out if the student attend college</span></span>
+<span id="cb47-143"><a href="#cb47-143" aria-hidden="true" tabindex="-1"></a>  parent_exp <span class="ot">&lt;-</span> student <span class="sc">|&gt;</span> <span class="fu">pull</span>(x1paredexpct) <span class="co"># pull out the parent student expectation</span></span>
+<span id="cb47-144"><a href="#cb47-144" aria-hidden="true" tabindex="-1"></a>  months_gap <span class="ot">&lt;-</span> student <span class="sc">|&gt;</span> <span class="fu">pull</span>(x4hs2psmos) <span class="co"># pull out the months gap</span></span>
+<span id="cb47-145"><a href="#cb47-145" aria-hidden="true" tabindex="-1"></a>  avg_delay <span class="ot">&lt;-</span> <span class="fu">mean</span>(data<span class="sc">$</span>x4hs2psmos, <span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="co"># calculate the average delay</span></span>
+<span id="cb47-146"><a href="#cb47-146" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb47-147"><a href="#cb47-147" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span>(<span class="fu">is.na</span>(college)) { <span class="co"># if whether they went to college is missing</span></span>
+<span id="cb47-148"><a href="#cb47-148" aria-hidden="true" tabindex="-1"></a>    <span class="fu">paste</span>(<span class="st">"We do not know if this student went to college"</span>) <span class="co"># print this message</span></span>
+<span id="cb47-149"><a href="#cb47-149" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> <span class="cf">if</span>(college <span class="sc">==</span> <span class="dv">1</span>) { </span>
+<span id="cb47-150"><a href="#cb47-150" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span>(<span class="fu">is.na</span>(months_gap)) {</span>
+<span id="cb47-151"><a href="#cb47-151" aria-hidden="true" tabindex="-1"></a>      <span class="fu">paste</span>(<span class="st">"This student went to college, but we do not know how long the gap was"</span>)</span>
+<span id="cb47-152"><a href="#cb47-152" aria-hidden="true" tabindex="-1"></a>    } <span class="cf">else</span>{</span>
+<span id="cb47-153"><a href="#cb47-153" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span>(months_gap <span class="sc">==</span> avg_delay) {</span>
+<span id="cb47-154"><a href="#cb47-154" aria-hidden="true" tabindex="-1"></a>        <span class="fu">paste</span>(<span class="st">"This student went to college, and their gap was the average delay between high school and going to college"</span>)</span>
+<span id="cb47-155"><a href="#cb47-155" aria-hidden="true" tabindex="-1"></a>      } <span class="cf">else</span> <span class="cf">if</span>(months_gap <span class="sc">&lt;</span> avg_delay) {</span>
+<span id="cb47-156"><a href="#cb47-156" aria-hidden="true" tabindex="-1"></a>        <span class="fu">paste</span>(<span class="st">"This student went to college, and their gap was shorter than the average delay"</span>)</span>
+<span id="cb47-157"><a href="#cb47-157" aria-hidden="true" tabindex="-1"></a>      } <span class="cf">else</span> <span class="cf">if</span>(months_gap <span class="sc">&gt;</span> avg_delay) {</span>
+<span id="cb47-158"><a href="#cb47-158" aria-hidden="true" tabindex="-1"></a>        <span class="fu">paste</span>(<span class="st">"This student went to college, and their gap was longer than the average delay"</span>)</span>
+<span id="cb47-159"><a href="#cb47-159" aria-hidden="true" tabindex="-1"></a>      }</span>
+<span id="cb47-160"><a href="#cb47-160" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb47-161"><a href="#cb47-161" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> {</span>
+<span id="cb47-162"><a href="#cb47-162" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span>(<span class="fu">is.na</span>(parent_exp)<span class="sc">|</span>parent_exp <span class="sc">==</span> <span class="dv">11</span>) {</span>
+<span id="cb47-163"><a href="#cb47-163" aria-hidden="true" tabindex="-1"></a>      <span class="fu">paste</span>(<span class="st">"This student did not go to college, and their parental expectation is unknown"</span>)</span>
+<span id="cb47-164"><a href="#cb47-164" aria-hidden="true" tabindex="-1"></a>    } <span class="cf">else</span> <span class="cf">if</span>(parent_exp <span class="sc">&gt;=</span> <span class="dv">5</span>) {</span>
+<span id="cb47-165"><a href="#cb47-165" aria-hidden="true" tabindex="-1"></a>      <span class="fu">paste</span>(<span class="st">"This student did not go to college, but their parents expected them to"</span>)</span>
+<span id="cb47-166"><a href="#cb47-166" aria-hidden="true" tabindex="-1"></a>    } <span class="cf">else</span> <span class="cf">if</span>(parent_exp <span class="sc">&lt;</span> <span class="dv">5</span>) {</span>
+<span id="cb47-167"><a href="#cb47-167" aria-hidden="true" tabindex="-1"></a>      <span class="fu">paste</span>(<span class="st">"This student did not go to college, and their parents did not expect them to"</span>)</span>
+<span id="cb47-168"><a href="#cb47-168" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb47-169"><a href="#cb47-169" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb47-170"><a href="#cb47-170" aria-hidden="true" tabindex="-1"></a>} </span>
+<span id="cb47-171"><a href="#cb47-171" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-172"><a href="#cb47-172" aria-hidden="true" tabindex="-1"></a><span class="co"># test</span></span>
+<span id="cb47-173"><a href="#cb47-173" aria-hidden="true" tabindex="-1"></a><span class="fu">college</span>(<span class="dv">10007</span>)</span>
+<span id="cb47-174"><a href="#cb47-174" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-175"><a href="#cb47-175" aria-hidden="true" tabindex="-1"></a><span class="do">## Test it using a for loop</span></span>
+<span id="cb47-176"><a href="#cb47-176" aria-hidden="true" tabindex="-1"></a>test_ids <span class="ot">&lt;-</span> data <span class="sc">|&gt;</span> <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">50</span>) <span class="sc">|&gt;</span> <span class="fu">pull</span>(stu_id)</span>
+<span id="cb47-177"><a href="#cb47-177" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> test_ids) { <span class="fu">print</span>(<span class="fu">college</span>(i)) }</span>
+<span id="cb47-178"><a href="#cb47-178" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-179"><a href="#cb47-179" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-180"><a href="#cb47-180" aria-hidden="true" tabindex="-1"></a><span class="do">##'[Matt's Solution]</span></span>
+<span id="cb47-181"><a href="#cb47-181" aria-hidden="true" tabindex="-1"></a><span class="do">##'[Without the optional part]</span></span>
+<span id="cb47-182"><a href="#cb47-182" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-183"><a href="#cb47-183" aria-hidden="true" tabindex="-1"></a>id <span class="ot">&lt;-</span> <span class="dv">10007</span> <span class="co"># Tip: if you're debugging a function or loop, manually assign something to input values (for a function) or i (for a loop) and then you can test it</span></span>
+<span id="cb47-184"><a href="#cb47-184" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-185"><a href="#cb47-185" aria-hidden="true" tabindex="-1"></a>did_they_go <span class="ot">&lt;-</span> <span class="cf">function</span>(id) {</span>
+<span id="cb47-186"><a href="#cb47-186" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb47-187"><a href="#cb47-187" aria-hidden="true" tabindex="-1"></a>  student <span class="ot">&lt;-</span> df <span class="sc">|&gt;</span> <span class="fu">filter</span>(stu_id <span class="sc">==</span> id) <span class="co"># pull out the student id (so we can directly use the value)</span></span>
+<span id="cb47-188"><a href="#cb47-188" aria-hidden="true" tabindex="-1"></a>  college <span class="ot">&lt;-</span> student <span class="sc">|&gt;</span> <span class="fu">pull</span>(x4evratndclg) <span class="co"># pull out if the student attend college</span></span>
+<span id="cb47-189"><a href="#cb47-189" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb47-190"><a href="#cb47-190" aria-hidden="true" tabindex="-1"></a>  parent <span class="ot">&lt;-</span> student <span class="sc">|&gt;</span> <span class="fu">pull</span>(x1paredexpct) <span class="co"># pull out the parent student expectation</span></span>
+<span id="cb47-191"><a href="#cb47-191" aria-hidden="true" tabindex="-1"></a>  expect <span class="ot">&lt;-</span> <span class="cf">if</span>(<span class="fu">is.na</span>(parent)<span class="sc">|</span>parent <span class="sc">==</span> <span class="dv">11</span>) { <span class="co"># if the parent expectation is either NA or 11</span></span>
+<span id="cb47-192"><a href="#cb47-192" aria-hidden="true" tabindex="-1"></a>    <span class="st">"and we do not know if their parents wanted them to"</span> <span class="co"># assign this text to expect</span></span>
+<span id="cb47-193"><a href="#cb47-193" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> <span class="cf">if</span>(parent <span class="sc">&gt;=</span> <span class="dv">5</span>) { <span class="co"># otherwise if the parent expectation is 5 or above</span></span>
+<span id="cb47-194"><a href="#cb47-194" aria-hidden="true" tabindex="-1"></a>    <span class="st">"and their parents expected them to"</span> <span class="co"># assign this text to expect</span></span>
+<span id="cb47-195"><a href="#cb47-195" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> <span class="cf">if</span>(parent <span class="sc">&lt;</span> <span class="dv">5</span>) { <span class="co"># otherwise if the parent expectation is less than 5</span></span>
+<span id="cb47-196"><a href="#cb47-196" aria-hidden="true" tabindex="-1"></a>    <span class="st">"and their parents did not expect them to"</span> <span class="co"># assign this text to expect</span></span>
+<span id="cb47-197"><a href="#cb47-197" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb47-198"><a href="#cb47-198" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb47-199"><a href="#cb47-199" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span>(<span class="fu">is.na</span>(college)) { <span class="co"># if whether they went to college is missing</span></span>
+<span id="cb47-200"><a href="#cb47-200" aria-hidden="true" tabindex="-1"></a>    <span class="fu">paste</span>(<span class="st">"We do not know if this student went to college"</span>) <span class="co"># print this message</span></span>
+<span id="cb47-201"><a href="#cb47-201" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> <span class="cf">if</span>(college <span class="sc">==</span> <span class="dv">1</span>) { <span class="co"># if they went to college</span></span>
+<span id="cb47-202"><a href="#cb47-202" aria-hidden="true" tabindex="-1"></a>    <span class="fu">paste</span>(<span class="st">"This student went to college"</span>) <span class="co"># paste this message</span></span>
+<span id="cb47-203"><a href="#cb47-203" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> <span class="cf">if</span>(college <span class="sc">==</span> <span class="dv">0</span>) { <span class="co"># if they did not go to college</span></span>
+<span id="cb47-204"><a href="#cb47-204" aria-hidden="true" tabindex="-1"></a>    <span class="fu">paste</span>(<span class="st">"This student never went to college"</span>, expect) <span class="co"># paste this message</span></span>
+<span id="cb47-205"><a href="#cb47-205" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb47-206"><a href="#cb47-206" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb47-207"><a href="#cb47-207" aria-hidden="true" tabindex="-1"></a>} </span>
+<span id="cb47-208"><a href="#cb47-208" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-209"><a href="#cb47-209" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-210"><a href="#cb47-210" aria-hidden="true" tabindex="-1"></a><span class="do">## Test it using a for loop</span></span>
+<span id="cb47-211"><a href="#cb47-211" aria-hidden="true" tabindex="-1"></a>test_ids <span class="ot">&lt;-</span> df <span class="sc">|&gt;</span> <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">50</span>) <span class="sc">|&gt;</span> <span class="fu">pull</span>(stu_id)</span>
+<span id="cb47-212"><a href="#cb47-212" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> test_ids) { <span class="fu">print</span>(<span class="fu">did_they_go</span>(i)) }</span>
+<span id="cb47-213"><a href="#cb47-213" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-214"><a href="#cb47-214" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-215"><a href="#cb47-215" aria-hidden="true" tabindex="-1"></a><span class="do">##'[With the optional part]</span></span>
+<span id="cb47-216"><a href="#cb47-216" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-217"><a href="#cb47-217" aria-hidden="true" tabindex="-1"></a>did_they_go <span class="ot">&lt;-</span> <span class="cf">function</span>(id) {</span>
+<span id="cb47-218"><a href="#cb47-218" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb47-219"><a href="#cb47-219" aria-hidden="true" tabindex="-1"></a>  student <span class="ot">&lt;-</span> df <span class="sc">|&gt;</span> <span class="fu">filter</span>(stu_id <span class="sc">==</span> id) <span class="co"># pull out the student id (so we can directly use the value)</span></span>
+<span id="cb47-220"><a href="#cb47-220" aria-hidden="true" tabindex="-1"></a>  college <span class="ot">&lt;-</span> student <span class="sc">|&gt;</span> <span class="fu">pull</span>(x4evratndclg) <span class="co"># pull out if the student attend college</span></span>
+<span id="cb47-221"><a href="#cb47-221" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb47-222"><a href="#cb47-222" aria-hidden="true" tabindex="-1"></a>  parent <span class="ot">&lt;-</span> student <span class="sc">|&gt;</span> <span class="fu">pull</span>(x1paredexpct) <span class="co"># pull out the parent student expectation</span></span>
+<span id="cb47-223"><a href="#cb47-223" aria-hidden="true" tabindex="-1"></a>  expect <span class="ot">&lt;-</span> <span class="cf">if</span>(<span class="fu">is.na</span>(parent)<span class="sc">|</span>parent <span class="sc">==</span> <span class="dv">11</span>) { <span class="co"># if the parent expectation is either NA or 11</span></span>
+<span id="cb47-224"><a href="#cb47-224" aria-hidden="true" tabindex="-1"></a>    <span class="st">"and we do not know if their parents wanted them to"</span> <span class="co"># assign this text to expect</span></span>
+<span id="cb47-225"><a href="#cb47-225" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> <span class="cf">if</span>(parent <span class="sc">&gt;=</span> <span class="dv">5</span>) { <span class="co"># otherwise if the parent expectation is 5 or above</span></span>
+<span id="cb47-226"><a href="#cb47-226" aria-hidden="true" tabindex="-1"></a>    <span class="st">"and their parents expected them to"</span> <span class="co"># assign this text to expect</span></span>
+<span id="cb47-227"><a href="#cb47-227" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> <span class="cf">if</span>(parent <span class="sc">&lt;</span> <span class="dv">5</span>) { <span class="co"># otherwise if the parent expectation is less than 5</span></span>
+<span id="cb47-228"><a href="#cb47-228" aria-hidden="true" tabindex="-1"></a>    <span class="st">"and their parents did not expect them to"</span> <span class="co"># assign this text to expect</span></span>
+<span id="cb47-229"><a href="#cb47-229" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb47-230"><a href="#cb47-230" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb47-231"><a href="#cb47-231" aria-hidden="true" tabindex="-1"></a>  <span class="do">## NEW PART</span></span>
+<span id="cb47-232"><a href="#cb47-232" aria-hidden="true" tabindex="-1"></a>  median_delay <span class="ot">&lt;-</span> df <span class="sc">|&gt;</span> <span class="fu">summarize</span>(<span class="at">median =</span> <span class="fu">median</span>(x4hs2psmos, <span class="at">na.rm =</span> T)) <span class="sc">|&gt;</span> <span class="fu">pull</span>(median) <span class="co"># summarize the median completion and pull the value out (notice we start with df not student)</span></span>
+<span id="cb47-233"><a href="#cb47-233" aria-hidden="true" tabindex="-1"></a>  delay <span class="ot">&lt;-</span> student <span class="sc">|&gt;</span> <span class="fu">pull</span>(x4hs2psmos) <span class="co"># pull out the students months delay</span></span>
+<span id="cb47-234"><a href="#cb47-234" aria-hidden="true" tabindex="-1"></a>  difference <span class="ot">&lt;-</span> delay <span class="sc">-</span> median_delay <span class="co"># calculate the difference between the median delay and the students delay</span></span>
+<span id="cb47-235"><a href="#cb47-235" aria-hidden="true" tabindex="-1"></a>  delay_statement <span class="ot">&lt;-</span> <span class="cf">if</span>(<span class="fu">is.na</span>(delay)) { <span class="co"># if the students delay was NA (note, it doesn't matter if they didn't go to college, as we only use this if they went)</span></span>
+<span id="cb47-236"><a href="#cb47-236" aria-hidden="true" tabindex="-1"></a>    <span class="st">"and we do not know how long they delayed college"</span> <span class="co"># paste this message</span></span>
+<span id="cb47-237"><a href="#cb47-237" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> <span class="cf">if</span>(delay <span class="sc">==</span> <span class="dv">0</span>) { <span class="co"># if the students didn't delay going to college</span></span>
+<span id="cb47-238"><a href="#cb47-238" aria-hidden="true" tabindex="-1"></a>    <span class="st">"and they did not delay attending college at all"</span> <span class="co"># paste this message</span></span>
+<span id="cb47-239"><a href="#cb47-239" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> <span class="cf">if</span>(difference <span class="sc">==</span> <span class="dv">0</span>) { <span class="co"># if the students delay was the median</span></span>
+<span id="cb47-240"><a href="#cb47-240" aria-hidden="true" tabindex="-1"></a>    <span class="fu">paste</span>(<span class="st">"and they delayed college by"</span>, delay, <span class="st">"months which is the average amount of time"</span>) <span class="co"># paste this, using the value delay from above</span></span>
+<span id="cb47-241"><a href="#cb47-241" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> <span class="cf">if</span>(difference <span class="sc">&lt;</span> <span class="dv">0</span>) { <span class="co"># if the students delay was below the median</span></span>
+<span id="cb47-242"><a href="#cb47-242" aria-hidden="true" tabindex="-1"></a>    <span class="fu">paste</span>(<span class="st">"and they delayed college by"</span>, delay, <span class="st">"months which is"</span>, <span class="fu">abs</span>(difference), <span class="st">"months less than the average"</span>) <span class="co"># paste this, using delay and abs(difference) which is the absolute value of the difference (i.e., the value regardless of positive vs negative)</span></span>
+<span id="cb47-243"><a href="#cb47-243" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> <span class="cf">if</span>(difference <span class="sc">&gt;</span> <span class="dv">0</span>) { <span class="co"># if the students delay was above the median</span></span>
+<span id="cb47-244"><a href="#cb47-244" aria-hidden="true" tabindex="-1"></a>    <span class="fu">paste</span>(<span class="st">"and they delayed college by"</span>, delay, <span class="st">"months which is"</span>, <span class="fu">abs</span>(difference), <span class="st">"months above than the average"</span>) <span class="co"># paste this, using delay and abs(difference) which is the absolute value of the difference (i.e., the value regardless of positive vs negative)</span></span>
+<span id="cb47-245"><a href="#cb47-245" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb47-246"><a href="#cb47-246" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb47-247"><a href="#cb47-247" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span>(<span class="fu">is.na</span>(college)) { <span class="co"># if whether they went to college is missing</span></span>
+<span id="cb47-248"><a href="#cb47-248" aria-hidden="true" tabindex="-1"></a>    <span class="fu">paste</span>(<span class="st">"We do not know if this student went to college"</span>) <span class="co"># print this message</span></span>
+<span id="cb47-249"><a href="#cb47-249" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> <span class="cf">if</span>(college <span class="sc">==</span> <span class="dv">1</span>) { <span class="co"># if they went to college</span></span>
+<span id="cb47-250"><a href="#cb47-250" aria-hidden="true" tabindex="-1"></a>    <span class="fu">paste</span>(<span class="st">"This student went to college"</span>, delay_statement) <span class="co"># paste this message NEW added delay_statement</span></span>
+<span id="cb47-251"><a href="#cb47-251" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> <span class="cf">if</span>(college <span class="sc">==</span> <span class="dv">0</span>) { <span class="co"># if they did not go to college</span></span>
+<span id="cb47-252"><a href="#cb47-252" aria-hidden="true" tabindex="-1"></a>    <span class="fu">paste</span>(<span class="st">"This student never went to college"</span>, expect) <span class="co"># paste this message</span></span>
+<span id="cb47-253"><a href="#cb47-253" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb47-254"><a href="#cb47-254" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb47-255"><a href="#cb47-255" aria-hidden="true" tabindex="-1"></a>} </span>
+<span id="cb47-256"><a href="#cb47-256" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-257"><a href="#cb47-257" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-258"><a href="#cb47-258" aria-hidden="true" tabindex="-1"></a><span class="do">## -----------------------------------------------------------------------------</span></span>
+<span id="cb47-259"><a href="#cb47-259" aria-hidden="true" tabindex="-1"></a><span class="do">##' *</span><span class="re">END</span><span class="do"> SCRIPT*</span></span>
+<span id="cb47-260"><a href="#cb47-260" aria-hidden="true" tabindex="-1"></a><span class="do">## -----------------------------------------------------------------------------</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
 </div>
 </div>
 </div>

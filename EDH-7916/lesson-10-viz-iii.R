@@ -18,6 +18,7 @@ library(tidyverse)
 library(sf)
 library(tidycensus)
 library(tigris)
+pak::pak("walkerke/tigris")
 
 # ## ---------------------------
 # ##' [set API key]
