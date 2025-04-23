@@ -221,6 +221,36 @@ data_joined |>
   drop_na() |>
   summarize(mean = mean(perc_intl_diff))
 
+library(sf)
+library(tigris)
+options(tigris_use_cache = TRUE)
+
+data_info_state <- data_info <- read_csv("data/hd2022.csv") |> 
+  rename_all(tolower) |>
+  select(unitid, stabbr)
+
+data_joined_state <- left_join(data_enroll, data_info_state, by = "unitid")
+
+data_joined_state
+
+data_joined_state <- data_joined_state |>
+  group_by(stabbr) |>
+  drop_na() |>
+  summarize(mean_perc_intl_diff = mean(perc_intl_diff))
+
+data_joined_state
+
+states_sf <- states(cb = TRUE, year = 2022) |>
+  filter(STUSPS %in% state.abb | STUSPS == "DC") |>
+  left_join(data_joined_state, by = c("STUSPS" = "stabbr"))
+
+ggplot() +
+  geom_sf(data = shift_geometry(states_sf),
+          aes(fill = mean_perc_intl_diff),
+          size = 0.1) +
+  geom_sf_text(data = shift_geometry(st_centroid(states_sf)),
+               aes(label = STUSPS))
+
 
 ## -----------------------------------------------------------------------------
 ##' *END SCRIPT*

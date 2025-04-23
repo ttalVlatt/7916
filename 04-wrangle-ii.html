@@ -1548,7 +1548,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
 <ul>
 <li>Now, let’s look at a more realistic example when we would use these skills for data analysis</li>
-<li>Let’s say we want to explore difference in international student enrollment at the undergraduate vs graduate level and if that varies by region of the US</li>
+<li>Let’s say we want to explore difference in international student enrollment at the undergraduate vs graduate level and if that varies by institution type and location</li>
 <li>For this, we are going to use two IPEDS data sets HD2022 and EFFY2022</li>
 </ul>
 <div class="cell">
@@ -1837,10 +1837,100 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 3       3 -4.94</code></pre>
 </div>
 </div>
-<blockquote class="blockquote">
-<h3 id="quick-exercise-4">Quick Exercise</h3>
-<p>Using the data dictionary if necessary, find if our trend varies by US Census Region</p>
-</blockquote>
+<ul>
+<li><p>Now let’s find out if out trend varies by states and make a map to visualize it</p></li>
+<li><p>Let’s first read in the packages we need for making maps</p></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sf)</span>
+<span id="cb64-2"><a href="#cb64-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tigris)</span>
+<span id="cb64-3"><a href="#cb64-3" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">tigris_use_cache =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li>Now we want to get the state information for each institution</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb65"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a>data_info_state <span class="ot">&lt;-</span> data_info <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/hd2022.csv"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb65-2"><a href="#cb65-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename_all</span>(tolower) <span class="sc">|&gt;</span></span>
+<span id="cb65-3"><a href="#cb65-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(unitid, stabbr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li>Next, we want to join the state information to our enrollment data</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a>data_joined_state <span class="ot">&lt;-</span> <span class="fu">left_join</span>(data_enroll, data_info_state, <span class="at">by =</span> <span class="st">"unitid"</span>)</span>
+<span id="cb66-2"><a href="#cb66-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb66-3"><a href="#cb66-3" aria-hidden="true" tabindex="-1"></a>data_joined_state</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6,036 × 5
+   unitid perc_intl_2 perc_intl_4 perc_intl_diff stabbr
+    &lt;dbl&gt;       &lt;dbl&gt;       &lt;dbl&gt;          &lt;dbl&gt; &lt;chr&gt; 
+ 1 100654      0.936         5.01        -4.07   AL    
+ 2 100663      2.70          9.87        -7.17   AL    
+ 3 100690      0             0            0      AL    
+ 4 100706      2.19          8.98        -6.79   AL    
+ 5 100724      1.54          1.52         0.0179 AL    
+ 6 100751      1.62         10.7         -9.04   AL    
+ 7 100760      0.406        NA           NA      AL    
+ 8 100812      0.0577        0            0.0577 AL    
+ 9 100830      4.32         37.5        -33.2    AL    
+10 100858      4.42         17.7        -13.3    AL    
+# ℹ 6,026 more rows</code></pre>
+</div>
+</div>
+<ul>
+<li>We can again calculate the mean by states, just like what we did with institutional control</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb68"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a>data_joined_state <span class="ot">&lt;-</span> data_joined_state <span class="sc">|&gt;</span></span>
+<span id="cb68-2"><a href="#cb68-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(stabbr) <span class="sc">|&gt;</span></span>
+<span id="cb68-3"><a href="#cb68-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>() <span class="sc">|&gt;</span></span>
+<span id="cb68-4"><a href="#cb68-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">mean_perc_intl_diff =</span> <span class="fu">mean</span>(perc_intl_diff))</span>
+<span id="cb68-5"><a href="#cb68-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-6"><a href="#cb68-6" aria-hidden="true" tabindex="-1"></a>data_joined_state</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 54 × 2
+   stabbr mean_perc_intl_diff
+   &lt;chr&gt;                &lt;dbl&gt;
+ 1 AK                   -2.73
+ 2 AL                   -2.26
+ 3 AR                   -2.01
+ 4 AZ                   -5.61
+ 5 CA                   -8.29
+ 6 CO                   -1.55
+ 7 CT                   -5.82
+ 8 DC                   -2.76
+ 9 DE                  -17.6 
+10 FL                   -3.44
+# ℹ 44 more rows</code></pre>
+</div>
+</div>
+<ul>
+<li>We are finally ready to make a map! We can use the <code>tigris</code> package to get the state boundaries</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb70"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a>states_sf <span class="ot">&lt;-</span> <span class="fu">states</span>(<span class="at">cb =</span> <span class="cn">TRUE</span>, <span class="at">year =</span> <span class="dv">2022</span>) <span class="sc">|&gt;</span></span>
+<span id="cb70-2"><a href="#cb70-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(STUSPS <span class="sc">%in%</span> state.abb <span class="sc">|</span> STUSPS <span class="sc">==</span> <span class="st">"DC"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb70-3"><a href="#cb70-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(data_joined_state, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"STUSPS"</span> <span class="ot">=</span> <span class="st">"stabbr"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li>Plotting time!</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb71"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb71-2"><a href="#cb71-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> <span class="fu">shift_geometry</span>(states_sf),</span>
+<span id="cb71-3"><a href="#cb71-3" aria-hidden="true" tabindex="-1"></a>          <span class="fu">aes</span>(<span class="at">fill =</span> mean_perc_intl_diff),</span>
+<span id="cb71-4"><a href="#cb71-4" aria-hidden="true" tabindex="-1"></a>          <span class="at">size =</span> <span class="fl">0.1</span>) <span class="sc">+</span></span>
+<span id="cb71-5"><a href="#cb71-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf_text</span>(<span class="at">data =</span> <span class="fu">shift_geometry</span>(<span class="fu">st_centroid</span>(states_sf)),</span>
+<span id="cb71-6"><a href="#cb71-6" aria-hidden="true" tabindex="-1"></a>               <span class="fu">aes</span>(<span class="at">label =</span> STUSPS))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="04-wrangle-ii_files/figure-html/unnamed-chunk-39-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
 </div>
 <div id="tabset-1-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-3-tab">
 <p><a href="./site-attachments/assignments/assignment-03.qmd"><i class="fa-solid fa-question" aria-label="question"></i> Assignment Template</a></p>
@@ -1934,100 +2024,100 @@ Assignments will be graded before next lesson on Wednesday in line with the grad
 <h2 data-anchor-id="solution">Solution</h2>
 <p><a href="./solutions/data-wrangling-ii-solution.R"><i class="fa-solid fa-code" aria-label="code"></i> R Solution Code</a></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="do">## -----------------------------------------------------------------------------</span></span>
-<span id="cb64-2"><a href="#cb64-2" aria-hidden="true" tabindex="-1"></a><span class="do">##</span></span>
-<span id="cb64-3"><a href="#cb64-3" aria-hidden="true" tabindex="-1"></a><span class="do">##' [PROJ: EDH 7916]</span></span>
-<span id="cb64-4"><a href="#cb64-4" aria-hidden="true" tabindex="-1"></a><span class="do">##' [FILE: Data Wrangling II Solution]</span></span>
-<span id="cb64-5"><a href="#cb64-5" aria-hidden="true" tabindex="-1"></a><span class="do">##' [INIT: Jan 31 2024]</span></span>
-<span id="cb64-6"><a href="#cb64-6" aria-hidden="true" tabindex="-1"></a><span class="do">##' [AUTH: Matt Capaldi] @ttalVlatt</span></span>
-<span id="cb64-7"><a href="#cb64-7" aria-hidden="true" tabindex="-1"></a><span class="do">##</span></span>
-<span id="cb64-8"><a href="#cb64-8" aria-hidden="true" tabindex="-1"></a><span class="do">## -----------------------------------------------------------------------------</span></span>
-<span id="cb64-9"><a href="#cb64-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-10"><a href="#cb64-10" aria-hidden="true" tabindex="-1"></a><span class="fu">setwd</span>(this.path<span class="sc">::</span><span class="fu">here</span>())</span>
-<span id="cb64-11"><a href="#cb64-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-12"><a href="#cb64-12" aria-hidden="true" tabindex="-1"></a><span class="do">## ---------------------------</span></span>
-<span id="cb64-13"><a href="#cb64-13" aria-hidden="true" tabindex="-1"></a><span class="do">##' [Libraries]</span></span>
-<span id="cb64-14"><a href="#cb64-14" aria-hidden="true" tabindex="-1"></a><span class="do">## ---------------------------</span></span>
-<span id="cb64-15"><a href="#cb64-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-16"><a href="#cb64-16" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb64-17"><a href="#cb64-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-18"><a href="#cb64-18" aria-hidden="true" tabindex="-1"></a><span class="do">## ---------------------------</span></span>
-<span id="cb64-19"><a href="#cb64-19" aria-hidden="true" tabindex="-1"></a><span class="do">##' [Input]</span></span>
-<span id="cb64-20"><a href="#cb64-20" aria-hidden="true" tabindex="-1"></a><span class="do">## ---------------------------</span></span>
-<span id="cb64-21"><a href="#cb64-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-22"><a href="#cb64-22" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="fu">file.path</span>(<span class="st">"data"</span>, <span class="st">"hsls-small.csv"</span>))</span>
-<span id="cb64-23"><a href="#cb64-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-24"><a href="#cb64-24" aria-hidden="true" tabindex="-1"></a><span class="do">## ---------------------------</span></span>
-<span id="cb64-25"><a href="#cb64-25" aria-hidden="true" tabindex="-1"></a><span class="do">##' [Q1]</span></span>
-<span id="cb64-26"><a href="#cb64-26" aria-hidden="true" tabindex="-1"></a><span class="do">## ---------------------------</span></span>
-<span id="cb64-27"><a href="#cb64-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-28"><a href="#cb64-28" aria-hidden="true" tabindex="-1"></a>df_q1 <span class="ot">&lt;-</span> df <span class="sc">|&gt;</span></span>
-<span id="cb64-29"><a href="#cb64-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(x1txmtscor <span class="sc">!=</span> <span class="sc">-</span><span class="dv">8</span>)</span>
-<span id="cb64-30"><a href="#cb64-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-31"><a href="#cb64-31" aria-hidden="true" tabindex="-1"></a><span class="do">## Easier way</span></span>
-<span id="cb64-32"><a href="#cb64-32" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-33"><a href="#cb64-33" aria-hidden="true" tabindex="-1"></a>df_sum <span class="ot">&lt;-</span> df_q1 <span class="sc">|&gt;</span></span>
-<span id="cb64-34"><a href="#cb64-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(x1region) <span class="sc">|&gt;</span></span>
-<span id="cb64-35"><a href="#cb64-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">reg_mean_test =</span> <span class="fu">mean</span>(x1txmtscor))</span>
-<span id="cb64-36"><a href="#cb64-36" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-37"><a href="#cb64-37" aria-hidden="true" tabindex="-1"></a>df_q1 <span class="sc">|&gt;</span></span>
-<span id="cb64-38"><a href="#cb64-38" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(df_sum, <span class="at">by =</span> <span class="st">"x1region"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb64-39"><a href="#cb64-39" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">diff =</span> x1txmtscor <span class="sc">-</span> reg_mean_test) <span class="sc">|&gt;</span></span>
-<span id="cb64-40"><a href="#cb64-40" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(x1region) <span class="sc">|&gt;</span></span>
-<span id="cb64-41"><a href="#cb64-41" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">reg_diffs =</span> <span class="fu">mean</span>(diff))</span>
-<span id="cb64-42"><a href="#cb64-42" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-43"><a href="#cb64-43" aria-hidden="true" tabindex="-1"></a><span class="do">## All in one</span></span>
-<span id="cb64-44"><a href="#cb64-44" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-45"><a href="#cb64-45" aria-hidden="true" tabindex="-1"></a>df_q1 <span class="sc">|&gt;</span></span>
-<span id="cb64-46"><a href="#cb64-46" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(x1region) <span class="sc">|&gt;</span></span>
-<span id="cb64-47"><a href="#cb64-47" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">reg_mean_test =</span> <span class="fu">mean</span>(x1txmtscor)) <span class="sc">|&gt;</span></span>
-<span id="cb64-48"><a href="#cb64-48" aria-hidden="true" tabindex="-1"></a>  <span class="do">## output is summary, which we want to be the "right" or "y" of the join</span></span>
-<span id="cb64-49"><a href="#cb64-49" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(<span class="at">x =</span> df_q1, <span class="at">by =</span> <span class="st">"x1region"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb64-50"><a href="#cb64-50" aria-hidden="true" tabindex="-1"></a>  <span class="do">## so we specify x = df (original) leaving y open for the piped summary</span></span>
-<span id="cb64-51"><a href="#cb64-51" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">diff =</span> x1txmtscor <span class="sc">-</span> reg_mean_test) <span class="sc">|&gt;</span></span>
-<span id="cb64-52"><a href="#cb64-52" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(x1region) <span class="sc">|&gt;</span></span>
-<span id="cb64-53"><a href="#cb64-53" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">reg_diffs =</span> <span class="fu">mean</span>(diff))</span>
-<span id="cb64-54"><a href="#cb64-54" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-55"><a href="#cb64-55" aria-hidden="true" tabindex="-1"></a><span class="do">## ---------------------------</span></span>
-<span id="cb64-56"><a href="#cb64-56" aria-hidden="true" tabindex="-1"></a><span class="do">##' [Q2]</span></span>
-<span id="cb64-57"><a href="#cb64-57" aria-hidden="true" tabindex="-1"></a><span class="do">## ---------------------------</span></span>
-<span id="cb64-58"><a href="#cb64-58" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-59"><a href="#cb64-59" aria-hidden="true" tabindex="-1"></a>df_q2 <span class="ot">&lt;-</span> df <span class="sc">|&gt;</span></span>
-<span id="cb64-60"><a href="#cb64-60" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(x1txmtscor <span class="sc">!=</span> <span class="sc">-</span><span class="dv">8</span>,</span>
-<span id="cb64-61"><a href="#cb64-61" aria-hidden="true" tabindex="-1"></a>         <span class="sc">!</span>x1famincome <span class="sc">%in%</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">8</span>, <span class="sc">-</span><span class="dv">9</span>))</span>
-<span id="cb64-62"><a href="#cb64-62" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-63"><a href="#cb64-63" aria-hidden="true" tabindex="-1"></a><span class="do">## Easier way</span></span>
-<span id="cb64-64"><a href="#cb64-64" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-65"><a href="#cb64-65" aria-hidden="true" tabindex="-1"></a>df_sum <span class="ot">&lt;-</span> df_q2 <span class="sc">|&gt;</span></span>
-<span id="cb64-66"><a href="#cb64-66" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(x1region, x1famincome) <span class="sc">|&gt;</span></span>
-<span id="cb64-67"><a href="#cb64-67" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">reg_inc_mean_test =</span> <span class="fu">mean</span>(x1txmtscor))</span>
-<span id="cb64-68"><a href="#cb64-68" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-69"><a href="#cb64-69" aria-hidden="true" tabindex="-1"></a>df_q2_easy <span class="ot">&lt;-</span> df_q2 <span class="sc">|&gt;</span></span>
-<span id="cb64-70"><a href="#cb64-70" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(df_sum, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"x1region"</span>, <span class="st">"x1famincome"</span>))</span>
-<span id="cb64-71"><a href="#cb64-71" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-72"><a href="#cb64-72" aria-hidden="true" tabindex="-1"></a><span class="do">## All in one</span></span>
-<span id="cb64-73"><a href="#cb64-73" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-74"><a href="#cb64-74" aria-hidden="true" tabindex="-1"></a>df_q2_piped <span class="ot">&lt;-</span> df_q2 <span class="sc">|&gt;</span></span>
-<span id="cb64-75"><a href="#cb64-75" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(x1region, x1famincome) <span class="sc">|&gt;</span></span>
-<span id="cb64-76"><a href="#cb64-76" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">reg_inc_mean_test =</span> <span class="fu">mean</span>(x1txmtscor)) <span class="sc">|&gt;</span></span>
-<span id="cb64-77"><a href="#cb64-77" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(<span class="at">x =</span> df_q2, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"x1region"</span>, <span class="st">"x1famincome"</span>))</span>
-<span id="cb64-78"><a href="#cb64-78" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-79"><a href="#cb64-79" aria-hidden="true" tabindex="-1"></a><span class="fu">all.equal</span>(df_q2_easy, df_q2_piped)</span>
-<span id="cb64-80"><a href="#cb64-80" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-81"><a href="#cb64-81" aria-hidden="true" tabindex="-1"></a><span class="do">## ---------------------------</span></span>
-<span id="cb64-82"><a href="#cb64-82" aria-hidden="true" tabindex="-1"></a><span class="do">##' [Q3]</span></span>
-<span id="cb64-83"><a href="#cb64-83" aria-hidden="true" tabindex="-1"></a><span class="do">## ---------------------------</span></span>
-<span id="cb64-84"><a href="#cb64-84" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-85"><a href="#cb64-85" aria-hidden="true" tabindex="-1"></a>df_long <span class="ot">&lt;-</span> df <span class="sc">|&gt;</span></span>
-<span id="cb64-86"><a href="#cb64-86" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(stu_id, x1paredexpct, x1stuedexpct, x4evratndclg) <span class="sc">|&gt;</span></span>
-<span id="cb64-87"><a href="#cb64-87" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="fu">c</span>(x1paredexpct, x1stuedexpct),</span>
-<span id="cb64-88"><a href="#cb64-88" aria-hidden="true" tabindex="-1"></a>               <span class="at">names_to =</span> <span class="st">"exp_type"</span>,</span>
-<span id="cb64-89"><a href="#cb64-89" aria-hidden="true" tabindex="-1"></a>               <span class="at">values_to =</span> <span class="st">"exp_value"</span>)</span>
-<span id="cb64-90"><a href="#cb64-90" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-91"><a href="#cb64-91" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-92"><a href="#cb64-92" aria-hidden="true" tabindex="-1"></a><span class="do">## -----------------------------------------------------------------------------</span></span>
-<span id="cb64-93"><a href="#cb64-93" aria-hidden="true" tabindex="-1"></a><span class="do">##' *</span><span class="re">END</span><span class="do"> SCRIPT*</span></span>
-<span id="cb64-94"><a href="#cb64-94" aria-hidden="true" tabindex="-1"></a><span class="do">## -----------------------------------------------------------------------------</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb72"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a><span class="do">## -----------------------------------------------------------------------------</span></span>
+<span id="cb72-2"><a href="#cb72-2" aria-hidden="true" tabindex="-1"></a><span class="do">##</span></span>
+<span id="cb72-3"><a href="#cb72-3" aria-hidden="true" tabindex="-1"></a><span class="do">##' [PROJ: EDH 7916]</span></span>
+<span id="cb72-4"><a href="#cb72-4" aria-hidden="true" tabindex="-1"></a><span class="do">##' [FILE: Data Wrangling II Solution]</span></span>
+<span id="cb72-5"><a href="#cb72-5" aria-hidden="true" tabindex="-1"></a><span class="do">##' [INIT: Jan 31 2024]</span></span>
+<span id="cb72-6"><a href="#cb72-6" aria-hidden="true" tabindex="-1"></a><span class="do">##' [AUTH: Matt Capaldi] @ttalVlatt</span></span>
+<span id="cb72-7"><a href="#cb72-7" aria-hidden="true" tabindex="-1"></a><span class="do">##</span></span>
+<span id="cb72-8"><a href="#cb72-8" aria-hidden="true" tabindex="-1"></a><span class="do">## -----------------------------------------------------------------------------</span></span>
+<span id="cb72-9"><a href="#cb72-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb72-10"><a href="#cb72-10" aria-hidden="true" tabindex="-1"></a><span class="fu">setwd</span>(this.path<span class="sc">::</span><span class="fu">here</span>())</span>
+<span id="cb72-11"><a href="#cb72-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb72-12"><a href="#cb72-12" aria-hidden="true" tabindex="-1"></a><span class="do">## ---------------------------</span></span>
+<span id="cb72-13"><a href="#cb72-13" aria-hidden="true" tabindex="-1"></a><span class="do">##' [Libraries]</span></span>
+<span id="cb72-14"><a href="#cb72-14" aria-hidden="true" tabindex="-1"></a><span class="do">## ---------------------------</span></span>
+<span id="cb72-15"><a href="#cb72-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb72-16"><a href="#cb72-16" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb72-17"><a href="#cb72-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb72-18"><a href="#cb72-18" aria-hidden="true" tabindex="-1"></a><span class="do">## ---------------------------</span></span>
+<span id="cb72-19"><a href="#cb72-19" aria-hidden="true" tabindex="-1"></a><span class="do">##' [Input]</span></span>
+<span id="cb72-20"><a href="#cb72-20" aria-hidden="true" tabindex="-1"></a><span class="do">## ---------------------------</span></span>
+<span id="cb72-21"><a href="#cb72-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb72-22"><a href="#cb72-22" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="fu">file.path</span>(<span class="st">"data"</span>, <span class="st">"hsls-small.csv"</span>))</span>
+<span id="cb72-23"><a href="#cb72-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb72-24"><a href="#cb72-24" aria-hidden="true" tabindex="-1"></a><span class="do">## ---------------------------</span></span>
+<span id="cb72-25"><a href="#cb72-25" aria-hidden="true" tabindex="-1"></a><span class="do">##' [Q1]</span></span>
+<span id="cb72-26"><a href="#cb72-26" aria-hidden="true" tabindex="-1"></a><span class="do">## ---------------------------</span></span>
+<span id="cb72-27"><a href="#cb72-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb72-28"><a href="#cb72-28" aria-hidden="true" tabindex="-1"></a>df_q1 <span class="ot">&lt;-</span> df <span class="sc">|&gt;</span></span>
+<span id="cb72-29"><a href="#cb72-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(x1txmtscor <span class="sc">!=</span> <span class="sc">-</span><span class="dv">8</span>)</span>
+<span id="cb72-30"><a href="#cb72-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb72-31"><a href="#cb72-31" aria-hidden="true" tabindex="-1"></a><span class="do">## Easier way</span></span>
+<span id="cb72-32"><a href="#cb72-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb72-33"><a href="#cb72-33" aria-hidden="true" tabindex="-1"></a>df_sum <span class="ot">&lt;-</span> df_q1 <span class="sc">|&gt;</span></span>
+<span id="cb72-34"><a href="#cb72-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(x1region) <span class="sc">|&gt;</span></span>
+<span id="cb72-35"><a href="#cb72-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">reg_mean_test =</span> <span class="fu">mean</span>(x1txmtscor))</span>
+<span id="cb72-36"><a href="#cb72-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb72-37"><a href="#cb72-37" aria-hidden="true" tabindex="-1"></a>df_q1 <span class="sc">|&gt;</span></span>
+<span id="cb72-38"><a href="#cb72-38" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(df_sum, <span class="at">by =</span> <span class="st">"x1region"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb72-39"><a href="#cb72-39" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">diff =</span> x1txmtscor <span class="sc">-</span> reg_mean_test) <span class="sc">|&gt;</span></span>
+<span id="cb72-40"><a href="#cb72-40" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(x1region) <span class="sc">|&gt;</span></span>
+<span id="cb72-41"><a href="#cb72-41" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">reg_diffs =</span> <span class="fu">mean</span>(diff))</span>
+<span id="cb72-42"><a href="#cb72-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb72-43"><a href="#cb72-43" aria-hidden="true" tabindex="-1"></a><span class="do">## All in one</span></span>
+<span id="cb72-44"><a href="#cb72-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb72-45"><a href="#cb72-45" aria-hidden="true" tabindex="-1"></a>df_q1 <span class="sc">|&gt;</span></span>
+<span id="cb72-46"><a href="#cb72-46" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(x1region) <span class="sc">|&gt;</span></span>
+<span id="cb72-47"><a href="#cb72-47" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">reg_mean_test =</span> <span class="fu">mean</span>(x1txmtscor)) <span class="sc">|&gt;</span></span>
+<span id="cb72-48"><a href="#cb72-48" aria-hidden="true" tabindex="-1"></a>  <span class="do">## output is summary, which we want to be the "right" or "y" of the join</span></span>
+<span id="cb72-49"><a href="#cb72-49" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(<span class="at">x =</span> df_q1, <span class="at">by =</span> <span class="st">"x1region"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb72-50"><a href="#cb72-50" aria-hidden="true" tabindex="-1"></a>  <span class="do">## so we specify x = df (original) leaving y open for the piped summary</span></span>
+<span id="cb72-51"><a href="#cb72-51" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">diff =</span> x1txmtscor <span class="sc">-</span> reg_mean_test) <span class="sc">|&gt;</span></span>
+<span id="cb72-52"><a href="#cb72-52" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(x1region) <span class="sc">|&gt;</span></span>
+<span id="cb72-53"><a href="#cb72-53" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">reg_diffs =</span> <span class="fu">mean</span>(diff))</span>
+<span id="cb72-54"><a href="#cb72-54" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb72-55"><a href="#cb72-55" aria-hidden="true" tabindex="-1"></a><span class="do">## ---------------------------</span></span>
+<span id="cb72-56"><a href="#cb72-56" aria-hidden="true" tabindex="-1"></a><span class="do">##' [Q2]</span></span>
+<span id="cb72-57"><a href="#cb72-57" aria-hidden="true" tabindex="-1"></a><span class="do">## ---------------------------</span></span>
+<span id="cb72-58"><a href="#cb72-58" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb72-59"><a href="#cb72-59" aria-hidden="true" tabindex="-1"></a>df_q2 <span class="ot">&lt;-</span> df <span class="sc">|&gt;</span></span>
+<span id="cb72-60"><a href="#cb72-60" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(x1txmtscor <span class="sc">!=</span> <span class="sc">-</span><span class="dv">8</span>,</span>
+<span id="cb72-61"><a href="#cb72-61" aria-hidden="true" tabindex="-1"></a>         <span class="sc">!</span>x1famincome <span class="sc">%in%</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">8</span>, <span class="sc">-</span><span class="dv">9</span>))</span>
+<span id="cb72-62"><a href="#cb72-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb72-63"><a href="#cb72-63" aria-hidden="true" tabindex="-1"></a><span class="do">## Easier way</span></span>
+<span id="cb72-64"><a href="#cb72-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb72-65"><a href="#cb72-65" aria-hidden="true" tabindex="-1"></a>df_sum <span class="ot">&lt;-</span> df_q2 <span class="sc">|&gt;</span></span>
+<span id="cb72-66"><a href="#cb72-66" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(x1region, x1famincome) <span class="sc">|&gt;</span></span>
+<span id="cb72-67"><a href="#cb72-67" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">reg_inc_mean_test =</span> <span class="fu">mean</span>(x1txmtscor))</span>
+<span id="cb72-68"><a href="#cb72-68" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb72-69"><a href="#cb72-69" aria-hidden="true" tabindex="-1"></a>df_q2_easy <span class="ot">&lt;-</span> df_q2 <span class="sc">|&gt;</span></span>
+<span id="cb72-70"><a href="#cb72-70" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(df_sum, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"x1region"</span>, <span class="st">"x1famincome"</span>))</span>
+<span id="cb72-71"><a href="#cb72-71" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb72-72"><a href="#cb72-72" aria-hidden="true" tabindex="-1"></a><span class="do">## All in one</span></span>
+<span id="cb72-73"><a href="#cb72-73" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb72-74"><a href="#cb72-74" aria-hidden="true" tabindex="-1"></a>df_q2_piped <span class="ot">&lt;-</span> df_q2 <span class="sc">|&gt;</span></span>
+<span id="cb72-75"><a href="#cb72-75" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(x1region, x1famincome) <span class="sc">|&gt;</span></span>
+<span id="cb72-76"><a href="#cb72-76" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">reg_inc_mean_test =</span> <span class="fu">mean</span>(x1txmtscor)) <span class="sc">|&gt;</span></span>
+<span id="cb72-77"><a href="#cb72-77" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(<span class="at">x =</span> df_q2, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"x1region"</span>, <span class="st">"x1famincome"</span>))</span>
+<span id="cb72-78"><a href="#cb72-78" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb72-79"><a href="#cb72-79" aria-hidden="true" tabindex="-1"></a><span class="fu">all.equal</span>(df_q2_easy, df_q2_piped)</span>
+<span id="cb72-80"><a href="#cb72-80" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb72-81"><a href="#cb72-81" aria-hidden="true" tabindex="-1"></a><span class="do">## ---------------------------</span></span>
+<span id="cb72-82"><a href="#cb72-82" aria-hidden="true" tabindex="-1"></a><span class="do">##' [Q3]</span></span>
+<span id="cb72-83"><a href="#cb72-83" aria-hidden="true" tabindex="-1"></a><span class="do">## ---------------------------</span></span>
+<span id="cb72-84"><a href="#cb72-84" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb72-85"><a href="#cb72-85" aria-hidden="true" tabindex="-1"></a>df_long <span class="ot">&lt;-</span> df <span class="sc">|&gt;</span></span>
+<span id="cb72-86"><a href="#cb72-86" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(stu_id, x1paredexpct, x1stuedexpct, x4evratndclg) <span class="sc">|&gt;</span></span>
+<span id="cb72-87"><a href="#cb72-87" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="fu">c</span>(x1paredexpct, x1stuedexpct),</span>
+<span id="cb72-88"><a href="#cb72-88" aria-hidden="true" tabindex="-1"></a>               <span class="at">names_to =</span> <span class="st">"exp_type"</span>,</span>
+<span id="cb72-89"><a href="#cb72-89" aria-hidden="true" tabindex="-1"></a>               <span class="at">values_to =</span> <span class="st">"exp_value"</span>)</span>
+<span id="cb72-90"><a href="#cb72-90" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb72-91"><a href="#cb72-91" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb72-92"><a href="#cb72-92" aria-hidden="true" tabindex="-1"></a><span class="do">## -----------------------------------------------------------------------------</span></span>
+<span id="cb72-93"><a href="#cb72-93" aria-hidden="true" tabindex="-1"></a><span class="do">##' *</span><span class="re">END</span><span class="do"> SCRIPT*</span></span>
+<span id="cb72-94"><a href="#cb72-94" aria-hidden="true" tabindex="-1"></a><span class="do">## -----------------------------------------------------------------------------</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 </div>
